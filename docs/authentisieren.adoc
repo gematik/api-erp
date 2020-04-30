@@ -1,16 +1,17 @@
 ifdef::env-github[]
 :imagesdir: https://github.com/gematik/api-erp/raw/master/images
 endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:numbered:
+
 image:gematik_logo.jpg[width=35%] 
 
 = E-Rezept API Dokumentation
 Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich gegenüber der Telematikinfrastruktur zu authentisieren. 
 
-:toc-title: Inhaltsverzeichnis
-:toc:
-
-// configure DE settings for asciidoc
-include::config.adoc[]
+toc::[]
 
 = Als Nutzer gegenüber der Telematikinfrastruktur authentisieren
 Die Telematikinfrastruktur gestattet keinen Zugriff ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen.
