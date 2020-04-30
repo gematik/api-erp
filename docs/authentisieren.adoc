@@ -19,32 +19,12 @@ Die Telematikinfrastruktur gestattet keinen Zugriff ohne eine Identifikation der
 == Für Leistungserbringerinstitutionen
 *Nutzung der Institutionsidentität der SMC-B* +
 Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber einem IdentityProvider (IdP) unter Nutzung der Konnektorschnittstelle.
-[cols="a,2a,a", grid="all"]
-|================
-.2+| PVS |  .2+^.^| IdP
-| 
-3.+|Token oder Challenge bei noSession, wenn Token, dann hier fertig
-.2+| PVS |Außenschnittstelle SOAP external_authenticate(); .2+^.^| Konnektor
-| 
-3.+|
-.2+| PVS | .2+^.^| IdP
-| 
-3.+|
-|================
+
+Der genaue Ablauf in den UseCases der Authentifizierung befindet sich aktuell noch in Abstimmung.
 
 
 == Für Versicherte mit ihren Smartphones
 *Nutzung der Gesundheitskarte oder der Alternativen Versichertenidentität* +
-Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektroniscchen Gesundheitskarte aus, entweder kartengebunden mittels eGK an einem Kartenlesegerät bzw. NFC oder über die von ihrer Kasse bereitgestellten alternativen Versichertenidentität. 
-[cols="a,2a,a", grid="all"]
-|================
-.2+| E-Rezept App |  .2+^.^| IdP
-| 
-3.+|Token oder Challenge bei noSession, wenn Token, dann hier fertig
-.2+| Authenticator-App | Mittels Karte oder al.vi .2+^.^| IdP
-| 
-3.+|
-.2+| E-Rezept-App | .2+^.^| IdP
-| 
-3.+|
-|================
+Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektroniscchen Gesundheitskarte aus, entweder kartengebunden mittels eGK an einem Kartenlesegerät oder per NFC beispielsweise in ihrem Smartphone. 
+
+Der genaue Ablauf in den UseCases der Authentifizierung befindet sich aktuell noch in Abstimmung.
