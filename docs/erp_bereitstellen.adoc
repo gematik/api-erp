@@ -51,7 +51,7 @@ Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hier
 
 [cols="a,a,<.<a", grid="all"]
 |================
-.2+.<| image:../../images/clientsystem.png[width=100%] 
+.2+.<| image:clientsystem.png[width=100%] 
 Primärsystem | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" 
@@ -70,7 +70,7 @@ https://prescriptionserver.telematik/Task/$create
 --------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese Rezepte nur in einer Apotheke einlösen kann.
- .2+| image:../../images/fachdienst.png[width=100%]
+ .2+| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------
@@ -519,7 +519,7 @@ Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln 
 
 [cols="<.<a,<.<a,<.<a", grid="all"]
 |================
-.2+| image:../../images/clientsystem.png[width=100%] 
+.2+| image:clientsystem.png[width=100%] 
 Primärsystem | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: text/xml; charset=UTF-8" -H "Content-Length: 1234" 
@@ -1020,7 +1020,7 @@ Die zuvor erstellte Signatur des E-Rezept-Bundles muss nun noch in das Bundle in
 Dieses signierte E-Rezept-Bundle wird nun in den E-Rezept-Fachdienst hochgeladen und der Task aktiviert.
 [cols="a,a,a", grid="all", valign="top"]
 |================
-.2+| image:../../images/clientsystem.png[width=100%] 
+.2+| image:clientsystem.png[width=100%] 
 Primärsystem | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" -H "X-AccessCode: 
@@ -1052,7 +1052,7 @@ curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" -H "X-AccessC
 https://prescriptionserver.telematik/Task/4711/$activate
 --------------------------
 <1> Der Datensatz des qes-signierten E-Rezept-Bundles ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel kann hier herauskopiert werden `https://simplifier.net/eRezept/Bundle-example-duplicate-2/~xml`.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------
@@ -1161,7 +1161,7 @@ s|Code   2+s|Type Error
 Als verordnender Leistungserbringer möchte ich ein E-Rezept löschen können, um den Patienten vor dem Bezug und der Einnahme eines fälschlich verordneten Medikaments zu schützen.
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/clientsystem.png[width=100%] 
+.2+^.<| image:clientsystem.png[width=100%] 
 Primärsystem | .HTTP-Request
 --------------------------------------
 curl -XPOST
@@ -1171,7 +1171,7 @@ curl -XPOST
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Leistungerrbringer aus, im Token ist seine Rolle als Verordnender enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> Als Zugreifender, der nicht der betroffene Versicherte ist, muss im http-Header der `AccessCode` übergeben werden. Der AccessCode ist dem Primärsystem des Verordnenden bekannt, da von diesem aus das E-REzept ursprünglich eingestellt wurde.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | .HTTP-Response
 --------------------------------------
