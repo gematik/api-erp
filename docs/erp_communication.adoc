@@ -1,4 +1,9 @@
-= image:../../images/gematik_logo.jpg[width=35%] E-Rezept API-Dokumentation für Nachrichtenaustausch 
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+endif::[]
+image:gematik_logo.jpg[width=35%] 
+
+=E-Rezept API-Dokumentation für Nachrichtenaustausch 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept. 
 :toc-title: Inhaltsverzeichnis
 :toc:
@@ -11,7 +16,7 @@ Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen,
 
 [cols="a,a,<.<a", grid="all"]
 |================
-.2+.<| image:../../images/fdv.png[width=100%] 
+.2+.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: application/fhir+json; charset=UTF-8" 
@@ -100,7 +105,7 @@ https://prescriptionserver.telematik/Communication
 <5> Die Pharmazentralnummer (PZN) des Medikaments
 <6> Die Beschreibung bzw. Bezeichnung des Medikaments
 <7> Die Normgröße gemäß der Packungsgrößenkennzeichnung
-.2+| image:../../images/fachdienst.png[width=100%]
+.2+| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------
@@ -231,7 +236,7 @@ Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept g
 
 [cols="a,a,<.<a", grid="all"]
 |================
-.2+.<| image:../../images/clientsystem.png[width=100%] 
+.2+.<| image:clientsystem.png[width=100%] 
 Primärsystem | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" 
@@ -262,7 +267,7 @@ https://prescriptionserver.telematik/Communication
 --------------------------
 <1> Das Apothekenverwaltungssystem kann mit dieser optionalen Angabe eine Verbindung zur eingegangenen Anfrage herstellen, in dem der Link zur beantworteten Communication-Ressource ergänzt wird.
 
- .2+| image:../../images/fachdienst.png[width=100%]
+ .2+| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------
@@ -333,7 +338,7 @@ s|Code   2+s|Type Error
 Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. 
 [cols="a,a,<.<a", grid="all"]
 |================
-.2+.<| image:../../images/fdv.png[width=100%] 
+.2+.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------
 curl -XPOST -H "Content-Type: application/fhir+json; charset=UTF-8" 
@@ -377,7 +382,7 @@ https://prescriptionserver.telematik/Communication
 
 
 
-.2+| image:../../images/fachdienst.png[width=100%]
+.2+| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------
@@ -464,7 +469,7 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | .HTTP-Request
 --------------------------------------
 curl -XGET
@@ -473,7 +478,7 @@ curl -XGET
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=null`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | .HTTP-Response
 --------------------------------------
@@ -570,7 +575,7 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:clientsystem.png[width=100%] 
 E-Rezept-App | .HTTP-Request
 --------------------------------------
 curl -XGET
@@ -579,7 +584,7 @@ curl -XGET
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, deren Sende-Datum zwischen dem 01. und 30. April 2020 liegt (`?sent=gt2020-04-01&sent=lt2020-04-30`). 
-.2+^.<| image:../../images/fachdienst.png[width=100%]
+.2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | .HTTP-Response
 --------------------------------------
