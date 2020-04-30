@@ -1,0 +1,69 @@
+<Task xmlns="http://hl7.org/fhir">
+   <id value="4711"/>
+   <meta>
+      <versionId value="2"/>
+      <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
+      <source value="#AsYR9plLkvONJAiv"/>
+      <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
+   </meta>
+    <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/Namingsystem/prescriptionID"/>
+      <value value="160.123.456.789.123.58"/>
+    </identifier>
+    <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
+      <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+   </identifier>
+   <identifier>
+      <use value="official"/>
+      <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
+      <value value="X123456789"/>
+   </identifier>
+   <status value="ready"/>
+   <intent value="order"/> 
+   <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+      <valueCodeableConcept>
+        <coding>
+          <system value="https://gematik.de/fhir/CodeSystem/FLOWTYPE" />
+          <code value="160" />
+          <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+        </coding>
+      </valueCodeableConcept>
+   </extension>
+   <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+     <valueDateTime value="2020-06-02" />
+   </extension>
+   <extension url="https://example.org/fhir/StructureDefinition/AcceptDate">
+     <valueDateTime value="2020-04-01" />
+   </extension>
+   <authoredOn value="2020-03-02T08:25:05+00:00"/>
+   <lastModified value="2020-03-02T08:45:05+00:00"/>
+   <performerType>
+      <coding>
+         <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+         <code value="1.2.276.0.76.4.32"/>
+         <display value="Apotheke"/>
+      </coding>
+      <text value="Apotheke"/>
+   </performerType>
+   <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE"/> 
+        <code value="1"/> 
+      </coding> 
+    </type> 
+    <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
+  </input> 
+  <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE"/> 
+        <code value="2"/> 
+      </coding> 
+    </type> 
+    <valueString value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>
+  </input>
+</Task>

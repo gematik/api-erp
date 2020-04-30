@@ -1,0 +1,1200 @@
+= image:../../images/gematik_logo.jpg[width=35%] E-Rezept API-Dokumentation für Ärzte/Zahnärzte
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer. 
+:toc-title: Inhaltsverzeichnis
+:toc:
+
+// configure DE settings for asciidoc
+include::config.adoc[]
+
+==  Anwendungsfall E-Rezept bereitstellen
+
+Mit diesem UseCase stellt ein verordnender Arzt/Zahnarzt dem Patienten ein E-Rezept auf dem E-Rezept-Fachdienst bereit. Die Erzeugung des E-Rezepts erfolgt unter Nutzung der Verordnungsdatenschnittstelle für Primärsysteme. Mit dieser wählt der Leistungserbringer die therapierelevanten Wirkstoffe, Medikamente, o.Ä. aus.
+Der Leistungserbringer authentisiert sich gegenüber der Telematikinfrastruktur mit der Institutionsidentität der SMC-B unter Nutzung des IdentityProviders (IdP) und des Konnektors.
+Anschließend erfolgt das Generieren einer Rezept-ID über das Erzeugen eines Tasks im E-Rezept-Fachdienst. Die ID der erstellten Ressource Task bettet das Primärsystem des Leistungserbringers in den lokalen Datensatz ein und lässt diesen Datensatz vom Konnektor qualifiziert signieren.
+Zum Abschluss erfolgt die Aktivierung des im E-Rezept-Fachdienst erstellten Tasks in den korrekten Status und Ergänzung des qualifiziert signierten Datensatzes.
+Der E-Rezept-Fachdienst validiert die QES und erzeugt bei Gültigkeit der QES sowie Schemakonformität des E-Rezept-Bundles serverseitig eine Signatur zum Schutz der Integrität der Daten.
+
+image:../../images/api_rezept_einstellen.png[width=100%]
+
+== Profilierung
+Für diesen Anwendungsfall wird die FHIR-Resource "Task" profiliert.
+Das Profil kann als JSON oder XML hier eingesehen werden: https://simplifier.net/e-rezept/erxtask.
+
+Die für diese Anwendung wichtigen Attribute und besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz Zusammengefasst: 
+|===
+|*Name* |*Beschreibung* 
+|identifier:PrescriptionID |RezeptID; eindeutig für jedes Rezept 
+|identifier:KVNR |Krankenversichertennummer
+|identifier:AccessCode |Vom E-Rezept Fachdienst generierter Berechtigungs-Code
+|identifier:Secret |Vom E-Rezept Fachdienst generierter Berechtigungs-Code
+|status |Status des E-Rezepts 
+|intent |Absicht des Tasks. Fixer Wert="order"  
+|authoredOn |Erstellungszeitpunkt des Tasks
+|lastModified |Letzte Änderung am Task
+|performerType | Institution in der das Rezept eingelöst werden soll
+|input |Verweis auf die für den Patient und den Leistungserbringer gedachten Bundle
+|output |Verweis auf das Quittungs-Bundle
+|extension:flowType |Gibt den Typ des Rezeptes an
+|extension:expiryDate |Verfallsdatum 
+|extension:acceptDate |Datum bis zu welchem die Krankenkasse spätestens die Kosten übernimmt
+|===
+
+In den folgenden Kapiteln wird erläutert wann und wie die Befüllung dieser Attribute erfolgt.
+
+== E-Rezept erstellen
+Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der KBV-Profilierung des E-Rezepts (siehe https://simplifier.net/erezept). Für die Bereitstellung an den Versicherten wird auf dem E-Rezept-Fachdienst ein Task erstellt, dessen Identifier als Rezept-ID in das FHIR-Bundle eingebettet wird. Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ID_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
+
+[cols="a,a,<.<a", grid="all"]
+|================
+.2+.<| image:../../images/clientsystem.png[width=100%] 
+Primärsystem | HTTP-Request
+--------------------------
+curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" 
+-H "Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J" <1> 
+--data 
+"<Parameters xmlns=\"http://hl7.org/fhir\">
+  <parameter>
+    <name value=\"workflowType\"/>
+    <valueCoding>
+      <system value=\"https://gematik.de/fhir/CodeSystem/FLOWTYPE\"/>
+      <code value=\"160\"/> <2>
+    </valueCoding>
+  </parameter>
+</Parameters>"
+https://prescriptionserver.telematik/Task/$create
+--------------------------
+<1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+<2> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese Rezepte nur in einer Apotheke einlösen kann.
+ .2+| image:../../images/fachdienst.png[width=100%]
+ E-Rezept-Fachdienst
+| HTTP-Response
+--------------------------
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+Location: 
+  https://prescriptionserver.telematik/Task/4711/_history/1
+<Task xmlns="http://hl7.org/fhir">
+  <id value="4711"/>
+  <meta>
+    <versionId value="1"/>
+    <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
+    <source value="#AsYR9plLkvONJAiv"/>
+  </meta>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/Namingsystem/prescriptionID"/>
+    <value value="160.123.456.789.123.58"/> <1>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
+    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/> <2>
+  </identifier>
+  <status value="draft"/>
+  <intent value="order"/> 
+  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+    <valueCodeableConcept>
+      <coding>
+        <system value="https://gematik.de/fhir/CodeSystem/FLOWTYPE" />
+        <code value="160" />
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+    <valueDateTime value="2020-06-02" />
+  </extension>
+  <extension url="https://example.org/fhir/StructureDefinition/AcceptDate">
+    <valueDateTime value="2020-04-01" />
+  </extension>
+  <authoredOn value="2020-03-02T08:25:05+00:00"/>
+  <lastModified value="2020-03-02T08:25:05+00:00"/>
+  <performerType>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+      <code value="1.2.276.0.76.4.32"/> <4>
+      <display value="Apotheke"/>
+    </coding>
+    <text value="Apotheke"/>
+  </performerType>
+</Task>
+
+--------------------------
+<1> Dieser Identifier stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
+<2> An dieser Stelle befindet sich der serverseitig generierte `AccessCode`, der für nachfolgende Zugriffe auf diesen Task in einem http-Request für die Berechtigungsprüfung mitgegeben werden muss.
+<3> An dieser Stelle hat der E-Rezept-Fachdienst den Übergabeparameter zur Konfiguration des des Workflows übernommen
+<4> Dieser Wert entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll (Apotheke, Sanitätshaus, etc.)
+3.+|Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ID_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein.
+Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im Response-Header `Location` zurückgemeldet wird und zusätzlich ist im http-ResponseBody des Task der serverseitig generierte AccessCode als identifier enthalten.
+s|Code   2+s|Type Success  
+|201  2+| Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   2+s|Type Error   
+|400  2+| Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  2+|Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  2+|Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 2+|Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 2+|Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 2+|Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  2+|Server Errors +
+[small]#Unerwarteter Serverfehler#
+|================
+
+== E-Rezept qualifiziert signieren
+Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Tasks im E-Rezept-Fachdienst erzeugt um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/Namingsystem/prescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/Namingsystem/prescriptionID` eingebettet. 
+
+Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller ValueSets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
+
+.Beispiel für ein E-Rezept-Bundle (Klicken zum Ausklappen)
+[%collapsible]
+====
+--------------------------
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="281a985c-f25b-4aae-91a6-41ad744080b0" />
+    <meta>
+        <lastUpdated value="2020-02-03T12:30:02Z" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0" />
+    </meta>
+    <identifier>
+        <system value="https://gematik.de/fhir/Namingsystem/prescriptionID" />
+        <value value="160.123.456.789.123.58" />
+    </identifier>
+    <type value="document" />
+    <timestamp value="2020-02-03T12:30:02Z" />
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876" />
+        <resource>
+            <Composition>
+                <id value="ed52c1e3-b700-4497-ae19-b23744e29876" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0" />
+                </meta>
+                <text>
+                    <status value="extensions" />
+                    --- We have skipped the narrative for better readability of the resource ---
+                </text>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Rechtsgrundlage">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <status value="final" />
+                <type>
+                    <coding>
+                        <system value="http://loinc.org" />
+                        <code value="57833-6" />
+                    </coding>
+                </type>
+                <subject>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </subject>
+                <date value="2020-02-03T11:30:02Z" />
+                <author>
+                    <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                </author>
+                <title value="Arzneimittelverordnung" />
+                <custodian>
+                    <reference value="urn:uuid:cf042e44-086a-4d51-9c77-172f9a972e3b" />
+                </custodian>
+                <section>
+                    <code>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Section_Type" />
+                            <code value="Verordnung" />
+                        </coding>
+                    </code>
+                    <entry>
+                        <reference value="urn:uuid:e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+                    </entry>
+                </section>
+            </Composition>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+        <resource>
+            <MedicationRequest>
+                <id value="e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Verordnung\|1.0.0" />
+                </meta>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_ZUZAHLUNGSSTATUS">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_ZUZAHLUNGSSTATUS" />
+                        <code value="0" />
+                    </valueCoding>
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_NOTDIENSTGEBUEHR">
+                    <valueBoolean value="false" />
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEHRFACHVERORDNUNG">
+                    <extension url="kennzeichen">
+                        <valueBoolean value="false" />
+                    </extension>
+                </extension>
+                <status value="active" />
+                <intent value="order" />
+                <medicationReference>
+                    <reference value="urn:uuid:5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                </medicationReference>
+                <subject>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </subject>
+                <authoredOn value="2020-02-03" />
+                <requester>
+                    <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                </requester>
+                <insurance>
+                    <reference value="urn:uuid:1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+                </insurance>
+                <dosageInstruction>
+                    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DOSIERUNGSKENNZEICHEN">
+                        <valueBoolean value="true" />
+                    </extension>
+                    <text value="1-0-1-0" />
+                </dosageInstruction>
+                <dispenseRequest>
+                    <quantity>
+                        <value value="1" />
+                        <system value="http://unitsofmeasure.org" />
+                        <code value="{PACK}" />
+                    </quantity>
+                </dispenseRequest>
+                <substitution>
+                    <allowedBoolean value="true" />
+                </substitution>
+            </MedicationRequest>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+        <resource>
+            <Medication>
+                <id value="5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.0" />
+                </meta>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_KATEGORIE">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_MEDIKAMENT_KATEGORIE" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_IMPFSTOFF">
+                    <valueBoolean value="false" />
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                    <valueCode value="N1" />
+                </extension>
+                <code>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+                        <code value="06313728" />
+                    </coding>
+                    <text value="Sumatriptan-1a Pharma 100 mg Tabletten" />
+                </code>
+                <form>
+                    <coding>
+                        <system value="KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+                        <code value="TAB" />
+                    </coding>
+                </form>
+                <amount>
+                    <numerator>
+                        <value value="12" />
+                        <system value="http://unitsofmeasure.org" />
+                        <code value="{tbl}" />
+                    </numerator>
+                    <denominator>
+                        <value value="1" />
+                    </denominator>
+                </amount>
+            </Medication>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+        <resource>
+            <Patient>
+                <id value="9774f67f-a238-4daf-b4e6-679deeef3811" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/identifier-type-de-basis" />
+                            <code value="GKV" />
+                        </coding>
+                    </type>
+                    <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+                    <value value="X234567890" />
+                </identifier>
+                <name>
+                    <use value="official" />
+                    <family value="Ludger Königsstein">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                            <valueString value="Königsstein" />
+                        </extension>
+                    </family>
+                    <given value="Ludger" />
+                </name>
+                <birthDate value="1935-06-22" />
+                <address>
+                    <type value="physical" />
+                    <line value="Musterstr. 1">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                            <valueString value="1" />
+                        </extension>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                            <valueString value="Musterstr." />
+                        </extension>
+                    </line>
+                    <city value="Berlin" />
+                    <postalCode value="10623" />
+                </address>
+            </Patient>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+        <resource>
+            <Practitioner>
+                <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://hl7.org/fhir/v2/0203" />
+                            <code value="DN" />
+                        </coding>
+                    </type>
+                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR" />
+                    <value value="838382202" />
+                </identifier>
+                <name>
+                    <use value="official" />
+                    <family value="Topp-Glücklich">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                            <valueString value="Topp-Glücklich" />
+                        </extension>
+                    </family>
+                    <given value="Hans" />
+                    <prefix value="Dr. med.">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+                            <valueCode value="AC" />
+                        </extension>
+                    </prefix>
+                </name>
+                <qualification>
+                    <code>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_EAU_Qualification_Type" />
+                            <code value="Arzt" />
+                        </coding>
+                    </code>
+                </qualification>
+                <qualification>
+                    <code>
+                        <text value="Hausarzt" />
+                    </code>
+                </qualification>
+            </Practitioner>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b" />
+        <resource>
+            <Organization>
+                <id value="cf042e44-086a-4d51-9c77-172f9a972e3b" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Betriebsstaette\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+                            <code value="BSNR" />
+                        </coding>
+                    </type>
+                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR" />
+                    <value value="031234567" />
+                </identifier>
+                <name value="Hausarztpraxis Dr. Topp-Glücklich" />
+                <telecom>
+                    <system value="phone" />
+                    <value value="0301234567" />
+                </telecom>
+                <address>
+                    <line value="Musterstr. 2">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                            <valueString value="2" />
+                        </extension>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                            <valueString value="Musterstr." />
+                        </extension>
+                    </line>
+                    <city value="Berlin" />
+                    <postalCode value="10623" />
+                </address>
+            </Organization>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+        <resource>
+            <Coverage>
+                <id value="1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Krankenversicherungsverhaeltnis\|1.0.0" />
+                </meta>
+                <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/74_CS_SFHIR_KBV_VERSICHERTENSTATUS" />
+                        <code value="1" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/wop">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/74_CS_AW_Krankenversicherung_WOP" />
+                        <code value="03" />
+                    </valueCoding>
+                </extension>
+                <status value="active" />
+                <type>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/versicherungsart-de-basis" />
+                        <code value="GKV" />
+                    </coding>
+                </type>
+                <beneficiary>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </beneficiary>
+                <payor>
+                    <identifier>
+                        <system value="http://fhir.de/NamingSystem/arge-ik/iknr" />
+                        <value value="104212059" />
+                    </identifier>
+                </payor>
+                <payor>
+                    <display value="AOK Deutschland" />
+                </payor>
+            </Coverage>
+        </resource>
+    </entry>
+</Bundle>
+--------------------------
+====
+
+Dieses E-Rezept-Bundle in XML-Darstellung muss nun digital unterschrieben (qualifiziert elektronisch signiert - QES) werden, das Primärsystem nutzt dafür die Schnittstelle des Konnektors und dieser den Heilberufsausweis des verordnenden Arztes/Zahnarztes.
+Um Fehler in der Signaturprüfung zu vermeiden, ist die Kanonisierung des Dokument vor der Signaturerstellung erforderlich. Diese Kanonsierung normalisiert das Dokument nach definierten Regeln, damit das signaturerstellende System genauso wie das signaturprüfende System ein exakt identisches Dokument in der Erstellung und Prüfung verwenden.
+Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln https://www.w3.org/TR/2008/REC-xml-c14n11-20080502/ für Canonical XML Version 1.1 für XML-Dokumente zum Einsatz.
+
+[cols="<.<a,<.<a,<.<a", grid="all"]
+|================
+.2+| image:../../images/clientsystem.png[width=100%] 
+Primärsystem | HTTP-Request
+--------------------------
+curl -XPOST -H "Content-Type: text/xml; charset=UTF-8" -H "Content-Length: 1234" 
+  -H "SOAPAction: \"http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument\"" --data 
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" 
+  xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">
+  <SOAP-ENV:Header/>
+  <S:Body>
+    <ns10:SignDocument xmlns="http://www.w3.org/2001/04/xmlenc#" 
+    xmlns:ns10="http://ws.gematik.de/conn/SignatureService/v7.4" 
+    xmlns:ns11="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" 
+    xmlns:ns12="http://ws.gematik.de/conn/ConnectorContext/v2.0" 
+    xmlns:ns13="urn:oasis:names:tc:SAML:2.0:assertion" 
+    xmlns:ns14="urn:oasis:names:tc:SAML:1.0:assertion" 
+    xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" 
+    xmlns:ns3="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" 
+    xmlns:ns4="http://uri.etsi.org/01903/v1.3.2#" 
+    xmlns:ns5="urn:oasis:names:tc:dss:1.0:core:schema" 
+    xmlns:ns6="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" 
+    xmlns:ns7="http://uri.etsi.org/02231/v2#" 
+    xmlns:ns8="http://ws.gematik.de/conn/ConnectorCommon/v5.0" 
+    xmlns:ns9="http://ws.gematik.de/tel/error/v2.0">
+      <ns8:CardHandle>1638f4b3-3f2f-4774-9d3d-27799f2bed62</ns8:CardHandle>
+      <ns12:Context>
+        <ns8:MandantId>Mandant1</ns8:MandantId>
+        <ns8:ClientSystemId>Clientsystem1</ns8:ClientSystemId>
+        <ns8:WorkplaceId>Arbeitsplatz1</ns8:WorkplaceId>
+        <ns8:UserId>Mueller-Mustermann</ns8:UserId>
+      </ns12:Context>
+      <ns10:TvMode>CONFIRMED</ns10:TvMode>
+      <ns10:JobNumber>CWN-928</ns10:JobNumber>
+      <ns10:SignRequest RequestID="QES-1366712911">
+        <ns10:OptionalInputs>
+          <ns5:SignatureType>urn:ietf:rfc:5652</ns5:SignatureType> <1>
+          <ns10:IncludeEContent>false</ns10:IncludeEContent> <2>
+        </ns10:OptionalInputs>
+        <ns10:Document ID="QES-1366712911" ShortText="FHIRBundle.txt">
+          <ns5:Base64Data MimeType="text/plain; 
+            charset=utf-8">ew0KICAicmVzb3VyY2VUeXBlIjYXRpb25SZXF1...NCn0=</ns5:Base64Data> <3>
+        </ns10:Document>
+        <ns10:IncludeRevocationInfo>false</ns10:IncludeRevocationInfo>
+      </ns10:SignRequest>
+    </ns10:SignDocument>
+  </S:Body>
+</S:Envelope>"
+https://192.168.x.y/Konnektorservice
+--------------------------
+<1> Mit der Referenz auf den RFC-5652 erfolgt die Erzeugung der QES als CMS-Signatur (CAdES)
+<2> Mit diesem Schalter wird der Konnektor angewiesen, eine detached-Signatur zu erzeugen. D.h. der signierte Datensatz ist nicht (`false`) Bestandteil des erzeugten Signaturobjekts.
+<3> Hier erfolgt die Übergabe des qes- zu signierenden FHIR-Bundles in Base64-codierter Form.
+ .2+^.<| image:../../images/konnektor.png[width=100%]
+ Konnektor
+| HTTP-Response
+--------------------------
+HTTP/1.1 200 OK 
+Content-Type: text/xml;charset=utf-8 
+
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header/>
+  <S:Body>
+    <ns7:SignDocumentResponse 
+    xmlns:ns10="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" 
+    xmlns:ns11="http://uri.etsi.org/02231/v2#" 
+    xmlns:ns12="http://ws.gematik.de/conn/ConnectorContext/v2.0" 
+    xmlns:ns13="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" 
+    xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion" 
+    xmlns:ns15="urn:oasis:names:tc:SAML:1.0:assertion" 
+    xmlns:ns2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" 
+    xmlns:ns3="http://www.w3.org/2001/04/xmlenc#" 
+    xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" 
+    xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0" 
+    xmlns:ns6="http://uri.etsi.org/01903/v1.3.2#" 
+    xmlns:ns7="http://ws.gematik.de/conn/SignatureService/v7.4" 
+    xmlns:ns8="http://ws.gematik.de/tel/error/v2.0" 
+    xmlns:ns9="urn:oasis:names:tc:dss:1.0:core:schema">
+      <ns7:SignResponse RequestID="QES-1366712911">
+        <ns5:Status>
+          <ns5:Result>Warning</ns5:Result>
+          <ns11:Error>
+            <ns11:MessageID>6030a197-d4d3-4661-856a-35d62c0da979</ns11:MessageID>
+            <ns11:Timestamp>2020-02-19T06:00:48.373Z</ns11:Timestamp>
+            <ns11:Trace>
+              <ns11:EventID>c8625583-2af5-42de-8ca1-3609ca7912fe</ns11:EventID>
+              <ns11:Instance>Konnektor-Lokal</ns11:Instance>
+              <ns11:LogReference>c8625583-2af5-42de-8ca1-3609ca7912fe</ns11:LogReference>
+              <ns11:CompType>Konnektor:PKI</ns11:CompType>
+              <ns11:Code>1028</ns11:Code>
+              <ns11:Severity>Warning</ns11:Severity>
+              <ns11:ErrorType>Technical</ns11:ErrorType>
+              <ns11:ErrorText>Die OCSP-Prüfung konnte nicht durchgeführt werden (1)</ns11:ErrorText>
+              <ns11:Detail Encoding="UTF-8">TOLERATE_OCSP_FALURE=true</ns11:Detail>
+            </ns11:Trace>
+          </ns11:Error>
+        </ns5:Status>
+        <ns7:OptionalOutputs>
+          <ns7:DocumentWithSignature ID="QES-1366712911" ShortText="FHIRBundle.txt">
+            <ns8:Base64Data/>
+          </ns7:DocumentWithSignature>
+        </ns7:OptionalOutputs>
+        <ns7:SignatureObject>
+          <ns9:Base64Signature 
+            Type="urn:ietf:rfc:5652">MIAGCSqGSIb3DQEHAqCAMIA...A=</ns9:Base64Signature> <1>
+        </ns7:SignatureObject>
+      </ns7:SignResponse>
+    </ns7:SignDocumentResponse>
+  </S:Body>
+</S:Envelope>
+--------------------------
+<1> Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-codierung, die mit einem ASN1-Decoder angesehen werden kann.
+3.+|Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. 
+s|Code   2+s|Type Success  
+|200  2+|OK  +
+[small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen. Das gilt ebenso für Fehler in der Verarbeitung des SOAP-Requests, die als SOAP-Fault zurückgemeldet werden.#
+s|Code   2+s|Type Error   
+|400  2+| Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|================
+
+== E-Rezept vervollständigen und Task aktivieren
+Nach dem erfolgreichen qualifizierten Signatur kann das E-Rezept vervollständigt und der Task im Fachdienst aktiviert werden. 
+Die zuvor erstellte Signatur des E-Rezept-Bundles muss nun noch in das Bundle in den `signature`-Knoten der XML-Darstellung in Base64-Codierung eingefügt werden.
+
+.Beispiel für ein E-Rezept-Bundle inkl. Signatur (Klicken zum Ausklappen)
+[%collapsible]
+====
+--------------------------
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="281a985c-f25b-4aae-91a6-41ad744080b0" />
+    <meta>
+        <lastUpdated value="2020-02-03T12:30:02Z" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0" />
+    </meta>
+    <identifier>
+        <system value="https://gematik.de/fhir/Namingsystem/prescriptionID" />
+        <value value="160.123.456.789.123.58" />
+    </identifier>
+    <type value="document" />
+    <timestamp value="2020-02-03T12:30:02Z" />
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876" />
+        <resource>
+            <Composition>
+                <id value="ed52c1e3-b700-4497-ae19-b23744e29876" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0" />
+                </meta>
+                <text>
+                    <status value="extensions" />
+                    --- We have skipped the narrative for better readability of the resource ---
+                </text>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Rechtsgrundlage">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <status value="final" />
+                <type>
+                    <coding>
+                        <system value="http://loinc.org" />
+                        <code value="57833-6" />
+                    </coding>
+                </type>
+                <subject>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </subject>
+                <date value="2020-02-03T11:30:02Z" />
+                <author>
+                    <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                </author>
+                <title value="Arzneimittelverordnung" />
+                <custodian>
+                    <reference value="urn:uuid:cf042e44-086a-4d51-9c77-172f9a972e3b" />
+                </custodian>
+                <section>
+                    <code>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Section_Type" />
+                            <code value="Verordnung" />
+                        </coding>
+                    </code>
+                    <entry>
+                        <reference value="urn:uuid:e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+                    </entry>
+                </section>
+            </Composition>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+        <resource>
+            <MedicationRequest>
+                <id value="e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Verordnung\|1.0.0" />
+                </meta>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_ZUZAHLUNGSSTATUS">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_ZUZAHLUNGSSTATUS" />
+                        <code value="0" />
+                    </valueCoding>
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_NOTDIENSTGEBUEHR">
+                    <valueBoolean value="false" />
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEHRFACHVERORDNUNG">
+                    <extension url="kennzeichen">
+                        <valueBoolean value="false" />
+                    </extension>
+                </extension>
+                <status value="active" />
+                <intent value="order" />
+                <medicationReference>
+                    <reference value="urn:uuid:5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                </medicationReference>
+                <subject>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </subject>
+                <authoredOn value="2020-02-03" />
+                <requester>
+                    <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                </requester>
+                <insurance>
+                    <reference value="urn:uuid:1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+                </insurance>
+                <dosageInstruction>
+                    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DOSIERUNGSKENNZEICHEN">
+                        <valueBoolean value="true" />
+                    </extension>
+                    <text value="1-0-1-0" />
+                </dosageInstruction>
+                <dispenseRequest>
+                    <quantity>
+                        <value value="1" />
+                        <system value="http://unitsofmeasure.org" />
+                        <code value="{PACK}" />
+                    </quantity>
+                </dispenseRequest>
+                <substitution>
+                    <allowedBoolean value="true" />
+                </substitution>
+            </MedicationRequest>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+        <resource>
+            <Medication>
+                <id value="5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.0" />
+                </meta>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_KATEGORIE">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_MEDIKAMENT_KATEGORIE" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_IMPFSTOFF">
+                    <valueBoolean value="false" />
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                    <valueCode value="N1" />
+                </extension>
+                <code>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+                        <code value="06313728" />
+                    </coding>
+                    <text value="Sumatriptan-1a Pharma 100 mg Tabletten" />
+                </code>
+                <form>
+                    <coding>
+                        <system value="KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+                        <code value="TAB" />
+                    </coding>
+                </form>
+                <amount>
+                    <numerator>
+                        <value value="12" />
+                        <system value="http://unitsofmeasure.org" />
+                        <code value="{tbl}" />
+                    </numerator>
+                    <denominator>
+                        <value value="1" />
+                    </denominator>
+                </amount>
+            </Medication>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+        <resource>
+            <Patient>
+                <id value="9774f67f-a238-4daf-b4e6-679deeef3811" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/identifier-type-de-basis" />
+                            <code value="GKV" />
+                        </coding>
+                    </type>
+                    <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+                    <value value="X234567890" />
+                </identifier>
+                <name>
+                    <use value="official" />
+                    <family value="Ludger Königsstein">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                            <valueString value="Königsstein" />
+                        </extension>
+                    </family>
+                    <given value="Ludger" />
+                </name>
+                <birthDate value="1935-06-22" />
+                <address>
+                    <type value="physical" />
+                    <line value="Musterstr. 1">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                            <valueString value="1" />
+                        </extension>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                            <valueString value="Musterstr." />
+                        </extension>
+                    </line>
+                    <city value="Berlin" />
+                    <postalCode value="10623" />
+                </address>
+            </Patient>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+        <resource>
+            <Practitioner>
+                <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://hl7.org/fhir/v2/0203" />
+                            <code value="DN" />
+                        </coding>
+                    </type>
+                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR" />
+                    <value value="838382202" />
+                </identifier>
+                <name>
+                    <use value="official" />
+                    <family value="Topp-Glücklich">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                            <valueString value="Topp-Glücklich" />
+                        </extension>
+                    </family>
+                    <given value="Hans" />
+                    <prefix value="Dr. med.">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+                            <valueCode value="AC" />
+                        </extension>
+                    </prefix>
+                </name>
+                <qualification>
+                    <code>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_EAU_Qualification_Type" />
+                            <code value="Arzt" />
+                        </coding>
+                    </code>
+                </qualification>
+                <qualification>
+                    <code>
+                        <text value="Hausarzt" />
+                    </code>
+                </qualification>
+            </Practitioner>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b" />
+        <resource>
+            <Organization>
+                <id value="cf042e44-086a-4d51-9c77-172f9a972e3b" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Betriebsstaette\|1.0.0" />
+                </meta>
+                <identifier>
+                    <type>
+                        <coding>
+                            <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+                            <code value="BSNR" />
+                        </coding>
+                    </type>
+                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR" />
+                    <value value="031234567" />
+                </identifier>
+                <name value="Hausarztpraxis Dr. Topp-Glücklich" />
+                <telecom>
+                    <system value="phone" />
+                    <value value="0301234567" />
+                </telecom>
+                <address>
+                    <line value="Musterstr. 2">
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                            <valueString value="2" />
+                        </extension>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                            <valueString value="Musterstr." />
+                        </extension>
+                    </line>
+                    <city value="Berlin" />
+                    <postalCode value="10623" />
+                </address>
+            </Organization>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+        <resource>
+            <Coverage>
+                <id value="1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Krankenversicherungsverhaeltnis\|1.0.0" />
+                </meta>
+                <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP" />
+                        <code value="00" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/74_CS_SFHIR_KBV_VERSICHERTENSTATUS" />
+                        <code value="1" />
+                    </valueCoding>
+                </extension>
+                <extension url="http://fhir.de/StructureDefinition/gkv/wop">
+                    <valueCoding>
+                        <system value="https://fhir.kbv.de/CodeSystem/74_CS_AW_Krankenversicherung_WOP" />
+                        <code value="03" />
+                    </valueCoding>
+                </extension>
+                <status value="active" />
+                <type>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/versicherungsart-de-basis" />
+                        <code value="GKV" />
+                    </coding>
+                </type>
+                <beneficiary>
+                    <reference value="urn:uuid:9774f67f-a238-4daf-b4e6-679deeef3811" />
+                </beneficiary>
+                <payor>
+                    <identifier>
+                        <system value="http://fhir.de/NamingSystem/arge-ik/iknr" />
+                        <value value="104212059" />
+                    </identifier>
+                </payor>
+                <payor>
+                    <display value="AOK Deutschland" />
+                </payor>
+            </Coverage>
+        </resource>
+    </entry>
+    <signature>
+      <type>
+        <coding>
+          <system value="http://hl7.org/fhir/ValueSet/signature-type" /> 
+          <code value="1.2.840.10065.1.12.1.1" /> <1>
+        </coding>
+      </type>
+      <when value="2020-02-03T12:32:00Z"/>
+      <who>
+        <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" /> <2>
+      </who>
+      <data>
+        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
+      </data>
+    </signature>
+</Bundle>
+--------------------------
+<1> Mit diesem wird der Signaturtyp als `Author's Signature` gemäß https://www.hl7.org/fhir/codesystem-signature-type.html festgelegt
+<2> Diese Referenz verweist auf den im Bundle definierten verordnenden Arzt/Zahnarzt.
+====
+
+Dieses signierte E-Rezept-Bundle wird nun in den E-Rezept-Fachdienst hochgeladen und der Task aktiviert.
+[cols="a,a,a", grid="all", valign="top"]
+|================
+.2+| image:../../images/clientsystem.png[width=100%] 
+Primärsystem | HTTP-Request
+--------------------------
+curl -XPOST -H "Content-Type: application/fhir+xml; charset=UTF-8" -H "X-AccessCode: 
+  777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" 
+  -H "Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J"
+  --data  <1>
+"<Bundle xmlns=\"http://hl7.org/fhir\">
+    <id value=\"281a985c-f25b-4aae-91a6-41ad744080b0\" />
+    <meta>
+        <lastUpdated value=\"2020-02-03T12:30:02Z\" />
+        <profile value=\"https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0\" />
+    </meta>
+    <identifier>
+        <system value=\"https://gematik.de/fhir/Namingsystem/prescriptionID\" />
+        <value value=\"160.123.456.789.123.58\" />
+    </identifier>
+    <type value=\"document\" />
+    <timestamp value=\"2020-02-03T12:30:02Z\" />
+    <entry>
+        <fullUrl value=\"http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876\" />
+        <resource>
+            <Composition>
+                <id value=\"ed52c1e3-b700-4497-ae19-b23744e29876\" />
+                <meta>
+                    <profile value=\"https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\1.0.0\" />
+                </meta>
+...
+" 
+https://prescriptionserver.telematik/Task/4711/$activate
+--------------------------
+<1> Der Datensatz des qes-signierten E-Rezept-Bundles ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel kann hier herauskopiert werden `https://simplifier.net/eRezept/Bundle-example-duplicate-2/~xml`.
+ .2+^.<| image:../../images/fachdienst.png[width=100%]
+ E-Rezept-Fachdienst
+| HTTP-Response
+--------------------------
+HTTP/1.1 200 OK 
+Content-Type: application/fhir+xml;charset=utf-8 
+Content-Location: 
+  https://prescriptionserver.telematik/Task/4711/_history/2 
+<Task xmlns="http://hl7.org/fhir">
+  <id value="4711"/>
+  <meta>
+    <versionId value="2"/>
+    <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
+    <source value="#AsYR9plLkvONJAiv"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
+  </meta>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/Namingsystem/prescriptionID"/>
+    <value value="160.123.456.789.123.58"/>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
+    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
+    <value value="X123456789"/> <1>
+  </identifier>
+  <status value="ready"/>
+  <intent value="order"/> 
+  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+    <valueCodeableConcept>
+      <coding>
+        <system value="https://gematik.de/fhir/CodeSystem/FLOWTYPE" />
+        <code value="160" />
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+    <valueDateTime value="2020-06-02" />
+  </extension>
+  <extension url="https://example.org/fhir/StructureDefinition/AcceptDate">
+    <valueDateTime value="2020-04-01" />
+  </extension>
+  <authoredOn value="2020-03-02T08:25:05+00:00"/>
+  <lastModified value="2020-03-02T08:45:05+00:00"/>
+  <performerType>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+        <code value="1.2.276.0.76.4.32"/>
+        <display value="Apotheke"/>
+    </coding>
+    <text value="Apotheke"/>
+  </performerType>
+  <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE"/> 
+        <code value="1"/> 
+      </coding> 
+    </type> 
+    <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/> <2>
+  </input> 
+  <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE"/> 
+        <code value="2"/> 
+      </coding> 
+    </type> 
+    <valueString value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/> <3>
+  </input>
+</Task>
+--------------------------
+<1> Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task hinterlegt.
+<2> Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles, der Abruf erfolgt immer über den Task.
+<3> Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an dieser Stelle referenziert wird.
+3.+|Der Aufruf erfolgt als http-`POST`-Operation auf die FHIR-Opertation `$activate` des referenziereten Tasks. Im Aufruf muss das während der Authentisierung erhaltene ID_TOKEN im http-Request-Header `Authorization` und der beim erzeugen des Tasks generierte `AccessCode` übergeben werden. Im http-RequestBody muss das qes-signierte Bundle des E-Rezepts enthalten sein.
+Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine Signatur über den Datensatz, die als signierte Kopie des KBV-`Bundle` für den Abruf durch den Versicherten gespeichert wird.
+s|Code   2+s|Type Success  
+|200  2+|OK  +
+[small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
+s|Code   2+s|Type Error   
+|400  2+| Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  2+|Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  2+|Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  2+|Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 2+|Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 2+|Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 2+|Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  2+|Server Errors +
+[small]#Unerwarteter Serverfehler# 
+|================
+
+== Ein E-Rezept löschen
+Als verordnender Leistungserbringer möchte ich ein E-Rezept löschen können, um den Patienten vor dem Bezug und der Einnahme eines fälschlich verordneten Medikaments zu schützen.
+[cols="a,a,a", grid="all", width="99%"]
+|================
+.2+^.<| image:../../images/clientsystem.png[width=100%] 
+Primärsystem | .HTTP-Request
+--------------------------------------
+curl -XPOST
+  -H "Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J" <1>
+  -H "X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <2>
+  https://prescriptionserver.telematik/Task/4711/$abort
+--------------------------------------
+<1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Leistungerrbringer aus, im Token ist seine Rolle als Verordnender enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+<2> Als Zugreifender, der nicht der betroffene Versicherte ist, muss im http-Header der `AccessCode` übergeben werden. Der AccessCode ist dem Primärsystem des Verordnenden bekannt, da von diesem aus das E-REzept ursprünglich eingestellt wurde.
+ .2+^.<| image:../../images/fachdienst.png[width=100%]
+ E-Rezept-Fachdienst
+| .HTTP-Response
+--------------------------------------
+HTTP/1.1 204 No Content  <1>
+
+--------------------------------------
+<1> Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
+3.+|Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ID_TOKEN als übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden.
+s|Code   2+s|Type Success  
+|204  2+| No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   2+s|Type Error   
+|400  2+| Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  2+|Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  2+|Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  2+|Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 2+|Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|409 2+|Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 2+|Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 2+|Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  2+|Server Errors +
+[small]#Unerwarteter Serverfehler# 
+|================

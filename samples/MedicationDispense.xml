@@ -1,0 +1,61 @@
+<MedicationDispense xmlns="http://hl7.org/fhir">
+  <meta>
+    <profile value="https://gematik.de/fhir/StructureDefinition/erxMedicationDispense" />
+  </meta>
+  <contained> 
+    <Medication>
+      <id value="med0314"/> 
+      <meta>
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.0" />
+      </meta>
+      <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_KATEGORIE">
+        <valueCoding>
+          <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_MEDIKAMENT_KATEGORIE" />
+          <code value="00" />
+        </valueCoding>
+      </extension>
+      <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_MEDIKAMENT_IMPFSTOFF">
+        <valueBoolean value="false" />
+      </extension>
+      <extension url="http://fhir.de/StructureDefinition/normgroesse">
+        <valueCode value="N1" />
+      </extension>
+      <code>
+        <coding>
+          <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+          <code value="06313728" />
+        </coding>
+        <text value="Sumatriptan-1a Pharma 100 mg Tabletten" />
+      </code>
+      <form>
+        <coding>
+          <system value="KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+          <code value="TAB" />
+        </coding>
+      </form>
+      <amount>
+        <numerator>
+          <value value="12" />
+          <system value="http://unitsofmeasure.org" />
+          <code value="{tbl}" />
+        </numerator>
+        <denominator>
+          <value value="1" />
+        </denominator>
+      </amount> 
+    </Medication> 
+  </contained> 
+  <status value="completed"/> 
+  <medicationReference> 
+    <reference value="#med0314"/> 
+    <display value="Sumatriptan-1a Pharma 100 mg Tabletten"/> 
+  </medicationReference>
+  <whenPrepared value="2020-03-20T07:13:00+05:00"/> 
+  <whenHandedOver value="2020-03-20T07:13:00+05:00"/>
+  <dosageInstruction>
+    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DOSIERUNGSKENNZEICHEN">
+      <valueBoolean value="true" />
+    </extension>
+    <text value="1-0-1-0" />
+  </dosageInstruction> 
+</MedicationDispense> 
