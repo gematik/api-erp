@@ -1,5 +1,11 @@
-= image:../../images/gematik_logo.jpg[width=35%] E-Rezept API Dokumentation für Versicherte
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+endif::[]
+image:gematik_logo.jpg[width=35%] 
+
+= E-Rezept API Dokumentation für Versicherte
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die Ihre E-Rezepte verwalten und einlösen möchten. 
+
 :toc-title: Inhaltsverzeichnis
 :toc:
 
@@ -27,7 +33,7 @@ AuditEvent: https://simplifier.net/e-rezept/erxauditevent
 Als Versicherter möchte ich all meine E-Rezepte einsehen.
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------------------
 curl -XGET
@@ -35,7 +41,7 @@ curl -XGET
   https://prescriptionserver.telematik/Task
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------------------
@@ -201,7 +207,7 @@ Der Zugriff auf ein einzelnes E-Rezept ist durch den Versicherten mit Nachweis s
 
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------------------
 curl -XGET
@@ -211,7 +217,7 @@ curl -XGET
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------------------
@@ -386,7 +392,7 @@ Diese Informationen lassen sich nach den Vorgaben in  `ISO/IEC 18004:2015` in ei
 |================
 | 
 `Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`
-^.^| image:../../images/datamatrix_sample.png[width=250px] 
+^.^| image:datamatrix_sample.png[width=250px] 
 
 In DataMatrix-Darstellung gemäß ISO/IEC 16022:2006
 | Sammlung von drei E-Rezept-Referenzen in einem 2D-Code +
@@ -394,12 +400,12 @@ In DataMatrix-Darstellung gemäß ISO/IEC 16022:2006
   {Task/4712/$accept?ac=d1b8fdaa9e1be1b14a6302457468136923ecbfc7c48f88af5997f4271b736d1b},
   {Task/4713/$accept?ac=2a38b04e400ec97183bd00b98bb74fd73c9d2afa2a54f6f841e527ecb0df3e0c}]`
 
-^.^| image:../../images/datamatrix_sample_3.png[width=250px] 
+^.^| image:datamatrix_sample_3.png[width=250px] 
 
 In DataMatrix-Darstellung gemäß ISO/IEC 16022:2006
 | 
 `Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`
-^.^| image:../../images/qr_sample.png[width=250px]
+^.^| image:qr_sample.png[width=250px]
 
 In QR-Code-Darstellung gemäß ISO/IEC 18004:2006
 |================
@@ -420,7 +426,7 @@ Folgende Suchalternativen sind ebenfalls möglich:
 
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | .HTTP-Request
 --------------------------------------
 curl -XGET
@@ -429,7 +435,7 @@ curl -XGET
 --------------------------------------
 <1> Im Aufruf muss ein ID_TOKEN im `Authorization`-Header des http-Requests übergeben werden, um die Rolle "Versicherter" zu prüfen, damit keine unberechtigten Zugriffe von außerhalb des deutschen Gesundheitswesens erfolgen. Es findet weder eine Protokollierung der zugreifenden Nutzers noch eine Filterung auf Basis der Nutzeridentität statt.
 <2> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/organization.html#search` angegeben werden. Im konkreten Beispiel soll nach Apotheken (`Organization`) im Postleitzahlengebiet `10117` gefiltert werden. Weitere Suchparameter können bspw. der Name der Apotheke (z.B. `name=Bahnhofsapotheke`) oder eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | .HTTP-Response
 --------------------------------------
@@ -573,7 +579,7 @@ Mit dem Suchergebnis kennt der Versicherte nun die Apotheken in seinem Umkreis (
 Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------------------
 curl -XGET
@@ -582,7 +588,7 @@ curl -XGET
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/medicationdispense.html#search` angegeben werden. Im konkreten Beispiel soll nach Dispensierinformationen zu Medikamenten mit einem Abholdatum `whenhandedover` größer (`gt`) dem Datum `01.03.2020` gesucht werden.
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | .HTTP-Response
 --------------------------------------
@@ -722,7 +728,7 @@ s|Code   2+s|Type Error
 Als Versicherter möchte ich ein E-Rezept löschen können, um mein Recht auf informationelle Selbstbestimmung wahrzunehmen.
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------------------
 curl -XPOST
@@ -732,7 +738,7 @@ curl -XPOST
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 <2> Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------------------
@@ -770,7 +776,7 @@ s|Code   2+s|Type Error
 Als Versicherter möchte ich Einsicht in das Zugriffsprotokoll meiner Daten im E-Rezept-Fachdienst nehmen, um Zugriffe nachvollziehen zu können und eine unberechtigte Einsicht in meine Daten zu prüfen.
 [cols="a,a,a", grid="all", width="99%"]
 |================
-.2+^.<| image:../../images/fdv.png[width=100%] 
+.2+^.<| image:fdv.png[width=100%] 
 E-Rezept-App | HTTP-Request
 --------------------------------------
 curl -XGET
@@ -779,7 +785,7 @@ curl -XGET
 --------------------------------------
 <1> Mit dem ID Token im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten, nach der die Protokolleinträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
- .2+^.<| image:../../images/fachdienst.png[width=100%]
+ .2+^.<| image:fachdienst.png[width=100%]
  E-Rezept-Fachdienst
 | HTTP-Response
 --------------------------------------
