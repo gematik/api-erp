@@ -1,15 +1,17 @@
 ifdef::env-github[]
 :imagesdir: https://github.com/gematik/api-erp/raw/master/images
 endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:numbered:
+
 image:gematik_logo.jpg[width=35%] 
 
 = E-Rezept API Dokumentation für Apotheker
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers. 
-:toc-title: Inhaltsverzeichnis
-:toc:
 
-// configure DE settings for asciidoc
-include::config.adoc[]
+toc::[]
 
 ==  Anwendungsfall E-Rezept beliefern
 Mit diesem UseCase beliefert ein Apotheker ein E-Rezept, das auf dem E-Rezept-Fachdienst bereitliegt. Eine Unterscheidung zwischen einer Filial- oder Versandapotheke ist dabei zweitrangig, da der Unterschied im Ablauf lediglich in der Übermittlung der `Task-ID` und des `AccessCodes` durch den Versicherten besteht. 
