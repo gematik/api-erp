@@ -19,7 +19,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzt
 
 ## Anwendungsfälle E-Rezept in der Apotheke
 
-[Hier geht es zu den Anwendungsfällen in er Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
+[Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
 
 ## Anwendungsfälle für Versicherte
 
