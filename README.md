@@ -2,7 +2,7 @@
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
-Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die [E-Rezept-Profile](https://simplifier.net/E-Rezept) des genutzten FHIR-Standards.
+Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die [E-Rezept-Profile](https://simplifier.net/erezept-workflow) des genutzten FHIR-Standards.
 
 Auf den folgenden Seiten stellt die gematik die Nutzung der Schnittstellen durch die Primärsysteme der verordnenden Ärzte/Zahnärzte und der Apotheker sowie durch die E-Rezept-App vor.
 Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-Rezepts in den AppStores der beiden Plattformen iOS und Android verfügbar.
