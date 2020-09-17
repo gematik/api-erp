@@ -1,43 +1,532 @@
-= image:../../images/gematik_logo.jpg[width=35%] E-Rezept API Dokumentation
-Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich gegenüber der Telematikinfrastruktur zu authentisieren. 
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
 :toc-title: Inhaltsverzeichnis
-:toc:
+image:gematik_logo.jpg[width=35%] 
 
-// configure DE settings for asciidoc
-include::config.adoc[]
+= E-Rezept API-Dokumentation
+Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. 
+
+toc::[]
 
 = Als Nutzer gegenüber der Telematikinfrastruktur authentisieren
-Die Telematikinfrastruktur gestattet keinen Zugriff ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen.
+Die Telematikinfrastruktur gestattet keinen Zugriff auf Dienste ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services sowie in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen. + 
+
+Die Authentifizierung übernimmt mit der Einführung des E-Rezepts ein zentraler Identity Provider (IDP). Der IDP erkennt Nutzer anhand ihrer kartenbasierten Identitäten und stellt die Identitätsmerkmale (Name, KVNR bzw. Telematik-ID) der Zertifikate auf der Karte in ID_TOKEN und ACCESS_TOKEN für die Nutzung im E-Rezept-Fachdienst bereit.
 
 == Für Leistungserbringerinstitutionen
 *Nutzung der Institutionsidentität der SMC-B* +
-Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber einem IdentityProvider (IdP) unter Nutzung der Konnektorschnittstelle.
-[cols="a,2a,a", grid="all"]
-|================
-.2+| PVS |  .2+^.^| IdP
-| 
-3.+|Token oder Challenge bei noSession, wenn Token, dann hier fertig
-.2+| PVS |Außenschnittstelle SOAP external_authenticate(); .2+^.^| Konnektor
-| 
-3.+|
-.2+| PVS | .2+^.^| IdP
-| 
-3.+|
-|================
+Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber dem IdentityProvider (IDP) unter Nutzung der Konnektorschnittstelle.
 
+Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-knonw"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
+
+*Request*
+[cols="h,a"] 
+|===
+|URI        | `https://idp.ti-dienste.de/auth?<URL-PARAMETER>`
+[source,URL-Parameter]
+----
+response_type=code <1>
+scope=openid%20erezept <2>
+state=af0ifjsldkj <3>
+client_id=ZXJlemVwdC1hcHA <4>
+redirect_uri=https%3A%2F%2Fapp.erezept.com%2Fauthnres <5>
+code_challenge_method=S256 <6>
+code_challenge=S41HgHxhXL1CIpfGvivWYpbO9b_QKzva-9ImuZbt0Is <7>
+----
+<1> Das Primärsystem fordert einen Authorization-Code an.
+<2> Der Scope entspricht dem zwischen E-Rezept-Fachdienst und IDP festgelegten Wert, mit diesem antwortet der E-Rezept-Fachdienst bei fehlendem ACCESS_TOKEN und http-Statuscode 401. 
+<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern, indem der Server mit diesem Wert antwortet und somit Redirects legitmiert werden.
+<4> Die Client-ID des Primärsystems wird beim Registrieren des Primärsystems beim IDP festgelegt.
+<5> Die URL wird vom Primärsystem beim Registrierungsprozess im IDP hinterlegt und leitet die Antwort des Servers an diese Adresse um.
+<6> Das Primärsystem generiert einen Code-Verifier und erzeugt darüber einen Hash im Verfahren SHA-256, hier abgekürzt als `S256`
+<7> Der Hashwert des Code-Verifiers wird zum IDP als `Code-Challenge` gesendet.
+|Method     |GET
+|HTTP Header |
+----
+Host: idp.ti-dienste.de 
+Accept: application/json 
+User-Agent: Authenticator-App/1.0 <1> 
+----
+<1> Hiermit meldet der Client seine Produkttypversion.
+|Payload    | -
+|===
+
+*Response*
+[source,json]
+----
+HTTP/1.1 200 OK 
+Content-Type: application/json 
+Cache-Control: no-store 
+Pragma: no-cache
+
+{
+  "challenge": "Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdlX2hlYWRlcnMgPSB7IMKgIMKgICJ0eXAiOiJKT1NFK0pTT04iLCDCoCDCoCAiaWF0IjoxNTkxNzE0MjUyMzI2LCDCoCDCoCAiZXhwIjoxNTkxNzE0NTUyMzI2LCDCoCDCoCAianRpIjoiYzNhOGY5YzgtYWE2Mi0xMWVhLWFjMTUtNmI3YTMzNTVkMGY2IiwgwqAgwqAgInNuYyI6InNMbHhsa3NrQXl1emRET3dlOG5aZWVRVkZCV2dzY05rUmNwZ0htS2lkRmMiIH0gY2hhbGxlbmdlX3BheWxvYWQgPSB7IMKgIMKgICJyZXNwb25zZV90eXBlIjoiY29kZSIsIMKgIMKgICJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsIMKgIMKgICJjbGllbnRfaWQiOiJaWEpsZW1Wd2RDMWhjSEEiLCAic3RhdGUiOiJhZjBpZmpzbGRraiIswqAgwqAgwqAgInJlZGlyZWN0X3VyaSI6Imh0dHBzOi8vYXBwLmUtcmV6ZXB0LmNvbS9hdXRobnJlcyIsIMKgIMKgICJjb2RlX2NoYWxsZW5nZV9tZXRob2QiOiJTMjU2IiwgwqAgwqAgImNvZGVfY2hhbGxlbmdlIjoiUzQxSGdIeGhYTDFDSXBmR3ZpdldZcGJPOWJfUUt6dmEtOUltdVpidDBJcyIgfQ==", <1>
+  "user_consent": {
+    "client_name": "E-Rezept App",
+    "url": "https://prescriptionserver.telematik/",
+    "requested_scope": {
+      "openid": "Der Zugriff auf den ID-Token",
+      "e-rezept": "Zugriff auf die E-Rezept-Funktionalität."
+    },
+    "show_once": true,
+    "amr": ["JWT-Challenge-Response"],
+    "name": "Zustimmung zur Verarbeitung des Namens des Versicherten", <2>
+    "idNummer": "Zustimmung zur Verarbeitung der Krankenversichertennummer" <3>
+  }
+}
+----
+<1> Die vom Client mittels der eGK bzw. SMC-B zu signierende Challenge besteht aus einem Base64-codierten Challenge-Token.
+<2> An dieser Stelle meldet der IDP dem Client, welche Nutzer-Informationen der beim IDP registrierte E-Rezept-Fachdienst benötigt - hier den Namen des Nutzers. Der IDP verwendet bei Zustimmung den Namen wie er im AUT-Zertifikat hinterlegt ist.
+<3> Der E-Rezept-Fachdienst benötigt für die Verwaltung der E-Rezepte die KVNR des Versicherten bzw. die Telematik-ID der sich authentisierenden Praxis.
+
+NOTE: Neben den dargestellten Nutzerattributen erwartet der E-Rezept-Fachdienst außerdem die Angabe der *Nutzerrolle*, um die gesetzlich zulässigen Zugriffsregeln im E-Rezept-Prozess durchzusetzen, den *Namen des zugreifenden Nutzers* für eine für den Versicherten nachvollziehbare Protokollierung der Zugriffe auf dessen medizinischen Daten sowie die *technische Nutzerkennung* (KVNR bzw. Telematik-ID) für die Protokollierung für den Versicherten sowie die Zuordnung von Rezepten zum Versicherten als "Eigentümer".
+
+*Vorbereitende Schritte für die Authentifizierung mittels der eGK bzw. SMC-B* +
+1. Dem Nutzer soll der vom IDP bereitgestellte UserConsent angezeigt werden. Stimmt der Nutzer der Bereitstellung der Daten für den E-Rezept-Fachdienst nicht zu, muss der Authentifizierungsvorgang abgebrochen werden, da der Fachdienst ohne diese Informationen den E-Rezept-Workflow nicht umsetzen kann.
+2. Die vom IDP in der obigen Response übermittelte Challenge beinhaltet ein Challenge-Token in Base64-Codierung. Da die Signatur immer über einen Hashwert der zu signierenden Daten erfolgt, muss dieser Hashwert vom Clientsystem berechnet werden. Als kryptografisches Verfahren kommt hier SHA-256 zum Einsatz. Aus dem obigen Beispiel `Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdlX2hl...` ergibt sich folgender Hashwert: `5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95`
+
+*Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate)* +
+Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografischen Identität. Die Karte hält den privaten Schlüssel zu dieser Identität, welcher für die Signatur über eine Challenge des IDP genutzt wird. Zur Prüfung der Signatur benötigt der IDP das Zertifikat dieser Identität. Dieses enthält den öffentlichen Schlüssel für die kryptografische Signaturprüfung sowie weitere Nutzerinformationen (Name, KVNR/Telematik-ID, fachliche Rolle), die der IDP in Identitätsbestätigungen zur Nutzung gegenüber dem E-Rezept-Fachdienst attestiert. Der Abruf des Zertifikats erfolgt über die Konnektor-Operation `ReadCertificate`.
+
+[cols="h,a"] 
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: \"http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertificate\"
+----
+|Payload    |
+[source,xml]
+----
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<ns8:ReadCardCertificate xmlns:ns2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns6="http://ws.gematik.de/tel/error/v2.0" xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns8="http://ws.gematik.de/conn/CertificateService/v7.4" xmlns:ns9="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+			<ns5:CardHandle>smc-b_2</ns5:CardHandle>
+			<ns9:Context>
+				<ns5:MandantId>Mandant1</ns5:MandantId>
+				<ns5:ClientSystemId>myPVS</ns5:ClientSystemId>
+				<ns5:WorkplaceId>WP1</ns5:WorkplaceId>
+			</ns9:Context>
+			<ns8:CertRefList>
+				<ns8:CertRef>C.AUT</ns8:CertRef> <1>
+			</ns8:CertRefList>
+		</ns8:ReadCardCertificate>
+	</S:Body>
+</S:Envelope>
+----
+<1> Hier wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK 
+Content-Type: text/xml;charset=utf-8 
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns3:ReadCardCertificateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns3="http://ws.gematik.de/conn/CertificateService/v7.4" xmlns:ns4="http://ws.gematik.de/tel/error/v2.0" xmlns:ns5="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns6="http://www.w3.org/2000/09/xmldsig#" xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+			<Status>
+				<Result>OK</Result>
+			</Status>
+			<ns5:X509DataInfoList>
+				<ns5:X509DataInfo>
+					<ns5:X509Data>
+						<ns5:X509Certificate>MIIFBTCCA+2gAwIBAgIHAt7sgVDK2DANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxSDBGBgNVBAsMP0luc3RpdHV0aW9uIGRlcyBHZXN1bmRoZWl0c3dlc2Vucy1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLlNNQ0ItQ0EyNCBURVNULU9OTFkwHhcNMTgwNTI4MjIwMDAwWhcNMjMwNTI4MjE1OTU5WjCBuDELMAkGA1UEBhMCREUxHDAaBgNVBAgME05vcmRyaGVpbi1XZXN0ZmFsZW4xEjAQBgNVBAcMCUJpZWxlZmVsZDEOMAwGA1UEEQwFMzM2MDIxHzAdBgNVBAkMFkJhY2twdWx2ZXIgU3RyYXNzZSA3NzcxIDAeBgNVBAoMFzMtMjA0MjAxODA1MjkgTk9ULVZBTElEMSQwIgYDVQQDDBtXZXJ0aGVycyBBcG90aGVrZSBURVNULU9OTFkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCT17fIaS3MEvJjqKk1Zo0+2R9iC/BExwNNfYmtFS986tq5x9/EmsQ0JZc3caBfWAPHH6OfFuVg4BirPtiqr8GZ+5dkGOLx8tuVagtErJQ/yXyxfBF0ZgPPM14ITmKvg1OiIuSB4/orZey/EMM0Rc7F7H/4vxnfSWzwgFO02G4SGIaPVir3jbUeOMX49X9uLLTo7mqpPbRHE7reQTdbGyA2QovJKZzDJl2/na4YVYLG7KJcko5PHNhSuOhnoC9EwfPSSZnlWKCTuryDwYaPn4s0rvMDV6e6RVDJlTIDHkTG/ISnsymoiWsxWlabcgytHeuPkgXnG58V9zAekOL2vXNpAgMBAAGjggEuMIIBKjAdBgNVHQ4EFgQU1O2c+sJd7asul+IvNUN/4I1eCVUwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADBGBgUrJAgDAwQ9MDswOTA3MDUwMzAXDBXDlmZmZW50bGljaGUgQXBvdGhla2UwCQYHKoIUAEwENhMNMy0yMDQyMDE4MDUyOTAfBgNVHSMEGDAWgBR66eFv6hRZFgXuA+nT/SGr3unZnjAgBgNVHSAEGTAXMAoGCCqCFABMBIEjMAkGByqCFABMBE0wDgYDVR0PAQH/BAQDAgWgMEsGCCsGAQUFBwEBBD8wPTA7BggrBgEFBQcwAYYvaHR0cDovL29jc3AucGtpLnRlbGVtYXRpay10ZXN0OjgwODAvQ01PQ1NQL09DU1AwDQYJKoZIhvcNAQELBQADggEBACRapWTkdE/R0HbFjiFfdO6CK92yEkKUxewwJ9qRlZ5FoQWaJoGWRTeFD7Pk+lBznNyBYgCYRCG6RqIyRq6E5b0iwF/KM81iBx3sB3gb0eO3AF/0KAerI2V6iuX3ANpwhr+QOR69hOQaqQBgfTQOmXSGC6QiiK6pLf7D5tmHdGookXokZy1BLD1OWZsg1jVtRJpht5rozIA240/9KQ14eoQ0pF0NajgJ2KrF4syGb+hRTdTSdA94xN1W3azNcPGh2KClDWtOpiIK/NzTHHbsqRADpieiLa8ZJmjfoQFEwY3n/YsY5ZiDfzG+9nXRt9uSzZCQbFDGtzjR4eBaC32kcN4=</ns5:X509Certificate> <1>
+					</ns5:X509Data>
+				</ns5:X509DataInfo>
+			</ns5:X509DataInfoList>
+		</ns3:ReadCardCertificateResponse>
+	</soap:Body>
+</soap:Envelope>
+----
+<1> Der Konnektor liefert das Zertifikat zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
+
+[cols="a,a"] 
+|===
+|Code   |Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+*Signatur mit SMC-B erzeugen* +
+Die vom IDP bereitgestellte Challenge `Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdl...` muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
+Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95`.
+
+[cols="h,a"] 
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: \"http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticate\"
+----
+|Payload    |
+[source,xml]
+----
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap-env:Body>
+    <ns0:ExternalAuthenticate xmlns:ns0="http://ws.gematik.de/conn/SignatureService/v7.4">
+      <ns1:CardHandle xmlns:ns1="http://ws.gematik.de/conn/ConnectorCommon/v5.0">smc-b_2</ns1:CardHandle> <1>
+      <ns2:Context xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+        <ns3:MandantId xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0">Mandant1</ns3:MandantId>
+        <ns4:ClientSystemId xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0">myPVS</ns4:ClientSystemId>
+        <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
+      </ns2:Context>
+      <ns0:OptionalInputs>
+        <ns6:SignatureType xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema">urn:ietf:rfc:3447</ns6:SignatureType>
+        <ns0:SignatureSchemes>RSASSA-PKCS1-v1_5</ns0:SignatureSchemes>
+      </ns0:OptionalInputs>
+      <ns0:BinaryString>
+        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95</ns7:Base64Data> <2>
+      </ns0:BinaryString>
+    </ns0:ExternalAuthenticate>
+  </soap-env:Body>
+</soap-env:Envelope>
+----
+<1> Entsprechend der Mandantenkonfiguration wird hier die SMC-B referenziert, welche der IDP authentifizieren soll.
+<2> Der zu signierende Hashwert zur Challenge (Base64-Darstellung des Challengetoken, das zuvor vom IDP bezogen wurde).
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK 
+Content-Type: text/xml;charset=utf-8 
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ns4:ExternalAuthenticateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns4="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:ns5="http://www.w3.org/2000/09/xmldsig#" xmlns:ns6="http://ws.gematik.de/tel/error/v2.0" xmlns:ns7="http://uri.etsi.org/01903/v1.3.2#" xmlns:ns8="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns9="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns10="http://www.w3.org/2001/04/xmlenc#" xmlns:ns11="http://uri.etsi.org/02231/v2#" xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ns13="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion">
+      <Status>
+        <Result>OK</Result>
+      </Status>
+      <ns3:SignatureObject>
+        <ns3:Base64Signature Type="urn:ietf:rfc:3447">Z3BEWFNIMzQ3WFNWbXR2QWlvd0tadlphdmRyZEdIdGx1ejhRRGY4cXNBYnMzbGUvYUV6dkJEK294Z0N5UFJLcmhWdHJwMHVZQWh5aXV4MVVOdlpxak9tMkNiZC9vTXZVcUkxRWpSdEFZVWdzbUVXRFlxOThTcVN2RUlIMmhIMGdrSFB5TEU1MmhRdHJKVG9ZdmhndE5OZkFHNjJNRWJuanczdUtVSXEzQ3BjMTdhYVVRN3JtWEdHWURmWjJsUDUyT3Z0ZlJNOE03T3o2T3NlbjVLZzJwM2RoeCtyRVFQTU9aeTVLRDcxR3d6c3FocDVTd085SGtEQ0lkeUtZZ0dsNHgzbFRESCtpVjJZOWZvNnVIS1RoSCtnakJzendDMXNxM3I4VFpTb3hiOHpRZzQ1cW1KOU83cCtTUHhsTG4rU3hWTDVKaWU2aC9oSFVDYnpjUnJZZUd3PT0=</ns3:Base64Signature> <1>
+      </ns3:SignatureObject>
+    </ns4:ExternalAuthenticateResponse>
+  </soap:Body>
+</soap:Envelope>
+----
+<1> Dieses Element enthält die Signatur, die mittels Konnektor und dem privaten Schlüssel der SMC-B erstellt wurde.
+
+[cols="a,a"] 
+|===
+|Code   |Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+
+
+
+*Authenticator sendet Challenge an IdP-Dienst* +
+Das Authenticator-Modul überträgt ein "CHALLENGE_TOKEN" als Response auf die Challenge an den IdP-Dienst. Das "CHALLENGE_TOKEN" wird base64 codiert versendet und beinhaltet die signierte Challenge und das Authentifizierungszertifikat der Smartcard. 
+
+[cols="h,a"] 
+|===
+|URI        |https://idp.ti-dienste.de/sign_response
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/x-www-form-urlencoded
+----
+|Payload    |
+----
+signed_challenge=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpPU0UrSlNPTiIsIng..... <1>
+----
+<1> Hierbei handelt es sich um das signierte und verschlüsselte "CHALLENGE_TOKEN". Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt.
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 302 Found
+Location: https://app.erezept.com/authnres?code=eyJhbGciOiJkaXIiL... 
+&state=af0ifjsldkj <1> 
+----
+<1> Der Authorization-Endpunkt liefert den "AUTHORIZATION_CODE" innerhalb einer HTTP-Redirection (HTTP-Status Code 302) an das Primärsystem zurück. Der Wert des Attributs "location" der HTTP 302 Response ist nicht relevant.
+Es wird eine beispielhafte Response des Authorization-Endpunkt skizziert, dabei wird der "AUTHORIZATION_CODE", nur angedeutet.
+
+[cols="a,a"] 
+|===
+|Code   |Type Success  
+|302  | Found +
+[small]#Die Anfrage wurde erfolgreich bearbeitet und die angeforderte Ressource wurde gefunden. Es erfolgt eine HTTP-Redirection an das Primärsystem.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+*Einreichen des AUTHORIZATION_CODE* +
+Das Anwendungsfrontend sendet den Anfangs generierten "CODE_VERFIER" und den vom Authorization-Endpunkt erstellten"AUTHORIZATION_CODE" zum Token-Endpunkt des IDP-Dienstes.
+Der Token-Endpunkt validiert den "CODE_VERFIER" und gleicht diesen mit der "code_challenge" ab. Dann erzeugt er die erforderlichen Token und verschlüsselt das "ACCESS_TOKEN" für den empfangenden Fachdienst.
+
+[cols="h,a"] 
+|===
+|URI        |https://idp.ti-dienste.de/token
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/x-www-form-urlencoded
+----
+|Payload    |
+[source,xml]
+----
+grant_type=authorization_code
+&code=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIiwiZXhwIjoxNTkx.....
+&redirect_uri=https%3A%2F%2Fapp.erezept.com%2Fauthnres
+&code_verifier=MApN61C4itdm4-58dCjMkoucuu00jipPlNibsAxjyJk
+----
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK
+Content-Type: application/json
+Cache-Control: no-store
+Pragma: no-cache
+
+{"token_type": "Bearer",
+ "expires_in": 300,
+ "id_token": "...",
+ "access_token": "...",
+}
+----
+
+[cols="a,a"] 
+|===
+|Code   |Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
 
 == Für Versicherte mit ihren Smartphones
 *Nutzung der Gesundheitskarte oder der Alternativen Versichertenidentität* +
-Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektroniscchen Gesundheitskarte aus, entweder kartengebunden mittels eGK an einem Kartenlesegerät bzw. NFC oder über die von ihrer Kasse bereitgestellten alternativen Versichertenidentität. 
-[cols="a,2a,a", grid="all"]
-|================
-.2+| E-Rezept App |  .2+^.^| IdP
-| 
-3.+|Token oder Challenge bei noSession, wenn Token, dann hier fertig
-.2+| Authenticator-App | Mittels Karte oder al.vi .2+^.^| IdP
-| 
-3.+|
-.2+| E-Rezept-App | .2+^.^| IdP
-| 
-3.+|
-|================
+Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte aus, entweder kartengebunden mittels eGK an einem Kartenlesegerät bzw. NFC oder über die von ihrer Kasse bereitgestellten alternativen Versichertenidentität. 
+
+Die E-Rezept-App adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de` dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-knonw"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
+
+
+
+
+
+= Verschlüsselter Transportkanal zur Vertrauenswürdigen Ausführungsumgebung ("VAU-Transport")
+Der Einsatz moderner Transportverschlüsselung ab TLS 1.2 schützt vor der Einsicht sensibler Daten beim Transport über das Internet. Dabei sind sowohl die Daten des HTTP-Body als auch die aufgerufene URL und die HTTP-Header verschlüsselt. In modernen Cloud-Infrastrukturen enden solche TLS-Verbindungen meist an einem Internetgateway, müssen jedoch in einer Serverinfrastruktur häufig zu dahinterliegenden Applicationservern und -diensten weitertransportiert werden. 
+
+Um sensible Daten bis hinein in einen vertrauenswürdigen Ausführungskontext verschlüsselt zu transportieren, erfolgt der Zugang zum E-Rezept-Fachdienst mit einer zusätzlichen Transportverschlüsselung für eine kryptografische Identität der vertrauenswürdigen Ausführungsumgebung (VAU). Dabei werden die Daten des HTTP-Body für den Verarbeitungskontext der VAU  um einen symmetrischen Antwortschlüssel ergänzt und anschließend asymmetrisch verschlüsselt. Dieser verschlüsselte HTTP-Request wird dann mittels TLS transportverschlüsselt an den E-Rezept-Fachdienst übergeben. 
+
+image:api_vau_transport.png[width=80%]
+
+NOTE: Das Diagramm inkl. der konkreten Ablaufbeschreibung befindet sich auch im Spezifikationsdokument [gemSpec_Krypt] in Kapitel 7.
+
+Die VAU des E-Rezept-Fachdienstes erzeugt eine HTTP-Response entsprechend des Workflows im E-Rezept und verschlüsselt diese Response symmetrisch mit dem vom Client bereitgestellten Antwortschlüssel. Die verschlüsselte Response wird anschließend mittels TLS transportverschlüsselt an den Client zurückgegeben.
+
+Ein zusätzlich in den Aufrufen vom E-Rezept-Fachdienst generiertes, wechselndes Nutzerpseudonym wirkt zusätzlich Überlastungsangriffen entgegen, indem Aufrufe ohne Nutzerpseudonym mit einer geringeren Priorität bearbeitet werden.
+
+== Verbindungsaufbau zum E-Rezept-Fachdienst
+Zunächst muss das Verschlüsselungszertifikat der VAU vom E-Rezept-Fachdienst abgerufen werden. 
+
+[cols="h,a"] 
+|===
+|URI        |https://prescriptionserver.telematik/VAUCertificate
+|Method     |GET
+|HTTP Header |-
+|Payload    | -
+|Response |
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/pkix-cert 
+
+1100110001111111000000011011000010100111100001111000010010111001...
+----
+|===
+
+Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die erweiterte Prüfung des Verschlüsselungszertifikats bereit.
+
+[cols="h,a"] 
+|===
+|URI        |https://prescriptionserver.telematik/VAUCertificateOCSPResponse
+|Method     |GET
+|HTTP Header |-
+|Payload    | -
+|Response |
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/ocsp-response 
+
+100100100110001011110001110111011000110000101111101100100111011...
+----
+|===
+
+== Request versenden
+Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Request für die VAU in mehreren Schritten aufbereitet. Als Beispiel wird im Folgenden die Abfrage aller E-Rezepte eines Versicherten verwendet.
+[source,json]
+----
+GET /Task HTTP/1.1
+Host: prescriptionserver.telematik
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+User-Agent: E-Rezept FdV 1.0.0
+Accept: application/fhir+json;charset=utf-8
+----
+Zunächst müssen im Client eine zufällige Request-ID (z.B. `b69f01734f34376ddcdbdbe9af18a06f`) und ein symmetrischer Antwortschlüssel (z.B. `16bac90134c635e4ec85fae0e4885d9f`) generiert werden. +
+Als nächstes wird die folgende leerzeichengetrennte Zeichenkette `p` für die anschließende Verschlüsselung gebildet: `p="1" + " " + ACCESS_TOKEN + " " + Request-ID + " " + Antwortschlüssel + " " + HTTP-Request`, mit obigem Beispiel ergibt sich für `p`:
+[source,json]
+----
+"1 eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J b69f01734f34376ddcdbdbe9af18a06f 16bac90134c635e4ec85fae0e4885d9f GET /Task HTTP/1.1
+Host: prescriptionserver.telematik
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+User-Agent: E-Rezept FdV 1.0.0
+Accept: application/fhir+json;charset=utf-8"
+----
+Diese Zeichenkette wird nun mit dem ECIES-Verfahrens [SEC1-2009] und dem öffentlichen Schlüssel aus dem zuvor abgerufenen Verschlüsselungszertifikat der VAU hybrid verschlüsselt. Sei `1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100` ein unvollständiges Beispiel für das Ergebnis der Verschlüsselungsoperation. Dieses wird nun als Payload im HTTP-Body des folgenden Requests an den E-Rezept-Fachdienst übergeben.
+
+[cols="h,a"] 
+|===
+|URI        |https://prescriptionserver.telematik/VAU/0
+|Method     |POST
+|HTTP Header |`Content-Type: application/octet-stream` 
+|HTTP Body   |`1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100`
+|Response |
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Userpseudonym: 270810c79748768a9b0aefbf52c8d72be7ad5e0d2d328d9bb70dbf58623fc7ae
+
+001111101111100110001001001111010110010010111110101100100011110...
+----
+|===
+NOTE: Die `0` am Ende der URL des Requests steht für ein (dem Client nicht bekanntes) Nutzerpseudonym, nach der ersten Antwort der VAU des E-Rezept-Fachdienstes kann das vom Fachdienst mitgeteilte `Userpseudonym` `270810c79748768a9b0aefbf52c8d72be7ad5e0d2d328d9bb70dbf58623fc7ae` anstelle der `0` verwendet werden, um Folgezugriffe höher zu priorisieren.
+
+
+== Response verarbeiten
+Nach dem erfolgreichen Abschluss der Bearbeitung des Requests durch die VAU des E-Rezept-Fachdienstes erhält der Client die verschlüsselte HTTP-Response der VAU in einer äußeren "VAU-Transport"-HTTP-Response.
+Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstellung der verschlüsselten Antwort. Die innere HTTP-Response des fachlichen Ergebnisses aus der VAU kann dabei einen abweichenden HTTP-Statuscode beinhalten, wenn aufgrund der Daten oder Verarbeitung innerhalb der VAU Fehlerzustände eintreten oder ungültige Daten übergeben wurden. Sei `001111101111100110001001001111010110010010111110101100100011110...` die verschlüsselte Response zum obigen Beispiel. Die Entschlüsselung mit dem für den Request generierten Antwortschlüssel `16bac90134c635e4ec85fae0e4885d9f`mittels AES-GCM liefert die innere HTTP-Response der VAU als leerzeichengetrennte Zeichenkette:
+[source,json]
+----
+1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+
+{
+  "resourceType": "Bundle",
+  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "meta": {
+    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "link": [{
+    "relation": "self",
+    "url": "https://prescriptionserver.telematik/Task/"
+  }],
+  "entry": [{
+    "fullUrl": "https://prescriptionserver.telematik/Task/588780",    
+    "resource": {
+      "resourceType": "Task",
+      "id":"588780",
+      "meta": {
+        "profile":  [
+            "https://gematik.de/fhir/StructureDefinition/eRxTask"
+        ]
+      },
+      "extension":  [{
+        "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
+        "valueCoding": {
+          "system": "https://gematik.de/fhir/CodeSystem/Flowtype",
+          "code": "160",
+          "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+        }
+      }, {
+        "url": "https://gematik.de/fhir/StructureDefinition/AcceptDate",
+        "valueDateTime": "2020-03-02T08:25:05+00:00"
+      }, {
+        "url": "https://gematik.de/fhir/StructureDefinition/ExpiryDate",
+        "valueDateTime": "2020-05-02T08:25:05+00:00"
+      }],
+      "identifier":  [{
+        "system": "https://gematik.de/fhir/Namingsystem/PrescriptionID",
+        "value": "160.123.456.789.123.58"
+      }, {
+        "system": "https://gematik.de/fhir/Namingsystem/AccessCode",
+        "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+      }, {
+        "system": "https://gematik.de/fhir/Namingsystem/Secret",
+        "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
+      }],
+      "status": "in-progress",
+      "intent": "order",
+      "for": {
+        "identifier": {
+          "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+          "value": "X123456789"
+        }
+      },
+      "authoredOn": "2020-03-02T08:25:05+00:00",
+      "lastModified": "2020-03-02T08:45:05+00:00",
+      "performerType":  [{
+        "coding":  [{
+          "system": "urn:ietf:rfc:3986",
+          "code": "urn:oid:1.2.276.0.76.4.54",
+          "display": "Öffentliche Apotheke"
+        }]
+      }],
+      "input":  [{
+        "type": {
+          "coding":  [{
+            "system": "https://gematik.de/fhir/CodeSystem/Documenttype",
+            "code": "1",
+            "display": "Health Care Provider Prescription"
+          }]
+        },
+        "valueReference": {
+          "reference": "Bundle/KbvPrescriptionExample"
+        }
+      }]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }]
+}
+----
+
+NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body
+
+WARNING: Ein Splitten der inneren Struktur anhand des Leerzeichens " " könnte dazu führen, dass auch der Payload im inneren HTTP-Response-Body zerstückelt wird. Robuster ist das Prüfen auf Vorhandensein der ursprünglichen Request-ID und anschließendes Entfernen des von der VAU hinzugefügten Präfixes `"1" + " " + ursprüngliche-Request-ID + " "`. Nun kann die innere HTTP-Response standardgemäß weiterverarbeitet werden.
+
+
