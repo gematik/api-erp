@@ -23,7 +23,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
 toc::[]
 
 ==  Anwendungsfälle E-Rezept als Versicherter verwalten
-Der Versicherte hat mit der E-Rezept-App die Möglichkeit, seine E-Rezepte zu verwalten, Zugriffsprptokolle einzusehen und sich zusätzliche Informationen über das herausgegebene Medikament herunterzuladen. +
+Der Versicherte hat mit der E-Rezept-App die Möglichkeit, seine E-Rezepte zu verwalten, Zugriffsprotokolle einzusehen und sich zusätzliche Informationen über das herausgegebene Medikament herunterzuladen. +
 Verzichtet er bei der Handhabung des E-Rezepts auf einen Papierausdruck in der Arztpraxis, erfolgt die Einlösung des E-Rezeptes ebenso über die E-Rezept-App. Dafür generiert die E-Rezept-App aus den heruntergeladenen E-Rezept-Daten einen 2D-Code (DataMatrix-Darstellung), den er in der Apotheke vom Bildschirm seines Smartphones abscannen lässt. Mit den abgescannten Informationen link:./erp_abrufen.adoc[erhält der Apotheker die Adresse und Zugriffsberechtigung] des E-Rezepts, um seinerseits das E-Rezept herunterzuladen und den Versicherten dann mit dem Medikament versorgen zu dürfen. +
 
 Einige der nachfolgenden UseCases sind auch für Vertreter des Versicherten vorgesehen, dabei sind sie bspw. berechtigt, ein E-Rezept einzusehen bzw. herunterzuladen, wenn sie im Wissen um den zugehörigen AccessCode sind, den sie vom Versicherten mitgeteilt bekommen (z.B. durch Abscannen des 2D-Codes vom Smartphone des Versicherten). +
@@ -31,7 +31,7 @@ Einige der nachfolgenden UseCases sind auch für Vertreter des Versicherten vorg
 Die Kommunikation zwischen Versicherten und einer Apotheke über E-Rezepte erfolgt ebenfalls über den Dienst zur Verwaltung der E-Rezepte. Aus Gründen der besseren Lesbarkeit und der Darstellung der Zusammenhänge zwischen Anfrage zur Verfügbarkeit eines Medikaments und der Antwort einer Apotheke erfolgt die Beschreibung über das link:./erp_communication.adoc[an dieser Stelle verlinkte Dokument].
 
 == Profilierung
-In diesen Anwendungsfällen werden die FHIR-Resourcen "Task": http://hl7.org/fhir/task.html und AuditEvent https://www.hl7.org/fhir/auditevent.html verwendet. Die Ressource Bundle https://www.hl7.org/fhir/bundle.html kommt in ihrem Standardprofil als Suchergebnis und zusätzlich als signiertes Dokument der Verordnung und als Quittung zur Anwendung.
+In diesen Anwendungsfällen werden die FHIR-Resourcen Task http://hl7.org/fhir/task.html und AuditEvent https://www.hl7.org/fhir/auditevent.html verwendet. Die Ressource Bundle https://www.hl7.org/fhir/bundle.html kommt in ihrem Standardprofil als Suchergebnis und zusätzlich als signiertes Dokument der Verordnung und als Quittung zur Anwendung.
 Diese werden für das E-Rezept profiliert und werden hier spezifiziert: +
 Task: https://simplifier.net/erezept-workflow/gemerxtask   +
 AuditEvent: https://simplifier.net/erezept-workflow/gemerxauditevent  
@@ -446,7 +446,7 @@ In DataMatrix-Darstellung gemäß ISO/IEC 16022:2006
 
 In QR-Code-Darstellung gemäß ISO/IEC 18004:2006
 |================
-NOTE: Aktuell unterstüten die Apothekenverwaltungssysteme auf Basis des SecurPharm-System in jedem Fall das DataMatrix-Format. 
+NOTE: Aktuell unterstützen die Apothekenverwaltungssysteme auf Basis des SecurPharm-Systems in jedem Fall das DataMatrix-Format. 
 
 // horizontal line
 ***
