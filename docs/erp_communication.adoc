@@ -342,7 +342,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
     </payload>
 </Communication>
 ----
-<1> Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier dargestellt von den angefragten Optionenn bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern. 
+<1> Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier dargestellt von den angefragten Optionen bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern. 
 <2> Der `AvailabilityStatus` gibt mit dem Beispielwert `10` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
 |===
 
@@ -425,7 +425,7 @@ s|Code   s|Type Error
 ==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
 Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. 
 
-Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
+Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
 *Request*
@@ -463,7 +463,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
   }]
 }
 ----
-<1> Mit der Übergabe der Referenz auf den E-REzept-Task inkl. des `AccessCodes` ist die Apotheke berechtigt das E-Rezept heruntzerzuladen und zu beliefern.
+<1> Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` ist die Apotheke berechtigt das E-Rezept herunterzuladen und zu beliefern.
 <2> Mit diesem Beispiel wird beispielhaft gezeigt, dass der Versicherte das E-Rezept in einer Apotheke einlöst, die ihn als Kunden kennt (Stammapotheke). 
 |===
 
@@ -620,7 +620,7 @@ Content-Type: application/fhir+json;charset=utf-8
   }]
 }
 ----
-<1> Die abgerufene Nachricht enthält kein Element `received`, da die Nahricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=null` kein ERgebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
+<1> Die abgerufene Nachricht enthält kein Element `received`, da die Nahricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=null` kein Ergebnis liefert, da keine neuen bzw. ungelesenen Nachrichten vorhanden sind.
 <2> Hier ist die Empfänger-ID (in diesem Fall Versicherten-ID) des Adressaten angegeben, über die die Nachrichten beim Abruf gemäß der Nutzerkennung im übergebenen ACCESS_TOKEN gefiltert werden.
 
 
