@@ -48,11 +48,11 @@ code_challenge_method=S256 <6>
 code_challenge=S41HgHxhXL1CIpfGvivWYpbO9b_QKzva-9ImuZbt0Is <7>
 ----
 <1> Das Primärsystem fordert einen Authorization-Code an.
-<2> Der Scope entspricht dem zwischen E-Rezept-Fachdienst und IDP festgelegten Wert, mit diesem antwortet der E-Rezept-Fachdienst bei fehlendem ACCESS_TOKEN und http-Statuscode 401. 
-<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern, indem der Server mit diesem Wert antwortet und somit Redirects legitmiert werden.
+<2> Der Scope entspricht dem zwischen E-Rezept-Fachdienst und IDP festgelegten Wert. Mit diesem antwortet der E-Rezept-Fachdienst bei fehlendem ACCESS_TOKEN und http-Statuscode 401. 
+<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern. Indem der Server mit diesem Wert antwortet werden Redirects legitmiert.
 <4> Die Client-ID des Primärsystems wird beim Registrieren des Primärsystems beim IDP festgelegt.
 <5> Die URL wird vom Primärsystem beim Registrierungsprozess im IDP hinterlegt und leitet die Antwort des Servers an diese Adresse um.
-<6> Das Primärsystem generiert einen Code-Verifier und erzeugt darüber einen Hash im Verfahren SHA-256, hier abgekürzt als `S256`
+<6> Das Primärsystem generiert einen Code-Verifier und erzeugt darüber einen Hash im Verfahren SHA-256, hier abgekürzt als `S256`.
 <7> Der Hashwert des Code-Verifiers wird zum IDP als `Code-Challenge` gesendet.
 |Method     |GET
 |HTTP Header |
@@ -333,8 +333,8 @@ Pragma: no-cache
 |===
 
 == Für Versicherte mit ihren Smartphones
-*Nutzung der Gesundheitskarte oder der Alternativen Versichertenidentität* +
-Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte aus, entweder kartengebunden mittels eGK an einem Kartenlesegerät bzw. NFC oder über die von ihrer Kasse bereitgestellten alternativen Versichertenidentität. 
+*Nutzung der Gesundheitskarte* +
+Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte mittels NFC aus.
 
 Die E-Rezept-App adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de` dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-knonw"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
 
@@ -461,7 +461,7 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
       "id":"588780",
       "meta": {
         "profile":  [
-            "https://gematik.de/fhir/StructureDefinition/eRxTask"
+            "https://gematik.de/fhir/StructureDefinition/ErxTask"
         ]
       },
       "extension":  [{
@@ -479,13 +479,13 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
         "valueDateTime": "2020-05-02T08:25:05+00:00"
       }],
       "identifier":  [{
-        "system": "https://gematik.de/fhir/Namingsystem/PrescriptionID",
+        "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
         "value": "160.123.456.789.123.58"
       }, {
-        "system": "https://gematik.de/fhir/Namingsystem/AccessCode",
+        "system": "https://gematik.de/fhir/NamingSystem/AccessCode",
         "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
       }, {
-        "system": "https://gematik.de/fhir/Namingsystem/Secret",
+        "system": "https://gematik.de/fhir/NamingSystem/Secret",
         "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
       }],
       "status": "in-progress",

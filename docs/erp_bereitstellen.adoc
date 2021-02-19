@@ -100,17 +100,17 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
   <meta>
     <versionId value="1"/>
     <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
-    <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
     <source value="#AsYR9plLkvONJAiv"/>
   </meta>
   <identifier>
     <use value="official"/>
-    <system value="https://gematik.de/fhir/Namingsystem/PrescriptionID"/>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
     <value value="160.123.456.789.123.58"/> <1>
   </identifier>
   <identifier>
     <use value="official"/>
-    <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
+    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
     <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/> <2>
   </identifier>
   <status value="draft"/>
@@ -173,7 +173,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
 |===
 
 == E-Rezept qualifiziert signieren
-Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Tasks im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/Namingsystem/PrescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/Namingsystem/PrescriptionID` eingebettet. 
+Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Tasks im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/NamingSystem/PrescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/NamingSystem/PrescriptionID` eingebettet. 
 
 Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller Value Sets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
 
@@ -189,7 +189,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
         <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.00.000" />
     </meta>
     <identifier>
-        <system value="https://gematik.de/fhir/Namingsystem/PrescriptionID" />
+        <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
         <value value="160.123.456.789.123.58" />
     </identifier>
     <type value="document" />
@@ -596,7 +596,11 @@ Dieses E-Rezept-Bundle in XML-Darstellung muss nun digital unterschrieben (quali
 Um Fehler in der Signaturprüfung zu vermeiden, wird die Kanonisierung des Dokuments vor der Signaturerstellung empfohlen. Diese Kanonsierung normalisiert das Dokument nach definierten Regeln, damit das signaturerstellende System genauso wie das signaturprüfende System ein exakt identisches Dokument in der Erstellung und Prüfung verwenden.
 Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln https://www.w3.org/TR/2008/REC-xml-c14n11-20080502/ für Canonical XML Version 1.1 für XML-Dokumente zum Einsatz.
 
-Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle.
+Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die QES-Erstellung sind mindestens folgende Konnektor-Versionen der drei Konnektoren notwendig: 
+
+* KoCoBOX MED+ 2.3.24:2.0.0 
+* RISE Konnektor 2.1.0:1.0.0 
+* secunet Konnektor 2.1.0 
 
 *Request*
 [cols="h,a"] 
@@ -731,15 +735,17 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |Payload    |
 [source,xml]
 ----
-<parameter>
-  <name value="erxBinary" />
-  <resource>
-    <Binary>
-      <contentType value="application/pkcs7-mime" />
-      <data value="MIJVqgYJKoZIhvcNAQcCoIJVmzCCVZcCAQExDzAN..." /> <1>
-    </Binary>
-  </resource>
-</parameter>
+<Parameters xmlns=\"http://hl7.org/fhir\">
+    <parameter>
+        <name value="ePrescription" />
+        <resource>
+            <Binary>
+                <contentType value="application/pkcs7-mime" />
+                <data value="MIJVqgYJKoZIhvcNAQcCoIJVmzCCVZcCAQExDzAN..." /> <1>
+            </Binary>
+        </resource>
+    </parameter>
+</Parameters>
 ----
 <1> Hierbei handelt es sich um die base64 codierte Repräsentation der enveloping Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt.
 
@@ -758,16 +764,16 @@ Content-Location:
     <versionId value="2"/>
     <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
     <source value="#AsYR9plLkvONJAiv"/>
-    <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
   </meta>
   <identifier>
     <use value="official"/>
-    <system value="https://gematik.de/fhir/Namingsystem/PrescriptionID"/>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
     <value value="160.123.456.789.123.58"/>
   </identifier>
   <identifier>
     <use value="official"/>
-    <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
+    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
     <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
   </identifier>
   <identifier>

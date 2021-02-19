@@ -1,224 +1,80 @@
 <Bundle xmlns="http://hl7.org/fhir">
-  <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
-  <meta>
-    <lastUpdated value="2020-03-20T07:31:34.328+00:00"/>
-    <profile value="https://gematik.de/fhir/StructureDefinition/erxReceipt" />
-  </meta>
-  <identifier>
-    <use value="official"/>
-    <system value="https://gematik.de/fhir/Namingsystem/prescriptionID"/>
-    <value value="160.123.456.789.123.58"/>
-  </identifier>
-  <type value="document"/>
-  <timestamp value="2020-03-20T07:31:34.328+00:00" />
-  <entry>
-    <fullUrl value="https://gematik.de/fhir/erxComposition/e002e972-fa62-4dee-a650-23575c0f8701" />
-    <resource>
-      <Composition>
-        <id value="e002e972-fa62-4dee-a650-23575c0f8701" />
-        <meta>
-          <profile value="https://gematik.de/fhir/StructureDefinition/erxComposition" />
-        </meta>
-        <status value="final" />
-        <type>
-          <code>
-            <coding>
-              <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE" />
-              <code value="3" />
-            </coding>
-          </code>
-        </type>
-        <date value="2020-03-20T07:31:34.328+00:00" />
-        <author>
-          <reference value="urn:uuid:6b007bdf-c50a-4e69-9db2-6c67092057f6" />
-        </author>
-        <title value="Quittung E-Rezept-Belieferung" />
-        <subject>
-          <reference value="urn:uuid:281a985c-f25b-4aae-91a6-41ad744080b0" />
-        </subject>
-        <section>
-          <code>
-            <coding>
-              <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE" />
-              <code value="3" />
-            </coding>
-          </code>
-          <entry>
-            <reference value="4711" />
-          </entry>
-        </section>
-      </Composition>
-    </resource>
-  </entry>  
-  <entry>
-    <resource>
-      <Device xmlns="http://hl7.org/fhir">
-      <id value="6b007bdf-c50a-4e69-9db2-6c67092057f6"/>
-      <meta>
-        <profile value="https://gematik.de/fhir/StructureDefinition/erxDevice"/>
-        </meta>
-        <status value="active"/>
-        <serialNumber value="R4.0.0.287342834"/>
-      </Device>  
-    </resource>
-    <fullUrl value="https://prescriptionserver.telematik/Task/4711"/>
-    <resource>
-      <Task>
-        <id value="4711"/>
-        <meta>
-          <versionId value="2"/>
-          <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/erxTask"/>
-        </meta>
-        <identifier>
-          <use value="official"/>
-          <system value="https://gematik.de/fhir/Namingsystem/prescriptionID"/>
-          <value value="160.123.456.789.123.58"/>
-        </identifier>
-        <identifier>
-          <use value="official"/>
-          <system value="https://gematik.de/fhir/Namingsystem/accessCode"/>
-          <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
-        </identifier>
-        <identifier>
-          <use value="official"/>
-          <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
-          <value value="X123456789"/>
-        </identifier>
-        <identifier>
-          <system value="https://gematik.de/fhir/Namingsystem/secret"/>
-          <value value="c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"/>
-        </identifier>
-        <status value="in-progress"/>
-        <intent value="order"/> 
-        <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
-          <valueCodeableConcept>
-            <coding>
-                <system value="https://gematik.de/fhir/CodeSystem/FLOWTYPE" />
-                <code value="160" />
-                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-            </coding>
-          </valueCodeableConcept>
-        </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
-          <valueDateTime value="2020-06-02" />
-        </extension>
-        <extension url="https://example.org/fhir/StructureDefinition/AcceptDate">
-          <valueDateTime value="2020-04-01" />
-        </extension>
-        <authoredOn value="2020-03-02T08:25:05+00:00"/>
-        <lastModified value="2020-03-02T08:45:05+00:00"/>
-        <performerType>
-          <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
-            <code value="1.2.276.0.76.4.32"/>
-            <display value="Apotheke"/>
-          </coding>
-          <text value="Apotheke"/>
-        </performerType>
-        <input> 
-          <type> 
-            <coding> 
-              <system value="https://gematik.de/fhir/CodeSystem/DOCUMENTTYPE"/> 
-              <code value="1"/> 
-            </coding> 
-          </type> 
-          <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/> 
-        </input> 
-      </Task>
-    </resource>
-  </entry>
-  <entry>
-    <resource>
-      <Bundle xmlns="http://hl7.org/fhir">
-        <id value="281a985c-f25b-4aae-91a6-41ad744080b0" />
-        <meta>
-          <lastUpdated value="2020-02-03T12:30:02Z" />
-          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0" />
-        </meta>
-        <identifier>
-          <system value="https://gematik.de/fhir/Namingsystem/prescriptionID" />
-          <value value="160.123.456.789.123.58" />
-        </identifier>
-        <type value="document" />
-        <timestamp value="2020-02-03T12:30:02Z" />
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876" />
-          <resource>
-            <Composition>...</Composition>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
-          <resource>
-            <MedicationRequest>...</MedicationRequest>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
-          <resource>
-            <Medication>...</Medication>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
-          <resource>
-            <Patient>...</Patient>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
-          <resource>
-            <Practitioner>...</Practitioner>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b" />
-          <resource>
-            <Organization>...</Organization>
-          </resource>
-        </entry>
-        <entry>
-          <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
-          <resource>
-            <Coverage>...</Coverage>
-          </resource>
-        </entry>
-        <signature>
-          <type>
-            <coding>
-              <system value="http://hl7.org/fhir/ValueSet/signature-type" /> 
-              <code value="1.2.840.10065.1.12.1.1" />
-            </coding>
-          </type>
-          <when value="2020-02-03T12:32:00Z"/>
-          <who>
-            <reference value="urn:uuid:20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
-          </who>
-          <data>
-            MIIIFQYJKoZIhvcNAQcCoIIIBjCCCAICAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGgggUYMIIFFDCCA/ygAwIBAgIHAVcOPSLLyDANBgkqhkiG9w0BAQsFADBQMQswCQYDVQQGEwJERTEfMB0GA1UECgwWZ2VtYXRpayBHbWJIIE5PVC1WQUxJRDEgMB4GA1UEAwwXR0VNLkhCQS1xQ0EyNCBURVNULU9OTFkwHhcNMTgwMzI5MDAwMDAwWhcNMjMwMzI4MjM1OTU5WjBxMSAwHgYDVQQDDBdTaWdyaWQgQWRhbWnDp1RFU1QtT05MWTEPMA0GA1UEKgwGU2lncmlkMRAwDgYDVQQEDAdBZGFtacOnMR0wGwYDVQQFExQ4MDI3Njg4MzExMDAwMDA5NDgxMjELMAkGA1UEBhMCREUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnfkHF12U7c/oeszDMGxX3tVbjSmNI7MghDapRfwmqcTkDUYxMTV8KDWW3YcqlckoQ8oXBNtKvd9QY1mwHdeReCqTtNGYiEMoRnB8XfvLo56y8c4bqEgWqTyUYHC9WvoySTwOvl0oWyS9taoeaQFpRdBSjusYY+8dJkP9DX/gHr9KwRKxYeKt+gpwoyuZE/yoOodxttcx1TdHAFm8cdzG5d1BquYTqIvfWGAtFykyvsxJkpOXEQ56jqx8gbTcsrhJllxIpY0i2sNQVMe/q9OGS3JyriIpfwZa77ljWeomdMvi0zEGPj8X7Vt8NiBkxCFk2y8Q9zDgb3Yvxo1em6PBhAgMBAAGjggHQMIIBzDAdBgNVHQ4EFgQUwRMJSPLHm5kZwk9x/V3+vueO4ZswDAYDVR0TAQH/BAIwADCBlAYFKyQIAwMEgYowgYekKDAmMQswCQYDVQQGEwJERTEXMBUGA1UECgwOZ2VtYXRpayBCZXJsaW4wWzBZMFcwVTAnDCVQc3ljaG9sb2dpc2NoZS8tciBQc3ljaG90aGVyYXBldXQvLWluMAkGByqCFABMBC4THzQtSEJBLVRlc3RrYXJ0ZS04ODMxMTAwMDAwOTQ4MTIwGwYJKwYBBAHAbQMFBA4wDAYKKwYBBAHAbQMFATAiBggrBgEFBQcBAwQWMBQwCAYGBACORgEBMAgGBgQAjkYBBDAfBgNVHSMEGDAWgBRnnDG26cA36h0bgeek9TvMHhcBOTBHBgNVHSAEQDA+MAkGByqCFABMBEgwCQYHBACL7EABAjAYBggqghQATASBETAMMAoGCCsGAQUFBwIBMAwGCisGAQQBgs0zAQEwDgYDVR0PAQH/BAQDAgZAMEsGCCsGAQUFBwEBBD8wPTA7BggrBgEFBQcwAYYvaHR0cDovL29jc3AucGtpLnRlbGVtYXRpay10ZXN0OjgwODAvQ01PQ1NQL09DU1AwDQYJKoZIhvcNAQELBQADggEBAFKBTDYjD/HYGxNoavrWUXAdHkzsJXWTKvXD/uOmXWTSmAZb14XDgZIClDnrDitNx+BCOAovBLv8RlL7YWyWOtdaDRqVS6IUj8se2K0gjrU6BuCojIq370t5cnETjx7jdxiHJh+mVUmbi4dIx2EvYwpK4+2cyHswI8gnwfZml4lDOCW1k62RnyhKc5ndgke/MkamgjVSPVDDvApBI9KU11yuRvsW3x/Ac/6LdSWLt6RiNjVSFImhs9LHFwyrgNM75LX6jgQ7tsOXP3ZUJ5ivmEHyugVEEMer0oU8Axp1y+/Q/0m4uBwQZ9gb7RDiARJCszxJklJ86djt9G/33Tp+56sxggLBMIICvQIBATBbMFAxCzAJBgNVBAYTAkRFMR8wHQYDVQQKDBZnZW1hdGlrIEdtYkggTk9ULVZBTElEMSAwHgYDVQQDDBdHRU0uSEJBLXFDQTI0IFRFU1QtT05MWQIHAVcOPSLLyDANBglghkgBZQMEAgEFAKCCATcwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAwMzEyMTQ0MjMxWjAtBgkqhkiG9w0BCTQxIDAeMA0GCWCGSAFlAwQCAQUAoQ0GCSqGSIb3DQEBCwUAMC8GCSqGSIb3DQEJBDEiBCAtN3LfYcqlpQgS/NcvuF9ffpmwXyVtKm9IqW2N6oXPqzCBnAYLKoZIhvcNAQkQAi8xgYwwgYkwgYYwgYMEIHVRn3sG5d7t9/RtbJSZx4MzyY7ud7/p0KUK7ivveRe7MF8wVKRSMFAxCzAJBgNVBAYTAkRFMR8wHQYDVQQKDBZnZW1hdGlrIEdtYkggTk9ULVZBTElEMSAwHgYDVQQDDBdHRU0uSEJBLXFDQTI0IFRFU1QtT05MWQIHAVcOPSLLyDANBgkqhkiG9w0BAQsFAASCAQB5vvdhmI1CgCmOoVqHpmHsdmVoFHid/ZMKsRW70gfnR4EIf+z7bO4QTZNCvHL8N0N1qNfqDXWNlT1ELz5wPFdf+Qoz+Eb8TsUDupxs72l7e+DPG4U4gw8O0uxXiDULMQ1N5ie3XO5gLi7F2g2c+MsK6sRsyxknEnaWvfv8vUbtqbk4C0/O+wChZPThsGqjY8wvcE7QqHiDNVYsSO9/98F+bfF/UUqbmLF/Avi7rUv5THxONKmhWxveyFsClhFVn8JcY/rEjjYC5eG7wxYWv79E2Cn7s+AYIkm1AyW+9xicZBxKnJGpiMoORcEYTd4B+1sjBG7xCpPaFdgTCWdSNh/I
-          </data>
-        </signature>
-      </Bundle>
-    </resource>
-  </entry>
-  <signature>
-    <type>
-      <coding>
-        <system value="http://hl7.org/fhir/ValueSet/signature-type" /> 
-        <code value="1.2.840.10065.1.12.1.5" />
-      </coding>
-    </type>
-    <when value="2020-03-20T07:31:34.328+00:00"/>
-    <who>
-      <reference value="urn:uuid:6b007bdf-c50a-4e69-9db2-6c67092057f6" />
-    </who>
-    <data>
-           
-           Fragen zum Signaturformat sind noch in Klärung.
-           Aktuelle Annahme: CAdES-Signatur (enveloping), 
-           analog zur Konnektor-Signatur
-
-    </data>
-  </signature>
+	<meta>
+		<profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt" />
+		<tag>
+			<display value="Valid example reciept with minimal data, all references bundled." />
+		</tag>   
+	</meta>
+	<identifier>
+		<system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+		<value value="160.123.456.789.123.58" /> 
+	</identifier>
+	<type value="document" />
+	<timestamp value="2020-03-20T07:31:34.328+00:00" />
+	<entry>
+		<fullUrl value="https://prescriptionserver.telematik/Composition/example" />
+		<resource>
+			<Composition>
+				<meta>
+					<profile value="https://gematik.de/fhir/StructureDefinition/ErxComposition" />
+				</meta>
+				<extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension">
+					<valueIdentifier>
+						<system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+						<value value="606358757" />
+					</valueIdentifier>
+				</extension>
+				<status value="final" />
+				<type>
+					<coding>
+						<system value="https://gematik.de/fhir/CodeSystem/Documenttype" />
+						<code value="3" />
+					</coding>
+				</type>
+				<date value="2020-03-20T07:31:34.328+00:00" />
+				<author>
+					<reference value="https://prescriptionserver.telematik/Device/ErxService" />
+				</author>
+				<title value="Quittung" />
+				<event>
+					<period>
+						<start value="2020-03-20T07:23:34.328+00:00" />
+						<end value="2020-03-20T07:31:34.328+00:00" />
+					</period>
+				</event>
+			</Composition>
+		</resource>
+	</entry>
+	<entry>
+		<fullUrl value="https://prescriptionserver.telematik/Device/ErxService" />
+		<resource>
+			<Device>
+				<meta>
+					<profile value="https://gematik.de/fhir/StructureDefinition/ErxDevice" />
+				</meta>
+				<id value="ErxService" />
+				<version>
+					<value value="1.0.0" />
+				</version>
+				<status value="active" />
+				<serialNumber value="R4.0.0.287342834" />
+				<deviceName>
+					<name value="E-Rezept Fachdienst"/>
+					<type value="user-friendly-name" />
+				</deviceName>
+			</Device>
+		</resource>
+	</entry>
+	<signature>
+		<type>
+			<system value="urn:iso-astm:E1762-95:2013" />
+			<code value="1.2.840.10065.1.12.1.1" />
+		</type>
+		<when value="2020-03-20T07:31:34.328+00:00" />
+		<who>
+			<reference value="https://prescriptionserver.telematik/Device/ErxService" />
+		</who>
+		<sigFormat value="application/pkcs7-mime" />	
+		<data value="MIII FQYJ KoZI hvcN AQcC oIII BjCC CAIC AQEx DzAN Bglg hkgB ZQME AgEF ADAL" />
+	</signature>
 </Bundle>

@@ -29,10 +29,6 @@ In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzt
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
 
-## Anwendungsfälle für den Benachrichtigungsdienst
-
-[Hier geht es zu den Anwendungsfällen des Benachrichtigungsdienstes](docs/erp_notification.adoc)
-
 ## Lizenzbedingungen
 
 Copyright (c) 2020 gematik GmbH
