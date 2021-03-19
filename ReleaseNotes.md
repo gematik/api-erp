@@ -1,3 +1,6 @@
+# Release 4.0.2-1
+# Release 4.0.2 Minor changes and bug fixes - removed not necessar masking charakters in links - correction of requests and responses in communication - deleted example and source folder. all files can be found on simplifier.net (link available on Readme)
+
 # Release 4.0.2
 # Release 4.0.2 Release to fit specification progress and new FHIR profiling corrections. Changes - update on all examples - spelling correction - changed canonical notation to UpperCamelCase (default in FHIR standard) - minor changes in descriptions
 

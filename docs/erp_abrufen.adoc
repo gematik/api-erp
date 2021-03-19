@@ -247,24 +247,24 @@ Content-Length: 1234
 |Payload    |
 [source,xml]
 ----
-<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
   <SOAP-ENV:Header/>
   <S:Body>
     <ns10:VerifyDocument 
-      xmlns=\"http://www.w3.org/2001/04/xmlenc#\" 
-      xmlns:ns10=\"http://ws.gematik.de/conn/SignatureService/v7.4\" 
-      xmlns:ns11=\"urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#\" 
-      xmlns:ns12=\"http://ws.gematik.de/conn/ConnectorContext/v2.0\" xmlns:ns13=\"urn:oasis:names:tc:SAML:2.0:assertion\" 
-      xmlns:ns14=\"urn:oasis:names:tc:SAML:1.0:assertion\" 
-      xmlns:ns2=\"http://www.w3.org/2000/09/xmldsig#\" 
-      xmlns:ns3=\"http://ws.gematik.de/conn/CertificateServiceCommon/v2.0\" 
-      xmlns:ns4=\"http://uri.etsi.org/01903/v1.3.2#\" 
-      xmlns:ns5=\"urn:oasis:names:tc:dss:1.0:core:schema\" 
-      xmlns:ns6=\"urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#\" 
-      xmlns:ns7=\"http://uri.etsi.org/02231/v2#\" 
-      xmlns:ns8=\"http://ws.gematik.de/conn/ConnectorCommon/v5.0\" 
-      xmlns:ns9=\"http://ws.gematik.de/tel/error/v2.0\">
+      xmlns="http://www.w3.org/2001/04/xmlenc#" 
+      xmlns:ns10="http://ws.gematik.de/conn/SignatureService/v7.4" 
+      xmlns:ns11="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" 
+      xmlns:ns12="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns13="urn:oasis:names:tc:SAML:2.0:assertion" 
+      xmlns:ns14="urn:oasis:names:tc:SAML:1.0:assertion" 
+      xmlns:ns2="http://www.w3.org/2000/09/xmldsig#" 
+      xmlns:ns3="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" 
+      xmlns:ns4="http://uri.etsi.org/01903/v1.3.2#" 
+      xmlns:ns5="urn:oasis:names:tc:dss:1.0:core:schema" 
+      xmlns:ns6="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" 
+      xmlns:ns7="http://uri.etsi.org/02231/v2#" 
+      xmlns:ns8="http://ws.gematik.de/conn/ConnectorCommon/v5.0" 
+      xmlns:ns9="http://ws.gematik.de/tel/error/v2.0">
       <ns12:Context>
         <ns8:MandantId>Mandant1</ns8:MandantId>
         <ns8:ClientSystemId>Clientsystem1</ns8:ClientSystemId>
@@ -283,7 +283,7 @@ Content-Length: 1234
       </ns10:OptionalInputs>
       <ns10:SignatureObject>
           <ns5:Base64Signature 
-            Type=\"urn:ietf:rfc:5652\">MIJVqgYJKoZIhvcNAQcCoIJVmzCCVZcCAQExDzAN...</ns5:Base64Signature> <1>
+            Type="urn:ietf:rfc:5652">MIJVqgYJKoZIhvcNAQcCoIJVmzCCVZcCAQExDzAN...</ns5:Base64Signature> <1>
         </ns10:SignatureObject>
       <ns10:IncludeRevocationInfo>false</ns10:IncludeRevocationInfo>
     </ns10:VerifyDocument>
@@ -504,7 +504,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
     <Medication> <2>
       <id value="med0314"/> 
       <meta>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.0" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.1" />
       </meta>
       <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
           <valueCoding>

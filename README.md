@@ -9,6 +9,8 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 
 In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte [mit der der TI verbinden](docs/authentisieren.adoc). Wir zeigen detailliert den Ablauf der [Erstellung eines E-Rezepts](docs/erp_bereitstellen.adoc) in der verordnenden Praxis und [wie Apotheker auf den Fachdienst zugreifen](docs/erp_abrufen.adoc), um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die [Einsicht in die vorhandenen E-Rezepte](docs/erp_versicherte.adoc) und [Abgabeinformationen eingelöster Rezepte](docs/erp_versicherte.adoc) erfolgt, wie die [Kommunikation mit der Apotheke](docs/erp_communication.adoc) ablaufen kann und wie der Versicherte [Einsicht in das Zugriffsprotokoll](docs/erp_versicherte.adoc) auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der [Ablauf der Rezept-Einlösung](docs/erp_versicherte.adoc) für Versicherte mit dem E-Rezept funktioniert.
 
+Die gematik veröffentlicht die Profilierung der FHIR-Ressourcen und valide Beispiele auf simplifier.net im Projekt [E-Rezept-Workflow](https://simplifier.net/erezept-workflow).
+
 ## Zugang zu Diensten der Telematikinfrastruktur
 
 [Hier geht es zur Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)
@@ -31,7 +33,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzt
 
 ## Lizenzbedingungen
 
-Copyright (c) 2020 gematik GmbH
+Copyright (c) 2021 gematik GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

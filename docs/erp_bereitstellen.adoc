@@ -78,12 +78,12 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
 |Payload    |
 [source,xml]
 ----
-<Parameters xmlns=\"http://hl7.org/fhir\">
+<Parameters xmlns="http://hl7.org/fhir">
   <parameter>
-    <name value=\"workflowType\"/>
+    <name value="workflowType"/>
     <valueCoding>
-      <system value=\"https://gematik.de/fhir/CodeSystem/Flowtype\"/>
-      <code value=\"160\"/> <2>
+      <system value="https://gematik.de/fhir/CodeSystem/Flowtype"/>
+      <code value="160"/> <2>
     </valueCoding>
   </parameter>
 </Parameters> 
@@ -173,7 +173,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
 |===
 
 == E-Rezept qualifiziert signieren
-Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Tasks im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/NamingSystem/PrescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/NamingSystem/PrescriptionID` eingebettet. 
+Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Task im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/NamingSystem/PrescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/NamingSystem/PrescriptionID` eingebettet. 
 
 Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller Value Sets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
 
@@ -186,7 +186,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
     <id value="281a985c-f25b-4aae-91a6-41ad744080b0" />
     <meta>
         <lastUpdated value="2020-05-04T08:30:00Z" />
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.00.000" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.1" />
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
@@ -200,7 +200,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Composition>
                 <id value="ed52c1e3-b700-4497-ae19-b23744e29876" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -276,7 +276,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <MedicationRequest>
                 <id value="e930cdee-9eb5-4b44-88b5-2a18b69f3b9a" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription\|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_StatusCoPayment">
                     <valueCoding>
@@ -344,7 +344,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Medication>
                 <id value="5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                     <valueCoding>
@@ -391,7 +391,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Patient>
                 <id value="9774f67f-a238-4daf-b4e6-679deeef3811" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient\|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -435,7 +435,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Practitioner>
                 <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -483,7 +483,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Organization>
                 <id value="cf042e44-086a-4d51-9c77-172f9a972e3b" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization\|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -522,7 +522,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <Coverage>
                 <id value="1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage\.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage\|1.0.3" />
                 </meta>
                 <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                     <valueCoding>
@@ -574,7 +574,7 @@ Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles auf
             <PractitionerRole>
                 <id value="9a4090f8-8c5a-11ea-bc55-0242ac13000" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_PractitionerRole\|1.00.000" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_PractitionerRole\|1.0.3" />
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
@@ -611,12 +611,12 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die
 ----
 Content-Type: text/xml; charset=UTF-8
 Content-Length: 1234
-SOAPAction: \"http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument\"
+SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 ----
 |Payload    |
 [source,xml]
 ----
-<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
   <SOAP-ENV:Header/>
   <S:Body>
@@ -735,7 +735,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |Payload    |
 [source,xml]
 ----
-<Parameters xmlns=\"http://hl7.org/fhir\">
+<Parameters xmlns="http://hl7.org/fhir">
     <parameter>
         <name value="ePrescription" />
         <resource>

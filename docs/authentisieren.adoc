@@ -49,7 +49,7 @@ code_challenge=S41HgHxhXL1CIpfGvivWYpbO9b_QKzva-9ImuZbt0Is <7>
 ----
 <1> Das Primärsystem fordert einen Authorization-Code an.
 <2> Der Scope entspricht dem zwischen E-Rezept-Fachdienst und IDP festgelegten Wert. Mit diesem antwortet der E-Rezept-Fachdienst bei fehlendem ACCESS_TOKEN und http-Statuscode 401. 
-<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern. Indem der Server mit diesem Wert antwortet werden Redirects legitmiert.
+<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern. Indem der Server mit diesem Wert antwortet, werden Redirects legitmiert.
 <4> Die Client-ID des Primärsystems wird beim Registrieren des Primärsystems beim IDP festgelegt.
 <5> Die URL wird vom Primärsystem beim Registrierungsprozess im IDP hinterlegt und leitet die Antwort des Servers an diese Adresse um.
 <6> Das Primärsystem generiert einen Code-Verifier und erzeugt darüber einen Hash im Verfahren SHA-256, hier abgekürzt als `S256`.
@@ -110,7 +110,7 @@ Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografis
 ----
 Content-Type: text/xml; charset=UTF-8
 Content-Length: 1234
-SOAPAction: \"http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertificate\"
+SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertificate"
 ----
 |Payload    |
 [source,xml]
@@ -182,7 +182,7 @@ Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `5f4520
 ----
 Content-Type: text/xml; charset=UTF-8
 Content-Length: 1234
-SOAPAction: \"http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticate\"
+SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticate"
 ----
 |Payload    |
 [source,xml]

@@ -54,7 +54,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
     "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
     "meta": {
       "profile":  [
-        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.00.000"
+        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.1"
       ]
     },
     "extension":  [{
@@ -95,6 +95,11 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
       }
     }
   }],
+  "basedOn":  [
+        {
+            "reference": "Task/4711"
+        }
+    ],
   "status": "unknown",
   "about":  [{
     "reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de" <2>
@@ -175,7 +180,7 @@ Location:
     "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
     "meta": {
       "profile":  [
-        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.00.000"
+        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.0.1"
       ]
     },
     "extension":  [{
@@ -305,6 +310,7 @@ s|Code   s|Type Error
 
 ==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
 Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
+Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. 
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
@@ -327,6 +333,9 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
     <meta>
         <profile value="https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply" />
     </meta>
+    <basedOn>
+      <reference value="Task/4711"/>
+    </basedOn>
     <status value="unknown" />
     <recipient>
         <identifier>
@@ -360,6 +369,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
 <2> Der `AvailabilityStatus` gibt mit dem Beispielwert `10` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
 |===
 
+
 *Response*
 [source,xml]
 ----
@@ -375,6 +385,9 @@ Location:
         <lastUpdated value="2020-03-12T18:01:10+00:00"/>
         <profile value="https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply" />
     </meta>
+    <basedOn>
+      <reference value="Task/4711" />
+    </basedOn>
     <status value="unknown" />
     <sent value="2020-03-12T18:01:10+00:00" /> <1>
     <recipient>
@@ -413,6 +426,7 @@ Location:
 ----
 <1> Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource.
 <2> Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke als Absender der Nachricht.
+
 
 [cols="a,a"] 
 |===
