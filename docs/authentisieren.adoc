@@ -18,88 +18,81 @@ endif::[]
 image:gematik_logo.jpg[width=35%] 
 
 = E-Rezept API-Dokumentation
-Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. 
+Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. Das betrifft zum einen die Authentifizierung als Nutzer oder Institution durch den Identity Provider (IDP) und zum anderen den verschlüsselten Datentransport auf Anwendungsebene ("VAU-Transport").
 
 toc::[]
 
-= Als Nutzer gegenüber der Telematikinfrastruktur authentisieren
+= Als Nutzer der Telematikinfrastruktur authentifiziert werden
 Die Telematikinfrastruktur gestattet keinen Zugriff auf Dienste ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services sowie in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen. + 
 
 Die Authentifizierung übernimmt mit der Einführung des E-Rezepts ein zentraler Identity Provider (IDP). Der IDP erkennt Nutzer anhand ihrer kartenbasierten Identitäten und stellt die Identitätsmerkmale (Name, KVNR bzw. Telematik-ID) der Zertifikate auf der Karte in ID_TOKEN und ACCESS_TOKEN für die Nutzung im E-Rezept-Fachdienst bereit.
 
-== Für Leistungserbringerinstitutionen
-*Nutzung der Institutionsidentität der SMC-B* +
-Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber dem IdentityProvider (IDP) unter Nutzung der Konnektorschnittstelle.
+== Ablauf des Authentifizierungsprotokolls
+Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber dem Identity Provider (IDP) unter Nutzung der Konnektorschnittstelle.
 
-Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-knonw"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
+Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-known"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
 
-*Request*
-[cols="h,a"] 
+Die folgende Abbildung zeigt den detaillierten Ablauf mit allen beteiligten Komponenten. Das Primärsystem gliedert sich in die E-Rezept-Fachlogik und ein Authenticator-Modul. Letzteres übernimmt die Authentisierung mittels der kartenbasierten Identität unter Nutzung der Konnektorschnittstellen. Der IDP authentifiziert den Nutzer anhand der kartenbasierten Identität und einer Signatur durch das Schlüsselmaterial auf der Karte (SMC-B) und stellt bei Erfolg während der Dauer einer Nutzersession (ID_TOKEN-Gültigkeitsdauer) Zugriffstoken (ACCESS_TOKEN) für den Zugriff auf den Fachdienst aus. 
+
+image:token_verschluesselung_ps.png[width=100%] 
+
+NOTE: Die Datei link:../images/PS-IDP-Flow.png[PS-IDP-Flow.png^] im Anhang gibt ein konkretes Beispiel mit Request- und Response-Parametern für die Authentifizierung mittels SMC-B einer Test-Apotheke "3-SMC-B-Testkarte-883110000xxxxxx" (siehe auch "professionOID": "1.2.276.0.76.4.54" = "Öffentliche Apotheke").
+
+Im Folgenden werden die einzelnen Schritte erläutert.
+
+[cols="a,a,a"] 
+[cols="1%,1%,100%"]
 |===
-|URI        | `https://idp.ti-dienste.de/auth?<URL-PARAMETER>`
-[source,URL-Parameter]
-----
-response_type=code <1>
-scope=openid%20erezept <2>
-state=af0ifjsldkj <3>
-client_id=ZXJlemVwdC1hcHA <4>
-redirect_uri=https%3A%2F%2Fapp.erezept.com%2Fauthnres <5>
-code_challenge_method=S256 <6>
-code_challenge=S41HgHxhXL1CIpfGvivWYpbO9b_QKzva-9ImuZbt0Is <7>
-----
-<1> Das Primärsystem fordert einen Authorization-Code an.
-<2> Der Scope entspricht dem zwischen E-Rezept-Fachdienst und IDP festgelegten Wert. Mit diesem antwortet der E-Rezept-Fachdienst bei fehlendem ACCESS_TOKEN und http-Statuscode 401. 
-<3> Dieser Parameter wird vom Client zufällig generiert, um CSRF zu verhindern. Indem der Server mit diesem Wert antwortet, werden Redirects legitmiert.
-<4> Die Client-ID des Primärsystems wird beim Registrieren des Primärsystems beim IDP festgelegt.
-<5> Die URL wird vom Primärsystem beim Registrierungsprozess im IDP hinterlegt und leitet die Antwort des Servers an diese Adresse um.
-<6> Das Primärsystem generiert einen Code-Verifier und erzeugt darüber einen Hash im Verfahren SHA-256, hier abgekürzt als `S256`.
-<7> Der Hashwert des Code-Verifiers wird zum IDP als `Code-Challenge` gesendet.
-|Method     |GET
-|HTTP Header |
-----
-Host: idp.ti-dienste.de 
-Accept: application/json 
-User-Agent: Authenticator-App/1.0 <1> 
-----
-<1> Hiermit meldet der Client seine Produkttypversion.
-|Payload    | -
+|*Step*|*eRp (Fachlogik) / AM (Auth-Modul)*|*Beschreibung*
+|1|eRp|Laden der Zertifikatsliste vom FD  [https://erp.zentral.erp.splitdns.ti-dienste.de/CertList] Das root-Zertifikat zu diesen Zertifikaten befindet sich als Vertrauensanker in der App und wird im Build-Prozess eingebracht.  Siehe gemSpec_Krypt#7.2
+|2|eRp|Erzeugen eine code_verifiers (128 zufällige Zeichen aus der Menge [A-Z] / [a-z] / [0-9] / "-" / "." / "_" / "~")
+|3|eRp|Erzeugen code_challenge: sha256(code_verifier)
+|4|eRp|Aufruf AM mit code_challenge und Zertifikatsliste
+|5|AM|Laden des Discovery Documents (DD) vom IDP
+ [https://idp.zentral.idp.splitdns.ti-dienste.de/.well-known/openid-configuration] +
+*Schritt 1 im Rbel-Flow*
+|6|AM|Lesen des DD-Signatur-Zertifikats und IDP-Verschlüsselungszertifikats von PUK_URI_DISC +
+*Schritt 3 + 5 im Rbel-Flow*
+|7|AM|Prüfung der Signatur des DD gegen das Zertifikat
+|8|AM|Prüfung des Zertifikats im DD gegen die Zertifikatsliste aus Step 1
+|9|AM|Lesen der jwks_uri im DD und Laden des jwks von dieser URL
+|10|AM|Lesen von authorization_endpoint und token_endpoint aus DD
+|11|AM|Ermittlung von PuK_AUTH_SIG, PuK_AUTH_ENC, PuK_TOKEN_SIG, PuK_TOKEN_ENC aus jwks
+|12|AM|Senden der code_challenge (als URL-Parameter 'code_challenge') an authorization_endpoint des IDP, IDP antwortet mit challenge und user_consent +
+*Schritt 7 im Rbel-Flow*
+|13|AM|Anzeige user_consent vom IDP
+|14|AM|Berechnen des HASH-Werts der empfangenen Challenge
+|15|AM|SMC-B-Kommunikation zum +
+1. Lesen des Zertifikats C.HCI.AUT der SMC-B über Konnektor - <<Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate),Details siehe unten>> +
+2. Signieren des Challenge-HASH mit PRK.HCI.AUT der SMC-B über Konnektor - <<Signatur mit SMC-B erzeugen (external_authenticate),Details siehe unten>> +
+|16|AM|jwe-Verschlüsselung der signierten Challenge als njwt und des Zertifikats
+ Verschlüsselung mit PuK_AUTH_ENC aus jwks
+|17|AM|Senden der verschlüsselten Challenge und des verschlüsselten Zertifikats an IDP, IDP antwortet mit AUTHORIZATION_CODE (AC) und SSO_TOKEN +
+*Schritt 9 im Rbel-Flow*
+|18|AM|Speicherung SSO_TOKEN
+|19|AM|Rückgabe AC an App, zusammen mit 
+ PuK_TOKEN_SIG, PuK_TOKEN_ENC aus jwks,
+ token_endpoint-URL
+|20|eRp|Generierung eine Token-Keys (AES256)
+|21|eRp|Erstellung des key-verifiers (JSON-Objekts mit Token-Key und code_verifiers)
+|22|eRp|jwe-Verschlüsslung des key-verifiers mit PuK_TOKEN_ENC aus jwks
+|23|eRp|Senden des verschlüsselten key-verifiers und des AC an token_endpoint des IDP
+ IDP antwortet mit jwe-verschlüsseltem ACCESS_TOKEN +
+*Schritt 11 im Rbel-Flow*
+|24|eRp|Jwe-Entschlüsselung ACCESS_TOKEN mit Hilfe des Token-Keys
+|25|eRp|Prüfung der Signatur des ACCESS_TOKENs gegen PuK_TOKEN_SIG
 |===
 
-*Response*
-[source,json]
-----
-HTTP/1.1 200 OK 
-Content-Type: application/json 
-Cache-Control: no-store 
-Pragma: no-cache
 
-{
-  "challenge": "Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdlX2hlYWRlcnMgPSB7IMKgIMKgICJ0eXAiOiJKT1NFK0pTT04iLCDCoCDCoCAiaWF0IjoxNTkxNzE0MjUyMzI2LCDCoCDCoCAiZXhwIjoxNTkxNzE0NTUyMzI2LCDCoCDCoCAianRpIjoiYzNhOGY5YzgtYWE2Mi0xMWVhLWFjMTUtNmI3YTMzNTVkMGY2IiwgwqAgwqAgInNuYyI6InNMbHhsa3NrQXl1emRET3dlOG5aZWVRVkZCV2dzY05rUmNwZ0htS2lkRmMiIH0gY2hhbGxlbmdlX3BheWxvYWQgPSB7IMKgIMKgICJyZXNwb25zZV90eXBlIjoiY29kZSIsIMKgIMKgICJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsIMKgIMKgICJjbGllbnRfaWQiOiJaWEpsZW1Wd2RDMWhjSEEiLCAic3RhdGUiOiJhZjBpZmpzbGRraiIswqAgwqAgwqAgInJlZGlyZWN0X3VyaSI6Imh0dHBzOi8vYXBwLmUtcmV6ZXB0LmNvbS9hdXRobnJlcyIsIMKgIMKgICJjb2RlX2NoYWxsZW5nZV9tZXRob2QiOiJTMjU2IiwgwqAgwqAgImNvZGVfY2hhbGxlbmdlIjoiUzQxSGdIeGhYTDFDSXBmR3ZpdldZcGJPOWJfUUt6dmEtOUltdVpidDBJcyIgfQ==", <1>
-  "user_consent": {
-    "client_name": "E-Rezept App",
-    "url": "https://prescriptionserver.telematik/",
-    "requested_scope": {
-      "openid": "Der Zugriff auf den ID-Token",
-      "e-rezept": "Zugriff auf die E-Rezept-Funktionalität."
-    },
-    "show_once": true,
-    "amr": ["JWT-Challenge-Response"],
-    "name": "Zustimmung zur Verarbeitung des Namens des Versicherten", <2>
-    "idNummer": "Zustimmung zur Verarbeitung der Krankenversichertennummer" <3>
-  }
-}
-----
-<1> Die vom Client mittels der eGK bzw. SMC-B zu signierende Challenge besteht aus einem Base64-codierten Challenge-Token.
-<2> An dieser Stelle meldet der IDP dem Client, welche Nutzer-Informationen der beim IDP registrierte E-Rezept-Fachdienst benötigt - hier den Namen des Nutzers. Der IDP verwendet bei Zustimmung den Namen wie er im AUT-Zertifikat hinterlegt ist.
-<3> Der E-Rezept-Fachdienst benötigt für die Verwaltung der E-Rezepte die KVNR des Versicherten bzw. die Telematik-ID der sich authentisierenden Praxis.
 
-NOTE: Neben den dargestellten Nutzerattributen erwartet der E-Rezept-Fachdienst außerdem die Angabe der *Nutzerrolle*, um die gesetzlich zulässigen Zugriffsregeln im E-Rezept-Prozess durchzusetzen, den *Namen des zugreifenden Nutzers* für eine für den Versicherten nachvollziehbare Protokollierung der Zugriffe auf dessen medizinischen Daten sowie die *technische Nutzerkennung* (KVNR bzw. Telematik-ID) für die Protokollierung für den Versicherten sowie die Zuordnung von Rezepten zum Versicherten als "Eigentümer".
 
-*Vorbereitende Schritte für die Authentifizierung mittels der eGK bzw. SMC-B* +
+
+=== Vorbereitende Schritte für die Authentifizierung mittels der SMC-B
 1. Dem Nutzer soll der vom IDP bereitgestellte UserConsent angezeigt werden. Stimmt der Nutzer der Bereitstellung der Daten für den E-Rezept-Fachdienst nicht zu, muss der Authentifizierungsvorgang abgebrochen werden, da der Fachdienst ohne diese Informationen den E-Rezept-Workflow nicht umsetzen kann.
-2. Die vom IDP in der obigen Response übermittelte Challenge beinhaltet ein Challenge-Token in Base64-Codierung. Da die Signatur immer über einen Hashwert der zu signierenden Daten erfolgt, muss dieser Hashwert vom Clientsystem berechnet werden. Als kryptografisches Verfahren kommt hier SHA-256 zum Einsatz. Aus dem obigen Beispiel `Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdlX2hl...` ergibt sich folgender Hashwert: `5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95`
+2. Die vom IDP in der obigen Response übermittelte Challenge beinhaltet ein Challenge-Token `{"iss":"https://idp.zentral.idp.splitdns.ti-dienste.de","response_type":"code","snc":"syQAvJmxPnRtLjT6uPVERb_RF7MmVzhS1sP8FbHjhLM","code_challenge_method":"S256","token_type":"challenge","nonce":"887766","client_id":"gematikTestPs","scope":"openid e-rezept","state":"xxxstatexxx","redirect_uri":"http://test-ps.gematik.de/erezept","exp":1616686048,"iat":1616685868,"code_challenge":"Ca3Ve8jSsBQOBFVqQvLs1E-dGV1BXg2FTvrd-Tg19Vg","jti":"5e5ad23ae3e7d8aa"}` in Base64-Codierung `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5zcGxpdGRucy50aS1kaWVuc3RlLmRlIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJzbmMiOiJzeVFBdkpteFBuUnRMalQ2dVBWRVJiX1JGN01tVnpoUzFzUDhGYkhqaExNIiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsInRva2VuX3R5cGUiOiJjaGFsbGVuZ2UiLCJub25jZSI6Ijg4Nzc2NiIsImNsaWVudF9pZCI6ImdlbWF0aWtUZXN0UHMiLCJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsInN0YXRlIjoieHh4c3RhdGV4eHgiLCJyZWRpcmVjdF91cmkiOiJodHRwOi8vdGVzdC1wcy5nZW1hdGlrLmRlL2VyZXplcHQiLCJleHAiOjE2MTY2ODYwNDgsImlhdCI6MTYxNjY4NTg2OCwiY29kZV9jaGFsbGVuZ2UiOiJDYTNWZThqU3NCUU9CRlZxUXZMczFFLWRHVjFCWGcyRlR2cmQtVGcxOVZnIiwianRpIjoiNWU1YWQyM2FlM2U3ZDhhYSJ9`. Da die Signatur immer über einen Hashwert der zu signierenden Daten erfolgt, muss dieser Hashwert vom Clientsystem berechnet werden. Als kryptografisches Verfahren kommt hier SHA-256 zum Einsatz. Aus dem obigen Beispiel `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5...` ergibt sich folgender Hashwert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f`
 
-*Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate)* +
+
+=== Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate)
 Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografischen Identität. Die Karte hält den privaten Schlüssel zu dieser Identität, welcher für die Signatur über eine Challenge des IDP genutzt wird. Zur Prüfung der Signatur benötigt der IDP das Zertifikat dieser Identität. Dieses enthält den öffentlichen Schlüssel für die kryptografische Signaturprüfung sowie weitere Nutzerinformationen (Name, KVNR/Telematik-ID, fachliche Rolle), die der IDP in Identitätsbestätigungen zur Nutzung gegenüber dem E-Rezept-Fachdienst attestiert. Der Abruf des Zertifikats erfolgt über die Konnektor-Operation `ReadCertificate`.
 
 [cols="h,a"] 
@@ -149,7 +142,8 @@ Content-Type: text/xml;charset=utf-8
 			<ns5:X509DataInfoList>
 				<ns5:X509DataInfo>
 					<ns5:X509Data>
-						<ns5:X509Certificate>MIIFBTCCA+2gAwIBAgIHAt7sgVDK2DANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxSDBGBgNVBAsMP0luc3RpdHV0aW9uIGRlcyBHZXN1bmRoZWl0c3dlc2Vucy1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLlNNQ0ItQ0EyNCBURVNULU9OTFkwHhcNMTgwNTI4MjIwMDAwWhcNMjMwNTI4MjE1OTU5WjCBuDELMAkGA1UEBhMCREUxHDAaBgNVBAgME05vcmRyaGVpbi1XZXN0ZmFsZW4xEjAQBgNVBAcMCUJpZWxlZmVsZDEOMAwGA1UEEQwFMzM2MDIxHzAdBgNVBAkMFkJhY2twdWx2ZXIgU3RyYXNzZSA3NzcxIDAeBgNVBAoMFzMtMjA0MjAxODA1MjkgTk9ULVZBTElEMSQwIgYDVQQDDBtXZXJ0aGVycyBBcG90aGVrZSBURVNULU9OTFkwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCT17fIaS3MEvJjqKk1Zo0+2R9iC/BExwNNfYmtFS986tq5x9/EmsQ0JZc3caBfWAPHH6OfFuVg4BirPtiqr8GZ+5dkGOLx8tuVagtErJQ/yXyxfBF0ZgPPM14ITmKvg1OiIuSB4/orZey/EMM0Rc7F7H/4vxnfSWzwgFO02G4SGIaPVir3jbUeOMX49X9uLLTo7mqpPbRHE7reQTdbGyA2QovJKZzDJl2/na4YVYLG7KJcko5PHNhSuOhnoC9EwfPSSZnlWKCTuryDwYaPn4s0rvMDV6e6RVDJlTIDHkTG/ISnsymoiWsxWlabcgytHeuPkgXnG58V9zAekOL2vXNpAgMBAAGjggEuMIIBKjAdBgNVHQ4EFgQU1O2c+sJd7asul+IvNUN/4I1eCVUwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADBGBgUrJAgDAwQ9MDswOTA3MDUwMzAXDBXDlmZmZW50bGljaGUgQXBvdGhla2UwCQYHKoIUAEwENhMNMy0yMDQyMDE4MDUyOTAfBgNVHSMEGDAWgBR66eFv6hRZFgXuA+nT/SGr3unZnjAgBgNVHSAEGTAXMAoGCCqCFABMBIEjMAkGByqCFABMBE0wDgYDVR0PAQH/BAQDAgWgMEsGCCsGAQUFBwEBBD8wPTA7BggrBgEFBQcwAYYvaHR0cDovL29jc3AucGtpLnRlbGVtYXRpay10ZXN0OjgwODAvQ01PQ1NQL09DU1AwDQYJKoZIhvcNAQELBQADggEBACRapWTkdE/R0HbFjiFfdO6CK92yEkKUxewwJ9qRlZ5FoQWaJoGWRTeFD7Pk+lBznNyBYgCYRCG6RqIyRq6E5b0iwF/KM81iBx3sB3gb0eO3AF/0KAerI2V6iuX3ANpwhr+QOR69hOQaqQBgfTQOmXSGC6QiiK6pLf7D5tmHdGookXokZy1BLD1OWZsg1jVtRJpht5rozIA240/9KQ14eoQ0pF0NajgJ2KrF4syGb+hRTdTSdA94xN1W3azNcPGh2KClDWtOpiIK/NzTHHbsqRADpieiLa8ZJmjfoQFEwY3n/YsY5ZiDfzG+9nXRt9uSzZCQbFDGtzjR4eBaC32kcN4=</ns5:X509Certificate> <1>
+						<ns5:X509Certificate>MIIFcTCCBFmgAwIBAgIHAXumDkbX3zANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxSDBGBgNVBAsMP0luc3RpdHV0aW9uIGRlcyBHZXN1bmRoZWl0c3dlc2Vucy1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLlNNQ0ItQ0EyNCBURVNULU9OTFkwHhcNMjAwNjEwMDAwMDAwWhcNMjUwNjA5MjM1OTU5WjCB+DELMAkGA1UEBhMCREUxFDASBgNVBAcMC03DvGhsaGF1c2VuMQ4wDAYDVQQRDAU5OTk3NDEeMBwGA1UECQwVTGFuZ2Vuc2FsemFlciBTdHIuIDI1MSowKAYDVQQKDCEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgxHTAbBgNVBAUTFDgwMjc2ODgzMTEwMDAwMTI5MDY4MRQwEgYDVQQEDAtCbGFua2VuYmVyZzEWMBQGA1UEKgwNRG9taW5pay1QZXRlcjEqMCgGA1UEAwwhQXBvdGhla2UgYW0gU3BvcnR6ZW50cnVtVEVTVC1PTkxZMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjVMEf2TTXlfkuCDyiMpo96jA5XRvkaHTy+4qTcDR1awUP4yemfKsB1BTWMMSDrA1/2YdnlZJeynEnQi0K4LWMvTcq+CRGi4ghcIokb2TURZXZ1K6FTJHqITojp9ZRaNTap+kIpOZCmSRa7ftRzEgooPjG6C+7XxUViczlVE17UJMPavWQfY2+A1M/0vx9Jbi7wPmXCMuEvj7yEAVRCGQExVxzbLZPE7FS/vlXcwkFtmnMUVWiQFFXlVLG7uUc9CQFvTXPT5ppDhxAmVeUBLNXKruDkpSeuq3sCi93ln9hXXw/xPeNAAehtvxFp6eMGf5LEVGvZj8v51qu4eDPaKtJwIDAQABo4IBWjCCAVYwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdDgQWBBSEkJ1lgmhiHfVZyKKyVw2Qd86PPDA4BggrBgEFBQcBAQQsMCowKAYIKwYBBQUHMAGGHGh0dHA6Ly9laGNhLmdlbWF0aWsuZGUvb2NzcC8wDAYDVR0TAQH/BAIwADAgBgNVHSAEGTAXMAoGCCqCFABMBIEjMAkGByqCFABMBE0wHwYDVR0jBBgwFoAUeunhb+oUWRYF7gPp0/0hq97p2Z4wgYQGBSskCAMDBHsweaQoMCYxCzAJBgNVBAYTAkRFMRcwFQYDVQQKDA5nZW1hdGlrIEJlcmxpbjBNMEswSTBHMBcMFcOWZmZlbnRsaWNoZSBBcG90aGVrZTAJBgcqghQATAQ2EyEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgwDQYJKoZIhvcNAQELBQADggEBAGwmbkXMdRrIZwTzUVsdH6RUB7cc3+CcDN0NqLSOM7sdCQrr5NfzcK2dzhc77KVzviZbvz6MxfEq47Y/dPMmtVlU0Amw5bbnYT4WnadjrLOHnKCxLFssrfo0izB7IJvBswMQl/KnUXbk/X57KcNKTYOfuCVVVt+yET63N4qp9YOPiMdCHxu+BUvgwmOgr/enRnh+HgCYVQtzLmDXimBcneRoZg3XgukoMQPd5TlVlZAF1JZ6W8uGN+LEiddnHdzYFVInest3xMzwHj4T3lXLCkr6oc9jvwKe2A2qsBvcbEFDR0mi0CW9NjfJ05v/52GKZZZyjEnFjnHJ1J5r1DlD5S8=
+            </ns5:X509Certificate> <1>
 					</ns5:X509Data>
 				</ns5:X509DataInfo>
 			</ns5:X509DataInfoList>
@@ -170,9 +164,9 @@ Content-Type: text/xml;charset=utf-8
 |===
 
 
-*Signatur mit SMC-B erzeugen* +
-Die vom IDP bereitgestellte Challenge `Q2hhbGxlbmdlIEpXVDogY2hhbGxlbmdl...` muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
-Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95`.
+=== Signatur mit SMC-B erzeugen (external_authenticate)
+Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
+Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f`.
 
 [cols="h,a"] 
 |===
@@ -201,7 +195,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
         <ns0:SignatureSchemes>RSASSA-PKCS1-v1_5</ns0:SignatureSchemes>
       </ns0:OptionalInputs>
       <ns0:BinaryString>
-        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">5f4520fbe15470542c727ca0a11d3c43d5c220880734ee6ce60703bd87a51a95</ns7:Base64Data> <2>
+        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f</ns7:Base64Data> <2>
       </ns0:BinaryString>
     </ns0:ExternalAuthenticate>
   </soap-env:Body>
@@ -224,7 +218,7 @@ Content-Type: text/xml;charset=utf-8
         <Result>OK</Result>
       </Status>
       <ns3:SignatureObject>
-        <ns3:Base64Signature Type="urn:ietf:rfc:3447">Z3BEWFNIMzQ3WFNWbXR2QWlvd0tadlphdmRyZEdIdGx1ejhRRGY4cXNBYnMzbGUvYUV6dkJEK294Z0N5UFJLcmhWdHJwMHVZQWh5aXV4MVVOdlpxak9tMkNiZC9vTXZVcUkxRWpSdEFZVWdzbUVXRFlxOThTcVN2RUlIMmhIMGdrSFB5TEU1MmhRdHJKVG9ZdmhndE5OZkFHNjJNRWJuanczdUtVSXEzQ3BjMTdhYVVRN3JtWEdHWURmWjJsUDUyT3Z0ZlJNOE03T3o2T3NlbjVLZzJwM2RoeCtyRVFQTU9aeTVLRDcxR3d6c3FocDVTd085SGtEQ0lkeUtZZ0dsNHgzbFRESCtpVjJZOWZvNnVIS1RoSCtnakJzendDMXNxM3I4VFpTb3hiOHpRZzQ1cW1KOU83cCtTUHhsTG4rU3hWTDVKaWU2aC9oSFVDYnpjUnJZZUd3PT0=</ns3:Base64Signature> <1>
+        <ns3:Base64Signature Type="urn:ietf:rfc:3447">N9Ut1Jepp-p77Vu2sOca3FqyiqDPYWKd6N4HO82YazWlg61uVwE49eRntsfSdx8HpGNdY9CerkARRCYAYJSqSw</ns3:Base64Signature> <1>
       </ns3:SignatureObject>
     </ns4:ExternalAuthenticateResponse>
   </soap:Body>
@@ -243,103 +237,11 @@ Content-Type: text/xml;charset=utf-8
 |===
 
 
-
-
-
-*Authenticator sendet Challenge an IdP-Dienst* +
-Das Authenticator-Modul überträgt ein "CHALLENGE_TOKEN" als Response auf die Challenge an den IdP-Dienst. Das "CHALLENGE_TOKEN" wird base64 codiert versendet und beinhaltet die signierte Challenge und das Authentifizierungszertifikat der Smartcard. 
-
-[cols="h,a"] 
-|===
-|URI        |https://idp.ti-dienste.de/sign_response
-|Method     |POST
-|HTTP Header |
-----
-Content-Type: application/x-www-form-urlencoded
-----
-|Payload    |
-----
-signed_challenge=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpPU0UrSlNPTiIsIng..... <1>
-----
-<1> Hierbei handelt es sich um das signierte und verschlüsselte "CHALLENGE_TOKEN". Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt.
-|===
-
-*Response*
-[source,xml]
-----
-HTTP/1.1 302 Found
-Location: https://app.erezept.com/authnres?code=eyJhbGciOiJkaXIiL... 
-&state=af0ifjsldkj <1> 
-----
-<1> Der Authorization-Endpunkt liefert den "AUTHORIZATION_CODE" innerhalb einer HTTP-Redirection (HTTP-Status Code 302) an das Primärsystem zurück. Der Wert des Attributs "location" der HTTP 302 Response ist nicht relevant.
-Es wird eine beispielhafte Response des Authorization-Endpunkt skizziert, dabei wird der "AUTHORIZATION_CODE", nur angedeutet.
-
-[cols="a,a"] 
-|===
-|Code   |Type Success  
-|302  | Found +
-[small]#Die Anfrage wurde erfolgreich bearbeitet und die angeforderte Ressource wurde gefunden. Es erfolgt eine HTTP-Redirection an das Primärsystem.#
-|Code   |Type Error   
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
-|===
-
-
-*Einreichen des AUTHORIZATION_CODE* +
-Das Anwendungsfrontend sendet den Anfangs generierten "CODE_VERFIER" und den vom Authorization-Endpunkt erstellten"AUTHORIZATION_CODE" zum Token-Endpunkt des IDP-Dienstes.
-Der Token-Endpunkt validiert den "CODE_VERFIER" und gleicht diesen mit der "code_challenge" ab. Dann erzeugt er die erforderlichen Token und verschlüsselt das "ACCESS_TOKEN" für den empfangenden Fachdienst.
-
-[cols="h,a"] 
-|===
-|URI        |https://idp.ti-dienste.de/token
-|Method     |POST
-|HTTP Header |
-----
-Content-Type: application/x-www-form-urlencoded
-----
-|Payload    |
-[source,xml]
-----
-grant_type=authorization_code
-&code=eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIiwiZXhwIjoxNTkx.....
-&redirect_uri=https%3A%2F%2Fapp.erezept.com%2Fauthnres
-&code_verifier=MApN61C4itdm4-58dCjMkoucuu00jipPlNibsAxjyJk
-----
-|===
-
-*Response*
-[source,xml]
-----
-HTTP/1.1 200 OK
-Content-Type: application/json
-Cache-Control: no-store
-Pragma: no-cache
-
-{"token_type": "Bearer",
- "expires_in": 300,
- "id_token": "...",
- "access_token": "...",
-}
-----
-
-[cols="a,a"] 
-|===
-|Code   |Type Success  
-|200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
-|Code   |Type Error   
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
-|===
-
 == Für Versicherte mit ihren Smartphones
 *Nutzung der Gesundheitskarte* +
-Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte mittels NFC aus.
-
-Die E-Rezept-App adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.ti-dienste.de` dabei veröffentlicht der IDP sein DiscoverDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-knonw"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
-
-
-
+Versicherte können sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte ausweisen.
+Der Ablauf ist analog zu dem oben ausgeführt Ablauf für Primärsysteme. Das E-Rezept-FdV bündelt dabei (wie das Primärsystem) in Stufe 1 die E-Rezept-Fachlogik und die Funktion des Authenticator-Moduls. Die Signatur der Challenge erfolgt bei Nutzung der elektronischen Gesundheitskarte bspw. über die NFC-Schnittstelle des Mobilgeräts.
+Dabei wird das Schlüsselmaterial PRK.CH.AUT für Private-Key und C.CH.AUT für das Zertifikat inkl. PublicKey verwendet.
 
 
 = Verschlüsselter Transportkanal zur Vertrauenswürdigen Ausführungsumgebung ("VAU-Transport")

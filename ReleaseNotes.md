@@ -1,3 +1,6 @@
+# Release 4.0.2-2
+# Release 4.0.2-2 Changes -refactoring of authentication chapter -added PS-IDP-Flow.html for better description -minor fixes in communication chapter
+
 # Release 4.0.2-1
 # Release 4.0.2 Minor changes and bug fixes - removed not necessar masking charakters in links - correction of requests and responses in communication - deleted example and source folder. all files can be found on simplifier.net (link available on Readme)
 

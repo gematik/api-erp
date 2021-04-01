@@ -35,7 +35,7 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 |Method     |POST
 |HTTP Header |
 ----
-Content-Type: application/fhir+xml; charset=UTF-8
+Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
@@ -475,11 +475,11 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
     "profile":  [
       "https://gematik.de/fhir/StructureDefinition/ErxCommunicationDispReq"
     ]
-  },
-  "status": "unknown",
+  },  
   "basedOn":  [{
     "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
   }],
+  "status": "unknown",
   "recipient":  [{
     "identifier": {
       "system": "https://gematik.de/fhir/Namingsystem/TelematikID",
@@ -512,11 +512,11 @@ Location:
       "https://gematik.de/fhir/StructureDefinition/ErxCommunicationDispReq"
     ]
   },
-  "status": "unknown",
   "sent": "2020-03-12T18:01:10+00:00",
   "basedOn":  [{
     "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
   }],
+  "status": "unknown",
   "recipient":  [{
     "identifier": {
       "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
