@@ -1,3 +1,6 @@
+# Release 1.0.1
+#E-Rezept 1.0.1 - Release Notes Notes: Since April 2021 E-Rezept is no longer a part of a gematik document release package. Starting with E-Rezept v1.0.1 it will be developed in a separate branch (see also https://fachportal.gematik.de/anwendungen/elektronisches-rezept). - update and clarification on IDP authentication flow - added samples for qualified signatures on ePrescription-Bundles, see samples folder - additional headers on outer http-request - added configuration guide for installation issues on DNS resolving and routing issues - no delete prescription by representative allowed - minor typo and inconsistency changes/fixes
+
 # Release 4.0.2-2
 # Release 4.0.2-2 Changes -refactoring of authentication chapter -added PS-IDP-Flow.html for better description -minor fixes in communication chapter
 

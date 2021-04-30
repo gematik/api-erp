@@ -52,6 +52,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
+
 |Payload    | -
 |===
 
@@ -234,6 +237,10 @@ X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea <
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
 <2> Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
+
+
 |Payload    | -
 |===
 
@@ -630,6 +637,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
+
 |Payload    | -
 |===
 
@@ -785,10 +795,12 @@ Der Aufruf erfolgt als http-`POST`-Operation auf eine konkrete Ressource `/Task/
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea <2>
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. + 
-<2> Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
+
 |Payload    | -
 |===
 
@@ -841,6 +853,9 @@ Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit eine
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten, nach der die Protokolleinträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: AuditEvent` zu setzen.
+
 |Payload    | -
 |===
 

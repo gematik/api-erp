@@ -2,18 +2,25 @@
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
-Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die [E-Rezept-Profile](https://simplifier.net/erezept-workflow) des genutzten FHIR-Standards.
+Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die [E-Rezept-Profile (inkl. Beispielen)](https://simplifier.net/erezept-workflow) des genutzten FHIR-Standards.
 
 Auf den folgenden Seiten stellt die gematik die Nutzung der Schnittstellen durch die Primärsysteme der verordnenden Ärzte/Zahnärzte und der Apotheker sowie durch die E-Rezept-App vor.
 Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-Rezepts in den App Stores der beiden Plattformen iOS und Android verfügbar.
 
-In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte [mit der der TI verbinden](docs/authentisieren.adoc). Wir zeigen detailliert den Ablauf der [Erstellung eines E-Rezepts](docs/erp_bereitstellen.adoc) in der verordnenden Praxis und [wie Apotheker auf den Fachdienst zugreifen](docs/erp_abrufen.adoc), um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die [Einsicht in die vorhandenen E-Rezepte](docs/erp_versicherte.adoc) und [Abgabeinformationen eingelöster Rezepte](docs/erp_versicherte.adoc) erfolgt, wie die [Kommunikation mit der Apotheke](docs/erp_communication.adoc) ablaufen kann und wie der Versicherte [Einsicht in das Zugriffsprotokoll](docs/erp_versicherte.adoc) auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der [Ablauf der Rezept-Einlösung](docs/erp_versicherte.adoc) für Versicherte mit dem E-Rezept funktioniert.
+Die KBV definiert die FHIR-Profile des Verordnungsdatensatzes im simplifier-Projekt [E-Rezept-Verordnung](https://simplifier.net/erezept). Die Festlegungen zu Abgabe- und Abrechnungsdaten der Apotheken werden in den DAV-Projekten [Abgabedaten](https://simplifier.net/erezeptabgabedaten) und [Abrechnungsdaten](https://simplifier.net/eRezeptAbrechnungsdaten) getroffen.
 
-Die gematik veröffentlicht die Profilierung der FHIR-Ressourcen und valide Beispiele auf simplifier.net im Projekt [E-Rezept-Workflow](https://simplifier.net/erezept-workflow).
+Für die QES-Erstellung durch den Konnektor liegen im Unterordner [samples/qes](samples/qes) SOAP-Request/Responses zu den [Verordnungsbeispielen](https://simplifier.net/erezept/~resources?category=Example&exampletype=Bundle) der KBV bereit. Spezialfälle (z.B. abgelaufene Zertifikate wegen Kartenwechsel o.ä.) stellen wir im Unterordner [samples/qes-special-cases](samples/qes-special-cases) bereit.
+
+Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur über Quittung bis zu den Abrechnungsdaten stellt der Deutsche Apothekerverband in seinem github-Projekt [
+eRezept-Beispiele](https://github.com/DAV-ABDA/eRezept-Beispiele/tree/v1.0.0) zur Verfügung.
+
+In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte [mit der der TI verbinden](docs/authentisieren.adoc). Wir zeigen detailliert den Ablauf der [Erstellung eines E-Rezepts](docs/erp_bereitstellen.adoc) in der verordnenden Praxis und [wie Apotheker auf den Fachdienst zugreifen](docs/erp_abrufen.adoc), um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die [Einsicht in die vorhandenen E-Rezepte](docs/erp_versicherte.adoc) und [Abgabeinformationen eingelöster Rezepte](docs/erp_versicherte.adoc) erfolgt, wie die [Kommunikation mit der Apotheke](docs/erp_communication.adoc) ablaufen kann und wie der Versicherte [Einsicht in das Zugriffsprotokoll](docs/erp_versicherte.adoc) auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der [Ablauf der Rezept-Einlösung](docs/erp_versicherte.adoc) für Versicherte mit dem E-Rezept funktioniert.
 
 ## Zugang zu Diensten der Telematikinfrastruktur
 
 [Hier geht es zur Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)
+
+[Hier geht es zur notwendigen Netzwerkkonfiguration für Primärsysteme](docs/ti_configuration.adoc)
 
 ## Anwendungsfälle E-Rezept in der Praxis
 

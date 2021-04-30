@@ -38,7 +38,10 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
 |Payload    |
 [source,json]
 ----
@@ -326,6 +329,9 @@ Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
+
 |Payload    |
 [source,xml]
 ----
@@ -466,6 +472,9 @@ Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurüc
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
 |Payload    |
 [source,json]
 ----
@@ -575,7 +584,10 @@ In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/co
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+
 |Payload    |-
 |===
 
@@ -686,6 +698,9 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+
 |Payload    |-
 |===
 
