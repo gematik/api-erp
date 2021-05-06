@@ -1,3 +1,10 @@
+# Release 1.0.2
+Changes
+ - added .NET sample Code for VAU-Communication
+ - information on network and DNS configuration for client systems
+ - minor typo and inconsistency changes/fixes
+
+
 # Release 1.0.1
 #E-Rezept 1.0.1 - Release Notes Notes: Since April 2021 E-Rezept is no longer a part of a gematik document release package. Starting with E-Rezept v1.0.1 it will be developed in a separate branch (see also https://fachportal.gematik.de/anwendungen/elektronisches-rezept). - update and clarification on IDP authentication flow - added samples for qualified signatures on ePrescription-Bundles, see samples folder - additional headers on outer http-request - added configuration guide for installation issues on DNS resolving and routing issues - no delete prescription by representative allowed - minor typo and inconsistency changes/fixes
 

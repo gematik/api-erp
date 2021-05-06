@@ -252,6 +252,8 @@ Die VAU des E-Rezept-Fachdienstes erzeugt eine HTTP-Response entsprechend des Wo
 
 Ein zusätzlich in den Aufrufen vom E-Rezept-Fachdienst generiertes, wechselndes Nutzerpseudonym wirkt zusätzlich Überlastungsangriffen entgegen, indem Aufrufe ohne Nutzerpseudonym mit einer geringeren Priorität bearbeitet werden.
 
+NOTE: Im Verzeichnis  link:samples/VAUSimpleExample[VAUSimpleExample] finden Sie eine C#-Beispielimplementierung eines VAU-Clients, der uns freundlicherweise von den Apothekensoftware-Häusern bereitgestellt wurde.
+
 ==== Kennzeichnung des verschlüsselten Inhalts für Routing
 Der E-Rezept-Fachdienst benötigt eine Kennzeichnung im äußeren http-Request, um den verschlüsselten Inhalt an den fachlich zuständigen VAU-Kontext zu routen. Um eine Überlastung nutzerrollen- und workflowspezifischer VAU-Kontexte zu vermeiden, werden die http-Header `X-erp-user` und `X-erp-resource` genutzt. Die folgende Tabelle zeigt die Belegung der Header zur Nutzung durch die entsprechenden E-Rezept-Nutzer (in den Beispielen der verschiedenen UseCases sind die jeweiligen Header-Belegungen für den äußeren http-Request angegeben):
 

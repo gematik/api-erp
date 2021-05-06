@@ -36,16 +36,17 @@ Die Lösung besteht im Einrichten einer Weiterleitung für Zieladressen in der T
 [cols="a,a"] 
 |===
 |*Ziele*       |*Adressbereiche*
-|offene Fachdienste|`100.102.0.0/16` +
+|offene Fachdienste|`100.102.0.0/17` +
 `100.103.0.0/16`
 |aAdG und aAdG NetG-TI|`100.102.128.0/17`
-|aAdG-NetG (*alte Bestandsnetze*)|`188.144.0.0/16`
-
+2.+|Die Routen für offene Fachdienste und aAdG + aAdG NetG-TI lassen sich zusammenfassen zu `100.102.0.0/15`, um nur eine Route konfigurieren zu müssen
+|aAdG-NetG (*Bestandsnetze*)|siehe lokale Repo-Datei link:../config/Konnektor_Bestandsnetze.xml[Konnektor_Bestandsnetze.xml] (Version 2.1.6 - April 2021), +
+Umzug ins gematik-git-Account demnächst geplant)
 |===
 
 NOTE: Die Weiterleitung kann Segmentweise eingerichtet werden und muss nicht für jede Zieladresse einzeln erfolgen (übergreifende Routen).
 
-NOTE: Die Liste der erreichbaren aAdG (*WANDA*) wird regelmäßig aktualisiert, wenn im Rahmen der Bestätigung neuer Anbieter Adressbereiche des Anbieters hinzukommen.
+IMPORTANT: Die Liste der erreichbaren aAdG (*WANDA*) wird regelmäßig aktualisiert, wenn im Rahmen der Bestätigung neuer Anbieter Adressbereiche des Anbieters hinzukommen. 
 
 Je nach Art und Größe des lokal verwalteten Netzwerks der Leistungserbringerumgebung kommt im Gateway unterschiedliche Hard- und Software zum Einsatz. Einige lassen sich über die Kommandozeile admnistrieren, andere besitzen eine eigene API (z.B. Fritzbox, Speedport) und in bestimmten Fällen lässt sich die Konfiguration über ein UserInterface einrichten. 
 
