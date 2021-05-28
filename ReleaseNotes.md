@@ -1,3 +1,17 @@
+# Release 1.0.3
+Changes
+ Update and more details on the authentication workflow and the description
+ Update on the communication responses (json payload for delivery and shipment)
+ Update on workflowAuthentication.svg
+ Added verifyCertificate for PTV4 ECC-Certificates
+ Added note on http-RFC for VAU-inner http-Request
+ Added note for UTC timestamp on Communications
+ Added image to describe namingserver network overview for DNS
+ Bugfixes on bundle type in erp_abrufen.adoc and erp_versicherter.adoc
+ Little bugfix on the description of the SSO_TOKEN
+ Fixed example of MedicationDispense
+
+
 # Release 1.0.2
 Changes
  - added .NET sample Code for VAU-Communication

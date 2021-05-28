@@ -496,12 +496,12 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     }
   }],
   "payload":  [{
-    "contentString": "Bitte schicken Sie einen Boten." <2>
+    "contentString": "\"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }" <2>
   }]
 }
 ----
 <1> Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
-<2> Mit diesem Beispiel wird beispielhaft gezeigt, dass der Versicherte das E-Rezept in einer Apotheke einlöst, die ihn als Kunden kennt (Stammapotheke). 
+<2> Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
 |===
 
 *Response*
@@ -523,7 +523,7 @@ Location:
   },
   "sent": "2020-03-12T18:01:10+00:00",
   "basedOn":  [{
-    "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
+    "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
   }],
   "status": "unknown",
   "recipient":  [{
@@ -539,11 +539,11 @@ Location:
     }
   },
   "payload":  [{
-    "contentString": "Bitte schicken Sie einen Boten." <2>
+    "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
   }]
 }
 ----
-NOTE: Das Verfahren für den Erhalt der Zuzahlung und mögliche, von den Adressdaten des Versicherten im E-Rezept-Datensatz abweichende, Lieferadressen seien über das Kundenverhältnis zwischen Versichertem und Apotheke vereinbart und werden hier nicht dargestellt und sind ebenso nicht Teil des E-Rezept-Workflows.
+NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
 
 [cols="a,a"] 
 |===
@@ -654,7 +654,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "code": "10"
           }
         }],
-        "contentString": "Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten."
+        "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"onPremise\",\"info_text\": \"Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.\", \"pickUpCodeHR\": \"12341234\", \"pickUpCodeDMC\": \"\", \"url\": \"\" } <3>
       }]
     }
   }]
@@ -662,6 +662,7 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 <1> Die abgerufene Nachricht enthält kein Element `received`, da die Nahricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=null` kein ERgebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 <2> Hier ist die Empfänger-ID (in diesem Fall Versicherten-ID) des Adressaten angegeben, über die die Nachrichten beim Abruf gemäß der Nutzerkennung im übergebenen ACCESS_TOKEN gefiltert werden.
+<3> Dies sei die Antwort der Apotheke auf eine verbindliche Zuweisung, dann erhält die E-Rezept-App vom Warenwirtschaftssystem der Apotheke ebenfalls einen strukturierten Text. In diesem sind u.a. Details für die Abholung in der Filiale wie z.B. der Abholcode `pickUpCodeHR` angegeben.
 
 
 [cols="a,a"] 
@@ -703,6 +704,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 |Payload    |-
 |===
+
+IMPORTANT: Der E-Rezept-Fachdienst verarbeitet Zeitstempel in UTC. D.h. bei der Formulierung von taggenauen Anfragen muss ggfs. das UTC-Offset berücksichtgt werden. +
+D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communications mit "sent" Timestamp größer gleich `2021-05-20 00:00:00 UTC` und kleiner `2021-05-21 00:00:00 UTC`.
 
 *Response*
 [source,xml]

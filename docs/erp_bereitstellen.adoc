@@ -179,7 +179,7 @@ Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsy
 
 Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller Value Sets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
 
-NOTE: Vollständiges Beispiel entnommen aus link:samples/qes[samples/qes] mit Dateiname `4fe2013d-ae94-441a-a1b1-78236ae65680*` inkl. der folgenden Konnektor-Signatur-Beispiele. Daher weicht die Rezept-ID `PrescriptionID` von den übrigen Beispielen ab.
+NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit Dateiname `4fe2013d-ae94-441a-a1b1-78236ae65680*` inkl. der folgenden Konnektor-Signatur-Beispiele. Daher weicht die Rezept-ID `PrescriptionID` von den übrigen Beispielen ab.
 
 .Beispiel für ein E-Rezept-Bundle (Klicken zum Ausklappen)
 [%collapsible]
@@ -1055,7 +1055,7 @@ Content-Type: text/xml;charset=utf-8
 ----
 <1> Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
-NOTE: Der Inhalt der Base64-codierten Signatur findet sich im Unterordner der link:samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
+NOTE: Der Inhalt der base64-codierten Signatur findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
 
 [cols="a,a"] 
 |===
@@ -1102,7 +1102,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     </parameter>
 </Parameters>
 ----
-<1> Hierbei handelt es sich um die base64 codierte Repräsentation der enveloping Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
+<1> Hierbei handelt es sich um die base64-codierte Repräsentation der enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
 
 |===
 

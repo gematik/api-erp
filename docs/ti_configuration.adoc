@@ -83,7 +83,9 @@ Andernfalls ist diese Netzwerkkonfiguration nach jedem Neustart zu tätigen. +
 
 
 = Konfiguration der DNS-Namensauflösung
-Über die Namensauflösung werden FQDNs (z.B. `erp.zentral.erp.splitdns.ti-dienste.de` für den E-Rezept-Fachdienst) in IP-Adressen für das Routing übersetzt. Werden bpw. für die Lastverteilung oder zur Ausfallsicherheit mehrere Serverknoten eingesetzt, liefert die Namensauflösung für einen FQDN mehrere IP-Adressen zurück.
+Über die Namensauflösung werden FQDNs (z.B. `erp.zentral.erp.splitdns.ti-dienste.de` für den E-Rezept-Fachdienst) in IP-Adressen für das Routing übersetzt. Werden bpw. für die Lastverteilung oder zur Ausfallsicherheit mehrere Serverknoten eingesetzt, liefert die Namensauflösung für einen FQDN mehrere IP-Adressen zurück. Die folgende Abbildung zeigt eine Übersicht der verwendeten Namensdienste.
+
+image:../images/erx_dns.png[width=100%]
 
 In Netzwerken, in denen der Konnektor in Reihe geschaltet ist, kann dieser Ziel-Adressen in der TI über ein DNS-Forward vom Namensdienst der TI auflösen lassen. Für Zieladressen außerhalb der TI nutzt der Konnektor die Namensdienste im Internet.
 

@@ -176,9 +176,6 @@ Content-Type: application/fhir+xml;charset=utf-8
         </input> 
       </Task>
     </resource>
-    <search>
-      <mode value="outcome"/>
-    </search>
   </entry>
   <entry>
     <resource>
@@ -193,15 +190,12 @@ Content-Type: application/fhir+xml;charset=utf-8
         <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." /> <3>
       </Binary>
     </resource>
-    <search>
-      <mode value="include"/>
-    </search>
   </entry>
 </Bundle>
 ----
 <1> Dieses generierte `Secret` stellt den Zugriffscode der abrufenden Apotheke dar und muss in allen folgenden Workflowschritten angegeben werden, damit nicht eine fremde Apotheke den Prozess übernehmen kann. 
 <2> Der Status des Tasks ist in Bearbeitung (`in-progress`)
-<3> Dieses Element enthält den qualifiziert signierten Verordnungsdatensatz als PKCS#7-Datei in Base64-codierter Form. Innerhalb des Signaturobjekts ist das E-Rezept-Bundle enthalten (Enveloping-Signatur) und muss vom Apothekensystem für die Bearbeitung des E-Rezepts verarbeitet werden. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
+<3> Dieses Element enthält den qualifiziert signierten Verordnungsdatensatz als PKCS#7-Datei in Base64-codierter Form. Innerhalb des Signaturobjekts ist das E-Rezept-Bundle enthalten (Enveloping-Signatur) und muss vom Apothekensystem für die Bearbeitung des E-Rezepts verarbeitet werden. Der codierte Base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
 
 
 
@@ -662,11 +656,11 @@ Qfo=
 
 |===
 
-NOTE: Der Inhalt der Base64-codierten Signatur findet sich im Unterordner der link:samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
+NOTE: Der Inhalt der Base64-codierten Signatur findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
 
-IMPORTANT: Im Verzeichnis der link:samples/qes/signed[Beispiele] sind alle Kreuzkombinationen der verschiedenen Konnektorhersteller für Signaturerstellung und -Prüfung enthalten. Hier dargestellt ist die Prüfung durch eine Koco-Box einer durch einen Secunet-Konnektor erstellten QES in `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_req.xml`.
+IMPORTANT: Im Verzeichnis der link:../samples/qes/signed[Beispiele] sind alle Kreuzkombinationen der verschiedenen Konnektorhersteller für Signaturerstellung und -Prüfung enthalten. Hier dargestellt ist die Prüfung durch eine Koco-Box einer durch einen Secunet-Konnektor erstellten QES in `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_req.xml`.
 
-IMPORTANT: Im Verzeichnis link:samples/qes-cases/HBA-gueltig-bis-24.4.2021[HBA-gueltig-bis-24.4.2021] gibt es weitere Beispiele, wie die Signatur und Signaturprüfung aussieht, wenn ein HBA kurz vor dem Ablauf seiner kryptografischen Gültigkeit verwendet wurde.
+IMPORTANT: Im Verzeichnis link:../samples/qes-cases/HBA-gueltig-bis-24.4.2021[HBA-gueltig-bis-24.4.2021] gibt es weitere Beispiele, wie die Signatur und Signaturprüfung aussieht, wenn ein HBA kurz vor dem Ablauf seiner kryptografischen Gültigkeit verwendet wurde.
 
 
 *Response*
@@ -867,7 +861,7 @@ Content-Type: text/xml;charset=utf-8
     </S:Body>
 </S:Envelope>
 ----
-NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Konnektor aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:samples/qes/signed[Beispiele].
+NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Signatur aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:../samples/qes/signed[Beispiele].
 
 [cols="a,a"] 
 |===
@@ -911,7 +905,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <Medication> <2>
       <id value="med0314"/> 
       <meta>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.1" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.1" />
       </meta>
       <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
           <valueCoding>
@@ -938,8 +932,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
       <amount>
         <numerator>
           <value value="12" />
-          <unit value="{tbl}" />
+          <unit value="Tabletten" />
           <system value="http://unitsofmeasure.org" />
+          <code value="{tbl}" />
         </numerator>
         <denominator>
           <value value="1" />
@@ -1332,13 +1327,10 @@ HTTP/1.1 200
         </output> 
       </Task>
     </resource>
-    <search>
-      <mode value="outcome"/> <1>
-    </search>
   </entry>
   <entry>
     <resource>
-      <Bundle xmlns="http://hl7.org/fhir"> <2>
+      <Bundle xmlns="http://hl7.org/fhir"> <1>
         <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
         <meta>
           <profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt" />
@@ -1420,16 +1412,10 @@ HTTP/1.1 200
         </signature>
       </Bundle>
     </resource>
-    <search>
-      <mode value="include"/> <3>
-    </search>
   </entry>
 </Bundle>
 ----
-<1> In der Abfrage wird der Task als Ergebnis der Abfrage zurückgegeben
-<2> Die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
-<3> Mit dem Ergebnistyp der Abfrage "include" wird kenntlich gemacht, dass die Quittung ergänzend zur Abfrage auf ein anderes Objekt zurückgegebe wird.
- 
+<1> Die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
 
 [cols="a,a"] 
 |===
