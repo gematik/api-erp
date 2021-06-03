@@ -1,3 +1,10 @@
+# Release 1.0.4
+Changes
+ Added implementation examples for encrypted VAU communication
+ Fixed Payload in chapter for generating signature with SMC-B
+ Added table of http-headers for inner and outer request in the authentication chapter
+
+
 # Release 1.0.3
 Changes
  Update and more details on the authentication workflow and the description

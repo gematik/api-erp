@@ -22,6 +22,23 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Te
 
 toc::[]
 
+= Http-Header in Requests an Dienste der Telematikinfrastruktur
+Zur Steuerung der Funktionsaufrufe, für Sicherheitsprüfungen und die Protokollierung sind verpflichtende http-Header in allen http-Requests an den IDP-Dienst und den E-Rezept-Fachdienst erforderlich. Da mit dem VAU-Transport ein "innerer" und ein "äußerer" http-Request an den E-Rezept-Fachdienst gesendet werden, ist auf das korrekte Setzen innen und außen zu achten. Die folgende Tabelle listet die notwendigen http-Header auf.
+
+[cols="a,a,^.a"] 
+[cols=">60%,^20%,^20%", options="header"]
+|===
+|http-Header|äußerer Request ("/VAU")|innerer Request
+|Authorization|-|x
+|User-Agent|x|optional
+|X-erp-user|x|-
+|X-erp-resource|x|-
+|X-AccessCode|-|x
+|SOAPAction (nur für Konnektor)|n/a|x
+|===
+
+NOTE: Die Standard http-Header wie bspw. `Accept-*`, `Connection`, `Host`, `Content-Type`, `Content-Length` usw. sind gemäß Standard ebenfalls zu setzen.
+
 = Als Nutzer der Telematikinfrastruktur authentifiziert werden
 Die Telematikinfrastruktur gestattet keinen Zugriff auf Dienste ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services sowie in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen. + 
 
@@ -266,10 +283,6 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
         <ns4:ClientSystemId xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0">myPVS</ns4:ClientSystemId>
         <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
       </ns2:Context>
-      <ns0:OptionalInputs>
-        <ns6:SignatureType xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema">urn:ietf:rfc:3447</ns6:SignatureType>
-        <ns0:SignatureSchemes>RSASSA-PKCS1-v1_5</ns0:SignatureSchemes>
-      </ns0:OptionalInputs>
       <ns0:BinaryString>
         <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f</ns7:Base64Data> <2>
       </ns0:BinaryString>
@@ -327,11 +340,16 @@ image:api_vau_transport.png[width=80%]
 
 NOTE: Das Diagramm inkl. der konkreten Ablaufbeschreibung befindet sich auch im Spezifikationsdokument [gemSpec_Krypt] in Kapitel 7.
 
+.In den folgenden github-Repositories finden sich Beispiel-Implementierungen für die verschlüsselte VAU-Kommunikation
+* https://github.com/gematik/ref-erp-client-cs/
+* https://github.com/ere-health/architecture
+* https://github.com/ere-health/ere-ps-app
+* https://github.com/ere-health/front-end-ere.health
+* https://bitbucket.org/andreas_hallof/vau-protokoll/src/master/erp 
+
 Die VAU des E-Rezept-Fachdienstes erzeugt eine HTTP-Response entsprechend des Workflows im E-Rezept und verschlüsselt diese Response symmetrisch mit dem vom Client bereitgestellten Antwortschlüssel. Die verschlüsselte Response wird anschließend mittels TLS transportverschlüsselt an den Client zurückgegeben.
 
 Ein zusätzlich in den Aufrufen vom E-Rezept-Fachdienst generiertes, wechselndes Nutzerpseudonym wirkt zusätzlich Überlastungsangriffen entgegen, indem Aufrufe ohne Nutzerpseudonym mit einer geringeren Priorität bearbeitet werden.
-
-NOTE: Im Verzeichnis  link:../samples/VAUSimpleExample[VAUSimpleExample] finden Sie eine C#-Beispielimplementierung eines VAU-Clients, der uns freundlicherweise von den Apothekensoftware-Häusern bereitgestellt wurde.
 
 ==== Kennzeichnung des verschlüsselten Inhalts für Routing
 Der E-Rezept-Fachdienst benötigt eine Kennzeichnung im äußeren http-Request, um den verschlüsselten Inhalt an den fachlich zuständigen VAU-Kontext zu routen. Um eine Überlastung nutzerrollen- und workflowspezifischer VAU-Kontexte zu vermeiden, werden die http-Header `X-erp-user` und `X-erp-resource` genutzt. Die folgende Tabelle zeigt die Belegung der Header zur Nutzung durch die entsprechenden E-Rezept-Nutzer (in den Beispielen der verschiedenen UseCases sind die jeweiligen Header-Belegungen für den äußeren http-Request angegeben):
