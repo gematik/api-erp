@@ -965,7 +965,12 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
       </identifier>
     </actor>
   </performer>
-  <whenHandedOver value="2020-03-20T07:13:00+05:00"/> <3>
+  <quantity>
+    <value value="1" />
+    <system value="http://unitsofmeasure.org" />
+    <code value="{Package}" />
+  </quantity>
+  <whenHandedOver value="2020-03-20"/> <3>
   <dosageInstruction>
     <text value="1-0-1-0" /> <4>
   </dosageInstruction> 
@@ -1050,7 +1055,17 @@ HTTP/1.1 200 OK
             </Device>
         </resource>
     </entry>
-    <signature> <7>
+    <entry>
+        <fullUrl value="https://prescriptionserver.telematik/Binary/Prescription123" />
+        <resource>
+            <Binary>
+                <id value="Prescription123"/> 
+                <contentType value="application/octet-stream"/> 
+                <data value="BAQEBLAEsAAD/4QQCRXhpZgAATU0AKgAAAAgACgEPAAIAA"/> <7>
+            </Binary>
+        </resource>
+    </entry>
+    <signature> <8>
         <type>
             <system value="urn:iso-astm:E1762-95:2013" />
             <code value="1.2.840.10065.1.12.1.1" />
@@ -1070,7 +1085,8 @@ HTTP/1.1 200 OK
 <4> Das Startdatum entspricht dem Abrufdatum des E-Rezepts durch die Apotheke (Statuswechsel des Task: ready -> in-progress)
 <5> Signaturzeitpunkt der Quittung, identisch zum Statuswechsel des Task in-prtogress -> completed
 <6> Das hier eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
-<7> Dieses Element enthält die Signatur des Quittungs-Bundles über alle enthaltenen Objekte als Enveloping CAdES-Signatur in Base64-Codierung.
+<7> An dieser Stelle wird der base64-codierte Hashwert, über den die QES des Verordnungsdatensatzes erstellt wurde eingebettet.
+<8> Dieses Element enthält die Signatur des Quittungs-Bundles über alle enthaltenen Objekte als Enveloping CAdES-Signatur in Base64-Codierung.
 
 
 

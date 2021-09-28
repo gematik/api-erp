@@ -496,7 +496,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     }
   }],
   "payload":  [{
-    "contentString": "\"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }" <2>
+    "contentString": "{ "\"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }" <2>
   }]
 }
 ----
@@ -576,9 +576,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. 
 *Request*
 [cols="h,a"] 
 |===
-|URI        |https://prescriptionserver.telematik/Communication?received=null +
+|URI        |https://prescriptionserver.telematik/Communication?received=NULL +
 
-In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=null`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=NULL`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
 |Method     |GET
 |HTTP Header |
 ----
@@ -606,7 +606,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "total": 1,
   "link": [ {
     "relation": "self",
-    "url": "https://prescriptionserver.telematik/Communication?received=null"
+    "url": "https://prescriptionserver.telematik/Communication?received=NULL"
   } ],
   "entry": [ {
     "fullUrl": "https://prescriptionserver.telematik/Communication/12346",
@@ -660,7 +660,7 @@ Content-Type: application/fhir+json;charset=utf-8
   }]
 }
 ----
-<1> Die abgerufene Nachricht enthält kein Element `received`, da die Nahricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=null` kein ERgebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
+<1> Die abgerufene Nachricht enthält kein Element `received`, da die Nahricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 <2> Hier ist die Empfänger-ID (in diesem Fall Versicherten-ID) des Adressaten angegeben, über die die Nachrichten beim Abruf gemäß der Nutzerkennung im übergebenen ACCESS_TOKEN gefiltert werden.
 <3> Dies sei die Antwort der Apotheke auf eine verbindliche Zuweisung, dann erhält die E-Rezept-App vom Warenwirtschaftssystem der Apotheke ebenfalls einen strukturierten Text. In diesem sind u.a. Details für die Abholung in der Filiale wie z.B. der Abholcode `pickUpCodeHR` angegeben.
 

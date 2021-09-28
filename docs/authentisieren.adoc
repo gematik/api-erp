@@ -284,7 +284,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
         <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
       </ns2:Context>
       <ns0:BinaryString>
-        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f</ns7:Base64Data> <2>
+        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=</ns7:Base64Data> <2>
       </ns0:BinaryString>
     </ns0:ExternalAuthenticate>
   </soap-env:Body>
@@ -307,7 +307,7 @@ Content-Type: text/xml;charset=utf-8
         <Result>OK</Result>
       </Status>
       <ns3:SignatureObject>
-        <ns3:Base64Signature Type="urn:ietf:rfc:3447">N9Ut1Jepp-p77Vu2sOca3FqyiqDPYWKd6N4HO82YazWlg61uVwE49eRntsfSdx8HpGNdY9CerkARRCYAYJSqSw</ns3:Base64Signature> <1>
+        <ns3:Base64Signature Type="urn:ietf:rfc:3447">iSCNtUJUaH3uameymaYdplnmn5iq6k90a8i/TvSRvYOjw3x7zXn6+74LoVDc1xWNplmy6fzZejoIZAPxAJ0wBGQWFbdpD6ZLdOqC+Cm3BXUEXHeW2swfI6KfUwfWj43pujBTdzYI6JYG08sL63fxuY9eeGndzuWCDvHQVK0bPPjxq0K/fHx+PFQ1DxuNr5jbDaCBKOegPvcPXOFBY8dRGW0fu/T8baEpm5ACNGmX3vIqC3SWsP7M1TcTbEwxh82vMc0iOkIVDa2LKJAk5H4gSBBAGJahsFD3N3fnKgdLr81HiEQaoIyb+uEIVvaemz8yQ59dAIv3Hrb0Em5k/faHDQ==</ns3:Base64Signature> <1>
       </ns3:SignatureObject>
     </ns4:ExternalAuthenticateResponse>
   </soap:Body>
@@ -451,12 +451,12 @@ X-erp-user: l <1>
 
 HTTP/1.1 200 OK
 Content-Type: application/octet-stream
-Userpseudonym: 270810c79748768a9b0aefbf52c8d72be7ad5e0d2d328d9bb70dbf58623fc7ae
+Userpseudonym: 5a049a2c1654e685247e2d20136445d9-632f841a029564ce000f29675d192513
 
 001111101111100110001001001111010110010010111110101100100011110...
 ----
 |===
-NOTE: Die `0` am Ende der URL des Requests steht für ein (dem Client nicht bekanntes) Nutzerpseudonym, nach der ersten Antwort der VAU des E-Rezept-Fachdienstes kann das vom Fachdienst mitgeteilte `Userpseudonym` `270810c79748768a9b0aefbf52c8d72be7ad5e0d2d328d9bb70dbf58623fc7ae` anstelle der `0` verwendet werden, um Folgezugriffe höher zu priorisieren.
+NOTE: Die `0` am Ende der URL des Requests steht für ein (dem Client nicht bekanntes) Nutzerpseudonym, nach der ersten Antwort der VAU des E-Rezept-Fachdienstes kann das vom Fachdienst mitgeteilte `Userpseudonym` `5a049a2c1654e685247e2d20136445d9-632f841a029564ce000f29675d192513` anstelle der `0` verwendet werden, um Folgezugriffe höher zu priorisieren.
 
 
 == Response verarbeiten

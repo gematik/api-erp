@@ -1,3 +1,6 @@
+# Release 1.0.5
+Changes\n - fixed sample of hash value and response in authentication flow\n - changed date format in example of MedicationDispense.whenHandedOver (to be used from 1.10.21)\n - receipt will contain hash value of original ePrescription\n - fixed typo in communication example
+
 # Release 1.0.4
 Changes
  Added implementation examples for encrypted VAU communication

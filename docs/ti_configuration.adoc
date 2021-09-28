@@ -39,7 +39,8 @@ Die Lösung besteht im Einrichten einer Weiterleitung für Zieladressen in der T
 |offene Fachdienste|`100.102.0.0/17` +
 `100.103.0.0/16`
 |aAdG und aAdG NetG-TI|`100.102.128.0/17`
-2.+|Die Routen für offene Fachdienste und aAdG + aAdG NetG-TI lassen sich zusammenfassen zu `100.102.0.0/15`, um nur eine Route konfigurieren zu müssen
+2.+|*Die Routen für offene Fachdienste und aAdG + aAdG NetG-TI lassen sich zusammenfassen zu [red yellow-background]#100.102.0.0/15#, um nur eine Route konfigurieren zu müssen. +
+Für die Referenzumgebung RU ist der Adressbereich mit `10.30.0.0/15` zu konfigurieren.*
 |aAdG-NetG (*Bestandsnetze*)|siehe lokale Repo-Datei link:../config/Konnektor_Bestandsnetze.xml[Konnektor_Bestandsnetze.xml] (Version 2.1.6 - April 2021), +
 Umzug ins gematik-git-Account demnächst geplant)
 |===
@@ -75,10 +76,10 @@ In größeren Netzwerken kommt mitunter eine gegenüber einer z.B. Fritzbox leis
 
 Mit folgendem Shell-Kommando lassen sich die Routen für z.B. offene Fachdienste statisch festlegen:
 
-`$ ip route add 100.102.0.0/16 via 10.10.10.1 dev eth0` +
+`$ ip route add 100.102.0.0/15 via 10.10.10.1 dev eth0` +
 seien dabei *10.10.10.1* die Konnektoradresse im lokalen Netz und *eth0* der verwendete Netzwerkinterface-Name
 
-NOTE: Für die Persistierung der statischen Routen ist darauf zu achten, welche Distribution verwendet wird und die dazugehörigen Konfiguren vorzunehmen. +
+NOTE: Für die Persistierung der statischen Routen ist darauf zu achten, welche Distribution verwendet wird und es sind die dazugehörigen Konfigurationen vorzunehmen. +
 Andernfalls ist diese Netzwerkkonfiguration nach jedem Neustart zu tätigen. +
 - Bspw. CentOS erlaubt das Erstellen von Skripten für die Netzwerkkonfiguration +
 - Bspw. Ubuntu nutzt netplan, wo die Netzwerkkonfiguration in einer Netplan-Datei erfolgt
