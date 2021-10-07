@@ -1,3 +1,6 @@
+# Release 1.0.6
+- added new page with the Release Management of all FHIR-Projects for realizing the german e-prescription (contains list of versions and release notes for each project) - added new page explaining the validator-service in "Titus" - added examples of Datamatrix-Codes (also evil codes) - added chapter for deleting messages
+
 # Release 1.0.5
 Changes\n - fixed sample of hash value and response in authentication flow\n - changed date format in example of MedicationDispense.whenHandedOver (to be used from 1.10.21)\n - receipt will contain hash value of original ePrescription\n - fixed typo in communication example
 

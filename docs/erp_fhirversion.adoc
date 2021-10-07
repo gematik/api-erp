@@ -1,0 +1,78 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.jpg[width=35%]
+
+= E-Rezept FHIR-Package Versionsmanagement 
+Auf dieser Seite finden sie eine Übersicht der FHIR-Release-Pakete der Prozessbeteiligten KBV, DAV, GKV, PKV und gematik. +
+Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projekt, das im E-Rezept verwendet wird.
+
+* *KBV* Definition des Verordnugnsdatensatzes ("eVerordnung") https://simplifier.net/erezept
+* *DAV* Definition des Abgabedatensatzes ("eAbgabedaten") https://simplifier.net/erezeptabgabedaten
+* *GKV* Definition des Abrechnungsdatensatzes für GKV ("TA7 Abrechnungsdaten") https://simplifier.net/eRezeptAbrechnungsdaten
+* *PKV* Definition des Abrechnungsdatensatzes für PKV https://to.be.defined
+* *gematik* Definition des Workflows https://simplifier.net/erezept-workflow
+
+toc::[]
+
+Im Folgenden sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind.
+
+== 2021.07.01
+Das Release zur E-Rezept-Einführung am 01.07.2021 legt die initialen FHIR-Profile für GKV-Versicherte fest
+
+[cols="h,a,40%,2*"] 
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum gültig ab* |*Datum gültig bis*
+
+|KBV     |*1.0.1* +
+https://simplifier.net/packages/kbv.ita.erp/1.0.1 |Integration der HL7-Basisprofile 0.9.13 Integration der KBV-Basisprofile 1.1.3 Erweiterung des ValueSet KBV_VS_ERP_Accident_Type um den Wert Berufskrankheit Anpassung der Extension KBV_EX_ERP_Accident
+Anpassung des Profils KBV_PR_ERP_Prescription, Erweiterung der Constraints Anpassung des Profils KBV_PR_ERP_Bundle, Erweiterung der Constraints |01.07.2021 |31.12.2021
+|gematik     |*1.0.3-1* +
+https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.0.3-1 |Fixed validation issue on Bundle.signature cardinality for pharmacy receipt.
+Fixed typo on Namespace reference of prescriptionID in Task
+Fixed JSON-Aarry in OperationDefiniton for $create-operation |01.07.2021 |31.12.2021
+|DAV     |*1.0.3* +
+https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.0.3 |##short description goes here## |01.07.2021 |31.12.2021
+|GKV     |*1.0.4-1* +
+https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.0.4 |Alle Artefakte wurden mit IDs versehen. Die „id“-Elemente der Profile wurden von 1..1 und „Must support“ auf nur noch 0..1 gesetzt. Mit Ausnahme des Profils GKVSV_PR_TA7_Sammelrechnung_Bundle, dessen ID in der Liste GKVSV_PR_TA7_Sammelrechnung_List aufgeführt wird. Im Profil GKVSV_PR_TA7_RezeptBundle wurde der „entry“-Discriminator angepasst. Das Element Bundle.entry.id dient nicht mehr als Discriminator. Neuer Discriminator ist Bundle.entry.link.url (Bitte bei der Umsetzung beachten!) GKVSV_PR_ERP_eAbrechnungsdaten Constraints für ImportPZN wurden angepasst. |01.07.2021 |31.12.2021
+|PKV     |n/a |n/a |n/a |n/a
+
+
+|===
+
+== 2022.01.01
+Das Release zum 01.01.2021 ermöglicht das E-Rezept für die neue Benutzergruppe der PKV-Versicherten, zudem wird das E-Rezept zur Pflicht für alle GKV-Versicherten. Weiterhin werden bisherige Unschärfen korrigiert und Kleinere Verbesserungen bzw. Fehlerbeseitigungen in den beteilgiten FHIR-Projekten umgesetzt.
+
+[cols="h,a,30%,3*"] 
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
+
+|KBV     |*1.0.2* +
+https://simplifier.net/packages/kbv.ita.erp/1.0.2 |ktualisierung des Profils KBV_PR_ERP_Prescription: 
+* Optimierung von drei Contraints
+* Streichung des nicht genutzten Elements dispenseRequest.validityPeriod
+* Korrektur einer Referenzierung im Element insurance
+Aktualisierung der Profile KBV_PR_ERP_Medication_PZN /KBV_PR_ERP_Medication_Compounding / KBV_PR_ERP_Medication_FreeText / KBV_PR_ERP_Medication_Ingredient:
+* Sicherstellung der korrekten Validierung der Extension https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine durch unterschiedliche Validatoren durch Klarstellung der Kardinalitäten |13.09.2021 |01.01.2022 |-
+|gematik     |*1.0.4* +
+##https://to.be.defined## |##short description goes here## |##...## |01.01.2022 |-
+|DAV     |*1.0.4* +
+##https://to.be.defined## |##short description goes here## |##...## |01.01.2022 |-
+|GKV     |*1.0.4-1* +
+##https://to.be.defined## |##short description goes here## |##...## |01.02.2022 |-
+|PKV     |##*1.0.0*## +
+##https://to.be.defined## |##short description goes here## |##...## |01.01.2022 |-

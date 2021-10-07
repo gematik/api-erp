@@ -1,3 +1,19 @@
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+
 = image:images/gematik_logo.jpg[width=35%] E-Rezept API-Dokumentation
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept. 
 
@@ -17,6 +33,16 @@ IMPORTANT: Durchgängige Beispieldatensätze von der Verordnung und qualifiziert
 eRezept-Beispiele^] zur Verfügung.
 
 In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte link:docs/authentisieren.adoc[mit der der TI verbinden]. Wir zeigen detailliert den Ablauf der link:docs/erp_bereitstellen.adoc[Erstellung eines E-Rezepts] in der verordnenden Praxis und link:docs/erp_abrufen.adoc[wie Apotheker auf den Fachdienst zugreifen], um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die link:docs/erp_versicherte.adoc[Einsicht in die vorhandenen E-Rezepte] und link:docs/erp_versicherte.adoc[Abgabeinformationen eingelöster Rezepte] erfolgt, wie die link:docs/erp_communication.adoc[Kommunikation mit der Apotheke] ablaufen kann und wie der Versicherte link:docs/erp_versicherte.adoc[Einsicht in das Zugriffsprotokoll] auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der link:docs/erp_versicherte.adoc[Ablauf der Rezept-Einlösung] für Versicherte mit dem E-Rezept funktioniert.
+
+// horizontal line
+***
+==== FHIR-Releasess
+link:docs/erp_fhirversion.adoc[Auf dieser Seite veröffentlichen die E-Rezept-Beteiligten {KBV, DAV, GKV, PKV und gematik} gemeinsam ihre FHIR-Release-Festlegungen.]
+
+NOTE: Die Veröffentlichung an dieser Stelle erfolgt übergangsweise, bis ein gemeineames Repository 'oberhalb' der API-Beschreibung gefunden ist.
+
+NOTE: Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validator erweitert. Zukünftig werden _alle_ Requests vor der Weiterverarbeitung online validiert. +
+Details dazu finden sich link:docs/erp_validation.adoc[auf der folgenden Seite]
 
 // horizontal line
 ***
