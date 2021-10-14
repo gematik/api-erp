@@ -18,18 +18,20 @@ endif::[]
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept. 
 
 // configure DE settings for asciidoc
-include::docs/config.adoc[]
+//include::docs/config.adoc[]
 
 Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die https://simplifier.net/erezept-workflow[E-Rezept-Profile (inkl. Beispielen)^] des genutzten FHIR-Standards. 
+
+toc::[]
 
 Auf den folgenden Seiten stellt die gematik die Nutzung der Schnittstellen durch die Primärsysteme der verordnenden Ärzte/Zahnärzte und der Apotheker sowie durch die E-Rezept-App vor.
 Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-Rezepts in den App Stores der beiden Plattformen iOS und Android verfügbar.
 
-NOTE: Die KBV definiert die FHIR-Profile des Verordnungsdatensatzes im simplifier-Projekt link:https://simplifier.net/erezept[E-Rezept-Verordnung^]. Die Festlegungen zu Abgabe- und Abrechnungsdaten der Apotheken werden in den DAV-Projekten link:https://simplifier.net/erezeptabgabedaten[Abgabedaten^] und link:https://simplifier.net/eRezeptAbrechnungsdaten[Abrechnungsdaten^] getroffen.
+NOTE: Die KBV definiert die FHIR-Profile des Verordnungsdatensatzes im simplifier-Projekt link:https://simplifier.net/erezept[E-Rezept-Verordnung^]. Die Festlegungen zu Abgabe- und Abrechnungsdaten der Apotheken werden im DAV-Projekt link:https://simplifier.net/erezeptabgabedaten[Abgabedaten^] und im GKV-Projekt link:https://simplifier.net/eRezeptAbrechnungsdaten[Abrechnungsdaten^] getroffen.
 
 NOTE: Für die QES-Erstellung durch den Konnektor liegen im Unterordner link:samples/qes[samples/qes] SOAP-Request/Responses zu den link:https://simplifier.net/erezept/~resources?category=Example&exampletype=Bundle[Verordnungsbeispielen^] der KBV bereit. Spezialfälle (z.B. abgelaufene Zertifikate wegen Kartenwechsel o.ä.) stellen wir im Unterordner link:samples/qes-cases[samples/qes-cases] bereit.
 
-IMPORTANT: Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur über Quittung bis zu den Abrechnungsdaten stellt der Deutsche Apothekerverband in seinem github-Projekt link:https://github.com/DAV-ABDA/eRezept-Beispiele/tree/v1.0.0[
+NOTE: Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur über Quittung bis zu den Abrechnungsdaten stellt der Deutsche Apothekerverband in seinem github-Projekt link:https://github.com/DAV-ABDA/eRezept-Beispiele/tree/v1.0.0[
 eRezept-Beispiele^] zur Verfügung.
 
 In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte link:docs/authentisieren.adoc[mit der der TI verbinden]. Wir zeigen detailliert den Ablauf der link:docs/erp_bereitstellen.adoc[Erstellung eines E-Rezepts] in der verordnenden Praxis und link:docs/erp_abrufen.adoc[wie Apotheker auf den Fachdienst zugreifen], um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die link:docs/erp_versicherte.adoc[Einsicht in die vorhandenen E-Rezepte] und link:docs/erp_versicherte.adoc[Abgabeinformationen eingelöster Rezepte] erfolgt, wie die link:docs/erp_communication.adoc[Kommunikation mit der Apotheke] ablaufen kann und wie der Versicherte link:docs/erp_versicherte.adoc[Einsicht in das Zugriffsprotokoll] auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der link:docs/erp_versicherte.adoc[Ablauf der Rezept-Einlösung] für Versicherte mit dem E-Rezept funktioniert.

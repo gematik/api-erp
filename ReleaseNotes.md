@@ -1,3 +1,6 @@
+# Release 1.0.7
+- update release notes on the release management page\n - fixed some typos\n
+
 # Release 1.0.6
 - added new page with the Release Management of all FHIR-Projects for realizing the german e-prescription (contains list of versions and release notes for each project) - added new page explaining the validator-service in "Titus" - added examples of Datamatrix-Codes (also evil codes) - added chapter for deleting messages
 

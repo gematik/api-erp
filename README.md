@@ -7,7 +7,7 @@ Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittste
 Auf den folgenden Seiten stellt die gematik die Nutzung der Schnittstellen durch die Primärsysteme der verordnenden Ärzte/Zahnärzte und der Apotheker sowie durch die E-Rezept-App vor.
 Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-Rezepts in den App Stores der beiden Plattformen iOS und Android verfügbar.
 
-Die KBV definiert die FHIR-Profile des Verordnungsdatensatzes im simplifier-Projekt [E-Rezept-Verordnung](https://simplifier.net/erezept). Die Festlegungen zu Abgabe- und Abrechnungsdaten der Apotheken werden in den DAV-Projekten [Abgabedaten](https://simplifier.net/erezeptabgabedaten) und [Abrechnungsdaten](https://simplifier.net/eRezeptAbrechnungsdaten) getroffen.
+Die KBV definiert die FHIR-Profile des Verordnungsdatensatzes im simplifier-Projekt [E-Rezept-Verordnung](https://simplifier.net/erezept). Die Festlegungen zu Abgabe- und Abrechnungsdaten der Apotheken werden im DAV-Projekt [Abgabedaten](https://simplifier.net/erezeptabgabedaten) und im GKV-Projekt [Abrechnungsdaten](https://simplifier.net/eRezeptAbrechnungsdaten) getroffen.
 
 Für die QES-Erstellung durch den Konnektor liegen im Unterordner [samples/qes](samples/qes) SOAP-Request/Responses zu den [Verordnungsbeispielen](https://simplifier.net/erezept/~resources?category=Example&exampletype=Bundle) der KBV bereit. Spezialfälle (z.B. abgelaufene Zertifikate wegen Kartenwechsel o.ä.) stellen wir im Unterordner [samples/qes-cases](samples/qes-cases) bereit.
 
