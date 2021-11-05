@@ -647,8 +647,12 @@ NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit
 ====
 
 Dieses E-Rezept-Bundle in XML-Darstellung muss nun digital unterschrieben (qualifiziert elektronisch signiert - QES) werden, das Primärsystem nutzt dafür die Schnittstelle des Konnektors und dieser den Heilberufsausweis des verordnenden Arztes/Zahnarztes.
-Um Fehler in der Signaturprüfung zu vermeiden, wird die Kanonisierung des Dokuments vor der Signaturerstellung empfohlen. Diese Kanonsierung normalisiert das Dokument nach definierten Regeln, damit das signaturerstellende System genauso wie das signaturprüfende System ein exakt identisches Dokument in der Erstellung und Prüfung verwenden.
+Um Fehler in der Signaturprüfung zu vermeiden, wird die Kanonisierung des Dokuments vor der Signaturerstellung für bestimmte Signaturformate empfohlen (bzw. bei detached-Signaturen zwingend). Diese Kanonsierung normalisiert das Dokument nach definierten Regeln, damit das signaturerstellende System genauso wie das signaturprüfende System ein exakt identisches Dokument in der Erstellung und Prüfung verwenden.
 Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln https://www.w3.org/TR/2008/REC-xml-c14n11-20080502/ für Canonical XML Version 1.1 für XML-Dokumente zum Einsatz.
+
+NOTE: Bei der Verwendung des Signaturformats CAdES-Enveloping ist eine Kanonisierung nicht erforderlich, da die signierten Daten "innerhalb" der Signatur transportiert werden.
+
+TIP: Der Konnektor wählt standardmäßig ein passendes kryptografisches Verfahren, es kann jedoch mit dem Parameter `crypt` in SignDocument auch gemäß der Spezifikation in gemSpec_Kon#TAB_KON_862-01 konkret gewählt werden (z.B. ECC, falls das Verhalten der verschiedenen Algorithmen ausprobiert werden soll).
 
 Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die QES-Erstellung sind mindestens folgende Konnektor-Versionen der drei Konnektoren notwendig: 
 

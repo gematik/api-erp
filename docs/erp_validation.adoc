@@ -19,16 +19,24 @@ image:gematik_logo.jpg[width=35%]
 
 = E-Rezept FHIR-Validierung in Titus
 
-Titus unterstützt die Validierung von FHIR Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden. 
+Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden. 
 
 .Downloadpfade
 - https://github.com/hapifhir/org.hl7.fhir.core/releases/latest/download/validator_cli.jar
-- https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.0.3-1/snapshots/$download
-- https://simplifier.net/packages/kbv.ita.erp/1.0.1/snapshots/$download
-- https://simplifier.net/packages/kbv.ita.for/1.0.3/snapshots/$download
+- https://simplifier.net/packages/de.gematik.erezept-workflow.r4
+- https://simplifier.net/packages/kbv.ita.erp
+- https://simplifier.net/packages/kbv.ita.for
+- https://simplifier.net/packages/de.abda.erezeptabgabedaten
+- https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv
 - https://simplifier.net/packages/de.basisprofil.r4/0.9.13/snapshots/$download
+
+WARNING: die jeweils gültigen Package-Versionen werden hier zusammengetragen: link:../docs/erp_fhirversion.adoc[FHIR Versionsmanagement]
+
+Die heruntergeladenen Packages sollten am besten vollständig entpackt und bspw. ein Profil-Verzeichnis nach Stichtag der Gültigkeit abgelegt werden, im Beispiel `profiles/311221` für die Gültigkeit bis 31.12.21
 
 [source,bash]
 ----
-java -jar validator_cli.jar FILE_UNDER_TEST.xml -version 4.0.1 -tx n/a -ig de.gematik.erezept-workflow.r4-1.0.3-1.tgz -ig kbv.ita.erp-1.0.1.tgz -ig kbv.ita.for-1.0.3.tgz -ig de.basisprofil.r4-0.9.13.tgz
+java -jar validator_cli.jar -version 4.0.1 -tx n/a -ig .\profiles\311221 FILE_UNDER_TEST.xml
 ----
+
+NOTE: Für von der KBV verwendete externe Codesysteme müssen diese jeweils von den im Validator genannten KBV-Seiten z.B. https://fhir.kbv.de/ValueSet/KBV_VS_SFHIR_KBV_DARREICHUNGSFORM heruntergeladen und als xml-Datei zu den übrigen entpackten Profilen gelegt werden.

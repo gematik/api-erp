@@ -259,7 +259,7 @@ IMPORTANT: Die Gültigkeitsprüfung von ECC-Zertifikaten unterstützt der Konnek
 [[anchor-sign-challenge]]
 === Signatur mit SMC-B erzeugen (external_authenticate)
 Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
-Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f`.
+Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=`).
 
 [cols="h,a"] 
 |===
@@ -350,6 +350,24 @@ NOTE: Das Diagramm inkl. der konkreten Ablaufbeschreibung befindet sich auch im 
 Die VAU des E-Rezept-Fachdienstes erzeugt eine HTTP-Response entsprechend des Workflows im E-Rezept und verschlüsselt diese Response symmetrisch mit dem vom Client bereitgestellten Antwortschlüssel. Die verschlüsselte Response wird anschließend mittels TLS transportverschlüsselt an den Client zurückgegeben.
 
 Ein zusätzlich in den Aufrufen vom E-Rezept-Fachdienst generiertes, wechselndes Nutzerpseudonym wirkt zusätzlich Überlastungsangriffen entgegen, indem Aufrufe ohne Nutzerpseudonym mit einer geringeren Priorität bearbeitet werden.
+
+CAUTION: Die zusätzliche Verschlüsselung erfolgt mit dem AES-GCM-Verfahren, die über ein AuthenticationTag am Ende des Bitstroms die Integrität des transportierten Ciphertextes sicherstellt. Der AES-Schlüssel ergibt sich zufällig aus der Ableitung über den öffentlichen ECC-Schlüssel des VAU-ENC-Zertifikats. Ist der verwendete Random dabei nicht exakt 32 Byte groß, werden die Daten zwar korrekt verschlüsselt, aber das AuthenticationTag passt am Ende nicht zum Ciphertext - der Fachdienst muss das dann gemäß AES-Spezifikation als "manipuliert" ablehnen und antwortet mit einer Fehlermeldung `vau decryption failed: AesGcmException can't finalize AES-GCM decryption;`
+
+Die folgenden beispielhaften Code-Zeilen prüfen auf eine exakte Länge:
+
+[source,C#]
+----
+//sharedSecretBytes muss 32 Byte groß sein entweder vorn abschneiden oder mit 0 auffüllen
+if (sharedSecretBytes.Length > 32) {
+    sharedSecretBytes = sharedSecretBytes.Skip(sharedSecretBytes.Length - 32).ToArray();
+} else if (sharedSecretBytes.Length < 32) {
+    sharedSecretBytes = Enumerable.Repeat((byte) 0, 32 - 
+      sharedSecretBytes.Length).Concat(sharedSecretBytes).ToArray();
+}
+----
+
+Ein Java-Beispiel stellen wir in der folgenden Datei  link:../samples/snippets/VAUClientCrypto.java[VAUClientCrypto.java^] bereit, in der dieses Problem mit der Methode `pad32(byte[] input)` behandelt wird.
+
 
 ==== Kennzeichnung des verschlüsselten Inhalts für Routing
 Der E-Rezept-Fachdienst benötigt eine Kennzeichnung im äußeren http-Request, um den verschlüsselten Inhalt an den fachlich zuständigen VAU-Kontext zu routen. Um eine Überlastung nutzerrollen- und workflowspezifischer VAU-Kontexte zu vermeiden, werden die http-Header `X-erp-user` und `X-erp-resource` genutzt. Die folgende Tabelle zeigt die Belegung der Header zur Nutzung durch die entsprechenden E-Rezept-Nutzer (in den Beispielen der verschiedenen UseCases sind die jeweiligen Header-Belegungen für den äußeren http-Request angegeben):

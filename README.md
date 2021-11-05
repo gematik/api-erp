@@ -20,7 +20,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzt
 
 [Auf dieser Seite veröffentlichen die E-Rezept-Beteiligten {KBV, DAV, GKV, PKV und gematik} gemeinsam ihre FHIR-Release-Festlegungen.](docs/erp_fhirversion.adoc)
 
-Die Veröffentlichung an dieser Stelle erfolgt übergangsweise, bis ein gemeineames Repository 'oberhalb' der API-Beschreibung gefunden ist.
+Die Veröffentlichung an dieser Stelle erfolgt übergangsweise, bis ein gemeinsames Repository 'oberhalb' der API-Beschreibung gefunden ist.
 
 Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validator erweitert. Zukünftig werden *alle* Requests vor der Weiterverarbeitung online validiert.  
 Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
@@ -46,6 +46,12 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 ## Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
+
+## PKV Anwendungsfälle
+
+[Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
+
+[Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
 
 ## Lizenzbedingungen
 

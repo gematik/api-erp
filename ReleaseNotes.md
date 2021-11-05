@@ -1,3 +1,6 @@
+# Release 1.0.8
+New Feature\n - initial push of use cases for "PKV"-Patients\n - POST ChageItem as pharmacy\n - GET ChargeItem as patient\n Changes\n - added new sample "VAUClientCrypto.java\n - update of information on validation-chapter\n - additional information on authentication handshake\n - update on FHIR-Versions overview\n - minor spelling changes and fixed typos
+
 # Release 1.0.7
 - update release notes on the release management page\n - fixed some typos\n
 
