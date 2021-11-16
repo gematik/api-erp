@@ -1,3 +1,6 @@
+# Release 1.1.0
+Added interface description for notification on Communication for AVS\r\n More details on fhir validation command line\r\n Minor fixes on release notes for FHIR version management\r\n
+
 # Release 1.0.8
 New Feature\n - initial push of use cases for "PKV"-Patients\n - POST ChageItem as pharmacy\n - GET ChargeItem as patient\n Changes\n - added new sample "VAUClientCrypto.java\n - update of information on validation-chapter\n - additional information on authentication handshake\n - update on FHIR-Versions overview\n - minor spelling changes and fixed typos
 

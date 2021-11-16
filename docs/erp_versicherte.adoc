@@ -44,8 +44,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task
+|URI        |https://erp.app.ti-dienste.de/Task
 |Method     |GET
 |HTTP Header |
 ----
@@ -63,7 +64,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
-Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+Content-Location: https://erp.app.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
 
 {
   "resourceType": "Bundle",
@@ -75,10 +76,10 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
   "total": 2,
   "link": [{
     "relation": "self",
-    "url": "https://prescriptionserver.telematik/Task/"
+    "url": "https://erp.app.ti-dienste.de/Task/"
   }],
   "entry": [{
-    "fullUrl": "https://prescriptionserver.telematik/Task/588780",
+    "fullUrl": "https://erp.app.ti-dienste.de/Task/588780",
     "resource": {
       "resourceType":"Task",
       "id":"588780",
@@ -174,7 +175,7 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
           "code": "1.2.840.10065.1.12.1.1"
         },
         "when": "2020-03-20T07:31:34.328+00:00",
-        "who": "https://prescriptionserver.telematik/signature/verification",
+        "who": "https://erp.app.ti-dienste.de/signature/verification",
         "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
         .
         eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
@@ -194,6 +195,7 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +
@@ -221,8 +223,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf eine konkrete Ressource `/Task/<
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task/4711
+|URI        |https://erp.app.ti-dienste.de/Task/4711
 |Method     |GET
 |HTTP Header |
 ----
@@ -245,7 +248,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 HTTP/1.1 200 OK 
 Content-Type: application/fhir+json;charset=utf-8 
 Content-Location: 
-  https://prescriptionserver.telematik/Task/4711
+  https://erp.app.ti-dienste.de/Task/4711
 {
   "resourceType": "Bundle",
   "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
@@ -256,10 +259,10 @@ Content-Location:
   "total": 2,
   "link": [{
     "relation": "self",
-    "url": "https://prescriptionserver.telematik/Task/4711"
+    "url": "https://erp.app.ti-dienste.de/Task/4711"
   }],
   "entry": [{
-    "fullUrl": "https://prescriptionserver.telematik/Task/4711",
+    "fullUrl": "https://erp.app.ti-dienste.de/Task/4711",
     "resource": {
       "resourceType":"Task",
       "id":"4711",
@@ -354,7 +357,7 @@ Content-Location:
           "code": "1.2.840.10065.1.12.1.1"
         },
         "when": "2020-03-20T07:31:34.328+00:00",
-        "who": "https://prescriptionserver.telematik/signature/verification",
+        "who": "https://erp.app.splitdns.ti-dienste.de/signature/verification",
         "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
         .
         eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
@@ -375,6 +378,7 @@ Content-Location:
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +
@@ -400,7 +404,7 @@ s|Code   s|Type Error
 Um den Apotheker in die Lage zu versetzen, das E-Rezept einsehen zu können, müssen ihm die folgenden zwei Parameter für seinen Abruf übergeben werden, z.B. in Form eines QR-Codes oder DataMatrix-Codes:
 []
 * AccessCode: `777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`
-* Adresse des Tasks unter dem das E-Rezept geführt wird: `https://prescriptionserver.telematik/Task/4711`
+* Adresse des Tasks unter dem das E-Rezept geführt wird: `https://erp.app.ti-dienste.de/Task/4711`
 
 Diese Informationen lassen sich nach den Vorgaben in  `ISO/IEC 18004:2015` in einen QR-Code oder gemäß ISO/IEC 16022:2006 in einen DataMatrix-Code transformieren.
 [cols="a,a", grid="all", width="99%"]
@@ -443,17 +447,18 @@ Hinweis: um ausschließlich nach Apotheken zu suchen, muss der folgende Typ-Filt
 Folgende Suchalternativen sind ebenfalls möglich:
 
 * Suche nach einer Apotheke mit konkretem Namen "Apotheke um die Ecke" +
-  `https://directoryservice.telematik/Organization?type=urn:oid|1.2.276.0.76.4.32&name=Apotheke%20um%20die%20Ecke`
+  `https://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&name=Apotheke%20um%20die%20Ecke`
 * Suche nach allen Apotheken in "Berlin" +
-  `https://directoryservice.telematik/Organization?type=urn:oid|1.2.276.0.76.4.32&address-city=Berlin` 
+  `https://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&address-city=Berlin` 
 
 
 Der Aufruf erfolgt als http-`GET`-Operation am Verzeichnisdienst der Telematikinfrastruktur für die Ressource `/Organization`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für eine Rollenprüfung übergeben werden. Der Verzeichnisdienst liefert eine Liste von Apotheken, welche den ggfs. angegebenen Suchparametern entsprechen. Liefert die gewählte Suchanfrage eine zu große Ergebnismenge, bricht der Verzeichnisdienst bei einer technischen Obergrenze von max. `100` Ergebniseinträgen ab.
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://directoryservice.telematik/Organization?type=urn:oid\|1.2.276.0.76.4.32&address-postalcode=10117 <1> +
+|URI        |https://apovzd.app.ti-dienste.de/Organization?type=urn:oid\|1.2.276.0.76.4.32&address-postalcode=10117 <1> +
 
 <1> In der Aufruf-Adresse können Suchparameter gemäß https://www.hl7.org/fhir/organization.html#search angegeben werden. Im konkreten Beispiel soll nach Apotheken (`Organization`) im Postleitzahlengebiet `10117` gefiltert werden. Weitere Suchparameter können bspw. der Name der Apotheke (z.B. `name=Bahnhofsapotheke`) oder eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
 |Method     |GET
@@ -483,10 +488,10 @@ Content-Type: application/fhir+json;charset=utf-8
   "total": 2, <1>
   "link": [ {
     "relation": "self",
-    "url": "http://directoryservice.telematik/Organization?type=urn:oid|1.2.276.0.76.4.32&address-postalcode=10117"
+    "url": "http://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&address-postalcode=10117"
   } ],
   "entry": [ {
-    "fullUrl": "http://directoryservice.telematik/Organization/100219",
+    "fullUrl": "http://apovzd.app.ti-dienste.de/Organization/100219",
     "resource": {
       "resourceType": "Organization",
       "id": "100219",
@@ -532,7 +537,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "mode": "match"
     }
   }, {
-    "fullUrl": "http://directoryservice.telematik/Organization/100218",
+    "fullUrl": "http://apovzd.app.ti-dienste.de/Organization/100218",
     "resource": {
       "resourceType": "Organization",
       "id": "100218",
@@ -587,6 +592,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +
@@ -615,8 +621,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/MedicationDispense?whenhandedover=gt2020-03-01 <1>  +
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01 <1>  +
 
 <1> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/medicationdispense.html#search` angegeben werden. Im konkreten Beispiel soll nach Dispensierinformationen zu Medikamenten mit einem Abholdatum `whenhandedover` größer (`gt`) dem Datum `01.03.2020` gesucht werden.
 |Method     |GET
@@ -648,10 +655,10 @@ Content-Type: application/fhir+json;charset=utf-8
   "total": 1,
   "link": [ {
     "relation": "self",
-    "url": "https://prescriptionserver.telematik//MedicationDispense?whenhandedover=gt2020-01-01"
+    "url": "https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-01-01"
   } ],
   "entry": [ {
-    "fullUrl": "https://prescriptionserver.telematik//MedicationDispense/1093629",
+    "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/1093629",
     "resource": {
       "resourceType": "MedicationDispense",
       "id": "1093629",
@@ -752,6 +759,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +
@@ -777,8 +785,9 @@ Der Aufruf erfolgt als http-`POST`-Operation auf eine konkrete Ressource `/Task/
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task/4711/$abort
+|URI        |https://erp.app.ti-dienste.de/Task/4711/$abort
 |Method     |POST
 |HTTP Header |
 ----
@@ -802,6 +811,7 @@ HTTP/1.1 204 No Content  <1>
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |204  | No Content +
@@ -829,12 +839,13 @@ s|Code   s|Type Error
 Als Versicherter möchte ich Einsicht in das Zugriffsprotokoll meiner Daten im E-Rezept-Fachdienst nehmen, um Zugriffe nachvollziehen zu können und eine unberechtigte Einsicht in meine Daten zu prüfen.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/AuditEvent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die AuditEvent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
-Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit einem zusätzlichen Suchparameter in der Anfrage-URL sortiert werden kann. `https://prescriptionserver.telematik/AuditEvent?_sort=-date` sortiert die Protokolleinträge nach dem Protokollierungszeitpunkt `recorded` gemäß https://www.hl7.org/fhir/auditevent.html#search, das Minuszeichen in `-date` bewirkt die absteigende Sortierung (jüngster Eintrag zuerst).
+Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit einem zusätzlichen Suchparameter in der Anfrage-URL sortiert werden kann. `https://erp.app.ti-dienste.de/AuditEvent?_sort=-date` sortiert die Protokolleinträge nach dem Protokollierungszeitpunkt `recorded` gemäß https://www.hl7.org/fhir/auditevent.html#search, das Minuszeichen in `-date` bewirkt die absteigende Sortierung (jüngster Eintrag zuerst).
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/AuditEvent
+|URI        |https://erp.app.ti-dienste.de/AuditEvent
 |Method     |GET
 |HTTP Header |
 ----
@@ -863,13 +874,13 @@ Content-Type: application/fhir+json;charset=utf-8
   "type": "searchset", <1>
   "link": [ {
     "relation": "self",
-    "url": "https://prescriptionserver.telematik/AuditEvent"
+    "url": "https://erp.app.ti-dienste.de/AuditEvent"
   }, {
     "relation": "next",
-    "url": "https://prescriptionserver.telematik/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20" <2>
+    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20" <2>
   } ],
   "entry": [ {
-    "fullUrl": "https://prescriptionserver.telematik/AuditEvent/58862", <3>
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862", <3>
     "resource": {
       "resourceType": "AuditEvent",
       "id": "58862",
@@ -922,7 +933,7 @@ Content-Type: application/fhir+json;charset=utf-8
       },
       "entity": [ {
         "what": {
-          "reference": "https://prescriptionserver.telematik/Task/4711",
+          "reference": "https://erp.app.ti-dienste.de/Task/4711",
           "identifier": {
             "use":"official",
             "system":"https://gematik.de/fhir/NamingSystem/PrescriptionID",
@@ -937,7 +948,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "mode": "match"
     }
   }, {
-    "fullUrl": "https://prescriptionserver.telematik/AuditEvent/58863",
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58863",
     "resource": {
       "resourceType": "AuditEvent",
       "id": "58863",
@@ -989,7 +1000,7 @@ Content-Type: application/fhir+json;charset=utf-8
       },
       "entity": [ {
         "what": {
-          "reference": "https://prescriptionserver.telematik/Task/4711",
+          "reference": "https://erp.app.ti-dienste.de/Task/4711",
           "identifier": {
             "use":"official",
             "system":"https://gematik.de/fhir/NamingSystem/PrescriptionID",
@@ -1004,7 +1015,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "mode": "match"
     }
   }, {
-    "fullUrl": "https://prescriptionserver.telematik/AuditEvent/620049",
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/620049",
     "resource": {
       "resourceType": "AuditEvent",
       "id": "620049",
@@ -1057,7 +1068,7 @@ Content-Type: application/fhir+json;charset=utf-8
       },
       "entity": [ {
         "what": {
-           "reference": "https://prescriptionserver.telematik/Task/4711",
+           "reference": "https://erp.app.ti-dienste.de/Task/4711",
           "identifier": {
             "use":"official",
             "system":"https://gematik.de/fhir/NamingSystem/PrescriptionID",
@@ -1082,6 +1093,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +

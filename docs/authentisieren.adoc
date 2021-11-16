@@ -100,6 +100,7 @@ Die enthaltene Nonce gegen den im Schritt 1 erzeugten Wert abgeglichen. Anschlie
 Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografischen Identität. Die Karte hält den privaten Schlüssel zu dieser Identität, welcher für die Signatur über eine Challenge des IDP genutzt wird. Zur Prüfung der Signatur benötigt der IDP das Zertifikat dieser Identität. Dieses enthält den öffentlichen Schlüssel für die kryptografische Signaturprüfung sowie weitere Nutzerinformationen (Name, KVNR/Telematik-ID, fachliche Rolle), die der IDP in Identitätsbestätigungen zur Nutzung gegenüber dem E-Rezept-Fachdienst attestiert. Der Abruf des Zertifikats erfolgt über die Konnektor-Operation `ReadCertificate`.
 
 [cols="h,a"] 
+[%autowidth]
 |===
 |URI        |https://192.168.x.y/Konnektorservice
 |Method     |POST
@@ -158,6 +159,7 @@ Content-Type: text/xml;charset=utf-8
 <1> Der Konnektor liefert das Zertifikat zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |Code   |Type Success  
 |200  | OK +
@@ -174,6 +176,7 @@ Der Konnektor prüft das übergebene Zertifikat gegen den Vertrauensraum der Tel
 Diese technische Rolle muss das Primärsystem im Anschluß gegen die Rolle des erwarteten Dienstes abgleichen.
 
 [cols="h,a"] 
+[%autowidth]
 |===
 |URI        |https://192.168.x.y/Konnektorservice
 |Method     |POST
@@ -262,6 +265,7 @@ Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-
 Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=`).
 
 [cols="h,a"] 
+[%autowidth]
 |===
 |URI        |https://192.168.x.y/Konnektorservice
 |Method     |POST
@@ -316,6 +320,7 @@ Content-Type: text/xml;charset=utf-8
 <1> Dieses Element enthält die Signatur, die mittels Konnektor und dem privaten Schlüssel der SMC-B erstellt wurde.
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |Code   |Type Success  
 |200  | OK +
@@ -373,6 +378,7 @@ Ein Java-Beispiel stellen wir in der folgenden Datei  link:../samples/snippets/V
 Der E-Rezept-Fachdienst benötigt eine Kennzeichnung im äußeren http-Request, um den verschlüsselten Inhalt an den fachlich zuständigen VAU-Kontext zu routen. Um eine Überlastung nutzerrollen- und workflowspezifischer VAU-Kontexte zu vermeiden, werden die http-Header `X-erp-user` und `X-erp-resource` genutzt. Die folgende Tabelle zeigt die Belegung der Header zur Nutzung durch die entsprechenden E-Rezept-Nutzer (in den Beispielen der verschiedenen UseCases sind die jeweiligen Header-Belegungen für den äußeren http-Request angegeben):
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |*Leistungserbringer (PVS, AVS ,KIS)*       |*Versicherte (E-Rezept-App)*
 |`X-erp-user: l` +
@@ -393,8 +399,9 @@ Hinweis: Beim Zugriff auf das CapabilityStatement mit GET /metadata wird entspre
 Zunächst muss das Verschlüsselungszertifikat der VAU vom E-Rezept-Fachdienst abgerufen werden. 
 
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/VAUCertificate
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificate
 |Method     |GET
 |HTTP Header |X-erp-user: l <1>
 |Payload    | -
@@ -413,8 +420,9 @@ Content-Type: application/pkix-cert
 Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die erweiterte Prüfung des Verschlüsselungszertifikats bereit.
 
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/VAUCertificateOCSPResponse
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse
 |Method     |GET
 |HTTP Header |X-erp-user: l <1>
 |Payload    | -
@@ -435,7 +443,7 @@ Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Reques
 [source,json]
 ----
 GET /Task HTTP/1.1
-Host: prescriptionserver.telematik
+Host: erp.zentral.erp.splitdns.ti-dienste.de
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 User-Agent: E-Rezept FdV 1.0.0
 Accept: application/fhir+json;charset=utf-8
@@ -448,7 +456,7 @@ Als nächstes wird die folgende leerzeichengetrennte Zeichenkette `p` für die a
 [source,json]
 ----
 "1 eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J b69f01734f34376ddcdbdbe9af18a06f 16bac90134c635e4ec85fae0e4885d9f GET /Task HTTP/1.1
-Host: prescriptionserver.telematik
+Host: erp.zentral.erp.splitdns.ti-dienste.de
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 User-Agent: E-Rezept FdV 1.0.0
 Accept: application/fhir+json;charset=utf-8"
@@ -456,8 +464,9 @@ Accept: application/fhir+json;charset=utf-8"
 Diese Zeichenkette wird nun mit dem ECIES-Verfahrens [SEC1-2009] und dem öffentlichen Schlüssel aus dem zuvor abgerufenen Verschlüsselungszertifikat der VAU hybrid verschlüsselt. Sei `1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100` ein unvollständiges Beispiel für das Ergebnis der Verschlüsselungsoperation. Dieses wird nun als Payload im HTTP-Body des folgenden Requests an den E-Rezept-Fachdienst übergeben.
 
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/VAU/0
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAU/0
 |Method     |POST
 |HTTP Header |`Content-Type: application/octet-stream` +
 X-erp-user: l <1>
@@ -484,7 +493,7 @@ Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstell
 ----
 1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
-Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
 
 {
   "resourceType": "Bundle",
@@ -496,10 +505,10 @@ Content-Location: https://prescriptionserver.telematik/Bundle/f5ba6eaf-9052-42f6
   "total": 2,
   "link": [{
     "relation": "self",
-    "url": "https://prescriptionserver.telematik/Task/"
+    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
   }],
   "entry": [{
-    "fullUrl": "https://prescriptionserver.telematik/Task/588780",    
+    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/588780",    
     "resource": {
       "resourceType": "Task",
       "id":"588780",

@@ -22,9 +22,9 @@ Auf dieser Seite finden Sie eine Übersicht der FHIR-Release-Pakete der Prozessb
 Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projekt, das im E-Rezept verwendet wird.
 
 * *KBV* Definition des Verordnugnsdatensatzes ("eVerordnung") https://simplifier.net/erezept
-* *DAV* Definition des Abgabedatensatzes ("eAbgabedaten") https://simplifier.net/erezeptabgabedaten
+* *DAV* Definition des Abgabedatensatzes GKV ("eAbgabedaten") https://simplifier.net/erezeptabgabedaten
 * *GKV* Definition des Abrechnungsdatensatzes für GKV ("TA7 Abrechnungsdaten") https://simplifier.net/eRezeptAbrechnungsdaten
-* *PKV* Definition des Abrechnungsdatensatzes für PKV https://to.be.defined
+* *PKV* Definition des Abrechnungsdatensatzes für PKV https://simplifier.net/erezeptabgabedatenpkv
 * *gematik* Definition des Workflows https://simplifier.net/erezept-workflow
 
 toc::[]
@@ -47,18 +47,18 @@ Annahmen:
 |===
 |Workflow-Schritt |was passiert |"wessen FHIR" |01.07.-01.12. (Status Quo) |01.12.-15.12. |15.12.-31.12. |01.01.-31.01. |01.02.-31.3.|01.04.-...
 
-|$create |Fachdienst erzeugt Task |gematik |1.0.3-1 |1.0.3-1 | 1.0.3-1 |1.1.0 |1.1.0|1.1.0
+|$create |Fachdienst erzeugt Task |gematik |1.0.3-1 |1.0.3-1 | 1.0.3-1 |1.1.1 |1.1.1|1.1.1
 |$activate | PVS stellt Bundle ein |KBV |1.0.1 |1.0.1 |1.0.1 (1.0.2 unzulässig) | 1.0.2 (1.0.1 bei noch nicht aktualisierten PVS) | 1.0.2 (1.0.1 unzulässig)|1.0.2
-|$accept |AVS lädt E-Rezept herunter |gematik + KBV |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.1.0 + [1.0.1 & 1.0.2 Rezept aus Vorjahr oder noch nicht aktualisiertes PVS] |1.1.0 + [1.0.2 bzw. 1.0.1 bei Rezept aus Vorjahr oder nicht aktualisiertem PVS]|1.1.0 + [1.0.2 bzw. 1.0.1 bei spät aktualisiertem PVS]
-|$close |AVS erzeugt MedicationDispense |gematik (+KBV) |1.0.3-1 (+1.0.1) | 1.0.3-1 (+1.0.1) |1.0.3-1 (+1.0.1) |AVS_neu: 1.1.0 (+1.0.2 od. 1.0.1 bei alter Verord.) +
-AVS_alt: 1.0.3-1 (+1.0.1 od. 1.0.2 bei neuer Verord.) | 1.1.0 (+1.0.2 od. 1.0.1 bei alter Verord.)|1.1.0 (+1.0.2 od. 1.0.1 bei alter Verord. bis max. 30.04.)
-|$close |Fachdienst erzeugt Quittung |gematik |1.0.3-1 | 1.0.3-1 |1.0.3-1 |1.1.0 |1.1.0|1.1.0
-|Abgabedokumentation | AVS erzeugt Abgabedaten |DAV |1.0.3 |1.0.3 | 1.0.3 |1.1.0 (1.0.3 bei noch nicht aktualisierten AVS) | 1.1.0|1.1.0
+|$accept |AVS lädt E-Rezept herunter |gematik + KBV |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.1.1 + [1.0.1 & 1.0.2 Rezept aus Vorjahr oder noch nicht aktualisiertes PVS] |1.1.1 + [1.0.2 bzw. 1.0.1 bei Rezept aus Vorjahr oder nicht aktualisiertem PVS]|1.1.1 + [1.0.2 bzw. 1.0.1 bei spät aktualisiertem PVS]
+|$close |AVS erzeugt MedicationDispense |gematik (+KBV) |1.0.3-1 (+1.0.1) | 1.0.3-1 (+1.0.1) |1.0.3-1 (+1.0.1) |AVS_neu: 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.) +
+AVS_alt: 1.0.3-1 (+1.0.1 od. 1.0.2 bei neuer Verord.) | 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.)|1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord. bis max. 30.04.)
+|$close |Fachdienst erzeugt Quittung |gematik |1.0.3-1 | 1.0.3-1 |1.0.3-1 |1.1.1 |1.1.1|1.1.1
+|Abgabedokumentation | AVS erzeugt Abgabedaten |DAV |1.0.3 |1.0.3 | 1.0.3 |1.1.1 (1.0.3 bei noch nicht aktualisierten AVS) | 1.1.1|1.1.1
 |Abrechnung |ARZ erzeugt Abrechnungsdaten +
-(mit Verordnung, Quittung, Abgabedaten) | GKV-SV (+KBV, gematik, DAV) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6  (1.0.1, 1.0.3-1, 1.0.3) für Abrechnungsmonat Dezember |Abrechnungsmonat Januar: 1.1.0 (1.0.1/1.0.2, 1.1.0, 1.0.3/1.1.0) +
-Februar: 1.1.0 (1.0.1/1.0.2, 1.1.0, 1.1.0) |Abrechnungsmonat März: 1.1.0 (1.0.1/1.0.2, 1.1.0, 1.1.0) +
-April: 1.1.0 (1.0.1/1.0.2, 1.1.0, 1.1.0) +
-Mai++: 1.1.0 (1.0.2, 1.1.0, 1.1.0)
+(mit Verordnung, Quittung, Abgabedaten) | GKV-SV (+KBV, gematik, DAV) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6  (1.0.1, 1.0.3-1, 1.0.3) für Abrechnungsmonat Dezember |Abrechnungsmonat Januar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.0.3/1.1.0) +
+Februar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) |Abrechnungsmonat März: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
+April: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
+Mai++: 1.1.0 (1.0.2, 1.1.1, 1.1.0)
 |===
 
 Im Folgenden sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind.
@@ -82,32 +82,9 @@ https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.0.3-1 |* Fixed 
 * Fixed typo on Namespace reference of prescriptionID in Task +
 * Fixed JSON-Aarry in OperationDefiniton for $create-operation |01.07.2021 |31.12.2021
 |DAV     |*1.0.3* +
-https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.0.3 |* Fix ISO-Code (Organization/address/country) +
-* example Bundles +
-* DAV-PR-ERP-DAVHerstellerSchluessel +
-* DAV-PR-ERP-ZusatzdatenHerstellung +
-* DAV-PR-ERP-Abgabeinformationen +
-* DAV-PR-ERP-ZusatzdatenHerstellung (performer.function) +
-* DAV-PR-ERP-Abrechnungszeilen +
-* DAV-EX-ERP-Abrechnungszeilen +
-* DAV-EX-ERP-KostenVersicherter +
-* DAV-EX-ERP-Rezeptaenderung +
-* DAV-EX-ERP-Zusatzattribute +
-* DAV-EX-ERP-ZusatzdatenEinheit +
-* DAV-EX-ERP-ZusatzdatenFaktorkennzeichen +
-* DAV-EX-ERP-ZusatzdatenHerstellung +
-* DAV-EX-ERP-ZusatzdatenPreiskennzeichen +
-* DAV-PR-ERP-AbgabedatenBundle +
-* DAV-PR-ERP-AbgabedatenComposition +
-* DAV-PR-ERP-AbgabedatenMeta +
-* DAV-PR-ERP-Abgabeinformationen +
-* DAV-PR-ERP-Abrechnungszeilen +
-* DAV-PR-ERP-Apotheke +
-* DAV-PR-ERP-DAVHerstellerSchluessel +
-* DAV-PR-ERP-ZusatzdatenEinheit +
-* DAV-PR-ERP-ZusatzdatenHerstellung |01.07.2021 |31.12.2021
-|GKV     |*1.0.5* +
-https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.0.4 |* Fehler in Constraint „lineItemImportPZN-1“ (GKVSV-PR-ERP-eAbrechnungsdaten) +
+https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.0.3 |näheres siehe package Release notes auf simplifier |01.07.2021 |31.12.2021
+|GKV     |*1.0.6* +
+https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.0.6 |* Fehler in Constraint „lineItemImportPZN-1“ (GKVSV-PR-ERP-eAbrechnungsdaten) +
 * Optimierungen der Constraints "lineItemImportPZN-1" und "lineItemImportPZN-2" (GKVSV-PR-ERP-eAbrechnungsdaten) +
 * GKVSV-PR-ERP-eAbrechnungsdaten +
 * GKVSV_PR_TA7_Rechnung +

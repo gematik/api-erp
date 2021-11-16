@@ -65,8 +65,9 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task/$create
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
 |HTTP Header |
 ----
@@ -153,6 +154,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |Code   |Type Success  
 |201  | Created +
@@ -662,6 +664,7 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
 |URI        |https://192.168.x.y/Konnektorservice
 |Method     |POST
@@ -1063,6 +1066,7 @@ Content-Type: text/xml;charset=utf-8
 NOTE: Der Inhalt der base64-codierten Signatur findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |Code   |Type Success  
 |200  | OK +
@@ -1080,8 +1084,9 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task/4711/$activate
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$activate
 |Method     |POST
 |HTTP Header |
 ----
@@ -1117,7 +1122,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 HTTP/1.1 200 OK 
 Content-Type: application/fhir+xml;charset=utf-8 
 Content-Location: 
-  https://prescriptionserver.telematik/Task/4711/_history/2 
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/_history/2 
 <Task xmlns="http://hl7.org/fhir">
   <id value="4711"/>
   <meta>
@@ -1198,6 +1203,7 @@ Content-Location:
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 |Code   |Type Success  
 |200  | OK +
@@ -1229,8 +1235,9 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/Task/4711/$abort
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$abort
 |Method     |POST
 |HTTP Header |
 ----
@@ -1253,6 +1260,7 @@ HTTP/1.1 204 No Content  <1>
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |204  | No Content +

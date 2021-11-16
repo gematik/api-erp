@@ -44,8 +44,9 @@ Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 |Method     |POST
 |HTTP Header |
@@ -150,6 +151,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |201  | Created +
@@ -185,8 +187,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`. Im 
 
 *Request*
 [cols="h,a"] 
+[%autowidth]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem
 |Method     |GET
 |HTTP Header |
 ----
@@ -345,6 +348,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 
 [cols="a,a"] 
+[%autowidth]
 |===
 s|Code   s|Type Success  
 |200  | OK +
