@@ -1,0 +1,168 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%]
+
+= E-Rezept FHIR-Package Versionsmanagement 
+Auf dieser Seite finden Sie eine Übersicht der FHIR-Release-Pakete der Prozessbeteiligten KBV, DAV, GKV, PKV und gematik. +
+Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projekt, das im E-Rezept verwendet wird.
+
+* *KBV* Definition des Verordnugnsdatensatzes ("eVerordnung") https://simplifier.net/erezept
+** Festlegungen zu Verordnungen werden von der KBV im Dokument Technische Anlage zur elektronischen Arzneimittelverordnung (E16A)
+link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^] getroffen.
+* *DAV* Definition des Abgabedatensatzes GKV ("eAbgabedaten") https://simplifier.net/erezeptabgabedaten
+** Festlegungen zum eAbgabedatensatz werden im Anhang 2 Kapitel 5 (link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20211206.pdf[FHIR-Version zu Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]) getroffen.
+* *GKV* Definition des Abrechnungsdatensatzes für GKV ("TA7 Abrechnungsdaten") https://simplifier.net/eRezeptAbrechnungsdaten
+** Festlegungen zum eAbrechnungsdatensatz werden im Anhang 2 Kapitel 6 (link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20211206.pdf[FHIR-Version zu Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]) getroffen.
+* *PKV* Definition des Abrechnungsdatensatzes für PKV https://simplifier.net/erezeptabgabedatenpkv
+* *gematik* Definition des Workflows https://simplifier.net/erezept-workflow
+** Festlegungen zur Quittung werden von der gematik in deren Fachportal im Dokument Spezifikation Datenmodell E-Rezept link:https://fachportal.gematik.de/fachportal-import/files/gemSpec_DM_eRp_V1.3.0.pdf[gemSpec_DM_eRp^] (Version der zugelassenen Fachdienst Produktversion) getroffen.
+
+toc::[]
+
+== Übersicht Dependencies
+image:fhir_dependencies.png[width=100%]
+
+Weiter unten sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind. Die folgende Tabelle liefert dabei die Anmerkungen zu Übergangszeiträumen und mit welchen Versions-Konstellationen zu rechnen ist.
+
+IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versionsübergängen der gemeinsam gültigen FHIR-Profilversionen sind dabei noch nicht finalisiert.
+
+Annahmen:
+
+* Primärsysteme erhalten Update zw. 01.12. und 31.01.
+* Fachdienst erhält Update am 15.12.
+* AVS erhält Update zw. 01.12. und 31.01.
+* maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
+
+[cols=""] 
+|===
+|Workflow-Schritt |was passiert |"wessen FHIR" |01.07.-01.12. (Status Quo) |01.12.-15.12. |15.12.-31.12. |01.01.-31.01. |01.02.-31.3.|01.04.-...
+
+|$create |Fachdienst erzeugt Task |gematik |1.0.3-1 |1.0.3-1 | 1.0.3-1 |1.1.1 |1.1.1|1.1.1
+|$activate | PVS stellt Bundle ein |KBV |1.0.1 |1.0.1 |1.0.1 (1.0.2 unzulässig) | 1.0.2 (1.0.1 bei noch nicht aktualisierten PVS) | 1.0.2 (1.0.1 unzulässig)|1.0.2
+|$accept |AVS lädt E-Rezept herunter |gematik + KBV |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.1.1 + [1.0.1 & 1.0.2 Rezept aus Vorjahr oder noch nicht aktualisiertes PVS] |1.1.1 + [1.0.2 bzw. 1.0.1 bei Rezept aus Vorjahr oder nicht aktualisiertem PVS]|1.1.1 + [1.0.2 bzw. 1.0.1 bei spät aktualisiertem PVS]
+|$close |AVS erzeugt MedicationDispense |gematik (+KBV) |1.0.3-1 (+1.0.1) | 1.0.3-1 (+1.0.1) |1.0.3-1 (+1.0.1) |AVS_neu: 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.) +
+AVS_alt: 1.0.3-1 (+1.0.1 od. 1.0.2 bei neuer Verord.) | 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.)|1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord. bis max. 30.04.)
+|$close |Fachdienst erzeugt Quittung |gematik |1.0.3-1 | 1.0.3-1 |1.0.3-1 |1.1.1 |1.1.1|1.1.1
+|Abgabedokumentation | AVS erzeugt Abgabedaten |DAV |1.0.3 |1.0.3 | 1.0.3 |1.1.0 (1.0.3 bei noch nicht aktualisierten AVS) | 1.1.0|1.1.0
+|Abrechnung |ARZ erzeugt Abrechnungsdaten +
+(mit Verordnung, Quittung, Abgabedaten) | GKV-SV (+KBV, gematik, DAV) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6  (1.0.1, 1.0.3-1, 1.0.3) für Abrechnungsmonat Dezember |Abrechnungsmonat Januar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.0.3/1.1.0) +
+Februar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) |Abrechnungsmonat März: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
+April: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
+Mai++: 1.1.0 (1.0.2, 1.1.1, 1.1.0)
+|===
+
+Im Folgenden sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind.
+
+== 2021.07.01
+Das Release zur E-Rezept-Einführung am 01.07.2021 legt die initialen FHIR-Profile für GKV-Versicherte fest
+
+[cols="h,a,40%,2*"] 
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum gültig ab* |*Datum gültig bis*
+
+|KBV     |*1.0.1* +
+https://simplifier.net/packages/kbv.ita.erp/1.0.1 |* Integration der HL7-Basisprofile 0.9.13 Integration der KBV-Basisprofile 1.1.3 +
+* Erweiterung des ValueSet KBV_VS_ERP_Accident_Type um den Wert Berufskrankheit +
+* Anpassung der Extension KBV_EX_ERP_Accident +
+* Anpassung des Profils KBV_PR_ERP_Prescription +
+* Erweiterung der Constraints Anpassung des Profils KBV_PR_ERP_Bundle +
+* Erweiterung der Constraints |01.07.2021 |31.12.2021
+|gematik     |*1.0.3-1* +
+https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.0.3-1 |* Fixed validation issue on Bundle.signature cardinality for pharmacy receipt. +
+* Fixed typo on Namespace reference of prescriptionID in Task +
+* Fixed JSON-Aarry in OperationDefiniton for $create-operation |01.07.2021 |31.12.2021
+|DAV     |*1.0.3* +
+https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.0.3 |näheres siehe package Release notes auf simplifier |01.07.2021 |31.12.2021
+|GKV     |*1.0.6* +
+https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.0.6 |* Fehler in Constraint „lineItemImportPZN-1“ (GKVSV-PR-ERP-eAbrechnungsdaten) +
+* Optimierungen der Constraints "lineItemImportPZN-1" und "lineItemImportPZN-2" (GKVSV-PR-ERP-eAbrechnungsdaten) +
+* GKVSV-PR-ERP-eAbrechnungsdaten +
+* GKVSV_PR_TA7_Rechnung +
+* GKVSV_PR_TA7_Sammelrechnung_Bundle +
+* GKVSV_PR_TA7_Sammelrechnung_Composition +
+* GKVSV_PR_TA7_RezeptBundle +
+* Anpassungen der Constraint source-Angaben (Angabe der Canonical des Profils): +
+- GKVSV-PR-TA7-Sammelrechnung-Composition -> Constraint „AbsenderIK-length“ +
+- GKVSV-PR-TA7-Sammelrechnung-Bundle -> Constraint „Dateiname-length“ +
+- GKVSV-PR-TA7-Rechnung -> Constraint „Sammelrechnungsnummer-maxLength“ +
+- GKVSV-PR-TA7-Rechnung -> Constraint „KostentraegerID-length“ +
+- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „lineItemImportPZN-1“ +
+- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „lineItemImportPZN-2“ +
+- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „Belegnummer-length“ +
+- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „ApothekeIK-length“ +
+- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „surchargeOrDeduction“ +
+- GKVSV-EX-ERP-ZusatzdatenHerstellung -> Constraint „surchargeOrDeduction“ +
+- GKVSV-EX-ERP-Import-PZN -> Constraint „zulaessigeZeichenPZN“ |01.07.2021 |31.12.2021
+|PKV     |n/a |n/a |n/a |n/a
+|===
+
+== 2022.01.01
+Das Release zum 01.01.2022 ermöglicht das E-Rezept für die neue Benutzergruppe der PKV-Versicherten, zudem wird das E-Rezept zur Pflicht für alle GKV-Versicherten. Weiterhin werden bisherige Unschärfen korrigiert und Kleinere Verbesserungen bzw. Fehlerbeseitigungen in den beteilgiten FHIR-Projekten umgesetzt.
+
+[cols="h,a,30%,3*"] 
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
+
+|KBV     |*1.0.2* +
+https://simplifier.net/packages/kbv.ita.erp/1.0.2 |Aktualisierung des Profils KBV_PR_ERP_Prescription: +
+* Optimierung von drei Contraints +
+* Streichung des nicht genutzten Elements dispenseRequest.validityPeriod +
+* Korrektur einer Referenzierung im Element insurance +
+Aktualisierung der Profile KBV_PR_ERP_Medication_PZN /KBV_PR_ERP_Medication_Compounding / KBV_PR_ERP_Medication_FreeText / KBV_PR_ERP_Medication_Ingredient: +
+* Sicherstellung der korrekten Validierung der Extension https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine durch unterschiedliche Validatoren durch Klarstellung der Kardinalitäten |13.09.2021 |01.01.2022 |-
+|gematik     |*1.1.1* +
+https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.1 |New Feature "PKV" +
+* Added profile definitions ChargeItem, Consent +
+* ChargeItem includes new extension "markingFlag" +
+* Added examples for ChargeItem and Consent +
+* Added new workFlowTypes "200" and "209" in CodeSystem and ValueSet "flowType" +
+* Added indirect Dependency to DAV-Abgabedaten-Project http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle for PKV-Versicherte to be used in ChargeItem +
+
+Minor Changes +
+* ErxReceipt with modified cardinality as it will have additional <entry> Binary für ePrescription-Hash (severside generated) +
+* Removed unnesecary and unused workFlowTypes in CodeSystem and ValueSet "flowType" +
+* modified samples (less handcrafted, connectathon outcome used) +
+* removed dependency to KBV Medication-Profiles in MedicationDispense.Medication (switch to base Medication-Resource) +
+
+New Release "1.1.1" for fxing Bugs in previous version 1.1.0 +
+* fixed problem with xml-notation in JSon-Files, when downloading snapshot-package +
+* removed external extension "KBVEXERPDosageFlag.xml" +
+* ChargeItem_example: fixed wrong canonical of "Abgabedatensatz" in ChargeItem.supportingInformation.type +
+* Added more information in Description for MedicationDispense.Medication (added names of KBV-Medication profiles) |04.11.2021 |01.01.2022 |-
+|DAV     |*1.1.0* +
+https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.0 |* BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
+
+* DAV-EX-ERP-Zusatzattribute (**structural change**) +
+  * Add Zusatzattribut Zuzahlungsstatus (Änderung des Zuzahlungsstatus nach Ausstellung des E-Rezepts) +
+  * Add CodeSystem (DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus) +
+  * Add ValueSet (DAV-VS-ERP-ZusatzattributSchluesselZuzahlungsstatus) +
+
+* DAV-PR-ERP-Abgabeinformationen (**structural change**) +
+ * Fix Canonical-URL http://fhir.abda.de/eRezeptAbgabadaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen -> http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen +
+
+* Profile-Optimierungen (contraints) +
+Näheres siehe Package-Release-Notes auf Simplifier +
+
+* Profile-Optimierungen (cardinality) +
+ * näheres siehe package Release notes auf simplifier |Plan 01.10.2021 |01.01.2022 |-
+|GKV     |*1.1.0* +
+https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.1.0 |Aktualisierung des Profils GKVSV_PR_TA7_RezeptBundle +
+* Die Quittung Gem_erxReceipt wird jetzt analog zu KBV_PR_ERP_Bundel und DAV_PR_ERP_AbgabedatenBundle als Binary eingebunden (**structural change**) +
+
+Constraint zur Überprüfung der Angabe der Signatur in der Quittung entfernt. |Plan 01.10.2021 |01.01.2022 |-
+|PKV     |https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc6 |initial Version (Release Candidate) |Plan 01.10.2021 |01.01.2022 | -

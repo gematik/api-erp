@@ -1,0 +1,377 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%] 
+
+= E-Rezept API-Dokumentation für die PKV-Abrechnungsinformationen
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die elektronische Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte. 
+
+toc::[]
+
+== Profilierung
+Für diesen Anwendungsfall wird die FHIR-Resourcen "ChargeItem": http://hl7.org/fhir/chargeitem.html profiliert.
+Die Profile können als JSON oder XML hier eingesehen werden: https://simplifier.net/erezept-workflow/erxchargeitem
+
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst: 
+|===
+|*Name* |*Beschreibung* 
+2+s|ChargeItem
+TODO
+|===
+
+In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
+
+==  Anwendungsfall PKV-Abrechnungsinformationen durch den abgebenden Leistungserbringer bereitstellen
+Als Apotheker möchte ich dem Versicherten seine Abrechnungsinformationen bereitstellen. Die Abrechnungsinformationen werden über die FHIR-Ressource "ChargeItem" abgebildet. Das ChargeItem enthält Referenzen auf die dazugehörenden Dantensätze (als Bundle abgebildet), Verordnungsdatensatz, Abgabedatensatz und die Quittung. 
+Der Abgabedatensatz wird als Contained-Objekt in dem ChatgeItem mitgegeben. Der Fachdienst extrahiert dieses Binary, speichert es gesondert ab und erstellt eine Referenz in der ChargeItem-Resource.
+Das Attribut "ChargeItem.Code" ist nach dem FHIR Standard ein Pflichtfeld, wird aber in diesem Kontext fachlich nicht benötigt. Deshalb wird hier ein Platzhalter-CodeSystem angewendet.
+
+Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im http-Request-Header Authorization muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=…​ muss das beim Abrufen des E-Rezepts (`$accept`) im Task generierte Secret für die Berechtigungsprüfung übergeben werden.
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+----
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheke aus, im Token ist die `TelematikID` und `professionOID` für die Rollenprüfung enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: ChargeItem` zu setzen.
+
+|Payload    | 
+[source,xml]
+----
+<ChargeItem xmlns="http://hl7.org/fhir">
+    <meta>
+      <profile value="https://gematik.de/fhir/StructureDefinition/ErxChargeItem\|1.1.0" />
+    </meta>
+    <contained>
+      <Binary>
+        <id value="Abg123"/>
+        <!--Hier kommt das Abgabdedatensatz-Bundle rein.-->
+      </Binary>
+    </contained>
+    <identifier>
+        <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+        <value value="160.123.456.789.123.58" />
+    </identifier>
+    <status value="billable" />
+    <code>
+        <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason" />
+            <code value="not-applicable" />
+        </coding>
+    </code>
+    <subject>
+        <identifier>
+            <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+            <value value="X234567890" />
+        </identifier>
+    </subject>
+     <enterer>
+        <identifier>
+            <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+            <value value="606358757" />
+        </identifier>
+    </enterer>
+    <enteredDate value="2021-06-01T07:13:00+05:00"/>
+    <supportingInformation> 
+        <reference value="#Abg123"/> 
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-AbgabedatenBundle" />
+        <display value="Abgabedatensatz"/> 
+    </supportingInformation>
+</ChargeItem>
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
+
+<ChargeItem xmlns="http://hl7.org/fhir">
+    <meta>
+      <profile value="http://example.org/fhir/StructureDefinition/ErxChargeItem" />
+			<tag>
+			  <display value="Marked example for 'Abrechnungsinformationen'." />
+		  </tag>
+    </meta>
+    <identifier>
+        <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+        <value value="160.123.456.789.123.58" />
+    </identifier>
+    <status value="billable" />
+    <code>
+        <coding>
+            <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason" />
+            <code value="not-applicable" />
+        </coding>
+    </code>
+    <subject>
+        <identifier>
+            <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+            <value value="X234567890" />
+        </identifier>
+    </subject>
+     <enterer>
+        <identifier>
+            <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+            <value value="606358757" />
+        </identifier>
+    </enterer>
+    <enteredDate value="2021-06-01T07:13:00+05:00"/>
+    <supportingInformation> 
+        <reference value="Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4"/> 
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-AbgabedatenBundle" />
+        <display value="Abgabedatensatz"/> 
+    </supportingInformation>
+</ChargeItem>
+----
+
+
+[cols="a,a"] 
+[%autowidth]
+|===
+s|Code   s|Type Success  
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Abrechnungsinformationen abrufen
+Als Versicherter möchte ich eine Übersicht über alle meine Abrechnungsinformationen erhalten.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die ChargeItem-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten. Werden ein oder mehrere ChargeItems gefunden, erfolgt die Rückgabe als Liste aller gefundenen ChargeItems ohne die im ChargeItem enthaltenen Referenzen.
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+----
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+
+|Payload    | -
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+{
+  "resourceType": "Bundle",
+  "id": "200e3c55-b154-4335-a0ec-65addd39a3b6",
+  "meta": {
+    "lastUpdated": "2021-09-02T11:38:42.557+00:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "entry": [ {
+    "fullUrl": "http://hapi.fhir.org/baseR4/ChargeItem/2500486",
+    "resource": {
+      "resourceType": "ChargeItem",
+      "id": "2500486",
+      "meta": {
+        "profile": [ "https://gematik.de/fhir/StructureDefinition/ErxChargeItem|1.1.0" ]
+      },
+        "extension": [ {
+        "url": "https://gematik.de/fhir/StructureDefinition/MarkingFlag",
+        "extension": [ {
+          "url": "insuranceProvider",
+          "valueBoolean": false
+        }, {
+          "url": "subsity",
+          "valueBoolean": false
+        }, {
+          "url": "taxOffice",
+          "valueBoolean": false
+        } ]
+      } ],
+      "identifier": {
+        "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+        "value": "160.123.456.789.123.58"
+      },
+      "status": "billable",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+          "code": "not-applicable"
+        } ]
+      },
+      "subject": {
+        "identifier": {
+          "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+          "value": "X234567890"
+        }
+      },
+      "enterer": {
+        "identifier": {
+            "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+            "value": "606358757"
+        }
+    },
+      "enteredDate": "2021-06-01T07:13:00+05:00",
+      "supportingInformation": [ {
+        "reference": "0428d416-149e-48a4-977c-394887b3d85c",
+        "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
+        "display": "E-Rezept"
+      }, {
+        "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+        "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
+        "display": "Abgabedatensatz"
+      }, {
+        "reference": "160.123.456.789.123.58",
+        "type": "https://gematik.de/fhir/StructureDefinition/ErxReceipt",
+        "display": "Quittung"
+      } ]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }, {
+    "fullUrl": "http://hapi.fhir.org/baseR4/ChargeItem/2500483",
+    "resource": {
+      "resourceType": "ChargeItem",
+      "id": "2500483",
+      "meta": {
+        "versionId": "1",
+        "lastUpdated": "2021-08-04T07:54:01.626+00:00",
+        "source": "#yjjZGKHhHOoq5UL5",
+        "profile": [ "https://gematik.de/fhir/StructureDefinition/ErxChargeItem|1.1.0" ]
+      },
+        "extension": [ {
+        "url": "https://gematik.de/fhir/StructureDefinition/MarkingFlag",
+        "extension": [ {
+          "url": "insuranceProvider",
+          "valueBoolean": true
+        }, {
+          "url": "subsity",
+          "valueBoolean": false
+        }, {
+          "url": "taxOffice",
+          "valueBoolean": false
+        } ]
+      } ],
+      "identifier": [ {
+        "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+        "value": "160.123.456.789.123.46"
+      }, {
+        "system": "https://gematik.de/fhir/NamingSystem/Secret",
+        "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
+      } ],
+      "status": "billable",
+      "code": {
+        "coding": [ {
+          "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+          "code": "not-applicable"
+        } ]
+      },
+      "subject": {
+        "identifier": {
+          "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+          "value": "X234567890"
+        }
+      },
+      "enterer": {
+        "identifier": {
+            "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+            "value": "606358757"
+        }
+    },
+      "enteredDate": "2021-06-01T07:13:00+05:00",
+      "supportingInformation": [ {<1>
+        "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
+        "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
+        "display": "E-Rezept"
+      }, {
+        "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+        "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
+        "display": "Abgabedatensatz"
+      } {
+        "reference": "Bundle/Receipt1",
+        "type": "https://gematik.de/fhir/StructureDefinition/ErxReceipt",
+        "display": "Quittung"
+      }]
+    }
+}
+----
+<1> Die Angagebenen Referenzen werden in dem Bundle nicht mitgeliefert.
+
+
+[cols="a,a"] 
+[%autowidth]
+|===
+s|Code   s|Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

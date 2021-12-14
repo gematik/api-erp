@@ -1,0 +1,194 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%]
+
+= E-Rezept Benachrichtigungen für Apotheken
+Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
+
+toc::[]
+
+== Funktionsweise
+Die Umsetzung der Notification-Schnittstelle des E-Rezept-Fachdienstes folgt den Vorgaben des link:https://www.hl7.org/fhir/subscription.html#2.46.7.2[FHIR-Standards^].
+image:notification_avs_overview.png[width=100%]
+
+Das AVS sendet eine Registrierungsanforderung an die VAU des E-Rezept-Fachdienstes, dieser generiert ein Pseudonym auf Basis der Telematik-ID und ein Bearer Token.
+
+Mit diesem Bearer Token baut das AVS eine Websocket-Verbindung an der Subscription-Schnittstelle des Fachdienstes auf und erhält je neu vorliegender Communications-Ressource für die Telematik-ID ein `Ping`. Das `Ping` ist dann Trigger für das link:erp_communication.adoc#user-content-anwendungsfall-auf-neue-nachrichten-im-e-rezept-fachdienst-prüfen[Abrufen der ungelesenen Communications].
+
+image:notification_avs_sequence.png[width=50%]
+
+== Registrierung
+Der Aufbau der WebSocket-Verbindung erfolgt zweistufig. Als erstes erfolgt die Authentisierung durch die VAU. Diese stellt ein eigenes Bearer-Token aus, das im zweiten Schritt beim Aufbau der eigentlichen Socketverbindung an den Subscription-Service übergeben wird.
+
+=== Pseudonymgenerierung in der VAU (Authentisierung)
+Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessToken des IDP) ein Subscription-Request an die VAU gesendet werden.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |/Subscription
+|Method     |POST
+|Request|
+[source,xml]
+----
+POST /Subscription HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+User-Agent: Avs/1.0 AvSoft/GEMAvwepokrpxnwiorlc
+Cache-Control: no-cache
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+xml; charset=UTF-8
+Accept: application/fhir+xml; charset=utf-8
+ 
+<Subscription xmlns="http://hl7.org/fhir">
+  <status value="requested"/>
+  <reason value="Communication notifications" />
+  <criteria value="Communication?received=null&recipient=3-abc-12345678"/> <1>
+  <channel>
+    <type value="websocket"/>
+  </channel>  
+</Subscription>
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
+
+|===
+<1> Das Feld `criteria` benennt die Suchparameter, bei denen eine Notification verschickt werden soll. Das sind zum einen `received=null` für ungelesene Nachrichten und `recipient=3-abc-12345678` die Telematik-ID der Apotheke, die mit der Telematik-ID des IDP-AccessToken übereinstimmen muss.
+Andere Parameter werden aktuell nicht unterstützt.
+
+*Response*
+[source,html]
+----
+HTTP/1.1 201 Created
+Content-Length: 510
+Content-Type: application/fhir+xml;charset=utf-8
+Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Subscription/838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a
+
+<Subscription>
+  <id value="838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a"/> <1>
+  <status value="active"/>
+  <end value="2022-01-01T00:00:00Z"/> <2>
+  <reason value="Communication notifications" />
+  <criteria value="Communication?received=null&recipient=3-abc-12345678"/>
+  <channel>
+    <type value="websocket"/>
+    <header value="Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI"/> <3>
+  </channel>  
+</Subscription>
+----
+
+<1> Eindeutige ID (Pseudonym der Telematik-ID)
+<2> timestamp = jetzt + 12h
+<3> die Header müssen beim Web Socket Upgrade mitgegeben werden
+
+Die Schnittstelle antwortet mit den typischen http-StatusCodes des RESTful-Paradigmas
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success  
+|201  |Created
+s|Code   s|Type Error   
+|400  |Bad Request
+|401  |Unauthorized
+|403  |Forbidden
+|429  |Too Many Requests
+|500  |Server Errors
+|===
+
+
+=== Websocket an Subscription-Endpunkt
+Nach der Registrierung der Subscription wird eine WebSocket-Verbindung zum eigentlichen NotificationService aufgebaut.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |subscription
+|Method     |GET
+|Request|
+----
+GET /subscription HTTP/1.1
+Host: subscription.zentral.erp.splitdns.ti-dienste.de
+Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI <1>
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw== <2>
+----
+
+TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird plain an den Subscription-Endpunkt geschickt.
+
+|===
+<1> Hier wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
+<2> clientseitig generierte Nonce (16-Byte Zufallswert in base64-Codierung), siehe link:https://www.rfc-editor.org/rfc/rfc6455#page-18[RFC-6455 Seite 18, Punkt 7]
+
+
+*Response*
+[source,html]
+----
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade <1>
+Sec-WebSocket-Accept: fA9dggdnMPU79lJgAE3W4TRnyDM=
+----
+<1> Der Subscription-Service antwortet mit einem Upgrade
+
+TIP: Der Subscription-Service antwortet beim Schließen der Websocket-Verbindung mit den Status-Codes gemäß link:https://datatracker.ietf.org/doc/html/rfc6455#section-7.4[RFC-6455], bspw. mit Status `1000` wenn ein abgelaufenes Bearer Token übergeben wird.
+
+=== Regisitrierung der Subscription in der Websocket-Verbindung
+
+Das AVS registriert sich für die Subscription aus dem vorherigen Schritt, in dem eine `bind` Text Nachricht über die Websocket-Verbindung an den Subscription-Service geschickt wird.
+
+[source,html]
+----
+bind: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+----
+<1> `Subscription.id`
+
+Der Subscription Service antwortet mit einer "bound" um die Einrichtung der Subscription zu bestätigen.
+
+[source,html]
+----
+bound: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+----
+<1> `Subscription.id`
+
+
+== Benachrichtigung
+Ist eine neue Communication eingegangen, benachrichtigt der Subscription-Service das AVS, indem eine `ping <Subscription.id>` Text-Nachricht über die Websocket-Verbindung gesendet wird.
+
+[source,html]
+----
+ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+----
+<1> `Subscription.id`
+
+WARNING: Hinweis: die Nachricht `ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a` ist *KEIN* `Ping` der Ping/Pong Control Frames für das Aufrechterhalten der Verbindung (siehe https://datatracker.ietf.org/doc/html/rfc6455#section-5.5).
+
+Empfängt das AVS nun ein `ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a`, liegt eine neue Nachricht vor, die über das VAU-Protokoll zum link:erp_communication.adoc#user-content-anwendungsfall-auf-neue-nachrichten-im-e-rezept-fachdienst-prüfen[Abrufen neuer Nachrichten] heruntergeladen werden kann. Über die Websockets werden selbst keine Nachrichten oder andere E-Rezept-bezogenen Daten verschickt.
+
+= => Wichtige Hinweise <=
+
+CAUTION: Jede eingestellte Nachricht führt zu einem Ping, ggfs. im Millisekundenbereich, wenn viele Nachrichten an einen Empfänger gerichtet werden. In Abhängigkeit von der Implementierung kann dieses Verhalten zu einer Überlastung des PS führen, wenn bspw. jedes einzelne Ping den Anwendungsfall "Nachrichten von Versicherten empfangen" triggert. +
+ Im Zweifel ist eine Wartezeit im AVS hilfreich, in der die zuletzt abgerufenen Nachrichten bearbeitet werden. Zwischenzeitlich "gepingte" Nachrichten gehen nicht verloren, da sie beim nächsten Abruf ungelesener Nachrichten gesammelt heruntergeladen werden.
+
+NOTE: Je Telematik-ID ist nur ein Websocket möglich
+
+NOTE: Die Websocket-Verbindung wird nach 12h automatisch geschlossen und muss neu registriert werden.

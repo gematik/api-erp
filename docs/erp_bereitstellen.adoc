@@ -1,0 +1,1287 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%]
+
+= E-Rezept API-Dokumentation für Ärzte/Zahnärzte
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer. 
+
+toc::[]
+
+==  Anwendungsfall E-Rezept bereitstellen
+
+Mit diesem Use Case stellt ein verordnender Arzt/Zahnarzt dem Patienten ein E-Rezept auf dem E-Rezept-Fachdienst bereit. Die Erzeugung des E-Rezepts erfolgt unter Nutzung der Verordnungsdatenschnittstelle für Primärsysteme. Mit dieser wählt der Leistungserbringer die therapierelevanten Wirkstoffe, Medikamente, o.Ä. aus.
+Der Leistungserbringer authentisiert sich gegenüber der Telematikinfrastruktur mit der Institutionsidentität der SMC-B unter Nutzung des IdentityProviders (IdP) und des Konnektors.
+Anschließend erfolgt das Generieren einer Rezept-ID über das Erzeugen eines Tasks im E-Rezept-Fachdienst. Die ID der erstellten Ressource Task bettet das Primärsystem des Leistungserbringers in den lokalen Datensatz ein und lässt diesen Datensatz vom Konnektor qualifiziert signieren.
+Zum Abschluss erfolgt die Aktivierung des im E-Rezept-Fachdienst erstellten Tasks in den korrekten Status und Ergänzung des qualifiziert signierten Datensatzes.
+Der E-Rezept-Fachdienst validiert die QES und erzeugt bei Gültigkeit der QES sowie Schemakonformität des E-Rezept-Bundles serverseitig eine Signatur zum Schutz der Integrität der Daten.
+
+image:api_rezept_einstellen.png[width=100%]
+
+== Profilierung
+Für diesen Anwendungsfall wird die FHIR-Resource "Task" profiliert.
+Das Profil kann als JSON oder XML hier eingesehen werden: https://simplifier.net/erezept-workflow/gemerxtask.
+
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden durch das "must be supported"-Flag gekennzeichnet. Sie werden in der folgenden Tabelle kurz zusammengefasst: 
+|===
+|*Name* |*Beschreibung* 
+|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept 
+|identifier:AccessCode |Vom E-Rezept-Fachdienst generierter Berechtigungs-Code
+|identifier:Secret |Vom E-Rezept-Fachdienst generierter Berechtigungs-Code
+|status |Status des E-Rezepts 
+|intent |Intension des Tasks. Fixer Wert="order"  
+|for |Krankenversichertennummer
+|authoredOn |Erstellungszeitpunkt des Tasks
+|lastModified |Letzte Änderung am Task
+|performerType | Institution, in der das Rezept eingelöst werden soll
+|input |Verweis auf das für den Patient und den Leistungserbringer erstellten Bundle
+|output |Verweis auf das Quittungs-Bundle
+|extension:flowType |Gibt den Typ des Rezeptes an
+|extension:expiryDate |Verfallsdatum 
+|extension:acceptDate |Datum, bis zu welchem die Krankenkasse spätestens die Kosten übernimmt
+|===
+
+In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
+
+== E-Rezept erstellen
+Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der KBV-Profilierung des E-Rezepts (siehe https://simplifier.net/erezept). Für die Bereitstellung an den Versicherten wird auf dem E-Rezept-Fachdienst ein Task erstellt, dessen Identifier als Rezept-ID in das FHIR-Bundle eingebettet wird. Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein.
+Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im Response-Header `Location` zurückgemeldet wird und zusätzlich ist im http-ResponseBody des Task der serverseitig generierte AccessCode als Identifier enthalten.
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+----
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|Payload    |
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+  <parameter>
+    <name value="workflowType"/>
+    <valueCoding>
+      <system value="https://gematik.de/fhir/CodeSystem/Flowtype"/>
+      <code value="160"/> <2>
+    </valueCoding>
+  </parameter>
+</Parameters> 
+----
+<2> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese Rezepte nur in einer Apotheke einlösen kann.
+
+|===
+
+*Response*
+[source,xml]
+----
+<Task xmlns="http://hl7.org/fhir">
+  <id value="4711"/>
+  <meta>
+    <versionId value="1"/>
+    <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+    <source value="#AsYR9plLkvONJAiv"/>
+  </meta>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
+    <value value="160.123.456.789.123.58"/> <1>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
+    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/> <2>
+  </identifier>
+  <status value="draft"/>
+  <intent value="order"/>
+  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+    <valueCodeableConcept>
+      <coding>
+        <system value="https://gematik.de/fhir/CodeSystem/Flowtype" /> <3>
+        <code value="160" />
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" /> 
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+    <valueDateTime value="2020-06-02" />
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+    <valueDateTime value="2020-04-01" />
+  </extension>
+  <authoredOn value="2020-03-02T08:25:05+00:00"/>
+  <lastModified value="2020-03-02T08:25:05+00:00"/>
+  <performerType>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+      <code value="1.2.276.0.76.4.54"/> <4>
+      <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+    </coding>
+    <text value="Apotheke"/>
+  </performerType>
+</Task>
+----
+
+<1> Dieser Identifier stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
+<2> An dieser Stelle befindet sich der serverseitig generierte `AccessCode`, der für nachfolgende Zugriffe auf diesen Task in einem http-Request für die Berechtigungsprüfung mitgegeben werden muss.
+<3> An dieser Stelle hat der E-Rezept-Fachdienst den Übergabeparameter zur Konfiguration des des Workflows übernommen.
+<4> Dieser Wert entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll (Apotheke, Sanitätshaus, etc.).
+
+
+
+[cols="a,a"] 
+[%autowidth]
+|===
+|Code   |Type Success  
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+== E-Rezept qualifiziert signieren
+Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Task im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/NamingSystem/PrescriptionID` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/NamingSystem/PrescriptionID` eingebettet. 
+
+Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller Value Sets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
+
+NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit Dateiname `4fe2013d-ae94-441a-a1b1-78236ae65680*` inkl. der folgenden Konnektor-Signatur-Beispiele. Daher weicht die Rezept-ID `PrescriptionID` von den übrigen Beispielen ab.
+
+.Beispiel für ein E-Rezept-Bundle (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Bundle xmlns="http://hl7.org/fhir">
+  <!-- Beispiel-Bundle Wirkstoffverordnung -->
+  <id value="4fe2013d-ae94-441a-a1b1-78236ae65680" />
+  <meta>
+    <lastUpdated value="2020-05-04T08:30:00Z" />
+    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.2" />
+  </meta>
+  <identifier>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+    <value value="160.123.456.789.123.58" />
+  </identifier>
+  <type value="document" />
+  <timestamp value="2020-05-04T08:30:00Z" />
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c" />
+    <resource>
+      <Composition xmlns="http://hl7.org/fhir">
+        <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.0.2" />
+        </meta>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN" />
+            <code value="00" />
+          </valueCoding>
+        </extension>
+        <status value="final" />
+        <type>
+          <coding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FORMULAR_ART" />
+            <code value="e16A" />
+          </coding>
+        </type>
+        <subject>
+          <reference value="Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+        </subject>
+        <date value="2020-02-03T11:30:02Z" />
+        <author>
+          <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c" />
+          <type value="Practitioner" />
+        </author>
+        <author>
+          <type value="Device" />
+          <identifier>
+            <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_FOR_Pruefnummer" />
+            <value value="Y/400/1910/36/346" />
+          </identifier>
+        </author>
+        <title value="elektronische Arzneimittelverordnung" />
+        <attester>
+          <mode value="legal" />
+          <party>
+            <reference value="Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+          </party>
+        </attester>
+        <custodian>
+          <reference value="Organization/cf042e44-086a-4d51-9c77-172f9a972e3b" />
+        </custodian>
+        <section>
+          <code>
+            <coding>
+              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type" />
+              <code value="Prescription" />
+            </coding>
+          </code>
+          <entry>
+            <!-- Referenz auf Verordnung (MedicationRequest) -->
+            <reference value="MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561" />
+          </entry>
+        </section>
+        <section>
+          <code>
+            <coding>
+              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type" />
+              <code value="Coverage" />
+            </coding>
+          </code>
+          <entry>
+            <!-- Referenz auf Krankenkasse/KostentrĂ¤ger  -->
+            <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+          </entry>
+        </section>
+      </Composition>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561" />
+    <resource>
+      <MedicationRequest xmlns="http://hl7.org/fhir">
+        <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.0.2" />
+        </meta>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_StatusCoPayment">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_StatusCoPayment" />
+            <code value="0" />
+          </valueCoding>
+        </extension>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
+          <valueBoolean value="false" />
+        </extension>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG">
+          <valueBoolean value="false" />
+        </extension>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Accident">
+          <extension url="unfallkennzeichen">
+            <valueCoding>
+              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Ursache_Type" />
+              <code value="1" />
+            </valueCoding>
+          </extension>
+          <extension url="unfalltag">
+            <valueDate value="2020-05-01" />
+          </extension>
+        </extension>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription">
+          <extension url="Kennzeichen">
+            <valueBoolean value="true" />
+          </extension>
+          <extension url="Nummerierung">
+            <valueRatio>
+              <numerator>
+                <value value="2" />
+              </numerator>
+              <denominator>
+                <value value="4" />
+              </denominator>
+            </valueRatio>
+          </extension>
+          <extension url="Zeitraum">
+            <valuePeriod>
+              <start value="2021-01-02" />
+              <end value="2021-03-30" />
+            </valuePeriod>
+          </extension>
+        </extension>
+        <status value="active" />
+        <intent value="order" />
+        <medicationReference>
+          <reference value="Medication/e3a4efa7-84fc-465b-b14c-720195097783" />
+        </medicationReference>
+        <subject>
+          <reference value="Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+        </subject>
+        <authoredOn value="2020-05-02" />
+        <requester>
+          <reference value="Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+        </requester>
+        <insurance>
+          <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+        </insurance>
+        <note>
+          <text value="Dummy-Hinweis für die Apotheke" />
+        </note>
+        <dosageInstruction>
+          <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag">
+            <valueBoolean value="false" />
+          </extension>
+        </dosageInstruction>
+        <dispenseRequest>
+          <quantity>
+            <value value="2" />
+            <system value="http://unitsofmeasure.org" />
+            <code value="{Package}" />
+          </quantity>
+        </dispenseRequest>
+        <substitution>
+          <allowedBoolean value="true" />
+        </substitution>
+      </MedicationRequest>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/e3a4efa7-84fc-465b-b14c-720195097783" />
+    <resource>
+      <Medication xmlns="http://hl7.org/fhir">
+        <id value="e3a4efa7-84fc-465b-b14c-720195097783" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.0.2" />
+        </meta>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category" />
+            <code value="00" />
+          </valueCoding>
+        </extension>
+        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+          <valueBoolean value="false" />
+        </extension>
+        <code>
+          <coding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Type" />
+            <code value="wirkstoff" />
+          </coding>
+        </code>
+        <form>
+          <text value="Tabletten" />
+        </form>
+        <amount>
+          <numerator>
+            <value value="20" />
+            <unit value="Stk" />
+          </numerator>
+          <denominator>
+            <value value="1" />
+          </denominator>
+        </amount>
+        <ingredient>
+          <itemCodeableConcept>
+            <coding>
+              <system value="http://fhir.de/CodeSystem/ask" />
+              <code value="Dummy-ASK" />
+            </coding>
+            <text value="Ibuprofen" />
+          </itemCodeableConcept>
+          <strength>
+            <numerator>
+              <value value="800" />
+              <unit value="mg" />
+            </numerator>
+            <denominator>
+              <value value="1" />
+            </denominator>
+          </strength>
+        </ingredient>
+      </Medication>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+    <resource>
+      <Patient xmlns="http://hl7.org/fhir">
+        <id value="9774f67f-a238-4daf-b4e6-679deeef3811" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.0.3" />
+        </meta>
+        <identifier>
+          <type>
+            <coding>
+              <system value="http://fhir.de/CodeSystem/identifier-type-de-basis" />
+              <code value="GKV" />
+            </coding>
+          </type>
+          <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+          <value value="X234567890" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Ludger Königsstein">
+            <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+              <valueString value="Königsstein" />
+            </extension>
+          </family>
+          <given value="Ludger" />
+        </name>
+        <birthDate value="1935-06-22" />
+        <address>
+          <type value="both" />
+          <line value="Musterstr. 1">
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+              <valueString value="1" />
+            </extension>
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+              <valueString value="Musterstr." />
+            </extension>
+          </line>
+          <city value="Berlin" />
+          <postalCode value="10623" />
+        </address>
+      </Patient>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+    <resource>
+      <Practitioner xmlns="http://hl7.org/fhir">
+        <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.0.3" />
+        </meta>
+        <identifier>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="LANR" />
+            </coding>
+          </type>
+          <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR" />
+          <value value="838382202" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Topp-Glücklich">
+            <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+              <valueString value="Topp-Glücklich" />
+            </extension>
+          </family>
+          <given value="Hans" />
+          <prefix value="Dr. med.">
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+              <valueCode value="AC" />
+            </extension>
+          </prefix>
+        </name>
+        <qualification>
+          <code>
+            <coding>
+              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type" />
+              <code value="00" />
+            </coding>
+          </code>
+        </qualification>
+        <qualification>
+          <code>
+            <text value="Hausarzt" />
+          </code>
+        </qualification>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c" />
+    <resource>
+      <Practitioner xmlns="http://hl7.org/fhir">
+        <id value="d8463daf-258e-4cad-a86a-6fd42fac161c" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.0.3" />
+        </meta>
+        <identifier>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="LANR" />
+            </coding>
+          </type>
+          <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR" />
+          <value value="838382210" />
+        </identifier>
+        <name>
+          <use value="official" />
+          <family value="Meier">
+            <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+              <valueString value="Meier" />
+            </extension>
+          </family>
+          <given value="Jörgen" />
+        </name>
+        <qualification>
+          <code>
+            <coding>
+              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type" />
+              <code value="03" />
+            </coding>
+          </code>
+        </qualification>
+        <qualification>
+          <code>
+            <text value="Arzt in Weiterbildung" />
+          </code>
+        </qualification>
+      </Practitioner>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b" />
+    <resource>
+      <Organization xmlns="http://hl7.org/fhir">
+        <id value="cf042e44-086a-4d51-9c77-172f9a972e3b" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.0.3" />
+        </meta>
+        <identifier>
+          <type>
+            <coding>
+              <system value="http://terminology.hl7.org/CodeSystem/v2-0203" />
+              <code value="BSNR" />
+            </coding>
+          </type>
+          <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR" />
+          <value value="031234567" />
+        </identifier>
+        <name value="Hausarztpraxis Dr. Topp-Glücklich" />
+        <telecom>
+          <system value="phone" />
+          <value value="0301234567" />
+        </telecom>
+        <address>
+          <type value="both" />
+          <line value="Musterstr. 2">
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+              <valueString value="2" />
+            </extension>
+            <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+              <valueString value="Musterstr." />
+            </extension>
+          </line>
+          <city value="Berlin" />
+          <postalCode value="10623" />
+        </address>
+      </Organization>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+    <resource>
+      <Coverage xmlns="http://hl7.org/fhir">
+        <id value="1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
+        <meta>
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.0.3" />
+        </meta>
+        <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE" />
+            <code value="00" />
+          </valueCoding>
+        </extension>
+        <extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP" />
+            <code value="00" />
+          </valueCoding>
+        </extension>
+        <extension url="http://fhir.de/StructureDefinition/gkv/wop">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ITA_WOP" />
+            <code value="03" />
+          </valueCoding>
+        </extension>
+        <extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+          <valueCoding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_VERSICHERTENSTATUS" />
+            <code value="1" />
+          </valueCoding>
+        </extension>
+        <status value="active" />
+        <type>
+          <coding>
+            <system value="http://fhir.de/CodeSystem/versicherungsart-de-basis" />
+            <code value="GKV" />
+          </coding>
+        </type>
+        <beneficiary>
+          <reference value="Patient/9774f67f-a238-4daf-b4e6-679deeef3811" />
+        </beneficiary>
+        <payor>
+          <identifier>
+            <system value="http://fhir.de/NamingSystem/arge-ik/iknr" />
+            <value value="104212059" />
+          </identifier>
+          <display value="AOK Rheinland/Hamburg" />
+        </payor>
+      </Coverage>
+    </resource>
+  </entry>
+</Bundle>
+----
+====
+
+Dieses E-Rezept-Bundle in XML-Darstellung muss nun digital unterschrieben (qualifiziert elektronisch signiert - QES) werden, das Primärsystem nutzt dafür die Schnittstelle des Konnektors und dieser den Heilberufsausweis des verordnenden Arztes/Zahnarztes.
+Um Fehler in der Signaturprüfung zu vermeiden, wird die Kanonisierung des Dokuments vor der Signaturerstellung für bestimmte Signaturformate empfohlen (bzw. bei detached-Signaturen zwingend). Diese Kanonsierung normalisiert das Dokument nach definierten Regeln, damit das signaturerstellende System genauso wie das signaturprüfende System ein exakt identisches Dokument in der Erstellung und Prüfung verwenden.
+Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln https://www.w3.org/TR/2008/REC-xml-c14n11-20080502/ für Canonical XML Version 1.1 für XML-Dokumente zum Einsatz.
+
+NOTE: Bei der Verwendung des Signaturformats CAdES-Enveloping ist eine Kanonisierung nicht erforderlich, da die signierten Daten "innerhalb" der Signatur transportiert werden.
+
+TIP: Der Konnektor wählt standardmäßig ein passendes kryptografisches Verfahren, es kann jedoch mit dem Parameter `crypt` in SignDocument auch gemäß der Spezifikation in gemSpec_Kon#TAB_KON_862-01 konkret gewählt werden (z.B. ECC, falls das Verhalten der verschiedenen Algorithmen ausprobiert werden soll).
+
+Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die QES-Erstellung sind mindestens folgende Konnektor-Versionen der drei Konnektoren notwendig: 
+
+* KoCoBOX MED+ 2.3.24:2.0.0 
+* RISE Konnektor 2.1.0:1.0.0 
+* secunet Konnektor 2.1.0 
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
+----
+|Payload    |
+[source,xml]
+----
+<?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:m0="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:m1="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:m2="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:m3="http://www.w3.org/2000/09/xmldsig#" xmlns:m4="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#">
+  <SOAP-ENV:Body>
+    <m:SignDocument xmlns:m="http://ws.gematik.de/conn/SignatureService/v7.4">
+      <m0:CardHandle>HBA-5</m0:CardHandle>
+      <m1:Context>
+        <m0:MandantId>Mandant1</m0:MandantId>
+        <m0:ClientSystemId>ClientID1</m0:ClientSystemId>
+        <m0:WorkplaceId>CATS</m0:WorkplaceId>
+        <m0:UserId>197610</m0:UserId>
+      </m1:Context>
+      <m:TvMode>NONE</m:TvMode>
+      <m:JobNumber>MMD-636</m:JobNumber>
+      <m:SignRequest RequestID="Doc1">
+        <m:OptionalInputs>
+          <m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType> <1>
+          <m:IncludeEContent>true</m:IncludeEContent> <2>
+        </m:OptionalInputs>
+        <m:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign"> <3>
+          <m2:Base64Data MimeType="text/plain; charset=utf-8">PEJ1bmRsZSB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogIDwhLS0gQmVpc3BpZWwtQnVu
+ZGxlIFdpcmtzdG9mZnZlcm9yZG51bmcgLS0+DQogIDxpZCB2YWx1ZT0iNGZlMjAxM2QtYWU5NC00
+NDFhLWExYjEtNzgyMzZhZTY1NjgwIiAvPg0KICA8bWV0YT4NCiAgICA8bGFzdFVwZGF0ZWQgdmFs
+dWU9IjIwMjAtMDUtMDRUMDg6MzA6MDBaIiAvPg0KICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczov
+L2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX1BSX0VSUF9CdW5kbGV8MS4wLjEi
+IC8+DQogIDwvbWV0YT4NCiAgPGlkZW50aWZpZXI+DQogICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6
+Ly9nZW1hdGlrLmRlL2ZoaXIvTmFtaW5nU3lzdGVtL1ByZXNjcmlwdGlvbklEIiAvPg0KICAgIDx2
+YWx1ZSB2YWx1ZT0iMTYwLjEyMy40NTYuNzg5LjEyMy41OCIgLz4NCiAgPC9pZGVudGlmaWVyPg0K
+ICA8dHlwZSB2YWx1ZT0iZG9jdW1lbnQiIC8+DQogIDx0aW1lc3RhbXAgdmFsdWU9IjIwMjAtMDUt
+MDRUMDg6MzA6MDBaIiAvPg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9w
+dnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL0NvbXBvc2l0aW9uL2IwZTIyYjg2
+LWU3ZTktNDZjMS04MGZlLWU2ZTI0NDQyZDc3YyIgLz4NCiAgICA8cmVzb3VyY2U+DQogICAgICA8
+Q29tcG9zaXRpb24geG1sbnM9Imh0dHA6Ly9obDcub3JnL2ZoaXIiPg0KICAgICAgICA8aWQgdmFs
+dWU9ImIwZTIyYjg2LWU3ZTktNDZjMS04MGZlLWU2ZTI0NDQyZDc3YyIgLz4NCiAgICAgICAgPG1l
+dGE+DQogICAgICAgICAgPHByb2ZpbGUgdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0
+dXJlRGVmaW5pdGlvbi9LQlZfUFJfRVJQX0NvbXBvc2l0aW9ufDEuMC4xIiAvPg0KICAgICAgICA8
+L21ldGE+DQogICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVj
+dHVyZURlZmluaXRpb24vS0JWX0VYX0ZPUl9MZWdhbF9iYXNpcyI+DQogICAgICAgICAgPHZhbHVl
+Q29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9D
+b2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfU1RBVFVTS0VOTlpFSUNIRU4iIC8+DQogICAgICAg
+ICAgICA8Y29kZSB2YWx1ZT0iMDAiIC8+DQogICAgICAgICAgPC92YWx1ZUNvZGluZz4NCiAgICAg
+ICAgPC9leHRlbnNpb24+DQogICAgICAgIDxzdGF0dXMgdmFsdWU9ImZpbmFsIiAvPg0KICAgICAg
+ICA8dHlwZT4NCiAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0i
+aHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfRk9STVVMQVJf
+QVJUIiAvPg0KICAgICAgICAgICAgPGNvZGUgdmFsdWU9ImUxNkEiIC8+DQogICAgICAgICAgPC9j
+b2Rpbmc+DQogICAgICAgIDwvdHlwZT4NCiAgICAgICAgPHN1YmplY3Q+DQogICAgICAgICAgPHJl
+ZmVyZW5jZSB2YWx1ZT0iUGF0aWVudC85Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4
+MTEiIC8+DQogICAgICAgIDwvc3ViamVjdD4NCiAgICAgICAgPGRhdGUgdmFsdWU9IjIwMjAtMDIt
+MDNUMTE6MzA6MDJaIiAvPg0KICAgICAgICA8YXV0aG9yPg0KICAgICAgICAgIDxyZWZlcmVuY2Ug
+dmFsdWU9IlByYWN0aXRpb25lci9kODQ2M2RhZi0yNThlLTRjYWQtYTg2YS02ZmQ0MmZhYzE2MWMi
+IC8+DQogICAgICAgICAgPHR5cGUgdmFsdWU9IlByYWN0aXRpb25lciIgLz4NCiAgICAgICAgPC9h
+dXRob3I+DQogICAgICAgIDxhdXRob3I+DQogICAgICAgICAgPHR5cGUgdmFsdWU9IkRldmljZSIg
+Lz4NCiAgICAgICAgICA8aWRlbnRpZmllcj4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0
+dHBzOi8vZmhpci5rYnYuZGUvTmFtaW5nU3lzdGVtL0tCVl9OU19GT1JfUHJ1ZWZudW1tZXIiIC8+
+DQogICAgICAgICAgICA8dmFsdWUgdmFsdWU9IlkvNDAwLzE5MTAvMzYvMzQ2IiAvPg0KICAgICAg
+ICAgIDwvaWRlbnRpZmllcj4NCiAgICAgICAgPC9hdXRob3I+DQogICAgICAgIDx0aXRsZSB2YWx1
+ZT0iZWxla3Ryb25pc2NoZSBBcnpuZWltaXR0ZWx2ZXJvcmRudW5nIiAvPg0KICAgICAgICA8YXR0
+ZXN0ZXI+DQogICAgICAgICAgPG1vZGUgdmFsdWU9ImxlZ2FsIiAvPg0KICAgICAgICAgIDxwYXJ0
+eT4NCiAgICAgICAgICAgIDxyZWZlcmVuY2UgdmFsdWU9IlByYWN0aXRpb25lci8yMDU5N2UwZS1j
+YjJhLTQ1YjMtOTVmMC1kYzNkYmRiNjE3YzMiIC8+DQogICAgICAgICAgPC9wYXJ0eT4NCiAgICAg
+ICAgPC9hdHRlc3Rlcj4NCiAgICAgICAgPGN1c3RvZGlhbj4NCiAgICAgICAgICA8cmVmZXJlbmNl
+IHZhbHVlPSJPcmdhbml6YXRpb24vY2YwNDJlNDQtMDg2YS00ZDUxLTljNzctMTcyZjlhOTcyZTNi
+IiAvPg0KICAgICAgICA8L2N1c3RvZGlhbj4NCiAgICAgICAgPHNlY3Rpb24+DQogICAgICAgICAg
+PGNvZGU+DQogICAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVl
+PSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX0VSUF9TZWN0aW9uX1R5cGUi
+IC8+DQogICAgICAgICAgICAgIDxjb2RlIHZhbHVlPSJQcmVzY3JpcHRpb24iIC8+DQogICAgICAg
+ICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L2NvZGU+DQogICAgICAgICAgPGVudHJ5Pg0KICAg
+ICAgICAgICAgPCEtLSBSZWZlcmVueiBhdWYgVmVyb3JkbnVuZyAoTWVkaWNhdGlvblJlcXVlc3Qp
+IC0tPg0KICAgICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iTWVkaWNhdGlvblJlcXVlc3QvZjU4
+ZjQ0MDMtN2EzYS00YTEyLWJiMTUtYjJmYTI1YjAyNTYxIiAvPg0KICAgICAgICAgIDwvZW50cnk+
+DQogICAgICAgIDwvc2VjdGlvbj4NCiAgICAgICAgPHNlY3Rpb24+DQogICAgICAgICAgPGNvZGU+
+DQogICAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRw
+czovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX0VSUF9TZWN0aW9uX1R5cGUiIC8+DQog
+ICAgICAgICAgICAgIDxjb2RlIHZhbHVlPSJDb3ZlcmFnZSIgLz4NCiAgICAgICAgICAgIDwvY29k
+aW5nPg0KICAgICAgICAgIDwvY29kZT4NCiAgICAgICAgICA8ZW50cnk+DQogICAgICAgICAgICA8
+IS0tIFJlZmVyZW56IGF1ZiBLcmFua2Vua2Fzc2UvS29zdGVudHLEgsKkZ2VyICAtLT4NCiAgICAg
+ICAgICAgIDxyZWZlcmVuY2UgdmFsdWU9IkNvdmVyYWdlLzFiMWZmYjZlLWViMDUtNDNkNy04N2Vi
+LWU3ODE4ZmU5NjYxYSIgLz4NCiAgICAgICAgICA8L2VudHJ5Pg0KICAgICAgICA8L3NlY3Rpb24+
+DQogICAgICA8L0NvbXBvc2l0aW9uPg0KICAgIDwvcmVzb3VyY2U+DQogIDwvZW50cnk+DQogIDxl
+bnRyeT4NCiAgICA8ZnVsbFVybCB2YWx1ZT0iaHR0cDovL3B2cy5wcmF4aXMtdG9wcC1nbHVlY2ts
+aWNoLmxvY2FsL2ZoaXIvTWVkaWNhdGlvblJlcXVlc3QvZjU4ZjQ0MDMtN2EzYS00YTEyLWJiMTUt
+YjJmYTI1YjAyNTYxIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxNZWRpY2F0aW9uUmVxdWVz
+dCB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2YWx1ZT0iZjU4ZjQ0
+MDMtN2EzYS00YTEyLWJiMTUtYjJmYTI1YjAyNTYxIiAvPg0KICAgICAgICA8bWV0YT4NCiAgICAg
+ICAgICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0
+aW9uL0tCVl9QUl9FUlBfUHJlc2NyaXB0aW9ufDEuMC4xIiAvPg0KICAgICAgICA8L21ldGE+DQog
+ICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmlu
+aXRpb24vS0JWX0VYX0VSUF9TdGF0dXNDb1BheW1lbnQiPg0KICAgICAgICAgIDx2YWx1ZUNvZGlu
+Zz4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvQ29kZVN5
+c3RlbS9LQlZfQ1NfRVJQX1N0YXR1c0NvUGF5bWVudCIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZh
+bHVlPSIwIiAvPg0KICAgICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwvZXh0ZW5zaW9u
+Pg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVE
+ZWZpbml0aW9uL0tCVl9FWF9FUlBfRW1lcmdlbmN5U2VydmljZXNGZWUiPg0KICAgICAgICAgIDx2
+YWx1ZUJvb2xlYW4gdmFsdWU9ImZhbHNlIiAvPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAg
+ICAgPGV4dGVuc2lvbiB1cmw9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlv
+bi9LQlZfRVhfRVJQX0JWRyI+DQogICAgICAgICAgPHZhbHVlQm9vbGVhbiB2YWx1ZT0iZmFsc2Ui
+IC8+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cHM6
+Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9FWF9FUlBfQWNjaWRlbnQiPg0K
+ICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJ1bmZhbGxrZW5uemVpY2hlbiI+DQogICAgICAgICAg
+ICA8dmFsdWVDb2Rpbmc+DQogICAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhp
+ci5rYnYuZGUvQ29kZVN5c3RlbS9LQlZfQ1NfRk9SX1Vyc2FjaGVfVHlwZSIgLz4NCiAgICAgICAg
+ICAgICAgPGNvZGUgdmFsdWU9IjEiIC8+DQogICAgICAgICAgICA8L3ZhbHVlQ29kaW5nPg0KICAg
+ICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJ1bmZhbGx0YWci
+Pg0KICAgICAgICAgICAgPHZhbHVlRGF0ZSB2YWx1ZT0iMjAyMC0wNS0wMSIgLz4NCiAgICAgICAg
+ICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgIDxleHRlbnNpb24g
+dXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0VSUF9N
+dWx0aXBsZV9QcmVzY3JpcHRpb24iPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJLZW5uemVp
+Y2hlbiI+DQogICAgICAgICAgICA8dmFsdWVCb29sZWFuIHZhbHVlPSJ0cnVlIiAvPg0KICAgICAg
+ICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJOdW1tZXJpZXJ1bmci
+Pg0KICAgICAgICAgICAgPHZhbHVlUmF0aW8+DQogICAgICAgICAgICAgIDxudW1lcmF0b3I+DQog
+ICAgICAgICAgICAgICAgPHZhbHVlIHZhbHVlPSIyIiAvPg0KICAgICAgICAgICAgICA8L251bWVy
+YXRvcj4NCiAgICAgICAgICAgICAgPGRlbm9taW5hdG9yPg0KICAgICAgICAgICAgICAgIDx2YWx1
+ZSB2YWx1ZT0iNCIgLz4NCiAgICAgICAgICAgICAgPC9kZW5vbWluYXRvcj4NCiAgICAgICAgICAg
+IDwvdmFsdWVSYXRpbz4NCiAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8ZXh0ZW5z
+aW9uIHVybD0iWmVpdHJhdW0iPg0KICAgICAgICAgICAgPHZhbHVlUGVyaW9kPg0KICAgICAgICAg
+ICAgICA8c3RhcnQgdmFsdWU9IjIwMjEtMDEtMDIiIC8+DQogICAgICAgICAgICAgIDxlbmQgdmFs
+dWU9IjIwMjEtMDMtMzAiIC8+DQogICAgICAgICAgICA8L3ZhbHVlUGVyaW9kPg0KICAgICAgICAg
+IDwvZXh0ZW5zaW9uPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPHN0YXR1cyB2YWx1
+ZT0iYWN0aXZlIiAvPg0KICAgICAgICA8aW50ZW50IHZhbHVlPSJvcmRlciIgLz4NCiAgICAgICAg
+PG1lZGljYXRpb25SZWZlcmVuY2U+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iTWVkaWNh
+dGlvbi9lM2E0ZWZhNy04NGZjLTQ2NWItYjE0Yy03MjAxOTUwOTc3ODMiIC8+DQogICAgICAgIDwv
+bWVkaWNhdGlvblJlZmVyZW5jZT4NCiAgICAgICAgPHN1YmplY3Q+DQogICAgICAgICAgPHJlZmVy
+ZW5jZSB2YWx1ZT0iUGF0aWVudC85Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4MTEi
+IC8+DQogICAgICAgIDwvc3ViamVjdD4NCiAgICAgICAgPGF1dGhvcmVkT24gdmFsdWU9IjIwMjAt
+MDUtMDIiIC8+DQogICAgICAgIDxyZXF1ZXN0ZXI+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1
+ZT0iUHJhY3RpdGlvbmVyLzIwNTk3ZTBlLWNiMmEtNDViMy05NWYwLWRjM2RiZGI2MTdjMyIgLz4N
+CiAgICAgICAgPC9yZXF1ZXN0ZXI+DQogICAgICAgIDxpbnN1cmFuY2U+DQogICAgICAgICAgPHJl
+ZmVyZW5jZSB2YWx1ZT0iQ292ZXJhZ2UvMWIxZmZiNmUtZWIwNS00M2Q3LTg3ZWItZTc4MThmZTk2
+NjFhIiAvPg0KICAgICAgICA8L2luc3VyYW5jZT4NCiAgICAgICAgPG5vdGU+DQogICAgICAgICAg
+PHRleHQgdmFsdWU9IkR1bW15LUhpbndlaXMgZsO8ciBkaWUgQXBvdGhla2UiIC8+DQogICAgICAg
+IDwvbm90ZT4NCiAgICAgICAgPGRvc2FnZUluc3RydWN0aW9uPg0KICAgICAgICAgIDxleHRlbnNp
+b24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0VS
+UF9Eb3NhZ2VGbGFnIj4NCiAgICAgICAgICAgIDx2YWx1ZUJvb2xlYW4gdmFsdWU9ImZhbHNlIiAv
+Pg0KICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8L2Rvc2FnZUluc3RydWN0aW9uPg0K
+ICAgICAgICA8ZGlzcGVuc2VSZXF1ZXN0Pg0KICAgICAgICAgIDxxdWFudGl0eT4NCiAgICAgICAg
+ICAgIDx2YWx1ZSB2YWx1ZT0iMiIgLz4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHA6
+Ly91bml0c29mbWVhc3VyZS5vcmciIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0ie1BhY2th
+Z2V9IiAvPg0KICAgICAgICAgIDwvcXVhbnRpdHk+DQogICAgICAgIDwvZGlzcGVuc2VSZXF1ZXN0
+Pg0KICAgICAgICA8c3Vic3RpdHV0aW9uPg0KICAgICAgICAgIDxhbGxvd2VkQm9vbGVhbiB2YWx1
+ZT0idHJ1ZSIgLz4NCiAgICAgICAgPC9zdWJzdGl0dXRpb24+DQogICAgICA8L01lZGljYXRpb25S
+ZXF1ZXN0Pg0KICAgIDwvcmVzb3VyY2U+DQogIDwvZW50cnk+DQogIDxlbnRyeT4NCiAgICA8ZnVs
+bFVybCB2YWx1ZT0iaHR0cDovL3B2cy5wcmF4aXMtdG9wcC1nbHVlY2tsaWNoLmxvY2FsL2ZoaXIv
+TWVkaWNhdGlvbi9lM2E0ZWZhNy04NGZjLTQ2NWItYjE0Yy03MjAxOTUwOTc3ODMiIC8+DQogICAg
+PHJlc291cmNlPg0KICAgICAgPE1lZGljYXRpb24geG1sbnM9Imh0dHA6Ly9obDcub3JnL2ZoaXIi
+Pg0KICAgICAgICA8aWQgdmFsdWU9ImUzYTRlZmE3LTg0ZmMtNDY1Yi1iMTRjLTcyMDE5NTA5Nzc4
+MyIgLz4NCiAgICAgICAgPG1ldGE+DQogICAgICAgICAgPHByb2ZpbGUgdmFsdWU9Imh0dHBzOi8v
+Zmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfUFJfRVJQX01lZGljYXRpb25fSW5n
+cmVkaWVudHwxLjAuMSIgLz4NCiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVy
+bD0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9FWF9FUlBfTWVk
+aWNhdGlvbl9DYXRlZ29yeSI+DQogICAgICAgICAgPHZhbHVlQ29kaW5nPg0KICAgICAgICAgICAg
+PHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19FUlBf
+TWVkaWNhdGlvbl9DYXRlZ29yeSIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIwMCIgLz4N
+CiAgICAgICAgICA8L3ZhbHVlQ29kaW5nPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAg
+PGV4dGVuc2lvbiB1cmw9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9L
+QlZfRVhfRVJQX01lZGljYXRpb25fVmFjY2luZSI+DQogICAgICAgICAgPHZhbHVlQm9vbGVhbiB2
+YWx1ZT0iZmFsc2UiIC8+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8Y29kZT4NCiAg
+ICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGly
+Lmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19FUlBfTWVkaWNhdGlvbl9UeXBlIiAvPg0KICAgICAg
+ICAgICAgPGNvZGUgdmFsdWU9IndpcmtzdG9mZiIgLz4NCiAgICAgICAgICA8L2NvZGluZz4NCiAg
+ICAgICAgPC9jb2RlPg0KICAgICAgICA8Zm9ybT4NCiAgICAgICAgICA8dGV4dCB2YWx1ZT0iVGFi
+bGV0dGVuIiAvPg0KICAgICAgICA8L2Zvcm0+DQogICAgICAgIDxhbW91bnQ+DQogICAgICAgICAg
+PG51bWVyYXRvcj4NCiAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMjAiIC8+DQogICAgICAgICAg
+ICA8dW5pdCB2YWx1ZT0iU3RrIiAvPg0KICAgICAgICAgIDwvbnVtZXJhdG9yPg0KICAgICAgICAg
+IDxkZW5vbWluYXRvcj4NCiAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMSIgLz4NCiAgICAgICAg
+ICA8L2Rlbm9taW5hdG9yPg0KICAgICAgICA8L2Ftb3VudD4NCiAgICAgICAgPGluZ3JlZGllbnQ+
+DQogICAgICAgICAgPGl0ZW1Db2RlYWJsZUNvbmNlcHQ+DQogICAgICAgICAgICA8Y29kaW5nPg0K
+ICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwOi8vZmhpci5kZS9Db2RlU3lzdGVtL2Fz
+ayIgLz4NCiAgICAgICAgICAgICAgPGNvZGUgdmFsdWU9IkR1bW15LUFTSyIgLz4NCiAgICAgICAg
+ICAgIDwvY29kaW5nPg0KICAgICAgICAgICAgPHRleHQgdmFsdWU9IklidXByb2ZlbiIgLz4NCiAg
+ICAgICAgICA8L2l0ZW1Db2RlYWJsZUNvbmNlcHQ+DQogICAgICAgICAgPHN0cmVuZ3RoPg0KICAg
+ICAgICAgICAgPG51bWVyYXRvcj4NCiAgICAgICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MDAiIC8+
+DQogICAgICAgICAgICAgIDx1bml0IHZhbHVlPSJtZyIgLz4NCiAgICAgICAgICAgIDwvbnVtZXJh
+dG9yPg0KICAgICAgICAgICAgPGRlbm9taW5hdG9yPg0KICAgICAgICAgICAgICA8dmFsdWUgdmFs
+dWU9IjEiIC8+DQogICAgICAgICAgICA8L2Rlbm9taW5hdG9yPg0KICAgICAgICAgIDwvc3RyZW5n
+dGg+DQogICAgICAgIDwvaW5ncmVkaWVudD4NCiAgICAgIDwvTWVkaWNhdGlvbj4NCiAgICA8L3Jl
+c291cmNlPg0KICA8L2VudHJ5Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6
+Ly9wdnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL1BhdGllbnQvOTc3NGY2N2Yt
+YTIzOC00ZGFmLWI0ZTYtNjc5ZGVlZWYzODExIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxQ
+YXRpZW50IHhtbG5zPSJodHRwOi8vaGw3Lm9yZy9maGlyIj4NCiAgICAgICAgPGlkIHZhbHVlPSI5
+Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4MTEiIC8+DQogICAgICAgIDxtZXRhPg0K
+ICAgICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURl
+ZmluaXRpb24vS0JWX1BSX0ZPUl9QYXRpZW50fDEuMC4zIiAvPg0KICAgICAgICA8L21ldGE+DQog
+ICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAgICAgICAgPGNvZGlu
+Zz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL2ZoaXIuZGUvQ29kZVN5c3Rl
+bS9pZGVudGlmaWVyLXR5cGUtZGUtYmFzaXMiIC8+DQogICAgICAgICAgICAgIDxjb2RlIHZhbHVl
+PSJHS1YiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L3R5cGU+DQogICAg
+ICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL2ZoaXIuZGUvTmFtaW5nU3lzdGVtL2drdi9rdmlk
+LTEwIiAvPg0KICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iWDIzNDU2Nzg5MCIgLz4NCiAgICAgICAg
+PC9pZGVudGlmaWVyPg0KICAgICAgICA8bmFtZT4NCiAgICAgICAgICA8dXNlIHZhbHVlPSJvZmZp
+Y2lhbCIgLz4NCiAgICAgICAgICA8ZmFtaWx5IHZhbHVlPSJMdWRnZXIgS8O2bmlnc3N0ZWluIj4N
+CiAgICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vaGw3Lm9yZy9maGlyL1N0cnVjdHVy
+ZURlZmluaXRpb24vaHVtYW5uYW1lLW93bi1uYW1lIj4NCiAgICAgICAgICAgICAgPHZhbHVlU3Ry
+aW5nIHZhbHVlPSJLw7ZuaWdzc3RlaW4iIC8+DQogICAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAg
+ICAgICAgICA8L2ZhbWlseT4NCiAgICAgICAgICA8Z2l2ZW4gdmFsdWU9Ikx1ZGdlciIgLz4NCiAg
+ICAgICAgPC9uYW1lPg0KICAgICAgICA8YmlydGhEYXRlIHZhbHVlPSIxOTM1LTA2LTIyIiAvPg0K
+ICAgICAgICA8YWRkcmVzcz4NCiAgICAgICAgICA8dHlwZSB2YWx1ZT0iYm90aCIgLz4NCiAgICAg
+ICAgICA8bGluZSB2YWx1ZT0iTXVzdGVyc3RyLiAxIj4NCiAgICAgICAgICAgIDxleHRlbnNpb24g
+dXJsPSJodHRwOi8vaGw3Lm9yZy9maGlyL1N0cnVjdHVyZURlZmluaXRpb24vaXNvMjEwOTAtQURY
+UC1ob3VzZU51bWJlciI+DQogICAgICAgICAgICAgIDx2YWx1ZVN0cmluZyB2YWx1ZT0iMSIgLz4N
+CiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0
+dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9pc28yMTA5MC1BRFhQLXN0cmVl
+dE5hbWUiPg0KICAgICAgICAgICAgICA8dmFsdWVTdHJpbmcgdmFsdWU9Ik11c3RlcnN0ci4iIC8+
+DQogICAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8L2xpbmU+DQogICAgICAgICAg
+PGNpdHkgdmFsdWU9IkJlcmxpbiIgLz4NCiAgICAgICAgICA8cG9zdGFsQ29kZSB2YWx1ZT0iMTA2
+MjMiIC8+DQogICAgICAgIDwvYWRkcmVzcz4NCiAgICAgIDwvUGF0aWVudD4NCiAgICA8L3Jlc291
+cmNlPg0KICA8L2VudHJ5Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9w
+dnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL1ByYWN0aXRpb25lci8yMDU5N2Uw
+ZS1jYjJhLTQ1YjMtOTVmMC1kYzNkYmRiNjE3YzMiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAg
+PFByYWN0aXRpb25lciB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2
+YWx1ZT0iMjA1OTdlMGUtY2IyYS00NWIzLTk1ZjAtZGMzZGJkYjYxN2MzIiAvPg0KICAgICAgICA8
+bWV0YT4NCiAgICAgICAgICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1
+Y3R1cmVEZWZpbml0aW9uL0tCVl9QUl9GT1JfUHJhY3RpdGlvbmVyfDEuMC4zIiAvPg0KICAgICAg
+ICA8L21ldGE+DQogICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAg
+ICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL3Rlcm1p
+bm9sb2d5LmhsNy5vcmcvQ29kZVN5c3RlbS92Mi0wMjAzIiAvPg0KICAgICAgICAgICAgICA8Y29k
+ZSB2YWx1ZT0iTEFOUiIgLz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgIDwvdHlw
+ZT4NCiAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL05hbWluZ1N5
+c3RlbS9LQlZfTlNfQmFzZV9BTlIiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MzgzODIy
+MDIiIC8+DQogICAgICAgIDwvaWRlbnRpZmllcj4NCiAgICAgICAgPG5hbWU+DQogICAgICAgICAg
+PHVzZSB2YWx1ZT0ib2ZmaWNpYWwiIC8+DQogICAgICAgICAgPGZhbWlseSB2YWx1ZT0iVG9wcC1H
+bMO8Y2tsaWNoIj4NCiAgICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vaGw3Lm9yZy9m
+aGlyL1N0cnVjdHVyZURlZmluaXRpb24vaHVtYW5uYW1lLW93bi1uYW1lIj4NCiAgICAgICAgICAg
+ICAgPHZhbHVlU3RyaW5nIHZhbHVlPSJUb3BwLUdsw7xja2xpY2giIC8+DQogICAgICAgICAgICA8
+L2V4dGVuc2lvbj4NCiAgICAgICAgICA8L2ZhbWlseT4NCiAgICAgICAgICA8Z2l2ZW4gdmFsdWU9
+IkhhbnMiIC8+DQogICAgICAgICAgPHByZWZpeCB2YWx1ZT0iRHIuIG1lZC4iPg0KICAgICAgICAg
+ICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlv
+bi9pc28yMTA5MC1FTi1xdWFsaWZpZXIiPg0KICAgICAgICAgICAgICA8dmFsdWVDb2RlIHZhbHVl
+PSJBQyIgLz4NCiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDwvcHJlZml4Pg0K
+ICAgICAgICA8L25hbWU+DQogICAgICAgIDxxdWFsaWZpY2F0aW9uPg0KICAgICAgICAgIDxjb2Rl
+Pg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0
+cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19GT1JfUXVhbGlmaWNhdGlvbl9UeXBl
+IiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDAiIC8+DQogICAgICAgICAgICA8L2Nv
+ZGluZz4NCiAgICAgICAgICA8L2NvZGU+DQogICAgICAgIDwvcXVhbGlmaWNhdGlvbj4NCiAgICAg
+ICAgPHF1YWxpZmljYXRpb24+DQogICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8dGV4dCB2
+YWx1ZT0iSGF1c2FyenQiIC8+DQogICAgICAgICAgPC9jb2RlPg0KICAgICAgICA8L3F1YWxpZmlj
+YXRpb24+DQogICAgICA8L1ByYWN0aXRpb25lcj4NCiAgICA8L3Jlc291cmNlPg0KICA8L2VudHJ5
+Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9wdnMucHJheGlzLXRvcHAt
+Z2x1ZWNrbGljaC5sb2NhbC9maGlyL1ByYWN0aXRpb25lci9kODQ2M2RhZi0yNThlLTRjYWQtYTg2
+YS02ZmQ0MmZhYzE2MWMiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAgPFByYWN0aXRpb25lciB4
+bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2YWx1ZT0iZDg0NjNkYWYt
+MjU4ZS00Y2FkLWE4NmEtNmZkNDJmYWMxNjFjIiAvPg0KICAgICAgICA8bWV0YT4NCiAgICAgICAg
+ICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9u
+L0tCVl9QUl9GT1JfUHJhY3RpdGlvbmVyfDEuMC4zIiAvPg0KICAgICAgICA8L21ldGE+DQogICAg
+ICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAgICAgICAgPGNvZGluZz4N
+CiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL3Rlcm1pbm9sb2d5LmhsNy5vcmcv
+Q29kZVN5c3RlbS92Mi0wMjAzIiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iTEFOUiIg
+Lz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgIDwvdHlwZT4NCiAgICAgICAgICA8
+c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL05hbWluZ1N5c3RlbS9LQlZfTlNfQmFz
+ZV9BTlIiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MzgzODIyMTAiIC8+DQogICAgICAg
+IDwvaWRlbnRpZmllcj4NCiAgICAgICAgPG5hbWU+DQogICAgICAgICAgPHVzZSB2YWx1ZT0ib2Zm
+aWNpYWwiIC8+DQogICAgICAgICAgPGZhbWlseSB2YWx1ZT0iTWVpZXIiPg0KICAgICAgICAgICAg
+PGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9o
+dW1hbm5hbWUtb3duLW5hbWUiPg0KICAgICAgICAgICAgICA8dmFsdWVTdHJpbmcgdmFsdWU9Ik1l
+aWVyIiAvPg0KICAgICAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgICAgPC9mYW1pbHk+DQog
+ICAgICAgICAgPGdpdmVuIHZhbHVlPSJKw7ZyZ2VuIiAvPg0KICAgICAgICA8L25hbWU+DQogICAg
+ICAgIDxxdWFsaWZpY2F0aW9uPg0KICAgICAgICAgIDxjb2RlPg0KICAgICAgICAgICAgPGNvZGlu
+Zz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2Rl
+U3lzdGVtL0tCVl9DU19GT1JfUXVhbGlmaWNhdGlvbl9UeXBlIiAvPg0KICAgICAgICAgICAgICA8
+Y29kZSB2YWx1ZT0iMDMiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L2Nv
+ZGU+DQogICAgICAgIDwvcXVhbGlmaWNhdGlvbj4NCiAgICAgICAgPHF1YWxpZmljYXRpb24+DQog
+ICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8dGV4dCB2YWx1ZT0iQXJ6dCBpbiBXZWl0ZXJi
+aWxkdW5nIiAvPg0KICAgICAgICAgIDwvY29kZT4NCiAgICAgICAgPC9xdWFsaWZpY2F0aW9uPg0K
+ICAgICAgPC9QcmFjdGl0aW9uZXI+DQogICAgPC9yZXNvdXJjZT4NCiAgPC9lbnRyeT4NCiAgPGVu
+dHJ5Pg0KICAgIDxmdWxsVXJsIHZhbHVlPSJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xp
+Y2gubG9jYWwvZmhpci9Pcmdhbml6YXRpb24vY2YwNDJlNDQtMDg2YS00ZDUxLTljNzctMTcyZjlh
+OTcyZTNiIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxPcmdhbml6YXRpb24geG1sbnM9Imh0
+dHA6Ly9obDcub3JnL2ZoaXIiPg0KICAgICAgICA8aWQgdmFsdWU9ImNmMDQyZTQ0LTA4NmEtNGQ1
+MS05Yzc3LTE3MmY5YTk3MmUzYiIgLz4NCiAgICAgICAgPG1ldGE+DQogICAgICAgICAgPHByb2Zp
+bGUgdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfUFJf
+Rk9SX09yZ2FuaXphdGlvbnwxLjAuMyIgLz4NCiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8aWRl
+bnRpZmllcj4NCiAgICAgICAgICA8dHlwZT4NCiAgICAgICAgICAgIDxjb2Rpbmc+DQogICAgICAg
+ICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHA6Ly90ZXJtaW5vbG9neS5obDcub3JnL0NvZGVTeXN0
+ZW0vdjItMDIwMyIgLz4NCiAgICAgICAgICAgICAgPGNvZGUgdmFsdWU9IkJTTlIiIC8+DQogICAg
+ICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L3R5cGU+DQogICAgICAgICAgPHN5c3RlbSB2
+YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9OYW1pbmdTeXN0ZW0vS0JWX05TX0Jhc2VfQlNOUiIg
+Lz4NCiAgICAgICAgICA8dmFsdWUgdmFsdWU9IjAzMTIzNDU2NyIgLz4NCiAgICAgICAgPC9pZGVu
+dGlmaWVyPg0KICAgICAgICA8bmFtZSB2YWx1ZT0iSGF1c2FyenRwcmF4aXMgRHIuIFRvcHAtR2zD
+vGNrbGljaCIgLz4NCiAgICAgICAgPHRlbGVjb20+DQogICAgICAgICAgPHN5c3RlbSB2YWx1ZT0i
+cGhvbmUiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSIwMzAxMjM0NTY3IiAvPg0KICAgICAg
+ICA8L3RlbGVjb20+DQogICAgICAgIDxhZGRyZXNzPg0KICAgICAgICAgIDx0eXBlIHZhbHVlPSJi
+b3RoIiAvPg0KICAgICAgICAgIDxsaW5lIHZhbHVlPSJNdXN0ZXJzdHIuIDIiPg0KICAgICAgICAg
+ICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlv
+bi9pc28yMTA5MC1BRFhQLWhvdXNlTnVtYmVyIj4NCiAgICAgICAgICAgICAgPHZhbHVlU3RyaW5n
+IHZhbHVlPSIyIiAvPg0KICAgICAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgICAgICA8ZXh0
+ZW5zaW9uIHVybD0iaHR0cDovL2hsNy5vcmcvZmhpci9TdHJ1Y3R1cmVEZWZpbml0aW9uL2lzbzIx
+MDkwLUFEWFAtc3RyZWV0TmFtZSI+DQogICAgICAgICAgICAgIDx2YWx1ZVN0cmluZyB2YWx1ZT0i
+TXVzdGVyc3RyLiIgLz4NCiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDwvbGlu
+ZT4NCiAgICAgICAgICA8Y2l0eSB2YWx1ZT0iQmVybGluIiAvPg0KICAgICAgICAgIDxwb3N0YWxD
+b2RlIHZhbHVlPSIxMDYyMyIgLz4NCiAgICAgICAgPC9hZGRyZXNzPg0KICAgICAgPC9Pcmdhbml6
+YXRpb24+DQogICAgPC9yZXNvdXJjZT4NCiAgPC9lbnRyeT4NCiAgPGVudHJ5Pg0KICAgIDxmdWxs
+VXJsIHZhbHVlPSJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9D
+b3ZlcmFnZS8xYjFmZmI2ZS1lYjA1LTQzZDctODdlYi1lNzgxOGZlOTY2MWEiIC8+DQogICAgPHJl
+c291cmNlPg0KICAgICAgPENvdmVyYWdlIHhtbG5zPSJodHRwOi8vaGw3Lm9yZy9maGlyIj4NCiAg
+ICAgICAgPGlkIHZhbHVlPSIxYjFmZmI2ZS1lYjA1LTQzZDctODdlYi1lNzgxOGZlOTY2MWEiIC8+
+DQogICAgICAgIDxtZXRhPg0KICAgICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczovL2ZoaXIu
+a2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX1BSX0ZPUl9Db3ZlcmFnZXwxLjAuMyIgLz4N
+CiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cDovL2ZoaXIuZGUv
+U3RydWN0dXJlRGVmaW5pdGlvbi9na3YvYmVzb25kZXJlLXBlcnNvbmVuZ3J1cHBlIj4NCiAgICAg
+ICAgICA8dmFsdWVDb2Rpbmc+DQogICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2Zo
+aXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX1NGSElSX0tCVl9QRVJTT05FTkdSVVBQRSIgLz4N
+CiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIwMCIgLz4NCiAgICAgICAgICA8L3ZhbHVlQ29kaW5n
+Pg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9m
+aGlyLmRlL1N0cnVjdHVyZURlZmluaXRpb24vZ2t2L2RtcC1rZW5uemVpY2hlbiI+DQogICAgICAg
+ICAgPHZhbHVlQ29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGly
+Lmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfRE1QIiAvPg0KICAgICAgICAgICAg
+PGNvZGUgdmFsdWU9IjAwIiAvPg0KICAgICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwv
+ZXh0ZW5zaW9uPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cDovL2ZoaXIuZGUvU3RydWN0
+dXJlRGVmaW5pdGlvbi9na3Yvd29wIj4NCiAgICAgICAgICA8dmFsdWVDb2Rpbmc+DQogICAgICAg
+ICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NT
+X1NGSElSX0lUQV9XT1AiIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDMiIC8+DQogICAg
+ICAgICAgPC92YWx1ZUNvZGluZz4NCiAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgIDxleHRl
+bnNpb24gdXJsPSJodHRwOi8vZmhpci5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL2drdi92ZXJzaWNo
+ZXJ0ZW5hcnQiPg0KICAgICAgICAgIDx2YWx1ZUNvZGluZz4NCiAgICAgICAgICAgIDxzeXN0ZW0g
+dmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvQ29kZVN5c3RlbS9LQlZfQ1NfU0ZISVJfS0JWX1ZF
+UlNJQ0hFUlRFTlNUQVRVUyIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIxIiAvPg0KICAg
+ICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8c3Rh
+dHVzIHZhbHVlPSJhY3RpdmUiIC8+DQogICAgICAgIDx0eXBlPg0KICAgICAgICAgIDxjb2Rpbmc+
+DQogICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwOi8vZmhpci5kZS9Db2RlU3lzdGVtL3Zl
+cnNpY2hlcnVuZ3NhcnQtZGUtYmFzaXMiIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0iR0tW
+IiAvPg0KICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICA8L3R5cGU+DQogICAgICAgIDxiZW5l
+ZmljaWFyeT4NCiAgICAgICAgICA8cmVmZXJlbmNlIHZhbHVlPSJQYXRpZW50Lzk3NzRmNjdmLWEy
+MzgtNGRhZi1iNGU2LTY3OWRlZWVmMzgxMSIgLz4NCiAgICAgICAgPC9iZW5lZmljaWFyeT4NCiAg
+ICAgICAgPHBheW9yPg0KICAgICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgICAgPHN5c3Rl
+bSB2YWx1ZT0iaHR0cDovL2ZoaXIuZGUvTmFtaW5nU3lzdGVtL2FyZ2UtaWsvaWtuciIgLz4NCiAg
+ICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMTA0MjEyMDU5IiAvPg0KICAgICAgICAgIDwvaWRlbnRp
+Zmllcj4NCiAgICAgICAgICA8ZGlzcGxheSB2YWx1ZT0iQU9LIFJoZWlubGFuZC9IYW1idXJnIiAv
+Pg0KICAgICAgICA8L3BheW9yPg0KICAgICAgPC9Db3ZlcmFnZT4NCiAgICA8L3Jlc291cmNlPg0K
+ICA8L2VudHJ5Pg0KPC9CdW5kbGU+
+</m2:Base64Data>
+        </m:Document>
+        <m:IncludeRevocationInfo>true</m:IncludeRevocationInfo> <4>
+      </m:SignRequest>
+    </m:SignDocument>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+----
+<1> Mit der Referenz auf den RFC-5652 erfolgt die Erzeugung der QES als CMS-Signatur (CAdES). 
+<2> Mit diesem Schalter wird der Konnektor angewiesen, eine enveloping-Signatur zu erzeugen. D.h. der signierte Datensatz ist (`true`) Bestandteil des erzeugten Signaturobjekts. 
+<3> Hier erfolgt die Übergabe des mittels QES zu signierenden FHIR-Bundles in Base64-codierter Form. +
+*_ShortText nicht länger als 30 Zeichen!_*
+<4> Das Flag `IncludeRevocationInfo` weist den Konnektor an, die OCSP-Statusprüfung des Signaturzertifikats in den Signaturcontainer mit einzubetten. Dadurch kann die spätere Signaturprüfung ohne erneute Statusabfrage erfolgen.
+
+|===
+
+IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender Bedeutung. Die in der Signatur eingebettete OCSP-Response vereinfacht die Signaturprüfung im weiteren Prozess und in der späteren Abrechnung.
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK 
+Content-Type: text/xml;charset=utf-8 
+
+<SOAP-ENV:Envelope
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns8:SignDocumentResponse
+            xmlns:ns10="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+            xmlns:ns11="http://uri.etsi.org/01903/v1.3.2#"
+            xmlns:ns12="http://uri.etsi.org/02231/v2#"
+            xmlns:ns2="http://ws.gematik.de/conn/EncryptionService/v6.1"
+            xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns4="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns5="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns6="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns7="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns8="http://ws.gematik.de/conn/SignatureService/v7.4"
+            xmlns:ns9="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#">
+            <ns8:SignResponse RequestID="Doc1">
+                <ns3:Status>
+                    <ns3:Result>OK</ns3:Result>
+                </ns3:Status>
+                <ns8:OptionalOutputs>
+                    <ns8:DocumentWithSignature ID="CMS-Doc1" ShortText="a CMSDocument2sign">
+                        <ns5:Base64Data MimeType="text/plain; charset=utf-8"/>
+                    </ns8:DocumentWithSignature>
+                </ns8:OptionalOutputs>
+                <ns5:SignatureObject> <1>
+                    <ns5:Base64Signature Type="urn:ietf:rfc:5652">MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAgEFADCCRIMGCSqGSIb3DQEHAaCCRHQEgkRwPEJ1bmRsZSB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogIDwhLS0gQmVpc3BpZWwtQnVuZGxlIFdpcmtzdG9mZnZlcm9yZG51bmcgLS0+DQogIDxpZCB2YWx1ZT0iNGZlMjAxM2QtYWU5NC00NDFhLWExYjEtNzgyMzZhZTY1NjgwIiAvPg0KICA8bWV0YT4NCiAgICA8bGFzdFVwZGF0ZWQgdmFsdWU9IjIwMjAtMDUtMDRUMDg6MzA6MDBaIiAvPg0KICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX1BSX0VSUF9CdW5kbGV8MS4wLjEiIC8+DQogIDwvbWV0YT4NCiAgPGlkZW50aWZpZXI+DQogICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9nZW1hdGlrLmRlL2ZoaXIvTmFtaW5nU3lzdGVtL1ByZXNjcmlwdGlvbklEIiAvPg0KICAgIDx2YWx1ZSB2YWx1ZT0iMTYwLjEyMy40NTYuNzg5LjEyMy41OCIgLz4NCiAgPC9pZGVudGlmaWVyPg0KICA8dHlwZSB2YWx1ZT0iZG9jdW1lbnQiIC8+DQogIDx0aW1lc3RhbXAgdmFsdWU9IjIwMjAtMDUtMDRUMDg6MzA6MDBaIiAvPg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9wdnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL0NvbXBvc2l0aW9uL2IwZTIyYjg2LWU3ZTktNDZjMS04MGZlLWU2ZTI0NDQyZDc3YyIgLz4NCiAgICA8cmVzb3VyY2U+DQogICAgICA8Q29tcG9zaXRpb24geG1sbnM9Imh0dHA6Ly9obDcub3JnL2ZoaXIiPg0KICAgICAgICA8aWQgdmFsdWU9ImIwZTIyYjg2LWU3ZTktNDZjMS04MGZlLWU2ZTI0NDQyZDc3YyIgLz4NCiAgICAgICAgPG1ldGE+DQogICAgICAgICAgPHByb2ZpbGUgdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfUFJfRVJQX0NvbXBvc2l0aW9ufDEuMC4xIiAvPg0KICAgICAgICA8L21ldGE+DQogICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0ZPUl9MZWdhbF9iYXNpcyI+DQogICAgICAgICAgPHZhbHVlQ29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfU1RBVFVTS0VOTlpFSUNIRU4iIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDAiIC8+DQogICAgICAgICAgPC92YWx1ZUNvZGluZz4NCiAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgIDxzdGF0dXMgdmFsdWU9ImZpbmFsIiAvPg0KICAgICAgICA8dHlwZT4NCiAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfRk9STVVMQVJfQVJUIiAvPg0KICAgICAgICAgICAgPGNvZGUgdmFsdWU9ImUxNkEiIC8+DQogICAgICAgICAgPC9jb2Rpbmc+DQogICAgICAgIDwvdHlwZT4NCiAgICAgICAgPHN1YmplY3Q+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iUGF0aWVudC85Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4MTEiIC8+DQogICAgICAgIDwvc3ViamVjdD4NCiAgICAgICAgPGRhdGUgdmFsdWU9IjIwMjAtMDItMDNUMTE6MzA6MDJaIiAvPg0KICAgICAgICA8YXV0aG9yPg0KICAgICAgICAgIDxyZWZlcmVuY2UgdmFsdWU9IlByYWN0aXRpb25lci9kODQ2M2RhZi0yNThlLTRjYWQtYTg2YS02ZmQ0MmZhYzE2MWMiIC8+DQogICAgICAgICAgPHR5cGUgdmFsdWU9IlByYWN0aXRpb25lciIgLz4NCiAgICAgICAgPC9hdXRob3I+DQogICAgICAgIDxhdXRob3I+DQogICAgICAgICAgPHR5cGUgdmFsdWU9IkRldmljZSIgLz4NCiAgICAgICAgICA8aWRlbnRpZmllcj4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvTmFtaW5nU3lzdGVtL0tCVl9OU19GT1JfUHJ1ZWZudW1tZXIiIC8+DQogICAgICAgICAgICA8dmFsdWUgdmFsdWU9IlkvNDAwLzE5MTAvMzYvMzQ2IiAvPg0KICAgICAgICAgIDwvaWRlbnRpZmllcj4NCiAgICAgICAgPC9hdXRob3I+DQogICAgICAgIDx0aXRsZSB2YWx1ZT0iZWxla3Ryb25pc2NoZSBBcnpuZWltaXR0ZWx2ZXJvcmRudW5nIiAvPg0KICAgICAgICA8YXR0ZXN0ZXI+DQogICAgICAgICAgPG1vZGUgdmFsdWU9ImxlZ2FsIiAvPg0KICAgICAgICAgIDxwYXJ0eT4NCiAgICAgICAgICAgIDxyZWZlcmVuY2UgdmFsdWU9IlByYWN0aXRpb25lci8yMDU5N2UwZS1jYjJhLTQ1YjMtOTVmMC1kYzNkYmRiNjE3YzMiIC8+DQogICAgICAgICAgPC9wYXJ0eT4NCiAgICAgICAgPC9hdHRlc3Rlcj4NCiAgICAgICAgPGN1c3RvZGlhbj4NCiAgICAgICAgICA8cmVmZXJlbmNlIHZhbHVlPSJPcmdhbml6YXRpb24vY2YwNDJlNDQtMDg2YS00ZDUxLTljNzctMTcyZjlhOTcyZTNiIiAvPg0KICAgICAgICA8L2N1c3RvZGlhbj4NCiAgICAgICAgPHNlY3Rpb24+DQogICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX0VSUF9TZWN0aW9uX1R5cGUiIC8+DQogICAgICAgICAgICAgIDxjb2RlIHZhbHVlPSJQcmVzY3JpcHRpb24iIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L2NvZGU+DQogICAgICAgICAgPGVudHJ5Pg0KICAgICAgICAgICAgPCEtLSBSZWZlcmVueiBhdWYgVmVyb3JkbnVuZyAoTWVkaWNhdGlvblJlcXVlc3QpIC0tPg0KICAgICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iTWVkaWNhdGlvblJlcXVlc3QvZjU4ZjQ0MDMtN2EzYS00YTEyLWJiMTUtYjJmYTI1YjAyNTYxIiAvPg0KICAgICAgICAgIDwvZW50cnk+DQogICAgICAgIDwvc2VjdGlvbj4NCiAgICAgICAgPHNlY3Rpb24+DQogICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX0VSUF9TZWN0aW9uX1R5cGUiIC8+DQogICAgICAgICAgICAgIDxjb2RlIHZhbHVlPSJDb3ZlcmFnZSIgLz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgIDwvY29kZT4NCiAgICAgICAgICA8ZW50cnk+DQogICAgICAgICAgICA8IS0tIFJlZmVyZW56IGF1ZiBLcmFua2Vua2Fzc2UvS29zdGVudHLEgsKkZ2VyICAtLT4NCiAgICAgICAgICAgIDxyZWZlcmVuY2UgdmFsdWU9IkNvdmVyYWdlLzFiMWZmYjZlLWViMDUtNDNkNy04N2ViLWU3ODE4ZmU5NjYxYSIgLz4NCiAgICAgICAgICA8L2VudHJ5Pg0KICAgICAgICA8L3NlY3Rpb24+DQogICAgICA8L0NvbXBvc2l0aW9uPg0KICAgIDwvcmVzb3VyY2U+DQogIDwvZW50cnk+DQogIDxlbnRyeT4NCiAgICA8ZnVsbFVybCB2YWx1ZT0iaHR0cDovL3B2cy5wcmF4aXMtdG9wcC1nbHVlY2tsaWNoLmxvY2FsL2ZoaXIvTWVkaWNhdGlvblJlcXVlc3QvZjU4ZjQ0MDMtN2EzYS00YTEyLWJiMTUtYjJmYTI1YjAyNTYxIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxNZWRpY2F0aW9uUmVxdWVzdCB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2YWx1ZT0iZjU4ZjQ0MDMtN2EzYS00YTEyLWJiMTUtYjJmYTI1YjAyNTYxIiAvPg0KICAgICAgICA8bWV0YT4NCiAgICAgICAgICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9QUl9FUlBfUHJlc2NyaXB0aW9ufDEuMC4xIiAvPg0KICAgICAgICA8L21ldGE+DQogICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0VSUF9TdGF0dXNDb1BheW1lbnQiPg0KICAgICAgICAgIDx2YWx1ZUNvZGluZz4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvQ29kZVN5c3RlbS9LQlZfQ1NfRVJQX1N0YXR1c0NvUGF5bWVudCIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIwIiAvPg0KICAgICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9FWF9FUlBfRW1lcmdlbmN5U2VydmljZXNGZWUiPg0KICAgICAgICAgIDx2YWx1ZUJvb2xlYW4gdmFsdWU9ImZhbHNlIiAvPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfRVhfRVJQX0JWRyI+DQogICAgICAgICAgPHZhbHVlQm9vbGVhbiB2YWx1ZT0iZmFsc2UiIC8+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9FWF9FUlBfQWNjaWRlbnQiPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJ1bmZhbGxrZW5uemVpY2hlbiI+DQogICAgICAgICAgICA8dmFsdWVDb2Rpbmc+DQogICAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvQ29kZVN5c3RlbS9LQlZfQ1NfRk9SX1Vyc2FjaGVfVHlwZSIgLz4NCiAgICAgICAgICAgICAgPGNvZGUgdmFsdWU9IjEiIC8+DQogICAgICAgICAgICA8L3ZhbHVlQ29kaW5nPg0KICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJ1bmZhbGx0YWciPg0KICAgICAgICAgICAgPHZhbHVlRGF0ZSB2YWx1ZT0iMjAyMC0wNS0wMSIgLz4NCiAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0VSUF9NdWx0aXBsZV9QcmVzY3JpcHRpb24iPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJLZW5uemVpY2hlbiI+DQogICAgICAgICAgICA8dmFsdWVCb29sZWFuIHZhbHVlPSJ0cnVlIiAvPg0KICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJOdW1tZXJpZXJ1bmciPg0KICAgICAgICAgICAgPHZhbHVlUmF0aW8+DQogICAgICAgICAgICAgIDxudW1lcmF0b3I+DQogICAgICAgICAgICAgICAgPHZhbHVlIHZhbHVlPSIyIiAvPg0KICAgICAgICAgICAgICA8L251bWVyYXRvcj4NCiAgICAgICAgICAgICAgPGRlbm9taW5hdG9yPg0KICAgICAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iNCIgLz4NCiAgICAgICAgICAgICAgPC9kZW5vbWluYXRvcj4NCiAgICAgICAgICAgIDwvdmFsdWVSYXRpbz4NCiAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iWmVpdHJhdW0iPg0KICAgICAgICAgICAgPHZhbHVlUGVyaW9kPg0KICAgICAgICAgICAgICA8c3RhcnQgdmFsdWU9IjIwMjEtMDEtMDIiIC8+DQogICAgICAgICAgICAgIDxlbmQgdmFsdWU9IjIwMjEtMDMtMzAiIC8+DQogICAgICAgICAgICA8L3ZhbHVlUGVyaW9kPg0KICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPHN0YXR1cyB2YWx1ZT0iYWN0aXZlIiAvPg0KICAgICAgICA8aW50ZW50IHZhbHVlPSJvcmRlciIgLz4NCiAgICAgICAgPG1lZGljYXRpb25SZWZlcmVuY2U+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iTWVkaWNhdGlvbi9lM2E0ZWZhNy04NGZjLTQ2NWItYjE0Yy03MjAxOTUwOTc3ODMiIC8+DQogICAgICAgIDwvbWVkaWNhdGlvblJlZmVyZW5jZT4NCiAgICAgICAgPHN1YmplY3Q+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iUGF0aWVudC85Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4MTEiIC8+DQogICAgICAgIDwvc3ViamVjdD4NCiAgICAgICAgPGF1dGhvcmVkT24gdmFsdWU9IjIwMjAtMDUtMDIiIC8+DQogICAgICAgIDxyZXF1ZXN0ZXI+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iUHJhY3RpdGlvbmVyLzIwNTk3ZTBlLWNiMmEtNDViMy05NWYwLWRjM2RiZGI2MTdjMyIgLz4NCiAgICAgICAgPC9yZXF1ZXN0ZXI+DQogICAgICAgIDxpbnN1cmFuY2U+DQogICAgICAgICAgPHJlZmVyZW5jZSB2YWx1ZT0iQ292ZXJhZ2UvMWIxZmZiNmUtZWIwNS00M2Q3LTg3ZWItZTc4MThmZTk2NjFhIiAvPg0KICAgICAgICA8L2luc3VyYW5jZT4NCiAgICAgICAgPG5vdGU+DQogICAgICAgICAgPHRleHQgdmFsdWU9IkR1bW15LUhpbndlaXMgZsO8ciBkaWUgQXBvdGhla2UiIC8+DQogICAgICAgIDwvbm90ZT4NCiAgICAgICAgPGRvc2FnZUluc3RydWN0aW9uPg0KICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX0VYX0VSUF9Eb3NhZ2VGbGFnIj4NCiAgICAgICAgICAgIDx2YWx1ZUJvb2xlYW4gdmFsdWU9ImZhbHNlIiAvPg0KICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8L2Rvc2FnZUluc3RydWN0aW9uPg0KICAgICAgICA8ZGlzcGVuc2VSZXF1ZXN0Pg0KICAgICAgICAgIDxxdWFudGl0eT4NCiAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMiIgLz4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHA6Ly91bml0c29mbWVhc3VyZS5vcmciIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0ie1BhY2thZ2V9IiAvPg0KICAgICAgICAgIDwvcXVhbnRpdHk+DQogICAgICAgIDwvZGlzcGVuc2VSZXF1ZXN0Pg0KICAgICAgICA8c3Vic3RpdHV0aW9uPg0KICAgICAgICAgIDxhbGxvd2VkQm9vbGVhbiB2YWx1ZT0idHJ1ZSIgLz4NCiAgICAgICAgPC9zdWJzdGl0dXRpb24+DQogICAgICA8L01lZGljYXRpb25SZXF1ZXN0Pg0KICAgIDwvcmVzb3VyY2U+DQogIDwvZW50cnk+DQogIDxlbnRyeT4NCiAgICA8ZnVsbFVybCB2YWx1ZT0iaHR0cDovL3B2cy5wcmF4aXMtdG9wcC1nbHVlY2tsaWNoLmxvY2FsL2ZoaXIvTWVkaWNhdGlvbi9lM2E0ZWZhNy04NGZjLTQ2NWItYjE0Yy03MjAxOTUwOTc3ODMiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAgPE1lZGljYXRpb24geG1sbnM9Imh0dHA6Ly9obDcub3JnL2ZoaXIiPg0KICAgICAgICA8aWQgdmFsdWU9ImUzYTRlZmE3LTg0ZmMtNDY1Yi1iMTRjLTcyMDE5NTA5Nzc4MyIgLz4NCiAgICAgICAgPG1ldGE+DQogICAgICAgICAgPHByb2ZpbGUgdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfUFJfRVJQX01lZGljYXRpb25fSW5ncmVkaWVudHwxLjAuMSIgLz4NCiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9FWF9FUlBfTWVkaWNhdGlvbl9DYXRlZ29yeSI+DQogICAgICAgICAgPHZhbHVlQ29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19FUlBfTWVkaWNhdGlvbl9DYXRlZ29yeSIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIwMCIgLz4NCiAgICAgICAgICA8L3ZhbHVlQ29kaW5nPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfRVhfRVJQX01lZGljYXRpb25fVmFjY2luZSI+DQogICAgICAgICAgPHZhbHVlQm9vbGVhbiB2YWx1ZT0iZmFsc2UiIC8+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8Y29kZT4NCiAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19FUlBfTWVkaWNhdGlvbl9UeXBlIiAvPg0KICAgICAgICAgICAgPGNvZGUgdmFsdWU9IndpcmtzdG9mZiIgLz4NCiAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgPC9jb2RlPg0KICAgICAgICA8Zm9ybT4NCiAgICAgICAgICA8dGV4dCB2YWx1ZT0iVGFibGV0dGVuIiAvPg0KICAgICAgICA8L2Zvcm0+DQogICAgICAgIDxhbW91bnQ+DQogICAgICAgICAgPG51bWVyYXRvcj4NCiAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMjAiIC8+DQogICAgICAgICAgICA8dW5pdCB2YWx1ZT0iU3RrIiAvPg0KICAgICAgICAgIDwvbnVtZXJhdG9yPg0KICAgICAgICAgIDxkZW5vbWluYXRvcj4NCiAgICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iMSIgLz4NCiAgICAgICAgICA8L2Rlbm9taW5hdG9yPg0KICAgICAgICA8L2Ftb3VudD4NCiAgICAgICAgPGluZ3JlZGllbnQ+DQogICAgICAgICAgPGl0ZW1Db2RlYWJsZUNvbmNlcHQ+DQogICAgICAgICAgICA8Y29kaW5nPg0KICAgICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwOi8vZmhpci5kZS9Db2RlU3lzdGVtL2FzayIgLz4NCiAgICAgICAgICAgICAgPGNvZGUgdmFsdWU9IkR1bW15LUFTSyIgLz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgICAgPHRleHQgdmFsdWU9IklidXByb2ZlbiIgLz4NCiAgICAgICAgICA8L2l0ZW1Db2RlYWJsZUNvbmNlcHQ+DQogICAgICAgICAgPHN0cmVuZ3RoPg0KICAgICAgICAgICAgPG51bWVyYXRvcj4NCiAgICAgICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MDAiIC8+DQogICAgICAgICAgICAgIDx1bml0IHZhbHVlPSJtZyIgLz4NCiAgICAgICAgICAgIDwvbnVtZXJhdG9yPg0KICAgICAgICAgICAgPGRlbm9taW5hdG9yPg0KICAgICAgICAgICAgICA8dmFsdWUgdmFsdWU9IjEiIC8+DQogICAgICAgICAgICA8L2Rlbm9taW5hdG9yPg0KICAgICAgICAgIDwvc3RyZW5ndGg+DQogICAgICAgIDwvaW5ncmVkaWVudD4NCiAgICAgIDwvTWVkaWNhdGlvbj4NCiAgICA8L3Jlc291cmNlPg0KICA8L2VudHJ5Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9wdnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL1BhdGllbnQvOTc3NGY2N2YtYTIzOC00ZGFmLWI0ZTYtNjc5ZGVlZWYzODExIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxQYXRpZW50IHhtbG5zPSJodHRwOi8vaGw3Lm9yZy9maGlyIj4NCiAgICAgICAgPGlkIHZhbHVlPSI5Nzc0ZjY3Zi1hMjM4LTRkYWYtYjRlNi02NzlkZWVlZjM4MTEiIC8+DQogICAgICAgIDxtZXRhPg0KICAgICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX1BSX0ZPUl9QYXRpZW50fDEuMC4zIiAvPg0KICAgICAgICA8L21ldGE+DQogICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL2ZoaXIuZGUvQ29kZVN5c3RlbS9pZGVudGlmaWVyLXR5cGUtZGUtYmFzaXMiIC8+DQogICAgICAgICAgICAgIDxjb2RlIHZhbHVlPSJHS1YiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L3R5cGU+DQogICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL2ZoaXIuZGUvTmFtaW5nU3lzdGVtL2drdi9rdmlkLTEwIiAvPg0KICAgICAgICAgIDx2YWx1ZSB2YWx1ZT0iWDIzNDU2Nzg5MCIgLz4NCiAgICAgICAgPC9pZGVudGlmaWVyPg0KICAgICAgICA8bmFtZT4NCiAgICAgICAgICA8dXNlIHZhbHVlPSJvZmZpY2lhbCIgLz4NCiAgICAgICAgICA8ZmFtaWx5IHZhbHVlPSJMdWRnZXIgS8O2bmlnc3N0ZWluIj4NCiAgICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vaGw3Lm9yZy9maGlyL1N0cnVjdHVyZURlZmluaXRpb24vaHVtYW5uYW1lLW93bi1uYW1lIj4NCiAgICAgICAgICAgICAgPHZhbHVlU3RyaW5nIHZhbHVlPSJLw7ZuaWdzc3RlaW4iIC8+DQogICAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8L2ZhbWlseT4NCiAgICAgICAgICA8Z2l2ZW4gdmFsdWU9Ikx1ZGdlciIgLz4NCiAgICAgICAgPC9uYW1lPg0KICAgICAgICA8YmlydGhEYXRlIHZhbHVlPSIxOTM1LTA2LTIyIiAvPg0KICAgICAgICA8YWRkcmVzcz4NCiAgICAgICAgICA8dHlwZSB2YWx1ZT0iYm90aCIgLz4NCiAgICAgICAgICA8bGluZSB2YWx1ZT0iTXVzdGVyc3RyLiAxIj4NCiAgICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vaGw3Lm9yZy9maGlyL1N0cnVjdHVyZURlZmluaXRpb24vaXNvMjEwOTAtQURYUC1ob3VzZU51bWJlciI+DQogICAgICAgICAgICAgIDx2YWx1ZVN0cmluZyB2YWx1ZT0iMSIgLz4NCiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9pc28yMTA5MC1BRFhQLXN0cmVldE5hbWUiPg0KICAgICAgICAgICAgICA8dmFsdWVTdHJpbmcgdmFsdWU9Ik11c3RlcnN0ci4iIC8+DQogICAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8L2xpbmU+DQogICAgICAgICAgPGNpdHkgdmFsdWU9IkJlcmxpbiIgLz4NCiAgICAgICAgICA8cG9zdGFsQ29kZSB2YWx1ZT0iMTA2MjMiIC8+DQogICAgICAgIDwvYWRkcmVzcz4NCiAgICAgIDwvUGF0aWVudD4NCiAgICA8L3Jlc291cmNlPg0KICA8L2VudHJ5Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9wdnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL1ByYWN0aXRpb25lci8yMDU5N2UwZS1jYjJhLTQ1YjMtOTVmMC1kYzNkYmRiNjE3YzMiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAgPFByYWN0aXRpb25lciB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2YWx1ZT0iMjA1OTdlMGUtY2IyYS00NWIzLTk1ZjAtZGMzZGJkYjYxN2MzIiAvPg0KICAgICAgICA8bWV0YT4NCiAgICAgICAgICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9QUl9GT1JfUHJhY3RpdGlvbmVyfDEuMC4zIiAvPg0KICAgICAgICA8L21ldGE+DQogICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL3Rlcm1pbm9sb2d5LmhsNy5vcmcvQ29kZVN5c3RlbS92Mi0wMjAzIiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iTEFOUiIgLz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgIDwvdHlwZT4NCiAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL05hbWluZ1N5c3RlbS9LQlZfTlNfQmFzZV9BTlIiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MzgzODIyMDIiIC8+DQogICAgICAgIDwvaWRlbnRpZmllcj4NCiAgICAgICAgPG5hbWU+DQogICAgICAgICAgPHVzZSB2YWx1ZT0ib2ZmaWNpYWwiIC8+DQogICAgICAgICAgPGZhbWlseSB2YWx1ZT0iVG9wcC1HbMO8Y2tsaWNoIj4NCiAgICAgICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vaGw3Lm9yZy9maGlyL1N0cnVjdHVyZURlZmluaXRpb24vaHVtYW5uYW1lLW93bi1uYW1lIj4NCiAgICAgICAgICAgICAgPHZhbHVlU3RyaW5nIHZhbHVlPSJUb3BwLUdsw7xja2xpY2giIC8+DQogICAgICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgICA8L2ZhbWlseT4NCiAgICAgICAgICA8Z2l2ZW4gdmFsdWU9IkhhbnMiIC8+DQogICAgICAgICAgPHByZWZpeCB2YWx1ZT0iRHIuIG1lZC4iPg0KICAgICAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9pc28yMTA5MC1FTi1xdWFsaWZpZXIiPg0KICAgICAgICAgICAgICA8dmFsdWVDb2RlIHZhbHVlPSJBQyIgLz4NCiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDwvcHJlZml4Pg0KICAgICAgICA8L25hbWU+DQogICAgICAgIDxxdWFsaWZpY2F0aW9uPg0KICAgICAgICAgIDxjb2RlPg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19GT1JfUXVhbGlmaWNhdGlvbl9UeXBlIiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDAiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L2NvZGU+DQogICAgICAgIDwvcXVhbGlmaWNhdGlvbj4NCiAgICAgICAgPHF1YWxpZmljYXRpb24+DQogICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8dGV4dCB2YWx1ZT0iSGF1c2FyenQiIC8+DQogICAgICAgICAgPC9jb2RlPg0KICAgICAgICA8L3F1YWxpZmljYXRpb24+DQogICAgICA8L1ByYWN0aXRpb25lcj4NCiAgICA8L3Jlc291cmNlPg0KICA8L2VudHJ5Pg0KICA8ZW50cnk+DQogICAgPGZ1bGxVcmwgdmFsdWU9Imh0dHA6Ly9wdnMucHJheGlzLXRvcHAtZ2x1ZWNrbGljaC5sb2NhbC9maGlyL1ByYWN0aXRpb25lci9kODQ2M2RhZi0yNThlLTRjYWQtYTg2YS02ZmQ0MmZhYzE2MWMiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAgPFByYWN0aXRpb25lciB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+DQogICAgICAgIDxpZCB2YWx1ZT0iZDg0NjNkYWYtMjU4ZS00Y2FkLWE4NmEtNmZkNDJmYWMxNjFjIiAvPg0KICAgICAgICA8bWV0YT4NCiAgICAgICAgICA8cHJvZmlsZSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL0tCVl9QUl9GT1JfUHJhY3RpdGlvbmVyfDEuMC4zIiAvPg0KICAgICAgICA8L21ldGE+DQogICAgICAgIDxpZGVudGlmaWVyPg0KICAgICAgICAgIDx0eXBlPg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cDovL3Rlcm1pbm9sb2d5LmhsNy5vcmcvQ29kZVN5c3RlbS92Mi0wMjAzIiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iTEFOUiIgLz4NCiAgICAgICAgICAgIDwvY29kaW5nPg0KICAgICAgICAgIDwvdHlwZT4NCiAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL05hbWluZ1N5c3RlbS9LQlZfTlNfQmFzZV9BTlIiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSI4MzgzODIyMTAiIC8+DQogICAgICAgIDwvaWRlbnRpZmllcj4NCiAgICAgICAgPG5hbWU+DQogICAgICAgICAgPHVzZSB2YWx1ZT0ib2ZmaWNpYWwiIC8+DQogICAgICAgICAgPGZhbWlseSB2YWx1ZT0iTWVpZXIiPg0KICAgICAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9odW1hbm5hbWUtb3duLW5hbWUiPg0KICAgICAgICAgICAgICA8dmFsdWVTdHJpbmcgdmFsdWU9Ik1laWVyIiAvPg0KICAgICAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgICAgPC9mYW1pbHk+DQogICAgICAgICAgPGdpdmVuIHZhbHVlPSJKw7ZyZ2VuIiAvPg0KICAgICAgICA8L25hbWU+DQogICAgICAgIDxxdWFsaWZpY2F0aW9uPg0KICAgICAgICAgIDxjb2RlPg0KICAgICAgICAgICAgPGNvZGluZz4NCiAgICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19GT1JfUXVhbGlmaWNhdGlvbl9UeXBlIiAvPg0KICAgICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDMiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L2NvZGU+DQogICAgICAgIDwvcXVhbGlmaWNhdGlvbj4NCiAgICAgICAgPHF1YWxpZmljYXRpb24+DQogICAgICAgICAgPGNvZGU+DQogICAgICAgICAgICA8dGV4dCB2YWx1ZT0iQXJ6dCBpbiBXZWl0ZXJiaWxkdW5nIiAvPg0KICAgICAgICAgIDwvY29kZT4NCiAgICAgICAgPC9xdWFsaWZpY2F0aW9uPg0KICAgICAgPC9QcmFjdGl0aW9uZXI+DQogICAgPC9yZXNvdXJjZT4NCiAgPC9lbnRyeT4NCiAgPGVudHJ5Pg0KICAgIDxmdWxsVXJsIHZhbHVlPSJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9Pcmdhbml6YXRpb24vY2YwNDJlNDQtMDg2YS00ZDUxLTljNzctMTcyZjlhOTcyZTNiIiAvPg0KICAgIDxyZXNvdXJjZT4NCiAgICAgIDxPcmdhbml6YXRpb24geG1sbnM9Imh0dHA6Ly9obDcub3JnL2ZoaXIiPg0KICAgICAgICA8aWQgdmFsdWU9ImNmMDQyZTQ0LTA4NmEtNGQ1MS05Yzc3LTE3MmY5YTk3MmUzYiIgLz4NCiAgICAgICAgPG1ldGE+DQogICAgICAgICAgPHByb2ZpbGUgdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9LQlZfUFJfRk9SX09yZ2FuaXphdGlvbnwxLjAuMyIgLz4NCiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8aWRlbnRpZmllcj4NCiAgICAgICAgICA8dHlwZT4NCiAgICAgICAgICAgIDxjb2Rpbmc+DQogICAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHA6Ly90ZXJtaW5vbG9neS5obDcub3JnL0NvZGVTeXN0ZW0vdjItMDIwMyIgLz4NCiAgICAgICAgICAgICAgPGNvZGUgdmFsdWU9IkJTTlIiIC8+DQogICAgICAgICAgICA8L2NvZGluZz4NCiAgICAgICAgICA8L3R5cGU+DQogICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9OYW1pbmdTeXN0ZW0vS0JWX05TX0Jhc2VfQlNOUiIgLz4NCiAgICAgICAgICA8dmFsdWUgdmFsdWU9IjAzMTIzNDU2NyIgLz4NCiAgICAgICAgPC9pZGVudGlmaWVyPg0KICAgICAgICA8bmFtZSB2YWx1ZT0iSGF1c2FyenRwcmF4aXMgRHIuIFRvcHAtR2zDvGNrbGljaCIgLz4NCiAgICAgICAgPHRlbGVjb20+DQogICAgICAgICAgPHN5c3RlbSB2YWx1ZT0icGhvbmUiIC8+DQogICAgICAgICAgPHZhbHVlIHZhbHVlPSIwMzAxMjM0NTY3IiAvPg0KICAgICAgICA8L3RlbGVjb20+DQogICAgICAgIDxhZGRyZXNzPg0KICAgICAgICAgIDx0eXBlIHZhbHVlPSJib3RoIiAvPg0KICAgICAgICAgIDxsaW5lIHZhbHVlPSJNdXN0ZXJzdHIuIDIiPg0KICAgICAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9obDcub3JnL2ZoaXIvU3RydWN0dXJlRGVmaW5pdGlvbi9pc28yMTA5MC1BRFhQLWhvdXNlTnVtYmVyIj4NCiAgICAgICAgICAgICAgPHZhbHVlU3RyaW5nIHZhbHVlPSIyIiAvPg0KICAgICAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cDovL2hsNy5vcmcvZmhpci9TdHJ1Y3R1cmVEZWZpbml0aW9uL2lzbzIxMDkwLUFEWFAtc3RyZWV0TmFtZSI+DQogICAgICAgICAgICAgIDx2YWx1ZVN0cmluZyB2YWx1ZT0iTXVzdGVyc3RyLiIgLz4NCiAgICAgICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICAgIDwvbGluZT4NCiAgICAgICAgICA8Y2l0eSB2YWx1ZT0iQmVybGluIiAvPg0KICAgICAgICAgIDxwb3N0YWxDb2RlIHZhbHVlPSIxMDYyMyIgLz4NCiAgICAgICAgPC9hZGRyZXNzPg0KICAgICAgPC9Pcmdhbml6YXRpb24+DQogICAgPC9yZXNvdXJjZT4NCiAgPC9lbnRyeT4NCiAgPGVudHJ5Pg0KICAgIDxmdWxsVXJsIHZhbHVlPSJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9Db3ZlcmFnZS8xYjFmZmI2ZS1lYjA1LTQzZDctODdlYi1lNzgxOGZlOTY2MWEiIC8+DQogICAgPHJlc291cmNlPg0KICAgICAgPENvdmVyYWdlIHhtbG5zPSJodHRwOi8vaGw3Lm9yZy9maGlyIj4NCiAgICAgICAgPGlkIHZhbHVlPSIxYjFmZmI2ZS1lYjA1LTQzZDctODdlYi1lNzgxOGZlOTY2MWEiIC8+DQogICAgICAgIDxtZXRhPg0KICAgICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL1N0cnVjdHVyZURlZmluaXRpb24vS0JWX1BSX0ZPUl9Db3ZlcmFnZXwxLjAuMyIgLz4NCiAgICAgICAgPC9tZXRhPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cDovL2ZoaXIuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9na3YvYmVzb25kZXJlLXBlcnNvbmVuZ3J1cHBlIj4NCiAgICAgICAgICA8dmFsdWVDb2Rpbmc+DQogICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX1NGSElSX0tCVl9QRVJTT05FTkdSVVBQRSIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIwMCIgLz4NCiAgICAgICAgICA8L3ZhbHVlQ29kaW5nPg0KICAgICAgICA8L2V4dGVuc2lvbj4NCiAgICAgICAgPGV4dGVuc2lvbiB1cmw9Imh0dHA6Ly9maGlyLmRlL1N0cnVjdHVyZURlZmluaXRpb24vZ2t2L2RtcC1rZW5uemVpY2hlbiI+DQogICAgICAgICAgPHZhbHVlQ29kaW5nPg0KICAgICAgICAgICAgPHN5c3RlbSB2YWx1ZT0iaHR0cHM6Ly9maGlyLmtidi5kZS9Db2RlU3lzdGVtL0tCVl9DU19TRkhJUl9LQlZfRE1QIiAvPg0KICAgICAgICAgICAgPGNvZGUgdmFsdWU9IjAwIiAvPg0KICAgICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8ZXh0ZW5zaW9uIHVybD0iaHR0cDovL2ZoaXIuZGUvU3RydWN0dXJlRGVmaW5pdGlvbi9na3Yvd29wIj4NCiAgICAgICAgICA8dmFsdWVDb2Rpbmc+DQogICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwczovL2ZoaXIua2J2LmRlL0NvZGVTeXN0ZW0vS0JWX0NTX1NGSElSX0lUQV9XT1AiIC8+DQogICAgICAgICAgICA8Y29kZSB2YWx1ZT0iMDMiIC8+DQogICAgICAgICAgPC92YWx1ZUNvZGluZz4NCiAgICAgICAgPC9leHRlbnNpb24+DQogICAgICAgIDxleHRlbnNpb24gdXJsPSJodHRwOi8vZmhpci5kZS9TdHJ1Y3R1cmVEZWZpbml0aW9uL2drdi92ZXJzaWNoZXJ0ZW5hcnQiPg0KICAgICAgICAgIDx2YWx1ZUNvZGluZz4NCiAgICAgICAgICAgIDxzeXN0ZW0gdmFsdWU9Imh0dHBzOi8vZmhpci5rYnYuZGUvQ29kZVN5c3RlbS9LQlZfQ1NfU0ZISVJfS0JWX1ZFUlNJQ0hFUlRFTlNUQVRVUyIgLz4NCiAgICAgICAgICAgIDxjb2RlIHZhbHVlPSIxIiAvPg0KICAgICAgICAgIDwvdmFsdWVDb2Rpbmc+DQogICAgICAgIDwvZXh0ZW5zaW9uPg0KICAgICAgICA8c3RhdHVzIHZhbHVlPSJhY3RpdmUiIC8+DQogICAgICAgIDx0eXBlPg0KICAgICAgICAgIDxjb2Rpbmc+DQogICAgICAgICAgICA8c3lzdGVtIHZhbHVlPSJodHRwOi8vZmhpci5kZS9Db2RlU3lzdGVtL3ZlcnNpY2hlcnVuZ3NhcnQtZGUtYmFzaXMiIC8+DQogICAgICAgICAgICA8Y29kZSB2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</ns5:Base64Signature>
+                </ns5:SignatureObject>
+            </ns8:SignResponse>
+        </ns8:SignDocumentResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+----
+<1> Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
+
+NOTE: Der Inhalt der base64-codierten Signatur findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
+
+[cols="a,a"] 
+[%autowidth]
+|===
+|Code   |Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+== E-Rezept vervollständigen und Task aktivieren
+Nach der erfolgreichen qualifizierten Signatur kann nun der Task im Fachdienst aktiviert werden, indem das Ergebnis der erfolgreichen QES-Erstellung als Base64-codierter Datensatz an den E-Rezept-Fachdienst geschickt wird.
+
+Der Aufruf erfolgt als http-`POST`-Operation auf die FHIR-Opertation `$activate` des referenziereten Tasks. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` und der beim erzeugen des Tasks generierte `AccessCode` übergeben werden. Im http-RequestBody muss das codierte, QES-signierte E-Rezept enthalten sein.
+Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine Signatur über den Datensatz, die als signierte Kopie des KBV-`Bundle` für den Abruf durch den Versicherten gespeichert wird.
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$activate
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|Payload    |
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <parameter>
+        <name value="ePrescription" />
+        <resource>
+            <Binary>
+                <contentType value="application/pkcs7-mime" />
+                <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." /> <1>
+            </Binary>
+        </resource>
+    </parameter>
+</Parameters>
+----
+<1> Hierbei handelt es sich um die base64-codierte Repräsentation der enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
+
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK 
+Content-Type: application/fhir+xml;charset=utf-8 
+Content-Location: 
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/_history/2 
+<Task xmlns="http://hl7.org/fhir">
+  <id value="4711"/>
+  <meta>
+    <versionId value="2"/>
+    <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
+    <source value="#AsYR9plLkvONJAiv"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+  </meta>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
+    <value value="160.123.456.789.123.58"/>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
+    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
+    <value value="X123456789"/> <1>
+  </identifier>
+  <status value="ready"/>
+  <intent value="order"/> 
+  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+    <valueCodeableConcept>
+      <coding>
+        <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+        <code value="160" />
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+    <valueDateTime value="2020-06-02" />
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+    <valueDateTime value="2020-04-01" />
+  </extension>
+  <authoredOn value="2020-03-02T08:25:05+00:00"/>
+  <lastModified value="2020-03-02T08:45:05+00:00"/>
+  <performerType>
+    <coding>
+      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
+        <code value="1.2.276.0.76.4.54"/>
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+    </coding>
+    <text value="Apotheke"/>
+  </performerType>
+  <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
+        <code value="1"/> 
+      </coding> 
+    </type> 
+    <valueReference>
+        <reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/> <2>
+    </valueReference> 
+  </input> 
+  <input> 
+    <type> 
+      <coding> 
+        <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
+        <code value="2"/> 
+      </coding> 
+    </type> 
+    <valueReference>
+      <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/> <3>
+    </valueReference> 
+  </input>
+</Task>
+----
+<1> Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task hinterlegt.
+<2> Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles, der Abruf erfolgt immer über den Task.
+<3> Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an dieser Stelle referenziert wird.
+
+
+[cols="a,a"] 
+[%autowidth]
+|===
+|Code   |Type Success  
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
+|Code   |Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler# 
+|===
+
+
+== Ein E-Rezept löschen
+Als verordnender Leistungserbringer möchte ich ein E-Rezept löschen können, um den Patienten vor dem Bezug und der Einnahme eines fälschlich verordneten Medikaments zu schützen.
+
+Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im http-Request-Header `Authorization` müssen das während der Authentisierung erhaltene ACCESS_TOKEN und der AccessCode im Header `X-AccessCode` für die Berechtigungsprüfung übergeben werden. 
+
+*Request*
+[cols="h,a"] 
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$abort
+|Method     |POST
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea <2>
+----
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungerbringer aus, im Token ist seine Rolle als Verordnender enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+<2> Der Zugreifende, der nicht der betroffene Versicherte ist, muss im http-Header den `AccessCode` übergeben. Der `AccessCode` ist dem Primärsystem des Verordnenden bekannt, da von diesem aus das E-Rezept ursprünglich eingestellt wurde.  
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|=== 
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 204 No Content  <1>
+----
+<1> Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
+
+
+[cols="a,a"] 
+[%autowidth]
+|===
+s|Code   s|Type Success  
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error   
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler# 
+|===
