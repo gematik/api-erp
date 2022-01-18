@@ -1,3 +1,12 @@
+# Release 1.1.2
+- added close-Operation with several MedicationDispenses 
+ 
+- minor version fixes on examples
+ 
+- added some notes
+ 
+
+
 # Release 1.1.1
 - fixed examples of receipt Bundle
  
