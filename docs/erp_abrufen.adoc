@@ -116,8 +116,23 @@ Content-Type: application/fhir+xml;charset=utf-8
         <meta>
           <versionId value="2"/> 
           <source value="#AsYR9plLkvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
         </meta>
+           <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+          <valueCodeableConcept>
+            <coding>
+                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+                <code value="160" />
+                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+          <valueDate value="2020-06-02" />
+        </extension>
+        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+          <valueDate value="2020-04-01" />
+        </extension>
         <identifier>
           <use value="official"/>
           <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
@@ -139,36 +154,21 @@ Content-Type: application/fhir+xml;charset=utf-8
         </identifier>
         <status value="in-progress"/> <2>
         <intent value="order"/> 
-        <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
-          <valueCodeableConcept>
-            <coding>
-                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
-                <code value="160" />
-                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-            </coding>
-          </valueCodeableConcept>
-        </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
-          <valueDate value="2020-06-02" />
-        </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
-          <valueDate value="2020-04-01" />
-        </extension>
         <authoredOn value="2020-03-02T08:25:05+00:00"/>
         <lastModified value="2020-03-02T08:45:05+00:00"/>
         <performerType>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
-            <code value="1.2.276.0.76.4.54"/>
+            <system value="urn:ietf:rfc:3986"/>
+            <code value="urn:oid:1.2.276.0.76.4.54"/>
             <display value="Öffentliche Apotheke"/>
           </coding>
-          <text value="Apotheke"/>
         </performerType>
         <input> 
           <type> 
             <coding> 
               <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
               <code value="1"/> 
+              <display value="Health Care Provider Prescription" />
             </coding> 
           </type> 
           <valueReference>
@@ -185,7 +185,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         <meta>
           <versionId value="1"/> 
           <source value="#AsYRxq34dvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxBinary"/>
+          <profile value="https://gematik.de/fhir/StructureDefinition/ErxBinary\|1.1.1"/>
         </meta>
         <contentType value="application/pkcs7-mime" />
         <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." /> <3>
@@ -878,7 +878,7 @@ s|Code   s|Type Error
 |===
 
 == E-Rezept-Abgabe vollziehen
-Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Zum Abschluss des Worflows stellt er dem Versicherten Informationen über das abgegebene Medikament bereit und erhält als Ergebnis eine signierte Quittung, die er in seinen Abrechnungsprozessen gegenüber dem Abrechnungszentrum bzw. der Krankenkasse als Nachweis des ordnungsgemäßen Abschlusses der Transaktion verwenden kann.
+Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Beim Abschließen des Workflows muss der Rezept-Typ beachtet werden. Dieser wird durch das Element Task.extension.flowType bestimmt. Zum Abschluss des Worflows stellt der Apotheker dem Versicherten Informationen über das abgegebene Medikament bereit und erhält als Ergebnis eine signierte Quittung, die er in seinen Abrechnungsprozessen gegenüber dem Apothekenrechenzentrum bzw. der Krankenkasse als Nachweis des ordnungsgemäßen Abschlusses der Transaktion verwenden kann. Ist für das Element Task.extension.flowType.code "value=200" gesetzt, so handelt es sich hierbei um ein Rezept für eine privat versicherte Person. Hierbei muss der Apotheker dem Versicherten eine ausgedruckte Quittung übergeben, damit der Versicherte das Medikament gegenüber seiner Kostenstelle eigenständig abrechenen kann. 
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben.
 Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die dem Apotheker gegenüber der Krankenkasse als Quittung dient.
@@ -905,7 +905,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 <MedicationDispense xmlns="http://hl7.org/fhir">  <1>
   <meta>
-    <profile value="https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense" />
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense\|1.1.1" />
   </meta>
   <contained> 
     <Medication> <2>
@@ -1475,8 +1475,23 @@ HTTP/1.1 200
           <versionId value="2"/>
           <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
           <source value="#AsYR9plLkvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
         </meta>
+        <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+          <valueCodeableConcept>
+            <coding>
+                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+                <code value="160" />
+                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+          <valueDateTime value="2020-06-02" />
+        </extension>
+        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+          <valueDateTime value="2020-04-01" />
+        </extension>
         <identifier>
           <use value="official"/>
           <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
@@ -1498,30 +1513,14 @@ HTTP/1.1 200
         </identifier>
         <status value="completed"/>
         <intent value="order"/> 
-        <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
-          <valueCodeableConcept>
-            <coding>
-                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
-                <code value="160" />
-                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-            </coding>
-          </valueCodeableConcept>
-        </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
-          <valueDateTime value="2020-06-02" />
-        </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
-          <valueDateTime value="2020-04-01" />
-        </extension>
         <authoredOn value="2020-03-02T08:25:05+00:00"/>
         <lastModified value="2020-03-02T08:45:05+00:00"/>
         <performerType>
           <coding>
-            <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
-            <code value="1.2.276.0.76.4.32"/>
-            <display value="Apotheke"/>
+            <system value="urn:ietf:rfc:3986"/>
+            <code value="urn:oid:1.2.276.0.76.4.54"/>
+            <display value="Öffentliche Apotheke"/>
           </coding>
-          <text value="Apotheke"/>
         </performerType>
         <input> 
           <type> 
@@ -1549,7 +1548,7 @@ HTTP/1.1 200
       <Bundle xmlns="http://hl7.org/fhir"> <1>
         <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
         <meta>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt" />
+          <profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt\|1.1.1" />
           <tag>
               <display value="ePrescription receipt" />
           </tag>
@@ -1565,7 +1564,7 @@ HTTP/1.1 200
           <resource>
             <Composition>
                 <meta>
-                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxComposition" />
+                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxComposition\|1.1.1" />
                 </meta>
                 <extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension">
                     <valueIdentifier>
@@ -1600,7 +1599,7 @@ HTTP/1.1 200
             <Device>
                 <id value="eRxService" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxDevice" />
+                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxDevice\|1.1.1" />
                 </meta>
                 <status value="active" />
                 <serialNumber value="R4.0.0.287342834" />

@@ -60,7 +60,8 @@ In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser At
 == E-Rezept erstellen
 Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der KBV-Profilierung des E-Rezepts (siehe https://simplifier.net/erezept). Für die Bereitstellung an den Versicherten wird auf dem E-Rezept-Fachdienst ein Task erstellt, dessen Identifier als Rezept-ID in das FHIR-Bundle eingebettet wird. Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
 
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein.
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein. +
+Gültige Werte für den Flowytype sind "160" für "Muster 16 (Apothekenpflichtige Arzneimittel)" und "200" für "PKV (Apothekenpflichtige Arzneimittel)". Das Rezept für private Versicherte wird mit dem Flowtype "200" ("PKV (Apothekenpflichtige Arzneimittel)") gestartet. Zulässige Flowtype-Werte können dem Flowtype-CodeSystem (https://simplifier.net/erezept-workflow/flowtype) entnommen werden. Der angegebene Flowtype wird in die Task Ressource unter Task.extension.flowType übernommen und bestimmt den Rezept-Typ. +
 Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im Response-Header `Location` zurückgemeldet wird und zusätzlich ist im http-ResponseBody des Task der serverseitig generierte AccessCode als Identifier enthalten.
 
 *Request*
@@ -86,12 +87,12 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <name value="workflowType"/>
     <valueCoding>
       <system value="https://gematik.de/fhir/CodeSystem/Flowtype"/>
-      <code value="160"/> <2>
+      <code value="160"/> <1>
     </valueCoding>
   </parameter>
 </Parameters> 
 ----
-<2> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese Rezepte nur in einer Apotheke einlösen kann.
+<1> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese Rezepte nur in einer Apotheke einlösen kann.
 
 |===
 
@@ -103,21 +104,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   <meta>
     <versionId value="1"/>
     <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
-    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
     <source value="#AsYR9plLkvONJAiv"/>
   </meta>
-  <identifier>
-    <use value="official"/>
-    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
-    <value value="160.123.456.789.123.58"/> <1>
-  </identifier>
-  <identifier>
-    <use value="official"/>
-    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
-    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/> <2>
-  </identifier>
-  <status value="draft"/>
-  <intent value="order"/>
   <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
     <valueCodeableConcept>
       <coding>
@@ -133,13 +122,25 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
     <valueDateTime value="2020-04-01" />
   </extension>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
+    <value value="160.123.456.789.123.58"/> <1>
+  </identifier>
+  <identifier>
+    <use value="official"/>
+    <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
+    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/> <2>
+  </identifier>
+  <status value="draft"/>
+  <intent value="order"/>
   <authoredOn value="2020-03-02T08:25:05+00:00"/>
   <lastModified value="2020-03-02T08:25:05+00:00"/>
   <performerType>
     <coding>
-      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
-      <code value="1.2.276.0.76.4.54"/> <4>
-      <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+      <system value="urn:ietf:rfc:3986"/>
+      <code value="urn:oid:1.2.276.0.76.4.54"/> <4>
+      <display value="Öffentliche Apotheke"/>
     </coding>
     <text value="Apotheke"/>
   </performerType>
@@ -1129,8 +1130,23 @@ Content-Location:
     <versionId value="2"/>
     <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
     <source value="#AsYR9plLkvONJAiv"/>
-    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask"/>
+    <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
   </meta>
+  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+    <valueCodeableConcept>
+      <coding>
+        <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+        <code value="160" />
+        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+      </coding>
+    </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+    <valueDateTime value="2020-06-02" />
+  </extension>
+  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+    <valueDateTime value="2020-04-01" />
+  </extension>
   <identifier>
     <use value="official"/>
     <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
@@ -1148,36 +1164,21 @@ Content-Location:
   </identifier>
   <status value="ready"/>
   <intent value="order"/> 
-  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
-    <valueCodeableConcept>
-      <coding>
-        <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
-        <code value="160" />
-        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-      </coding>
-    </valueCodeableConcept>
-  </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
-    <valueDateTime value="2020-06-02" />
-  </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
-    <valueDateTime value="2020-04-01" />
-  </extension>
   <authoredOn value="2020-03-02T08:25:05+00:00"/>
   <lastModified value="2020-03-02T08:45:05+00:00"/>
   <performerType>
     <coding>
-      <system value="http://terminology.hl7.org/CodeSystem/task-performer-type"/>
-        <code value="1.2.276.0.76.4.54"/>
-        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+      <system value="urn:ietf:rfc:3986"/>
+        <code value="urn:oid:1.2.276.0.76.4.54"/>
+        <display value="Öffentliche Apotheke"/>
     </coding>
-    <text value="Apotheke"/>
   </performerType>
   <input> 
     <type> 
       <coding> 
         <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
         <code value="1"/> 
+        <display value="Health Care Provider Prescription"/>
       </coding> 
     </type> 
     <valueReference>

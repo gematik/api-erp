@@ -144,8 +144,43 @@ New Release "1.1.1" for fxing Bugs in previous version 1.1.0 +
 * removed external extension "KBVEXERPDosageFlag.xml" +
 * ChargeItem_example: fixed wrong canonical of "Abgabedatensatz" in ChargeItem.supportingInformation.type +
 * Added more information in Description for MedicationDispense.Medication (added names of KBV-Medication profiles) |04.11.2021 |01.01.2022 |-
-|DAV     |*1.1.0* +
-https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.0 |* BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
+|DAV     |*Package 1.1.2 Profile 1.1.0* +
+https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.2 |PackageVersion 1.1.2 ProfileVersion 1.1.0 - KorrekturRelease vom 21.01.2022 +
+BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
+
+* DAV-PR-Base-ZusatzdatenHerstellung +
+ * Fix identifier for actor in ZusatzdatenHerstellung by removing not-allowed multiple profiles in type definition and adding constraints +
+   * Expression: "conformsTo("http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-DAVHerstellerSchluessel") or conformsTo("http://fhir.de/StructureDefinition/identifier-iknr")" +
+   * Expression: "conformsTo("http://fhir.de/StructureDefinition/identifier-iknr") implies value.matches('[0-9]{9}') +
+
+* FIX Constraint Issue +
+  * Error: Datatype (string) is case sensitiv but used with "Sting" in constraint +
+    * replace with "exists()" because string must have a value +
+  * DAV_EX_ERP_Rezeptaenderung - Rezeptaenderung-1 (on extention) +
+    * error Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2|3|4|12') implies ((extension('DokumentationRezeptaenderung').value as String).length() > 0)" +
+    * new Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2|3|4|12') implies extension('DokumentationRezeptaenderung').exists()" +
+  * DAV-EX-ERP-Zusatzattribute - PreisguenstigesFAM-1 (on Extension.extension:ZusatzattributFAM.extension:PreisguenstigesFAM) +
+    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
+    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
+  * DAV-EX-ERP-Zusatzattribute - ImportFAM-1 (on Extension.extension:ZusatzattributFAM.extension:ImportFAM) +
+    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
+    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
+  * DAV-EX-ERP-Zusatzattribute - Rabattvertragserfuellung-1 (on Extension.extension:ZusatzattributFAM.extension:Rabattvertragserfuellung) +
+    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
+    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
+
+* DAV-PR-Base-ZusatzdatenHerstellung (MedicationDispense.whenPrepared) +
+  * old definition: Die Angabe muss im Format "JJJJMMTT:HHMM" erfolgen. +
+  * new definition: Die Angabe muss im Format ISO 8601 (z.B.: YYYY-MM-DDTHH:MM:00Z oder YYYY-MM-DDThh:mm:ss+zz:zz) erfolgen. +
+
+* DAV_PR_Base_Apotheke (Organization.identifier.value) +
+  * Add contraint "PR-Apotheke-1" Eine IK muss 9-stellig (mit Prüfziffer) sein +
+    * Expression: matches('[0-9]{9}') +
+
+* DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus +
+  * Edit Texte (display & definition) +
+
+PackageVersion 1.1.0 ProfileVersion 1.1.0 BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
 
 * DAV-EX-ERP-Zusatzattribute (**structural change**) +
   * Add Zusatzattribut Zuzahlungsstatus (Änderung des Zuzahlungsstatus nach Ausstellung des E-Rezepts) +
@@ -156,10 +191,11 @@ https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.0 |* BaseDefiniti
  * Fix Canonical-URL http://fhir.abda.de/eRezeptAbgabadaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen -> http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen +
 
 * Profile-Optimierungen (contraints) +
-Näheres siehe Package-Release-Notes auf Simplifier +
+* Näheres siehe Package-Release-Notes auf Simplifier +
 
 * Profile-Optimierungen (cardinality) +
- * näheres siehe package Release notes auf simplifier |Plan 01.10.2021 |01.01.2022 |-
+ * näheres siehe package Release notes auf simplifier |Plan 01.10.2021 +
+ KorrekturRelease 21.01.2022 |01.01.2022 |-
 |GKV     |*1.1.0* +
 https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.1.0 |Aktualisierung des Profils GKVSV_PR_TA7_RezeptBundle +
 * Die Quittung Gem_erxReceipt wird jetzt analog zu KBV_PR_ERP_Bundel und DAV_PR_ERP_AbgabedatenBundle als Binary eingebunden (**structural change**) +
