@@ -441,155 +441,323 @@ NOTE: Aktuell unterstüten die Apothekenverwaltungssysteme auf Basis des SecurPh
 ***
 
 == Eine Apotheke aus dem Apotheken-Verzeichnis auswählen
-Als Versicherter möchte ich eine Apotheke aus einem Verzeichnis wählen, um ihr eine Verfügbarkeitsanfrage zu meinem E-Rezept zu schicken oder ihr ein E-Rezept direkt zuzuweisen. Der Verzeichnisdienst der Telematikinfrastruktur führt eine Liste aller (Zahn-)Arztpraxen, Krankenhäuser und Apotheken in Deutschland, in der nach einer Apotheke über z.B. den Namen oder die Postleitzahl für eine Umgebungssuche gesucht werden kann. Im folgenden Beispiel wird die Suche nach Apotheken im Postleitzahlengebiet `10117` ausgeführt. +
-Hinweis: um ausschließlich nach Apotheken zu suchen, muss der folgende Typ-Filter immer angegeben werden: `type=urn:oid|1.2.276.0.76.4.32`
+Als Versicherter möchte ich eine Apotheke aus einem Verzeichnis wählen, um ihr eine Verfügbarkeitsanfrage zu meinem E-Rezept zu schicken oder ihr ein E-Rezept direkt zuzuweisen. Der Verzeichnisdienst der Telematikinfrastruktur führt eine Liste aller (Zahn-)Arztpraxen, Krankenhäuser und Apotheken in Deutschland, in der nach einer Apotheke über z.B. den Namen oder die Postleitzahl für eine Umgebungssuche gesucht werden kann. Im folgenden Beispiel wird die Suche nach Apotheken im Umkreis von `7 km` um den aktuellen Standort ausgeführt. +
+`https://apovzd.app.ti-dienste.de/api/Location?near=48.13129322109354%7C11.563464055060686%7C999%7Ckm`
 
 Folgende Suchalternativen sind ebenfalls möglich:
 
 * Suche nach einer Apotheke mit konkretem Namen "Apotheke um die Ecke" +
-  `https://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&name=Apotheke%20um%20die%20Ecke`
+  `https://apovzd.app.ti-dienste.de/api/Location?name=Apotheke%20um%20die%20Ecke`
 * Suche nach allen Apotheken in "Berlin" +
-  `https://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&address-city=Berlin` 
+  `https://apovzd.app.ti-dienste.de/api/Location?address-city=Berlin` 
 
-
-Der Aufruf erfolgt als http-`GET`-Operation am Verzeichnisdienst der Telematikinfrastruktur für die Ressource `/Organization`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für eine Rollenprüfung übergeben werden. Der Verzeichnisdienst liefert eine Liste von Apotheken, welche den ggfs. angegebenen Suchparametern entsprechen. Liefert die gewählte Suchanfrage eine zu große Ergebnismenge, bricht der Verzeichnisdienst bei einer technischen Obergrenze von max. `100` Ergebniseinträgen ab.
+Der Aufruf erfolgt als http-`GET`-Operation am Apothekenverzeichnis der Telematikinfrastruktur für die Ressource `/Location`. Eine Authentifizierung der App-Nutzer erfolgt nicht, eine Absicherung gegenüber unberechtigte Zugriffe erfolgt mitels API-Key. Der Verzeichnisdienst liefert eine Liste von Apotheken, welche den ggfs. angegebenen Suchparametern entsprechen. Liefert die gewählte Suchanfrage eine zu große Ergebnismenge, bricht der Verzeichnisdienst bei einer technischen Obergrenze von max. `100` Ergebniseinträgen ab.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://apovzd.app.ti-dienste.de/Organization?type=urn:oid\|1.2.276.0.76.4.32&address-postalcode=10117 <1> +
-
-<1> In der Aufruf-Adresse können Suchparameter gemäß https://www.hl7.org/fhir/organization.html#search angegeben werden. Im konkreten Beispiel soll nach Apotheken (`Organization`) im Postleitzahlengebiet `10117` gefiltert werden. Weitere Suchparameter können bspw. der Name der Apotheke (z.B. `name=Bahnhofsapotheke`) oder eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+|URI        |https://apovzd.app.ti-dienste.de/api/Location?name=Adler
 |Method     |GET
-|HTTP Header |
+|Request|
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+GET /api/Location?name=Adler HTTP/1.1 <1>
+Host: apovzd.app.ti-dienste.de
+Pragma: no-cache
+Cache-Control: no-cache
 ----
-<1> Im Aufruf muss ein ACCESS_TOKEN im `Authorization`-Header des http-Requests übergeben werden, um die Rolle "Versicherter" zu prüfen, damit keine unberechtigten Zugriffe von außerhalb des deutschen Gesundheitswesens erfolgen. Es findet weder eine Protokollierung des zugreifenden Nutzers noch eine Filterung auf Basis der Nutzeridentität statt. 
-|Payload    |-
+
+TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird plain an das Apothekenverzeichnis geschickt.
 |===
-
-
+<1> In der Aufruf-Adresse können Suchparameter gemäß https://www.hl7.org/fhir/organization.html#search angegeben werden. Im konkreten Beispiel soll nach Apotheken (`Location`) mit `Adler` im Namen gefiltert werden. Weitere Suchparameter können z.B. eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) umfassen. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
 
 *Response*
-[source,json]
+[source,text]
 ----
-HTTP/1.1 200 OK 
+HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
+... 
+----
+
+[%collapsible]
+====
+----
 {
-  "resourceType": "Bundle",
-  "id": "f8125c3c-5e51-43e3-b3f4-fce87474f6dc",
+  "id": "2b50e07d-ace1-4f83-ae8f-e2845e291cc3",
   "meta": {
-    "lastUpdated": "2020-03-30T13:40:46.970+00:00"
+    "lastUpdated": "2021-11-23T10:33:52.590809+02:00"
   },
+  "resourceType": "Bundle",
   "type": "searchset",
-  "total": 2, <1>
-  "link": [ {
-    "relation": "self",
-    "url": "http://apovzd.app.ti-dienste.de/Organization?type=urn:oid|1.2.276.0.76.4.32&address-postalcode=10117"
-  } ],
-  "entry": [ {
-    "fullUrl": "http://apovzd.app.ti-dienste.de/Organization/100219",
-    "resource": {
-      "resourceType": "Organization",
-      "id": "100219",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2019-11-26T14:27:45.863+00:00",
-		    "profile": [
-          "https://gematik.de/fhir/StructureDefinition/ErxOrganization"
+  "total": 2,
+  "link": [
+    {
+      "relation": "self",
+      "url": "Bundle2b50e07d-ace1-4f83-ae8f-e2845e291cc3"
+    }
+  ],
+  "entry": [
+    {
+      "resource": {
+        "id": "5a403761-3a18-4ae9-bca8-9ed8abada08a",
+        "resourceType": "Location",
+        "address": {
+          "use": "work",
+          "type": "physical",
+          "line": [
+            "Friedrichstr. 136"
+          ],
+          "postalCode": "10117",
+          "city": "Berlin",
+          "country": "de"
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+            "value": "3-1.54.10123404"
+          }
+        ],
+        "name": "Adlerapotheke",
+        "position": {
+          "latitude": 52.522575,
+          "longitude": 13.387884
+        },
+        "status": "active",
+        "telecom": [
+          {
+            "system": "email",
+            "value": "service@gematik.de"
+          },
+          {
+            "system": "phone",
+            "value": "030 40041 0"
+          },
+          {
+            "system": "url",
+            "value": "www.gematik.de"
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "PHARM",
+                "display": "pharmacy"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "MOBL",
+                "display": "Mobile Services"
+              }
+            ]
+          }
         ]
       },
-      "identifier": [ {
-        "use": "official",
-        "system": "https://gematik.de/fhir/NamingSystem/TelematikID", <2>
-        "value": "A12345678"
-      } ],
-      "active": true,
-      "type": [ {
-        "coding": [ {
-          "system": "urn:oid",
-          "code": "1.2.276.0.76.4.32",
-          "display": "Öffentliche Apotheke"
-        } ]
-      } ],
-      "name": "Apotheke um die Ecke", <3>
-      "address": [ {
-        "line": [
-          "Hauptstr. 1"
-        ],
-        "_line": [ {
-          "extension": [ {
-             "url":"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
-              "valueString":"1"
-          }, {
-            "url":"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName",
-            "valueString":"Hauptstr."
-          } ]
-        } ],
-        "city": "Berlin",
-        "postalCode": "10117" <4>
-      } ]
+      "search": {
+        "mode": "match"
+      }
     },
-    "search": {
-      "mode": "match"
-    }
-  }, {
-    "fullUrl": "http://apovzd.app.ti-dienste.de/Organization/100218",
-    "resource": {
-      "resourceType": "Organization",
-      "id": "100218",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2019-11-26T14:24:36.576+00:00",
-        "profile": [
-          "https://gematik.de/fhir/StructureDefinition/ErxOrganization"
+    {
+      "resource": {
+        "id": "354d16fa-ceff-4a18-b1b7-c583ee211cea",
+        "meta": {
+          "lastUpdated": "2021-10-12T11:54:29+02:00"
+        },
+        "resourceType": "Location",
+        "contained": [
+          {
+            "id": "8fe0eea1-6379-41ce-bb51-efd33f02e853",
+            "resourceType": "HealthcareService",
+            "active": true,
+            "coverageArea": [
+              {
+                "extension": [
+                  {
+                    "url": "https://ngda.de/fhir/extensions/ServiceCoverageRange",
+                    "valueQuantity": {
+                      "value": 5000,
+                      "unit": "m"
+                    }
+                  }
+                ]
+              }
+            ],
+            "location": [
+              {
+                "reference": "/Location/354d16fa-ceff-4a18-b1b7-c583ee211cea"
+              }
+            ],
+            "type": [
+              {
+                "coding": [
+                  {
+                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
+                    "code": "498",
+                    "display": "Mobile Services"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "address": {
+          "use": "work",
+          "type": "physical",
+          "line": [
+            "Adlerstr. 21"
+          ],
+          "postalCode": "10178",
+          "city": "Berlin",
+          "country": "de"
+        },
+        "hoursOfOperation": [
+          {
+            "daysOfWeek": [
+              "mon"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "13:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "mon"
+            ],
+            "openingTime": "14:30:00",
+            "closingTime": "18:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "tue"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "13:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "tue"
+            ],
+            "openingTime": "14:30:00",
+            "closingTime": "18:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "wed"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "13:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "wed"
+            ],
+            "openingTime": "14:30:00",
+            "closingTime": "18:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "thu"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "13:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "thu"
+            ],
+            "openingTime": "14:30:00",
+            "closingTime": "18:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "fri"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "13:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "fri"
+            ],
+            "openingTime": "14:30:00",
+            "closingTime": "18:30:00"
+          },
+          {
+            "daysOfWeek": [
+              "sat"
+            ],
+            "openingTime": "08:30:00",
+            "closingTime": "14:00:00"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+            "value": "3-10.2.0123456100.10.228"
+          },
+          {
+            "system": "https://ngda.de/fhir/NamingSystem/NID",
+            "value": "APO1234642"
+          }
+        ],
+        "name": "Apotheke am Adler",
+        "position": {
+          "latitude": 52.523044,
+          "longitude": 13.411917
+        },
+        "status": "active",
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "030/400410"
+          },
+          {
+            "system": "email",
+            "value": "erezept@gematik.de"
+          },
+          {
+            "system": "url",
+            "value": "https://www.gematik.de"
+          }
+        ],
+        "type": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "PHARM",
+                "display": "pharmacy"
+              }
+            ]
+          },
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                "code": "OUTPHARM",
+                "display": "outpatient pharmacy"
+              }
+            ]
+          }
         ]
-      },      
-      "identifier": [ {
-        "use": "official",
-        "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
-        "value": "A87654321"
-      } ],
-      "active": true,
-      "type": [ {
-        "coding": [ {
-          "system": "urn:oid",
-          "code": "1.2.276.0.76.4.32",
-          "display": "Öffentliche Apotheke"
-        } ]
-      } ],
-      "name": "Bahnhofsapotheke",
-      "address": [ {
-        "line": [
-          "Bahnhof. 42"
-        ],
-        "_line": [ {
-          "extension": [ {
-             "url":"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
-              "valueString":"42"
-          }, {
-            "url":"http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName",
-            "valueString":"Bahnhofstr."
-          } ]
-        } ],
-        "city": "Berlin",
-        "postalCode": "10117"
-      } ]
-    },
-    "search": {
-      "mode": "match"
+      },
+      "search": {
+        "mode": "match"
+      }
     }
-  } ]
+  ]
 }
 ----
-<1> Die Suchanfrage nach den Apotheken im Postleitzahlengebiet `10117` liefert genau zwei Treffer.
+<1> Die Suchanfrage nach `Adler`-Apotheken liefert genau zwei Treffer.
 <2> Die `Telematik-ID` ist die eindeutige Kennung der Apotheke, um an diese bspw. eine Nachricht zu schicken. 
 <3> Der Name der Apotheke, unter dem sie im Verzeichnis geführt wird.
 <4> Dies ist die Postleitzahl, nach der im Verzeichnis gesucht wurde.
-
+====
 
 [cols="a,a"] 
 [%autowidth]
@@ -610,7 +778,7 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler# 
 |===
 
-Mit dem Suchergebnis kennt der Versicherte nun die Apotheken in seinem Umkreis (unter der Annahme er hat nach Apotheken im PLZ-Bereich gesucht, in dem er sich befindet). Eine Navigationsanwendung könnte ihm nun den kürzesten Weg zu einer der beiden Apotheken berechnen, unter folgendem Link stellen wir dar, wie der link:./erp_communication.adoc[Apotheke eine Nachricht geschickt werden kann].
+Mit dem Suchergebnis kennt der Versicherte nun die Apotheken in seinem Umkreis. Eine Navigationsanwendung könnte ihm nun den kürzesten Weg zu einer der beiden Apotheken berechnen, unter folgendem Link stellen wir dar, wie der link:./erp_communication.adoc[Apotheke eine Nachricht geschickt werden kann].
 
 
 

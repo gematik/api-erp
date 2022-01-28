@@ -1,3 +1,12 @@
+# Release 1.1.4
+Changes
+
+- Update on FHIR-Profile overview
+
+- APOVZD-interface switched from Organization (draft 2021) to Location (as used)
+
+- Minor fixes on API-Parameters
+
 # Release 1.1.3
 New Feature PKV (private health insurance)
  

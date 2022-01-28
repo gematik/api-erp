@@ -655,7 +655,7 @@ Da es sich hierbei um ein XML-Dokument handelt, kommen die Kanonisierungsregeln 
 
 NOTE: Bei der Verwendung des Signaturformats CAdES-Enveloping ist eine Kanonisierung nicht erforderlich, da die signierten Daten "innerhalb" der Signatur transportiert werden.
 
-TIP: Der Konnektor wählt standardmäßig ein passendes kryptografisches Verfahren, es kann jedoch mit dem Parameter `crypt` in SignDocument auch gemäß der Spezifikation in gemSpec_Kon#TAB_KON_862-01 konkret gewählt werden (z.B. ECC, falls das Verhalten der verschiedenen Algorithmen ausprobiert werden soll).
+TIP: Der Konnektor wählt standardmäßig ein passendes kryptografisches Verfahren, es kann jedoch mit dem Parameter `crypt` in SignDocument auch gemäß der Spezifikation in gemSpec_Kon#TAB_KON_862-01 [ab Schemaversion 7.5] konkret gewählt werden (z.B. ECC, falls das Verhalten der verschiedenen Algorithmen ausprobiert werden soll).
 
 Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die QES-Erstellung sind mindestens folgende Konnektor-Versionen der drei Konnektoren notwendig: 
 
