@@ -699,10 +699,11 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 [cols="h,a"] 
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=gt2020-04-01&sent=lt2020-04-30&_sort=sent +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=lt2020-04-30&_sort=sent +
 
 <1> Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke gerichtet sind. Andernfalls würden ebenso die von der Apotheke versendeten Nachrichten abgerufen werden.
-<2> Im konkreten Beispiel soll nach Nachrichten gesucht werden, deren Sende-Datum zwischen dem 01. und 30. April 2020 liegt (`?sent=gt2020-04-01&sent=lt2020-04-30`).
+<2> Im konkreten Beispiel soll nach Nachrichten gesucht werden, die älter als 30. April 2020 sind (`?sent=lt2020-04-30`). +
+Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 <3> Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
 |HTTP Header |

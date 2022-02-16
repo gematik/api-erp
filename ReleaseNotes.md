@@ -1,3 +1,15 @@
+# Release 1.1.5
+New Feature
+
+- new PoC for verification of an prescription receipt signature outside the TI
+
+
+Changes
+
+- fixed example of request in $close-operation
+
+- fixed get request of messages in an certain time range
+
 # Release 1.1.4
 Changes
 
