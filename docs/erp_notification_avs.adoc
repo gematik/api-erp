@@ -17,7 +17,7 @@ endif::[]
 :toc-title: Inhaltsverzeichnis
 image:gematik_logo.png[width=35%]
 
-= E-Rezept Benachrichtigungen für Apotheken
+== E-Rezept Benachrichtigungen für Apotheken
 Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
 
 toc::[]
@@ -58,7 +58,7 @@ Accept: application/fhir+xml; charset=utf-8
 <Subscription xmlns="http://hl7.org/fhir">
   <status value="requested"/>
   <reason value="Communication notifications" />
-  <criteria value="Communication?received=null&recipient=3-abc-12345678"/> <1>
+  <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/> <1>
   <channel>
     <type value="websocket"/>
   </channel>  
@@ -70,6 +70,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 |===
 <1> Das Feld `criteria` benennt die Suchparameter, bei denen eine Notification verschickt werden soll. Das sind zum einen `received=null` für ungelesene Nachrichten und `recipient=3-abc-12345678` die Telematik-ID der Apotheke, die mit der Telematik-ID des IDP-AccessToken übereinstimmen muss.
 Andere Parameter werden aktuell nicht unterstützt.
+*ACHTUNG: das "&" muss als "&amp;amp;" codiert werden.*
 
 *Response*
 [source,html]
@@ -77,14 +78,14 @@ Andere Parameter werden aktuell nicht unterstützt.
 HTTP/1.1 201 Created
 Content-Length: 510
 Content-Type: application/fhir+xml;charset=utf-8
-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Subscription/838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a
+Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Subscription/df694c098c2fb373524150461cfd9d23
 
 <Subscription>
-  <id value="838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a"/> <1>
+  <id value="df694c098c2fb373524150461cfd9d23"/> <1>
   <status value="active"/>
   <end value="2022-01-01T00:00:00Z"/> <2>
   <reason value="Communication notifications" />
-  <criteria value="Communication?received=null&recipient=3-abc-12345678"/>
+  <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
   <channel>
     <type value="websocket"/>
     <header value="Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI"/> <3>
@@ -93,7 +94,8 @@ Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Subscription/838dabe4e0
 ----
 
 <1> Eindeutige ID (Pseudonym der Telematik-ID)
-<2> timestamp = jetzt + 12h
+<2> timestamp = jetzt + 12h (UTC Timestamp) +
+[red]#In Klärung für RU: `jetzt + 1h` um den Verbinungsabbau nach Ablauf zu testen#
 <3> die Header müssen beim Web Socket Upgrade mitgegeben werden
 
 Die Schnittstelle antwortet mit den typischen http-StatusCodes des RESTful-Paradigmas
@@ -133,7 +135,10 @@ Sec-WebSocket-Version: 13
 Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw== <2>
 ----
 
-TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird plain an den Subscription-Endpunkt geschickt.
+TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird TLS-verschlüsselt an den Subscription-Endpunkt geschickt.
+
+TIP: Je nach eingesetztem Framework lautet die Zieladresse dann `wss://subscription.zentral.erp.splitdns.ti-dienste.de:443` +
+bzw. zum Test in der TI-Referenzumgebung RU = `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443`
 
 |===
 <1> Hier wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
@@ -158,7 +163,7 @@ Das AVS registriert sich für die Subscription aus dem vorherigen Schritt, in de
 
 [source,html]
 ----
-bind: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+bind: df694c098c2fb373524150461cfd9d23 <1>
 ----
 <1> `Subscription.id`
 
@@ -166,7 +171,7 @@ Der Subscription Service antwortet mit einer "bound" um die Einrichtung der Subs
 
 [source,html]
 ----
-bound: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+bound: df694c098c2fb373524150461cfd9d23 <1>
 ----
 <1> `Subscription.id`
 
@@ -176,15 +181,66 @@ Ist eine neue Communication eingegangen, benachrichtigt der Subscription-Service
 
 [source,html]
 ----
-ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a <1>
+ping: df694c098c2fb373524150461cfd9d23 <1>
 ----
 <1> `Subscription.id`
 
-WARNING: Hinweis: die Nachricht `ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a` ist *KEIN* `Ping` der Ping/Pong Control Frames für das Aufrechterhalten der Verbindung (siehe https://datatracker.ietf.org/doc/html/rfc6455#section-5.5).
+WARNING: Hinweis: die Nachricht `ping: df694c098c2fb373524150461cfd9d23` ist *KEIN* `Ping` der Ping/Pong Control Frames für das Aufrechterhalten der Verbindung (siehe https://datatracker.ietf.org/doc/html/rfc6455#section-5.5).
 
-Empfängt das AVS nun ein `ping: 838dabe4e05416c776d60256c511558f6831f679c613f203d30b58b05555618a`, liegt eine neue Nachricht vor, die über das VAU-Protokoll zum link:erp_communication.adoc#user-content-anwendungsfall-auf-neue-nachrichten-im-e-rezept-fachdienst-prüfen[Abrufen neuer Nachrichten] heruntergeladen werden kann. Über die Websockets werden selbst keine Nachrichten oder andere E-Rezept-bezogenen Daten verschickt.
+Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine neue Nachricht vor, die über das VAU-Protokoll zum link:erp_communication.adoc#user-content-anwendungsfall-auf-neue-nachrichten-im-e-rezept-fachdienst-prüfen[Abrufen neuer Nachrichten] heruntergeladen werden kann. Über die Websockets werden selbst keine Nachrichten oder andere E-Rezept-bezogenen Daten verschickt.
 
-= => Wichtige Hinweise <=
+== Beispielhafte Implementierung für Primärsysteme
+[source,c++]
+----
+using System;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+
+class Program {
+    static void Main() {
+        //subscriptionId und bearertoken aus VAU-Request /Subcription extrahieren
+        CreateSocket("df694c098c2fb373524150461cfd9d23",
+            "Bearer eyJhbGciOiJFUzI1NiJ9.CnsKInN1YnNjcmlwdGlvbklkIjogImRmNjk0YzA5OGMyZmIzNzM1MjQxNTA0NjFjZmQ5ZDI…");
+    }
+
+    private static void CreateSocket(string subscriptionId, string bearertoken) {
+        var _websocketObj = new ClientWebSocket();
+        _websocketObj.Options.SetRequestHeader("Authorization", bearertoken);
+        //url RU: "wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de" und PU: "wss://subscription.zentral.erp.splitdns.ti-dienste.de"
+        _websocketObj.ConnectAsync(new Uri("wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de/subscription"), CancellationToken.None)
+            .Wait();
+
+        if (_websocketObj.State != WebSocketState.Open) {
+            throw new Exception("Websocket ist nicht geöffnet");
+        }
+
+        {
+            var bind = $"bind: {subscriptionId}";
+            _websocketObj.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(bind)), WebSocketMessageType.Text, true, CancellationToken.None)
+                .Wait();
+            Console.Out.WriteLine($"Websocket-Bind: {bind}");
+
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            Console.Out.WriteLine($"Websocket-Bound: {res}");
+        }
+
+        while (true) {
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            if (wsr.Count > 0) {
+                Console.Out.WriteLine($"Websocket-Empfangen: {res} ({wsr.Count} Bytes) -> es liegen neue Nachrichten bereit!");
+            }
+        }
+    }
+}
+----
+
+== => Wichtige Hinweise <=
 
 CAUTION: Jede eingestellte Nachricht führt zu einem Ping, ggfs. im Millisekundenbereich, wenn viele Nachrichten an einen Empfänger gerichtet werden. In Abhängigkeit von der Implementierung kann dieses Verhalten zu einer Überlastung des PS führen, wenn bspw. jedes einzelne Ping den Anwendungsfall "Nachrichten von Versicherten empfangen" triggert. +
  Im Zweifel ist eine Wartezeit im AVS hilfreich, in der die zuletzt abgerufenen Nachrichten bearbeitet werden. Zwischenzeitlich "gepingte" Nachrichten gehen nicht verloren, da sie beim nächsten Abruf ungelesener Nachrichten gesammelt heruntergeladen werden.

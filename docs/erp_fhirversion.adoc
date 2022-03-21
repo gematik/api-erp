@@ -17,7 +17,7 @@ endif::[]
 :toc-title: Inhaltsverzeichnis
 image:gematik_logo.png[width=35%]
 
-= E-Rezept FHIR-Package Versionsmanagement 
+== E-Rezept FHIR-Package Versionsmanagement 
 Auf dieser Seite finden Sie eine Übersicht der FHIR-Release-Pakete der Prozessbeteiligten KBV, DAV, GKV, PKV und gematik. +
 Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projekt, das im E-Rezept verwendet wird.
 
@@ -41,67 +41,169 @@ Weiter unten sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam
 
 IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versionsübergängen der gemeinsam gültigen FHIR-Profilversionen sind dabei noch nicht finalisiert.
 
-== Versionsübergang am Beispiel 31.01.2021 -> 01.01.2022
+== Versionsübergang 31.12.2022 -> 01.01.2023
 Annahmen:
 
-* Primärsysteme erhalten Update zw. 01.12. und 31.01.
+* Praxisverwaltungssysteme erhalten Update zw. 01.12. und 31.01.
 * Fachdienst erhält Update am 15.12.
-* AVS erhält Update zw. 01.12. und 31.01.
+* Apothekenverwaltungssysteme erhalten Update zw. 01.12. und 31.01.
 * maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
 
 [cols=""] 
 |===
-|Workflow-Schritt |was passiert |"wessen FHIR" |01.07.-01.12. (Status Quo) |01.12.-15.12. |15.12.-31.12. |01.01.-31.01. |01.02.-31.3.|01.04.-...
+|Workflow-Schritt           |was passiert                   |FHIR-Definition |
+        01.10.-01.12. 
+        (Status Quo)  |01.12.-15.12. |15.12.-31.12. |01.01.-31.01.                              |01.02.-31.03.      |01.04.-30.04.      |01.05.-... 
 
-|$create |Fachdienst erzeugt Task |gematik |1.0.3-1 |1.0.3-1 | 1.0.3-1 |1.1.1 |1.1.1|1.1.1
-|$activate | PVS stellt Bundle ein |KBV |1.0.1 |1.0.1 |1.0.1 (1.0.2 unzulässig) | 1.0.2 (1.0.1 bei noch nicht aktualisierten PVS) | 1.0.2 (1.0.1 unzulässig)|1.0.2
-|$accept |AVS lädt E-Rezept herunter |gematik + KBV |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.0.3-1 + 1.0.1 |1.1.1 + [1.0.1 & 1.0.2 Rezept aus Vorjahr oder noch nicht aktualisiertes PVS] |1.1.1 + [1.0.2 bzw. 1.0.1 bei Rezept aus Vorjahr oder nicht aktualisiertem PVS]|1.1.1 + [1.0.2 bzw. 1.0.1 bei spät aktualisiertem PVS]
-|$close |AVS erzeugt MedicationDispense |gematik (+KBV) |1.0.3-1 (+1.0.1) | 1.0.3-1 (+1.0.1) |1.0.3-1 (+1.0.1) |AVS_neu: 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.) +
-AVS_alt: 1.0.3-1 (+1.0.1 od. 1.0.2 bei neuer Verord.) | 1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord.)|1.1.1 (+1.0.2 od. 1.0.1 bei alter Verord. bis max. 30.04.)
-|$close |Fachdienst erzeugt Quittung |gematik |1.0.3-1 | 1.0.3-1 |1.0.3-1 |1.1.1 |1.1.1|1.1.1
-|Abgabedokumentation | AVS erzeugt Abgabedaten |DAV |1.0.3 |1.0.3 | 1.0.3 |1.1.0 (1.0.3 bei noch nicht aktualisierten AVS) | 1.1.0|1.1.0
-|Abrechnung |ARZ erzeugt Abrechnungsdaten +
-(mit Verordnung, Quittung, Abgabedaten) | GKV-SV (+KBV, gematik, DAV) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6 (1.0.1, 1.0.3-1, 1.0.3) |1.0.6  (1.0.1, 1.0.3-1, 1.0.3) für Abrechnungsmonat Dezember |Abrechnungsmonat Januar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.0.3/1.1.0) +
-Februar: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) |Abrechnungsmonat März: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
-April: 1.1.0 (1.0.1/1.0.2, 1.1.1, 1.1.0) +
-Mai++: 1.1.0 (1.0.2, 1.1.1, 1.1.0)
+|$create                    |Fachdienst erzeugt Task        |gematik   |
+        *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
+|$activate                  |PVS stellt Bundle ein          |KBV       |
+        *1.0.2*                   |*1.0.2*         |*1.0.2*         |*1.0.3* (1.0.2 bis 31.01.)   |*1.0.3*              |*1.0.3*              |*1.0.3*
+|$accept                    |AVS lädt Bundle herunter       |gematik (+ KBV)  |
+        *1.1.1* + 1.0.2           |*1.1.1* + 1.0.2 |*1.1.1* + 1.0.2 |*1.2* + 1.0.2/1.0.3          |*1.2* + 1.0.2/1.0.3  |*1.2* + 1.0.2/1.0.3  |*1.2* + 1.0.3
+|$close                     |AVS erzeugt MedicationDispense |gematik   |
+        *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
+|$close                     |Fachdienst erzeugt Quittung    |gematik   | 
+        *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
+|eRezept-Abgabedaten        |AVS erzeugt Abgabedaten        |DAV       |
+        *1.2*                     |*1.2*           |*1.2*           |*1.3* (1.2 bis 31.01)        |*1.3*                |*1.3*                |*1.3*
+|eRezept-Abrechnungs-daten  |ARZ erzeugt Abrechnungsdaten   |GKV-SV    | 
+        *1.2* + [1.0.2, 1.1.1, 1.2] |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2] (für Dez.) |*1.3* + [1.0.2/1.0.3, 1.2, 1.2/1.3] (für Jan.) +
+                                                                                         *1.3* + [1.0.2/1.0.3, 1.2, 1.3] (für Feb.)        |*1.3* + [1.0.3, 1.2, 1.3] (für Mär.) |*1.3* + [1.0.3, 1.2, 1.3] (für Apr.++)
+|===
+====
+
+== Versionsübergang 30.06.2022 -> 01.07.2022
+Annahmen:
+
+* Praxisverwaltungssysteme sind vom neuen Profil eRezeptAbgabedaten nicht betroffen
+* Fachdienst ist vom neuen Profil eRezeptAbgabedaten nicht betroffen
+* Apothekenverwaltungssysteme erhalten Update zw. 01.06. und 31.07.
+* maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
+
+[cols=""] 
+|===
+|Workflow-Schritt           |was passiert                   |FHIR-Definition |
+        01.01.-31.05. (Status Quo) |01.06.-15.06. |15.06.-30.06. |01.07.-31.07. |01.08.-30.09.|01.10.-...
+|$create                    |Fachdienst erzeugt Task        |gematik   |
+        1.1.1                      |1.1.1         |1.1.1         |1.1.1         |1.1.1        |1.1.1
+|$activate                  |PVS stellt Bundle ein          |KBV                |
+        1.0.2                      |1.0.2         |1.0.2         |1.0.2         |1.0.2        |1.0.2
+|$accept                    |AVS lädt Bundle herunter       |gematik +
+                                                              (+ KBV)  |
+        1.1.1 + 1.0.2              |1.1.1 + 1.0.2 |1.1.1 + 1.0.2 |1.1.1 + 1.0.2 |1.1.1 + 1.0.2|1.1.1 + 1.0.2
+|$close                     |AVS erzeugt MedicationDispense |gematik   |
+        1.1.1                      |1.1.1         |1.1.1         |1.1.1         |1.1.1        |1.1.1
+|$close                     |Fachdienst erzeugt Quittung    |gematik   | 
+        1.1.1                      |1.1.1         |1.1.1         |1.1.1         |1.1.1        |1.1.1
+|eRezept-Abgabedaten        |AVS erzeugt Abgabedaten        |DAV       |
+        1.1.0                      |1.1.0         |1.1.0         |1.2 (1.1.0 bei noch nicht aktualisiertem AVS) |1.2        |1.2
+|eRezept-Abrechnungs-daten  |ARZ erzeugt Abrechnungsdaten   |GKV-SV    | 
+        1.1.0                      |1.1.0         |1.1.0         |1.1.0 (für Abrechnungsmonat Juni) |1.2 (für Abrechnungsmonat Juli)        |1.2
 |===
 
-Im Folgenden sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind.
+
+---
+TIP: Im Folgenden sind die Releases inkl. Auszügen der bereitgestellten Releasenotes der Prozessbeteiligten aufgeführt, die jeweils für ein E-Rezept zusammen gültig sind.
 
 == 2023.01.01
 TBD
-
-== 2022.07.01
-Mit dem Release zum 01.07.2022 erfolgt eine Anpassung der Profile von DAV und GKV zum Thema XXX, sowie der gematik für die Unterstützung von Betäubungsmittelverordnungen.
-Die übrigen Projekte behalten ihre Gültigkeit mit den zuletzt veröffentlichten Profilen
 
 [cols="h,a,40%,a,a,a"]
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.0.2[1.0.2^] | - |13.09.2021 |01.01.2022 |tbd
-|gematik |*tbd* |Plan: +
-				* Refactoring der Profil-Dateinamen mit einem Namenschema +
-				* Flowtype für neue Workflows (BtM, T-Rezept, ...) +
-				* Umstellung von Open Slices auf Closed Slice +
-				* Neues Profil Provenance für Betäubungsmittelrezepte +
-				* Profil für Bundle mehrerer MedicationDispenses in $close +
-				* neues Versionierungsschema x.y für Profile und Ressourcen, Packages bleiben bei x.y.z mit z=Hotfix-Version +
-				* Umstellung der Toolchain auf FSH und SUSHI |Plan: Februar/März |tbd |-
-|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.2.0-rc2[Package 1.2.0-rc2 Profile 1.2.0^] |* new versioning scheme (Profile x.y Package x.y.z) +
-							* DAV-PR-Base-ZusatzdatenEinheit (Invoice.lineItem.priceComponent.factor) +
-							 * Change Constraint (PR-ZusatzdatenEinheit-1) +
-							  * old Expression: "toString().matches('^\d{1,5}$')" +
-							  * new Expression: "toString().matches('^\d{1,6}(\.\d{1,6})?$')" |28.12.2021 -rc +
-																								21.01.2022 -rc2 |01.07.2022 |-
-|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.2.0-rc[1.2.0-rc2^] |* GKVSV_PR_TA7_Sammelrechnung_Composition um Constraint erweitert +
-						 * Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert +
-						* GKVSV_EX_ERP_TA7_Abrechnungszeitraum um Constraint erweitert +
-						 * Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert +
-						* GKVSV_EX_ERP_TA7_Dateinummer Constraint "Dateinummer-length" konkretisiert +
-						 * Nur noch numerische Zeichen erlaubt |31.12.2021 |01.07.2022 |-
-|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc6[1.1.0-rc6^]  | - |09.2021 |tbd | -
+|KBV     |*tbd* a|Plan:
+
+        * Umstellung von Open Slices auf Closed Slice
+        * TelematikID Verordnende/r zusätzlich zu LANR/ANR
+        * MVO-"Klammer"-Identifier im Bundle für alle 4 Einzelverordnungen (z.B. uuid)
+        * MVO-Zeitraum + Nummerierung im Profil verpflichtend, wenn "Kennzeichen Mehrfachverordnung" gleich „true“
+        * address:Strassenanschrift.line.extension:Strasse + Hausnummer für Organization als Pflichtfelder
+        * Migration auf DE-Basisprofil >= 1.2.0 
+        
+        |01.07.2022 |01.01.2023 |-
+|gematik |*tbd* a|Plan:
+
+				* Refactoring der Profil-, Canonical- und Dateinamen nach gematik-Namensschema
+				* Flowtype für neue Workflows (BtM, T-Rezept, ...)
+				* Umstellung von Open Slices auf Closed Slice
+        * Bundle.entry der Quittung slicen für die 3 spezifizierten Einträge
+				* Neues Profil Provenance für Betäubungsmittelrezepte
+				* Profil für Bundle mehrerer MedicationDispenses in $close
+				* neues Versionierungsschema x.y für Profile und Ressourcen, Packages bleiben bei x.y.z mit z=Hotfix-Version
+				* Umstellung der Toolchain auf FSH und SUSHI
+        * Migration auf DE-Basisprofil >= 1.2.0 
+        
+        |Plan: März |01.01.2023 |-
+|DAV     |*tbd* a|Plan:
+
+        * Migration auf DE-Basisprofil >= 1.2.0 
+        
+        |tbd |01.01.2023 |-
+|GKV     |*tbd* a|Plan:
+
+        * Migration auf DE-Basisprofil >= 1.2.0 
+        
+        |tbd |01.01.2023 |-
+|PKV     |*tbd* a|Plan:
+
+        * Migration auf DE-Basisprofil >= 1.2.0 
+        
+        |tbd |tbd |-
+|===
+
+== 2022.07.01
+Mit dem Release zum 01.07.2022 erfolgt eine Anpassung der Profile von DAV und GKV für die eRezeptAbgabedaten und eRezeptAbrechnungsdaten. +
+Die Profilanpassungen der KBV und der gematik für die Unterstützung von Betäubungsmittelverordnungen sind erst ab dem 01.01.2023 zu verwenden.
+Sie behalten ihre Gültigkeit mit den zuletzt veröffentlichten Profilen
+
+[cols="h,a,40%,a,a,a"]
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
+
+|KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.0.2[1.0.2^] | - |13.09.2021 |01.01.2022 |31.12.2022
+|gematik |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.1[1.1.1^]| -  |04.11.2021 |01.01.2022 |31.12.2022
+|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.2.0-rc42[Package 1.2.0-rc4 Profile 1.2^] a|
+
+              * new versioning scheme (Profile x.y Package x.y.z)
+              * define fixed value meta.profile (canonical + version)
+              * DAV-PR-Base-ZusatzdatenEinheit (Invoice.lineItem.priceComponent.factor)
+              ** Change Constraint (PR-ZusatzdatenEinheit-1)
+              ** old Expression: "toString().matches('^\d{1,5}$')"
+              ** new Expression: "toString().matches('^\d{1,6}(\.\d{1,6})?$')"
+              * Add Keys 0, 4 and 5 to ZusatzattributFAMSchluesselMarkt
+              * Add CodeSystem / ValueSet DAV_CS_ERP_ZusatzattributFAMSchluesselImportFAM
+              ** Binding in profile (DAV-EX-ERP-Zusatzattribute)
+              
+              |28.12.2021 |01.07.2022 |31.12.2022
+|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.2.0-rc[1.2.0-rc2^] a|
+
+              * GKVSV_PR_TA7_Sammelrechnung_Composition um Constraint erweitert
+              ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
+              ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
+              * GKVSV_EX_ERP_TA7_Abrechnungszeitraum um Constraint erweitert
+              ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
+              * GKVSV_EX_ERP_TA7_Dateinummer Constraint "Dateinummer-length" konkretisiert
+              ** Nur noch numerische Zeichen erlaubt
+              * new versioning scheme (Profile x.y Package x.y.z)
+              * GKVSV_PR_TA7_Sammelrechnung_Bundle
+              ** Das Profil GKVSV_PR_TA7_Rechnung hat jetzt eine Kardinalität von 1:1.
+              ** Kostenträger-Iks aus GKVSV_PR_TA7_Sammelrechnung_Composition und GKVSV_PR_TA7_Rechnung werden auf Gleicheit geprüft
+              ** Es wird geprüft, dass das Enddatum des Abrechnungszeitraums in der Composition und der TA7_Rechnung identisch sind.
+              * GKVSV_PR_ERP_eAbrechnungsdaten
+              ** Invoice.identifier-Slicing auf "closed" gesetzt
+              * GKVSV_PR_TA7_Sammelrechnung_Composition
+              ** Composition.section-Slicing auf "closed" gesetzt
+              ** Das Profil GKVSV_PR_TA7_Rechnung hat jetzt eine Kardinalität von 1:1.
+              * GKVSV_PR_TA7_Rechnung um Constraint erweitert
+              ** Die Rechnungsnummer darf nicht die Zeichen "/:?*\"<>\|" enthalten.
+              *** toString().matches('^\\S*[\/:?*\\\"<>\|]\\S*$').not() 
+              
+              |31.12.2021 |01.07.2022 |31.12.2022
+|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc7[1.1.0-rc7^]  |Initial Release 
+
+              |03/2022 |tbd |31.12.2022
 |===
 
 
@@ -113,127 +215,88 @@ Das Release zum 01.01.2022 ermöglicht das E-Rezept für die neue Benutzergruppe
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.0.2[1.0.2^] |Aktualisierung des Profils KBV_PR_ERP_Prescription: +
-* Optimierung von drei Contraints +
-* Streichung des nicht genutzten Elements dispenseRequest.validityPeriod +
-* Korrektur einer Referenzierung im Element insurance +
-Aktualisierung der Profile KBV_PR_ERP_Medication_PZN /KBV_PR_ERP_Medication_Compounding / KBV_PR_ERP_Medication_FreeText / KBV_PR_ERP_Medication_Ingredient: +
-* Sicherstellung der korrekten Validierung der Extension https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine durch unterschiedliche Validatoren durch Klarstellung der Kardinalitäten |13.09.2021 |01.01.2022 |-
-|gematik     |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.1[1.1.1^] |New Feature "PKV" +
-* Added profile definitions ChargeItem, Consent +
-* ChargeItem includes new extension "markingFlag" +
-* Added examples for ChargeItem and Consent +
-* Added new workFlowTypes "200" and "209" in CodeSystem and ValueSet "flowType" +
-* Added indirect Dependency to DAV-Abgabedaten-Project http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle for PKV-Versicherte to be used in ChargeItem +
+|KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.0.2[1.0.2^] a|
 
-Minor Changes +
-* ErxReceipt with modified cardinality as it will have additional <entry> Binary für ePrescription-Hash (severside generated) +
-* Removed unnesecary and unused workFlowTypes in CodeSystem and ValueSet "flowType" +
-* modified samples (less handcrafted, connectathon outcome used) +
-* removed dependency to KBV Medication-Profiles in MedicationDispense.Medication (switch to base Medication-Resource) +
+          * Aktualisierung des Profils KBV_PR_ERP_Prescription:
+          ** Optimierung von drei Contraints
+          ** Streichung des nicht genutzten Elements dispenseRequest.validityPeriod
+          ** Korrektur einer Referenzierung im Element insurance
+          * Aktualisierung der Profile KBV_PR_ERP_Medication_PZN /KBV_PR_ERP_Medication_Compounding / KBV_PR_ERP_Medication_FreeText / KBV_PR_ERP_Medication_Ingredient:
+          ** Sicherstellung der korrekten Validierung der Extension https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine durch unterschiedliche Validatoren durch Klarstellung der Kardinalitäten 
+          
+          |13.09.2021 |01.01.2022 |31.12.2022
+|gematik     |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.1[1.1.1^] a|
 
-New Release "1.1.1" for fxing Bugs in previous version 1.1.0 +
-* fixed problem with xml-notation in JSon-Files, when downloading snapshot-package +
-* removed external extension "KBVEXERPDosageFlag.xml" +
-* ChargeItem_example: fixed wrong canonical of "Abgabedatensatz" in ChargeItem.supportingInformation.type +
-* Added more information in Description for MedicationDispense.Medication (added names of KBV-Medication profiles) |04.11.2021 |01.01.2022 |tbd
-|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.2[Package 1.1.2 Profile 1.1.0^] |PackageVersion 1.1.2 ProfileVersion 1.1.0 - KorrekturRelease vom 21.01.2022 +
-BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
+          * New Feature "PKV"
+          ** Added profile definitions ChargeItem, Consent
+          ** ChargeItem includes new extension "markingFlag"
+          ** Added examples for ChargeItem and Consent
+          ** Added new workFlowTypes "200" and "209" in CodeSystem and ValueSet "flowType"
+          ** Added indirect Dependency to DAV-Abgabedaten-Project http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle for PKV-Versicherte to be used in ChargeItem
+          * Minor Changes
+          ** ErxReceipt with modified cardinality as it will have additional <entry> Binary für ePrescription-Hash (severside generated)
+          ** Removed unnesecary and unused workFlowTypes in CodeSystem and ValueSet "flowType"
+          ** modified samples (less handcrafted, connectathon outcome used)
+          ** removed dependency to KBV Medication-Profiles in MedicationDispense.Medication (switch to base Medication-Resource)
+          * New Release "1.1.1" for fxing Bugs in previous version 1.1.0
+          ** fixed problem with xml-notation in JSon-Files, when downloading snapshot-package
+          ** removed external extension "KBVEXERPDosageFlag.xml"
+          ** ChargeItem_example: fixed wrong canonical of "Abgabedatensatz" in ChargeItem.supportingInformation.type
+          ** Added more information in Description for MedicationDispense.Medication (added names of KBV-Medication profiles) 
+          
+          |04.11.2021 |01.01.2022 |31.12.2022
+|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.1.2[Package 1.1.2 Profile 1.1.0^] a|
 
-* DAV-PR-Base-ZusatzdatenHerstellung +
- * Fix identifier for actor in ZusatzdatenHerstellung by removing not-allowed multiple profiles in type definition and adding constraints +
-   * Expression: conformsTo("http://fhir.abda.de/eRezeptAbgabedaten/ StructureDefinition/DAV-PR-ERP-DAVHerstellerSchluessel") or conformsTo("http://fhir.de/StructureDefinition/identifier-iknr") +
-   * Expression: conformsTo("http://fhir.de/StructureDefinition/identifier-iknr") implies value.matches('[0-9]{9}') +
-
-* FIX Constraint Issue +
-  * Error: Datatype (string) is case sensitiv but used with "Sting" in constraint +
-    * replace with "exists()" because string must have a value +
-  * DAV-EX-ERP-Rezeptaenderung - Rezeptaenderung-1 (on extention) +
-    * error Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2\|3\|4\|12') implies ((extension('DokumentationRezeptaenderung').value as String).length() > 0)" +
-    * new Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2\|3\|4\|12') implies extension('DokumentationRezeptaenderung').exists()" +
-  * DAV-EX-ERP-Zusatzattribute - PreisguenstigesFAM-1 (on Extension.extension:ZusatzattributFAM.extension:PreisguenstigesFAM) +
-    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
-    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
-  * DAV-EX-ERP-Zusatzattribute - ImportFAM-1 (on Extension.extension:ZusatzattributFAM.extension:ImportFAM) +
-    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
-    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
-  * DAV-EX-ERP-Zusatzattribute - Rabattvertragserfuellung-1 (on Extension.extension:ZusatzattributFAM.extension:Rabattvertragserfuellung) +
-    * error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)" +
-    * new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()" +
-
-* DAV-PR-Base-ZusatzdatenHerstellung (MedicationDispense.whenPrepared) +
-  * old definition: Die Angabe muss im Format "JJJJMMTT:HHMM" erfolgen. +
-  * new definition: Die Angabe muss im Format ISO 8601 (z.B.: YYYY-MM-DDTHH:MM:00Z oder YYYY-MM-DDThh:mm:ss+zz:zz) erfolgen. +
-
-* DAV-PR-Base-Apotheke (Organization.identifier.value) +
-  * Add contraint "PR-Apotheke-1" Eine IK muss 9-stellig (mit Prüfziffer) sein +
-    * Expression: matches('[0-9]{9}') +
-
-* DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus +
-  * Edit Texte (display & definition) +
-
-PackageVersion 1.1.0 ProfileVersion 1.1.0 BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies) +
-
-* DAV-EX-ERP-Zusatzattribute (**structural change**) +
-  * Add Zusatzattribut Zuzahlungsstatus (Änderung des Zuzahlungsstatus nach Ausstellung des E-Rezepts) +
-  * Add CodeSystem (DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus) +
-  * Add ValueSet (DAV-VS-ERP-ZusatzattributSchluesselZuzahlungsstatus) +
-
-* DAV-PR-ERP-Abgabeinformationen (**structural change**) +
- * Fix Canonical-URL http://fhir.abda.de/eRezeptAbgabadaten/ StructureDefinition/DAV-PR-ERP-Abgabeinformationen -> http://fhir.abda.de/eRezeptAbgabedaten/ StructureDefinition/DAV-PR-ERP-Abgabeinformationen +
-
-* Profile-Optimierungen (contraints) +
-* Näheres siehe Package-Release-Notes auf Simplifier +
-
-* Profile-Optimierungen (cardinality) +
- * näheres siehe package Release notes auf simplifier |Plan 01.10.2021 +
+          * PackageVersion 1.1.2 ProfileVersion 1.1.0 - KorrekturRelease vom 21.01.2022
+          ** BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies)
+          ** DAV-PR-Base-ZusatzdatenHerstellung
+          *** Fix identifier for actor in ZusatzdatenHerstellung by removing not-allowed multiple profiles in type definition and adding constraints
+          **** Expression: conformsTo("http://fhir.abda.de/eRezeptAbgabedaten/ StructureDefinition/DAV-PR-ERP-DAVHerstellerSchluessel") or conformsTo("http://fhir.de/StructureDefinition/identifier-iknr")
+          **** Expression: conformsTo("http://fhir.de/StructureDefinition/identifier-iknr") implies value.matches('[0-9]{9}')
+          ** FIX Constraint Issue
+          *** Error: Datatype (string) is case sensitiv but used with "Sting" in constraint
+          **** replace with "exists()" because string must have a value
+          *** DAV-EX-ERP-Rezeptaenderung - Rezeptaenderung-1 (on extention)
+          **** error Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2\|3\|4\|12') implies ((extension('DokumentationRezeptaenderung').value as String).length() > 0)"
+          **** new Expression: "(extension('ArtRezeptaenderung').value as CodeableConcept).coding.code.matches('2\|3\|4\|12') implies extension('DokumentationRezeptaenderung').exists()"
+          **** DAV-EX-ERP-Zusatzattribute - PreisguenstigesFAM-1 (on Extension.extension:ZusatzattributFAM.extension:PreisguenstigesFAM)
+          **** error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)"
+          **** new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()"
+          *** DAV-EX-ERP-Zusatzattribute - ImportFAM-1 (on Extension.extension:ZusatzattributFAM.extension:ImportFAM)
+          **** error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)"
+          **** new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()"
+          *** DAV-EX-ERP-Zusatzattribute - Rabattvertragserfuellung-1 (on Extension.extension:ZusatzattributFAM.extension:Rabattvertragserfuellung)
+          **** error Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies ((extension('DokumentationFreitext').value as String).length() > 0)"
+          **** new Expression: "(extension('Schluessel').value as CodeableConcept).coding.code.matches('4') implies extension('DokumentationFreitext').exists()"
+          ** DAV-PR-Base-ZusatzdatenHerstellung (MedicationDispense.whenPrepared)
+          *** old definition: Die Angabe muss im Format "JJJJMMTT:HHMM" erfolgen.
+          *** new definition: Die Angabe muss im Format ISO 8601 (z.B.: YYYY-MM-DDTHH:MM:00Z oder YYYY-MM-DDThh:mm:ss+zz:zz) erfolgen.
+          ** DAV-PR-Base-Apotheke (Organization.identifier.value)
+          *** Add contraint "PR-Apotheke-1" Eine IK muss 9-stellig (mit Prüfziffer) sein
+          **** Expression: matches('[0-9]{9}')
+          ** DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus
+          *** Edit Texte (display & definition)
+          * PackageVersion 1.1.0 ProfileVersion 1.1.0 BaseDefinition de.abda.eRezeptAbgabeBasis (dependencies)
+          ** DAV-EX-ERP-Zusatzattribute (**structural change**)
+          *** Add Zusatzattribut Zuzahlungsstatus (Änderung des Zuzahlungsstatus nach Ausstellung des E-Rezepts)
+          *** Add CodeSystem (DAV-CS-ERP-ZusatzattributSchluesselZuzahlungsstatus)
+          *** Add ValueSet (DAV-VS-ERP-ZusatzattributSchluesselZuzahlungsstatus)
+          ** DAV-PR-ERP-Abgabeinformationen (**structural change**)
+          *** Fix Canonical-URL http://fhir.abda.de/eRezeptAbgabadaten/ StructureDefinition/DAV-PR-ERP-Abgabeinformationen -> http://fhir.abda.de/eRezeptAbgabedaten/ StructureDefinition/DAV-PR-ERP-Abgabeinformationen
+          ** Profile-Optimierungen (contraints)
+          *** Näheres siehe Package-Release-Notes auf Simplifier
+          ** Profile-Optimierungen (cardinality)
+          *** näheres siehe package Release notes auf simplifier 
+ 
+ |Plan 01.10.2021 +
  KorrekturRelease 21.01.2022 |01.01.2022 |30.06.2022
-|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.1.0[1.1.0^] |Aktualisierung des Profils GKVSV_PR_TA7_RezeptBundle +
-* Die Quittung Gem_erxReceipt wird jetzt analog zu KBV_PR_ERP_Bundel und DAV_PR_ERP_AbgabedatenBundle als Binary eingebunden (**structural change**) +
+|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.1.0[1.1.0^] a|
+          
+          * Aktualisierung des Profils GKVSV_PR_TA7_RezeptBundle +
+          ** Die Quittung Gem_erxReceipt wird jetzt analog zu KBV_PR_ERP_Bundel und DAV_PR_ERP_AbgabedatenBundle als Binary eingebunden (**structural change**)
+          * Constraint zur Überprüfung der Angabe der Signatur in der Quittung entfernt. 
 
-Constraint zur Überprüfung der Angabe der Signatur in der Quittung entfernt. |Plan 01.10.2021 |01.01.2022 |30.06.2022
-|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc6[1.1.0-rc6^] |initial Version (Release Candidate) |Plan 01.10.2021 |tbd | -
+|Plan 01.10.2021 |01.01.2022 |30.06.2022
+|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc6[1.1.0-rc6^] |initial Version (Release Candidate) |Plan 01.10.2021 |tbd |31.12.2022
 |===
 
-== 2021.07.01
-Das Release zur E-Rezept-Einführung am 01.07.2021 legt die initialen FHIR-Profile für GKV-Versicherte fest
-
-[cols="h,a,40%,2*"] 
-|===
-|        |*Versionsnummer* |*Releasenotes* |*Datum gültig ab* |*Datum gültig bis*
-
-|KBV     |*1.0.1* +
-https://simplifier.net/packages/kbv.ita.erp/1.0.1 |* Integration der HL7-Basisprofile 0.9.13 Integration der KBV-Basisprofile 1.1.3 +
-* Erweiterung des ValueSet KBV_VS_ERP_Accident_Type um den Wert Berufskrankheit +
-* Anpassung der Extension KBV_EX_ERP_Accident +
-* Anpassung des Profils KBV_PR_ERP_Prescription +
-* Erweiterung der Constraints Anpassung des Profils KBV-PR-ERP-Bundle +
-* Erweiterung der Constraints |01.07.2021 |31.12.2021
-|gematik     |*1.0.3-1* +
-https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.0.3-1 |* Fixed validation issue on Bundle.signature cardinality for pharmacy receipt. +
-* Fixed typo on Namespace reference of prescriptionID in Task +
-* Fixed JSON-Aarry in OperationDefiniton for $create-operation |01.07.2021 |31.12.2021
-|DAV     |*1.0.3* +
-https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.0.3 |näheres siehe package Release notes auf simplifier |01.07.2021 |31.12.2021
-|GKV     |*1.0.6* +
-https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.0.6 |* Fehler in Constraint „lineItemImportPZN-1“ (GKVSV-PR-ERP-eAbrechnungsdaten) +
-* Optimierungen der Constraints "lineItemImportPZN-1" und "lineItemImportPZN-2" (GKVSV-PR-ERP-eAbrechnungsdaten) +
-* GKVSV-PR-ERP-eAbrechnungsdaten +
-* GKVSV-PR-TA7-Rechnung +
-* GKVSV-PR-TA7-Sammelrechnung-Bundle +
-* GKVSV-PR-TA7-Sammelrechnung-Composition +
-* GKVSV-PR-TA7-RezeptBundle +
-* Anpassungen der Constraint source-Angaben (Angabe der Canonical des Profils): +
-- GKVSV-PR-TA7-Sammelrechnung-Composition -> Constraint „AbsenderIK-length“ +
-- GKVSV-PR-TA7-Sammelrechnung-Bundle -> Constraint „Dateiname-length“ +
-- GKVSV-PR-TA7-Rechnung -> Constraint „Sammelrechnungsnummer-maxLength“ +
-- GKVSV-PR-TA7-Rechnung -> Constraint „KostentraegerID-length“ +
-- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „lineItemImportPZN-1“ +
-- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „lineItemImportPZN-2“ +
-- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „Belegnummer-length“ +
-- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „ApothekeIK-length“ +
-- GKVSV-PR-ERP-eAbrechnungsdaten -> Constraint „surchargeOrDeduction“ +
-- GKVSV-EX-ERP-ZusatzdatenHerstellung -> Constraint „surchargeOrDeduction“ +
-- GKVSV-EX-ERP-Import-PZN -> Constraint „zulaessigeZeichenPZN“ |01.07.2021 |31.12.2021
-|PKV     |n/a |n/a |n/a |n/a
-|===

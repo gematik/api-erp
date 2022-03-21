@@ -1,0 +1,142 @@
+:imagesdir: ../images
+:caution-caption: Achtung
+:important-caption: Wichtig
+:note-caption: Hinweis
+:tip-caption: Tip
+:warning-caption: Warnung
+ifdef::env-github[]
+:imagesdir: https://github.com/gematik/api-erp/raw/master/images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%]
+
+== Übersicht der http-Status Codes des E-Rezept-Fachdienstes
+
+Folgende http Status Codes können Clients bei der Benutzung der Schnittstellen des E-Rezept-Fachdienstes erwarten.
+Fehler können sowohl im inneren http-Requests (bei fachlichen Fehlern) als auch im äußeren http-Request auftreten.
+
+
+=== Status Codes am Endpunkt /VAU
+Fehler in der Übertragung auf der Netzwerkstrecke oder eine syntaktisch "falsche" Verschlüsselung des inneren http-Requests führen zu Fehlern am Endpunkt /VAU. Konnte der Verarbeitungskontext innerhalb der VAU den Request entschlüsseln, liefert er bei nutzbarem Antwortschlüssel (AES256-GCM-konform) immer eine verschlüsselte Antwort. Bei fachlichen Fehlern kann diese allerdings selbst einen Fehlercode enthalten (siehe unten).
+
+[cols="a,a,a"] 
+[cols="30%,10%,60%"]
+|===
+h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
+3+h|Erfolgsfall 
+|POST /VAU/*                     |200       |Der Server konnte den Request entschlüsseln und verarbeiten. Details befinden sich im verschlüsselten inneren http-Response, welcher im Body dieser http-Response enthalten ist.
+|GET /VAUCertificate             |200       |Das VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
+|GET /VAUCertificateOCSPResponse |200       |Die OCSP-Statusauskunft zum VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
+|GET /TSL.xml                    |200       |Die Liste der CA-Zertifikate zum Aufspannen des Vertrauensraums der TI konnte erfolgreich heruntergeladen werden
+|GET /TSL.sha2                   |200       |Der Hashwert zur Prüfung der Integrität der TSL konnte erfolgreich heruntergeladen werden
+|GET /CertList                   |200       |Die Zertifikatskette der E-Rezept-Serverzertifikate konnte erfolgreich heruntergeladen werden
+|GET /OCSPList                   |200       |Die Liste der OCSP-Statusauskünfte der E-Rezept-Serverzertifikate konnte erfolgreich heruntergeladen werden
+|POST /ocspf                     |200       |Die OCSP-Statusanfrage zu einem TI-Zertifikat konnte erfolgreich an den passenden OCSP-Responder weitergeleitet werden
+|GET /metadata                   |200       |Die CapabilityStement der FHIR-Schnittstelle konnte erfolgreich heruntergeladen werden
+
+3+h|Fehlerfälle
+.4+|POST /VAU/*                      |400            |Der http-Request enthält ungültige Daten, die VAU-Kontext nicht verarbeitet werden können. Z.B. fehlerhafte Verschlüsselung, syntaktisch falsch aufgebauter inner http-Request oder falsches Nutzerpseudonym "NP"
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation PUT o.ä.
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)                                     
+.4+|GET /VAUCertificate              |400            |Der http-Request enthält ungültige Daten
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation POST, PUT o.ä. 
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.4+|GET /VAUCertificateOCSPResponse  |400            |Der http-Request enthält ungültige Daten
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation POST, PUT o.ä. 
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|GET /TSL.xml                     |400            |
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|GET /TSL.sha2                    |400            |
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|GET /CertList                    |400            |
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|GET /OCSPList                    |400            |
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten, die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|GET /metadata                    |405            |
+                                     |406            |Das angefragte Format kann nicht bereitgestellt werden
+                                     |no response    |ungültiger http-Request (Pfad, Header, Content-Type, etc.)                                     
+|===
+
+
+=== Status Codes an der inneren FHIR-Schnittstelle innerhalb des VAU-Transports
+
+
+[cols="a,a,a"] 
+[cols="30%,10%,60%"]
+|===
+h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
+3+h|Erfolgsfälle 
+|POST /Task/$create           |201            |
+|POST /Task/$activate         |200            |
+|POST /Task/$accept           |200            |
+|POST /Task/$reject           |200            |
+|POST /Task/$close            |200            |
+|POST /Task/$abort            |200            |
+|POST /Task/$close            |200            |
+|POST /Communication          |201            |
+|GET /Communication           |200            |
+
+|POST /Task/$close            |200            |
+|POST /Task/$close            |200            |
+|POST /Task/$close            |200            |
+|POST /Task/$close            |200            |
+|POST /Task/$close            |200            |
+
+3+h|Fehlerfälle
+.4+|POST /Task/$create        |400            |Unzulässiger workFlowType +
+                                    Fehlerhafte XML-Struktur
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |405            | 
+.3+|POST /Task/id/$activate   |400            |Ungültige qualifizierte Arztsignatur +
+                                    Fehler in der FHIR-Validierung +
+                                    Fehlerhafte XML-Struktur +
+                                    Verstoß gegen zusätzliche fachliche Prüfregel (z.B. Ausschluss BtM)
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Ungültiger AccessCode +
+                                    Unzulässige fachliche Rolle
+.2+|POST /Task/id/$accept     |403            |Ungültiger AccessCode +
+                                    Unzulässige fachliche Rolle
+                              |409            |Task befindet sich im falschen Zustand für diese Operation
+.2+|POST /Task/id/$reject     |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Ungültiges Secret +
+                                    Task befindet sich im falschen Zustand für diese Operation
+.2+|POST /Task/id/$close      |40x            |
+||
+.2+|POST /Task/id/$abort      |40x            |
+||
+.3+|POST /Communication       |400            |Fehler in der FHIR-Validierung +
+                                    Fehlerhafte XML-Struktur +
+                                    Verstoß gegen zusätzliche fachliche Prüfregel (z.B. Existenz Task)
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+.2+|GET /Communication        |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+.3+|DELETE /Communication/id  |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |Nachricht nicht gefunden
+.2+|GET /MedicationDispense   |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+.2+|GET /AuditEvent           |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+
+.2+|410             |                           |
+||
+
+.2+|429             |                           |
+||
+
+
+|===

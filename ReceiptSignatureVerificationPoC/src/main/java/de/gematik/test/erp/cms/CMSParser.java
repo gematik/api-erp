@@ -1,7 +1,7 @@
 package de.gematik.test.erp.cms;
 
 import de.gematik.pki.tsl.TslInformationProvider;
-import de.gematik.pki.tsl.TspService;
+import de.gematik.pki.tsl.TspInformationProvider;
 import eu.europa.esig.dss.spi.DSSRevocationUtils;
 import lombok.Getter;
 import lombok.NonNull;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.cms.CMSObjectIdentifiers;
-import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
 import org.bouncycastle.cert.ocsp.OCSPResp;
@@ -22,11 +21,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaDigestCalculatorProviderBuilder;
 
-import java.io.ByteArrayInputStream;
 import java.security.Security;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -43,55 +39,27 @@ public class CMSParser {
     @Getter private final X509Certificate signerCert;
     @Getter private final Optional<OCSPResp> ocspResp;
     @Getter private final X509Certificate issuerCert;
+    @Getter private final String productType;
 
     @SneakyThrows
-    public CMSParser(byte[] data, @NonNull TslInformationProvider tslInformationProvider){
+    public CMSParser(byte[] data, @NonNull TslInformationProvider tslInformationProvider, @NonNull String productType){
 
+        this.productType = productType;
         val parser = new CMSSignedDataParser(new JcaDigestCalculatorProviderBuilder().setProvider("BC").build(), data);
         parser.getSignedContent().drain();
 
         this.signer = parser.getSignerInfos().getSigners().stream().findFirst().orElseThrow();
         this.signerCert = getSignerCert(parser);
-        this.issuerCert = getIssuerCert(parser, tslInformationProvider);
+        this.issuerCert = getIssuerCert(tslInformationProvider);
         this.ocspResp = getOCSPResp(parser);
     }
 
-    private boolean matchTspService(TspService tspService, X509CertificateHolder cert){
-        val serviceName = tspService.getTspServiceType()
-                .getServiceInformation()
-                .getServiceName();
-        val x500Name = serviceName.getName().stream()
-                .map(x1 -> new X500Name(x1.getValue()))
-                .findFirst();
-        if(x500Name.isEmpty()){
-            return false;
-        }
-        return cert.getIssuer().equals(x500Name.orElseThrow());
-    }
-
-
     @SneakyThrows
-    @SuppressWarnings("unchecked")
-    private X509Certificate getIssuerCert(CMSSignedDataParser parser, TslInformationProvider tslInformationProvider) {
-        val certStore = parser.getCertificates();
-        val cert = (X509CertificateHolder)certStore.getMatches(signer.getSID()).stream()
-                .findFirst().orElseThrow();
-
-        return tslInformationProvider.getFilteredTspServices(List.of("http://uri.etsi.org/TrstSvc/Svctype/CA/PKC")).stream()
-                .filter(tspService -> matchTspService(tspService, cert))
-                .map(x -> x.getTspServiceType().getServiceInformation()
-                        .getServiceDigitalIdentity().getDigitalId().stream()
-                        .findFirst().orElseThrow().getX509Certificate())
-                .map(this::loadX509Certificate)
-                .findFirst().orElseThrow();
+    private X509Certificate getIssuerCert(TslInformationProvider tslInformationProvider) {
+        val tspIP = new TspInformationProvider(tslInformationProvider.getTspServices(), productType);
+        return tspIP.getTspServiceSubset(this.signerCert).getX509IssuerCert();
     }
 
-    @SneakyThrows
-    private X509Certificate loadX509Certificate(byte[] input) {
-        val certFactory = CertificateFactory.getInstance("X.509");
-        val in = new ByteArrayInputStream(input);
-        return (X509Certificate)certFactory.generateCertificate(in);
-    }
 
     @SneakyThrows
     @SuppressWarnings("unchecked")
@@ -115,7 +83,17 @@ public class CMSParser {
 
     public boolean verifySignature(){
         try {
-            return signer.verify(new JcaSimpleSignerInfoVerifierBuilder().setProvider("BC").build(signerCert));
+            val valid = signer.verify(
+                    new JcaSimpleSignerInfoVerifierBuilder()
+                            .setProvider("BC")
+                            .build(signerCert)
+            );
+            if(valid) {
+                log.info("Signature is valid");
+            } else {
+                log.info("Signature is invalid");
+            }
+            return valid;
         } catch (CMSException | OperatorCreationException e) {
             log.error(e.getMessage());
             return false;

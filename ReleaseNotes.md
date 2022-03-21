@@ -1,3 +1,16 @@
+# Release 1.1.6
+New Feature
+
+- new document with status and error codes ‘erp_statuscodes’
+
+Changes
+
+- edited some error codes
+- update on FHIR versioning in the versions overview
+- bug fixing in notification document
+- added code example in notification_avs
+- added kbv blanko example
+
 # Release 1.1.5
 New Feature
 

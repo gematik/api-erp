@@ -220,7 +220,11 @@ s|Code   s|Type Error
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |409 |Conflict +
-[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept hat nicht den Status, dass es durch die Apotheke abgerufen werden kann.# +
+[small]#Im OperationOutcome werden weitere Informationen gegeben:# +
+[small]#"Task has invalid status completed"# +
+[small]#"Task has invalid status in-progress"# +
+[small]#"Task has invalid status draft"#
 |410 |Gone +
 [small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
 |429 |Too Many Requests +
