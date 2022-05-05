@@ -46,7 +46,7 @@ Annahmen:
 
 * Praxisverwaltungssysteme erhalten Update zw. 01.12. und 31.01.
 * Fachdienst erhält Update am 15.12.
-* Apothekenverwaltungssysteme erhalten Update zw. 01.12. und 31.01.
+* Apothekenverwaltungssysteme erhalten Update bis zum 31.12. (Vollziehen den Profilwechsel zum 01.01.)
 * maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
 
 [cols=""] 
@@ -66,19 +66,18 @@ Annahmen:
 |$close                     |Fachdienst erzeugt Quittung    |gematik   | 
         *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
 |eRezept-Abgabedaten        |AVS erzeugt Abgabedaten        |DAV       |
-        *1.2*                     |*1.2*           |*1.2*           |*1.3* (1.2 bis 31.01)        |*1.3*                |*1.3*                |*1.3*
+        *1.2*                     |*1.2*           |*1.2*           |*1.3*                        |*1.3*                |*1.3*                |*1.3*
 |eRezept-Abrechnungs-daten  |ARZ erzeugt Abrechnungsdaten   |GKV-SV    | 
         *1.2* + [1.0.2, 1.1.1, 1.2] |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2] (für Dez.) |*1.3* + [1.0.2/1.0.3, 1.2, 1.2/1.3] (für Jan.) +
                                                                                          *1.3* + [1.0.2/1.0.3, 1.2, 1.3] (für Feb.)        |*1.3* + [1.0.3, 1.2, 1.3] (für Mär.) |*1.3* + [1.0.3, 1.2, 1.3] (für Apr.++)
 |===
-====
 
 == Versionsübergang 30.06.2022 -> 01.07.2022
 Annahmen:
 
 * Praxisverwaltungssysteme sind vom neuen Profil eRezeptAbgabedaten nicht betroffen
 * Fachdienst ist vom neuen Profil eRezeptAbgabedaten nicht betroffen
-* Apothekenverwaltungssysteme erhalten Update zw. 01.06. und 31.07.
+* Apothekenverwaltungssysteme erhalten Update bis zum 30.06. (Vollziehen den Profilwechsel zum 01.07.)
 * maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
 
 [cols=""] 
@@ -97,7 +96,7 @@ Annahmen:
 |$close                     |Fachdienst erzeugt Quittung    |gematik   | 
         1.1.1                      |1.1.1         |1.1.1         |1.1.1         |1.1.1        |1.1.1
 |eRezept-Abgabedaten        |AVS erzeugt Abgabedaten        |DAV       |
-        1.1.0                      |1.1.0         |1.1.0         |1.2 (1.1.0 bei noch nicht aktualisiertem AVS) |1.2        |1.2
+        1.1.0                      |1.1.0         |1.1.0         |1.2           |1.2          |1.2
 |eRezept-Abrechnungs-daten  |ARZ erzeugt Abrechnungsdaten   |GKV-SV    | 
         1.1.0                      |1.1.0         |1.1.0         |1.1.0 (für Abrechnungsmonat Juni) |1.2 (für Abrechnungsmonat Juli)        |1.2
 |===
@@ -107,50 +106,57 @@ Annahmen:
 TIP: Im Folgenden sind die Releases inkl. Auszügen der bereitgestellten Releasenotes der Prozessbeteiligten aufgeführt, die jeweils für ein E-Rezept zusammen gültig sind.
 
 == 2023.01.01
-TBD
+Tbd.
 
 [cols="h,a,40%,a,a,a"]
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV     |*tbd* a|Plan:
+|KBV     |*tbd* a|
 
-        * Umstellung von Open Slices auf Closed Slice
-        * TelematikID Verordnende/r zusätzlich zu LANR/ANR
-        * MVO-"Klammer"-Identifier im Bundle für alle 4 Einzelverordnungen (z.B. uuid)
-        * MVO-Zeitraum + Nummerierung im Profil verpflichtend, wenn "Kennzeichen Mehrfachverordnung" gleich „true“
-        * address:Strassenanschrift.line.extension:Strasse + Hausnummer für Organization als Pflichtfelder
-        * Migration auf DE-Basisprofil >= 1.2.0 
+        * Korrektur Identifier/type (Profile: KBV_PR_FOR_Organization, KBV_PR_FOR_Patient, KBV_PR_FOR_Practitioner - Standard-Bindings mit den gesetzen Pattern bzw. Fixed Values abgleichen)
+        * Plan:
+        ** Migration auf DE-Basisprofil 1.3.1
+        ** Umstellung von Open Slices auf Closed Slice für Extensions
+        ** Korrektur von Längenbeschränkungen, Kardinalitäten, Constraints in den FOR- und ERP-Profilen
+        ** Abgleich der Profilierung der MVO (Längenbeschränkungen, Kardinalitäten, Constraints)
+        ** Abgleich der Profilierung von "aut idem"
+        * In Prüfung/Abstimmung:
+        ** TelematikID Verordnende/r zusätzlich zu LANR/ANR
+        ** MVO-"Klammer"-Identifier im Bundle für alle 4 Einzelverordnungen (z.B. uuid)
+        ** Erweiterung Infomodell um BTM- und T-Rezept
         
         |01.07.2022 |01.01.2023 |-
-|gematik |*tbd* a|Plan:
-
-				* Refactoring der Profil-, Canonical- und Dateinamen nach gematik-Namensschema
-				* Flowtype für neue Workflows (BtM, T-Rezept, ...)
-				* Umstellung von Open Slices auf Closed Slice
+|gematik |Plan: +
+                Profile 1.2 +
+                Package 1.2.0 a|
+	* Refactoring der Profil-, Canonical- und Dateinamen nach gematik-Namensschema
+	* Flowtype für neue Workflows (BtM, T-Rezept, ...)
+	* Umstellung von Open Slices auf Closed Slice
         * Bundle.entry der Quittung slicen für die 3 spezifizierten Einträge
-				* Neues Profil Provenance für Betäubungsmittelrezepte
-				* Profil für Bundle mehrerer MedicationDispenses in $close
-				* neues Versionierungsschema x.y für Profile und Ressourcen, Packages bleiben bei x.y.z mit z=Hotfix-Version
-				* Umstellung der Toolchain auf FSH und SUSHI
-        * Migration auf DE-Basisprofil >= 1.2.0 
+	* Neues Profil Provenance für Betäubungsmittelrezepte
+	* Profil für Bundle mehrerer MedicationDispenses in $close
+        * 2 neue Communicationsprofile für PKV für Request und Reply zur Korrektur eines ChargeItems
+	* neues Versionierungsschema x.y für Profile und Ressourcen, Packages bleiben bei x.y.z mit z=Hotfix-Version
+	* Umstellung der Toolchain auf FSH und SUSHI
+        * Migration auf DE-Basisprofil 1.3.1 
         
-        |Plan: März |01.01.2023 |-
+        |Plan: April |01.01.2023 |-
 |DAV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil >= 1.2.0 
+        * Migration auf DE-Basisprofil 1.3.1
         
         |tbd |01.01.2023 |-
 |GKV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil >= 1.2.0 
+        * Migration auf DE-Basisprofil 1.3.1 
         
         |tbd |01.01.2023 |-
 |PKV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil >= 1.2.0 
+        * Migration auf DE-Basisprofil 1.3.1 
         
-        |tbd |tbd |-
+        |tbd |01.01.2023 |-
 |===
 
 == 2022.07.01
@@ -164,21 +170,39 @@ Sie behalten ihre Gültigkeit mit den zuletzt veröffentlichten Profilen
 
 |KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.0.2[1.0.2^] | - |13.09.2021 |01.01.2022 |31.12.2022
 |gematik |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.1[1.1.1^]| -  |04.11.2021 |01.01.2022 |31.12.2022
-|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.2.0-rc42[Package 1.2.0-rc4 Profile 1.2^] a|
+|DAV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.2.0[Package 1.2.0 Profile 1.2^] a|
 
               * new versioning scheme (Profile x.y Package x.y.z)
               * define fixed value meta.profile (canonical + version)
+              * set mustSupport only on optional fields
               * DAV-PR-Base-ZusatzdatenEinheit (Invoice.lineItem.priceComponent.factor)
               ** Change Constraint (PR-ZusatzdatenEinheit-1)
-              ** old Expression: "toString().matches('^\d{1,5}$')"
-              ** new Expression: "toString().matches('^\d{1,6}(\.\d{1,6})?$')"
+              *** old Expression: "toString().matches('^\d{1,5}$')"
+              *** new Expression: "toString().matches('^\d{1,6}(\.\d{1,6})?$')"
               * Add Keys 0, 4 and 5 to ZusatzattributFAMSchluesselMarkt
               * Add CodeSystem / ValueSet DAV_CS_ERP_ZusatzattributFAMSchluesselImportFAM
               ** Binding in profile (DAV-EX-ERP-Zusatzattribute)
+              * Add ValueSet DAV-VS-ERP-DEUEV-Anlage-8
+              * DAV_PR_Base_Apotheke (Organization.address.country)
+              ** Set Binding (DAV-VS-ERP-DEUEV-Anlage-8)
+              ** Set maxLength to 3
+              * DAV_PR_Base_Apotheke (Organization.identifier.value)
+              ** Change contraint "PR-Apotheke-1"
+              *** Set severity-level to error
+              * Remove PKV context profiles
+              ** DAV_PR_Base_Apotheke (remove Extension DAV_EX_ERP_Bankverbindung)
+              ** DAV_EX_ERP_Bankverbindung (remove)
+              ** DAV_EX_ERP_AbrechnungsTyp (remove)
+              ** DAV_CS_ERP_AbrechnungsTyp (remove)
+              ** DAV_VS_ERP_AbrechnungsTyp (remove)
+              * Change slicing rules to close
+              ** Invoice.lineItem.chargeItem
+              ** all extensions
               
               |28.12.2021 |01.07.2022 |31.12.2022
-|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.2.0-rc[1.2.0-rc2^] a|
+|GKV     |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.2.0[Package 1.2.0 1.2^] a|
 
+              * new versioning scheme (Profile x.y Package x.y.z)
               * GKVSV_PR_TA7_Sammelrechnung_Composition um Constraint erweitert
               ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
               ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
@@ -186,7 +210,6 @@ Sie behalten ihre Gültigkeit mit den zuletzt veröffentlichten Profilen
               ** Format des letzten Tages des Abrechnungszeitraumes zu JJJJ-MM-TT konkretisiert
               * GKVSV_EX_ERP_TA7_Dateinummer Constraint "Dateinummer-length" konkretisiert
               ** Nur noch numerische Zeichen erlaubt
-              * new versioning scheme (Profile x.y Package x.y.z)
               * GKVSV_PR_TA7_Sammelrechnung_Bundle
               ** Das Profil GKVSV_PR_TA7_Rechnung hat jetzt eine Kardinalität von 1:1.
               ** Kostenträger-Iks aus GKVSV_PR_TA7_Sammelrechnung_Composition und GKVSV_PR_TA7_Rechnung werden auf Gleicheit geprüft
@@ -201,7 +224,7 @@ Sie behalten ihre Gültigkeit mit den zuletzt veröffentlichten Profilen
               *** toString().matches('^\\S*[\/:?*\\\"<>\|]\\S*$').not() 
               
               |31.12.2021 |01.07.2022 |31.12.2022
-|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc7[1.1.0-rc7^]  |Initial Release 
+|PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc9[1.1.0-rc9^]  |Initial Release 
 
               |03/2022 |tbd |31.12.2022
 |===

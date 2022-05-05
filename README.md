@@ -46,6 +46,8 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 
 [Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
 
+[Hier geht es zu den Besonderheiten der Mehrfachverordnung (MVO)](docs/erp_versicherte_mvo.adoc)
+
 ## Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)

@@ -24,11 +24,15 @@ toc::[]
 
 ==  Anwendungsfall E-Rezept bereitstellen
 
-Mit diesem Use Case stellt ein verordnender Arzt/Zahnarzt dem Patienten ein E-Rezept auf dem E-Rezept-Fachdienst bereit. Die Erzeugung des E-Rezepts erfolgt unter Nutzung der Verordnungsdatenschnittstelle für Primärsysteme. Mit dieser wählt der Leistungserbringer die therapierelevanten Wirkstoffe, Medikamente, o.Ä. aus.
+Mit diesem Use Case stellt ein verordnender (Zahn-)Arzt dem Patienten ein E-Rezept auf dem E-Rezept-Fachdienst bereit. Die Erzeugung des E-Rezepts erfolgt unter Nutzung der Verordnungsdatenschnittstelle für Primärsysteme. Mit dieser wählt der Leistungserbringer die therapierelevanten Wirkstoffe, Medikamente, o.Ä. aus.
 Der Leistungserbringer authentisiert sich gegenüber der Telematikinfrastruktur mit der Institutionsidentität der SMC-B unter Nutzung des IdentityProviders (IdP) und des Konnektors.
 Anschließend erfolgt das Generieren einer Rezept-ID über das Erzeugen eines Tasks im E-Rezept-Fachdienst. Die ID der erstellten Ressource Task bettet das Primärsystem des Leistungserbringers in den lokalen Datensatz ein und lässt diesen Datensatz vom Konnektor qualifiziert signieren.
 Zum Abschluss erfolgt die Aktivierung des im E-Rezept-Fachdienst erstellten Tasks in den korrekten Status und Ergänzung des qualifiziert signierten Datensatzes.
 Der E-Rezept-Fachdienst validiert die QES und erzeugt bei Gültigkeit der QES sowie Schemakonformität des E-Rezept-Bundles serverseitig eine Signatur zum Schutz der Integrität der Daten.
+
+NOTE: Die Qualifizierte elektronischen Signatur QES kann ausschliesslich von einem (Zahn-)Arzt mit Zugriff auf einen freigeschalteten elektronischen Heilberufsausweis (HBA) durchgeführt werden. Alle anderen Teilaktivitäten können auch durch einen Mitarbeiter der medizinischen Institution (MFA) durchgeführt werden. So ist es bspw. möglich, dass ein MFA E-Rezepte vorbereitet und lokal im PVS abspeichert. Der (Zahn-)Arzt erhält Hinweis des PVS, dass ein oder mehrere vorbereitete E-Rezepte auf eine QES warten und kann zwischen zwei Behandlungsgesprächen (wenn Zeit ist) die vorbereiteten E-Rezepte signieren.
+
+NOTE: Das im Verordnungsdatensatz im Attribut authoredOn angegebene Datum muss identisch mit dem Datum der Erstellung des QES sein. Bei Ungleichheit lehnt der E-Rezept-Fachdienst das E-Rezept beim Einstellen ab. Sollte der Verordnungsdatensatz bspw. am Vortag bereits vorbereitet worden sein, muss das Primärsystem den Wert für authoredOn vor der QES anpassen. 
 
 image:api_rezept_einstellen.png[width=100%]
 
