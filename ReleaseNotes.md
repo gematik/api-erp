@@ -1,3 +1,6 @@
+# Release 1.1.8
+Added Information on RU-configuration for FHIR-profiles support in ePrescrioption backend
+
 # Release 1.1.7
 Update FHIR-release management
 Overview http-statuscodes ePrescription-backend

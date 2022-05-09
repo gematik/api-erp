@@ -155,7 +155,10 @@ Sec-WebSocket-Accept: fA9dggdnMPU79lJgAE3W4TRnyDM=
 ----
 <1> Der Subscription-Service antwortet mit einem Upgrade
 
-TIP: Der Subscription-Service antwortet beim Schließen der Websocket-Verbindung mit den Status-Codes gemäß link:https://datatracker.ietf.org/doc/html/rfc6455#section-7.4[RFC-6455], bspw. mit Status `1000` wenn ein abgelaufenes Bearer Token übergeben wird.
+TIP: Der Subscription-Service antwortet beim Schließen der Websocket-Verbindung mit den Status-Codes gemäß link:https://datatracker.ietf.org/doc/html/rfc6455#section-7.4[RFC-6455], bspw. mit Status `1000` wenn ein abgelaufenes Bearer Token übergeben wird. +
+Beendet der Service die WebSocket-Verbindung aufgrund eines (internen) Fehlers, liefert er einen http-Status [502 Bad Gateway, 504 Gateway Timeout].
+
+CAUTION: *Der Websocket-Client MUSS eine zufällig gewählte Pause zw. 5 - 60 Sekunden warten, bevor eine neue Websocket-Verbindung aufgebaut wird.*
 
 === Regisitrierung der Subscription in der Websocket-Verbindung
 
@@ -244,6 +247,8 @@ class Program {
 
 CAUTION: Jede eingestellte Nachricht führt zu einem Ping, ggfs. im Millisekundenbereich, wenn viele Nachrichten an einen Empfänger gerichtet werden. In Abhängigkeit von der Implementierung kann dieses Verhalten zu einer Überlastung des PS führen, wenn bspw. jedes einzelne Ping den Anwendungsfall "Nachrichten von Versicherten empfangen" triggert. +
  Im Zweifel ist eine Wartezeit im AVS hilfreich, in der die zuletzt abgerufenen Nachrichten bearbeitet werden. Zwischenzeitlich "gepingte" Nachrichten gehen nicht verloren, da sie beim nächsten Abruf ungelesener Nachrichten gesammelt heruntergeladen werden.
+
+CAUTION: Wird die WebSocket-Verbindung aufgrund eines Fehlers unerwartet terminiert, MUSS der Websocket-Client eine zufällig gewählte Pause zw. 5 - 60 Sekunden warten, bevor eine neue Websocket-Verbindung aufgebaut wird.
 
 NOTE: Je Telematik-ID ist nur ein Websocket möglich
 

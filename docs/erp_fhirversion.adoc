@@ -39,7 +39,9 @@ image:fhir_dependencies.png[width=100%]
 
 Weiter unten sind die Releases der Prozessbeteiligten aufgeführt, die gemeinsam gültig sind. Die folgende Tabelle liefert dabei die Anmerkungen zu Übergangszeiträumen und mit welchen Versions-Konstellationen zu rechnen ist.
 
-IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versionsübergängen der gemeinsam gültigen FHIR-Profilversionen sind dabei noch nicht finalisiert.
+IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versionsübergängen der gemeinsam gültigen FHIR-Profilversionen werden in separaten Verträgen zwischen den Bundesmantelvertragspartnern festgelegt.
+
+TIP: Hinweise zur aktuellen FHIR-Konfiguration des E-Rezept-Fachdienstes in der Referenzumgebung RU finden Sie auf link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[E-Rezept@RU^]
 
 == Versionsübergang 31.12.2022 -> 01.01.2023
 Annahmen:
@@ -113,16 +115,13 @@ Tbd.
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
 |KBV     |*tbd* a|
-
-        * Korrektur Identifier/type (Profile: KBV_PR_FOR_Organization, KBV_PR_FOR_Patient, KBV_PR_FOR_Practitioner - Standard-Bindings mit den gesetzen Pattern bzw. Fixed Values abgleichen)
         * Plan:
-        ** Migration auf DE-Basisprofil 1.3.1
+        ** Migration auf DE-Basisprofil 1.3.2
         ** Umstellung von Open Slices auf Closed Slice für Extensions
         ** Korrektur von Längenbeschränkungen, Kardinalitäten, Constraints in den FOR- und ERP-Profilen
         ** Abgleich der Profilierung der MVO (Längenbeschränkungen, Kardinalitäten, Constraints)
         ** Abgleich der Profilierung von "aut idem"
         * In Prüfung/Abstimmung:
-        ** TelematikID Verordnende/r zusätzlich zu LANR/ANR
         ** MVO-"Klammer"-Identifier im Bundle für alle 4 Einzelverordnungen (z.B. uuid)
         ** Erweiterung Infomodell um BTM- und T-Rezept
         
@@ -139,22 +138,24 @@ Tbd.
         * 2 neue Communicationsprofile für PKV für Request und Reply zur Korrektur eines ChargeItems
 	* neues Versionierungsschema x.y für Profile und Ressourcen, Packages bleiben bei x.y.z mit z=Hotfix-Version
 	* Umstellung der Toolchain auf FSH und SUSHI
-        * Migration auf DE-Basisprofil 1.3.1 
+        * Migration auf DE-Basisprofil 1.3.2 
+        * In Prüfung/Abstimmung:
+        ** Separierung der ChargeItem-bezogenen Profile (eingeführt mit PKV) in ein eigenes Package
         
-        |Plan: April |01.01.2023 |-
+        |April |01.01.2023 |-
 |DAV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil 1.3.1
+        * Migration auf DE-Basisprofil 1.3.2
         
         |tbd |01.01.2023 |-
 |GKV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil 1.3.1 
+        * Migration auf DE-Basisprofil 1.3.2 
         
         |tbd |01.01.2023 |-
 |PKV     |*tbd* a|Plan:
 
-        * Migration auf DE-Basisprofil 1.3.1 
+        * Migration auf DE-Basisprofil 1.3.2 
         
         |tbd |01.01.2023 |-
 |===

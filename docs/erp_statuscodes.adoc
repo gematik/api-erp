@@ -43,10 +43,12 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 |GET /metadata                   |200       |Die CapabilityStement der FHIR-Schnittstelle konnte erfolgreich heruntergeladen werden
 
 3+h|Fehlerfälle
-.4+|POST /VAU/*                      |400            |Der http-Request enthält ungültige Daten, die im VAU-Kontext nicht verarbeitet werden können. Z.B. fehlerhafte Verschlüsselung, syntaktisch falsch aufgebauter inner http-Request oder falsches Nutzerpseudonym "NP"
+.5+|POST /VAU/*                      |400            |Der http-Request enthält ungültige Daten, die im VAU-Kontext nicht verarbeitet werden können. Z.B. fehlerhafte Verschlüsselung, syntaktisch falsch aufgebauter inner http-Request oder falsches Nutzerpseudonym "NP"
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
                                      |405            |Unzulässige http-Operation PUT o.ä.
-									 |408            |Der Client überträgt Daten zu langsam
+						 |408            |Der Client überträgt Daten zu langsam
+                                     |504            |Der ausgelastete Server kann den Request aktuell nicht bearbeiten. +
+                                     Ein Retry gemäß Exponential Backoff ist zulässig.
 .3+|GET /VAUCertificate              |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
                                      |405            |Unzulässige http-Operation POST, PUT o.ä.
