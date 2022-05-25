@@ -76,8 +76,9 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 |GET /Task                    |200            |Tasks konnten erfolgreich gelesen werden
 |GET /Task/<id>               |200            |Task konnte erfolgreich gelesen werden
 |POST /Task/$create           |201            |Task konnte für den angeforderten FlowType erfolgreich initialisiert werden
-|POST /Task/<id>/$activate    |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden 
-                                          (QES gültig und     Datensatz FHIR-konform)
+.2+|POST /Task/<id>/$activate |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden 
+                                          (QES gültig und Datensatz FHIR-konform)
+                              |202            |Task konnte aktiviert werden, *Übergangsweise wird eine fachliche Abweichung in der Nutzung unspezifizierter Extensions im Verordnungsdatensatz akzeptiert (Accepted)*
 |POST /Task/<id>/$accept      |200            |Task wurde erfolgreich einer Apotheke zugewiesen
 |POST /Task/<id>/$reject      |204            |Task wurde von der zugewiesenen Apotheke zurückgewiesen
 |POST /Task/<id>/$close       |200            |Task wurde erfolgreich beendet

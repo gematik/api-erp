@@ -1,3 +1,6 @@
+# Release 1.1.9
+Updated docs/erp_fhirversion.adoc with PKV ChargeItem informations
+
 # Release 1.1.8
 Added Information on RU-configuration for FHIR-profiles support in ePrescrioption backend
 
