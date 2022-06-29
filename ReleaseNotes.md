@@ -1,3 +1,23 @@
+# Release 1.2.0
+New Feature
+
+PKV: Use cases for private insured
+
+- Description of handling the electronic billing data with “ChargeItem” resource
+
+- Description of handling the consent with “Consent” resource
+
+- Publish a list of private IK-Numbers
+
+
+Changes
+
+- update on FHIR versioning in the versions overview
+
+- bug fixing of a response status code of the authenticate request in notification_avs
+
+
+
 # Release 1.1.9
 Updated docs/erp_fhirversion.adoc with PKV ChargeItem informations
 

@@ -51,6 +51,11 @@ Annahmen:
 * Praxisverwaltungssysteme erhalten Update zw. 01.12. und 31.01.
 * Fachdienst erhält Update am 15.12.
 * Apothekenverwaltungssysteme erhalten Update bis zum 31.12. (Vollziehen den Profilwechsel zum 01.01.)
+** Die Version der eRezeptAbgabedaten hängt vom Abgabedatum (siehe TA1) bei den Leistungserbringern ab (im Profil DAV_PR_ERP_Abgabeinformationen:
+MedicationDispense.whenHandedOver).
+* Abrechnungszentren vollziehen den Profilwechsel zum 01.02.
+** Die Version der eRezeptAbrechnungsdaten hängt vom Abrechnungsmonat (siehe TA1) ab (im Profil GKVSV_PR_TA7_Sammelrechnung_Composition:
+Composition.date). 
 * maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
 
 [cols=""]
@@ -62,9 +67,9 @@ Annahmen:
 |$create                    |Fachdienst erzeugt Task        |gematik   |
         *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
 |$activate                  |PVS stellt Bundle ein          |KBV       |
-        *1.0.2*                   |*1.0.2*         |*1.0.2*         |*1.0.3* (1.0.2 bis 31.01.)   |*1.0.3*              |*1.0.3*              |*1.0.3*
+        *1.0.2*                   |*1.0.2*         |*1.0.2*         |*1.1.0* (1.0.2 bis 31.01.)   |*1.1.0*              |*1.1.0*              |*1.1.0*
 |$accept                    |AVS lädt Bundle herunter       |gematik (+ KBV)  |
-        *1.1.1* + 1.0.2           |*1.1.1* + 1.0.2 |*1.1.1* + 1.0.2 |*1.2* + 1.0.2/1.0.3          |*1.2* + 1.0.2/1.0.3  |*1.2* + 1.0.2/1.0.3  |*1.2* + 1.0.3
+        *1.1.1* + 1.0.2           |*1.1.1* + 1.0.2 |*1.1.1* + 1.0.2 |*1.2* + 1.0.2/1.1.0          |*1.2* + 1.0.2/1.1.0  |*1.2* + 1.0.2/1.1.0  |*1.2* + 1.1.0
 |$close                     |AVS erzeugt MedicationDispense |gematik   |
         *1.1.1*                   |*1.1.1*         |*1.1.1*         |*1.2*                        |*1.2*                |*1.2*                |*1.2*
 |$close                     |Fachdienst erzeugt Quittung    |gematik   |
@@ -72,8 +77,8 @@ Annahmen:
 |eRezept-Abgabedaten        |AVS erzeugt Abgabedaten        |DAV       |
         *1.2*                     |*1.2*           |*1.2*           |*1.3*                        |*1.3*                |*1.3*                |*1.3*
 |eRezept-Abrechnungs-daten  |ARZ erzeugt Abrechnungsdaten   |GKV-SV    |
-        *1.2* + [1.0.2, 1.1.1, 1.2] |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2] (für Dez.) |*1.3* + [1.0.2/1.0.3, 1.2, 1.2/1.3] (für Jan.) +
-                                                                                         *1.3* + [1.0.2/1.0.3, 1.2, 1.3] (für Feb.)        |*1.3* + [1.0.3, 1.2, 1.3] (für Mär.) |*1.3* + [1.0.3, 1.2, 1.3] (für Apr.++)
+        *1.2* + [1.0.2, 1.1.1, 1.2] |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2]      |*1.2* + [1.0.2, 1.1.1, 1.2] (für Dez.) |*1.3* + [1.0.2/1.1.0, 1.2, 1.2/1.3] (für Jan.) +
+                                                                                         *1.3* + [1.0.2/1.1.0, 1.2, 1.3] (für Feb.)        |*1.3* + [1.1.0, 1.2, 1.3] (für Mär.) |*1.3* + [1.1.0, 1.2, 1.3] (für Apr.++)
 |eRezept-Abrechnungs-daten für PKV  |AVS erzeugt Abrechnungsdaten für Patient   |gematik    | | | |*1.0* |*1.0* |*1.0* |*1.0*
 |===
 
@@ -144,7 +149,7 @@ Tbd.
         * Separierung der ChargeItem-bezogenen Profile (eingeführt mit PKV) in ein eigenes Package (siehe unten)
 
         |April |01.01.2023 |-
-|gematik |      Profile 1.0 |
+|gematik |      Profile 1.0 a|
 	* Initiale Bereitstellung von ChargeItem-bezogenen Profile (eingeführt mit PKV)
         * 2 neue Communicationsprofile für PKV für Request und Reply zur Korrektur eines ChargeItems
         |April |01.01.2023 |-

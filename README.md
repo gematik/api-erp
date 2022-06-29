@@ -52,9 +52,18 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
 
-## Lizenzbedingungen
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+==== Anwendungsfälle für private Versicherte
+[Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
 
-Copyright (c) 2021 gematik GmbH
+[Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
+
+[Hier geht es zu der vorabveröffentlichten und unvollständigen Liste der PKV-Institutionskennzeichen](docs/pkv_ik_numbers.adoc)
+
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; dev\_1.0
+
+==== Lizenzbedingungen
+Copyright (c) 2022 gematik GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
