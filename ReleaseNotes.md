@@ -1,3 +1,9 @@
+# Release 1.2.1
+Changes
+
+Fixed the layout of the frontpage
+
+
 # Release 1.2.0
 New Feature
 
