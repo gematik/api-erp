@@ -1,3 +1,8 @@
+# Release 1.2.2
+Changes
+
+- new version of document "Signatur der Abrechnungsinformation"
+
 # Release 1.2.1
 Changes
 
