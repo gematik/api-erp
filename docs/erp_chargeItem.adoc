@@ -53,7 +53,8 @@ Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im
 *Request*
 [cols="h,a"] 
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+|URI        |https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Mit dem Parameter `task=...` wird die Zuordnung zum Task des eingelösten Rezepts hergestellt. +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 |Method     |POST
 |HTTP Header |

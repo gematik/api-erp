@@ -15,15 +15,15 @@ endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%] 
+image:gematik_logo.png[width=35%]
 
 = E-Rezept API-Dokumentation für Apotheker
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers. 
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers.
 
 toc::[]
 
 ==  Anwendungsfall E-Rezept beliefern
-Mit diesem UseCase beliefert ein Apotheker ein E-Rezept, das auf dem E-Rezept-Fachdienst bereitliegt. Eine Unterscheidung zwischen einer Filial- oder Versandapotheke ist dabei zweitrangig, da der Unterschied im Ablauf lediglich in der Übermittlung der `Task-ID` und des `AccessCodes` durch den Versicherten besteht. 
+Mit diesem UseCase beliefert ein Apotheker ein E-Rezept, das auf dem E-Rezept-Fachdienst bereitliegt. Eine Unterscheidung zwischen einer Filial- oder Versandapotheke ist dabei zweitrangig, da der Unterschied im Ablauf lediglich in der Übermittlung der `Task-ID` und des `AccessCodes` durch den Versicherten besteht.
 Mit der Bekanntmachung der `Task-ID` und des `AccessCodes` durch den Versicherten mittels Präsentation eines 2D-Barcodes oder via Kommunikationsnachricht liegen im Apothekenverwaltungssystem (AVS) alle notwendigen Parameter für den Abruf des Rezepts vor. +
 Ist der Task inkl. des E-Rezept-Datensatzes heruntergeladen, prüft das AVS die Signatur des E-Rezept-Datensatzes mit Hilfe des Konnektors.
 Ist das E-Rezept gültig signiert und das E-Rezept beliefert, erfolgt der Abschluss der Transaktion mit dem Bereitstellen der Dispensierinformationen für den Versicherten.
@@ -35,28 +35,28 @@ NOTE: Im Ablaufdiagramm sind zusätzliche Arbeitsschritte des Apothekenpersonals
 
 == Profilierung
 Für diesen Anwendungsfall werden die FHIR-Resourcen "Task": http://hl7.org/fhir/task.html und MedicationDispense https://www.hl7.org/fhir/medicationdispense.html profiliert.
-Die Profile können als JSON oder XML hier eingesehen werden: https://simplifier.net/erezept-workflow/gemerxtask bzw. https://simplifier.net/erezept-workflow/gemerxmedicationdispense
+Die Profile können als JSON oder XML hier eingesehen werden: https://simplifier.net/erezept-workflow/gem_erp_pr_task bzw. https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense
 
-Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst: 
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst:
 |===
-|*Name* |*Beschreibung* 
+|*Name* |*Beschreibung*
 2+s|Task
-|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept 
+|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
 |identifier:AccessCode |vom E-Rezept-Fachdienst generierter Berechtigungs-Code
 |identifier:Secret |vom E-Rezept-Fachdienst generierter Berechtigungs-Code
-|status |Status des E-Rezepts 
-|intent |Intension des Tasks. Fixer Wert="order" 
-|for |Krankenversichertennummer   
+|status |Status des E-Rezepts
+|intent |Intension des Tasks. Fixer Wert="order"
+|for |Krankenversichertennummer
 |authoredOn |Erstellungszeitpunkt des Tasks
 |lastModified |letzte Änderung am Task
 |performerType |Institution, in der das Rezept eingelöst werden soll
 |input |Verweis auf die für den Patienten und den Leistungserbringer gedachten Bundle
 |output |Verweis auf das Quittungs-Bundle
 |extension:flowType |gibt den Typ des Rezeptes an
-|extension:expiryDate |Verfallsdatum 
+|extension:expiryDate |Verfallsdatum
 |extension:acceptDate |Datum bis zu welchem die Krankenkasse spätestens die Kosten übernimmt
 2+s|MedicationDispense
-|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept 
+|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
 |status |Status des E-Rezepts
 |medication |das dem Versicherten ausgehändigte Medikament
 |subject:identifier |Krankenversichertennummer
@@ -80,7 +80,7 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$accept`. Im 
 Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signierte E-Rezept als E-Rezept-Datensatz zurückgegeben, wobei im Task das `secret` als zusätzliches Geheimnis in einem Task.identifier generiert wird, das in allen folgenden Zugriffen durch den Apotheker mitgeteilt werden muss.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
@@ -114,14 +114,14 @@ Content-Type: application/fhir+xml;charset=utf-8
       <Task xmlns="http://hl7.org/fhir">
         <id value="4711"/>
         <meta>
-          <versionId value="2"/> 
+          <versionId value="2"/>
           <source value="#AsYR9plLkvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
         </meta>
            <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
           <valueCodeableConcept>
             <coding>
-                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
                 <code value="160" />
                 <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
             </coding>
@@ -135,25 +135,25 @@ Content-Type: application/fhir+xml;charset=utf-8
         </extension>
         <identifier>
           <use value="official"/>
-          <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId"/>
           <value value="160.123.456.789.123.58"/>
         </identifier>
         <identifier>
           <use value="official"/>
-          <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode"/>
           <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
         </identifier>
         <identifier>
           <use value="official"/>
-          <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
+          <system value="http://fhir.de/sid/gkv/kvid-10"/>
           <value value="X123456789"/>
         </identifier>
         <identifier>
-          <system value="https://gematik.de/fhir/NamingSystem/Secret"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_Secret"/>
           <value value="c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"/> <1>
         </identifier>
         <status value="in-progress"/> <2>
-        <intent value="order"/> 
+        <intent value="order"/>
         <authoredOn value="2020-03-02T08:25:05+00:00"/>
         <lastModified value="2020-03-02T08:45:05+00:00"/>
         <performerType>
@@ -163,18 +163,18 @@ Content-Type: application/fhir+xml;charset=utf-8
             <display value="Öffentliche Apotheke"/>
           </coding>
         </performerType>
-        <input> 
-          <type> 
-            <coding> 
-              <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
-              <code value="1"/> 
+        <input>
+          <type>
+            <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+              <code value="1"/>
               <display value="Health Care Provider Prescription" />
-            </coding> 
-          </type> 
+            </coding>
+          </type>
           <valueReference>
-            <reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/> 
-          </valueReference> 
-        </input> 
+            <reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
+          </valueReference>
+        </input>
       </Task>
     </resource>
   </entry>
@@ -183,7 +183,7 @@ Content-Type: application/fhir+xml;charset=utf-8
       <Binary>
         <id value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
         <meta>
-          <versionId value="1"/> 
+          <versionId value="1"/>
           <source value="#AsYRxq34dvONJAiv"/>
           <profile value="https://gematik.de/fhir/StructureDefinition/ErxBinary\|1.1.1"/>
         </meta>
@@ -194,19 +194,19 @@ Content-Type: application/fhir+xml;charset=utf-8
   </entry>
 </Bundle>
 ----
-<1> Dieses generierte `Secret` stellt den Zugriffscode der abrufenden Apotheke dar und muss in allen folgenden Workflowschritten angegeben werden, damit nicht eine fremde Apotheke den Prozess übernehmen kann. 
+<1> Dieses generierte `Secret` stellt den Zugriffscode der abrufenden Apotheke dar und muss in allen folgenden Workflowschritten angegeben werden, damit nicht eine fremde Apotheke den Prozess übernehmen kann.
 <2> Der Status des Tasks ist in Bearbeitung (`in-progress`)
 <3> Dieses Element enthält den qualifiziert signierten Verordnungsdatensatz als PKCS#7-Datei in Base64-codierter Form. Innerhalb des Signaturobjekts ist das E-Rezept-Bundle enthalten (Enveloping-Signatur) und muss vom Apothekensystem für die Bearbeitung des E-Rezepts verarbeitet werden. Der codierte Base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
 
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -237,7 +237,7 @@ s|Code   s|Type Error
 Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst der Task des Workflows und der qualifiziert signierte Verordnungsdatensatz vor. Die Rechtmäßigkeit der elektronischen Verordnung wird mittels Prüfung der QES durch den Konnektor verifiziert. Nur bei gültiger qualifizierter elektronischer Signatur des E-Rezepts darf der Apotheker mit der Bearbeitung der Verordnung fortfahren. Für die Prüfung wird die soeben heruntergeladene PKCS#7-Datei in Base64-codierter Form an die SOAP-Schnittstelle der Signaturprüfung des Konnektors als http-POST-Operation geschickt.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://192.168.x.y/Konnektorservice
@@ -673,8 +673,8 @@ IMPORTANT: Im Verzeichnis link:../samples/qes-cases/HBA-gueltig-bis-24.4.2021[HB
 *Response*
 [source,xml]
 ----
-HTTP/1.1 200 OK 
-Content-Type: text/xml;charset=utf-8 
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
 
 <?xml version="1.0"?>
 <S:Envelope
@@ -870,26 +870,26 @@ Content-Type: text/xml;charset=utf-8
 ----
 NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Signatur aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:../samples/qes/signed[Beispiele].
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  |OK  +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen. Das gilt ebenso für Fehler in der Verarbeitung des SOAP-Requests, die als SOAP-Fault zurückgemeldet werden.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |===
 
 == E-Rezept-Abgabe vollziehen
-Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Beim Abschließen des Workflows muss der Rezept-Typ beachtet werden. Dieser wird durch das Element Task.extension.flowType bestimmt. Zum Abschluss des Worflows stellt der Apotheker dem Versicherten Informationen über das abgegebene Medikament bereit und erhält als Ergebnis eine signierte Quittung, die er in seinen Abrechnungsprozessen gegenüber dem Apothekenrechenzentrum bzw. der Krankenkasse als Nachweis des ordnungsgemäßen Abschlusses der Transaktion verwenden kann. Ist für das Element Task.extension.flowType.code "value=200" gesetzt, so handelt es sich hierbei um ein Rezept für eine privat versicherte Person. Hierbei muss der Apotheker dem Versicherten eine ausgedruckte Quittung übergeben, damit der Versicherte das Medikament gegenüber seiner Kostenstelle eigenständig abrechenen kann. 
+Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Beim Abschließen des Workflows muss der Rezept-Typ beachtet werden. Dieser wird durch das Element Task.extension.flowType bestimmt. Zum Abschluss des Worflows stellt der Apotheker dem Versicherten Informationen über das abgegebene Medikament bereit und erhält als Ergebnis eine signierte Quittung, die er in seinen Abrechnungsprozessen gegenüber dem Apothekenrechenzentrum bzw. der Krankenkasse als Nachweis des ordnungsgemäßen Abschlusses der Transaktion verwenden kann. Ist für das Element Task.extension.flowType.code "value=200" gesetzt, so handelt es sich hierbei um ein Rezept für eine privat versicherte Person. Hierbei muss der Apotheker dem Versicherten eine ausgedruckte Quittung übergeben, damit der Versicherte das Medikament gegenüber seiner Kostenstelle eigenständig abrechenen kann.
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben.
 Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die dem Apotheker gegenüber der Krankenkasse als Quittung dient.
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
@@ -909,13 +909,13 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 <MedicationDispense xmlns="http://hl7.org/fhir">  <1>
   <meta>
-    <profile value="https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense\|1.1.1" />
+    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
   </meta>
-  <contained> 
+  <contained>
     <Medication> <2>
-      <id value="med0314"/> 
+      <id value="med0314"/>
       <meta>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.2" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
       </meta>
       <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
           <valueCoding>
@@ -949,28 +949,28 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         <denominator>
           <value value="1" />
         </denominator>
-      </amount> 
-    </Medication> 
-  </contained> 
+      </amount>
+    </Medication>
+  </contained>
   <identifier>
-    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
     <value value="160.123.456.789.123.58" />
   </identifier>
-  <status value="completed"/> 
-  <medicationReference> 
-    <reference value="#med0314"/> 
-    <display value="Sumatriptan-1a Pharma 100 mg Tabletten"/> 
+  <status value="completed"/>
+  <medicationReference>
+    <reference value="#med0314"/>
+    <display value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
   </medicationReference>
   <subject>
     <identifier>
-      <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+      <system value="http://fhir.de/sid/gkv/kvid-10" />
       <value value="x1234567" />
     </identifier>
   </subject>
   <performer>
     <actor>
       <identifier>
-        <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+        <system value="https://gematik.de/fhir/sid/telematik-id" />
         <value value="606358757" />
       </identifier>
     </actor>
@@ -983,8 +983,8 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   <whenHandedOver value="2020-03-20"/> <3>
   <dosageInstruction>
     <text value="1-0-1-0" /> <4>
-  </dosageInstruction> 
-</MedicationDispense> 
+  </dosageInstruction>
+</MedicationDispense>
 ----
 <1> Mit der Übergabe der MedicationDispense signalisiert der Apotheker den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen über das abgegebene Medikament.
 <2> Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
@@ -993,7 +993,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 |===
 
-Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt. 
+Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
 NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Quartals 2022 unterstützen.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
@@ -1010,13 +1010,13 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
          <MedicationDispense>
             <id value="a3ddc2b1-826d-4b81-87b2-558834e00f50" />
             <meta>
-               <profile value="https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense\|1.1.1" />
+               <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
             </meta>
             <contained>
                <Medication>
                   <id value="c2b10a5e-3d71-434c-86e0-824af208a2bf" />
                   <meta>
-                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.1" />
+                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
                   </meta>
                   <extension url="http://fhir.de/StructureDefinition/normgroesse">
                      <valueCode value="N1" />
@@ -1055,7 +1055,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                </Medication>
             </contained>
             <identifier>
-               <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+               <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
                <value value="160.000.088.357.031.88" />
             </identifier>
             <status value="completed" />
@@ -1064,14 +1064,14 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
             </medicationReference>
             <subject>
                <identifier>
-                  <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+                  <system value="http://fhir.de/sid/gkv/kvid-10" />
                   <value value="K220635158" />
                </identifier>
             </subject>
             <performer>
                <actor>
                   <identifier>
-                     <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+                     <system value="https://gematik.de/fhir/sid/telematik-id" />
                      <value value="3-15.2.1456789123.191" />
                   </identifier>
                </actor>
@@ -1086,13 +1086,13 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
          <MedicationDispense>
             <id value="854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
             <meta>
-               <profile value="https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense\|1.1.1" />
+               <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
             </meta>
             <contained>
                <Medication>
                   <id value="756b422f-4df0-4afe-9d54-da534a44109e" />
                   <meta>
-                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.1" />
+                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
                   </meta>
                   <extension url="http://fhir.de/StructureDefinition/normgroesse">
                      <valueCode value="N1" />
@@ -1131,7 +1131,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                </Medication>
             </contained>
             <identifier>
-               <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+               <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
                <value value="160.000.088.357.031.88" />
             </identifier>
             <status value="completed" />
@@ -1140,14 +1140,14 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
             </medicationReference>
             <subject>
                <identifier>
-                  <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+                  <system value="http://fhir.de/sid/gkv/kvid-10" />
                   <value value="K220635158" />
                </identifier>
             </subject>
             <performer>
                <actor>
                   <identifier>
-                     <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+                     <system value="https://gematik.de/fhir/sid/telematik-id" />
                      <value value="3-15.2.1456789123.191" />
                   </identifier>
                </actor>
@@ -1172,10 +1172,10 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Bundle xmlns="http://hl7.org/fhir"> <1>
 	<id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
 	<meta>
-		<profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt|1.1.1" />
+		<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
 	</meta>
 	<identifier>
-		<system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+		<system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
 		<value value="160.123.456.789.123.58" /> <2>
 	</identifier>
 	<type value="document" />
@@ -1183,25 +1183,25 @@ Content-Type: application/fhir+xml;charset=utf-8
 	<link>
 		<relation value="self"/>
 		<url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close/"/>
-	</link>    
+	</link>
 	<entry>
 		<fullUrl value="urn:uuid:c624cf47-e235-4624-af71-0a09dc9254dc" />
 		<resource>
 			<Composition>
 				<id value="c624cf47-e235-4624-af71-0a09dc9254dc"/>
 				<meta>
-					<profile value="https://gematik.de/fhir/StructureDefinition/ErxComposition|1.1.1" />
+					<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
 				</meta>
 				<extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension"> <3>
 					<valueIdentifier>
-						<system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+						<system value="https://gematik.de/fhir/sid/telematik-id" />
 						<value value="3-SMC-B-Testkarte-883110000129070" />
 					</valueIdentifier>
 				</extension>
 				<status value="final" />
 				<type>
 					<coding>
-						<system value="https://gematik.de/fhir/CodeSystem/Documenttype" />
+						<system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
 						<code value="3" />
 						<display value= "Receipt"/>
 					</coding>
@@ -1231,7 +1231,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 			<Device>
 				<id value="1" />
 				<meta>
-					<profile value="https://gematik.de/fhir/StructureDefinition/ErxDevice|1.1.1" />
+					<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
 				</meta>
 				<status value="active" />
 				<serialNumber value="1.4.0" />
@@ -1253,12 +1253,12 @@ Content-Type: application/fhir+xml;charset=utf-8
 		<fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.080.761.527.39/PrescriptionDigest" />
 		<resource>
 			<Binary>
-				<id value="PrescriptionDigest-160.123.456.789.123.58"/> 
+				<id value="PrescriptionDigest-160.123.456.789.123.58"/>
 				<meta>
 					<versionId value="1"/>
 					<profile value="http://hl7.org/fhir/StructureDefinition/Binary|4.0.1"/>
 				</meta>
-				<contentType value="application/octet-stream"/> 
+				<contentType value="application/octet-stream"/>
 				<data value="tJg8c5ZtdhzEEhJ0ZpAsUVFx5dKuYgQFs5oKgthi17M="/> <7>
 			</Binary>
 		</resource>
@@ -1279,7 +1279,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 ----
 <1> Im Ergebnis der Operation wird ein signiertes Bundle als Nachweis des ordnungsgemäßen Durchlaufs des E-Rezept-Workflows zurückgegeben.
 <2> Das signierte Quittungs-Bundle enthält die Rezept-ID für eine eindeutige Zuordnung aller Artefakte des durchlaufenen Workflows
-<3> An dieser Stelle ist die Telematik-ID als Quittungsempfänger bzw. begünstigte Institution eingetragen, welche die Dispensierung des E-Rezepts vollzogen hat. 
+<3> An dieser Stelle ist die Telematik-ID als Quittungsempfänger bzw. begünstigte Institution eingetragen, welche die Dispensierung des E-Rezepts vollzogen hat.
 <4> Das Startdatum entspricht dem Abrufdatum des E-Rezepts durch die Apotheke (Statuswechsel des Task: ready -> in-progress)
 <5> Signaturzeitpunkt der Quittung, identisch zum Statuswechsel des Task in-prtogress -> completed
 <6> Das hier eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
@@ -1288,13 +1288,13 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das „Location“-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -1324,10 +1324,10 @@ Ein Apotheker hat im vorherigen Schritt ein E-Rezept abgerufen und fachlich gepr
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +  
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
 |HTTP Header |
@@ -1349,13 +1349,13 @@ HTTP/1.1 204 No Content  <1>
 <1> Im Ergebnis der $reject-Operation wird der referenzierte Task auf den aktiven Status `ready` zurückgesetzt und das Secret gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |204  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -1383,7 +1383,7 @@ Ein Apotheker hat im vorherigen Schritt ein E-Rezept abgerufen und fachlich gepr
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$abort?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
@@ -1394,7 +1394,7 @@ Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung h�
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
@@ -1408,13 +1408,13 @@ HTTP/1.1 204 No Content <1>
 <1> Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |204  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -1442,10 +1442,10 @@ s|Code   s|Type Error
 Als Apotheker kann es erforderlich sein, die Quittung für ein beliefertes E-Rezept erneut abzurufen (z.B. am Monatsende für Abrechnungszwecke, falls das Apothekenverwaltungssystem die Quittung nicht während der Belieferung gespeichert hat). Der Abruf ist möglich, solange das E-Rezept nicht automatisch und auch nicht durch den Versicherten gelöscht wurde.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
-|URI        | https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf 
+|URI        | https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
 
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept verarbeitet hat(te), muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |GET
@@ -1453,7 +1453,7 @@ Zum Nachweis als berechtigte Apotheke, die das E-Rezept verarbeitet hat(te), mus
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1>  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1>  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
@@ -1463,7 +1463,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-HTTP/1.1 200 
+HTTP/1.1 200
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
   <meta>
@@ -1479,12 +1479,12 @@ HTTP/1.1 200
           <versionId value="2"/>
           <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
           <source value="#AsYR9plLkvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxTask\|1.1.1"/>
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
         </meta>
         <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
           <valueCodeableConcept>
             <coding>
-                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
                 <code value="160" />
                 <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
             </coding>
@@ -1498,25 +1498,25 @@ HTTP/1.1 200
         </extension>
         <identifier>
           <use value="official"/>
-          <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId"/>
           <value value="160.123.456.789.123.58"/>
         </identifier>
         <identifier>
           <use value="official"/>
-          <system value="https://gematik.de/fhir/NamingSystem/AccessCode"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode"/>
           <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
         </identifier>
         <identifier>
           <use value="official"/>
-          <system value="http://fhir.de/NamingSystem/gkv/kvid-10"/>
+          <system value="http://fhir.de/sid/gkv/kvid-10"/>
           <value value="X123456789"/>
         </identifier>
         <identifier>
-          <system value="https://gematik.de/fhir/NamingSystem/Secret"/>
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_Secret"/>
           <value value="c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"/>
         </identifier>
         <status value="completed"/>
-        <intent value="order"/> 
+        <intent value="order"/>
         <authoredOn value="2020-03-02T08:25:05+00:00"/>
         <lastModified value="2020-03-02T08:45:05+00:00"/>
         <performerType>
@@ -1526,24 +1526,24 @@ HTTP/1.1 200
             <display value="Öffentliche Apotheke"/>
           </coding>
         </performerType>
-        <input> 
-          <type> 
-            <coding> 
-              <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
-              <code value="1"/> 
-            </coding> 
-          </type> 
-          <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/> 
-        </input> 
-        <output> 
-          <type> 
-            <coding> 
-              <system value="https://gematik.de/fhir/CodeSystem/Documenttype"/> 
-              <code value="3"/> 
-            </coding> 
-          </type> 
-          <valueString value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/> 
-        </output> 
+        <input>
+          <type>
+            <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+              <code value="1"/>
+            </coding>
+          </type>
+          <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
+        </input>
+        <output>
+          <type>
+            <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+              <code value="3"/>
+            </coding>
+          </type>
+          <valueString value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
+        </output>
       </Task>
     </resource>
   </entry>
@@ -1552,13 +1552,13 @@ HTTP/1.1 200
       <Bundle xmlns="http://hl7.org/fhir"> <1>
         <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
         <meta>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxReceipt\|1.1.1" />
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
           <tag>
               <display value="ePrescription receipt" />
           </tag>
         </meta>
         <identifier>
-          <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+          <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
           <value value="160.123.456.789.123.58" />
         </identifier>
         <type value="document" />
@@ -1568,18 +1568,18 @@ HTTP/1.1 200
           <resource>
             <Composition>
                 <meta>
-                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxComposition\|1.1.1" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
                 </meta>
                 <extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension">
                     <valueIdentifier>
-                        <system value="https://gematik.de/fhir/Namingsystem/TelematikID" />
+                        <system value="https://gematik.de/fhir/sid/telematik-id" />
                         <value value="606358757" />
                     </valueIdentifier>
                 </extension>
                 <status value="final" />
                 <type>
                     <coding>
-                        <system value="https://gematik.de/fhir/CodeSystem/Documenttype" />
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
                         <code value="3" />
                     </coding>
                 </type>
@@ -1603,7 +1603,7 @@ HTTP/1.1 200
             <Device>
                 <id value="eRxService" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/StructureDefinition/ErxDevice\|1.1.1" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
                 </meta>
                 <status value="active" />
                 <serialNumber value="R4.0.0.287342834" />
@@ -1636,13 +1636,13 @@ HTTP/1.1 200
 ----
 <1> Die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -1664,22 +1664,22 @@ s|Code   s|Type Error
 |===
 
 == Beispiele für DataMatrix-Codes (inkl. Schadcodes)
-AVS-Systeme müssen im Feld mit einer Vielzahl von Varianten in den von Patienten vorgelegten DataMatrix-Codes rechnen. Die meisten werden von geprüften, zertifizierten Primärsystemen generiert, da der Markt aber offen ist und ebenso mit "Angriffen" zu rechnen ist, zeigt die folgende Liste einige reale Beispiele. 
+AVS-Systeme müssen im Feld mit einer Vielzahl von Varianten in den von Patienten vorgelegten DataMatrix-Codes rechnen. Die meisten werden von geprüften, zertifizierten Primärsystemen generiert, da der Markt aber offen ist und ebenso mit "Angriffen" zu rechnen ist, zeigt die folgende Liste einige reale Beispiele.
 
 IMPORTANT: Always sanitize user inputs.
 
-image:datamatrix_sample_3.png[width=230px] 
+image:datamatrix_sample_3.png[width=230px]
 
-image:dm_evil_input.png[width=230px] 
+image:dm_evil_input.png[width=230px]
 
-image:dm_gruesse.png[width=230px] 
+image:dm_gruesse.png[width=230px]
 
-image:dm_padding_ascii.png[width=230px] 
+image:dm_padding_ascii.png[width=230px]
 
-image:dm_padding_whitespace.png[width=230px] 
+image:dm_padding_whitespace.png[width=230px]
 
-image:datamatrix_sample.png[width=230px] 
+image:datamatrix_sample.png[width=230px]
 
-image:dm_pwned.png[width=230px] 
+image:dm_pwned.png[width=230px]
 
-image:dm_script.png[width=230px] 
+image:dm_script.png[width=230px]

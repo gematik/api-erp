@@ -17,19 +17,19 @@ endif::[]
 :toc-title: Inhaltsverzeichnis
 image:gematik_logo.png[width=35%]
 
-= E-Rezept API-Dokumentation für Nachrichtenaustausch 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept. 
+= E-Rezept API-Dokumentation für Nachrichtenaustausch
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
 
 toc::[]
 
 ==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
 Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
 
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. 
-Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann. 
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
+Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.app.ti-dienste.de/Communication
@@ -39,7 +39,7 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
 
@@ -50,7 +50,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "resourceType": "Communication",
   "meta": {
     "profile":  [
-      "https://gematik.de/fhir/StructureDefinition/ErxCommunicationInfoReq"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq"
     ]
   },
   "contained":  [{
@@ -58,7 +58,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
     "meta": {
       "profile":  [
-        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.0.2"
+        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0"
       ]
     },
     "extension":  [{
@@ -110,7 +110,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   }],
   "recipient":  [{
     "identifier": {
-      "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+      "system": "https://gematik.de/fhir/sid/telematik-id",
       "value": "606358757" <3>
     }
   }],
@@ -139,7 +139,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     },{
       "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
       "valueCoding": {
-        "system": "https://gematik.de/fhir/CodeSystem/Flowtype",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
         "code": "160",
         "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
       }
@@ -167,7 +167,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
-Location: 
+Location:
   https://erp.app.ti-dienste.de/Communication/12345
 {
   "resourceType": "Communication",
@@ -176,7 +176,7 @@ Location:
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile":  [
-      "https://gematik.de/fhir/StructureDefinition/ErxCommunicationInfoReq"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq"
     ]
   },
   "contained":  [{
@@ -184,7 +184,7 @@ Location:
     "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
     "meta": {
       "profile":  [
-        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.0.2"
+        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0"
       ]
     },
     "extension":  [{
@@ -232,13 +232,13 @@ Location:
   }],
   "recipient":  [{
     "identifier": {
-      "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+      "system": "https://gematik.de/fhir/sid/telematik-id",
       "value": "606358757"
     }
   }],
   "sender": {
     "identifier": {
-      "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+      "system": "http://fhir.de/sid/gkv/kvid-10",
       "value": "X234567890" <2>
     }
   },
@@ -267,7 +267,7 @@ Location:
     },{
       "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
       "valueCoding": {
-        "system": "https://gematik.de/fhir/CodeSystem/Flowtype",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
         "code": "160",
         "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
       }
@@ -287,13 +287,13 @@ Location:
 <2> Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die KVNR des Versicherten als Absender der Anfrage.
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -317,11 +317,11 @@ s|Code   s|Type Error
 Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
 Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
 
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. 
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
@@ -331,7 +331,7 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
 
@@ -340,7 +340,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 <Communication xmlns="http://hl7.org/fhir">
     <meta>
-        <profile value="https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
     </meta>
     <basedOn>
       <reference value="Task/4711"/>
@@ -348,7 +348,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <status value="unknown" />
     <recipient>
         <identifier>
-            <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+            <system value="http://fhir.de/sid/gkv/kvid-10" />
             <value value="X234567890" />
         </identifier>
     </recipient>
@@ -367,14 +367,14 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         <extension url="https://gematik.de/fhir/StructureDefinition/AvailabilityStatus"> <2>
             <valueCoding>
                 <system value="https://gematik.de/fhir/CodeSystem/AvailabilityStatus" />
-                <code value="10" /> 
+                <code value="10" />
             </valueCoding>
         </extension>
         <contentString value="Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten." />
     </payload>
 </Communication>
 ----
-<1> Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier dargestellt von den angefragten Optionenn bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern. 
+<1> Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier dargestellt von den angefragten Optionenn bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern.
 <2> Der `AvailabilityStatus` gibt mit dem Beispielwert `10` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
 |===
 
@@ -384,7 +384,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml;charset=utf-8
-Location: 
+Location:
   https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
 
 <Communication xmlns="http://hl7.org/fhir">
@@ -392,7 +392,7 @@ Location:
     <meta>
         <versionId value="1"/>
         <lastUpdated value="2020-03-12T18:01:10+00:00"/>
-        <profile value="https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
     </meta>
     <basedOn>
       <reference value="Task/4711" />
@@ -401,13 +401,13 @@ Location:
     <sent value="2020-03-12T18:01:10+00:00" /> <1>
     <recipient>
         <identifier>
-            <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+            <system value="http://fhir.de/sid/gkv/kvid-10" />
             <value value="X234567890" />
         </identifier>
     </recipient>
     <sender> <2>
         <identifier>
-            <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+            <system value="https://gematik.de/fhir/sid/telematik-id" />
             <value value="606358757" />
         </identifier>
     </sender>
@@ -437,13 +437,13 @@ Location:
 <2> Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke als Absender der Nachricht.
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -461,13 +461,13 @@ s|Code   s|Type Error
 |===
 
 ==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
-Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. 
+Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.app.ti-dienste.de/Communication
@@ -487,16 +487,16 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "resourceType": "Communication",
   "meta": {
     "profile":  [
-      "https://gematik.de/fhir/StructureDefinition/ErxCommunicationDispReq"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq"
     ]
-  },  
+  },
   "basedOn":  [{
     "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
   }],
   "status": "unknown",
   "recipient":  [{
     "identifier": {
-      "system": "https://gematik.de/fhir/Namingsystem/TelematikID",
+      "system": "https://gematik.de/fhir/sid/telematik-id",
       "value": "606358757"
     }
   }],
@@ -514,7 +514,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
-Location: 
+Location:
   https://erp.app.ti-dienste.de/Communication/12350
 {
   "resourceType": "Communication",
@@ -523,7 +523,7 @@ Location:
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile":  [
-      "https://gematik.de/fhir/StructureDefinition/ErxCommunicationDispReq"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq"
     ]
   },
   "sent": "2020-03-12T18:01:10+00:00",
@@ -533,13 +533,13 @@ Location:
   "status": "unknown",
   "recipient":  [{
     "identifier": {
-      "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+      "system": "https://gematik.de/fhir/sid/telematik-id",
       "value": "606358757"
     }
   }],
   "sender": {
     "identifier": {
-      "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+      "system": "http://fhir.de/sid/gkv/kvid-10",
       "value": "X234567890"
     }
   },
@@ -550,13 +550,13 @@ Location:
 ----
 NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -580,7 +580,7 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
@@ -591,7 +591,7 @@ In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/co
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
@@ -601,7 +601,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,json]
 ----
-HTTP/1.1 200 OK 
+HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 {
   "resourceType": "Bundle",
@@ -624,20 +624,20 @@ Content-Type: application/fhir+json;charset=utf-8
         "versionId": "1",
         "lastUpdated": "2020-03-12T18:15:10+00:00",
         "profile":  [
-          "https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply"
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply"
         ]
       },
       "status": "unknown",
       "sent": "2020-03-12T18:01:10+00:00", <1>
       "recipient":  [{
         "identifier": {
-          "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+          "system": "http://fhir.de/sid/gkv/kvid-10",
           "value": "X234567890" <2>
         }
       }],
       "sender": {
         "identifier": {
-            "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
+            "system": "https://gematik.de/fhir/sid/telematik-id",
             "value": "606358757"
         }
       },
@@ -672,13 +672,13 @@ Content-Type: application/fhir+json;charset=utf-8
 <3> Dies sei die Antwort der Apotheke auf eine verbindliche Zuweisung, dann erhält die E-Rezept-App vom Warenwirtschaftssystem der Apotheke ebenfalls einen strukturierten Text. In diesem sind u.a. Details für die Abholung in der Filiale wie z.B. der Abholcode `pickUpCodeHR` angegeben.
 
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
@@ -688,7 +688,7 @@ s|Code   s|Type Error
 |404 |Not found +
 [small]#Es wurde kein passender Eintrag gefunden.#
 |500  |Server Errors +
-[small]#Unerwarteter Serverfehler# 
+[small]#Unerwarteter Serverfehler#
 |===
 
 
@@ -696,7 +696,7 @@ s|Code   s|Type Error
 Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns einen Überblick der bisherigen E-Rezept-Anfragen zu beschaffen.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=lt2020-04-30&_sort=sent +
@@ -710,7 +710,7 @@ Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sen
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
@@ -723,7 +723,7 @@ D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communi
 *Response*
 [source,xml]
 ----
-HTTP/1.1 200 OK 
+HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="48829c84-7ad7-4834-8362-2c2c109379b1"/>
@@ -749,13 +749,13 @@ Content-Type: application/fhir+xml;charset=utf-8
             <versionId value="1"/>
             <lastUpdated value="2020-04-12T18:01:10+00:00"/>
             <source value="#H8gavJ2v535x6V3f"/>
-            <profile value="https://gematik.de/fhir/StructureDefinition/ErxCommunicationInfoReq" />
+            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq" />
           </meta>
           <contained>
             <Medication>
               <id value="5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
               <meta>
-                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.0.2" />
+                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
               </meta>
               <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                 <valueCoding>
@@ -803,13 +803,13 @@ Content-Type: application/fhir+xml;charset=utf-8
           <received value="2020-04-12T18:02:10+00:00" /> <3>
           <recipient>
             <identifier>
-              <system value="https://gematik.de/fhir/NamingSystem/TelematikID" />
+              <system value="https://gematik.de/fhir/sid/telematik-id" />
               <value value="606358757" />
             </identifier>
           </recipient>
           <sender>
             <identifier>
-              <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+              <system value="http://fhir.de/sid/gkv/kvid-10" />
               <value value="X234567890" />
             </identifier>
           </sender>
@@ -836,7 +836,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             </extension>
             <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
               <valueCoding>
-                <system value="https://gematik.de/fhir/CodeSystem/Flowtype" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
                 <code value="160" />
                 <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
               </valueCoding>
@@ -857,13 +857,13 @@ Content-Type: application/fhir+xml;charset=utf-8
 <3> Die Eigenschaft `received` gibt an, dass diese Nachricht bereits gelesen bzw. schon einmal heruntergeladen wurde.
 <4> Das Beispiel endet der Übersichtlichkeit halber an dieser Stelle, weitere Nachrichten-Einträge folgen als `entry`-Elemente.
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
@@ -873,14 +873,14 @@ s|Code   s|Type Error
 |404 |Not found +
 [small]#Es wurde kein passender Eintrag gefunden.#
 |500  |Server Errors +
-[small]#Unerwarteter Serverfehler# 
+[small]#Unerwarteter Serverfehler#
 |===
 
 ==  Anwendungsfall Nachricht als Apotheke löschen
 Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst entfernen.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
@@ -889,7 +889,7 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt. 
+<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
@@ -899,19 +899,19 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 *Response*
 ----
-HTTP/1.1 204 No Content 
+HTTP/1.1 204 No Content
 Warning: 'Deleted message delivered at 2020-07-01 10:30:00' <1>
 
 ----
 <1> Wenn die Nachricht vor dem Löschen bereits durch den Versicherten abgerufen wurde, wird zusätzlich ein Response-Header mit einer entsprechenden Warnung zurückgegeben.
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |204  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitetdie, Antwort enthält jedoch bewusst keine Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
@@ -921,5 +921,5 @@ s|Code   s|Type Error
 |404 |Not found +
 [small]#Es wurde kein passender Eintrag gefunden.#
 |500  |Server Errors +
-[small]#Unerwarteter Serverfehler# 
+[small]#Unerwarteter Serverfehler#
 |===

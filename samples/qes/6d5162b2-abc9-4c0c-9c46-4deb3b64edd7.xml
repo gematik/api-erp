@@ -5,7 +5,7 @@
     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.1" />
   </meta>
   <identifier>
-    <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
+    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
     <value value="160.100.000.000.007.21" />
   </identifier>
   <type value="document" />
@@ -146,7 +146,7 @@
       <Medication xmlns="http://hl7.org/fhir">
         <id value="03758a20-5f15-4d10-a0ea-c8a594cea651" />
         <meta>
-          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.0.1" />
+          <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
         </meta>
         <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
           <valueCoding>
@@ -202,7 +202,7 @@
               <code value="GKV" />
             </coding>
           </type>
-          <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
+          <system value="http://fhir.de/sid/gkv/kvid-10" />
           <value value="S040464113" />
         </identifier>
         <name>

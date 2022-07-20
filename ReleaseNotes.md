@@ -1,3 +1,15 @@
+# Release 1.2.3
+Changes
+
+- fixed some old links to simplifier.net
+
+- updated old canonicals
+ 
+- fixed post request in ChargeItem
+
+- updated statuscodes document
+
+
 # Release 1.2.2
 Changes
 

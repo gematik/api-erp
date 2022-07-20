@@ -62,6 +62,30 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 .2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten, 
                         die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+.12+|<in allen Operationen>          |500	           |Internal Server Error +
+                                     *Client-Failover angeraten: Ja*
+                                     |501	           |Not Implemented +
+                                     *Client-Failover angeraten: Ja*
+                                     |502	           |Bad Gateway +
+                                     *Client-Failover angeraten: Ja*
+                                     |503            |Service Unavailable +
+                                     *Client-Failover angeraten: Ja*
+                                     |504            |Gateway Timeout +
+                                     *Client-Failover angeraten: Ja*
+                                     |505            |HTTP Version not supported +
+                                     Client-Failover angeraten: Nein
+                                     |506            |Variant Also Negotiates +
+                                     Client-Failover angeraten: Nein
+                                     |507            |Insufficient Storage +
+                                     *Client-Failover angeraten: Ja*
+                                     |508            |Loop Detected +
+                                     Client-Failover angeraten: Nein
+                                     |509            |Bandwidth Limit Exceeded +
+                                     *Client-Failover angeraten: Ja*
+                                     |510            |Not Extended +
+                                     Client-Failover angeraten: Nein
+                                     |511            |Network Authentication Required +
+                                     Client-Failover angeraten: Nein
 |===
 
 
