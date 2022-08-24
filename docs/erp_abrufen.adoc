@@ -74,7 +74,7 @@ In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser At
 
 
 == E-Rezept abrufen
-Ein Apotheker hat vom Versicherten mittels Abscannen eines 2D-Codes die Informationen `https://erp.zentral.erp.splitdns.ti-dienste.de/Task/588780/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea` für den Abruf eines E-Rezepts vom E-Rezept-Fachdienst erhalten.
+Ein Apotheker hat vom Versicherten mittels Abscannen eines 2D-Codes die Informationen `https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea` für den Abruf eines E-Rezepts vom E-Rezept-Fachdienst erhalten.
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$accept`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?ac=...` muss der beim Erzeugen des Tasks generierte `AccessCode` für die Berechtigungsprüfung übergeben werden.
 Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signierte E-Rezept als E-Rezept-Datensatz zurückgegeben, wobei im Task das `secret` als zusätzliches Geheimnis in einem Task.identifier generiert wird, das in allen folgenden Zugriffen durch den Apotheker mitgeteilt werden muss.
@@ -83,7 +83,7 @@ Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signiert
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |POST
 |HTTP Header |
 ----
@@ -109,16 +109,16 @@ Content-Type: application/fhir+xml;charset=utf-8
   </meta>
   <type value="collection"/>
   <entry>
-    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711"/>
+    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58"/>
     <resource>
       <Task xmlns="http://hl7.org/fhir">
-        <id value="4711"/>
+        <id value="160.123.456.789.123.58"/>
         <meta>
           <versionId value="2"/>
           <source value="#AsYR9plLkvONJAiv"/>
           <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
         </meta>
-           <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+           <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
           <valueCodeableConcept>
             <coding>
                 <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
@@ -127,10 +127,10 @@ Content-Type: application/fhir+xml;charset=utf-8
             </coding>
           </valueCodeableConcept>
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
           <valueDate value="2020-06-02" />
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
           <valueDate value="2020-04-01" />
         </extension>
         <identifier>
@@ -154,6 +154,21 @@ Content-Type: application/fhir+xml;charset=utf-8
         </identifier>
         <status value="in-progress"/> <2>
         <intent value="order"/>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+          <valueCodeableConcept>
+            <coding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                <code value="160" />
+                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+          <valueDate value="2020-06-02" />
+        </extension>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+          <valueDate value="2020-04-01" />
+        </extension>
         <authoredOn value="2020-03-02T08:25:05+00:00"/>
         <lastModified value="2020-03-02T08:45:05+00:00"/>
         <performerType>
@@ -185,7 +200,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         <meta>
           <versionId value="1"/>
           <source value="#AsYRxq34dvONJAiv"/>
-          <profile value="https://gematik.de/fhir/StructureDefinition/ErxBinary\|1.1.1"/>
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Binary"/>
         </meta>
         <contentType value="application/pkcs7-mime" />
         <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." /> <3>
@@ -892,7 +907,7 @@ NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 |Method     |POST
 |HTTP Header |
@@ -990,7 +1005,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 <2> Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
 <3> Die Zeitangabe bezieht sich auf die Übergabe des Medikaments, wann wurde es dem Überbringer des E-Rezepts ausgehändigt.
 <4> Die Codierung der Einnahmehinweise erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
-----
+
 |===
 
 Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
@@ -998,7 +1013,9 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
+
 ====
+
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
@@ -1158,8 +1175,8 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
    </entry>
 </Bundle>
 ----
-====
 
+====
 
 
 *Response*
@@ -1192,7 +1209,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 				<meta>
 					<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
 				</meta>
-				<extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension"> <3>
+				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary"> <3>
 					<valueIdentifier>
 						<system value="https://gematik.de/fhir/sid/telematik-id" />
 						<value value="3-SMC-B-Testkarte-883110000129070" />
@@ -1250,7 +1267,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 		</resource>
 	</entry>
 	<entry>
-		<fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.080.761.527.39/PrescriptionDigest" />
+		<fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/PrescriptionDigest" />
 		<resource>
 			<Binary>
 				<id value="PrescriptionDigest-160.123.456.789.123.58"/>
@@ -1327,7 +1344,7 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im 
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
 |HTTP Header |
@@ -1386,7 +1403,7 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$abort?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
 |HTTP Header |
@@ -1445,7 +1462,7 @@ Als Apotheker kann es erforderlich sein, die Quittung für ein beliefertes E-Rez
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        | https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
+|URI        | https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
 
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept verarbeitet hat(te), muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |GET
@@ -1464,6 +1481,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 HTTP/1.1 200
+
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
   <meta>
@@ -1471,17 +1489,17 @@ HTTP/1.1 200
   </meta>
   <type value="collection"/>
   <entry>
-    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711"/>
+    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58"/>
     <resource>
       <Task xmlns="http://hl7.org/fhir">
-        <id value="4711"/>
+        <id value="160.123.456.789.123.58"/>
         <meta>
           <versionId value="2"/>
           <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
           <source value="#AsYR9plLkvONJAiv"/>
           <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
         </meta>
-        <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
           <valueCodeableConcept>
             <coding>
                 <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
@@ -1490,10 +1508,10 @@ HTTP/1.1 200
             </coding>
           </valueCodeableConcept>
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
           <valueDateTime value="2020-06-02" />
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
           <valueDateTime value="2020-04-01" />
         </extension>
         <identifier>
@@ -1570,7 +1588,7 @@ HTTP/1.1 200
                 <meta>
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
                 </meta>
-                <extension url="https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension">
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
                     <valueIdentifier>
                         <system value="https://gematik.de/fhir/sid/telematik-id" />
                         <value value="606358757" />
@@ -1598,10 +1616,10 @@ HTTP/1.1 200
           </resource>
         </entry>
         <entry>
-          <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/ErxService" />
+          <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
           <resource>
             <Device>
-                <id value="eRxService" />
+                <id value="1" />
                 <meta>
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
                 </meta>
@@ -1624,7 +1642,7 @@ HTTP/1.1 200
           </type>
           <when value="2020-03-20T07:31:34.328+00:00" />
           <who>
-            <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/ErxService" />
+            <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
           </who>
           <sigFormat value="application/pkcs7-mime" />
           <data value="QXVmZ3J1bmQgZGVyIENvcm9uYS1TaXR1YXRpb24ga29ubnRlIGhpZXIga3VyemZyaXN0aWcga2VpbiBCZWlzcGllbCBpbiBkZXIgTGFib3J1bWdlYnVuZyBkZXIgZ2VtYXRpayBlcnN0ZWxsdCB3ZWRlbi4gRGllc2VzIHdpcmQgbmFjaGdlcmVpY2h0LgoKSW5oYWx0bGljaCB1bmQgc3RydWt0dXJlbGwgaXN0IGRpZSBTZXJ2ZXJzaWduYXR1ciBkZXIgUXVpdHR1bmcgZWluZSBFbnZlbG9waW5nIENBZEVTLVNpZ25hdHVyLCBkaWUgZGVuIHNpZ25pZXJ0ZW4gRGF0ZW5zYXR6IGFuYWxvZyB6dXIgS29ubmVrdG9yLVNpZ25hdHVyIGlubmVyaGFsYiBkZXMgQVNOMS5Db250YWluZXJzIHRyYW5zcG9ydGllcnQu" />

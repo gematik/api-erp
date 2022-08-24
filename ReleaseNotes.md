@@ -1,3 +1,11 @@
+# Release 1.2.4
+Changes
+
+- updated CodeSystem, NamingSystem, Profile, Extensions-URLs
+- added Api Description zytostatika
+- renaming of Link from https://simplifier.net/erezept-abrechnungsinformationen/ to https://simplifier.net/erezept-patientenrechnung/
+- corrected request  in 'Abrechnungsinformationen für Versicherte ändern' 
+
 # Release 1.2.3
 Changes
 

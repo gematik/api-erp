@@ -104,14 +104,14 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Task xmlns="http://hl7.org/fhir">
-  <id value="4711"/>
+  <id value="160.123.456.789.123.58"/>
   <meta>
     <versionId value="1"/>
     <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
     <source value="#AsYR9plLkvONJAiv"/>
   </meta>
-  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
     <valueCodeableConcept>
       <coding>
         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" /> <3>
@@ -120,10 +120,10 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
       </coding>
     </valueCodeableConcept>
   </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
     <valueDateTime value="2020-06-02" />
   </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
     <valueDateTime value="2020-04-01" />
   </extension>
   <identifier>
@@ -191,6 +191,9 @@ NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit
 .Beispiel für ein E-Rezept-Bundle (Klicken zum Ausklappen)
 [%collapsible]
 ====
+
+* DEPRECATED KBV-Bundle, zulässig bis 30.06.2023 * 
+
 [source,xml]
 ----
 <Bundle xmlns="http://hl7.org/fhir">
@@ -1091,7 +1094,7 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$activate
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate
 |Method     |POST
 |HTTP Header |
 ----
@@ -1126,17 +1129,16 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
-Content-Location:
-  https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/_history/2
+
 <Task xmlns="http://hl7.org/fhir">
-  <id value="4711"/>
+  <id value="160.123.456.789.123.58"/>
   <meta>
     <versionId value="2"/>
     <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
     <source value="#AsYR9plLkvONJAiv"/>
     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
   </meta>
-  <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
     <valueCodeableConcept>
       <coding>
         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
@@ -1145,10 +1147,10 @@ Content-Location:
       </coding>
     </valueCodeableConcept>
   </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/ExpiryDate">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
     <valueDateTime value="2020-06-02" />
   </extension>
-  <extension url="https://gematik.de/fhir/StructureDefinition/AcceptDate">
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
     <valueDateTime value="2020-04-01" />
   </extension>
   <identifier>
@@ -1242,7 +1244,7 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/4711/$abort
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort
 |Method     |POST
 |HTTP Header |
 ----

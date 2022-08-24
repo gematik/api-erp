@@ -101,7 +101,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   }],
   "basedOn":  [
         {
-            "reference": "Task/4711"
+            "reference": "Task/160.123.456.789.123.58"
         }
     ],
   "status": "unknown",
@@ -116,13 +116,13 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   }],
   "payload":  [{ <4>
     "extension":  [{
-      "url": "https://gematik.de/fhir/StructureDefinition/InsuranceProvider",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
       "valueIdentifier": {
-        "system": "http://fhir.de/NamingSystem/arge-ik/iknr",
+        "system": "http://fhir.de/sid/arge-ik/iknr",
         "value": "104212059"
       }
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/SupplyOptionsType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
       "extension":  [{
         "url": "onPremise",
         "valueBoolean": true
@@ -134,17 +134,17 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         "valueBoolean": false
       }]
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/SubstitutionAllowedType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType",
       "valueBoolean": true
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
       "valueCoding": {
         "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
         "code": "160",
         "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
       }
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/PackageQuanity",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
       "valueCoding": {
         "system": "http://unitsofmeasure.org",
         "code": "{Package}",
@@ -225,6 +225,11 @@ Location:
       }
     }
   }],
+  "basedOn":  [
+      {
+          "reference": "Task/160.123.456.789.123.58"
+      }
+  ],
   "status": "unknown",
   "sent": "2020-03-12T18:01:10+00:00", <1>
   "about":  [{
@@ -244,13 +249,13 @@ Location:
   },
   "payload":  [{
     "extension":  [{
-      "url": "https://gematik.de/fhir/StructureDefinition/InsuranceProvider",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
       "valueIdentifier": {
-        "system": "http://fhir.de/NamingSystem/arge-ik/iknr",
+        "system": "http://fhir.de/sid/arge-ik/iknr",
         "value": "104212059"
       }
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/SupplyOptionsType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
       "extension":  [{
         "url": "onPremise",
         "valueBoolean": true
@@ -262,17 +267,17 @@ Location:
         "valueBoolean": false
       }]
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/SubstitutionAllowedType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
       "valueBoolean": true
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType,
       "valueCoding": {
         "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
         "code": "160",
         "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
       }
     },{
-      "url": "https://gematik.de/fhir/StructureDefinition/PackageQuanity",
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
       "valueCoding": {
         "system": "http://unitsofmeasure.org",
         "code": "{Package}",
@@ -343,7 +348,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
     </meta>
     <basedOn>
-      <reference value="Task/4711"/>
+      <reference value="Task/160.123.456.789.123.58"/>
     </basedOn>
     <status value="unknown" />
     <recipient>
@@ -353,7 +358,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         </identifier>
     </recipient>
     <payload>
-        <extension url="https://gematik.de/fhir/StructureDefinition/SupplyOptionsType"> <1>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType"> <1>
             <extension url="onPremise">
                 <valueBoolean value="true" />
             </extension>
@@ -364,9 +369,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 <valueBoolean value="true" />
             </extension>
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AvailabilityStatus"> <2>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState"> <2>
             <valueCoding>
-                <system value="https://gematik.de/fhir/CodeSystem/AvailabilityStatus" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
                 <code value="10" />
             </valueCoding>
         </extension>
@@ -395,7 +400,7 @@ Location:
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
     </meta>
     <basedOn>
-      <reference value="Task/4711" />
+      <reference value="Task/160.123.456.789.123.58" />
     </basedOn>
     <status value="unknown" />
     <sent value="2020-03-12T18:01:10+00:00" /> <1>
@@ -412,7 +417,7 @@ Location:
         </identifier>
     </sender>
     <payload>
-        <extension url="https://gematik.de/fhir/StructureDefinition/SupplyOptionsType">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
             <extension url="onPremise">
                 <valueBoolean value="true" />
             </extension>
@@ -423,9 +428,9 @@ Location:
                 <valueBoolean value="true" />
             </extension>
         </extension>
-        <extension url="https://gematik.de/fhir/StructureDefinition/AvailabilityStatus">
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">
             <valueCoding>
-                <system value="https://gematik.de/fhir/CodeSystem/AvailabilityStatus" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
                 <code value="10" />
             </valueCoding>
         </extension>
@@ -491,7 +496,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     ]
   },
   "basedOn":  [{
-    "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
+    "reference": "Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
   }],
   "status": "unknown",
   "recipient":  [{
@@ -528,7 +533,7 @@ Location:
   },
   "sent": "2020-03-12T18:01:10+00:00",
   "basedOn":  [{
-    "reference": "Task/4711/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    "reference": "Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
   }],
   "status": "unknown",
   "recipient":  [{
@@ -603,6 +608,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
+
 {
   "resourceType": "Bundle",
   "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
@@ -643,7 +649,7 @@ Content-Type: application/fhir+json;charset=utf-8
       },
       "payload":  [{
         "extension":  [{
-          "url": "https://gematik.de/fhir/StructureDefinition/SupplyOptionsType",
+          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
           "extension":  [{
             "url": "onPremise",
             "valueBoolean": true
@@ -655,9 +661,9 @@ Content-Type: application/fhir+json;charset=utf-8
             "valueBoolean": true
           }]
         },{
-          "url": "https://gematik.de/fhir/StructureDefinition/AvailabilityStatus",
+          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState",
           "valueCoding": {
-            "system": "https://gematik.de/fhir/CodeSystem/AvailabilityStatus",
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus",
             "code": "10"
           }
         }],
@@ -725,6 +731,7 @@ D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communi
 ----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
+
 <Bundle xmlns="http://hl7.org/fhir">
   <id value="48829c84-7ad7-4834-8362-2c2c109379b1"/>
   <meta>
@@ -814,13 +821,13 @@ Content-Type: application/fhir+xml;charset=utf-8
             </identifier>
           </sender>
           <payload>
-            <extension url="https://gematik.de/fhir/StructureDefinition/InsuranceProvider">
+            <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider">
               <valueIdentifier>
-                <system value="http://fhir.de/NamingSystem/arge-ik/iknr" />
+                <system value="http://fhir.de/sid/arge-ik/iknr" />
                 <value value="104212059" />
               </valueIdentifier>
             </extension>
-            <extension url="https://gematik.de/fhir/StructureDefinition/SupplyOptionsType">
+            <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
               <extension url="onPremise">
                 <valueBoolean value="true" />
               </extension>
@@ -831,10 +838,10 @@ Content-Type: application/fhir+xml;charset=utf-8
                 <valueBoolean value="false" />
               </extension>
             </extension>
-            <extension url="https://gematik.de/fhir/StructureDefinition/SubstitutionAllowedType">
+            <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType">
               <valueBoolean value="true" />
             </extension>
-            <extension url="https://gematik.de/fhir/StructureDefinition/PrescriptionType">
+            <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
               <valueCoding>
                 <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
                 <code value="160" />

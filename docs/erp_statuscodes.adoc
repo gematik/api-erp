@@ -175,7 +175,11 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
                               |404            |E-Rezept-Task wurde nicht gefunden
                               |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
                               |408            |Timeout
-                              |409            |Task befindet sich im falschen Zustand (ungleich `ready`) für diese Operation
+                              |409            |Task befindet sich im falschen Zustand (ungleich `ready`) für diese Operation +
+                                                Im OperationOutcome werden weitere Informationen gegeben: +
+                                                "Task has invalid status completed" +
+                                                "Task has invalid status in-progress" +
+                                                "Task has invalid status draft"
                               |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
 .7+|POST /Task/id/$reject     |400            |Ungültiger http-Request

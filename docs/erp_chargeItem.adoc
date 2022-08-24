@@ -24,7 +24,7 @@ toc::[]
 
 == Profilierung
 Für diesen Anwendungsfall wird die FHIR-Ressource "ChargeItem": http://hl7.org/fhir/chargeitem.html profiliert.
-Die Profile können als JSON- oder XML-Datei hier eingesehen werden: https://simplifier.net/erezept-abrechnungsinformationen/gem_erp_pr_chargeitem
+Die Profile können als JSON- oder XML-Datei hier eingesehen werden: https://simplifier.net/erezept-patientenrechnung/gem_erp_pr_chargeitem
 
 Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst: 
 |===
@@ -91,7 +91,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         </coding>
     </code>
     <subject>
-        <identifier><2>
+        <identifier> <2>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -101,7 +101,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <enterer>
         <identifier>
             <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="606358757" />
+            <value value="3-15.2.1456789123.191" />
         </identifier>
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
@@ -274,56 +274,56 @@ Content-Type: application/fhir+json;charset=utf-8
    <entry>
       <resource>
         <Bundle xmlns="http://hl7.org/fhir">
-    <id value="ad80703d-8c62-44a3-b12b-2ea66eda0aa2" />
-    <meta>
-        <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1" />
-        <tag>
-            <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM)" />
-        </tag>
-    </meta>
-    <identifier>
-        <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
-        <value value="200.100.000.000.081.90" />
-    </identifier>
-    <type value="document" />
-    <timestamp value="2022-03-24T11:30:00Z" />
-    <entry>
-        <fullUrl value="urn:uuid:72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
-        <resource>
-            <Composition>
-                <id value="72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
-                <meta>
-                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.1" />
-                </meta>
-                <status value="final" />
-                <type>
-                    <coding>
-                        <system value="http://fhir.abda.de/eRezeptAbgabedaten/CodeSystem/DAV-CS-ERP-CompositionTypes" />
-                        <code value="ERezeptAbgabedaten" />
-                    </coding>
-                </type>
-                <date value="2022-03-24T11:30:00Z" />
-                <author>
-                    <reference value="urn:uuid:5dc67a4f-c936-4c26-a7c0-967673a70740" />
-                </author>
-                <title value="ERezeptAbgabedaten" />
-                <section>
-                    <title value="Abgabeinformationen" />
-                    <entry>
-                        <reference value="urn:uuid:335784b4-3f89-47cc-b32f-bc386a212e11" />
-                    </entry>
-                </section>
-                <section>
-                    <title value="Apotheke" />
-                    <entry>
+        <id value="ad80703d-8c62-44a3-b12b-2ea66eda0aa2" />
+        <meta>
+            <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1" />
+            <tag>
+                <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM)" />
+            </tag>
+        </meta>
+        <identifier>
+            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+            <value value="200.100.000.000.081.90" />
+        </identifier>
+        <type value="document" />
+        <timestamp value="2022-03-24T11:30:00Z" />
+        <entry>
+            <fullUrl value="urn:uuid:72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
+            <resource>
+                <Composition>
+                    <id value="72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
+                    <meta>
+                        <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.1" />
+                    </meta>
+                    <status value="final" />
+                    <type>
+                        <coding>
+                            <system value="http://fhir.abda.de/eRezeptAbgabedaten/CodeSystem/DAV-CS-ERP-CompositionTypes" />
+                            <code value="ERezeptAbgabedaten" />
+                        </coding>
+                    </type>
+                    <date value="2022-03-24T11:30:00Z" />
+                    <author>
                         <reference value="urn:uuid:5dc67a4f-c936-4c26-a7c0-967673a70740" />
-                    </entry>
-                </section>
-            </Composition>
-        </resource>
-    </entry>
-        ...<1>
-    <signature> <2>
+                    </author>
+                    <title value="ERezeptAbgabedaten" />
+                    <section>
+                        <title value="Abgabeinformationen" />
+                        <entry>
+                            <reference value="urn:uuid:335784b4-3f89-47cc-b32f-bc386a212e11" />
+                        </entry>
+                    </section>
+                    <section>
+                        <title value="Apotheke" />
+                        <entry>
+                            <reference value="urn:uuid:5dc67a4f-c936-4c26-a7c0-967673a70740" />
+                        </entry>
+                    </section>
+                </Composition>
+            </resource>
+        </entry>
+            ...<1>
+        <signature> <2>
           <type>
             <system value="urn:iso-astm:E1762-95:2013" />
             <code value="1.2.840.10065.1.12.1.1" />
@@ -338,7 +338,7 @@ Content-Type: application/fhir+json;charset=utf-8
     </Bundle>
    </entry>
 </Bundle>
----- 
+----
 <1> Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt.
 <2> Dieses Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
@@ -423,7 +423,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
     <enterer>
         <identifier>
             <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="606358757" />
+            <value value="3-15.2.1456789123.191" />
         </identifier>
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
@@ -473,7 +473,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     <enterer>
         <identifier>
             <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="606358757" />
+            <value value="3-15.2.1456789123.191" />
         </identifier>
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
@@ -520,7 +520,7 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`.
 *Request*
 [cols="h,a"] 
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/ 
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem/ 
 |Method     |GET
 |HTTP Header |
 ----
@@ -755,7 +755,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 },
                 "extension": [
                     {
-                        "url": "https://gematik.de/fhir/StructureDefinition/MarkingFlag",
+                        "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag",
                         "extension": [
                             {
                                 "url": "insuranceProvider",
@@ -773,7 +773,7 @@ Content-Type: application/fhir+json;charset=utf-8
                     }
                 ],
                 "identifier": {
-                    "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+                    "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
                     "value": "200.086.824.605.539.20"
                 },
                 "status": "billable",
@@ -787,14 +787,14 @@ Content-Type: application/fhir+json;charset=utf-8
                 },
                 "subject": {
                     "identifier": {
-                        "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+                        "system": "http://fhir.de/sid/pkv/kvid-10",
                         "value": "X234567890"
                     }
                 },
                 "enterer": {
                     "identifier": {
-                        "system": "https://gematik.de/fhir/NamingSystem/TelematikID",
-                        "value": "606358757"
+                        "system": "https://gematik.de/fhir/sid/telematik-id",
+                        "value": "3-SMC-B-Testkarte-883110000095957"
                     }
                 },
                 "enteredDate": "2021-06-01T07:13:00+05:00",
@@ -811,7 +811,7 @@ Content-Type: application/fhir+json;charset=utf-8
                     },
                     {
                         "reference": "dffbfd6a-5712-4798-bdc8-07201eb77ab8",
-                        "type": "https://gematik.de/fhir/StructureDefinition/ErxReceipt",
+                        "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2",
                         "display": "Quittung"
                     }
                 ]
@@ -824,7 +824,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 "meta": {
                     "lastUpdated": "2020-02-03T12:30:02Z",
                     "profile": [
-                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0"
+                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.1.0"
                     ]
                 },
                 "identifier": {
@@ -841,7 +841,7 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "ed52c1e3-b700-4497-ae19-b23744e29876",
                             "meta": {
                                 "profile": [
-                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
+                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.1.0"
                  ... <1>
                                 ]
                             }
@@ -882,7 +882,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 },
                 "type": "document",
                 "identifier": {
-                    "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+                    "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
                     "value": "200.100.000.000.081.90"
                 },
                 "timestamp": "2022-03-24T11:30:00Z",
@@ -979,7 +979,7 @@ Content-Type: application/fhir+json;charset=utf-8
         }
     ]
 }
----- 
+----
 <1> Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Verordnungsbundle hier nicht vollständig dargestellt.
 <2> Dieses Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 <3> Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt.
@@ -1030,52 +1030,60 @@ Header: Content-Type: application/fhir+json
 <1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
 
 |Payload    | 
+[source,json]
 {
   "resourceType": "Parameters",
-   "parameter":[{
+  "meta": {
+      "profile": [""]
+  },
+  "parameter": [
+    {
       "name": "operation",
       "part": [
-         {
-            "name": "type",
-            "valueCode": "add"
-         },
-         {
-            "name": "path", <1>
-            "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"
-         },
-         {
-            "name": "name",
-            "valueString": "valueBoolean"
-           }, 
-         {
-            "name": "value",
-            "valueBoolean": "true"
-         },{
-            "name": "type",
-            "valueCode": "add"
-         },
-         {
-            "name": "path", <2>
-            "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"
-         },
-         {
-            "name": "name",
-            "valueString": "valueBoolean"
-           }, 
-         {
-            "name": "value", 
-            "valueBoolean": "true" <3>
-         }
+        {
+          "name": "type",
+          "valueCode": "add"
+        },
+        {
+          "name": "path",
+          <1>"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
+          "valueBoolean": true
+        }
       ]
-   }
-   ]
+    },
+    {
+      "name": "operation",
+      "part": [
+        {
+          "name": "type",
+          "valueCode": "add"
+        },
+        {
+          "name": "path",
+           <2>"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
+          "valueBoolean": false
+        }
+      ]
+    }
+  ]
 }
-----
 <1> Pfadanfang, an dem das zu ändernde Attribut hängt.
 <2> Element, welches geändert werden soll.
 <3> Neuer Wert.
-
-----
 |===
 
 
@@ -1091,10 +1099,10 @@ Content-Type: application/fhir+json;charset=utf-8
     "versionId": "1",
     "lastUpdated": "2022-04-05T11:36:19.491+00:00",
     "source": "#V4se2kvNDlSKuefe",
-    "profile": [ "http://example.org/fhir/StructureDefinition/ErxChargeItem" ]
+    "profile": [ "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem" ]
   },
   "extension": [ {
-    "url": "https://gematik.de/fhir/StructureDefinition/MarkingFlag",
+    "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag",
     "extension": [ {
       "url": "insuranceProvider",
       "valueBoolean": true
@@ -1107,7 +1115,7 @@ Content-Type: application/fhir+json;charset=utf-8
     } ]
   } ],
   "identifier": [ {
-    "system": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+    "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
     "value": "200.086.824.605.539.20"
   }, {
     "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
@@ -1124,14 +1132,14 @@ Content-Type: application/fhir+json;charset=utf-8
     
     
     "identifier": {
-      "system": "http://fhir.de/NamingSystem/gkv/kvid-10",
+      "system": "http://fhir.de/sid/pkv/kvid-10",
       "value": "X234567890"
     }
   },
   "enterer": {
     "identifier": {
-      "system": "http://fhir.de/StructureDefinition/identifier-telematik-id",
-      "value": "606358757"
+      "system": "https://gematik.de/fhir/sid/telematik-id",
+      "value": "3-SMC-B-Testkarte-883110000095957"
     }
   },
   "enteredDate": "2021-06-01T07:13:00+05:00",
