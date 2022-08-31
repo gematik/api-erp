@@ -1,0 +1,48 @@
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+
+<Communication xmlns="http://hl7.org/fhir">
+    <id value="12346"/>
+    <meta>
+        <versionId value="1"/>
+        <lastUpdated value="2020-03-12T18:01:10+00:00"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
+    </meta>
+    <basedOn>
+        <reference value="Task/160.123.456.789.123.58" />
+    </basedOn>
+    <status value="unknown" />
+    <sent value="2020-03-12T18:01:10+00:00" />
+    <recipient>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10" />
+            <value value="X234567890" />
+        </identifier>
+    </recipient>
+    <sender>
+        <identifier>
+            <system value="https://gematik.de/fhir/sid/telematik-id" />
+            <value value="3-1.54.10123404" />
+        </identifier>
+    </sender>
+    <payload>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
+            <extension url="onPremise">
+                <valueBoolean value="true" />
+            </extension>
+            <extension url="delivery">
+                <valueBoolean value="true" />
+            </extension>
+            <extension url="shipment">
+                <valueBoolean value="true" />
+            </extension>
+        </extension>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
+                <code value="10" />
+            </valueCoding>
+        </extension>
+        <contentString value="Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten." />
+    </payload>
+</Communication>

@@ -1,0 +1,122 @@
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="4d8684f1-e379-4cb2-adcb-41ab1a543206"/>
+    <meta>
+        <lastUpdated value="2022-06-14T13:54:15.203+00:00"/>
+    </meta>
+    <type value="searchset"/>
+    <total value="2"/>
+    <entry>
+        <fullUrl value="http://hapi.fhir.org/baseR4/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45"/>
+        <resource>
+            <ChargeItem xmlns="http://hl7.org/fhir">
+                <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
+                <meta>
+                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+                    <value value="200.086.824.605.539.20" />
+                </identifier>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />
+                </identifier>
+                <status value="billable" />
+                <code>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason" />
+                        <code value="not-applicable" />
+                    </coding>
+                </code>
+                <subject>
+                    <identifier>
+                        <value value="X234567890" />
+                        <assigner>
+                            <display value="Name einer privaten Krankenversicherung" />
+                        </assigner>
+                    </identifier>
+                </subject>
+                <enterer>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id" />
+                        <value value="3-15.2.1456789123.191" />
+                    </identifier>
+                </enterer>
+                <enteredDate value="2021-06-01T07:13:00+05:00" />
+                <supportingInformation>
+                    <reference value="72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4" />
+                    <display value="Abgabedatensatz" />
+                </supportingInformation>
+            </ChargeItem>
+        </resource>
+    </entry>
+    <entry>
+        <resource>
+            <Bundle xmlns="http://hl7.org/fhir">
+                <id value="ad80703d-8c62-44a3-b12b-2ea66eda0aa2" />
+                <meta>
+                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1" />
+                    <tag>
+                        <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM)" />
+                    </tag>
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+                    <value value="200.100.000.000.081.90" />
+                </identifier>
+                <type value="document" />
+                <timestamp value="2022-03-24T11:30:00Z" />
+                <entry>
+                    <fullUrl value="urn:uuid:72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
+                    <resource>
+                        <Composition>
+                            <id value="72183b44-61cf-4fe7-8f74-1e37d58fcea8" />
+                            <meta>
+                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.1" />
+                            </meta>
+                            <status value="final" />
+                            <type>
+                                <coding>
+                                    <system value="http://fhir.abda.de/eRezeptAbgabedaten/CodeSystem/DAV-CS-ERP-CompositionTypes" />
+                                    <code value="ERezeptAbgabedaten" />
+                                </coding>
+                            </type>
+                            <date value="2022-03-24T11:30:00Z" />
+                            <author>
+                                <reference value="urn:uuid:5dc67a4f-c936-4c26-a7c0-967673a70740" />
+                            </author>
+                            <title value="ERezeptAbgabedaten" />
+                            <section>
+                                <title value="Abgabeinformationen" />
+                                <entry>
+                                    <reference value="urn:uuid:335784b4-3f89-47cc-b32f-bc386a212e11" />
+                                </entry>
+                            </section>
+                            <section>
+                                <title value="Apotheke" />
+                                <entry>
+                                    <reference value="urn:uuid:5dc67a4f-c936-4c26-a7c0-967673a70740" />
+                                </entry>
+                            </section>
+                        </Composition>
+                    </resource>
+                </entry>
+            ...
+                <signature>
+                    <type>
+                        <system value="urn:iso-astm:E1762-95:2013" />
+                        <code value="1.2.840.10065.1.12.1.1" />
+                    </type>
+                    <when value="2020-03-20T07:31:34.328+00:00" />
+                    <who>
+                        <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/ErxService" />
+                    </who>
+                    <sigFormat value="application/pkcs7-mime" />
+                    <data value="ABCmZ3J1bmQg...." />
+                </signature>
+            </Bundle>
+        </entry>
+    </Bundle>

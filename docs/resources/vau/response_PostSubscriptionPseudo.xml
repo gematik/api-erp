@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Length: 510
+Content-Type: application/fhir+xml;charset=utf-8
+
+<Subscription>
+    <id value="df694c098c2fb373524150461cfd9d23"/>
+    <status value="active"/>
+    <end value="2022-01-01T00:00:00Z"/>
+    <reason value="Communication notifications" />
+    <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
+    <channel>
+        <type value="websocket"/>
+        <header value="Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI"/>
+    </channel>
+</Subscription>

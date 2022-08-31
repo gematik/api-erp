@@ -1,0 +1,171 @@
+HTTP/1.1 200 OK
+
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
+    <meta>
+        <lastUpdated value="2020-03-13T07:31:34.328+00:00"/>
+    </meta>
+    <type value="collection"/>
+    <entry>
+        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58"/>
+        <resource>
+            <Task xmlns="http://hl7.org/fhir">
+                <id value="160.123.456.789.123.58"/>
+                <meta>
+                    <versionId value="2"/>
+                    <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
+                    <source value="#AsYR9plLkvONJAiv"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                    <valueCodeableConcept>
+                        <coding>
+                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                            <code value="160" />
+                            <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+                        </coding>
+                    </valueCodeableConcept>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                    <valueDateTime value="2020-06-02" />
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                    <valueDateTime value="2020-04-01" />
+                </extension>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.123.456.789.123.58"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode"/>
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                    <value value="X123456789"/>
+                </identifier>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_Secret"/>
+                    <value value="c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"/>
+                </identifier>
+                <status value="completed"/>
+                <intent value="order"/>
+                <authoredOn value="2020-03-02T08:25:05+00:00"/>
+                <lastModified value="2020-03-02T08:45:05+00:00"/>
+                <performerType>
+                    <coding>
+                        <system value="urn:ietf:rfc:3986"/>
+                        <code value="urn:oid:1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                </performerType>
+                <input>
+                    <type>
+                        <coding>
+                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+                            <code value="1"/>
+                        </coding>
+                    </type>
+                    <valueString value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
+                </input>
+                <output>
+                    <type>
+                        <coding>
+                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+                            <code value="3"/>
+                        </coding>
+                    </type>
+                    <valueString value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
+                </output>
+            </Task>
+        </resource>
+    </entry>
+    <entry>
+        <resource>
+            <Bundle xmlns="http://hl7.org/fhir">
+                <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
+                    <tag>
+                        <display value="ePrescription receipt" />
+                    </tag>
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
+                    <value value="160.123.456.789.123.58" />
+                </identifier>
+                <type value="document" />
+                <timestamp value="2020-03-20T07:31:34.328+00:00" />
+                <entry>
+                    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Composition/example" />
+                    <resource>
+                        <Composition>
+                            <meta>
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
+                            </meta>
+                            <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
+                                <valueIdentifier>
+                                    <system value="https://gematik.de/fhir/sid/telematik-id" />
+                                    <value value="3-SMC-B-Testkarte-883110000129070" />
+                                </valueIdentifier>
+                            </extension>
+                            <status value="final" />
+                            <type>
+                                <coding>
+                                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
+                                    <code value="3" />
+                                </coding>
+                            </type>
+                            <date value="2020-03-20T07:31:34.328+00:00" />
+                            <author>
+                                <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/ErxService" />
+                            </author>
+                            <title value="Quittung" />
+                            <event>
+                                <period>
+                                    <start value="2020-03-20T07:23:34.328+00:00" />
+                                    <end value="2020-03-20T07:31:34.328+00:00" />
+                                </period>
+                            </event>
+                        </Composition>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+                    <resource>
+                        <Device>
+                            <id value="1" />
+                            <meta>
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
+                            </meta>
+                            <status value="active" />
+                            <serialNumber value="R4.0.0.287342834" />
+                            <deviceName>
+                                <name value="E-Rezept-Fachdienst" />
+                                <type value="user-friendly-name" />
+                            </deviceName>
+                            <version>
+                                <value value="1.0.0" />
+                            </version>
+                        </Device>
+                    </resource>
+                </entry>
+                <signature>
+                    <type>
+                        <system value="urn:iso-astm:E1762-95:2013" />
+                        <code value="1.2.840.10065.1.12.1.1" />
+                    </type>
+                    <when value="2020-03-20T07:31:34.328+00:00" />
+                    <who>
+                        <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+                    </who>
+                    <sigFormat value="application/pkcs7-mime" />
+                    <data value="QXVmZ3J1bmQgZGVyIENvcm9uYS1TaXR1YXRpb24ga29ubnRlIGhpZXIga3VyemZyaXN0aWcga2VpbiBCZWlzcGllbCBpbiBkZXIgTGFib3J1bWdlYnVuZyBkZXIgZ2VtYXRpayBlcnN0ZWxsdCB3ZWRlbi4gRGllc2VzIHdpcmQgbmFjaGdlcmVpY2h0LgoKSW5oYWx0bGljaCB1bmQgc3RydWt0dXJlbGwgaXN0IGRpZSBTZXJ2ZXJzaWduYXR1ciBkZXIgUXVpdHR1bmcgZWluZSBFbnZlbG9waW5nIENBZEVTLVNpZ25hdHVyLCBkaWUgZGVuIHNpZ25pZXJ0ZW4gRGF0ZW5zYXR6IGFuYWxvZyB6dXIgS29ubmVrdG9yLVNpZ25hdHVyIGlubmVyaGFsYiBkZXMgQVNOMS5Db250YWluZXJzIHRyYW5zcG9ydGllcnQu" />
+                </signature>
+            </Bundle>
+        </resource>
+    </entry>
+</Bundle>

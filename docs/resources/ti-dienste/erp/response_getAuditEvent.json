@@ -1,0 +1,222 @@
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+{
+  "resourceType": "Bundle",
+  "id": "12653b13-5fca-4e3b-860c-9558bdfef9a1",
+  "meta": {
+    "lastUpdated": "2020-03-29T13:44:18.783+00:00"
+  },
+  "type": "searchset",
+  "link": [ {
+    "relation": "self",
+    "url": "https://erp.app.ti-dienste.de/AuditEvent"
+  }, {
+    "relation": "next",
+    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20"
+  } ],
+  "entry": [ {
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862",
+    "resource": {
+      "resourceType": "AuditEvent",
+      "id": "58862",
+      "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-02-27T08:04:27.434+00:00",
+        "source": "#IkMt252YovlsJTAE",
+        "profile": [
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Praxis Dr. Müller,
+        Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>"
+      },
+      "type": {
+        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+        "code": "rest"
+      },
+      "subtype": [ {
+        "system": "http://hl7.org/fhir/restful-interaction",
+        "code": "create"
+      } ],
+      "action": "C",
+      "recorded": "2020-02-27T08:04:27.434+00:00",
+      "outcome": "0",
+      "agent": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+            "code": "humanuser",
+            "display": "Human User"
+          } ]
+        },
+        "who": {
+          "identifier": {
+            "system": "https://gematik.de/fhir/sid/telematik-id",
+            "value": "1-1.54.102323123404"
+          }
+        },
+        "name": "Praxis Dr. Müller",
+        "requestor": false
+      }],
+      "source": {
+        "site": "E-Rezept Fachdienst",
+        "observer": {
+          "reference": "Device/1234",
+        }
+      },
+      "entity": [ {
+        "what": {
+          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
+          "identifier": {
+            "use":"official",
+            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
+            "value":"160.123.456.789.123.58"
+          },
+        },
+        "name": "X123456789",
+        "description": "*160.123.456.789.123.58*"
+      } ]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }, {
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58863",
+    "resource": {
+      "resourceType": "AuditEvent",
+      "id": "58863",
+      "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-02-27T09:04:27.434+00:00",
+        "source": "#IkMt252YovlsJTAE",
+        "profile": [
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Max Mustermann hat ein E-Rezept 160.123.456.789.123.58 heruntergeladen</div>"
+      },
+      "type": {
+        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+        "code": "rest"
+      },
+      "subtype": [ {
+        "system": "http://hl7.org/fhir/restful-interaction",
+        "code": "read",
+      } ],
+      "action": "R",
+      "recorded": "2020-02-27T09:04:27.434+00:00",
+      "outcome": "0",
+      "agent": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+            "code": "humanuser",
+            "display": "Human User"
+          } ]
+        },
+        "who": {
+          "identifier": {
+            "system": "https://gematik.de/fhir/sid/telematik-id",
+            "value": "3-1.54.10123404"
+          }
+        },
+        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
+        "requestor": false
+      }],
+      "source": {
+        "site": "E-Rezept Fachdienst",
+        "observer": {
+          "reference": "Device/5678"
+        }
+      },
+      "entity": [ {
+        "what": {
+          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
+          "identifier": {
+            "use":"official",
+            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
+            "value":"160.123.456.789.123.58"
+          },
+        },
+        "name": "X123456789",
+         "description": "*160.123.456.789.123.58*"
+      } ]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }, {
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/620049",
+    "resource": {
+      "resourceType": "AuditEvent",
+      "id": "620049",
+      "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-02-27T10:04:27.434+00:00",
+        "source": "#IkMt252YovlsJTAE",
+        "profile": [
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
+        ]
+      },
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Ihre Apotheke um die Ecke,
+        Hauptstraße 1 hat ein E-Rezept 160.123.456.789.123.58 beliefert</div>"
+      },
+      "type": {
+        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+        "code": "rest"
+      },
+      "subtype": [ {
+        "system": "http://hl7.org/fhir/restful-interaction",
+        "code": "update"
+      } ],
+      "action": "U",
+      "recorded": "2020-02-27T10:04:27.434+00:00",
+      "outcome": "0",
+      "agent": [ {
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+            "code": "humanuser",
+            "display": "Human User"
+          } ]
+        },
+        "who": {
+          "identifier": {
+            "system": "https://gematik.de/fhir/sid/telematik-id",
+            "value": "3-1.54.10123404"
+          }
+        },
+        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
+        "requestor": false
+      }],
+      "source": {
+        "site": "E-Rezept Fachdienst",
+        "observer": {
+          "reference": "Device/1234"
+        }
+      },
+      "entity": [ {
+        "what": {
+           "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
+          "identifier": {
+            "use":"official",
+            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
+            "value":"160.123.456.789.123.58"
+          },
+        },
+        "name": "X123456789",
+        "description": "*160.123.456.789.123.58*"
+      } ]
+    },
+    "search": {
+      "mode": "match"
+    }
+  } ]
+}

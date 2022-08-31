@@ -1,0 +1,15 @@
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap-env:Body>
+        <ns0:ExternalAuthenticate xmlns:ns0="http://ws.gematik.de/conn/SignatureService/v7.4">
+            <ns1:CardHandle xmlns:ns1="http://ws.gematik.de/conn/ConnectorCommon/v5.0">smc-b_2</ns1:CardHandle>
+            <ns2:Context xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+                <ns3:MandantId xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0">Mandant1</ns3:MandantId>
+                <ns4:ClientSystemId xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0">myPVS</ns4:ClientSystemId>
+                <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
+            </ns2:Context>
+            <ns0:BinaryString>
+                <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=</ns7:Base64Data>
+            </ns0:BinaryString>
+        </ns0:ExternalAuthenticate>
+    </soap-env:Body>
+</soap-env:Envelope>

@@ -1,0 +1,129 @@
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="48829c84-7ad7-4834-8362-2c2c109379b1"/>
+    <meta>
+        <lastUpdated value="2020-04-13T07:11:18.245+00:00"/>
+    </meta>
+    <type value="searchset"/>
+    <total value="391"/>
+    <link>
+        <relation value="self"/>
+        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?_format=html%2Fxml&amp;_sort=sent&amp;sent=gt2020-04-01&sent=lt2020-04-30"/>
+    </link>
+    <link>
+        <relation value="next"/>
+        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de?_getpages=48829c84-7ad7-4834-8362-2c2c109379b1&amp;_getpagesoffset=50&amp;_count=50&amp;_bundletype=searchset"/>
+    </link>
+    <entry>
+        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/74671"/>
+        <resource>
+            <Communication xmlns="http://hl7.org/fhir">
+                <id value="74671"/>
+                <meta>
+                    <versionId value="1"/>
+                    <lastUpdated value="2020-04-12T18:01:10+00:00"/>
+                    <source value="#H8gavJ2v535x6V3f"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq" />
+                </meta>
+                <contained>
+                    <Medication>
+                        <id value="5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                        <meta>
+                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                        </meta>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+                            <valueCoding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category" />
+                                <code value="00" />
+                            </valueCoding>
+                        </extension>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+                            <valueBoolean value="false" />
+                        </extension>
+                        <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                            <valueCode value="N1" />
+                        </extension>
+                        <code>
+                            <coding>
+                                <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+                                <code value="06313728" />
+                            </coding>
+                            <text value="Sumatriptan-1a Pharma 100 mg Tabletten" />
+                        </code>
+                        <form>
+                            <coding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+                                <code value="TAB" />
+                            </coding>
+                        </form>
+                        <amount>
+                            <numerator>
+                                <value value="12" />
+                                <unit value="TAB" />
+                                <system value="http://unitsofmeasure.org" />
+                                <code value="{tbl}" />
+                            </numerator>
+                            <denominator>
+                                <value value="1" />
+                            </denominator>
+                        </amount>
+                    </Medication>
+                </contained>
+                <status value="unknown" />
+                <about>
+                    <reference value="#5fe6e06c-8725-46d5-aecd-e65e041ca3de" />
+                </about>
+                <sent value="2020-04-12T18:01:10+00:00" />
+                <received value="2020-04-12T18:02:10+00:00" />
+                <recipient>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id" />
+                        <value value="3-1.54.10123404" />
+                    </identifier>
+                </recipient>
+                <sender>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10" />
+                        <value value="X234567890" />
+                    </identifier>
+                </sender>
+                <payload>
+                    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider">
+                        <valueIdentifier>
+                            <system value="http://fhir.de/sid/arge-ik/iknr" />
+                            <value value="104212059" />
+                        </valueIdentifier>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
+                        <extension url="onPremise">
+                            <valueBoolean value="true" />
+                        </extension>
+                        <extension url="delivery">
+                            <valueBoolean value="true" />
+                        </extension>
+                        <extension url="shipment">
+                            <valueBoolean value="false" />
+                        </extension>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType">
+                        <valueBoolean value="true" />
+                    </extension>
+                    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                        <valueCoding>
+                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                            <code value="160" />
+                            <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+                        </valueCoding>
+                    </extension>
+                    <contentString value="Hallo, ich wollte gern fragen, ob das Medikament bei Ihnen vorraetig ist." />
+                </payload>
+            </Communication>
+        </resource>
+        <search>
+            <mode value="match"/>
+        </search>
+    </entry>
+   [...]
+</Bundle>

@@ -1,0 +1,47 @@
+{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "operation",
+      "part": [
+        {
+          "name": "type",
+          "valueCode": "add"
+        },
+        {
+          "name": "path",
+          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
+          "valueBoolean": true
+        }
+      ]
+    },
+    {
+      "name": "operation",
+      "part": [
+        {
+          "name": "type",
+          "valueCode": "add"
+        },
+        {
+          "name": "path",
+           "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
+          "valueBoolean": false
+        }
+      ]
+    }
+  ]
+}

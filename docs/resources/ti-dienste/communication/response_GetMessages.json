@@ -1,0 +1,66 @@
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+{
+  "resourceType": "Bundle",
+  "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
+  "meta": {
+    "lastUpdated": "2020-04-07T14:16:55.965+00:00"
+  },
+  "type": "searchset",
+  "total": 1,
+  "link": [ {
+    "relation": "self",
+    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL"
+  } ],
+  "entry": [ {
+    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346",
+    "resource": {
+      "resourceType": "Communication",
+      "id": "12346",
+      "meta": {
+        "versionId": "1",
+        "lastUpdated": "2020-03-12T18:15:10+00:00",
+        "profile":  [
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply"
+        ]
+      },
+      "status": "unknown",
+      "sent": "2020-03-12T18:01:10+00:00",
+      "recipient":  [{
+        "identifier": {
+          "system": "http://fhir.de/sid/gkv/kvid-10",
+          "value": "X234567890"
+        }
+      }],
+      "sender": {
+        "identifier": {
+            "system": "https://gematik.de/fhir/sid/telematik-id",
+            "value": "3-1.54.10123404"
+        }
+      },
+      "payload":  [{
+        "extension":  [{
+          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
+          "extension":  [{
+            "url": "onPremise",
+            "valueBoolean": true
+          },{
+            "url": "delivery",
+            "valueBoolean": true
+          },{
+            "url": "shipment",
+            "valueBoolean": true
+          }]
+        },{
+          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState",
+          "valueCoding": {
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus",
+            "code": "10"
+          }
+        }],
+        "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"onPremise\",\"info_text\": \"Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.\", \"pickUpCodeHR\": \"12341234\", \"pickUpCodeDMC\": \"\", \"url\": \"\" }"
+      }]
+    }
+  }]
+}

@@ -1,0 +1,65 @@
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+{
+  "resourceType": "ChargeItem",
+  "id": "2872799",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2022-04-05T11:36:19.491+00:00",
+    "source": "#V4se2kvNDlSKuefe",
+    "profile": [ "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem" ]
+  },
+  "extension": [ {
+    "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag",
+    "extension": [ {
+      "url": "insuranceProvider",
+      "valueBoolean": true
+    }, {
+      "url": "subsity",
+      "valueBoolean": false
+    }, {
+      "url": "taxOffice",
+      "valueBoolean": true
+    } ]
+  } ],
+  "identifier": [ {
+    "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+    "value": "200.086.824.605.539.20"
+  }, {
+    "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+    "value": "555bjf73jr8d9si2ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+  } ],
+  "status": "billable",
+  "code": {
+    "coding": [ {
+      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+      "code": "not-applicable"
+    } ]
+  },
+  "subject": {
+
+
+    "identifier": {
+      "system": "http://fhir.de/sid/pkv/kvid-10",
+      "value": "X234567890"
+    }
+  },
+  "enterer": {
+    "identifier": {
+      "system": "https://gematik.de/fhir/sid/telematik-id",
+      "value": "3-SMC-B-Testkarte-883110000095957"
+    }
+  },
+  "enteredDate": "2021-06-01T07:13:00+05:00",
+  "supportingInformation": [ {
+    "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
+    "display": "E-Rezept"
+  }, {
+    "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+    "display": "Abgabedatensatz"
+  }, {
+    "reference": "Bundle/200.086.824.605.539.20",
+    "display": "Quittung"
+  } ]
+}

@@ -1,0 +1,111 @@
+HTTP/1.1 200 OK
+Content-Length: 3906
+Content-Type: application/fhir+xml;charset=utf-8
+
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
+    </meta>
+    <identifier>
+        <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
+        <value value="160.123.456.789.123.58" />
+    </identifier>
+    <type value="document" />
+    <timestamp value="2021-11-26T09:51:36.483+00:00" />
+    <link>
+        <relation value="self"/>
+        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close/"/>
+    </link>
+    <entry>
+        <fullUrl value="urn:uuid:c624cf47-e235-4624-af71-0a09dc9254dc" />
+        <resource>
+            <Composition>
+                <id value="c624cf47-e235-4624-af71-0a09dc9254dc"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
+                    <valueIdentifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id" />
+                        <value value="3-SMC-B-Testkarte-883110000129070" />
+                    </valueIdentifier>
+                </extension>
+                <status value="final" />
+                <type>
+                    <coding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
+                        <code value="3" />
+                        <display value= "Receipt"/>
+                    </coding>
+                </type>
+                <date value="2021-11-26T09:51:36.483+00:00" />
+                <author>
+                    <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+                </author>
+                <title value="Quittung" />
+                <event>
+                    <period>
+                        <start value="2021-11-26T09:48:36.483+00:00" />
+                        <end value="2021-11-26T09:51:36.483+00:00" />
+                    </period>
+                </event>
+                <section>
+                    <entry>
+                        <reference value="Binary/PrescriptionDigest-160.123.456.789.123.58"/>
+                    </entry>
+                </section>
+            </Composition>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+        <resource>
+            <Device>
+                <id value="1" />
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
+                </meta>
+                <status value="active" />
+                <serialNumber value="1.4.0" />
+                <deviceName>
+                    <name value="E-Rezept-Fachdienst" />
+                    <type value="user-friendly-name" />
+                </deviceName>
+                <version>
+                    <value value="1.4.0" />
+                </version>
+                <contact>
+                    <system value="email"/>
+                    <value value="betrieb@gematik.de"/>
+                </contact>
+            </Device>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/PrescriptionDigest" />
+        <resource>
+            <Binary>
+                <id value="PrescriptionDigest-160.123.456.789.123.58"/>
+                <meta>
+                    <versionId value="1"/>
+                    <profile value="http://hl7.org/fhir/StructureDefinition/Binary|4.0.1"/>
+                </meta>
+                <contentType value="application/octet-stream"/>
+                <data value="tJg8c5ZtdhzEEhJ0ZpAsUVFx5dKuYgQFs5oKgthi17M="/>
+            </Binary>
+        </resource>
+    </entry>
+    <signature>
+        <type>
+            <system value="urn:iso-astm:E1762-95:2013" />
+            <code value="1.2.840.10065.1.12.1.1" />
+        </type>
+        <when value="2021-11-26T09:51:36.484+00:00" />
+        <who>
+            <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+        </who>
+        <sigFormat value="application/pkcs7-mime" />
+        <data value="QXVmZ3J1bmQgZGVyIENvcm9uYS1TaXR1YXRpb24ga29ubnRlIGhpZXIga3VyemZyaXN0aWcga2VpbiBCZWlzcGllbCBpbiBkZXIgTGFib3J1bWdlYnVuZyBkZXIgZ2VtYXRpayBlcnN0ZWxsdCB3ZWRlbi4gRGllc2VzIHdpcmQgbmFjaGdlcmVpY2h0LgoKSW5oYWx0bGljaCB1bmQgc3RydWt0dXJlbGwgaXN0IGRpZSBTZXJ2ZXJzaWduYXR1ciBkZXIgUXVpdHR1bmcgZWluZSBFbnZlbG9waW5nIENBZEVTLVNpZ25hdHVyLCBkaWUgZGVuIHNpZ25pZXJ0ZW4gRGF0ZW5zYXR6IGFuYWxvZyB6dXIgS29ubmVrdG9yLVNpZ25hdHVyIGlubmVyaGFsYiBkZXMgQVNOMS5Db250YWluZXJzIHRyYW5zcG9ydGllcnQu" />
+    </signature>
+</Bundle>
