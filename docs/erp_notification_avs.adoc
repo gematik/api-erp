@@ -47,36 +47,63 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |Request|
 [source,xml]
 ----
-include::resources/vau/request_PostSubscriptionPseudo.xml[]
+POST /Subscription HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+User-Agent: Avs/1.0 AvSoft/GEMAvwepokrpxnwiorlc
+Cache-Control: no-cache
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+xml; charset=UTF-8
+Accept: application/fhir+xml; charset=utf-8
+ 
+<Subscription xmlns="http://hl7.org/fhir">
+  <status value="requested"/>
+  <reason value="Communication notifications" />
+  <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/> <1>
+  <channel>
+    <type value="websocket"/>
+  </channel>  
+</Subscription>
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
 
 |===
-NOTE: Das Feld ` <criteria value="*"` benennt die Suchparameter, bei denen eine Notification verschickt werden soll. Das sind zum einen `received=null` für ungelesene Nachrichten und `recipient=3-abc-12345678` die Telematik-ID der Apotheke, die mit der Telematik-ID des IDP-AccessToken übereinstimmen muss.
+<1> Das Feld `criteria` benennt die Suchparameter, bei denen eine Notification verschickt werden soll. Das sind zum einen `received=null` für ungelesene Nachrichten und `recipient=3-abc-12345678` die Telematik-ID der Apotheke, die mit der Telematik-ID des IDP-AccessToken übereinstimmen muss.
 Andere Parameter werden aktuell nicht unterstützt.
 *ACHTUNG: das "&" muss als "&amp;amp;" codiert werden.*
 
 *Response*
 [source,xml]
 ----
-include::resources/vau/response_PostSubscriptionPseudo.xml[]
+HTTP/1.1 200 OK
+Content-Length: 510
+Content-Type: application/fhir+xml;charset=utf-8
+
+<Subscription>
+  <id value="df694c098c2fb373524150461cfd9d23"/> <1>
+  <status value="active"/>
+  <end value="2022-01-01T00:00:00Z"/> <2>
+  <reason value="Communication notifications" />
+  <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
+  <channel>
+    <type value="websocket"/>
+    <header value="Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI"/> <3>
+  </channel>  
+</Subscription>
 ----
 
-NOTE: In ` <id value="df694c098c2fb373524150461cfd9d23"/>` ist eine eindeutige ID (Pseudonym der Telematik-ID) hinterlegt
-
-NOTE: Der timestamp in `<end value="2022-01-01T00:00:00Z"/> ` errechnet sich aus jetzt + 12h (UTC Timestamp) +
+<1> Eindeutige ID (Pseudonym der Telematik-ID)
+<2> timestamp = jetzt + 12h (UTC Timestamp) +
 [red]#In Klärung für RU: `jetzt + 1h` um den Verbinungsabbau nach Ablauf zu testen#
-
-NOTE: die Header müssen in ` <header value="*"` beim Web Socket Upgrade mitgegeben werden
+<3> die Header müssen beim Web Socket Upgrade mitgegeben werden
 
 Die Schnittstelle antwortet mit den typischen http-StatusCodes des RESTful-Paradigmas
 [cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success
+s|Code   s|Type Success  
 |201  |Created
-s|Code   s|Type Error
+s|Code   s|Type Error   
 |400  |Bad Request
 |401  |Unauthorized
 |403  |Forbidden
@@ -98,13 +125,13 @@ Nach der Registrierung der Subscription wird eine WebSocket-Verbindung zum eigen
 ----
 GET /subscription HTTP/1.1
 Host: subscription.zentral.erp.splitdns.ti-dienste.de
-Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI
+Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI <1>
 Connection: Upgrade
 Pragma: no-cache
 Cache-Control: no-cache
 Upgrade: websocket
 Sec-WebSocket-Version: 13
-Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw==
+Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw== <2>
 ----
 
 TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird TLS-verschlüsselt an den Subscription-Endpunkt geschickt.
@@ -113,9 +140,8 @@ TIP: Je nach eingesetztem Framework lautet die Zieladresse dann `wss://subscript
 bzw. zum Test in der TI-Referenzumgebung RU = `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443`
 
 |===
-NOTE: In `Authorization:` wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
-
-NOTE: In `Sec-WebSocket-Key` werden clientseitig generierte Nonce (16-Byte Zufallswert in base64-Codierung), siehe link:https://www.rfc-editor.org/rfc/rfc6455#page-18[RFC-6455 Seite 18, Punkt 7]
+<1> Hier wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
+<2> clientseitig generierte Nonce (16-Byte Zufallswert in base64-Codierung), siehe link:https://www.rfc-editor.org/rfc/rfc6455#page-18[RFC-6455 Seite 18, Punkt 7]
 
 
 *Response*
@@ -123,10 +149,10 @@ NOTE: In `Sec-WebSocket-Key` werden clientseitig generierte Nonce (16-Byte Zufal
 ----
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
-Connection: Upgrade
+Connection: Upgrade <1>
 Sec-WebSocket-Accept: fA9dggdnMPU79lJgAE3W4TRnyDM=
 ----
-NOTE:  Der Subscription-Service antwortet mit einem `Connection: Upgrade`
+<1> Der Subscription-Service antwortet mit einem Upgrade
 
 TIP: Der Subscription-Service antwortet beim Schließen der Websocket-Verbindung mit den Status-Codes gemäß link:https://datatracker.ietf.org/doc/html/rfc6455#section-7.4[RFC-6455], bspw. mit Status `1000` wenn ein abgelaufenes Bearer Token übergeben wird. +
 Beendet der Service die WebSocket-Verbindung aufgrund eines (internen) Fehlers, liefert er einen http-Status [502 Bad Gateway, 504 Gateway Timeout].
@@ -139,17 +165,17 @@ Das AVS registriert sich für die Subscription aus dem vorherigen Schritt, in de
 
 [source,html]
 ----
-bind: df694c098c2fb373524150461cfd9d23
+bind: df694c098c2fb373524150461cfd9d23 <1>
 ----
-NOTE: Im Value für `bind` befindet sich die `Subscription.id`
+<1> `Subscription.id`
 
 Der Subscription Service antwortet mit einer "bound" um die Einrichtung der Subscription zu bestätigen.
 
 [source,html]
 ----
-bound: df694c098c2fb373524150461cfd9d23
+bound: df694c098c2fb373524150461cfd9d23 <1>
 ----
-NOTE: `Subscription.id`
+<1> `Subscription.id`
 
 
 == Benachrichtigung
@@ -157,9 +183,9 @@ Ist eine neue Communication eingegangen, benachrichtigt der Subscription-Service
 
 [source,html]
 ----
-ping: df694c098c2fb373524150461cfd9d23
+ping: df694c098c2fb373524150461cfd9d23 <1>
 ----
-NOTE: `Subscription.id`
+<1> `Subscription.id`
 
 WARNING: Hinweis: die Nachricht `ping: df694c098c2fb373524150461cfd9d23` ist *KEIN* `Ping` der Ping/Pong Control Frames für das Aufrechterhalten der Verbindung (siehe https://datatracker.ietf.org/doc/html/rfc6455#section-5.5).
 
@@ -168,7 +194,52 @@ Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine n
 == Beispielhafte Implementierung für Primärsysteme
 [source,c++]
 ----
-include::resources/vau/ping_Subscription.cpp[]
+using System;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+
+class Program {
+    static void Main() {
+        //subscriptionId und bearertoken aus VAU-Request /Subcription extrahieren
+        CreateSocket("df694c098c2fb373524150461cfd9d23",
+            "Bearer eyJhbGciOiJFUzI1NiJ9.CnsKInN1YnNjcmlwdGlvbklkIjogImRmNjk0YzA5OGMyZmIzNzM1MjQxNTA0NjFjZmQ5ZDI…");
+    }
+
+    private static void CreateSocket(string subscriptionId, string bearertoken) {
+        var _websocketObj = new ClientWebSocket();
+        _websocketObj.Options.SetRequestHeader("Authorization", bearertoken);
+        //url RU: "wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de" und PU: "wss://subscription.zentral.erp.splitdns.ti-dienste.de"
+        _websocketObj.ConnectAsync(new Uri("wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de/subscription"), CancellationToken.None)
+            .Wait();
+
+        if (_websocketObj.State != WebSocketState.Open) {
+            throw new Exception("Websocket ist nicht geöffnet");
+        }
+
+        {
+            var bind = $"bind: {subscriptionId}";
+            _websocketObj.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(bind)), WebSocketMessageType.Text, true, CancellationToken.None)
+                .Wait();
+            Console.Out.WriteLine($"Websocket-Bind: {bind}");
+
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            Console.Out.WriteLine($"Websocket-Bound: {res}");
+        }
+
+        while (true) {
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            if (wsr.Count > 0) {
+                Console.Out.WriteLine($"Websocket-Empfangen: {res} ({wsr.Count} Bytes) -> es liegen neue Nachrichten bereit!");
+            }
+        }
+    }
+}
 ----
 
 == => Wichtige Hinweise <=

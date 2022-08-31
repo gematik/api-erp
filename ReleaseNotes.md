@@ -1,3 +1,7 @@
+# Release 1.2.6
+- revert latest release
+- gitub doe not support include action from adoc
+
 # Release 1.2.5
 - Herauslösung von Beispiel requests und responds
 - Ersetzung von Links auf korrekte Umgebung

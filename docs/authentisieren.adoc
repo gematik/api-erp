@@ -113,17 +113,50 @@ SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertifica
 |Payload    |
 [source,xml]
 ----
-include::resources/konnektorservice/request_ReadCardCertificate.xml[]
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+	<S:Body>
+		<ns8:ReadCardCertificate xmlns:ns2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns6="http://ws.gematik.de/tel/error/v2.0" xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns8="http://ws.gematik.de/conn/CertificateService/v7.4" xmlns:ns9="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+			<ns5:CardHandle>smc-b_2</ns5:CardHandle>
+			<ns9:Context>
+				<ns5:MandantId>Mandant1</ns5:MandantId>
+				<ns5:ClientSystemId>myPVS</ns5:ClientSystemId>
+				<ns5:WorkplaceId>WP1</ns5:WorkplaceId>
+			</ns9:Context>
+			<ns8:CertRefList>
+				<ns8:CertRef>C.AUT</ns8:CertRef> <1>
+			</ns8:CertRefList>
+		</ns8:ReadCardCertificate>
+	</S:Body>
+</S:Envelope>
 ----
-NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
+<1> Hier wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
 |===
 
 *Response*
 [source,xml]
 ----
-include::resources/konnektorservice/response_ReadCardCertificate.xml[]
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns3:ReadCardCertificateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns3="http://ws.gematik.de/conn/CertificateService/v7.4" xmlns:ns4="http://ws.gematik.de/tel/error/v2.0" xmlns:ns5="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns6="http://www.w3.org/2000/09/xmldsig#" xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+			<Status>
+				<Result>OK</Result>
+			</Status>
+			<ns5:X509DataInfoList>
+				<ns5:X509DataInfo>
+					<ns5:X509Data>
+						<ns5:X509Certificate>MIIFcTCCBFmgAwIBAgIHAXumDkbX3zANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxSDBGBgNVBAsMP0luc3RpdHV0aW9uIGRlcyBHZXN1bmRoZWl0c3dlc2Vucy1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLlNNQ0ItQ0EyNCBURVNULU9OTFkwHhcNMjAwNjEwMDAwMDAwWhcNMjUwNjA5MjM1OTU5WjCB+DELMAkGA1UEBhMCREUxFDASBgNVBAcMC03DvGhsaGF1c2VuMQ4wDAYDVQQRDAU5OTk3NDEeMBwGA1UECQwVTGFuZ2Vuc2FsemFlciBTdHIuIDI1MSowKAYDVQQKDCEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgxHTAbBgNVBAUTFDgwMjc2ODgzMTEwMDAwMTI5MDY4MRQwEgYDVQQEDAtCbGFua2VuYmVyZzEWMBQGA1UEKgwNRG9taW5pay1QZXRlcjEqMCgGA1UEAwwhQXBvdGhla2UgYW0gU3BvcnR6ZW50cnVtVEVTVC1PTkxZMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjVMEf2TTXlfkuCDyiMpo96jA5XRvkaHTy+4qTcDR1awUP4yemfKsB1BTWMMSDrA1/2YdnlZJeynEnQi0K4LWMvTcq+CRGi4ghcIokb2TURZXZ1K6FTJHqITojp9ZRaNTap+kIpOZCmSRa7ftRzEgooPjG6C+7XxUViczlVE17UJMPavWQfY2+A1M/0vx9Jbi7wPmXCMuEvj7yEAVRCGQExVxzbLZPE7FS/vlXcwkFtmnMUVWiQFFXlVLG7uUc9CQFvTXPT5ppDhxAmVeUBLNXKruDkpSeuq3sCi93ln9hXXw/xPeNAAehtvxFp6eMGf5LEVGvZj8v51qu4eDPaKtJwIDAQABo4IBWjCCAVYwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdDgQWBBSEkJ1lgmhiHfVZyKKyVw2Qd86PPDA4BggrBgEFBQcBAQQsMCowKAYIKwYBBQUHMAGGHGh0dHA6Ly9laGNhLmdlbWF0aWsuZGUvb2NzcC8wDAYDVR0TAQH/BAIwADAgBgNVHSAEGTAXMAoGCCqCFABMBIEjMAkGByqCFABMBE0wHwYDVR0jBBgwFoAUeunhb+oUWRYF7gPp0/0hq97p2Z4wgYQGBSskCAMDBHsweaQoMCYxCzAJBgNVBAYTAkRFMRcwFQYDVQQKDA5nZW1hdGlrIEJlcmxpbjBNMEswSTBHMBcMFcOWZmZlbnRsaWNoZSBBcG90aGVrZTAJBgcqghQATAQ2EyEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgwDQYJKoZIhvcNAQELBQADggEBAGwmbkXMdRrIZwTzUVsdH6RUB7cc3+CcDN0NqLSOM7sdCQrr5NfzcK2dzhc77KVzviZbvz6MxfEq47Y/dPMmtVlU0Amw5bbnYT4WnadjrLOHnKCxLFssrfo0izB7IJvBswMQl/KnUXbk/X57KcNKTYOfuCVVVt+yET63N4qp9YOPiMdCHxu+BUvgwmOgr/enRnh+HgCYVQtzLmDXimBcneRoZg3XgukoMQPd5TlVlZAF1JZ6W8uGN+LEiddnHdzYFVInest3xMzwHj4T3lXLCkr6oc9jvwKe2A2qsBvcbEFDR0mi0CW9NjfJ05v/52GKZZZyjEnFjnHJ1J5r1DlD5S8=
+            </ns5:X509Certificate> <1>
+					</ns5:X509Data>
+				</ns5:X509DataInfo>
+			</ns5:X509DataInfoList>
+		</ns3:ReadCardCertificateResponse>
+	</soap:Body>
+</soap:Envelope>
 ----
-NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
+<1> Der Konnektor liefert das Zertifikat zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
 [cols="a,a"]
 [%autowidth]
@@ -150,17 +183,45 @@ Diese technische Rolle muss das Primärsystem im Anschluß gegen die Rolle des e
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
-Content-Length: 1234
+Content-Length: 1234 <1>
 SOAPAction: "http://ws.gematik.de/conn/CertificateService/v6.0#VerifyCertificate"
-----
-IMPORTANT: Die Länge des Soap-Requests, muss entsprechend im Header mit der Eigenschaft `Content-Length` gesetzt werden.
 ----
 |Payload    |
 [source,xml]
 ----
-include::resources/konnektorservice/request_VerifyCertificate.xml[]
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:m0="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+    xmlns:m1="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+    xmlns:m2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0">
+  <SOAP-ENV:Body>
+    <m:VerifyCertificate xmlns:m="http://ws.gematik.de/conn/CertificateService/v6.0">
+      <m0:Context>
+        <m1:MandantId>Mandant1</m1:MandantId>
+        <m1:ClientSystemId>ClientID1</m1:ClientSystemId>
+        <m1:WorkplaceId>CATS</m1:WorkplaceId>
+      </m0:Context>
+      <m2:X509Certificate>MIICsTCCAligAwIBAgIHA61I5ACUjTAKBggqhkjOPQQDAjCBhDELMAkGA1UEBhMCREUxHzAdBgNV
+BAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBU
+ZWxlbWF0aWtpbmZyYXN0cnVrdHVyMSAwHgYDVQQDDBdHRU0uS09NUC1DQTEwIFRFU1QtT05MWTAe
+Fw0yMDA4MDQwMDAwMDBaFw0yNTA4MDQyMzU5NTlaMEkxCzAJBgNVBAYTAkRFMSYwJAYDVQQKDB1n
+ZW1hdGlrIFRFU1QtT05MWSAtIE5PVC1WQUxJRDESMBAGA1UEAwwJSURQIFNpZyAxMFowFAYHKoZI
+zj0CAQYJKyQDAwIIAQEHA0IABJZQrG1NWxIB3kz/6Z2zojlkJqN3vJXZ3EZnJ6JXTXw5ZDFZ5Xjw
+Wmtgfomv3VOV7qzI5ycUSJysMWDEu3mqRcajge0wgeowHQYDVR0OBBYEFJ8DVLAZWT+BlojTD4MT
+/Na+ES8YMDgGCCsGAQUFBwEBBCwwKjAoBggrBgEFBQcwAYYcaHR0cDovL2VoY2EuZ2VtYXRpay5k
+ZS9vY3NwLzAMBgNVHRMBAf8EAjAAMCEGA1UdIAQaMBgwCgYIKoIUAEwEgUswCgYIKoIUAEwEgSMw
+HwYDVR0jBBgwFoAUKPD45qnId8xDRduartc6g6wOD6gwLQYFKyQIAwMEJDAiMCAwHjAcMBowDAwK
+SURQLURpZW5zdDAKBggqghQATASCBDAOBgNVHQ8BAf8EBAMCB4AwCgYIKoZIzj0EAwIDRwAwRAIg
+VBPhAwyX8HAVH0O0b3+VazpBAWkQNjkEVRkv+EYX1e8CIFdn4O+nivM+XVi9xiKK4dW1R7MD334O
+pOPTFjeEhIVV</m2:X509Certificate> <1>
+    </m:VerifyCertificate>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
-NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certificate></m2:X509Certificate>` identifiziert.
+<1> Länge des Soap-Requests, muss entsprechend gesetzt werden.
+<2> Das zu prüfende Zertifikat in Base64-DER-Codierung.
 |===
 
 *Response*
@@ -168,11 +229,30 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
-include::resources/konnektorservice/response_VerifyCertificate.xml[]
-----
-NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
 
-NOTE: in `<ns4:Role>VALID</<ns4:Role>` ist die technische Rolle hinterlegt, wie im Zertifikat angegeben.
+<SOAP-ENV:Envelope
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns4:VerifyCertificateResponse
+            xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns4="http://ws.gematik.de/conn/CertificateService/v6.0">
+            <ns2:Status>
+                <ns2:Result>OK</ns2:Result>
+            </ns2:Status>
+            <ns4:VerificationStatus>
+                <ns4:VerificationResult>VALID</ns4:VerificationResult> <1>
+            </ns4:VerificationStatus>
+            <ns4:RoleList>
+                <ns4:Role>1.2.276.0.76.4.260</ns4:Role> <2>
+            </ns4:RoleList>
+        </ns4:VerifyCertificateResponse>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+----
+<1> Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig]
+<2> Technische Rolle, wie im Zertifikat angegeben.
 
 NOTE: Aufgrund der im Feld befindlichen unterschiedlichen Konnektorversionen ist ggfs. nicht in allen Installationen die aktuell gültige Liste der OIDs gemäß gemSpec_OID bekannt. Daher kann es vorkommen, dass einige Konnektorversionen die Zertifikate als ungültig betrachten. Die gematik arbeitet an einer Lösung, die Primärsystemen die Implementierung des PKI-Stacks in einer Übergangsphase erspart.
 
@@ -198,11 +278,24 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
 |Payload    |
 [source,xml]
 ----
-include::resources/konnektorservice/request_ExternalAuthenticate.xml[]
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap-env:Body>
+    <ns0:ExternalAuthenticate xmlns:ns0="http://ws.gematik.de/conn/SignatureService/v7.4">
+      <ns1:CardHandle xmlns:ns1="http://ws.gematik.de/conn/ConnectorCommon/v5.0">smc-b_2</ns1:CardHandle> <1>
+      <ns2:Context xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+        <ns3:MandantId xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0">Mandant1</ns3:MandantId>
+        <ns4:ClientSystemId xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0">myPVS</ns4:ClientSystemId>
+        <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
+      </ns2:Context>
+      <ns0:BinaryString>
+        <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=</ns7:Base64Data> <2>
+      </ns0:BinaryString>
+    </ns0:ExternalAuthenticate>
+  </soap-env:Body>
+</soap-env:Envelope>
 ----
-NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
-
-NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Hashwert zur Challenge (Base64-Darstellung des Challengetoken, das zuvor vom IDP bezogen wurde).
+<1> Entsprechend der Mandantenkonfiguration wird hier die SMC-B referenziert, welche der IDP authentifizieren soll.
+<2> Der zu signierende Hashwert zur Challenge (Base64-Darstellung des Challengetoken, das zuvor vom IDP bezogen wurde).
 |===
 
 *Response*
@@ -210,9 +303,21 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
-include::resources/konnektorservice/response_ExternalAuthenticate.xml[]
-----
 
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <ns4:ExternalAuthenticateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns4="http://ws.gematik.de/conn/SignatureService/v7.4" xmlns:ns5="http://www.w3.org/2000/09/xmldsig#" xmlns:ns6="http://ws.gematik.de/tel/error/v2.0" xmlns:ns7="http://uri.etsi.org/01903/v1.3.2#" xmlns:ns8="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0" xmlns:ns9="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:ns10="http://www.w3.org/2001/04/xmlenc#" xmlns:ns11="http://uri.etsi.org/02231/v2#" xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#" xmlns:ns13="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#" xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion">
+      <Status>
+        <Result>OK</Result>
+      </Status>
+      <ns3:SignatureObject>
+        <ns3:Base64Signature Type="urn:ietf:rfc:3447">iSCNtUJUaH3uameymaYdplnmn5iq6k90a8i/TvSRvYOjw3x7zXn6+74LoVDc1xWNplmy6fzZejoIZAPxAJ0wBGQWFbdpD6ZLdOqC+Cm3BXUEXHeW2swfI6KfUwfWj43pujBTdzYI6JYG08sL63fxuY9eeGndzuWCDvHQVK0bPPjxq0K/fHx+PFQ1DxuNr5jbDaCBKOegPvcPXOFBY8dRGW0fu/T8baEpm5ACNGmX3vIqC3SWsP7M1TcTbEwxh82vMc0iOkIVDa2LKJAk5H4gSBBAGJahsFD3N3fnKgdLr81HiEQaoIyb+uEIVvaemz8yQ59dAIv3Hrb0Em5k/faHDQ==</ns3:Base64Signature> <1>
+      </ns3:SignatureObject>
+    </ns4:ExternalAuthenticateResponse>
+  </soap:Body>
+</soap:Envelope>
+----
+<1> Dieses Element enthält die Signatur, die mittels Konnektor und dem privaten Schlüssel der SMC-B erstellt wurde.
 
 [cols="a,a"]
 [%autowidth]
@@ -224,8 +329,6 @@ include::resources/konnektorservice/response_ExternalAuthenticate.xml[]
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |===
-
-NOTE: `<ns3:Base64Signature></ns3:Base64Signature>` enthält die Signatur, die mittels Konnektor und dem privaten Schlüssel der SMC-B erstellt wurde.
 
 NOTE: *Nutzung der Gesundheitskarte* +
 Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte aus.
@@ -300,13 +403,13 @@ Zunächst muss das Verschlüsselungszertifikat der VAU vom E-Rezept-Fachdienst a
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificate
 |Method     |GET
-|HTTP Header |X-erp-user: l
-
-NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+|HTTP Header |X-erp-user: l <1>
 |Payload    | -
 |Response |
 [source,json]
 ----
+<1> Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+
 HTTP/1.1 200 OK
 Content-Type: application/pkix-cert
 
@@ -321,13 +424,13 @@ Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die e
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse
 |Method     |GET
-|HTTP Header |X-erp-user: l
-
-NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+|HTTP Header |X-erp-user: l <1>
 |Payload    | -
 |Response |
 [source,json]
 ----
+<1> Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+
 HTTP/1.1 200 OK
 Content-Type: application/ocsp-response
 
@@ -366,14 +469,12 @@ Diese Zeichenkette wird nun mit dem ECIES-Verfahrens [SEC1-2009] und dem öffent
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAU/0
 |Method     |POST
 |HTTP Header |`Content-Type: application/octet-stream` +
-X-erp-user: l
-
-NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+X-erp-user: l <1>
 |HTTP Body   |`1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100`
 |Response |
 [source,json]
 ----
-
+<1> Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
 
 HTTP/1.1 200 OK
 Content-Type: application/octet-stream
@@ -390,7 +491,91 @@ Nach dem erfolgreichen Abschluss der Bearbeitung des Requests durch die VAU des 
 Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstellung der verschlüsselten Antwort. Die innere HTTP-Response des fachlichen Ergebnisses aus der VAU kann dabei einen abweichenden HTTP-Statuscode beinhalten, wenn aufgrund der Daten oder Verarbeitung innerhalb der VAU Fehlerzustände eintreten oder ungültige Daten übergeben wurden. Sei `001111101111100110001001001111010110010010111110101100100011110...` die verschlüsselte Response zum obigen Beispiel. Die Entschlüsselung mit dem für den Request generierten Antwortschlüssel `16bac90134c635e4ec85fae0e4885d9f`mittels AES-GCM liefert die innere HTTP-Response der VAU als leerzeichengetrennte Zeichenkette:
 [source,json]
 ----
-include::resources/vau/response_InnerVau.json[]
+1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+
+{
+  "resourceType": "Bundle",
+  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "meta": {
+    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "link": [{
+    "relation": "self",
+    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
+  }],
+  "entry": [{
+    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58",
+    "resource": {
+      "resourceType": "Task",
+      "id":"160.123.456.789.123.58",
+      "meta": {
+        "profile":  [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+        ]
+      },
+      "extension":  [{
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+        "valueCoding": {
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+          "code": "160",
+          "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+        }
+      }, {
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+        "valueDateTime": "2020-03-02T08:25:05+00:00"
+      }, {
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+        "valueDateTime": "2020-05-02T08:25:05+00:00"
+      }],
+      "identifier":  [{
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
+        "value": "160.123.456.789.123.58"
+      }, {
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode",
+        "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+      }, {
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_Secret",
+        "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
+      }],
+      "status": "in-progress",
+      "intent": "order",
+      "for": {
+        "identifier": {
+          "system": "http://fhir.de/sid/gkv/kvid-10",
+          "value": "X123456789"
+        }
+      },
+      "authoredOn": "2020-03-02T08:25:05+00:00",
+      "lastModified": "2020-03-02T08:45:05+00:00",
+      "performerType":  [{
+        "coding":  [{
+          "system": "urn:ietf:rfc:3986",
+          "code": "urn:oid:1.2.276.0.76.4.54",
+          "display": "Öffentliche Apotheke"
+        }]
+      }],
+      "input":  [{
+        "type": {
+          "coding":  [{
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
+            "code": "1",
+            "display": "Health Care Provider Prescription"
+          }]
+        },
+        "valueReference": {
+          "reference": "Bundle/KbvPrescriptionExample"
+        }
+      }]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }]
+}
 ----
 
 NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body
