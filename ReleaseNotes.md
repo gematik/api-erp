@@ -1,3 +1,8 @@
+# Release 1.2.7
+- FHIR Version Timeline
+- Api Beschreibung EGK in der Apotheke
+- Updated Link zu TA7 Anlage 2 des GKV SV
+
 # Release 1.2.6
 - revert latest release
 - gitub doe not support include action from adoc
