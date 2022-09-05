@@ -1,3 +1,6 @@
+# Release 1.3.0
+Verbesserung der Fehlerbeschreibung für Fehlercode 403 in erp_abrufen_egk
+
 # Release 1.2.9
 Verbesserungen an Api Beschreibung eGK in der Apotheke
 
