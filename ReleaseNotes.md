@@ -1,3 +1,6 @@
+# Release 1.3.1
+Fixed formatting bug in 'erp_steuerung_durch_le'
+
 # Release 1.3.0
 Verbesserung der Fehlerbeschreibung für Fehlercode 403 in erp_abrufen_egk
 
