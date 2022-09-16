@@ -1,3 +1,6 @@
+# Release 1.3.3
+* corrected errorcodes for $abort operations
+
 # Release 1.3.2
 * added Healthcheck doku
 * internal refactoring to use includes
