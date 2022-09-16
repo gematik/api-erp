@@ -1,0 +1,22 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns8:ReadCardCertificate xmlns:ns2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns6="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion"
+            xmlns:ns8="http://ws.gematik.de/conn/CertificateService/v7.4"
+            xmlns:ns9="http://ws.gematik.de/conn/ConnectorContext/v2.0">
+            <ns5:CardHandle>smc-b_2</ns5:CardHandle>
+            <ns9:Context>
+                <ns5:MandantId>Mandant1</ns5:MandantId>
+                <ns5:ClientSystemId>myPVS</ns5:ClientSystemId>
+                <ns5:WorkplaceId>WP1</ns5:WorkplaceId>
+            </ns9:Context>
+            <ns8:CertRefList>
+                <ns8:CertRef>C.AUT</ns8:CertRef>
+            </ns8:CertRefList>
+        </ns8:ReadCardCertificate>
+    </S:Body>
+</S:Envelope>

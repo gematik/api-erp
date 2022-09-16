@@ -1,0 +1,400 @@
+include::./config-source.adoc[]
+
+= E-Rezept API-Dokumentation für die PKV-Abrechnungsinformationen
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die elektronische Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte.
+
+toc::[]
+
+== Profilierung
+Für diesen Anwendungsfall wird die FHIR-Ressource "ChargeItem": http://hl7.org/fhir/chargeitem.html profiliert.
+Die Profile können als JSON- oder XML-Datei hier eingesehen werden: https://simplifier.net/erezept-patientenrechnung/gem-erpchrg-pr-chargeitem
+
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst:
+|===
+|*Name* |*Beschreibung*
+2+s|ChargeItem
+|extension.markingFlag |Boolsche Werte für den Versicherten zum Markieren, ob das ChargeItem bei Institutionen eingereicht wurde
+|identifier.PrescriptionId |ID des ChargeItems, zugleich Rezept-ID
+|identifier.AccessCode |Geheimnis zum Ändern des ChargeItems
+|status |Status des ChargeItems. Fester Wert auf "billable"
+|code |Pflichtfeld, welches nicht verwendet wird. Verwenden Sie das Codesystem http://terminology.hl7.org/CodeSystem/data-absent-reason#not-applicable.
+|subject |Versicherten-ID des PKV-Patienten
+|enterer |Telematik-ID der abgebenden LEI
+|enteredDate |Zeitstempel der Erstellung eines ChargeItem
+|supportingInformation |Referenz auf die drei Bestandteile der Abrechnungsinformationen (Verordnungs-, Abgabedatensatz und die Quittung)
+|===
+
+In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
+
+==  Anwendungsfall PKV-Abrechnungsinformationen durch den abgebenden Leistungserbringer bereitstellen
+Als Apotheker möchte ich dem Versicherten seine Abrechnungsinformationen bereitstellen. Die Abrechnungsinformationen werden über die FHIR-Ressource "ChargeItem" abgebildet. Das ChargeItem enthält Referenzen auf die dazugehörenden Datensätze (als Bundle abgebildet), Verordnungsdatensatz, Abgabedatensatz und die Quittung.
+Der Abgabedatensatz wird als Contained-Objekt in dem ChargeItem mitgegeben. Der E-Rezept-Fachdienst extrahiert dieses Binary, speichert es gesondert ab und erstellt eine Referenz in der ChargeItem-Resource.
+Das Attribut "ChargeItem.Code" ist nach dem FHIR-Standard ein Pflichtfeld, wird aber in diesem Kontext fachlich nicht benötigt. Deshalb wird hier ein Platzhalter-Codesystem angewendet.
+
+Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im http-Request-Header Authorization muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=…​ muss das beim Abrufen des E-Rezepts (`$accept`) im Task generierte Secret für die Berechtigungsprüfung übergeben werden.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Mit dem Parameter `task=...` wird die Zuordnung zum Task des eingelösten Rezepts hergestellt. +
+Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheke aus, im Token ist die `TelematikID` und `professionOID` für die Rollenprüfung enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` (kleines L) und `X-erp-resource: ChargeItem` zu setzen.
+
+|Payload    |
+[source,xml]
+----
+include::../examples/prescriptionserver/request_PostChargeItem.xml[]
+----
+NOTE: In `<id value="Abg123"/>` befindet sich der Abgabgedatensatz als Contained-Bundle. Das Contained-Bundle wird später durch den Fachdienst als eigenständiges Bundle in "supportingInformation" referenziert.
+
+NOTE: In `<value value="X234567890"/>` findet sich die Angabe eines PKV-Identifier.
+
+NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Objekt.
+|===
+
+
+*Response*
+[source,xml]
+----
+include::../examples/prescriptionserver/response_PostChargeItem.xml[]
+----
+
+
+[cols="a,a"]
+|===
+|Code   |Type Success
+|201  |Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
+|Code   |Type Error
+|400  |Bad Request +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut. Mögliche Gründe: Fehlender URL-Parameter task; Die übermittelte ChargeItem-Ressource ist nicht schema-konform.; Der übermittelte PKV-Abgabedatensatz ist nicht schema-konform.; Die Signatur des PKV-Abgabedatensatzes konnte nicht erfolgreich validiert werden.; Der referenzierte Task entspricht nicht den zulässigen FlowTypes.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Mögliche Gründe: Der authentifizierte Benutzer ist nicht berechtigt; Es liegt keine Einwilligung zum Speichern der Abrechnungsinformationen durch den Versicherten vor.; Fehlender URL-Parameter secret; Der in secret übermittelte Wert stimmt nicht mit dem Geheimnis in Task.secret überein.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Es wurde kein entsprechendes Task-Objekt mit dem Status Task.status = completed gefunden.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Abrechnungsinformationen abrufen
+Als Apotheker möchte ich eine von mir erstellte Abrechnungsinformation abrufen, um sie bearbeiten zu können oder sie zu kontrollieren. Falls die Abrechnung eine Korrektur benötigt, kann der Versicherte um eine Änderung des PKV-Abgabedatensatzes bitten. Liegen die Daten im System nicht mehr vor, übermittelt der Versicherte der Apotheke den AccessCode zum Ändern mittels einer Nachricht über das E-Rezept-FdV oder durch Anzeige zum Abscannen im E-Rezept-FdV.
+
+Rückgabewert ist ein Bundle, welches das ChargeItem und den Abgabedatensatz, mit seiner Signatur im CAdES-Enveloping-Format, beinhaltet.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem/'PrescriptionID'`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die ChargeItem-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    | -
+|===
+
+*Response*
+[source,xml]
+----
+include::../examples/prescriptionserver/response_GetCargeItem.xml[]
+----
+NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt.
+
+NOTE: Das `<signature>` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
+
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+== Anwendungsfall PKV-Abgabedatensatz ändern
+Als Apotheke möchte ich einen von mir erstellten PKV-Abgabedatensatz auf Wunsch des Versicherten ändern. Liegen die Daten im System nicht mehr vor, übermittelt der Versicherte der Apotheke den AccessCode zum Ändern mittels einer Nachricht über das E-Rezept-FdV oder durch Anzeige zum Abscannen im E-Rezept-FdV.
+Der zuvor im E-Rezept-Fachdienst gespeicherte PKV-Abgabedatensatz wird überschrieben. Es werden keine älteren Versionen im E-Rezept-Fachdienst gespeichert.
+
+Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'PrescriptionID'`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
+|Method     |PUT
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+[source,xml]
+----
+include::../examples/prescriptionserver/request_PutChargeItem.xml[]
+----
+NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabedatensatz ein.
+|===
+
+*Response*
+[source,xml]
+----
+include::../examples/prescriptionserver/response_PutChargeItem.xml[]
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist oder weil keine Einwilligung vorliegt.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+== Anwendungsfall Abrechnungsinformationen durch den Versicherten abrufen
+Als Versicherter möchte ich auf meine Abrechnungsinformationen zugreifen und diese in der E-Rezept-App einsehen können. Sind die Abrechunngsinformationen nicht bekannt (z.B. beim Wechsel des Smartphones), können diese mit einem GET-Befehl abgerufen werden. Werden ein oder mehrere ChargeItems gefunden, erfolgt die Rückgabe als Liste aller gefundenen ChargeItems ohne die im ChargeItem enthaltenen Referenzen.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem/
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    | -
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/prescriptionserver/response_GetChargeItemsVersicherter.json[]
+----
+NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
+
+
+Sind die ChargeItem-Instanzen in der App bekannt, kann direkt auf eine konkrete Instanz zugegriffen werden. Es wird das ChargeItem mit den referenzierten Bundles zurückgegeben.
+
+Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, den Abgabedatensatz und die Quittung beinhaltet. An den drei Abrechnungsdatensätzen (Verordnungs-, Abgabedatensatz und an der Quittung hängt die Signatur im CAdES-Enveloping-Format).
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/prescriptionserver/response_GetChargeItemVersicherterById.json[]
+----
+NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
+
+NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+== Anwendungsfall Abrechnungsinformationen durch den Versicherten ändern
+Als Versicherter möchte ich vorhandene Abrechnungsinformationen ändern, indem ich markiere, ob ich meine Abrechnungsdaten bei Abrechnungsstellen eingereicht habe.
+
+Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|Method     |PATCH
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+json; charset=utf-8
+----
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+[source,json]
+----
+include::../examples/prescriptionserver/request_PatchChargeItem.xml[]
+----
+NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
+
+NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"` Element, welches geändert werden soll.
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/prescriptionserver/response_PatchChargeItem.json[]
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Löschen der Abrechnungsinformationen durch den Versicherten
+Als Versicherter möchte ich eine durch die Apotheke eingestellte Abrechnungsinformation löschen. Das Löschen erfolgt unwiederbringlich.
+
+Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/ChargeItem`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Consent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|Method     |DELETE
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 204 No Content
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

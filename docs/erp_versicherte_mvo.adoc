@@ -1,24 +1,18 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
 image:gematik_logo.png[width=35%]
 
 = E-Rezept API Dokumentation für Versicherte - Mehrfachverordnungen
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten. 
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
 
 Mehrfachverordnungen sollen die Versorgung mit Arzneimittel für chronisch Kranke erleichtern.
 Für Versicherte, die eine kontinuierliche Versorgung mit einem bestimmten Arzneimittel benötigen, können Vertragsärzte Verordnungen ausstellen, nach denen eine nach der Erstabgabe bis zu dreimal sich wiederholende Abgabe erlaubt ist.
@@ -37,7 +31,7 @@ image:api_mvo_gueltigkeit.png[width=100%]
 == Datenmodell der Mehrfachverordnung
 Eine Mehrfachverordnung besteht aus 2 bis max. 4 unabhängigen Teilverordnungen. Jede Teilverordnung ist ein (zahn)ärztlich signiertes E-Rezept gemäß der link:https://simplifier.net/erezept[KBV-Festlegungen^] für einen Verordnungsdatensatz.
 
-TIP: Beispieldatensätze finden sich im Unterverzeichnis link:../samples/MVO_KBV_1.0.2_.zip[samples/MVO_KBV_1.0.2_.zip] 
+TIP: Beispieldatensätze finden sich im Unterverzeichnis link:../samples/MVO_KBV_1.0.2_.zip[samples/MVO_KBV_1.0.2_.zip]
 
 Die folgenden Felder sind dabei charakteristisch für die Teilverordnungen einer Mehrfachverordnung
 
@@ -73,4 +67,4 @@ MedicationRequest.extension:Mehrfachverordnung.extension:Zeitraum.value[x]:value
 
 WARNING: Patienten haben zu jeder Zeit die Möglichkeit, alle Teilverordnungen einer Mehrfachverordnung über die E-Rezept-App einzusehen und die Einlöseinformationen als Datamatrix oder Zuweisung an Apotheken zu teilen (und bei Bedarf zu löschen).
 
-WARNING: Apotheken sind VOR dem Gültigkeitsbeginn `valuePeriod.start` nicht berechtigt, eine Teilverordnung herunterzuladen. 
+WARNING: Apotheken sind VOR dem Gültigkeitsbeginn `valuePeriod.start` nicht berechtigt, eine Teilverordnung herunterzuladen.

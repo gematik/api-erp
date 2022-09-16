@@ -1,0 +1,85 @@
+1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+
+{
+  "resourceType": "Bundle",
+  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "meta": {
+    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "link": [{
+    "relation": "self",
+    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
+  }],
+  "entry": [{
+    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58",
+    "resource": {
+      "resourceType": "Task",
+      "id":"160.123.456.789.123.58",
+      "meta": {
+        "profile":  [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+        ]
+      },
+      "extension":  [{
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+        "valueCoding": {
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+          "code": "160",
+          "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+        }
+      }, {
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+        "valueDateTime": "2020-03-02T08:25:05+00:00"
+      }, {
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+        "valueDateTime": "2020-05-02T08:25:05+00:00"
+      }],
+      "identifier":  [{
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
+        "value": "160.123.456.789.123.58"
+      }, {
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode",
+        "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+      }, {
+        "system": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_Secret",
+        "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
+      }],
+      "status": "in-progress",
+      "intent": "order",
+      "for": {
+        "identifier": {
+          "system": "http://fhir.de/sid/gkv/kvid-10",
+          "value": "X123456789"
+        }
+      },
+      "authoredOn": "2020-03-02T08:25:05+00:00",
+      "lastModified": "2020-03-02T08:45:05+00:00",
+      "performerType":  [{
+        "coding":  [{
+          "system": "urn:ietf:rfc:3986",
+          "code": "urn:oid:1.2.276.0.76.4.54",
+          "display": "Öffentliche Apotheke"
+        }]
+      }],
+      "input":  [{
+        "type": {
+          "coding":  [{
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
+            "code": "1",
+            "display": "Health Care Provider Prescription"
+          }]
+        },
+        "valueReference": {
+          "reference": "Bundle/KbvPrescriptionExample"
+        }
+      }]
+    },
+    "search": {
+      "mode": "match"
+    }
+  }]
+}

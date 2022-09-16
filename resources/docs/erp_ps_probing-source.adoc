@@ -1,0 +1,28 @@
+include::./config-source.adoc[]
+
+== Hinweise und Vorgaben zu Health-Checks
+Auf dieser Seite stellt die gematik Hinweise und Vorgaben für Primärsysteme zur Verfügung, wie mit Erreichbarkeitstests des E-Rezept-Fachdienstes umgegangen werden darf. Diese werden ebenso im Implementierungsleitfaden `gemILF_PS_eRp` mit entsprechenden Anforderungen im link:https://fachportal.gematik.de/dokumentensuche?tx_gemcharacteristics_productlist%5BformIdentifier%5D=form-2849&tx_gemcharacteristics_productlist%5Btype%5D=ProdT&tx_gemcharacteristics_productlist%5Bproducttype%5D=168&tx_gemcharacteristics_productlist%5Bproducttypeversion%5D=74#c2849[Fachportal^] veröffentlicht.
+
+toc::[]
+
+=== Definition
+Ein Health-Check ist eine https-Abfrage mit der Aufgabe, die Erreichbarkeit und damit gleichzeitig die Nutzbarkeit des E-Rezept-Fachdienstes festzustellen. Ein Health-Check dient *nicht* dazu, die fachliche Korrektheit des E-Rezept-Fachdienstes zu überprüfen. 
+
+Endanwender können sich darauf verlassen, dass vom Betreiber des E-Rezept-Fachdienstes nur Endpunkte zur Verfügung gestellt werden, deren fachliche Korrektheit und Funktionalität kontinuierlich intern überwacht werden. Sollte dies nicht der Fall sein, so wird der entsprechende Host automatisiert vom Netz getrennt, wodurch keine Anfragen an ihn mehr stattfinden können. 
+
+=== Einfacher Health-Check
+Ein einfacher Health-Check ist ein leichtgewichtiger Aufruf auf den Fachdienst-Endpunkt / (root) mit der http-Methode GET ("äußerer http-Request"), ohne eine zusätzliche VAU-Verschlüsselung => ( "GET / [---]" ). Ziel dieses Health-Checks soll es sein, die Verfügbarkeit des E-Rezept-Fachdienstes vom Clientsystem aus sicherzustellen. Dabei werden weder Access-Token noch Verschlüsselung benötigt, was ihn für wiederkehrende Abfragen optimiert. 
+
+WARNING: Dieses Verfahren soll in der produktiven Betriebsumgebung nur dann angewandt werden, wenn z.B. binnen einer festgelegten Periode vom Clientsystem keine Anfragen an den E-Rezept-Fachdienst gestellt worden sind. 
+
+WARNING: Der Health-Check soll nicht in festgelegten Zeitintervallen, unabhängig von fachlichen Anwendungsfällen benutzt werden - sondern soll erst bei einem echten Idle-Zeitraum Anwendung finden.
+
+
+=== Erweiterter Health-Check
+Ein erweiterter Health-Check ist ein spezieller Aufruf auf den Endpunkt /metadata mit der http-Methode GET im inneren, verschlüsselten http-Request an die /VAU => ( "POST /VAU [GET /metadata]" ). Ziel dieses Health-Checks soll es sein, die Anmeldung am E-Rezept-Fachdienst und dem damit einhergehenden VAU-Protokoll zur Ver- und Entschlüsselung zu überprüfen. Dabei wird ebenfalls das Access-Token überprüft, welches vorher am IDP abgeholt wurde. 
+
+WARNING: Dieses Verfahren soll in der produktiven Betriebsumgebung nur dann angewandt werden, wenn z.B. ein neuer Client in Betrieb genommen wird. 
+
+WARNING: Als Abfrage zum Systemstart darf dieser Health-Check nicht eingesetzt werden!
+
+

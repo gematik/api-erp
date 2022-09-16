@@ -1,17 +1,11 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
@@ -19,7 +13,7 @@ image:gematik_logo.png[width=35%]
 
 = E-Rezept FHIR-Validierung in Titus
 
-Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden. 
+Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden.
 
 .Downloadpfade
 - https://github.com/hapifhir/org.hl7.fhir.core/releases/latest/download/validator_cli.jar

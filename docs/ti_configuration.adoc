@@ -1,39 +1,33 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%] 
+image:gematik_logo.png[width=35%]
 
 = E-Rezept API-Dokumentation
 Hier gibt die gematik eine Hilfestellung zur Konfiguration des lokalen Netzwerkes der Leistungserbringerumgebung.
 Damit können Primärsysteme die Dienste der Telematikinfrastruktur über das Netzwerkrouting erreichen und
 die Namensauflösung (DNS) der TI verwenden, um zu den TI-Adressen z.B. `https://erp.zentral.erp.splitdns.ti-dienste.de` die IP-Adressen der Fachdienst zu erfahren.
 
-Primärsysteme erreichen den IDP und E-Rezept-Fachdienst über den Konnektor (IP-Adressbereich "offene Fachdienste"). In Netzwerkkonfigurationen, in denen der Konnektor nicht "in Reihe geschaltet" ist, sind die folgenden Punkte zu beachten. Den Primärsystemen (bzw. den Computern auf denen sie installiert sind - Host) muss über eine Netzwerkkonfiguration (z.B. über DHCP) ein DNS-Resolver und ein Default-Gateway für das Routing mitgeteilt werden. 
+Primärsysteme erreichen den IDP und E-Rezept-Fachdienst über den Konnektor (IP-Adressbereich "offene Fachdienste"). In Netzwerkkonfigurationen, in denen der Konnektor nicht "in Reihe geschaltet" ist, sind die folgenden Punkte zu beachten. Den Primärsystemen (bzw. den Computern auf denen sie installiert sind - Host) muss über eine Netzwerkkonfiguration (z.B. über DHCP) ein DNS-Resolver und ein Default-Gateway für das Routing mitgeteilt werden.
 
-IMPORTANT: Das geschlossene Netz des digitalen Gesundheitswesens nutzt IP-Adressen, die ebenso außerhalb des geschlossenen Netzes und im Internet benutzt werden können. Es ist nicht auszuschließen, dass es dabei zu Konflikten in der Adressierung von einzelnen Diensten kommen kann. 
+IMPORTANT: Das geschlossene Netz des digitalen Gesundheitswesens nutzt IP-Adressen, die ebenso außerhalb des geschlossenen Netzes und im Internet benutzt werden können. Es ist nicht auszuschließen, dass es dabei zu Konflikten in der Adressierung von einzelnen Diensten kommen kann.
 
 toc::[]
 
 = Konfiguration des Routings
-Der Host-Computer des Primärsystems kennt ein Default-Gateway, an das ausgehende Datenpakete für das weitere Routing in Richtung Zieladresse geschickt werden. Für Ziele in der Telematikinfrastruktur müssen diese Datenpakete zum Konnektor geschickt werden, der je nach Netzwerkkonfiguration nicht das Default-Gateway ist. 
+Der Host-Computer des Primärsystems kennt ein Default-Gateway, an das ausgehende Datenpakete für das weitere Routing in Richtung Zieladresse geschickt werden. Für Ziele in der Telematikinfrastruktur müssen diese Datenpakete zum Konnektor geschickt werden, der je nach Netzwerkkonfiguration nicht das Default-Gateway ist.
 
 Die Lösung besteht im Einrichten einer Weiterleitung für Zieladressen in der TI, sodass Datenpakete mit einer Zieladresse für bspw. offene Fachdienste vom Default-Gateway des Netzwerkes nicht ins Internet, sondern an den Konnektor weitergeleitet werden.
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
 |*Ziele*       |*Adressbereiche*
@@ -48,20 +42,20 @@ Umzug ins gematik-git-Account demnächst geplant)
 
 NOTE: Die Weiterleitung kann Segmentweise eingerichtet werden und muss nicht für jede Zieladresse einzeln erfolgen (übergreifende Routen).
 
-IMPORTANT: Die Liste der erreichbaren aAdG (*WANDA*) wird regelmäßig aktualisiert, wenn im Rahmen der Bestätigung neuer Anbieter Adressbereiche des Anbieters hinzukommen. 
+IMPORTANT: Die Liste der erreichbaren aAdG (*WANDA*) wird regelmäßig aktualisiert, wenn im Rahmen der Bestätigung neuer Anbieter Adressbereiche des Anbieters hinzukommen.
 
-Je nach Art und Größe des lokal verwalteten Netzwerks der Leistungserbringerumgebung kommt im Gateway unterschiedliche Hard- und Software zum Einsatz. Einige lassen sich über die Kommandozeile admnistrieren, andere besitzen eine eigene API (z.B. Fritzbox, Speedport) und in bestimmten Fällen lässt sich die Konfiguration über ein UserInterface einrichten. 
+Je nach Art und Größe des lokal verwalteten Netzwerks der Leistungserbringerumgebung kommt im Gateway unterschiedliche Hard- und Software zum Einsatz. Einige lassen sich über die Kommandozeile admnistrieren, andere besitzen eine eigene API (z.B. Fritzbox, Speedport) und in bestimmten Fällen lässt sich die Konfiguration über ein UserInterface einrichten.
 
 === FritzBox-Konfiguration
 Im Folgenden ist die Konfiguration einer Fritzbox über die grafische Benutzeroberfläche im Browser dargestellt.
 
-image:fritzbox_1.png[width=100%] 
+image:fritzbox_1.png[width=100%]
 Öffnen sie die Netzwerkeinstellungen und wählen sie für `Statische Routingtabelle` die IP-Version des lokalen Netzwerks
 
-image:fritzbox_2.png[width=100%] 
+image:fritzbox_2.png[width=100%]
 Wählen Sie das Hinzufügen einer neuen statischen Route (im Bsp. für IPv4-Routen)
 
-image:fritzbox_3.png[width=100%] 
+image:fritzbox_3.png[width=100%]
 Tragen sie bei *Netzwerk* den Adressbereich für z.B "Offene Fachdienste* wie oben angegeben ein.
 
 IMPORTANT: Das Präfix `/16` bedeutet eine Subnetz-Maske von `255.255.0.0`, +
@@ -73,7 +67,7 @@ Zusätzlich stellt AVM standardisierte link:https://avm.de/service/schnittstelle
 https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/layer3forwardingSCPD.pdf
 
 === Konfiguration eines Linux-basierten Gateways
-In größeren Netzwerken kommt mitunter eine gegenüber einer z.B. Fritzbox leistungsstärkere Hard- und Software in Form von Linux-Servern zum Einsatz. Diese lassen sich meist über die Kommandozeile administrieren. 
+In größeren Netzwerken kommt mitunter eine gegenüber einer z.B. Fritzbox leistungsstärkere Hard- und Software in Form von Linux-Servern zum Einsatz. Diese lassen sich meist über die Kommandozeile administrieren.
 
 Mit folgendem Shell-Kommando lassen sich die Routen für z.B. offene Fachdienste statisch festlegen:
 

@@ -1,0 +1,180 @@
+include::./config-source.adoc[]
+
+= E-Rezept API-Dokumentation für die PKV-Einwilligung
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die Einwilligung zur elektronischen Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte.
+
+toc::[]
+
+== Profilierung
+Für diesen Anwendungsfall wird die FHIR-Ressource "Consent": http://hl7.org/fhir/consent.html profiliert.
+Die Profile können als JSON- oder XML-Datei hier eingesehen werden: https://simplifier.net/erezept-patientenrechnung/gem-erpchrg-pr-consent
+
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst:
+|===
+|*Name* |*Beschreibung*
+2+s|Consent
+|status |Status der Einwilligung. Festgesetzt auf "active"
+|scope |Art der Einwilligung.
+|scope.coding.code |Festgelegt auf "patient-privacy"
+|category |Art der Einwilligung, festgelegt durch ein von der gematik erstelltes Codesystem.
+|patient |Identifier des Patienten, zu welchem die Einwilligung zugeordnet wird. GKV- und PKV-Profile sind möglich.
+|dateTime |Zeitstempel der Erstellung der Einwilligung
+|policyRule |Angabe des Types einer Einwilligung
+|===
+
+In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
+
+==  Anwendungsfall Einwilligung zum Speichern der Abrechnungsinformationen durch den Versicherten erteilen
+Als Versicherter möchte ich eine Einwilligung zur elektronischen Speicherung meiner Abrechnungsinformationen erstellen und dem Fachdienst übermitteln. Die Einwilligung wird über die FHIR-Ressource "Consent" abgebildet.
+
+Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/Consent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/Consent
+|Method     |POST
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+[source,json]
+----
+include::../examples/prescriptionserver/request_PostConsent.json[]
+----
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/prescriptionserver/response_PostConsent.json[]
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Einwilligung zum Speichern der Abrechnungsinformationen durch den Versicherten einsehen
+Als Versicherter möchte ich meine erteilte Einwilligung zur elektronischen Speicherung meiner Abrechnungsinformationen einsehen.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Consent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Consent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/Consent
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/prescriptionserver/response_GetConsent.json[]
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Einwilligung zum Speichern der Abrechnungsinformationen durch den Versicherten widerrufen
+Als Versicherter möchte ich meine erteilte Einwilligung zur elektronischen Speicherung meiner Abrechnungsinformationen widerrufen. Mit dem Widerruf der Einwilligung werden bereits gespeicherte Abrechnungsinformationen gelöscht.
+
+Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/Consent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Consent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/Consent?category=CHARGCONS
+|Method     |DELETE
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 204 No Content
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

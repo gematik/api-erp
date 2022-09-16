@@ -1,0 +1,18 @@
+name: build-adoc-files
+on: [push]
+jobs:
+  build-with-include-replacing:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install asciidoctor-reducer
+        run: sudo gem install asciidoctor-reducer --pre
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run scripts to reduce docs
+        run: ./resources/scripts/build_with_replace_includes.sh
+
+      - name: Commit readme
+        uses: EndBug/add-and-commit@v8

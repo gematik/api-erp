@@ -1,0 +1,27 @@
+include::./config-source.adoc[]
+
+= E-Rezept FHIR-Validierung in Titus
+
+Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden.
+
+.Downloadpfade
+- https://github.com/hapifhir/org.hl7.fhir.core/releases/latest/download/validator_cli.jar
+- https://simplifier.net/packages/de.gematik.erezept-workflow.r4
+- https://simplifier.net/packages/kbv.ita.erp
+- https://simplifier.net/packages/kbv.ita.for
+- https://simplifier.net/packages/de.abda.erezeptabgabedaten
+- https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv
+- https://simplifier.net/packages/de.basisprofil.r4/0.9.13
+
+WARNING: die jeweils gültigen Package-Versionen werden hier zusammengetragen: link:../docs/erp_fhirversion.adoc[FHIR Versionsmanagement]
+
+Die heruntergeladenen Packages können auch vollständig entpackt und bspw. ein Profil-Verzeichnis nach Stichtag der Gültigkeit abgelegt werden, alternativ zum untigen Beispiel `-ig profiles/311221` für die Gültigkeit bis 31.12.21
+
+[source,bash]
+----
+java -jar validator_cli.jar -ig de.gematik.erezept-workflow.r4-1.1.1.tgz -ig de.basisprofil.r4-0.9.13.tgz -ig kbv.ita.erp-1.0.2.tgz -ig kbv.basis-1.1.3.tgz -ig kbv.ita.for-1.0.3.tgz -version 4.0.1 -tx n/a FILE_UNDER_TEST.xml -no-extensible-binding-warnings
+----
+
+NOTE: Für von der KBV verwendete externe Codesysteme müssen diese jeweils von den im Validator genannten KBV-Seiten z.B. https://fhir.kbv.de/ValueSet/KBV_VS_SFHIR_KBV_DARREICHUNGSFORM heruntergeladen und als xml-Datei zu den übrigen entpackten Profilen gelegt werden.
+
+CAUTION: Um in der Abrechnung von E-Rezepten eine einheitliche Validierungsrundlage aller Beteiligten (Apotheke, Abrechnungszentrum, Kasse) zu haben, stellt der DAV auf https://github.com/DAV-ABDA/eRezept-Referenzvalidator einen Referenzvalidator zur Verfügung.

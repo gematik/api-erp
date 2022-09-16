@@ -1,61 +1,56 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
 image:gematik_logo.png[width=35%]
 
 = E-Rezept API-Dokumentation für den Benachrichtigungsdienst
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Benachrichtigungsdienst. 
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Benachrichtigungsdienst.
 
 toc::[]
 
 ==  Anwendungsfall Benachrichtigungen aktivieren
-Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten. 
+Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
 
-Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. 
+Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/notifications/opt-in
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
-X-RegistrationToken: bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1 <2> 
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-RegistrationToken: bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt. 
-<2> Der X-Registration-Token transportiert das FCM-Registration-Token base64-codiert.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Der X-Registration-Token transportiert das FCM-Registration-Token base64-codiert.
 |Payload    | -
 |===
 
 *Response*
 [source,xml]
 ----
-HTTP/1.1 204 No Content 
+HTTP/1.1 204 No Content
 ----
 
-[cols="a,a"] 
+[cols="a,a"]
 [%autowidth]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |204  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -73,18 +68,18 @@ s|Code   s|Type Error
 ==  Anwendungsfall Benachrichtigungen deaktivieren
 Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät deaktivieren. Das mobile Gerät wird aus dem Benachrichtigungsdienst entfernt und es werden keine Benachrichtigungen versendet.
 
-Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. 
+Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"] 
+[cols="h,a"]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de//notifications/opt-out
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.  
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 |Payload    |-
 |===
 
@@ -92,15 +87,15 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <
 *Response*
 [source,xml]
 ----
-HTTP/1.1 204 No Content 
+HTTP/1.1 204 No Content
 ----
 
-[cols="a,a"] 
+[cols="a,a"]
 |===
-s|Code   s|Type Success  
+s|Code   s|Type Success
 |204  | No Content +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
-s|Code   s|Type Error   
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +

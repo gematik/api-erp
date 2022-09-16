@@ -1,3 +1,9 @@
+# Release 1.3.2
+* added Healthcheck doku
+* internal refactoring to use includes
+* better fhir timeline details
+* altered vau image description
+
 # Release 1.3.1
 Fixed formatting bug in 'erp_steuerung_durch_le'
 

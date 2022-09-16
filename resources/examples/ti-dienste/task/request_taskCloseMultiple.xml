@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <type value="collection"/>
+    <entry>
+        <fullUrl value="MedicationDispense/a3ddc2b1-826d-4b81-87b2-558834e00f50" />
+        <resource>
+            <MedicationDispense>
+                <id value="a3ddc2b1-826d-4b81-87b2-558834e00f50" />
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
+                </meta>
+                <contained>
+                    <Medication>
+                        <id value="c2b10a5e-3d71-434c-86e0-824af208a2bf" />
+                        <meta>
+                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                        </meta>
+                        <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                            <valueCode value="N1" />
+                        </extension>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+                            <valueCoding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category" />
+                                <code value="00" />
+                            </valueCoding>
+                        </extension>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+                            <valueBoolean value="false" />
+                        </extension>
+                        <code>
+                            <coding>
+                                <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+                                <code value="14186244" />
+                            </coding>
+                            <text value="FLUSARION EH50/250UG/60 PC" />
+                        </code>
+                        <form>
+                            <coding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+                                <code value="IHP" />
+                            </coding>
+                        </form>
+                        <amount>
+                            <numerator>
+                                <value value="1" />
+                                <unit value="St" />
+                            </numerator>
+                            <denominator>
+                                <value value="1" />
+                            </denominator>
+                        </amount>
+                    </Medication>
+                </contained>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
+                    <value value="160.000.088.357.031.88" />
+                </identifier>
+                <status value="completed" />
+                <medicationReference>
+                    <reference value="Medication/c2b10a5e-3d71-434c-86e0-824af208a2bf" />
+                </medicationReference>
+                <subject>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10" />
+                        <value value="K220635158" />
+                    </identifier>
+                </subject>
+                <performer>
+                    <actor>
+                        <identifier>
+                            <system value="https://gematik.de/fhir/sid/telematik-id" />
+                            <value value="3-15.2.1456789123.191" />
+                        </identifier>
+                    </actor>
+                </performer>
+                <whenHandedOver value="2021-11-30" />
+            </MedicationDispense>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="MedicationDispense/854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
+        <resource>
+            <MedicationDispense>
+                <id value="854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
+                </meta>
+                <contained>
+                    <Medication>
+                        <id value="756b422f-4df0-4afe-9d54-da534a44109e" />
+                        <meta>
+                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                        </meta>
+                        <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                            <valueCode value="N1" />
+                        </extension>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+                            <valueCoding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category" />
+                                <code value="00" />
+                            </valueCoding>
+                        </extension>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+                            <valueBoolean value="false" />
+                        </extension>
+                        <code>
+                            <coding>
+                                <system value="http://fhir.de/CodeSystem/ifa/pzn" />
+                                <code value="14186244" />
+                            </coding>
+                            <text value="FLUSARION EH50/250UG/60 PC" />
+                        </code>
+                        <form>
+                            <coding>
+                                <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM" />
+                                <code value="IHP" />
+                            </coding>
+                        </form>
+                        <amount>
+                            <numerator>
+                                <value value="1" />
+                                <unit value="St" />
+                            </numerator>
+                            <denominator>
+                                <value value="1" />
+                            </denominator>
+                        </amount>
+                    </Medication>
+                </contained>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
+                    <value value="160.000.088.357.031.88" />
+                </identifier>
+                <status value="completed" />
+                <medicationReference>
+                    <reference value="Medication/756b422f-4df0-4afe-9d54-da534a44109e" />
+                </medicationReference>
+                <subject>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10" />
+                        <value value="K220635158" />
+                    </identifier>
+                </subject>
+                <performer>
+                    <actor>
+                        <identifier>
+                            <system value="https://gematik.de/fhir/sid/telematik-id" />
+                            <value value="3-15.2.1456789123.191" />
+                        </identifier>
+                    </actor>
+                </performer>
+                <whenHandedOver value="2021-11-30" />
+            </MedicationDispense>
+        </resource>
+    </entry>
+</Bundle>

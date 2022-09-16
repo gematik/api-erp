@@ -33,6 +33,8 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 
 [Hier gibt es eine Übersicht der in der API verwendeten http-Status- und Fehlercodes](docs/erp_statuscodes.adoc)
 
+[Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
+
 ## Anwendungsfälle E-Rezept in der Praxis
 
 [Hier geht es zu den Anwendungsfällen in der (Zahn-)Arztpraxis zur Verordnung von E-Rezepten](docs/erp_bereitstellen.adoc)

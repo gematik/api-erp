@@ -4,14 +4,6 @@
 :note-caption: Hinweis
 :tip-caption: Tip
 :warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
-:tip-caption: :bulb:
-:note-caption: :information_source:
-:important-caption: :heavy_exclamation_mark:
-:caution-caption: :fire:
-:warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
@@ -63,9 +55,9 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
@@ -73,16 +65,16 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
-  <parameter>
-    <name value="workflowType"/>
-    <valueCoding>
-      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-      <code value="169"/> <1>
-    </valueCoding>
-  </parameter>
+    <parameter>
+        <name value="workflowType"/>
+        <valueCoding>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+            <code value="169"/>
+        </valueCoding>
+    </parameter>
 </Parameters>
 ----
-<1> Dieser Parameter steuert den Typ des dem Task zugrunde liegenden Workflows. In diesem Fall obliegt die Einlösehoheit (als Zuweisung an eine bestimmte Apotheke) beim Verordnenden Leistungserbringer.
+Der Parameter `<code value="169"/>` steuert den Typ des dem Task zugrunde liegenden Workflows. In diesem Fall obliegt die Einlösehoheit (als Zuweisung an eine bestimmte Apotheke) beim Verordnenden Leistungserbringer.
 
 |===
 
@@ -93,17 +85,17 @@ HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
 <Task xmlns="http://hl7.org/fhir">
-  <id value="169.000.004.839.514.95"/>
-  <meta>
-    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
-  </meta>
-  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+    <id value="169.000.004.839.514.95"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+    </meta>
+    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-            <code value="169" /><1>
+            <code value="169" />
             <display value="Muster 16 (Direkte Zuweisung)" />
         </valueCoding>
-  </extension>
+    </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
         <valueDate value="2022-06-30" />
     </extension>
@@ -112,11 +104,11 @@ Content-Type: application/fhir+xml; charset=UTF-8
     </extension>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
-        <value value="169.000.004.839.514.95" /><2>
+        <value value="169.000.004.839.514.95" />
     </identifier>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
-        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" /><3>
+        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />
     </identifier>
     <status value="draft" />
     <intent value="order" />
@@ -124,7 +116,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <performerType>
         <coding>
             <system value="urn:ietf:rfc:3986" />
-            <code value="urn:oid:1.2.276.0.76.4.54" /><4>
+            <code value="urn:oid:1.2.276.0.76.4.54" />
             <display value="Öffentliche Apotheke" />
         </coding>
     </performerType>
@@ -135,10 +127,9 @@ NOTE: An der Stelle `<code value="169" />` hat der E-Rezept-Fachdienst den Über
 
 NOTE: Der Identifier in `<value value="169.000.004.839.514.95" />` stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
 
-<1> An dieser Stelle hat der E-Rezept-Fachdienst den Übergabeparameter zur Konfiguration des des Workflows übernommen.
-<2> Dieser Identifier stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
-<3> An dieser Stelle befindet sich der serverseitig generierte `AccessCode`, der für nachfolgende Zugriffe auf diesen Task in einem http-Request für die Berechtigungsprüfung mitgegeben werden muss.
-<4> Dieser Wert entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll
+NOTE: Im Parameter `<value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />` befindet sich der serverseitig generierte `AccessCode`, der für nachfolgende Zugriffe auf diesen Task in einem http-Request für die Berechtigungsprüfung mitgegeben werden muss.
+
+NOTE: Der Wert `<code value="urn:oid:1.2.276.0.76.4.54" />` entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll
 
 
 
@@ -194,13 +185,13 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         <resource>
             <Binary>
                 <contentType value="application/pkcs7-mime" />
-                <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." /> <1>
+                <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." />
             </Binary>
         </resource>
     </parameter>
 </Parameters>
 ----
-<1> Hierbei handelt es sich um die base64-codierte Repräsentation der enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
+NOTE: Bei ` <data value="*" />` handelt es sich um die base64-codierte Repräsentation der enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
 
 |===
 
@@ -241,7 +232,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     <for>
         <identifier>
             <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="X123456789" /><1>
+            <value value="X123456789" />
         </identifier>
     </for>
     <authoredOn value="2022-03-18T15:26:00+00:00" />
@@ -262,7 +253,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             </coding>
         </type>
         <valueReference>
-            <reference value="281a985c-f25b-4aae-91a6-41ad744080b0" /><2>
+            <reference value="281a985c-f25b-4aae-91a6-41ad744080b0" />
         </valueReference>
     </input>
     <input>
@@ -274,14 +265,16 @@ Content-Type: application/fhir+xml;charset=utf-8
             </coding>
         </type>
         <valueReference>
-            <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43" /><3>
+            <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43" />
         </valueReference>
     </input>
 </Task>
 ----
-<1> Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task hinterlegt.
-<2> Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles, der Abruf erfolgt immer über den Task.
-<3> Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an dieser Stelle referenziert wird.
+NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter `<value value="X123456789"` hinterlegt.
+
+NOTE: Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles in `<reference value="281a985c-f25b-4aae-91a6-41ad744080b0" />`, der Abruf erfolgt immer über den Task.
+
+NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an der Stelle `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43" />` referenziert wird.
 
 
 [cols="a,a"]
@@ -351,8 +344,8 @@ Eine Nachricht dient der direkten Zuweisung eines E-Rezeptes an eine Apotheke. D
 Date: Sun, 20 Jun 2021 11:12:13 +0100
 From: ArztABC@abc.kim.telematik
 To: Apotheke123@xyz.kim.telematik
-Subject: E-Rezept direkte Zuweisung Zytostatikum <1>
-X-KIM-Dienstkennung: eRezept;Zuweisung;V1.0 <2>
+Subject: E-Rezept direkte Zuweisung Zytostatikum
+X-KIM-Dienstkennung: eRezept;Zuweisung;V1.0
 Disposition-Notification-To: ArztABC@abc.kim.telematik
 Return-Path: <ArztABC@abc.kim.telematik>
 Message-ID: <th1s1s43me55age1d@abc.kim.telematik>
@@ -381,7 +374,7 @@ Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename=therapieplan.pdf
 
 JVBERi0xLjQKJcDIzNINCjEgMCBvYmoKPDwKL1RpdGxlI
-...<3>
+[...]
  GQzZDMEUxQzRGRUI0NjFCQ0NGOUYzPjw0RDM4MkJGRDRB
  RkM2QzBFMUM0RkVCNDYxQkNDRjlGMz5dCj4+CnN0YXJ0e
  HJlZgoyMDE0CiUlRU9GCg==
@@ -391,6 +384,8 @@ NOTE: `Subject:` enthält den wählbaren Titel der Nachricht. Es dürfen keine p
 
 NOTE: Für die Zuweisung eines E-Rezeptes an die Apotheke muss der Wert `X-KIM-Dienstkennung` gesetzt sein.  +
 
+NOTE: Aus Gründen der Lesbarkeit wurde der angehängte Therapieplan stark mit `[...]` gekürzt.
+
 ==== Nachricht zur freien Kommunikation für bspw. Rückfragen der Apotheke
 
 [source,text]
@@ -399,8 +394,8 @@ Beispiel einer KIM-Message für die freie Kommunikation:
 Date: Mon, 21 Jun 2021 11:12:13 +0100
 From: Apotheke123@xyz.kim.telematik
 To: ArztABC@abc.kim.telematik
-Subject: E-Rezept Kommunikation <1>
-X-KIM-Dienstkennung: eRezept;Kommunikation;V1.0 <2>
+Subject: E-Rezept Kommunikation
+X-KIM-Dienstkennung: eRezept;Kommunikation;V1.0
 Disposition-Notification-To: Apotheke123@xyz.kim.telematik
 Return-Path: <Apotheke123@xyz.kim.telematik>
 Message-ID: <th1s1s43me55ag12a@xyz.kim.telematik>
@@ -416,8 +411,9 @@ TextTextTextTextTextTextTextTextText
 Mit den besten Gruessen
 Apotheke 123
 ----
-<1> Wählbarer Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
-<2> Für die Zuweisung eines E-Rezeptes an die Apotheke muss dieser Wert gesetzt sein.
+NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
+
+NOTE: Für die Zuweisung eines E-Rezeptes an die Apotheke muss die `X-KIM-Dienstkennung` gesetzt sein.
 
 == Anwendungsfall E-Rezept durch Versicherten einsehen
 Als Versicherter möchte ich meine E-Rezepte einsehen sowie auf die Dispensierinformationen und das Zugriffsprotokoll zugreifen. Ich bin nicht berechtigt E-Rezepte mit dem Workflowtyp 169 einer Apotheke zuzuweisen oder zu löschen.
@@ -433,9 +429,9 @@ Der E-Rezept-Fachdienst identifiziert die E-Rezepte auf Basis der Versicherten-I
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
@@ -477,7 +473,7 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "intent": "order",
     "extension":  [{
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",<1>
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
             "valueCoding": {
                 "code": "169",
                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
@@ -502,7 +498,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "coding":  [{
                     "code": "urn:oid:1.2.276.0.76.4.54",
                     "system": "urn:ietf:rfc:3986",
-                    "display": "Öffentliche Apotheke"<2>
+                    "display": "Öffentliche Apotheke"
                 }]
         }],
     "for": {
@@ -522,7 +518,7 @@ Content-Type: application/fhir+json;charset=utf-8
                     }]
             },
             "valueReference": {
-                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"<3>
+                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"
             }
         },{
             "type": {
@@ -549,7 +545,7 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "intent": "order",
     "extension":  [{
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",<1>
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
             "valueCoding": {
                 "code": "169",
                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
@@ -574,7 +570,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "coding":  [{
                     "code": "urn:oid:1.2.276.0.76.4.54",
                     "system": "urn:ietf:rfc:3986",
-                    "display": "Öffentliche Apotheke"<2>
+                    "display": "Öffentliche Apotheke"
                 }]
         }],
     "for": {
@@ -594,7 +590,7 @@ Content-Type: application/fhir+json;charset=utf-8
                     }]
             },
             "valueReference": {
-                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"<3>
+                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"
             }
         },{
             "type": {
@@ -612,11 +608,15 @@ Content-Type: application/fhir+json;charset=utf-8
   }]
 }
 ----
-<1> Der Prozesstyp referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
-<2> Mit dieser Angabe kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann.
-<3> Hier verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
-<4> Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
-<5> Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature`.
+NOTE: Der Prozesstyp in `"url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"` referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
+
+NOTE: Mit der Angabe `"display": "Öffentliche Apotheke"` kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann.
+
+NOTE: Mit dem Verweis `"reference": "281a985c-f25b-4aae-91a6-41ad744080b0"` zeigt der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
+
+NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
+
+NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature`.
 
 
 [cols="a,a"]

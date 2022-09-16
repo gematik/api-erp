@@ -1,17 +1,11 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
@@ -58,7 +52,7 @@ Annahmen:
 MedicationDispense.whenHandedOver).
 * Abrechnungszentren vollziehen den Profilwechsel zum 01.08.
 ** Die Version der eRezeptAbrechnungsdaten hängt vom Abrechnungsmonat (siehe TA1) ab (im Profil GKVSV_PR_TA7_Sammelrechnung_Composition:
-Composition.date). 
+Composition.date).
 * maximale Gültigkeitsdauer E-Rezept (Einlösefrist): 3 Monate
 
 [cols=""]
@@ -336,4 +330,3 @@ Das Release zum 01.01.2022 ermöglicht das E-Rezept für die neue Benutzergruppe
 |Plan 01.10.2021 |01.01.2022 |30.06.2022
 |PKV     |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0-rc6[1.1.0-rc6^] |initial Version (Release Candidate) |Plan 01.10.2021 |tbd |31.12.2022
 |===
-

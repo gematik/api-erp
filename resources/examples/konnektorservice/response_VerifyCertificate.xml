@@ -1,0 +1,18 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns4:VerifyCertificateResponse xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns4="http://ws.gematik.de/conn/CertificateService/v6.0">
+            <ns2:Status>
+                <ns2:Result>OK</ns2:Result>
+            </ns2:Status>
+            <ns4:VerificationStatus>
+                <ns4:VerificationResult>VALID</ns4:VerificationResult>
+                </ns4:VerificationStatus>
+                <ns4:RoleList>
+                    <ns4:Role>1.2.276.0.76.4.260</ns4:Role>
+                </ns4:RoleList>
+            </ns4:VerifyCertificateResponse>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>

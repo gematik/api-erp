@@ -1,0 +1,100 @@
+include::./config-source.adoc[]
+
+= E-Rezept API-Dokumentation für den Benachrichtigungsdienst
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Benachrichtigungsdienst.
+
+toc::[]
+
+==  Anwendungsfall Benachrichtigungen aktivieren
+Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
+
+Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/notifications/opt-in
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-RegistrationToken: bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Der X-Registration-Token transportiert das FCM-Registration-Token base64-codiert.
+|Payload    | -
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 204 No Content
+----
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+==  Anwendungsfall Benachrichtigungen deaktivieren
+Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät deaktivieren. Das mobile Gerät wird aus dem Benachrichtigungsdienst entfernt und es werden keine Benachrichtigungen versendet.
+
+Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de//notifications/opt-out
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+|Payload    |-
+|===
+
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 204 No Content
+----
+
+[cols="a,a"]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

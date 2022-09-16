@@ -1,17 +1,11 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
@@ -34,7 +28,7 @@ Die Kommunikation zwischen Versicherten und einer Apotheke über E-Rezepte erfol
 In diesen Anwendungsfällen werden die FHIR-Resourcen "Task": http://hl7.org/fhir/task.html und AuditEvent https://www.hl7.org/fhir/auditevent.html verwendet. Die Ressource Bundle https://www.hl7.org/fhir/bundle.html kommt in ihrem Standardprofil als Suchergebnis und zusätzlich als signiertes Dokument der Verordnung und als Quittung zur Anwendung.
 Diese werden für das E-Rezept profiliert und werden hier spezifiziert: +
 Task: https://simplifier.net/erezept-workflow/gem_erp_pr_task   +
-AuditEvent: https://simplifier.net/erezept-workflow/gem_erp_pr_auditevent  
+AuditEvent: https://simplifier.net/erezept-workflow/gem_erp_pr_auditevent
 
 
 == Alle E-Rezepte ansehen
@@ -50,9 +44,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
@@ -97,7 +91,7 @@ Content-Type: application/fhir+json;charset=utf-8
       },{
         "use":"official",
         "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode",
-        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
+        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
       },{
         "use":"official",
         "system":"http://fhir.de/sid/gkv/kvid-10",
@@ -106,7 +100,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "intent":"order",
       "status":"ready",
       "extension": [ {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",<2>
+        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
         "valueCodeableConcept":{
           "coding": [ {
             "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
@@ -128,7 +122,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "coding": [{
           "system":"http://terminology.hl7.org/CodeSystem/task-performer-type",
           "code":"1.2.276.0.76.4.32",
-          "display":"Apotheke" <3>
+          "display":"Apotheke"
         }],
         "text":"Apotheke"
       }],
@@ -139,7 +133,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "code":"2"
           }]
         },
-        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43" <4>
+        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
       }]
     }
   },{
@@ -166,9 +160,9 @@ Content-Type: application/fhir+json;charset=utf-8
           "meta":{
             "profile": [
               "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
-... <5>
+[...]
                       ]}}}],
-      "signature": { <6>
+      "signature": {
         "type": {
           "system": "http://hl7.org/fhir/ValueSet/signature-type",
           "code": "1.2.840.10065.1.12.1.1"
@@ -195,132 +189,7 @@ NOTE: In `"valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"` verweist der Ta
 
 NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
 
-{
-  "resourceType": "Bundle",
-  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
-  "meta": {
-    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
-  },
-  "type": "collection",
-  "total": 2,
-  "link": [{
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/Task/"
-  }],
-  "entry": [{
-    "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-    "resource": {
-      "resourceType":"Task",
-      "id":"160.123.456.789.123.58",
-      "meta":{
-        "versionId":"2",
-        "lastUpdated":"2020-02-18T10:05:05.038+00:00",
-        "source":"#AsYR9plLkvONJAiv",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
-        ]
-      },
-      "identifier": [{
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
-        "value":"160.123.456.789.123.58"
-      },{
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode",
-        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
-      },{
-        "use":"official",
-        "system":"http://fhir.de/sid/gkv/kvid-10",
-        "value":"X123456789"
-      }],
-      "intent":"order",
-      "status":"ready",
-      "extension": [ {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",<2>
-        "valueCodeableConcept":{
-          "coding": [ {
-            "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-            "code":"160",
-            "display":"Muster 16 (Apothekenpflichtige Arzneimittel)"
-          } ]
-        }
-      }, {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-          "valueDateTime": "2020-06-02"
-      }, {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-          "valueDateTime": "2020-04-01"
-      }
-    ],
-      "authoredOn":"2020-03-02T08:25:05+00:00",
-      "lastModified":"2020-03-02T08:45:05+00:00",
-      "performerType": [{
-        "coding": [{
-          "system":"http://terminology.hl7.org/CodeSystem/task-performer-type",
-          "code":"1.2.276.0.76.4.32",
-          "display":"Apotheke" <3>
-        }],
-        "text":"Apotheke"
-      }],
-      "input": [{
-        "type": {
-          "coding": [{
-            "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-            "code":"2"
-          }]
-        },
-        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43" <4>
-      }]
-    }
-  },{
-    "resource": {
-      "resourceType":"Bundle",
-      "id":"f8c2298f-7c00-4a68-af29-8a2862d55d43",
-      "meta":{
-        "lastUpdated":"2020-02-03T12:30:02Z",
-        "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0"
-        ]
-      },
-      "identifier":{
-          "system":"urn:ietf:rfc:3986",
-          "value":"281a985c-f25b-4aae-91a6-41ad744080b0"
-      },
-      "type":"document",
-      "timestamp":"2020-02-03T12:30:02Z",
-      "entry": [{
-        "fullUrl":"http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876",
-        "resource":{
-          "resourceType":"Composition",
-          "id":"ed52c1e3-b700-4497-ae19-b23744e29876",
-          "meta":{
-            "profile": [
-              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
-... <5>
-                      ]}}}],
-      "signature": { <6>
-        "type": {
-          "system": "http://hl7.org/fhir/ValueSet/signature-type",
-          "code": "1.2.840.10065.1.12.1.1"
-        },
-        "when": "2020-03-20T07:31:34.328+00:00",
-        "who": "https://erp.app.ti-dienste.de/signature/verification",
-        "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-        .
-        eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-        .
-        SSBhbSBhIHNpZ25hdHVyZSE="
-      }
-    }
-  }]
-}
-----
-<1> Mit dem AccessCode wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt
-<2> Der Prozesstyp referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel
-<3> Mit dieser Angabe kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann (bspw. Apotheke oder Sanitätshaus).
-<4> Hier verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
-<5> Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
-<6> Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature`
+NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format der ` "signature"` ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature`
 
 
 [cols="a,a"]
@@ -358,11 +227,12 @@ Der Aufruf erfolgt als http-`GET`-Operation auf eine konkrete Ressource `/Task/<
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea <2>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
-<2> Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Token des Zugreifenden angegeben ist) muss im http-Header der `AccessCode` übergeben werden
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
@@ -409,16 +279,16 @@ Content-Type: application/fhir+json;charset=utf-8
       },{
         "use":"official",
         "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_AccessCode",
-        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" <1>
+        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
       },{
         "use":"official",
         "system":"http://fhir.de/sid/gkv/kvid-10",
-        "value":"X123456789" <2>
+        "value":"X123456789"
       }],
       "intent":"order",
       "status":"ready",
       "extension": [ {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType", <2>
+        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
         "valueCodeableConcept":{
           "coding": [ {
             "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
@@ -439,7 +309,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "coding": [{
           "system":"http://terminology.hl7.org/CodeSystem/task-performer-type",
           "code":"1.2.276.0.76.4.32",
-          "display":"Apotheke" <4>
+          "display":"Apotheke"
         }],
         "text":"Apotheke"
       }],
@@ -450,7 +320,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "code":"2"
           }]
         },
-        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43" <5>
+        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
       }]
     }
   },{
@@ -477,9 +347,9 @@ Content-Type: application/fhir+json;charset=utf-8
           "meta":{
             "profile": [
               "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
-... <6>
+[...]
                       ]}}}],
-      "signature": { <7>
+      "signature": {
         "type": {
           "system": "http://hl7.org/fhir/ValueSet/signature-type",
           "code": "1.2.840.10065.1.12.1.1"
@@ -496,13 +366,19 @@ Content-Type: application/fhir+json;charset=utf-8
   }]
 }
 ----
-<1> Mit dem AccessCode wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt.
-<2> An dieser Stelle ist die KVNR des Versicherten enthalten, nach welcher die Rezept-Tasks gefiltert wurden. Im Ergebnis wurde nur ein einzelnes E-Rezept gefunden.
-<3> Der Prozesstyp referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
-<4> Mit dieser Angabe kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann (bspw. Apotheke oder Sanitätshaus).
-<5> Hier verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
-<6> Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
-<7> Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature` .
+NOTE: Mit dem AccessCode in `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"` wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt.
+
+NOTE: Bei `"value":"X123456789"` ist die KVNR des Versicherten enthalten, nach welcher die Rezept-Tasks gefiltert wurden. Im Ergebnis wurde nur ein einzelnes E-Rezept gefunden.
+
+NOTE: Der Prozesstyp in `"url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"` referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
+
+NOTE: Mit der Angabe ` "display":"Apotheke"` kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann (bspw. Apotheke oder Sanitätshaus).
+
+NOTE: Mit `"valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"` verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
+
+NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
+
+NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil in ` "signature"` des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature` .
 
 
 [cols="a,a"]
@@ -589,7 +465,7 @@ Der Aufruf erfolgt als http-`GET`-Operation am Apothekenverzeichnis der Telemati
 |Method     |GET
 |Request|
 ----
-GET /api/Location?name=Adler HTTP/1.1 <1>
+GET /api/Location?name=Adler HTTP/1.1
 Host: apovzd.app.ti-dienste.de
 Pragma: no-cache
 Cache-Control: no-cache
@@ -597,7 +473,8 @@ Cache-Control: no-cache
 
 TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird plain an das Apothekenverzeichnis geschickt.
 |===
-<1> In der Aufruf-Adresse können Suchparameter gemäß https://www.hl7.org/fhir/organization.html#search angegeben werden. Im konkreten Beispiel soll nach Apotheken (`Location`) mit `Adler` im Namen gefiltert werden. Weitere Suchparameter können z.B. eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) umfassen. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+
+NOTE: In der Aufruf-Adresse können Suchparameter gemäß https://www.hl7.org/fhir/organization.html#search angegeben werden (wie hier in `GET /api/Location?name=Adler HTTP/1.1`). Im konkreten Beispiel soll nach Apotheken (`Location`) mit `Adler` im Namen gefiltert werden. Weitere Suchparameter können z.B. eine Ortsangabe (z.B. `address-city=Köln` bzw. `address-city=K%C3%B6ln`) umfassen. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
 
 *Response*
 [source,text]
@@ -610,6 +487,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [%collapsible]
 ====
+[source,json]
 ----
 {
   "id": "2b50e07d-ace1-4f83-ae8f-e2845e291cc3",
@@ -881,10 +759,11 @@ Content-Type: application/fhir+json;charset=utf-8
   ]
 }
 ----
-<1> Die Suchanfrage nach `Adler`-Apotheken liefert genau zwei Treffer.
-<2> Die `Telematik-ID` ist die eindeutige Kennung der Apotheke, um an diese bspw. eine Nachricht zu schicken.
-<3> Der Name der Apotheke, unter dem sie im Verzeichnis geführt wird.
-<4> Dies ist die Postleitzahl, nach der im Verzeichnis gesucht wurde.
+NOTE: Die Suchanfrage nach `Adler`-Apotheken liefert genau zwei Treffer.
+
+NOTE: Die `Telematik-ID` ist die eindeutige Kennung der Apotheke, um an diese bspw. eine Nachricht zu schicken.
+
+NOTE: Der Name der Apotheke, unter dem sie im Verzeichnis geführt wird findet sich unter z.B.`"name": "Apotheke am Adler"`
 ====
 
 [cols="a,a"]
@@ -919,15 +798,16 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01 <1>  +
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01   +
 
-<1> In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/medicationdispense.html#search` angegeben werden. Im konkreten Beispiel soll nach Dispensierinformationen zu Medikamenten mit einem Abholdatum `whenhandedover` größer (`gt`) dem Datum `01.03.2020` gesucht werden.
+NOTE: In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/medicationdispense.html#search` angegeben werden. Im konkreten Beispiel soll nach Dispensierinformationen zu Medikamenten mit einem Abholdatum `whenhandedover` größer (`gt`) dem Datum `01.03.2020` gesucht werden.
+
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
 
@@ -1019,7 +899,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "display":"Sumatriptan-1a Pharma 100 mg Tabletten"
       },
       "supportingInformation": [ {
-        "reference":"Task/160.880.966.157.248.22" <1>
+        "reference":"Task/160.880.966.157.248.22"
       } ],
       "subject": [ {
         "identifier":{
@@ -1027,7 +907,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "value":"x1234567"
         }
         } ],
-      "performer": [ { <2>
+      "performer": [ {
         "actor":{
           "identifier":{
             "use":"official",
@@ -1038,7 +918,7 @@ Content-Type: application/fhir+json;charset=utf-8
         }
       } ],
       "whenPrepared":"2020-03-20T07:13:00+05:00",
-      "whenHandedOver":"2020-03-20T07:13:00+05:00", <3>
+      "whenHandedOver":"2020-03-20T07:13:00+05:00",
       "dosageInstruction": [ {
         "text":"1-0-1-0"
       } ]
@@ -1053,117 +933,7 @@ NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingel
 
 NOTE: Unter `"performer"` findet sich der Name und die Betriebsstättennummer Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
 
-{
-  "resourceType": "Bundle",
-  "id": "187dc298-c2b8-40f5-8938-c6c4078660ed",
-  "meta": {
-    "lastUpdated": "2020-04-07T08:05:42.225+00:00"
-  },
-  "type": "searchset",
-  "total": 1,
-  "link": [ {
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-01-01"
-  } ],
-  "entry": [ {
-    "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/1093629",
-    "resource": {
-      "resourceType": "MedicationDispense",
-      "id": "1093629",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-04-02T09:06:40.735+00:00",
-        "source": "#IanTxrBta61i4om4",
-        "profile": [ "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense" ]
-      },
-      "contained": [ {
-        "resourceType":"Medication",
-        "id":"med0314",
-        "meta":{
-          "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.1"
-          ] },
-        "extension": [ {
-          "url":"https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-          "valueCoding":{
-            "system":"http://fhir.de/CodeSystem/ifa/pzn",
-            "code":"06313728"
-          }
-        }, {
-          "url":"https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-          "valueBoolean":false
-        }, {
-          "url":"http://fhir.de/StructureDefinition/normgroesse",
-          "valueCode":"N1"
-        } ],
-        "code":{
-          "coding": [ {
-            "system":"http://fhir.de/CodeSystem/ifa/pzn",
-            "code":"06313728"
-          } ],
-          "text":"Sumatriptan-1a Pharma 100 mg Tabletten"
-        },
-        "form":{
-          "coding": [ {
-            "system":"https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-            "code":"TAB"
-          } ]
-        },
-        "amount":{
-          "numerator":{
-            "value":"12",
-            "system":"http://unitsofmeasure.org",
-            "unit":"{tbl}"
-          },
-          "denominator":{
-            "value":"1"
-          }
-        }
-      } ],
-      "identifier": [ {
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
-        "value":"12345678"
-      } ],
-      "status":"completed",
-      "medicationReference":{
-        "reference":"#med0314",
-        "display":"Sumatriptan-1a Pharma 100 mg Tabletten"
-      },
-      "supportingInformation": [ {
-        "reference":"Task/160.880.966.157.248.22" <1>
-      } ],
-      "subject": [ {
-        "identifier":{
-          "system":"http://fhir.de/sid/gkv/kvid-10",
-          "value":"x1234567"
-        }
-        } ],
-      "performer": [ { <2>
-        "actor":{
-          "identifier":{
-            "use":"official",
-            "system":"https://gematik.de/fhir/sid/telematik-id",
-            "value":"3-1.54.10123404"
-          },
-          "display":"Ihre Apotheke um die Ecke"
-        }
-      } ],
-      "whenPrepared":"2020-03-20T07:13:00+05:00",
-      "whenHandedOver":"2020-03-20T07:13:00+05:00", <3>
-      "dosageInstruction": [ {
-        "text":"1-0-1-0"
-      } ]
-    },
-    "search": {
-      "mode": "match"
-    }
-  } ]
-}
-----
-<1> Hier ist der Task des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
-<2> Der Name und die Betriebsstättennummer Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
-<3> Dieser Wert wurde als Filterkriterium verwendet, das Medikament wurde hier am 20.03.2020 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
+NOTE: ` "whenHandedOver"` wurde als Filterkriterium verwendet, das Medikament wurde hier am 20.03.2020 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
 
 
 [cols="a,a"]
@@ -1199,10 +969,10 @@ Der Aufruf erfolgt als http-`POST`-Operation auf eine konkrete Ressource `/Task/
 |Method     |POST
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
@@ -1213,9 +983,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-HTTP/1.1 204 No Content  <1>
+HTTP/1.1 204 No Content
 ----
-<1>  Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
+NOTE:  Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
 
 
 [cols="a,a"]
@@ -1256,9 +1026,9 @@ Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit eine
 |Method     |GET
 |HTTP Header |
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J <1>
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-<1> Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten, nach der die Protokolleinträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten, nach der die Protokolleinträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: AuditEvent` zu setzen.
 
@@ -1269,7 +1039,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,json]
 ----
-HTTP/1.1 200
+HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
 {
@@ -1278,16 +1048,16 @@ Content-Type: application/fhir+json;charset=utf-8
   "meta": {
     "lastUpdated": "2020-03-29T13:44:18.783+00:00"
   },
-  "type": "searchset", <1>
+  "type": "searchset",
   "link": [ {
     "relation": "self",
     "url": "https://erp.app.ti-dienste.de/AuditEvent"
   }, {
     "relation": "next",
-    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20" <2>
+    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20"
   } ],
   "entry": [ {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862", <3>
+    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862",
     "resource": {
       "resourceType": "AuditEvent",
       "id": "58862",
@@ -1302,7 +1072,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "text": {
         "status": "generated",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Praxis Dr. Müller,
-        Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>" <4>
+        Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>"
       },
       "type": {
         "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
@@ -1347,7 +1117,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "value":"160.123.456.789.123.58"
           },
         },
-        "name": "X123456789", <5>
+        "name": "X123456789",
         "description": "*160.123.456.789.123.58*"
       } ]
     },
@@ -1501,231 +1271,7 @@ NOTE: Die Darstellung eines Protokolleintrags erfolgt als `AuditEvent`
 NOTE: Unter `"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Praxis Dr. Müller,
         Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>"` wird eine lesbare Darstellung in HTML-Format bereitgestellt.
 
-{
-  "resourceType": "Bundle",
-  "id": "12653b13-5fca-4e3b-860c-9558bdfef9a1",
-  "meta": {
-    "lastUpdated": "2020-03-29T13:44:18.783+00:00"
-  },
-  "type": "searchset", <1>
-  "link": [ {
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/AuditEvent"
-  }, {
-    "relation": "next",
-    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20" <2>
-  } ],
-  "entry": [ {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862", <3>
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "58862",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T08:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
-        ]
-      },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Praxis Dr. Müller,
-        Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>" <4>
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "create"
-      } ],
-      "action": "C",
-      "recorded": "2020-02-27T08:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "1-1.54.102323123404"
-          }
-        },
-        "name": "Praxis Dr. Müller",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/1234",
-        }
-      },
-      "entity": [ {
-        "what": {
-          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          },
-        },
-        "name": "X123456789", <5>
-        "description": "*160.123.456.789.123.58*"
-      } ]
-    },
-    "search": {
-      "mode": "match"
-    }
-  }, {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58863",
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "58863",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T09:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
-        ]
-      },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Max Mustermann hat ein E-Rezept 160.123.456.789.123.58 heruntergeladen</div>"
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "read",
-      } ],
-      "action": "R",
-      "recorded": "2020-02-27T09:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-1.54.10123404"
-          }
-        },
-        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/5678"
-        }
-      },
-      "entity": [ {
-        "what": {
-          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          },
-        },
-        "name": "X123456789",
-         "description": "*160.123.456.789.123.58*"
-      } ]
-    },
-    "search": {
-      "mode": "match"
-    }
-  }, {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/620049",
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "620049",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T10:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent"
-        ]
-      },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Ihre Apotheke um die Ecke,
-        Hauptstraße 1 hat ein E-Rezept 160.123.456.789.123.58 beliefert</div>"
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "update"
-      } ],
-      "action": "U",
-      "recorded": "2020-02-27T10:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-1.54.10123404"
-          }
-        },
-        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/1234"
-        }
-      },
-      "entity": [ {
-        "what": {
-           "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          },
-        },
-        "name": "X123456789",
-        "description": "*160.123.456.789.123.58*"
-      } ]
-    },
-    "search": {
-      "mode": "match"
-    }
-  } ]
-}
-----
-<1> Beim Abrufen der Protokolleinträge erfolgt die Rückgabe als `Bundle`, in dem die Protokolleinträge mit Bezug zum authentifizierten Versicherten über dessen KVNR aufgelistet werden. In diesem vereinfachten Beispiel werden nur drei Einträge dargestellt.
-<2> Für eine komfortable Darstellung vieler Protokolleinträge und zur Reduktion der übertragenen Datenmenge kommt ein Paging-Mechanismus zum Einsatz. Über diese `url` können die nächsten 20 Protokolleinträge abgerufen werden (sofern weitere vorhanden)
-<3> Die Darstellung eines Protokolleintrags erfolgt als `AuditEvent`
-<4> Hier wird eine lesbare Darstellung in HTML-Format bereitgestellt.
-<5> Der Versichertenbezug wird über die Versichertennummer des jeweils gelesenen/eingestellten/gelöschten E-Rezept oder auch MedicationDispense hergestellt.
+NOTE: Der Versichertenbezug wird über die Versichertennummer des jeweils gelesenen/eingestellten/gelöschten E-Rezept in `"name": "X123456789"` oder auch MedicationDispense hergestellt.
 
 
 [cols="a,a"]
@@ -1748,5 +1294,3 @@ s|Code   s|Type Error
 |500  |Server Errors +
 [small]#Unerwarteter Serverfehler#
 |===
-
-

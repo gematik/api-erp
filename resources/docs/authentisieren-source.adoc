@@ -1,0 +1,383 @@
+include::./config-source.adoc[]
+
+= E-Rezept API-Dokumentation
+Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. Das betrifft zum einen die Authentifizierung als Nutzer oder Institution durch den Identity Provider (IDP) und zum anderen den verschlüsselten Datentransport auf Anwendungsebene (xref:anchor-vau-transport["VAU-Transport]").
+
+toc::[]
+
+= Http-Header in Requests an Dienste der Telematikinfrastruktur
+Zur Steuerung der Funktionsaufrufe, für Sicherheitsprüfungen und die Protokollierung sind verpflichtende http-Header in allen http-Requests an den IDP-Dienst und den E-Rezept-Fachdienst erforderlich. Da mit dem VAU-Transport ein "innerer" und ein "äußerer" http-Request an den E-Rezept-Fachdienst gesendet werden, ist auf das korrekte Setzen innen und außen zu achten. Die folgende Tabelle listet die notwendigen http-Header auf.
+
+[cols="a,a,^.a"]
+[cols=">60%,^20%,^20%", options="header"]
+|===
+|http-Header|äußerer Request ("/VAU")|innerer Request
+|Authorization|-|x
+|User-Agent|x|optional
+|X-erp-user|x|-
+|X-erp-resource|x|-
+|X-AccessCode|-|x
+|SOAPAction (nur für Konnektor)|n/a|x
+|===
+
+NOTE: Die Standard http-Header wie bspw. `Accept-*`, `Connection`, `Host`, `Content-Type`, `Content-Length` usw. sind gemäß Standard ebenfalls zu setzen.
+
+= Als Nutzer der Telematikinfrastruktur authentifiziert werden
+Die Telematikinfrastruktur gestattet keinen Zugriff auf Dienste ohne eine Identifikation der Nutzer. Dies dient der Durchsetzung von Zugriffsregeln und der Protokollierung des Zugriffs auf medizinische Daten von Versicherten. Mit der Authentifizierung der Nutzer erfolgt keine Profilbildung, Sessiondaten werden temporär verwaltet und nach Beendigung einer Sesssion unverzüglich gelöscht. Die Protokollierung von Zugriffen auf medizinische Daten erfolgt in Abhängigkeit der genutzten Schnittstellen in den jeweils aufgerufenen Services sowie in Abhängigkeit der fachlichen Anforderungen gemäß gematik-Spezifikationen. +
+
+Die Authentifizierung übernimmt mit der Einführung des E-Rezepts ein zentraler Identity Provider (IDP). Der IDP erkennt Nutzer anhand ihrer kartenbasierten Identitäten und stellt die Identitätsmerkmale (Name, KVNR bzw. Telematik-ID) der Zertifikate auf der Karte in ID_TOKEN und ACCESS_TOKEN für die Nutzung im E-Rezept-Fachdienst bereit.
+
+== Ablauf des Authentifizierungsprotokolls
+Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber dem Identity Provider (IDP) unter Nutzung der Konnektorschnittstelle.
+
+Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.zentral.idp.splitdns.ti-dienste.de` bzw. `idp.app.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoveryDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-known"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
+
+Die folgende Abbildung zeigt den detaillierten Ablauf mit allen beteiligten Komponenten. Das Primärsystem gliedert sich in die E-Rezept-Fachlogik und ein Authenticator-Modul. Letzteres übernimmt die Authentisierung mittels der kartenbasierten Identität unter Nutzung der Konnektorschnittstellen. Der IDP authentifiziert den Nutzer anhand der kartenbasierten Identität und einer Signatur durch das Schlüsselmaterial auf der Karte (SMC-B) und stellt bei Erfolg einen Zugriffstoken (ACCESS_TOKEN) für den Zugriff auf den Fachdienst aus.
+
+image:workflowAuthentication.svg[width=100%]
+
+NOTE: Die Ablaufbeschreibung link:https://gematik.github.io/ref-idp-server/tokenFlowPs.html[Rbelflow für Primärsysteme^] gibt ein konkretes Beispiel mit Request- und Response-Parametern für die Authentifizierung mittels SMC-B einer Test-Apotheke "3-SMC-B-Testkarte-883110000xxxxxx" (siehe auch "professionOID": "1.2.276.0.76.4.54" = "Öffentliche Apotheke").
+
+Die folgenden Schritte sind von besonderer Bedeutung und werden kurz erläutert.
+
+[cols="a,a,a"]
+[cols="1%,1%,100%"]
+|===
+|*Step*|*eRp (Fachlogik) / AM (Auth-Modul)*|*Beschreibung*
+|1 - 5|AM/eRP|Laden des Discovery Documents (DD) vom IDP (Diese Operation wird vorbereitend sowohl vom Auth-Modul, wie auch von der Fachlogik und dem Fachdienst durchgeführt) +
+ [https://idp.zentral.idp.splitdns.ti-dienste.de/.well-known/openid-configuration] *Schritt 1 im Rbel-Flow*,
+Prüfung der Signatur des DD gegen das Signatur-Zertifikat im `x5c`-Feld des Response-Header und Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],
+|6 - 8|eRp|Erzeugung eines CODE_VERIFIER (128 zufällige Zeichen aus der Menge [A-Z] / [a-z] / [0-9] / "-" / "." / "_" / "~") und bilden der CODE_CHALLENGE als dessen sha256-Hashwert sowie,
+Erzeugung einer `nonce` und eines `state`. `Nonce` ist ein optionaler Zufallswert, `state` kann beliebig gewählt werden, also ebenso eine Zufallszahl oder eine session-id etc. +
+ Um das CHALLENGE_TOKEN zu beziehen, werden CODE_CHALLENGE, `state` und ggf. `Nonce` an das Authenticator-Modul übergeben und in der Fachlogik für spätere Prüfungen zwischengespeichert.
+3.+|*AuthorizationCode über Handshake mit Kartenidentität beziehen*
+|9 - 12|AM|Lesen des X509-Signatur-Zertifikats zum `puk_idp_sig` des IDP und des IDP-Verschlüsselungsschlüssels `puk_idp_enc` von http://url.des.idp/idpSig/jwk.json und http://url.des.idp/idpEnc/jwk.json oder aus dem JWK-Set http://url.des.idp/jwks *Schritt 3 + 5 im Rbel-Flow*
+|13 - 17|AM| Senden der in Schritt 8 übergebenen Werte (als URL-Parameter wie z.B. 'code_challenge') an den authorization_endpoint des IDP, ,+ dieser antwortet mit dem CHALLENGE_TOKEN und dem `user_consent` *Schritt 7 im Rbel-Flow*, +
+Die Signatur des CHALLENGE_TOKEN wird mittels `puk_idp_sig` geprüft. Es erfolgt eine Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],.
+|18 - 19|AM|Anzeige des `user_consent` und Bestätigung durch den Nutzer, dass die genannten personenbezogenen Attribute vom IDP verarbeitet und dem Fachdienst übermittelt werden dürfen.
+Die erfolgte Nutzereinwilligung für diesen `scope` kann gespeichert werden.
+|20|AM|Zertifikat der Authentisierungs-Identität C.HCI.AUT von der SMC-B lesen (siehe unten xref:anchor-read-aut[Konnektor-Aufruf])
+|21|AM|Berechnen des HASH-Werts der empfangenen Challenge und Signieren des Challenge-HASH mit PrK.HCI.AUT der SMC-B (siehe unten xref:anchor-sign-challenge[Konnektor-Aufruf])
+|22|AM|JWE-Verschlüsselung der signierten Challenge als njwt und des Zertifikats C.HCI.AUT mit `puk_idp_enc` aus dem Discovery Document.
+|23 - 27|AM|Senden der verschlüsselten Challenge und des verschlüsselten Zertifikats an den authorization_endpoint des IDP +
+*Schritt 9 im Rbel-Flow* +
+|28|AM|Die Response (`AuthorizationCode` und Redirect zum Tausch des `AuthorizationCode` gegen einen ACCESS_TOKEN) wird an die Fachlogik zurückgegeben. +
+3.+|*Authentifizierung des Nutzers abgeschlossen, im Folgenden wird der ACCESS_TOKEN für den Zugriff am E-Rezept-Fachdienst mit Hilfe des AuthorizationCodes abgerufen.*
+|29 - 32|eRp|Generierung eines `Token-Key` (AES256) zur verschlüsselten Kommunikation mit dem IDP, anschließend wird dem Redirect gefolgt, um den `AuthorizationCode` gegen ein AccessToken zu tauschen.
+|33 - 37|eRp|Der Aufruf übergibt den zuvor erhaltenen `AuthorizationCode` und den zusammen mit dem CODE_VERIFIER verschlüsselten `Token-Key`. +
+*Schritt 11 im Rbel-Flow* +
+Der IDP prüft die Signatur des `AuthorizationCode`, um die Gültigkeit des Codes zu verifizieren und antwortet mit einem verschlüsselten AccessToken für den Zugriff auf den E-Rezept-Fachdienst und mit einem verschlüsselten ID_TOKEN.
+|38 - 41|eRp|Das ACCESS_TOKEN und das ID_TOKEN werden mit Hilfe des `Token-Key` entschlüsselt. Die Signatur des ID_TOKEN wird gegen den `puk_idp_sig` überprüft. Es erfolgt eine Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],.
+Die enthaltene Nonce gegen den im Schritt 1 erzeugten Wert abgeglichen. Anschließend wird das ACCESS_TOKEN zum Zugriff auf den Fachdienst verwendet.
+|42 - 44||Der Fachdienst prüft die Signatur des ACCESS_TOKEN, liest die dem Scope zugewiesenen Claims und gibt dem identifizierten Benutzer Zugriff auf die Fachdaten der Anwendung.
+|===
+
+
+
+=== Vorbereitende Schritte für die Authentifizierung mittels der SMC-B
+1. Dem Nutzer soll der vom IDP bereitgestellte UserConsent angezeigt werden. Stimmt der Nutzer der Bereitstellung der Daten für den E-Rezept-Fachdienst nicht zu, muss der Authentifizierungsvorgang abgebrochen werden, da der Fachdienst ohne diese Informationen den E-Rezept-Workflow nicht umsetzen kann.
+2. Die vom IDP in der obigen Response übermittelte Challenge beinhaltet ein Challenge-Token `{"iss":"https://idp.zentral.idp.splitdns.ti-dienste.de","response_type":"code","snc":"syQAvJmxPnRtLjT6uPVERb_RF7MmVzhS1sP8FbHjhLM","code_challenge_method":"S256","token_type":"challenge","nonce":"887766","client_id":"gematikTestPs","scope":"openid e-rezept","state":"xxxstatexxx","redirect_uri":"http://test-ps.gematik.de/erezept","exp":1616686048,"iat":1616685868,"code_challenge":"Ca3Ve8jSsBQOBFVqQvLs1E-dGV1BXg2FTvrd-Tg19Vg","jti":"5e5ad23ae3e7d8aa"}` in Base64-Codierung `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5zcGxpdGRucy50aS1kaWVuc3RlLmRlIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJzbmMiOiJzeVFBdkpteFBuUnRMalQ2dVBWRVJiX1JGN01tVnpoUzFzUDhGYkhqaExNIiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsInRva2VuX3R5cGUiOiJjaGFsbGVuZ2UiLCJub25jZSI6Ijg4Nzc2NiIsImNsaWVudF9pZCI6ImdlbWF0aWtUZXN0UHMiLCJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsInN0YXRlIjoieHh4c3RhdGV4eHgiLCJyZWRpcmVjdF91cmkiOiJodHRwOi8vdGVzdC1wcy5nZW1hdGlrLmRlL2VyZXplcHQiLCJleHAiOjE2MTY2ODYwNDgsImlhdCI6MTYxNjY4NTg2OCwiY29kZV9jaGFsbGVuZ2UiOiJDYTNWZThqU3NCUU9CRlZxUXZMczFFLWRHVjFCWGcyRlR2cmQtVGcxOVZnIiwianRpIjoiNWU1YWQyM2FlM2U3ZDhhYSJ9`. Da die Signatur immer über einen Hashwert der zu signierenden Daten erfolgt, muss dieser Hashwert vom Clientsystem berechnet werden. Als kryptografisches Verfahren kommt hier SHA-256 zum Einsatz. Aus dem obigen Beispiel `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5...` ergibt sich folgender Hashwert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f`
+
+[[anchor-read-aut]]
+=== Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate)
+Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografischen Identität. Die Karte hält den privaten Schlüssel zu dieser Identität, welcher für die Signatur über eine Challenge des IDP genutzt wird. Zur Prüfung der Signatur benötigt der IDP das Zertifikat dieser Identität. Dieses enthält den öffentlichen Schlüssel für die kryptografische Signaturprüfung sowie weitere Nutzerinformationen (Name, KVNR/Telematik-ID, fachliche Rolle), die der IDP in Identitätsbestätigungen zur Nutzung gegenüber dem E-Rezept-Fachdienst attestiert. Der Abruf des Zertifikats erfolgt über die Konnektor-Operation `ReadCertificate`.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertificate"
+----
+|Payload    |
+[source,xml]
+----
+include::../examples/konnektorservice/request_ReadCardCertificate.xml[]
+----
+NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
+|===
+
+*Response*
+[source,xml]
+----
+include::../examples/konnektorservice/response_ReadCardCertificate.xml[]
+----
+NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
+
+[cols="a,a"]
+[%autowidth]
+|===
+|Code   |Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
+|Code   |Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+[[anchor-verify-certificate]]
+=== Zertifikat mittels Konnektoroperation verifizieren (verifyCertificate)
+Der Konnektor prüft das übergebene Zertifikat gegen den Vertrauensraum der Telematikinfrastruktur, dabei führt er eine Online-Prüfung des Sperrstatus durch und liefert das Ergebnis der Prüfung sowie die im Zertifikat enthaltene technische Rolle.
+Diese technische Rolle muss das Primärsystem im Anschluß gegen die Rolle des erwarteten Dienstes abgleichen.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: "http://ws.gematik.de/conn/CertificateService/v6.0#VerifyCertificate"
+----
+IMPORTANT: Die Länge des Soap-Requests, muss entsprechend im Header mit der Eigenschaft `Content-Length` gesetzt werden.
+----
+|Payload    |
+[source,xml]
+----
+include::../examples/konnektorservice/request_VerifyCertificate.xml[]
+----
+NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certificate></m2:X509Certificate>` identifiziert.
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+include::../examples/konnektorservice/response_VerifyCertificate.xml[]
+----
+NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
+
+NOTE: in `<ns4:Role>VALID</<ns4:Role>` ist die technische Rolle hinterlegt, wie im Zertifikat angegeben.
+
+NOTE: Aufgrund der im Feld befindlichen unterschiedlichen Konnektorversionen ist ggfs. nicht in allen Installationen die aktuell gültige Liste der OIDs gemäß gemSpec_OID bekannt. Daher kann es vorkommen, dass einige Konnektorversionen die Zertifikate als ungültig betrachten. Die gematik arbeitet an einer Lösung, die Primärsystemen die Implementierung des PKI-Stacks in einer Übergangsphase erspart.
+
+IMPORTANT: Die Gültigkeitsprüfung von ECC-Zertifikaten unterstützt der Konnektor erst in der Version PTV4 ("ePA 1.0").
+
+
+[[anchor-sign-challenge]]
+=== Signatur mit SMC-B erzeugen (external_authenticate)
+Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
+Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=`).
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticate"
+----
+|Payload    |
+[source,xml]
+----
+include::../examples/konnektorservice/request_ExternalAuthenticate.xml[]
+----
+NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
+
+NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Hashwert zur Challenge (Base64-Darstellung des Challengetoken, das zuvor vom IDP bezogen wurde).
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+include::../examples/konnektorservice/response_ExternalAuthenticate.xml[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+|Code   |Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
+|Code   |Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+NOTE: `<ns3:Base64Signature></ns3:Base64Signature>` enthält die Signatur, die mittels Konnektor und dem privaten Schlüssel der SMC-B erstellt wurde.
+
+NOTE: *Nutzung der Gesundheitskarte* +
+Versicherte weisen sich gegenüber der Telematikinfrastruktur mit der Identität der elektronischen Gesundheitskarte aus.
+Der Ablauf ist analog zu dem oben ausgeführt Ablauf für Primärsysteme. Das E-Rezept-FdV bündelt dabei (wie das Primärsystem) in Stufe 1 die E-Rezept-Fachlogik und die Funktion des Authenticator-Moduls. Die Signatur der Challenge erfolgt bei Nutzung der elektronischen Gesundheitskarte bspw. über die NFC-Schnittstelle des Mobilgeräts.
+Dabei wird das Schlüsselmaterial PRK.CH.AUT für Private-Key und C.CH.AUT für das Zertifikat inkl. PublicKey verwendet.
+
+[[anchor-vau-transport]]
+= Verschlüsselter Transportkanal zur Vertrauenswürdigen Ausführungsumgebung ("VAU-Transport")
+Der Einsatz moderner Transportverschlüsselung ab TLS 1.2 schützt vor der Einsicht sensibler Daten beim Transport über das Internet. Dabei sind sowohl die Daten des HTTP-Body als auch die aufgerufene URL und die HTTP-Header verschlüsselt. In modernen Cloud-Infrastrukturen enden solche TLS-Verbindungen meist an einem Internetgateway, müssen jedoch in einer Serverinfrastruktur häufig zu dahinterliegenden Applicationservern und -diensten weitertransportiert werden.
+
+Um sensible Daten bis hinein in einen vertrauenswürdigen Ausführungskontext verschlüsselt zu transportieren, erfolgt der Zugang zum E-Rezept-Fachdienst mit einer zusätzlichen Transportverschlüsselung für eine kryptografische Identität der vertrauenswürdigen Ausführungsumgebung (VAU). Dabei werden die Daten des HTTP-Body für den Verarbeitungskontext der VAU  um einen symmetrischen Antwortschlüssel ergänzt und anschließend asymmetrisch verschlüsselt. Dieser verschlüsselte HTTP-Request wird dann mittels TLS transportverschlüsselt an den E-Rezept-Fachdienst übergeben.
+
+image:api_vau_transport.png[width=80%]
+
+NOTE: Das Diagramm inkl. der konkreten Ablaufbeschreibung befindet sich auch im Spezifikationsdokument [gemSpec_Krypt] in Kapitel 7.
+
+.In den folgenden github-Repositories finden sich Beispiel-Implementierungen für die verschlüsselte VAU-Kommunikation
+* https://github.com/gematik/ref-erp-client-cs/
+* https://github.com/ere-health/architecture
+* https://github.com/ere-health/ere-ps-app
+* https://github.com/ere-health/front-end-ere.health
+* https://bitbucket.org/andreas_hallof/vau-protokoll/src/master/erp
+
+Die VAU des E-Rezept-Fachdienstes erzeugt eine HTTP-Response entsprechend des Workflows im E-Rezept und verschlüsselt diese Response symmetrisch mit dem vom Client bereitgestellten Antwortschlüssel. Die verschlüsselte Response wird anschließend mittels TLS transportverschlüsselt an den Client zurückgegeben.
+
+Ein zusätzlich in den Aufrufen vom E-Rezept-Fachdienst generiertes, wechselndes Nutzerpseudonym wirkt zusätzlich Überlastungsangriffen entgegen, indem Aufrufe ohne Nutzerpseudonym mit einer geringeren Priorität bearbeitet werden.
+
+CAUTION: Die zusätzliche Verschlüsselung erfolgt mit dem AES-GCM-Verfahren, die über ein AuthenticationTag am Ende des Bitstroms die Integrität des transportierten Ciphertextes sicherstellt. Der AES-Schlüssel ergibt sich zufällig aus der Ableitung über den öffentlichen ECC-Schlüssel des VAU-ENC-Zertifikats. Sind der verwendete *Random* oder die *X*- und *Y*-Koordinaten des ECC-Schlüssels dabei nicht exakt 32 Byte groß, werden die Daten zwar korrekt verschlüsselt, aber das AuthenticationTag passt am Ende nicht zum Ciphertext - der Fachdienst muss das dann gemäß AES-Spezifikation als "manipuliert" ablehnen und antwortet mit einer Fehlermeldung `vau decryption failed: AesGcmException can't finalize AES-GCM decryption;`
+
+Die folgenden beispielhaften Code-Zeilen prüfen auf eine exakte Länge:
+
+[source,C#]
+----
+//sharedSecretBytes muss 32 Byte groß sein entweder vorn abschneiden oder mit 0 auffüllen
+if (sharedSecretBytes.Length > 32) {
+    sharedSecretBytes = sharedSecretBytes.Skip(sharedSecretBytes.Length - 32).ToArray();
+} else if (sharedSecretBytes.Length < 32) {
+    sharedSecretBytes = Enumerable.Repeat((byte) 0, 32 -
+      sharedSecretBytes.Length).Concat(sharedSecretBytes).ToArray();
+}
+----
+
+Ein Java-Beispiel stellen wir in der folgenden Datei  link:../samples/snippets/VAUClientCrypto.java[VAUClientCrypto.java^] bereit, in der dieses Problem mit der Methode `pad32(byte[] input)` behandelt wird.
+
+
+==== Kennzeichnung des verschlüsselten Inhalts für Routing
+Der E-Rezept-Fachdienst benötigt eine Kennzeichnung im äußeren http-Request, um den verschlüsselten Inhalt an den fachlich zuständigen VAU-Kontext zu routen. Um eine Überlastung nutzerrollen- und workflowspezifischer VAU-Kontexte zu vermeiden, werden die http-Header `X-erp-user` und `X-erp-resource` genutzt. Die folgende Tabelle zeigt die Belegung der Header zur Nutzung durch die entsprechenden E-Rezept-Nutzer (in den Beispielen der verschiedenen UseCases sind die jeweiligen Header-Belegungen für den äußeren http-Request angegeben):
+
+[cols="a,a"]
+[%autowidth]
+|===
+|*Leistungserbringer (PVS, AVS ,KIS)*       |*Versicherte (E-Rezept-App)*
+|`X-erp-user: l` +
+Dieser Header mit Wert "l" (kleines "L") signalisiert dem E-Rezept-Fachdienst einen Zugriff durch Leistungserbringer
+|`X-erp-user: v` +
+Dieser Header mit Wert "v" (kleines "V") signalisiert dem E-Rezept-Fachdienst einen Zugriff durch Versicherte
+|`X-erp-resource: Task` +
+`X-erp-resource: Communication` +
+Der Header mit diesem Wert signalisiert den Zugriff auf eine bestimmte FHIR-Ressource, z.B. Task. Es wird immer nur eine Ressource genannt, da Zugriffe auch immer nur an eine Ressource adressiert werden.
+Hinweis: Beim Zugriff auf das CapabilityStatement mit GET /metadata wird entsprechend `X-erp-resource: metadata` angegeben. Die Auswertung erfolgt *Case-Sensitiv*
+|`X-erp-resource: Task` +
+`X-erp-resource: MedicationDispense` +
+`X-erp-resource: Communication` +
+`X-erp-resource: AuditEvent`
+|===
+
+== Verbindungsaufbau zum E-Rezept-Fachdienst
+Zunächst muss das Verschlüsselungszertifikat der VAU vom E-Rezept-Fachdienst abgerufen werden.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificate
+|Method     |GET
+|HTTP Header |X-erp-user: l
+
+NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+|Payload    | -
+|Response |
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/pkix-cert
+
+1100110001111111000000011011000010100111100001111000010010111001...
+----
+|===
+
+Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die erweiterte Prüfung des Verschlüsselungszertifikats bereit.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse
+|Method     |GET
+|HTTP Header |X-erp-user: l
+
+NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+|Payload    | -
+|Response |
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/ocsp-response
+
+100100100110001011110001110111011000110000101111101100100111011...
+----
+|===
+
+== Request versenden
+Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Request für die VAU in mehreren Schritten aufbereitet. Als Beispiel wird im Folgenden die Abfrage aller E-Rezepte eines Versicherten verwendet.
+[source,json]
+----
+GET /Task HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+User-Agent: E-Rezept FdV 1.0.0
+Accept: application/fhir+json;charset=utf-8
+----
+
+IMPORTANT: Der zu verschlüsselnde http-Request muss vollständig und syntaktisch korrekt gemäß link:https://datatracker.ietf.org/doc/html/rfc2616[RFC-2616] erstellt werden (d.h. inkl. aller verpflichtenden http-Header und ggfs. http-Body 'new line'-getrennt).
+
+Zunächst müssen im Client eine zufällige Request-ID (z.B. `b69f01734f34376ddcdbdbe9af18a06f`) und ein symmetrischer Antwortschlüssel (z.B. `16bac90134c635e4ec85fae0e4885d9f`) generiert werden. +
+Als nächstes wird die folgende leerzeichengetrennte Zeichenkette `p` für die anschließende Verschlüsselung gebildet: `p="1" + " " + ACCESS_TOKEN + " " + Request-ID + " " + Antwortschlüssel + " " + HTTP-Request`, mit obigem Beispiel ergibt sich für `p`:
+[source,json]
+----
+"1 eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J b69f01734f34376ddcdbdbe9af18a06f 16bac90134c635e4ec85fae0e4885d9f GET /Task HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+User-Agent: E-Rezept FdV 1.0.0
+Accept: application/fhir+json;charset=utf-8"
+----
+Diese Zeichenkette wird nun mit dem ECIES-Verfahrens [SEC1-2009] und dem öffentlichen Schlüssel aus dem zuvor abgerufenen Verschlüsselungszertifikat der VAU hybrid verschlüsselt. Sei `1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100` ein unvollständiges Beispiel für das Ergebnis der Verschlüsselungsoperation. Dieses wird nun als Payload im HTTP-Body des folgenden Requests an den E-Rezept-Fachdienst übergeben.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAU/0
+|Method     |POST
+|HTTP Header |`Content-Type: application/octet-stream` +
+X-erp-user: l
+
+NOTE: Der Header `X-erp-user` signalisiert dem E-Rezept-Fachdienst einen Zugriff aus der Leistungserbringerumgebung [`l` - kleines "L"] (muss in jedem Header angegeben werden).
+|HTTP Body   |`1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100`
+|Response |
+[source,json]
+----
+
+
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Userpseudonym: 5a049a2c1654e685247e2d20136445d9-632f841a029564ce000f29675d192513
+
+001111101111100110001001001111010110010010111110101100100011110...
+----
+|===
+NOTE: Die `0` am Ende der URL des Requests steht für ein (dem Client nicht bekanntes) Nutzerpseudonym, nach der ersten Antwort der VAU des E-Rezept-Fachdienstes kann das vom Fachdienst mitgeteilte `Userpseudonym` `5a049a2c1654e685247e2d20136445d9-632f841a029564ce000f29675d192513` anstelle der `0` verwendet werden, um Folgezugriffe höher zu priorisieren.
+
+
+== Response verarbeiten
+Nach dem erfolgreichen Abschluss der Bearbeitung des Requests durch die VAU des E-Rezept-Fachdienstes erhält der Client die verschlüsselte HTTP-Response der VAU in einer äußeren "VAU-Transport"-HTTP-Response.
+Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstellung der verschlüsselten Antwort. Die innere HTTP-Response des fachlichen Ergebnisses aus der VAU kann dabei einen abweichenden HTTP-Statuscode beinhalten, wenn aufgrund der Daten oder Verarbeitung innerhalb der VAU Fehlerzustände eintreten oder ungültige Daten übergeben wurden. Sei `001111101111100110001001001111010110010010111110101100100011110...` die verschlüsselte Response zum obigen Beispiel. Die Entschlüsselung mit dem für den Request generierten Antwortschlüssel `16bac90134c635e4ec85fae0e4885d9f`mittels AES-GCM liefert die innere HTTP-Response der VAU als leerzeichengetrennte Zeichenkette:
+[source,json]
+----
+include::../examples/vau/response_InnerVau.json[]
+----
+
+NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body
+
+WARNING: Ein Splitten der inneren Struktur anhand des Leerzeichens " " könnte dazu führen, dass auch der Payload im inneren HTTP-Response-Body zerstückelt wird. Robuster ist das Prüfen auf Vorhandensein der ursprünglichen Request-ID und anschließendes Entfernen des von der VAU hinzugefügten Präfixes `"1" + " " + ursprüngliche-Request-ID + " "`. Nun kann die innere HTTP-Response standardgemäß weiterverarbeitet werden.
+
+

@@ -1,0 +1,368 @@
+include::./config-source.adoc[]
+
+= E-Rezept API-Dokumentation für Nachrichtenaustausch
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
+
+toc::[]
+
+==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
+Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
+Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/Communication
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+json; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |
+[source,json]
+----
+include::../examples/ti-dienste/communication/request_PostPatientToPharmacy.json[]
+----
+NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
+
+NOTE: Das angefragte Medikament ist der Medication-Eintrag des verordneten E-Rezept-Datensatzes unter `"reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"` und wird 1:1 übernommen, dieser enthält die wesentlichen Anfrageinformationen für die Apotheke
+
+NOTE:  Als Empfänger-Adresse wird die Telematik-ID der Apotheke wie in `"value": "3-1.54.10123404"` angegeben, wie sie über die Suche im Verzeichnisdienst gefunden wurde.
+
+NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-Elemente angegeben werden, hier ein Beispiel für bevorzugte Belieferungsoptionen, die Kasse des anfragenden Versicherten, den Rezept-Typ `Flowtype` und einen Freitext.
+|===
+
+
+*Response*
+[source,json]
+----
+include::../examples/ti-dienste/communication/response_PostPatientToPharmacy.json[]
+----
+NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
+
+NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN im `"value": "X234567890"` des ` "identifier"` übernommen, in diesem Fall die KVNR des Versicherten als Absender der Anfrage.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
+Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
+Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
+Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |
+[source,xml]
+----
+include::../examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
+----
+NOTE: Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">` dargestellt von den angefragten Optionen bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern.
+
+NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
+|===
+
+
+*Response*
+[source,xml]
+----
+include::../examples/ti-dienste/communication/response_PostPharmacyToPatient.xml[]
+----
+NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
+
+NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
+Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
+Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/Communication
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+json; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |
+[source,json]
+----
+include::../examples/ti-dienste/communication/request_RezeptZuweisen.json[]
+----
+NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
+
+NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
+|===
+
+*Response*
+[source,json]
+----
+include::../examples/ti-dienste/communication/response_RezeptZuweisen.json[]
+----
+NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Auf neue Nachrichten im E-Rezept Fachdienst prüfen
+Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelesene" Nachrichten für mich vorhanden sind.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
+
+In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=NULL`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |-
+|===
+
+*Response*
+[source,json]
+----
+include::../examples/ti-dienste/communication/response_GetMessages.json[]
+----
+NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
+
+NOTE: In `"value": "X234567890"` ist die Empfänger-ID (in diesem Fall Versicherten-ID) des Adressaten angegeben, über die die Nachrichten beim Abruf gemäß der Nutzerkennung im übergebenen ACCESS_TOKEN gefiltert werden.
+
+NOTE: Dies sei die Antwort der Apotheke auf eine verbindliche Zuweisung, dann erhält die E-Rezept-App vom Warenwirtschaftssystem der Apotheke ebenfalls einen strukturierten Text im `"contentString"`. In diesem sind u.a. Details für die Abholung in der Filiale wie z.B. der Abholcode `pickUpCodeHR` angegeben.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404 |Not found +
+[small]#Es wurde kein passender Eintrag gefunden.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Alle Nachrichten vom E-Rezept-Fachdienst abrufen
+Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns einen Überblick der bisherigen E-Rezept-Anfragen zu beschaffen.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=lt2020-04-30&_sort=sent +
+
+. Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke gerichtet sind. Andernfalls würden ebenso die von der Apotheke versendeten Nachrichten abgerufen werden.
+. Im konkreten Beispiel soll nach Nachrichten gesucht werden, die älter als 30. April 2020 sind (`?sent=lt2020-04-30`). +
+Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
+. Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |-
+|===
+
+IMPORTANT: Der E-Rezept-Fachdienst verarbeitet Zeitstempel in UTC. D.h. bei der Formulierung von taggenauen Anfragen muss ggfs. das UTC-Offset berücksichtgt werden. +
+D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communications mit "sent" Timestamp größer gleich `2021-05-20 00:00:00 UTC` und kleiner `2021-05-21 00:00:00 UTC`.
+
+*Response*
+[source,xml]
+----
+include::../examples/ti-dienste/communication/response_GetAllMessages.xml[]
+
+----
+NOTE: `<total value="391"/>` gibt Auskunft über die Anzahl der Ergebnis-Einträge.
+
+NOTE: Der E-Rezept-Fachdienst setzt in `<relation value="next"/>` ein Paging ein, mit dem die ersten 50 Einträge des gesamten Suchergebnisses zurückgegeben werden. Die nächsten 50 Ergebnis-Einträge werden über die nachfolgende URL `next` abgerufen.
+
+NOTE: Die Eigenschaft `<received value="2020-04-12T18:02:10+00:00" />` gibt an, dass diese Nachricht bereits gelesen bzw. schon einmal heruntergeladen wurde.
+
+NOTE: Das Beispiel ist der Übersichtlichkeit halber bei `[...]` gekürzt, weitere Nachrichten-Einträge folgen als `entry`-Elemente.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404 |Not found +
+[small]#Es wurde kein passender Eintrag gefunden.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+==  Anwendungsfall Nachricht als Apotheke löschen
+Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst entfernen.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
+|Method     |DELETE
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+
+|Payload    |-
+|===
+
+
+*Response*
+----
+HTTP/1.1 204 No Content
+Warning: 'Deleted message delivered at 2020-07-01 10:30:00'
+
+----
+NOTE: Wenn die Nachricht vor dem Löschen bereits durch den Versicherten abgerufen wurde, wird zusätzlich ein Response-Header mit einer entsprechenden Warnung zurückgegeben.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitetdie, Antwort enthält jedoch bewusst keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404 |Not found +
+[small]#Es wurde kein passender Eintrag gefunden.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

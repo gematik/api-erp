@@ -1,0 +1,16 @@
+POST /Subscription HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+User-Agent: Avs/1.0 AvSoft/GEMAvwepokrpxnwiorlc
+Cache-Control: no-cache
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+xml; charset=UTF-8
+Accept: application/fhir+xml; charset=utf-8
+
+<Subscription xmlns="http://hl7.org/fhir">
+    <status value="requested"/>
+    <reason value="Communication notifications" />
+    <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
+    <channel>
+        <type value="websocket"/>
+    </channel>
+</Subscription>

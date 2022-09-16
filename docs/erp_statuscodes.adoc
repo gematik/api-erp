@@ -1,17 +1,11 @@
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
-ifdef::env-github[]
-:imagesdir: https://github.com/gematik/api-erp/raw/master/images
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
 :caution-caption: :fire:
 :warning-caption: :warning:
-endif::[]
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
@@ -27,11 +21,11 @@ toc::[]
 === Status Codes am Endpunkt /VAU
 Fehler in der Übertragung auf der Netzwerkstrecke oder eine syntaktisch "falsche" Verschlüsselung des inneren http-Requests führen zu Fehlern am Endpunkt /VAU. Konnte der Verarbeitungskontext innerhalb der VAU den Request entschlüsseln, liefert er bei nutzbarem Antwortschlüssel (AES256-GCM-konform) immer eine verschlüsselte Antwort. Bei fachlichen Fehlern kann diese allerdings selbst einen Fehlercode enthalten (siehe unten).
 
-[cols="a,a,a"] 
+[cols="a,a,a"]
 [cols="30%,10%,60%"]
 |===
 h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
-3+h|Erfolgsfall 
+3+h|Erfolgsfall
 |POST /VAU/*                     |200       |Der Server konnte den Request entschlüsseln und verarbeiten. Details befinden sich im verschlüsselten inneren http-Response, welcher im Body dieser http-Response enthalten ist.
 |GET /VAUCertificate             |200       |Das VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
 |GET /VAUCertificateOCSPResponse |200       |Die OCSP-Statusauskunft zum VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
@@ -59,7 +53,7 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 |GET /TSL.sha2                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
 |GET /CertList                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
 |GET /OCSPList                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
-.2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten, 
+.2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten,
                         die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
 .12+|<in allen Operationen>          |500	           |Internal Server Error +
@@ -92,15 +86,15 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 === Status Codes an der inneren FHIR-Schnittstelle innerhalb des VAU-Transports
 
 
-[cols="a,a,a"] 
+[cols="a,a,a"]
 [cols="30%,10%,60%"]
 |===
 h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
-3+h|Erfolgsfälle 
+3+h|Erfolgsfälle
 |GET /Task                    |200            |Tasks konnten erfolgreich gelesen werden
 |GET /Task/<id>               |200            |Task konnte erfolgreich gelesen werden
 |POST /Task/$create           |201            |Task konnte für den angeforderten FlowType erfolgreich initialisiert werden
-.2+|POST /Task/<id>/$activate |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden 
+.2+|POST /Task/<id>/$activate |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden
                                           (QES gültig und Datensatz FHIR-konform)
                               |202            |Task konnte aktiviert werden, *Übergangsweise wird eine fachliche Abweichung in der Nutzung unspezifizierter Extensions im Verordnungsdatensatz akzeptiert (Accepted)*
 |POST /Task/<id>/$accept      |200            |Task wurde erfolgreich einer Apotheke zugewiesen
@@ -155,7 +149,7 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 .9+|POST /Task/id/$activate   |400            a|* Ungültige qualifizierte Arztsignatur
                                     * Fehler in der FHIR-Validierung
                                     * Fehlerhafte XML-Struktur
-                                    * Verstoß gegen zusätzliche fachliche Prüfregel 
+                                    * Verstoß gegen zusätzliche fachliche Prüfregel
                                     ** Ausschluss BtM
                                     ** Flowtype nicht passend zum Coverage.type.coding.code
                                     ** authoredOn ungleich Signaturdatum

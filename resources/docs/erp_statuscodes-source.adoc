@@ -1,0 +1,326 @@
+include::./config-source.adoc[]
+
+== Übersicht der http-Status Codes des E-Rezept-Fachdienstes
+
+Folgende http Status Codes können Clients bei der Benutzung der Schnittstellen des E-Rezept-Fachdienstes erwarten.
+Fehler können sowohl im inneren http-Requests (bei fachlichen Fehlern) als auch im äußeren http-Request auftreten.
+
+toc::[]
+
+=== Status Codes am Endpunkt /VAU
+Fehler in der Übertragung auf der Netzwerkstrecke oder eine syntaktisch "falsche" Verschlüsselung des inneren http-Requests führen zu Fehlern am Endpunkt /VAU. Konnte der Verarbeitungskontext innerhalb der VAU den Request entschlüsseln, liefert er bei nutzbarem Antwortschlüssel (AES256-GCM-konform) immer eine verschlüsselte Antwort. Bei fachlichen Fehlern kann diese allerdings selbst einen Fehlercode enthalten (siehe unten).
+
+[cols="a,a,a"]
+[cols="30%,10%,60%"]
+|===
+h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
+3+h|Erfolgsfall
+|POST /VAU/*                     |200       |Der Server konnte den Request entschlüsseln und verarbeiten. Details befinden sich im verschlüsselten inneren http-Response, welcher im Body dieser http-Response enthalten ist.
+|GET /VAUCertificate             |200       |Das VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
+|GET /VAUCertificateOCSPResponse |200       |Die OCSP-Statusauskunft zum VAU-Entschlüsselungszertifikat konnte erfolgreich heruntergeladen werden
+|GET /TSL.xml                    |200       |Die Liste der CA-Zertifikate zum Aufspannen des Vertrauensraums der TI konnte erfolgreich heruntergeladen werden
+|GET /TSL.sha2                   |200       |Der Hashwert zur Prüfung der Integrität der TSL konnte erfolgreich heruntergeladen werden
+|GET /CertList                   |200       |Die Zertifikatskette der E-Rezept-Serverzertifikate konnte erfolgreich heruntergeladen werden
+|GET /OCSPList                   |200       |Die Liste der OCSP-Statusauskünfte der E-Rezept-Serverzertifikate konnte erfolgreich heruntergeladen werden
+|POST /ocspf                     |200       |Die OCSP-Statusanfrage zu einem TI-Zertifikat konnte erfolgreich an den passenden OCSP-Responder weitergeleitet werden
+|GET /metadata                   |200       |Die CapabilityStement der FHIR-Schnittstelle konnte erfolgreich heruntergeladen werden
+
+3+h|Fehlerfälle
+.5+|POST /VAU/*                      |400            |Der http-Request enthält ungültige Daten, die im VAU-Kontext nicht verarbeitet werden können. Z.B. fehlerhafte Verschlüsselung, syntaktisch falsch aufgebauter inner http-Request oder falsches Nutzerpseudonym "NP"
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation PUT o.ä.
+						 |408            |Der Client überträgt Daten zu langsam
+                                     |504            |Der ausgelastete Server kann den Request aktuell nicht bearbeiten. +
+                                     Ein Retry gemäß Exponential Backoff ist zulässig.
+.3+|GET /VAUCertificate              |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation POST, PUT o.ä.
+.3+|GET /VAUCertificateOCSPResponse  |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+                                     |405            |Unzulässige http-Operation POST, PUT o.ä.
+|GET /TSL.xml                        |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+|GET /TSL.sha2                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+|GET /CertList                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+|GET /OCSPList                       |400            |ungültiger http-Request (Pfad, Header, Content-Type, etc.)
+.2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten,
+                        die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
+                                     |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
+.12+|<in allen Operationen>          |500	           |Internal Server Error +
+                                     *Client-Failover angeraten: Ja*
+                                     |501	           |Not Implemented +
+                                     *Client-Failover angeraten: Ja*
+                                     |502	           |Bad Gateway +
+                                     *Client-Failover angeraten: Ja*
+                                     |503            |Service Unavailable +
+                                     *Client-Failover angeraten: Ja*
+                                     |504            |Gateway Timeout +
+                                     *Client-Failover angeraten: Ja*
+                                     |505            |HTTP Version not supported +
+                                     Client-Failover angeraten: Nein
+                                     |506            |Variant Also Negotiates +
+                                     Client-Failover angeraten: Nein
+                                     |507            |Insufficient Storage +
+                                     *Client-Failover angeraten: Ja*
+                                     |508            |Loop Detected +
+                                     Client-Failover angeraten: Nein
+                                     |509            |Bandwidth Limit Exceeded +
+                                     *Client-Failover angeraten: Ja*
+                                     |510            |Not Extended +
+                                     Client-Failover angeraten: Nein
+                                     |511            |Network Authentication Required +
+                                     Client-Failover angeraten: Nein
+|===
+
+
+=== Status Codes an der inneren FHIR-Schnittstelle innerhalb des VAU-Transports
+
+
+[cols="a,a,a"]
+[cols="30%,10%,60%"]
+|===
+h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
+3+h|Erfolgsfälle
+|GET /Task                    |200            |Tasks konnten erfolgreich gelesen werden
+|GET /Task/<id>               |200            |Task konnte erfolgreich gelesen werden
+|POST /Task/$create           |201            |Task konnte für den angeforderten FlowType erfolgreich initialisiert werden
+.2+|POST /Task/<id>/$activate |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden
+                                          (QES gültig und Datensatz FHIR-konform)
+                              |202            |Task konnte aktiviert werden, *Übergangsweise wird eine fachliche Abweichung in der Nutzung unspezifizierter Extensions im Verordnungsdatensatz akzeptiert (Accepted)*
+|POST /Task/<id>/$accept      |200            |Task wurde erfolgreich einer Apotheke zugewiesen
+|POST /Task/<id>/$reject      |204            |Task wurde von der zugewiesenen Apotheke zurückgewiesen
+|POST /Task/<id>/$close       |200            |Task wurde erfolgreich beendet
+|POST /Task/<id>/$abort       |204            |Task wurde erfolgreich gelöscht
+|GET /MedicationDispense      |200            |Dispensierinformationen wurden erfolgreich gelesen
+|GET /MedicationDispense/<id> |200            |Dispensierinformationen wurden erfolgreich gelesen
+|GET /Communication           |200            |E-Rezeptnachrichten erfolgreich gelesen
+|GET /Communication/<id>      |200            |E-Rezeptnachricht erfolgreich gelesen
+|POST /Communication          |201            |E-Rezeptnachrichten erfolgreich versendet
+|DELETE /Communication/<id>   |204            |E-Rezeptnachricht erfolgreich gelöscht
+|GET /AuditEvent              |200            |E-Rezeptereignisse erfolgreich gelesen
+|GET /AuditEvent/<id>         |200            |E-Rezeptereignis erfolgreich gelesen
+|DELETE /ChargeItem/<id>      |204            |PKV-Abgabedaten erfolgreich gelöscht
+|GET /ChargeItem              |200            |PKV-Abgabedaten erfolgreich heruntergeladen
+|GET /ChargeItem/<id>         |200            |PKV-Abgabedaten erfolgreich heruntergeladen
+|POST /ChargeItem             |201            |PKV-Abgabedaten erfolgreich hochgeladen
+|PUT /ChargeItem/<id>         |200            |PKV-Abgabedaten erfolgreich geändert
+|DELETE /Consent/<id>         |204            |Einwilligung erfolgreich gelöscht
+|GET /Consent                 |200            |Einwilligung erfolgreich gelesen
+|POST /Consent                |201            |Einwilligung erolgreich erteilt
+|GET /Device                  |200            |Fachdienstinformationen erfolgreich gelesen
+|GET /metadata                |200            |FHIR-CapabilityStatement erfolgreich gelesen
+|POST /Subscription           |200            |Notifications-Kanal erfolgreich aufgebaut
+
+3+h|Fehlerfälle
+
+.6+|GET /Task                 |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|GET /Task/<id>            |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|POST /Task/$create        |400            a|* Unzulässiger workFlowType
+                                    * Fehlerhafte XML-Struktur
+                                    * Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.9+|POST /Task/id/$activate   |400            a|* Ungültige qualifizierte Arztsignatur
+                                    * Fehler in der FHIR-Validierung
+                                    * Fehlerhafte XML-Struktur
+                                    * Verstoß gegen zusätzliche fachliche Prüfregel
+                                    ** Ausschluss BtM
+                                    ** Flowtype nicht passend zum Coverage.type.coding.code
+                                    ** authoredOn ungleich Signaturdatum
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            a|* Ungültiger AccessCode
+                                    * Unzulässige fachliche Rolle
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.9+|POST /Task/id/$accept     |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            a|* Ungültiger AccessCode/Secret
+                                    * Unzulässige fachliche Rolle
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |409            |Task befindet sich im falschen Zustand (ungleich `ready`) für diese Operation +
+                                                Im OperationOutcome werden weitere Informationen gegeben: +
+                                                "Task has invalid status completed" +
+                                                "Task has invalid status in-progress" +
+                                                "Task has invalid status draft"
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|POST /Task/id/$reject     |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            a|* Ungültiges Secret
+                                    * Unzulässige fachliche Rolle
+                                    * Task befindet sich im falschen Zustand für diese Operation
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |408            |Timeout
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.9+|POST /Task/id/$close      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            a|* Ungültiges Secret
+                                    * Unzulässige fachliche Rolle
+                                    * Task befindet sich im falschen Zustand für diese Operation
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|POST /Task/id/$abort      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            a|* Ungültiger AccessCode/Secret
+                                    * Unzulässige fachliche Rolle
+                              |404            |E-Rezept-Task wurde nicht gefunden
+                              |408            |Timeout
+                              |409            |Task befindet sich im falschen Zustand (*rollenabhängig*) für diese Operation
+                              |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|GET /MedicationDispense   |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|GET /MedicationDispense/<id> |400         |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |Dispensierinformationen wurden nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|GET /Communication        |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|GET /Communication/<id>   |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |E-Rezeptnachricht wurden nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|POST /Communication       |400            a|* Fehler in der FHIR-Validierung
+                                    * Fehlerhafte XML-Struktur
+                                    * Verstoß gegen zusätzliche fachliche Prüfregel (z.B. Existenz Task)
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|DELETE /Communication/id  |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |E-Rezeptnachricht wurden nicht gefunden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|GET /AuditEvent           |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|GET /AuditEvent/<id>      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |E-Rezeptereignis wurden nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+
+.6+|DELETE /ChargeItem/<id>   |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |PKV-Abgabedaten wurden nicht gefunden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|GET /ChargeItem           |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.7+|GET /ChargeItem/<id>      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |PKV-Abgabedaten wurden nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|POST /ChargeItem          |400            a|* Fehler in der FHIR-Validierung
+                                    * Fehlerhafte XML-Struktur
+                                    * Verstoß gegen zusätzliche fachliche Prüfregel (z.B. Existenz Task)
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |409            |Der referenzierte Task ist nicht im Zustand `completed`
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|PUT/PATCH /ChargeItem/<id> |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |PKV-Abgabedaten wurden nicht gefunden
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|DELETE /Consent/<id>      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |Einwilligung wurden nicht gefunden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.6+|GET /Consent              |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|POST /Consent             |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |409            |Einwilligung existiert bereits für diesen Nutzer
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.3+|GET /Device               |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+.3+|GET /metadata             |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+.7+|POST /Subscription        |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.3+|UNKNOWN                   |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |405            |Diese http-Methode ist nicht erlaubt
+
+|===
