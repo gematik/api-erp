@@ -163,53 +163,126 @@ NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-
 [source,json]
 ----
 HTTP/1.1 201 Created
-Content-Type: application/fhir+xml;charset=utf-8
+Content-Type: application/fhir+json;charset=utf-8
 
-<Communication xmlns="http://hl7.org/fhir">
-    <id value="12346"/>
-    <meta>
-        <versionId value="1"/>
-        <lastUpdated value="2020-03-12T18:01:10+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply" />
-    </meta>
-    <basedOn>
-        <reference value="Task/160.123.456.789.123.58" />
-    </basedOn>
-    <status value="unknown" />
-    <sent value="2020-03-12T18:01:10+00:00" />
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="X234567890" />
-        </identifier>
-    </recipient>
-    <sender>
-        <identifier>
-            <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="3-1.54.10123404" />
-        </identifier>
-    </sender>
-    <payload>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
-            <extension url="onPremise">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="delivery">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="shipment">
-                <valueBoolean value="true" />
-            </extension>
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
-                <code value="10" />
-            </valueCoding>
-        </extension>
-        <contentString value="Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten." />
-    </payload>
-</Communication>
+{
+  "resourceType": "Communication",
+  "id": "12345",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2020-03-12T18:01:10+00:00",
+    "profile":  [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq"
+    ]
+  },
+  "contained":  [{
+    "resourceType": "Medication",
+    "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
+    "meta": {
+      "profile":  [
+        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0"
+      ]
+    },
+    "extension":  [{
+      "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
+      "valueCoding": {
+        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
+        "code": "00"
+      }
+    },{
+      "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
+      "valueBoolean": false
+    },{
+      "url": "http://fhir.de/StructureDefinition/normgroesse",
+      "valueCode": "N1"
+    }],
+    "code": {
+      "coding":  [{
+        "system": "http://fhir.de/CodeSystem/ifa/pzn",
+        "code": "06313728"
+      }],
+      "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+    },
+    "form": {
+      "coding":  [{
+        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+        "code": "TAB"
+      }]
+    },
+    "amount": {
+      "numerator": {
+        "value": 12,
+        "unit": "TAB",
+        "system": "http://unitsofmeasure.org",
+        "code": "{tbl}"
+      },
+      "denominator": {
+        "value": 1
+      }
+    }
+  }],
+  "basedOn":  [
+      {
+          "reference": "Task/160.123.456.789.123.58"
+      }
+  ],
+  "status": "unknown",
+  "sent": "2020-03-12T18:01:10+00:00",
+  "about":  [{
+    "reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"
+  }],
+  "recipient":  [{
+    "identifier": {
+      "system": "https://gematik.de/fhir/sid/telematik-id",
+      "value": "3-1.54.10123404"
+    }
+  }],
+  "sender": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "X234567890"
+    }
+  },
+  "payload":  [{
+    "extension":  [{
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
+      "valueIdentifier": {
+        "system": "http://fhir.de/sid/arge-ik/iknr",
+        "value": "104212059"
+      }
+    },{
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
+      "extension":  [{
+        "url": "onPremise",
+        "valueBoolean": true
+      },{
+        "url": "delivery",
+        "valueBoolean": true
+      },{
+        "url": "shipment",
+        "valueBoolean": false
+      }]
+    },{
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
+      "valueBoolean": true
+    },{
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+      "valueCoding": {
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+        "code": "160",
+        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+      }
+    },{
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
+      "valueCoding": {
+        "system": "http://unitsofmeasure.org",
+        "code": "{Package}",
+        "value": "1"
+      }
+    }],
+    "contentString": "Hallo, ich wollte gern fragen, ob das Medikament bei Ihnen vorraetig ist."
+  }]
+}
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
 

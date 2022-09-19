@@ -196,13 +196,13 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
                               |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
                               |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
-.8+|POST /Task/id/$abort      |400            |Ungültiger http-Request
+.7+|POST /Task/id/$abort      |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            a|* Ungültiger AccessCode/Secret
                                     * Unzulässige fachliche Rolle
+                                    * Task befindet sich im falschen Zustand (*rollenabhängig*) für diese Operation
                               |404            |E-Rezept-Task wurde nicht gefunden
                               |408            |Timeout
-                              |409            |Task befindet sich im falschen Zustand (*rollenabhängig*) für diese Operation
                               |410            |E-Rezept-Task wurde zwischenzeitlich gelöscht
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
 .6+|GET /MedicationDispense   |400            |Ungültiger http-Request
