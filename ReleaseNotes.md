@@ -1,3 +1,7 @@
+# Release 1.3.6
+* updated releasenotes for KBV and gematik Erezept workflow packages 
+* corrected wording about tageslimit for einlösen mit egk
+
 # Release 1.3.5
 * updated pkv-ik numbers list
 

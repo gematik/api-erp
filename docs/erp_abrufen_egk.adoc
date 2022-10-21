@@ -454,7 +454,9 @@ s|Code   s|Type Error
 [small]#Das AVS hat einen veralteten Prüfnachweis vorgelegt, oder dieser ist außerhalb des zulässigen Wertebereichs#
 |429 |Too Many Requests +
 [small]#Das AVS hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.# +
-[small]*#Es gibt ein Limit für Anzahl Aufrufe je Minute und ein maximales Tageslimit.#*
+[small]*#Es gibt ein Limit für die maximale Anzahl der Aufrufe je Minute und ein Tageslimit.#*
+
+NOTE: Bei Überschreitung des Tageslimits, wird die Sperre erst nach Überschreitung der neuen Tagesgrenze (UTC) zurückgesetzt.
 |===
 
 NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
