@@ -428,6 +428,8 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 NOTE: Alle gelieferten Tasks haben den Status `<status value="ready" />` und können im Folgenden durch die Apotheke einzeln abgerufen und beliefert werden.
 
+NOTE: Eine Sortierung der Ergebnisse der Liste durch den Fachdienst erfolgt nicht. Ab eine Ergebnismenge von 50 Einträge erfolgt ein paging.
+
 NOTE: Je Rezept müssen die Task-ID `<id value="160.000.166.571.419.21" />` und der AccesCode +
  `<value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />` ausgelesen und für den Folgeaufruf der
  `POST /Task/160.000.166.571.419.21/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`-Operation zusammengesetzt werden, siehe link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^].
@@ -443,7 +445,9 @@ s|Code   s|Type Error
 [small]#Das AVS hat einen veralteten Prüfnachweis vorgelegt, oder dieser ist außerhalb des zulässigen Wertebereichs#
 |429 |Too Many Requests +
 [small]#Das AVS hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.# +
-[small]*#Es gibt ein Limit für Anzahl Aufrufe je Minute und ein maximales Tageslimit.#*
+[small]*#Es gibt ein Limit für die maximale Anzahl der Aufrufe je Minute und ein Tageslimit.#*
+
+NOTE: Bei Überschreitung des Tageslimits, wird die Sperre erst nach Überschreitung der neuen Tagesgrenze (UTC) zurückgesetzt.
 |===
 
 NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]

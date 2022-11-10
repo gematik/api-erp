@@ -1,3 +1,11 @@
+# Release 1.3.7
+* fixed description for IncludeRevocationInfo
+*  corrected note about IncludeRevocationInfo=false
+* updated releasenotes for KBV and Gematik Erezept workflow package
+* updated errorcodes für eRezept deletion
+* updated text for errorcode 403 in $abort
+* updated pkv update list
+
 # Release 1.3.6
 * updated releasenotes for KBV and gematik Erezept workflow packages 
 * corrected wording about tageslimit for einlösen mit egk
