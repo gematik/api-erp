@@ -21,6 +21,9 @@ Ein Health-Check ist eine https-Abfrage mit der Aufgabe, die Erreichbarkeit und 
 
 Endanwender können sich darauf verlassen, dass vom Betreiber des E-Rezept-Fachdienstes nur Endpunkte zur Verfügung gestellt werden, deren fachliche Korrektheit und Funktionalität kontinuierlich intern überwacht werden. Sollte dies nicht der Fall sein, so wird der entsprechende Host automatisiert vom Netz getrennt, wodurch keine Anfragen an ihn mehr stattfinden können.
 
+=== Health-Check über das TI-Lagebild
+link:docs/erp_ps_probing_lagebild.adoc[API-Beschreibung für den Health-Check über das TI-Lagebild]
+
 === Einfacher Health-Check
 Ein einfacher Health-Check ist ein leichtgewichtiger Aufruf auf den Fachdienst-Endpunkt / (root) mit der http-Methode GET ("äußerer http-Request"), ohne eine zusätzliche VAU-Verschlüsselung => ( "GET / [---]" ). Ziel dieses Health-Checks soll es sein, die Verfügbarkeit des E-Rezept-Fachdienstes vom Clientsystem aus sicherzustellen. Dabei werden weder Access-Token noch Verschlüsselung benötigt, was ihn für wiederkehrende Abfragen optimiert.
 

@@ -1,3 +1,7 @@
+# Release 1.3.8
+* Beispiel für User-Agent bei der Authentisierung korrigiert
+* Hinzufügen und Beschreibung des TI-Lagebild zum Probing per API
+
 # Release 1.3.7
 * fixed description for IncludeRevocationInfo
 *  corrected note about IncludeRevocationInfo=false

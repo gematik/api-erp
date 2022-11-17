@@ -20,6 +20,7 @@ Zur Steuerung der Funktionsaufrufe, für Sicherheitsprüfungen und die Protokoll
 |SOAPAction (nur für Konnektor)|n/a|x
 |===
 
+NOTE: Der Aufbau von User-Agent hat nach A_20015-01 zu erfolgen: <Produktname>/<Produktversion> <Herstellername>/<client_id>
 NOTE: Die Standard http-Header wie bspw. `Accept-*`, `Connection`, `Host`, `Content-Type`, `Content-Length` usw. sind gemäß Standard ebenfalls zu setzen.
 
 = Als Nutzer der Telematikinfrastruktur authentifiziert werden
@@ -325,7 +326,7 @@ Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Reques
 GET /Task HTTP/1.1
 Host: erp.zentral.erp.splitdns.ti-dienste.de
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-User-Agent: E-Rezept FdV 1.0.0
+User-Agent: E-Rezept FdV/1.0.0 gematik GmbH/GEMxxxxxxxxxxxxxxxxx
 Accept: application/fhir+json;charset=utf-8
 ----
 
@@ -338,7 +339,7 @@ Als nächstes wird die folgende leerzeichengetrennte Zeichenkette `p` für die a
 "1 eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J b69f01734f34376ddcdbdbe9af18a06f 16bac90134c635e4ec85fae0e4885d9f GET /Task HTTP/1.1
 Host: erp.zentral.erp.splitdns.ti-dienste.de
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-User-Agent: E-Rezept FdV 1.0.0
+User-Agent: E-Rezept FdV/1.0.0 gematik GmbH/GEMxxxxxxxxxxxxxxxxx
 Accept: application/fhir+json;charset=utf-8"
 ----
 Diese Zeichenkette wird nun mit dem ECIES-Verfahrens [SEC1-2009] und dem öffentlichen Schlüssel aus dem zuvor abgerufenen Verschlüsselungszertifikat der VAU hybrid verschlüsselt. Sei `1101110011011110000101101000111000010101100110111011111100011111111110001101110010011010010110000101000001011000000100` ein unvollständiges Beispiel für das Ergebnis der Verschlüsselungsoperation. Dieses wird nun als Payload im HTTP-Body des folgenden Requests an den E-Rezept-Fachdienst übergeben.
