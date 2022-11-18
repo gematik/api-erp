@@ -439,6 +439,8 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 NOTE: Alle gelieferten Tasks haben den Status `<status value="ready" />` und können im Folgenden durch die Apotheke einzeln abgerufen und beliefert werden.
 
+NOTE: Eine Sortierung der Ergebnisse der Liste durch den Fachdienst erfolgt nicht. Ab eine Ergebnismenge von 50 Einträge erfolgt ein paging.
+
 NOTE: Je Rezept müssen die Task-ID `<id value="160.000.166.571.419.21" />` und der AccesCode +
  `<value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />` ausgelesen und für den Folgeaufruf der
  `POST /Task/160.000.166.571.419.21/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`-Operation zusammengesetzt werden, siehe link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^].

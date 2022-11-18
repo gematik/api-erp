@@ -304,7 +304,7 @@ Content-Length: 1234
 
 NOTE: Das Element `<m2:Base64Signature></m2:Base64Signature>`enthält das Signaturelement inkl. des signierten E-Rezept-Datensatzes (CAdES-enveloping) als PKCS#7-Datei in Base64-Codierung
 
-NOTE: Mit dem Attribut `<m:IncludeRevocationInfo>false</m:IncludeRevocationInfo>` wird der Konnektor beim Prüfen der Signatur angewiesen, eine im Signaturobjekt enthaltene Statusabfrage des Signaturzertifikats zu verwenden und keine eigene OCSP-Statusabfrage zu starten.
+NOTE: Mit dem Attribut `<m:IncludeRevocationInfo>true</m:IncludeRevocationInfo>` wird der Konnektor angewiesen, die in der Signaturprüfung verwendete (eingebettete und zum Referenzzeitpunkt gültige ODER neu eingeholte, weil entweder nicht eingebettet oder zum Referenz-Zeitpunkt ungültige) OCSP-Response im Prüfergebnis 'verifyDocumentResponse' an das aufrufende System ebenfalls zurückzugeben. Ist `IncludeRevocationInfo` auf `false` gesetzt, wird der OCSP-Response nicht zurückgegeben.
 
 |===
 

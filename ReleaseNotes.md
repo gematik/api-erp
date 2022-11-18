@@ -1,3 +1,6 @@
+# Release 1.3.9
+Korrektur des Link für TI-Lagebild zum Probing per API
+
 # Release 1.3.8
 * Beispiel für User-Agent bei der Authentisierung korrigiert
 * Hinzufügen und Beschreibung des TI-Lagebild zum Probing per API
