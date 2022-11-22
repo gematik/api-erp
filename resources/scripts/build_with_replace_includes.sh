@@ -4,7 +4,7 @@
 
 # prepare
 cd "$(dirname "$0")" || exit
-rm ../../puml/images/*
+rm ../../images/puml_*
 
 # loop through all puml files and create the image
 for filename in $(find ../../puml -name '*.puml'); do
@@ -18,7 +18,7 @@ for filename in $(find ../../puml -name '*.puml'); do
 
 # creates a temporary adoc file in order to render with asciidoctor-diagram
     touch ${tempAdocFile}
-    echo "[plantuml, target=../../puml/images/${name}, format=png]
+    echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
 include::${filename}[]
 ...." > ${tempAdocFile}

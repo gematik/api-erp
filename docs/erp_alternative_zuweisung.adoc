@@ -28,7 +28,7 @@ Die Apotheke kann die verschlüsselten Informationen mit dem Konnektor entschlü
 
 == Anwendungsfall Bereitstellung der Zusatzinformationen im APOVZD durch die Apotheke
 
-image:../puml/images/az_apovzd.png[width=100%]
+image:../images/puml_az_apovzd.png[width=100%]
 
 Jede Apotheke, die an diesem Dienst teilnehmen möchte, stellt eine REST-API an denen im APOVZD veröffentlichten URLs zur Verfügung. Diese Funktion kann auch von einem Dienstleister erbracht werden. Hierfür kann sich eine Apotheke für diesen Service bei einem Apothekendienstleister registrieren, der einem dann die URLs zur Verfügung stellt. Die Spezifikation und API-Beschreibung der Dienstleister wird von der gematik nicht vorgenommen.
 
@@ -315,7 +315,7 @@ Sobald eine Apotheke ausgewählt wurde, können zum Verschlüsseln der Nachricht
 
 NOTE: Bis der APOVZD die Funktionalität zur Bereitstellung der URLs für die Belieferungsoptionen und SMC-B Verschlüsselungszertifikate in der Testumgebung implementiert hat, können AVS-Hersteller das Zuweisen mit der Konny-App testen, indem obige Informationen durch den Nutzer in die Konny-App eingepflegt werden. Siehe link:../attachments/Konny_Zuweisen-ohne-ti2.pdf[Installation Konny-App].
 
-image:../puml/images/az_patient.png[width=100%]
+image:../images/puml_az_patient.png[width=100%]
 
 
 Als Versicherter möchte ich mein Rezept an die Apotheke meiner Wahl übermitteln. Meine App kennt die notwendigen Verschlüsselungszertifikate der Apotheke und die URL der gewünschten Belieferungsoption.
@@ -422,7 +422,7 @@ Abschließend wird der verschlüsselte Datensatz mit einem POST and die entsprec
 
 == Anwendungsfall Übermittlung der alternativen Zuweisung durch einen Dienstleister/Rest-Api an das AVS
 
-image:../puml/images/az_apotheke.png[width=100%]
+image:../images/puml_az_apotheke.png[width=100%]
 
 Als Apotheke erhalte ich eine Benachrichtigung über das AVS, dass eine neue Zuweisung durch einen Patienten an die Apotheke übermittelt wurde.
 

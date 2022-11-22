@@ -51,9 +51,7 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 
 [Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
 
-[Hier ist der Anwendungsfall zum Abruf der E-Rezepte mittels Gesundheitskarte (eGK) beschrieben](docs/erp_abrufen_egk.adoc)
-
-[++NEU++ Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke beschrieben](docs/erp_alternative_zuweisung_apotheke.adoc)
+[++NEU++ Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke beschrieben](docs/erp_alternative_zuweisung.adoc)
 
 [Hier folgt die Beschreibung der Benachrichtigungsschnittstelle für Apothekensysteme](docs/erp_notification_avs.adoc)
 
