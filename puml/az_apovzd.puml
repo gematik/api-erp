@@ -1,0 +1,47 @@
+@startuml az_apovzd
+
+title Alternative Zuweisung eines E-Rezeptes: Pflege der URLs im APOVZD
+hide footbox
+
+actor "Apotheker" as ALE order 0
+participant "AVS" as AVS order 0
+participant "Apothekendienstleister" as ADL order 0
+participant "APOVZD\nUpload-Container" as UC order 0
+participant "APOVZD" as APOVZD order 0
+participant "VZD der TI" as VZD order 0
+
+activate AVS
+activate ALE
+
+ALE -> AVS: registerForAZ()
+
+alt Generieren der URLs für Belieferung
+AVS -> ADL: register()
+ADL --> AVS--: [urls]
+else
+AVS -> AVS: provideUrls(): [urls]
+end alt
+
+AVS -> AVS: generateDataset(): dataSet
+AVS -> AVS: signDataSet(C.HCI.OSIG)\n:signedDataset
+
+AVS -> UC: uploadDataset(signedDataset)
+UC -> UC: verifySignature(signedDataset): dataset
+UC -> UC: storeDataSetForSync(dataset)
+UC --> AVS: ok()
+AVS --> ALE: ok()
+deactivate ALE
+
+loop täglich 0-6 Uhr
+UC <-> APOVZD: syncEntries()
+UC -> UC: deleteEntries()
+end loop
+
+APOVZD -> VZD: getCertificates()
+VZD --> APOVZD: [C.HCI.ENC-certificates]
+APOVZD -> APOVZD: updatePharmacy([urls], [C.HCI.ENC-certificates])
+
+deactivate AVS
+
+
+@enduml

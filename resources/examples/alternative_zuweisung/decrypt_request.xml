@@ -1,0 +1,27 @@
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <S:Body>
+        <ns5:DecryptDocument xmlns="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns5="http://ws.gematik.de/conn/EncryptionService/v6.1"
+            xmlns:ns6="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion">
+            <ns6:Context>
+                <ns2:MandantId>Mandant1</ns2:MandantId>
+                <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+                <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+                <ns2:UserId>user</ns2:UserId>
+            </ns6:Context>
+            <ns5:PrivateKeyOnCard>
+                <ns2:CardHandle>SMC-B-73</ns2:CardHandle>
+                <ns5:KeyReference/>
+            </ns5:PrivateKeyOnCard>
+            <ns2:Document>
+                <ns3:Base64Data MimeType="text/plain">MIAGCyqGSIb3DQEJE...</ns3:Base64Data>
+            </ns2:Document>
+        </ns5:DecryptDocument>
+    </S:Body>
+</S:Envelope>

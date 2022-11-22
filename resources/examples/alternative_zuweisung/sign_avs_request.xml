@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns5:SignDocument xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns5="http://ws.gematik.de/conn/SignatureService/v7.5"
+            xmlns:ns6="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+            xmlns:ns7="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns8="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+            xmlns:ns9="http://uri.etsi.org/01903/v1.3.2#"
+            xmlns:ns10="http://uri.etsi.org/02231/v2#"
+            xmlns:ns11="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns12="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+            xmlns:ns13="urn:oasis:names:tc:SAML:1.0:assertion"
+            xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion"
+            xmlns:ns15="http://www.w3.org/2001/04/xmlenc#">
+            <ns2:CardHandle>8cbd273f-a644-4986-a64a-4ee7994b77cc</ns2:CardHandle>
+            <ns5:Crypt>RSA</ns5:Crypt>
+            <ns11:Context>
+                <ns2:MandantId>Mandant1</ns2:MandantId>
+                <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+                <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+                <ns2:UserId>user1</ns2:UserId>
+            </ns11:Context>
+            <ns5:TvMode>NONE</ns5:TvMode>
+            <ns5:JobNumber>NHH-436</ns5:JobNumber>
+            <ns5:SignRequest RequestID="c82e6614-c891-40aa-9b8b-fa17a54f03b8">
+                <ns5:OptionalInputs>
+                    <ns3:SignatureType>urn:ietf:rfc:5652</ns3:SignatureType>
+                    <ns5:IncludeEContent>true</ns5:IncludeEContent>
+                </ns5:OptionalInputs>
+                <ns5:Document ShortText="a CMSDocument2Sign" ID="CMS-Doc1">
+                    <ns3:Base64Data MimeType="text/plain; charset=utf-8">eyJzaGlwbWVudCI6Imh0dHBzOi8vYmVpc3BpZWx1cmxWZXJzYW5kLmRlLzMtMTAuMy4xMjM0NTY3MDAwLjEwLjk5OT9yZXE9MTIzNDU2IiwiZGVsaXZlcnkiOiJodHRwczovL2JlaXNwaWVsdXJsQm90ZS5kZS8iLCJvblByZW1pc2UiOiJodHRwczovL2JlaXNwaWVsdXJsQWJob2x1bmcuZGUvIn0=</ns3:Base64Data>
+                </ns5:Document>
+                <ns5:IncludeRevocationInfo>false</ns5:IncludeRevocationInfo>
+            </ns5:SignRequest>
+        </ns5:SignDocument>
+    </S:Body>
+</S:Envelope>

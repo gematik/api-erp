@@ -1,3 +1,6 @@
+# Release 1.3.10
+Hinzufügen der API Beschreibung für die Alternative Zuweisung an die Apotheke
+
 # Release 1.3.9
 Korrektur des Link für TI-Lagebild zum Probing per API
 
