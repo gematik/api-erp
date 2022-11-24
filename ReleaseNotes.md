@@ -1,3 +1,6 @@
+# Release 1.3.12
+Fix for image reference
+
 # Release 1.3.11
 Fixes for puml images
 
