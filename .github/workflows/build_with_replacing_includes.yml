@@ -8,6 +8,9 @@ jobs:
       - name: Install asciidoctor-reducer
         run: sudo gem install asciidoctor-reducer --pre
 
+      - name: Install asciidoctor-diagram
+        run: sudo gem install asciidoctor-diagram
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
