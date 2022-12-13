@@ -45,13 +45,13 @@ Das Attribut "ChargeItem.Code" ist nach dem FHIR-Standard ein Pflichtfeld, wird 
 Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im http-Request-Header Authorization muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=…​ muss das beim Abrufen des E-Rezepts (`$accept`) im Task generierte Secret für die Berechtigungsprüfung übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Mit dem Parameter `task=...` wird die Zuordnung zum Task des eingelösten Rezepts hergestellt. +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
-|Method     |POST
-|HTTP Header |
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -60,17 +60,18 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` (kleines L) und `X-erp-resource: ChargeItem` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
     </meta>
     <contained>
         <Binary>
             <id value="Abg123"/>
             <!--Hier kommt das Abgabdedatensatz-Bundle rein. Siehe https://simplifier.net/erezeptabgabedatenpkv -->
+            <data value= "PEJ1bmRsZSB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+CiAgICA8aWQgdmFsdWU9ImFkODA3MDNkLThjNjItNDRhMy1iMTJiLTJlYTY2ZWRhMGFhMiIgLz4KICAgIDxtZXRhPgogICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwOi8vZmhpci5hYmRhLmRlL2VSZXplcHRBYmdhYmVkYXRlbi9TdHJ1Y3R1cmVEZWZpbml0aW9uL0RBVi1QS1YtUFItRVJQLUFiZ2FiZWRhdGVuQnVuZGxlfDEuMSIgLz4=..."/>
         </Binary>
     </contained>
     <identifier>
@@ -86,6 +87,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -101,29 +103,33 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
         <reference value="#Abg123"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
         <display value="Abgabedatensatz" />
     </supportingInformation>
 </ChargeItem>
 ----
+NOTE: Der PKV-Abgabesatz in Binary.data ist aus Platzgründen stark gekürzt.
+
 NOTE: In `<id value="Abg123"/>` befindet sich der Abgabgedatensatz als Contained-Bundle. Das Contained-Bundle wird später durch den Fachdienst als eigenständiges Bundle in "supportingInformation" referenziert.
 
 NOTE: In `<value value="X234567890"/>` findet sich die Angabe eines PKV-Identifier.
 
-NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Objekt.
+NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Objekt. Das Symbol '#' sagt dabei aus, dass es sich auf eine lokale Referenz innerhalb des Objektes bezieht.
 |===
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦201 Created
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload¦
 [source,xml]
 ----
-HTTP/1.1 201 Created
-Content-Type: application/fhir+xml;charset=utf-8
-
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
         <tag>
             <display value="Example of an ChargeItem." />
         </tag>
@@ -141,6 +147,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -155,14 +162,15 @@ Content-Type: application/fhir+xml;charset=utf-8
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
-        <reference value="200.086.824.605.539.20"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+        <reference value="a5142020-7b59-4674-9b02-08f68c583610"/>
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
         <display value="Abgabedatensatz" />
     </supportingInformation>
 </ChargeItem>
 ----
+|===
 
-
+Status Codes
 [cols="a,a"]
 |===
 |Code   |Type Success
@@ -210,11 +218,13 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 |===
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload ¦
 [source,xml]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="4d8684f1-e379-4cb2-adcb-41ab1a543206"/>
     <meta>
@@ -228,7 +238,7 @@ Content-Type: application/fhir+json;charset=utf-8
             <ChargeItem xmlns="http://hl7.org/fhir">
                 <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
@@ -247,6 +257,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 </code>
                 <subject>
                     <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
                         <value value="X234567890" />
                         <assigner>
                             <display value="Name einer privaten Krankenversicherung" />
@@ -261,7 +272,8 @@ Content-Type: application/fhir+json;charset=utf-8
                 </enterer>
                 <enteredDate value="2021-06-01T07:13:00+05:00" />
                 <supportingInformation>
-                    <reference value="72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4" />
+                    <reference value="a5142020-7b59-4674-9b02-08f68c583610"/>
+                    <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
                     <display value="Abgabedatensatz" />
                 </supportingInformation>
             </ChargeItem>
@@ -270,9 +282,9 @@ Content-Type: application/fhir+json;charset=utf-8
     <entry>
         <resource>
             <Bundle xmlns="http://hl7.org/fhir">
-                <id value="ad80703d-8c62-44a3-b12b-2ea66eda0aa2" />
+                <id value="a5142020-7b59-4674-9b02-08f68c583610" />
                 <meta>
-                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1" />
+                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.1" />
                     <tag>
                         <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM)" />
                     </tag>
@@ -339,7 +351,9 @@ NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier n
 
 NOTE: Das `<signature>` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
+|===
 
+Status Codes
 [cols="a,a"]
 |===
 s|Code   s|Type Success
@@ -374,28 +388,29 @@ Der zuvor im E-Rezept-Fachdienst gespeicherte PKV-Abgabedatensatz wird überschr
 Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'PrescriptionID'`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
-|Method     |PUT
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
+¦Method     ¦PUT
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
     </meta>
     <contained>
         <Binary>
             <id value="Abg456"/>
             <!--Hier kommt das Abgabdedatensatz-Bundle rein. Siehe https://simplifier.net/erezeptabgabedatenpkv -->
+            <data value= "PEJ1bmRsZSB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+CiAgICA8aWQgdmFsdWU9ImFkODA3MDNkLThjNjItNDRhMy1iMTJiLTJlYTY2ZWRhMGFhMiIgLz4KICAgIDxtZXRhPgogICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwOi8vZmhpci5hYmRhLmRlL2VSZXplcHRBYmdhYmVkYXRlbi9TdHJ1Y3R1cmVEZWZpbml0aW9uL0RBVi1QS1YtUFItRVJQLUFiZ2FiZWRhdGVuQnVuZGxlfDEuMSIgLz4=..."/>
         </Binary>
     </contained>
     <identifier>
@@ -411,6 +426,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -426,7 +442,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
         <reference value="#Abg456"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
         <display value="Abgabedatensatz" />
     </supportingInformation>
 </ChargeItem>
@@ -435,15 +451,17 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 |===
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload ¦
 [source,xml]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+xml;charset=utf-8
-
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
         <tag>
             <display value="Example of an ChargeItem." />
         </tag>
@@ -461,6 +479,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -470,17 +489,19 @@ Content-Type: application/fhir+xml;charset=utf-8
     <enterer>
         <identifier>
             <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="3-15.2.1456789123.191" />
+            <value value="3-15.2.1456789123.191"/>
         </identifier>
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
-        <reference value="200.086.824.605.539.20"/>
+        <reference value="f8ea6d29-d38a-41f0-839f-5ed02c1b3e41"/>
         <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
-        <display value="Abgabedatensatz" />
+        <display value="Abgabedatensatz"/>
     </supportingInformation>
 </ChargeItem>
 ----
+
+|===
 
 [cols="a,a"]
 |===
@@ -530,11 +551,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 {
   "resourceType": "Bundle",
   "id": "200e3c55-b154-4335-a0ec-65addd39a3b6",
@@ -550,7 +573,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "abc825bc-bc30-45f8-b109-1b343fff5c45",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
         ]
     },
     "status": "billable",
@@ -599,6 +622,7 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "subject": {
         "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
             "value": "X234567890",
             "assigner": {
                 "display": "Name einer privaten Krankenversicherung"
@@ -608,15 +632,18 @@ Content-Type: application/fhir+json;charset=utf-8
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "urn:uuid:0428d416-149e-48a4-977c-394887b3d85c",
+            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
+            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
             "display": "E-Rezept"
         },
         {
             "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
             "display": "Abgabedatensatz"
         },
         {
-            "reference": "200.086.824.605.539.20",
+            "reference": "074fb409-2a14-4e06-8f9b-04fbc0e3bd41",
+            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "display": "Quittung"
         }
     ]
@@ -631,7 +658,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "der124bc-bc30-45f8-b109-4h474wer2h89",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
         ]
     },
     "status": "billable",
@@ -680,24 +707,28 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "subject": {
         "identifier": {
-            "value": "X234567890",
-            "assigner": {
-                "display": "Name einer privaten Krankenversicherung"
-            }
+          "system": "http://fhir.de/sid/gkv/kvid-10",
+          "value": "X234567890",
+          "assigner": {
+            "display": "Name einer privaten Krankenversicherung"
+          }
         }
     },
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "urn:uuid:0428d416-149e-48a4-977c-394887b3d85c",
+            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
+            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
             "display": "E-Rezept"
         },
         {
             "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
             "display": "Abgabedatensatz"
         },
         {
-            "reference": "200.086.824.605.539.20",
+            "reference": "2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
+            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "display": "Quittung"
         }
     ]
@@ -705,7 +736,12 @@ Content-Type: application/fhir+json;charset=utf-8
   } ]
 }
 ----
+
 NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
+
+|===
+
+
 
 
 Sind die ChargeItem-Instanzen in der App bekannt, kann direkt auf eine konkrete Instanz zugegriffen werden. Es wird das ChargeItem mit den referenzierten Bundles zurückgegeben.
@@ -728,11 +764,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 {
     "resourceType": "Bundle",
     "id": "200e3c55-b154-4335-a0ec-65addd39a3b6",
@@ -749,7 +787,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 "id": "abc825bc-bc30-45f8-b109-1b343fff5c45",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+                        "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
                     ]
                 },
                 "extension": [
@@ -816,14 +854,14 @@ Content-Type: application/fhir+json;charset=utf-8
                 ]
             }
         },
-        { /* Hier startet das Verordnungs-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "f8c2298f-7c00-4a68-af29-8a2862d55d43",
                 "meta": {
                     "lastUpdated": "2020-02-03T12:30:02Z",
                     "profile": [
-                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.1.0"
+                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"
                     ]
                 },
                 "identifier": {
@@ -840,34 +878,35 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "ed52c1e3-b700-4497-ae19-b23744e29876",
                             "meta": {
                                 "profile": [
-                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.1.0"
-                 ...
+                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"
                                 ]
                             }
                         }
                     }
                 ],
                 "signature": {
-                "type": {
-                        "system": "http://hl7.org/fhir/ValueSet/signature-type",
-                        "code": "1.2.840.10065.1.12.1.1"
+                    "type": [
+                        {
+                            "system": "urn:iso-astm:E1762-95:2013",
+                            "code": "1.2.840.10065.1.12.1.1"
+                        }
+                    ],
+                    "when": "2022-03-18T15:28:00+00:00",
+                    "who": {
+                        "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
                     },
-                    "when": "2020-03-20T07:31:34.328+00:00",
-                    "who": "https://prescriptionserver.telematik/signature/verification",
-                    "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-                .
-                eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-                . SSBhbSBhIHNpZ25hdHVyZSE="
+                    "sigFormat": "application/pkcs7-mime",
+                    "data": "MIII..."
                 }
             }
         },
-        { /* Hier startet das Abgabdedaten-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "ad80703d-8c62-44a3-b12b-2ea66eda0aa2",
                 "meta": {
                     "profile": [
-                        "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1"
+                        "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.1"
                     ],
                     "tag": [
                         {
@@ -891,34 +930,38 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "72183b44-61cf-4fe7-8f74-1e37d58fcea8",
                             "meta": {
                                 "profile": [
-                                    "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition\|1.1"
+                                    "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.1"
                                 ],
-                                ...
                             }
                         }
                     }
                 ],
                 "signature": {
-                    "type": {
-                        "system": "http://hl7.org/fhir/ValueSet/signature-type",
-                        "code": "1.2.840.10065.1.12.1.1"
+                    "type": [
+                        {
+                            "system": "urn:iso-astm:E1762-95:2013",
+                            "code": "1.2.840.10065.1.12.1.1"
+                        }
+                    ],
+                    "when": "2022-03-18T15:28:00+00:00",
+                    "who": {
+                        "reference": "https://pharmacy-konn/Device/1"
                     },
-                    "when": "2020-03-20T07:31:34.328+00:00",
-                    "who": "https://prescriptionserver.telematik/signature/verification",
-                    "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-                    .
-                    eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-                    . SSBhbSBhIHNpZ25hdHVyZSE="
+                    "onBehalf": {
+                        "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
+                    },
+                    "sigFormat": "application/pkcs7-mime",
+                    "data": "MII23..."
                 }
             }
         },
-        { /* Hier startet das Quittings-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "dffbfd6a-5712-4798-bdc8-07201eb77ab8",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2"
+                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2"
                     ],
                     "tag": [
                         {
@@ -940,7 +983,7 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "c624cf47-e235-4624-af71-0a09dc9254dc",
                             "meta": {
                                 "profile": [
-                                    "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2"
+                                    "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.2"
                                 ]
                             },
                             "status": "final",
@@ -954,7 +997,6 @@ Content-Type: application/fhir+json;charset=utf-8
                                     }
                                 }
                             ],
-                           ...
                         }
                     },
                 ],
@@ -970,16 +1012,19 @@ Content-Type: application/fhir+json;charset=utf-8
                         "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
                     },
                     "sigFormat": "application/pkcs7-mime",
-                    "data": "MIII FQYJ KoZI hvcN AQcC oIII BjCC CAIC AQEx DzAN Bglg hkgB ZQME AgEF ADAL"
+                    "data": "MIKG..."
                 }
             }
         }
     ]
 }
 ----
+
 NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
-NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt
+NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt.
+
+|===
 
 [cols="a,a"]
 |===
@@ -1014,18 +1059,18 @@ Als Versicherter möchte ich vorhandene Abrechnungsinformationen ändern, indem 
 Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
-|Method     |PATCH
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+¦Method     ¦PATCH
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 Content-Type: application/fhir+json; charset=utf-8
 ----
 NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 {
@@ -1083,11 +1128,13 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 {
   "resourceType": "ChargeItem",
   "id": "2872799",
@@ -1152,6 +1199,8 @@ Content-Type: application/fhir+json;charset=utf-8
 }
 ----
 
+|===
+
 [cols="a,a"]
 |===
 s|Code   s|Type Success
@@ -1197,10 +1246,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
-[source,json]
-----
-HTTP/1.1 204 No Content
-----
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦204 No Content
+¦HTTP Header ¦-
+¦Payload ¦-
+
+|===
 
 [cols="a,a"]
 |===

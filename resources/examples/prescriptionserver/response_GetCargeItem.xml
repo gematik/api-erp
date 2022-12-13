@@ -1,6 +1,3 @@
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="4d8684f1-e379-4cb2-adcb-41ab1a543206"/>
     <meta>
@@ -14,7 +11,7 @@ Content-Type: application/fhir+json;charset=utf-8
             <ChargeItem xmlns="http://hl7.org/fhir">
                 <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
@@ -33,6 +30,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 </code>
                 <subject>
                     <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
                         <value value="X234567890" />
                         <assigner>
                             <display value="Name einer privaten Krankenversicherung" />
@@ -47,7 +45,8 @@ Content-Type: application/fhir+json;charset=utf-8
                 </enterer>
                 <enteredDate value="2021-06-01T07:13:00+05:00" />
                 <supportingInformation>
-                    <reference value="72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4" />
+                    <reference value="a5142020-7b59-4674-9b02-08f68c583610"/>
+                    <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
                     <display value="Abgabedatensatz" />
                 </supportingInformation>
             </ChargeItem>
@@ -56,9 +55,9 @@ Content-Type: application/fhir+json;charset=utf-8
     <entry>
         <resource>
             <Bundle xmlns="http://hl7.org/fhir">
-                <id value="ad80703d-8c62-44a3-b12b-2ea66eda0aa2" />
+                <id value="a5142020-7b59-4674-9b02-08f68c583610" />
                 <meta>
-                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1" />
+                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.1" />
                     <tag>
                         <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM)" />
                     </tag>

@@ -59,8 +59,6 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc)
 
 [Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
 
-[++NEU++ Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke für das FdV beschrieben](docs/erp_alternative_zuweisung_patient.adoc)
-
 ### PKV Versicherte
 
 [Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)

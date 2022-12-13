@@ -1,10 +1,7 @@
-HTTP/1.1 201 Created
-Content-Type: application/fhir+xml;charset=utf-8
-
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
         <tag>
             <display value="Example of an ChargeItem." />
         </tag>
@@ -22,6 +19,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -36,8 +34,8 @@ Content-Type: application/fhir+xml;charset=utf-8
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
-        <reference value="200.086.824.605.539.20"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+        <reference value="a5142020-7b59-4674-9b02-08f68c583610"/>
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
         <display value="Abgabedatensatz" />
     </supportingInformation>
 </ChargeItem>

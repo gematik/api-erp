@@ -1,6 +1,3 @@
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 {
     "resourceType": "Bundle",
     "id": "200e3c55-b154-4335-a0ec-65addd39a3b6",
@@ -17,7 +14,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 "id": "abc825bc-bc30-45f8-b109-1b343fff5c45",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+                        "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
                     ]
                 },
                 "extension": [
@@ -84,14 +81,14 @@ Content-Type: application/fhir+json;charset=utf-8
                 ]
             }
         },
-        { /* Hier startet das Verordnungs-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "f8c2298f-7c00-4a68-af29-8a2862d55d43",
                 "meta": {
                     "lastUpdated": "2020-02-03T12:30:02Z",
                     "profile": [
-                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.1.0"
+                        "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"
                     ]
                 },
                 "identifier": {
@@ -108,34 +105,35 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "ed52c1e3-b700-4497-ae19-b23744e29876",
                             "meta": {
                                 "profile": [
-                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.1.0"
-                 ...
+                                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"
                                 ]
                             }
                         }
                     }
                 ],
                 "signature": {
-                "type": {
-                        "system": "http://hl7.org/fhir/ValueSet/signature-type",
-                        "code": "1.2.840.10065.1.12.1.1"
+                    "type": [
+                        {
+                            "system": "urn:iso-astm:E1762-95:2013",
+                            "code": "1.2.840.10065.1.12.1.1"
+                        }
+                    ],
+                    "when": "2022-03-18T15:28:00+00:00",
+                    "who": {
+                        "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
                     },
-                    "when": "2020-03-20T07:31:34.328+00:00",
-                    "who": "https://prescriptionserver.telematik/signature/verification",
-                    "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-                .
-                eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-                . SSBhbSBhIHNpZ25hdHVyZSE="
+                    "sigFormat": "application/pkcs7-mime",
+                    "data": "MIII..."
                 }
             }
         },
-        { /* Hier startet das Abgabdedaten-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "ad80703d-8c62-44a3-b12b-2ea66eda0aa2",
                 "meta": {
                     "profile": [
-                        "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle\|1.1"
+                        "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.1"
                     ],
                     "tag": [
                         {
@@ -159,34 +157,38 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "72183b44-61cf-4fe7-8f74-1e37d58fcea8",
                             "meta": {
                                 "profile": [
-                                    "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition\|1.1"
+                                    "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.1"
                                 ],
-                                ...
                             }
                         }
                     }
                 ],
                 "signature": {
-                    "type": {
-                        "system": "http://hl7.org/fhir/ValueSet/signature-type",
-                        "code": "1.2.840.10065.1.12.1.1"
+                    "type": [
+                        {
+                            "system": "urn:iso-astm:E1762-95:2013",
+                            "code": "1.2.840.10065.1.12.1.1"
+                        }
+                    ],
+                    "when": "2022-03-18T15:28:00+00:00",
+                    "who": {
+                        "reference": "https://pharmacy-konn/Device/1"
                     },
-                    "when": "2020-03-20T07:31:34.328+00:00",
-                    "who": "https://prescriptionserver.telematik/signature/verification",
-                    "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-                    .
-                    eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-                    . SSBhbSBhIHNpZ25hdHVyZSE="
+                    "onBehalf": {
+                        "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
+                    },
+                    "sigFormat": "application/pkcs7-mime",
+                    "data": "MII23..."
                 }
             }
         },
-        { /* Hier startet das Quittings-Bundle */
+        {
             "resource": {
                 "resourceType": "Bundle",
                 "id": "dffbfd6a-5712-4798-bdc8-07201eb77ab8",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2"
+                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2"
                     ],
                     "tag": [
                         {
@@ -208,7 +210,7 @@ Content-Type: application/fhir+json;charset=utf-8
                             "id": "c624cf47-e235-4624-af71-0a09dc9254dc",
                             "meta": {
                                 "profile": [
-                                    "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2"
+                                    "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.2"
                                 ]
                             },
                             "status": "final",
@@ -222,7 +224,6 @@ Content-Type: application/fhir+json;charset=utf-8
                                     }
                                 }
                             ],
-                           ...
                         }
                     },
                 ],
@@ -238,7 +239,7 @@ Content-Type: application/fhir+json;charset=utf-8
                         "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
                     },
                     "sigFormat": "application/pkcs7-mime",
-                    "data": "MIII FQYJ KoZI hvcN AQcC oIII BjCC CAIC AQEx DzAN Bglg hkgB ZQME AgEF ADAL"
+                    "data": "MIKG..."
                 }
             }
         }

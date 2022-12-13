@@ -1,12 +1,13 @@
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="abc825bc-bc30-45f8-b109-1b343fff5c45" />
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0" />
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
     </meta>
     <contained>
         <Binary>
             <id value="Abg456"/>
             <!--Hier kommt das Abgabdedatensatz-Bundle rein. Siehe https://simplifier.net/erezeptabgabedatenpkv -->
+            <data value= "PEJ1bmRsZSB4bWxucz0iaHR0cDovL2hsNy5vcmcvZmhpciI+CiAgICA8aWQgdmFsdWU9ImFkODA3MDNkLThjNjItNDRhMy1iMTJiLTJlYTY2ZWRhMGFhMiIgLz4KICAgIDxtZXRhPgogICAgICAgIDxwcm9maWxlIHZhbHVlPSJodHRwOi8vZmhpci5hYmRhLmRlL2VSZXplcHRBYmdhYmVkYXRlbi9TdHJ1Y3R1cmVEZWZpbml0aW9uL0RBVi1QS1YtUFItRVJQLUFiZ2FiZWRhdGVuQnVuZGxlfDEuMSIgLz4=..."/>
         </Binary>
     </contained>
     <identifier>
@@ -22,6 +23,7 @@
     </code>
     <subject>
         <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
             <value value="X234567890" />
             <assigner>
                 <display value="Name einer privaten Krankenversicherung" />
@@ -37,7 +39,7 @@
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
         <reference value="#Abg456"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
         <display value="Abgabedatensatz" />
     </supportingInformation>
 </ChargeItem>

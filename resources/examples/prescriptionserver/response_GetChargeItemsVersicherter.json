@@ -1,6 +1,3 @@
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-
 {
   "resourceType": "Bundle",
   "id": "200e3c55-b154-4335-a0ec-65addd39a3b6",
@@ -16,7 +13,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "abc825bc-bc30-45f8-b109-1b343fff5c45",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
         ]
     },
     "status": "billable",
@@ -65,6 +62,7 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "subject": {
         "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
             "value": "X234567890",
             "assigner": {
                 "display": "Name einer privaten Krankenversicherung"
@@ -74,15 +72,18 @@ Content-Type: application/fhir+json;charset=utf-8
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "urn:uuid:0428d416-149e-48a4-977c-394887b3d85c",
+            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
+            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
             "display": "E-Rezept"
         },
         {
             "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
             "display": "Abgabedatensatz"
         },
         {
-            "reference": "200.086.824.605.539.20",
+            "reference": "074fb409-2a14-4e06-8f9b-04fbc0e3bd41",
+            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "display": "Quittung"
         }
     ]
@@ -97,7 +98,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "der124bc-bc30-45f8-b109-4h474wer2h89",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem\|1.0"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
         ]
     },
     "status": "billable",
@@ -146,24 +147,28 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     "subject": {
         "identifier": {
-            "value": "X234567890",
-            "assigner": {
-                "display": "Name einer privaten Krankenversicherung"
-            }
+          "system": "http://fhir.de/sid/gkv/kvid-10",
+          "value": "X234567890",
+          "assigner": {
+            "display": "Name einer privaten Krankenversicherung"
+          }
         }
     },
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "urn:uuid:0428d416-149e-48a4-977c-394887b3d85c",
+            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
+            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
             "display": "E-Rezept"
         },
         {
             "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
             "display": "Abgabedatensatz"
         },
         {
-            "reference": "200.086.824.605.539.20",
+            "reference": "2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
+            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "display": "Quittung"
         }
     ]

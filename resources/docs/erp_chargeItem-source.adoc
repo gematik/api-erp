@@ -34,13 +34,13 @@ Das Attribut "ChargeItem.Code" ist nach dem FHIR-Standard ein Pflichtfeld, wird 
 Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im http-Request-Header Authorization muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=…​ muss das beim Abrufen des E-Rezepts (`$accept`) im Task generierte Secret für die Berechtigungsprüfung übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem?task=200.086.824.605.539.20&secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Mit dem Parameter `task=...` wird die Zuordnung zum Task des eingelösten Rezepts hergestellt. +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
-|Method     |POST
-|HTTP Header |
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -49,26 +49,34 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` (kleines L) und `X-erp-resource: ChargeItem` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 include::../examples/prescriptionserver/request_PostChargeItem.xml[]
 ----
+NOTE: Der PKV-Abgabesatz in Binary.data ist aus Platzgründen stark gekürzt.
+
 NOTE: In `<id value="Abg123"/>` befindet sich der Abgabgedatensatz als Contained-Bundle. Das Contained-Bundle wird später durch den Fachdienst als eigenständiges Bundle in "supportingInformation" referenziert.
 
 NOTE: In `<value value="X234567890"/>` findet sich die Angabe eines PKV-Identifier.
 
-NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Objekt.
+NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Objekt. Das Symbol '#' sagt dabei aus, dass es sich auf eine lokale Referenz innerhalb des Objektes bezieht.
 |===
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦201 Created
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload¦
 [source,xml]
 ----
 include::../examples/prescriptionserver/response_PostChargeItem.xml[]
 ----
+|===
 
-
+Status Codes
 [cols="a,a"]
 |===
 |Code   |Type Success
@@ -116,6 +124,11 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 |===
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload ¦
 [source,xml]
 ----
 include::../examples/prescriptionserver/response_GetCargeItem.xml[]
@@ -124,7 +137,9 @@ NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier n
 
 NOTE: Das `<signature>` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
+|===
 
+Status Codes
 [cols="a,a"]
 |===
 s|Code   s|Type Success
@@ -159,17 +174,17 @@ Der zuvor im E-Rezept-Fachdienst gespeicherte PKV-Abgabedatensatz wird überschr
 Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'PrescriptionID'`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
-|Method     |PUT
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf
+¦Method     ¦PUT
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 include::../examples/prescriptionserver/request_PutChargeItem.xml[]
@@ -178,10 +193,17 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 |===
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
+¦Payload ¦
 [source,xml]
 ----
 include::../examples/prescriptionserver/response_PutChargeItem.xml[]
 ----
+
+|===
 
 [cols="a,a"]
 |===
@@ -231,11 +253,21 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
 include::../examples/prescriptionserver/response_GetChargeItemsVersicherter.json[]
 ----
+
 NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
+
+|===
+
+
 
 
 Sind die ChargeItem-Instanzen in der App bekannt, kann direkt auf eine konkrete Instanz zugegriffen werden. Es wird das ChargeItem mit den referenzierten Bundles zurückgegeben.
@@ -258,13 +290,21 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
 include::../examples/prescriptionserver/response_GetChargeItemVersicherterById.json[]
 ----
+
 NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
-NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt
+NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt.
+
+|===
 
 [cols="a,a"]
 |===
@@ -299,18 +339,18 @@ Als Versicherter möchte ich vorhandene Abrechnungsinformationen ändern, indem 
 Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
-|Method     |PATCH
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+¦Method     ¦PATCH
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 Content-Type: application/fhir+json; charset=utf-8
 ----
 NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 include::../examples/prescriptionserver/request_PatchChargeItem.xml[]
@@ -322,10 +362,17 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
 
 
 *Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/fhir+json;charset=utf-8
+¦Payload ¦
 [source,json]
 ----
 include::../examples/prescriptionserver/response_PatchChargeItem.json[]
 ----
+
+|===
 
 [cols="a,a"]
 |===
@@ -372,10 +419,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
-[source,json]
-----
-HTTP/1.1 204 No Content
-----
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦204 No Content
+¦HTTP Header ¦-
+¦Payload ¦-
+
+|===
 
 [cols="a,a"]
 |===

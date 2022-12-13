@@ -1,3 +1,9 @@
+# Release 1.3.14
+ erp_charg‎eItem.adoc
+* fixed signature in examples
+* fixed reference issues
+* fixed escaped pipes in examples
+
 # Release 1.3.13
 Fix github build script
 
