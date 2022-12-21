@@ -131,9 +131,9 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload ¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/response_GetCargeItem.xml[]
+include::../examples/prescriptionserver/Bundle-Response-Apotheker-GetChargeIItemById.xml[]
 ----
-NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt.
+NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt. Es kann aber vollständig unter https://simplifier.net/erezept-patientenrechnung/~resources?category=Example&exampletype=Bundle eingesehen werden.
 
 NOTE: Das `<signature>` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
@@ -297,12 +297,12 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload ¦
 [source,json]
 ----
-include::../examples/prescriptionserver/response_GetChargeItemVersicherterById.json[]
+include::../examples/prescriptionserver/Bundle-Response-App-GETChargeItemById.json[]
 ----
 
 NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
 
-NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt.
+NOTE: Aus Gründen der besseren Lesbarkeit ist das Bundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt. Es kann aber vollständig unter https://simplifier.net/erezept-patientenrechnung/~resources?category=Example&exampletype=Bundle eingesehen werden.
 
 |===
 

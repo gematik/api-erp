@@ -13,7 +13,7 @@
       "url": "insuranceProvider",
       "valueBoolean": true
     }, {
-      "url": "subsity",
+      "url": "subsidy",
       "valueBoolean": false
     }, {
       "url": "taxOffice",
@@ -35,8 +35,6 @@
     } ]
   },
   "subject": {
-
-
     "identifier": {
       "system": "http://fhir.de/sid/pkv/kvid-10",
       "value": "X234567890"
@@ -51,12 +49,14 @@
   "enteredDate": "2021-06-01T07:13:00+05:00",
   "supportingInformation": [ {
     "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
-    "display": "E-Rezept"
-  }, {
+    "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"
+  },
+  {
     "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
-    "display": "Abgabedatensatz"
-  }, {
-    "reference": "Bundle/200.086.824.605.539.20",
-    "display": "Quittung"
+    "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"
+  },
+  {
+    "reference": "Bundle/2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
+    "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"
   } ]
 }

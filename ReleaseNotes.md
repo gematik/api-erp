@@ -1,3 +1,9 @@
+# Release 1.3.15
+pkv_ik_numbers.adoc
+* added info of new destination of pkv-ik-list
+erp_chargeItem.adoc
+* updated examples for chargeitem page
+
 # Release 1.3.14
  erp_charg‎eItem.adoc
 * fixed signature in examples

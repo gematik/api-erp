@@ -1,0 +1,128 @@
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="Response-Apotheker-GETChargeItemById" />
+    <meta>
+        <lastUpdated value="2021-09-02T11:38:42.557+00:00" />
+    </meta>
+    <type value="searchset" />
+    <total value="2" />
+    <entry>
+        <fullUrl value="https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45" />
+        <resource>
+            <ChargeItem>
+                <id value="Apotheker-ChargeItem-abc825bc-bc30-45f8-b109-1b343fff5c45" />
+                <meta>
+                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
+                </meta>
+                <extension url="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag">
+                    <extension url="insuranceProvider">
+                        <valueBoolean value="false" />
+                    </extension>
+                    <extension url="subsidy">
+                        <valueBoolean value="false" />
+                    </extension>
+                    <extension url="taxOffice">
+                        <valueBoolean value="false" />
+                    </extension>
+                </extension>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+                    <value value="200.086.824.605.539.20" />
+                </identifier>
+                <status value="billable" />
+                <code>
+                    <coding>
+                        <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason" />
+                        <code value="not-applicable" />
+                    </coding>
+                </code>
+                <subject>
+                    <identifier>
+                        <system value="http://fhir.de/sid/pkv/kvid-10" />
+                        <value value="X234567890" />
+                    </identifier>
+                </subject>
+                <enterer>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id" />
+                        <value value="3-SMC-B-Testkarte-883110000095957" />
+                    </identifier>
+                </enterer>
+                <enteredDate value="2021-06-01T07:13:00+05:00" />
+                <supportingInformation>
+                    <reference value="Bundle/f548dde3-a319-486b-8624-6176ff41ad90" />
+                    <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle" />
+                </supportingInformation>
+            </ChargeItem>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="https://prescriptionserver.telematik/Bundle/f548dde3-a319-486b-8624-6176ff41ad90" />
+        <resource>
+            <Bundle>
+                <id value="f548dde3-a319-486b-8624-6176ff41ad90" />
+                <meta>
+                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.1" />
+                    <tag>
+                        <display value="Beispiel RezeptAbgabedatenPKV Bundle (FAM + Noctu + Rezept&#228;nderung)" />
+                    </tag>
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+                    <value value="200.086.824.605.539.20" />
+                </identifier>
+                <type value="document" />
+                <timestamp value="2022-03-25T23:40:00Z" />
+                <entry>
+                    <fullUrl value="urn:uuid:4dc5f425-b9b6-4e39-9166-42668ead6c86" />
+                    <resource>
+                        <Composition>
+                           ...
+                        </Composition>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="urn:uuid:1fa57d53-812b-4cab-a42e-94a12481108a" />
+                    <resource>
+                        <Organization>
+                           ...
+                        </Organization>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="urn:uuid:37a647b8-cb89-491a-af0f-f9bffc2b386c" />
+                    <resource>
+                        <MedicationDispense>
+                            ...
+                        </MedicationDispense>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="urn:uuid:8a99bfa5-f7aa-4741-99d8-f1abbd301ae1" />
+                    <resource>
+                        <Invoice>
+                          ...
+                        </Invoice>
+                    </resource>
+                </entry>
+                <signature>
+                    <type>
+                        <system value="urn:iso-astm:E1762-95:2013" />
+                        <code value="1.2.840.10065.1.12.1.1" />
+                    </type>
+                    <when value="2022-03-18T15:28:00+00:00" />
+                    <who>
+                        <reference value="https://pharmacy-konn/Device/1" />
+                    </who>
+                    <onBehalfOf>
+                        <identifier>
+                            <system value="https://gematik.de/fhir/sid/telematik-id" />
+                            <value value="3-SMC-B-Testkarte-883110000129070" />
+                        </identifier>
+                    </onBehalfOf>
+                    <sigFormat value="application/pkcs7-mime" />
+                    <data value="dGhpcyBibG9iIGlzIHNuaXBwZWQ=" />
+                </signature>
+            </Bundle>
+        </resource>
+    </entry>
+</Bundle>
