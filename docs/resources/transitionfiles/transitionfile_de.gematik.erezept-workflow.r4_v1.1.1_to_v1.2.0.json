@@ -1,0 +1,1115 @@
+{
+  "meta": {
+    "content": {
+      "name": "FHIR profil transition summary of de.gematik.erezept-workflow v1.1.1 to v1.2.0",
+      "version": "1.1"
+    },
+    "fileformat": {
+      "type": "FHIR profiles version transition file",
+      "version": "0.9"
+    }
+  },
+  "publisher": "gematik GmbH",
+  "dependencies": [
+    {
+      "package": {
+        "name": "de.gematik.erezept-workflow.r4",
+        "version": "1.1.1"
+      }
+    },
+    {
+      "package": {
+        "name": "de.gematik.erezept-workflow.r4",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "package": {
+        "name": "de.gematik.erezept-patientenrechnung.r4",
+        "version": "1.0.0"
+      }
+    }
+  ],
+  "deprecated": [
+    {
+      "ressource": {
+        "name": "Organization providing ePrescription Services (Gem_erxOrganization)",
+        "url": "https://gematik.de/fhir/StructureDefinition/ErxOrganization",
+        "version": "1.1.1",
+        "type": "Profiles on Organization",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "CourierService",
+        "url": "https://gematik.de/fhir/StructureDefinition/CourierService",
+        "version": "1.1.1",
+        "type": "Extension",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "PrescriptionIdNS",
+        "url": "https://gematik.de/fhir/NamingSystem/PrescriptionID",
+        "version": "1.1.1",
+        "type": "NamingSystem",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "SecretNS",
+        "url": "https://gematik.de/fhir/NamingSystem/Secret",
+        "version": "1.1.1",
+        "type": "NamingSystem",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "TelematikIdNS",
+        "url": "https://gematik.de/fhir/NamingSystem/TelematikID",
+        "version": "1.1.1",
+        "type": "NamingSystem",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    }
+  ],
+  "new": [
+    {
+      "ressource": {
+        "name": "Identifier Profile for Secret (GEM_ERP_PR_Secret)",
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Secret",
+        "version": "1.2.0",
+        "type": "Profile on Identifier",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GEM_ERP_CS_OrganizationType",
+        "url": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+        "version": "1.2.0",
+        "type": "CodeSystem",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "BfArM Approval of admissibility for doctor s prescription of narcotics (GEM_ERP_PR_BfArMApproval)",
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_BfArMApproval",
+        "version": "1.2.0",
+        "type": "Profile on Provenance",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "Document Bundle for multiple MedicationDispenses on $close Operation (GEM_ERP_PR_CloseOperationInputBundle)",
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_CloseOperationInputBundle",
+        "version": "1.2.0",
+        "type": "Profile on Bundle",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "QES-Digest in Binary (GEM_ERP_PR_Digest)",
+        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest",
+        "version": "1.2.0",
+        "type": "Profile on Binary",
+        "package": "de.gematik.erezept-workflow.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "Reply on change Request on ChargeItem from pharmacy to Patient",
+        "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Communication_ChargChangeReply",
+        "version": "1.0.0",
+        "type": "Profile on Communication",
+        "package": "de.gematik.erezept-patientenrechnung.r4"
+      }
+    },
+    {
+      "ressource": {
+        "name": "Request for Modification on ChargeItem",
+        "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Communication_ChargChangeReq",
+        "version": "1.0.0",
+        "type": "Profile on Communication",
+        "package": "de.gematik.erezept-patientenrechnung.r4"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "InsuranceProvider",
+            "url": "https://gematik.de/fhir/StructureDefinition/InsuranceProvider",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_InsuranceProvider",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Identifier Profile for Telematik ID (Gem_baseTelematikID)",
+            "url": "https://gematik.de/fhir/StructureDefinition/BaseTelematikID",
+            "version": "1.1.1",
+            "type": "Profile on Identifier",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Identifier-Profil für die Telematik-ID",
+            "url": "http://fhir.de/StructureDefinition/identifier-telematik-id",
+            "version": "1.3.2",
+            "type": "Profile on Identifier",
+            "package": "de.basisprofil.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "FlowtypeCS",
+            "url": "https://gematik.de/fhir/CodeSystem/Flowtype",
+            "version": "1.1.1",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_CS_FlowType",
+            "url": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Abort Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/AbortOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Abort",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/AbortOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Accept Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/AcceptOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Accept",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/AcceptOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Activate Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/ActivateOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Activate",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/ActivateOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "DocumenttypeCS",
+            "url": "https://gematik.de/fhir/CodeSystem/Documenttype",
+            "version": "1.1.1",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_CS_DocumentType",
+            "url": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Close Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/CloseOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Close",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/CloseOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Create Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/CreateOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Create",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/CreateOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Reject Operation",
+            "url": "http://gematik.de/fhir/OperationDefinition/RejectOperationDefinition",
+            "version": "1.1.1",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Reject",
+            "url": "https://gematik.de/fhir/erp/OperationDefinition/RejectOperationDefinition",
+            "version": "1.2.0",
+            "type": "OperationDefinition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "AvailabilityStateExtension",
+            "url": "https://gematik.de/fhir/StructureDefinition/AvailabilityStateExtension",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_AvailabilityState",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "BeneficiaryExtension",
+            "url": "https://gematik.de/fhir/StructureDefinition/BeneficiaryExtension",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_Beneficiary",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "AvailabilityStatusCS",
+            "url": "https://gematik.de/fhir/CodeSystem/AvailabilityStatus",
+            "version": "1.1.1",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_CS_AvailabilityStatus",
+            "url": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "PerformertypeVS",
+            "url": "https://gematik.de/fhir/ValueSet/Performertype",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "PerformerTypeVS",
+            "url": "https://gematik.de/fhir/erp/ValueSet/GEM_ERP_VS_PerformerType",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "OrganizationtypeVS",
+            "url": "https://gematik.de/fhir/ValueSet/Organizationtype",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_VS_OrganizationType",
+            "url": "https://gematik.de/fhir/erp/ValueSet/GEM_ERP_VS_OrganizationType",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "FlowtypeVS",
+            "url": "https://gematik.de/fhir/ValueSet/Flowtype",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_VS_FlowType",
+            "url": "https://gematik.de/fhir/erp/ValueSet/GEM_ERP_VS_FlowType",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "DocumenttypeVS",
+            "url": "https://gematik.de/fhir/ValueSet/Documenttype",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_VS_DocumentType",
+            "url": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_VS_DocumentType",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Task for Management of ePrescription Workflow (Gem_erxTask)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxTask",
+            "version": "1.1.1",
+            "type": "Profile on Task",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Task for Management of ePrescription Workflow (GEM_ERP_PR_Task)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task",
+            "version": "1.2.0",
+            "type": "Profile on Task",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Profile for Signature of Bundles in ePrescription Context (Gem_erxSignature)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxSignature",
+            "version": "1.1.1",
+            "type": "Profile on Signature",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Profile for Signature of Bundles in ePrescription Context (GEM_ERP_PR_Signature)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Signature",
+            "version": "1.2.0",
+            "type": "Profile on Signature",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "AvailabilityStatusVS",
+            "url": "https://gematik.de/fhir/ValueSet/AvailabilityStatus",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_VS_AvailabilityStatus",
+            "url": "https://gematik.de/fhir/erp/ValueSet/GEM_ERP_VS_AvailabilityStatus",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Gem_erxAcceptOperationOutParameters",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxAcceptOperationOutParameters",
+            "version": "1.1.1",
+            "type": "Profile on Parameters",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_PAR_OUT_OP_Accept",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PAR_OUT_OP_Accept",
+            "version": "1.2.0",
+            "type": "Profile on Parameters",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "AuditEvent for Logging of ePrescription Access (Gem_erxAuditEvent)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxAuditEvent",
+            "version": "1.1.1",
+            "type": "Profile on AuditEvent",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "AuditEvent for Logging of ePrescription Access (GEM_ERP_PR_AuditEvent)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent",
+            "version": "1.2.0",
+            "type": "Profile on AuditEvent",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Gem_erxBinary",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxBinary",
+            "version": "1.1.1",
+            "type": "Profile on Binary",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "PKCS7 signed Bundle envelopig style (GEM_ERP_PR_Binary)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Binary",
+            "version": "1.2.0",
+            "type": "Profile on Binary",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Document Bundle for Receipt (Gem_erxReceipt)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxReceipt",
+            "version": "1.1.1",
+            "type": "Profile on Bundle",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Document Bundle for Receipt (GEM_ERP_PR_Bundle)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
+            "version": "1.2.0",
+            "type": "Profile on Bundle",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Request for Dispense of ePrescription (Gem_erxCommunicationDispReq)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxCommunicationDispReq",
+            "version": "1.1.1",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Request for Dispense of ePrescription (GEM_ERP_PR_Communication_DispReq)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq",
+            "version": "1.2.0",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Informative request from Patient to Provider (Gem_erxCommunicationInfoReq)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxCommunicationInfoReq",
+            "version": "1.1.1",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Informative request from Patient to Provider (GEM_ERP_PR_Communication_InfoReq)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq",
+            "version": "1.2.0",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Reply from Provider to Patient (Gem_erxCommunicationReply)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxCommunicationReply",
+            "version": "1.1.1",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Reply from Provider to Patient (GEM_ERP_PR_Communication_Reply)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply",
+            "version": "1.2.0",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Communication between Patient and Representative (Gem_erxCommunicationRepresentative)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxCommunicationRepresentative",
+            "version": "1.1.1",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Communication between Patient and Representative (GEM_ERP_PR_Communication_Representative)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Representative",
+            "version": "1.2.0",
+            "type": "Profile on Communication",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Receipt for Fulfillment of ePrescription (Gem_erxComposition)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxComposition",
+            "version": "1.1.1",
+            "type": "Profile on Composition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Receipt for Fulfillment of ePrescription (GEM_ERP_PR_Composition)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition",
+            "version": "1.2.0",
+            "type": "Profile on Composition",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Gem_erxDevice",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxDevice",
+            "version": "1.1.1",
+            "type": "Profile on Device",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_PR_Device",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device",
+            "version": "1.2.0",
+            "type": "Profile on Device",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "AccessCode",
+            "url": "https://gematik.de/fhir/NamingSystem/AccessCode",
+            "version": "1.1.1",
+            "type": "NamingSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Identifier Profile for Prescription IDs (GEM_ERP_PR_AccessCode)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AccessCode",
+            "version": "1.2.0",
+            "type": "Profile on Identifier",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "PrescriptionType",
+            "url": "https://gematik.de/fhir/StructureDefinition/PrescriptionType",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_PrescriptionType",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "SubstitutionAllowedType",
+            "url": "https://gematik.de/fhir/StructureDefinition/SubstitutionAllowedType",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_SubstitutionAllowedType",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "PackageQuanity",
+            "url": "https://gematik.de/fhir/StructureDefinition/PackageQuanity",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_PackageQuantity",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Identifier Profile for Prescription IDs (Gem_erxPrescriptionID)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxPrescriptionID",
+            "version": "1.1.1",
+            "type": "Profile on Identifier",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Identifier Profile for Prescription IDs (GEM_ERP_PR_PrescriptionId)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PrescriptionId",
+            "version": "1.2.0",
+            "type": "Profile on Identifier",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Dispensation of the Prescription (Gem_erxMedicationDispense)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense",
+            "version": "1.1.1",
+            "type": "Profile on MedicationDispense",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Dispensation of the Prescription (GEM_ERP_PR_MedicationDispense)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense",
+            "version": "1.2.0",
+            "type": "Profile on MedicationDispense",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "SupplyOptionsType",
+            "url": "https://gematik.de/fhir/StructureDefinition/SupplyOptionsType",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERP_EX_SupplyOptionsType",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "ConsenttypeCS",
+            "url": "https://gematik.de/fhir/CodeSystem/Consenttype",
+            "version": "1.1.1",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERPCHRG_CS_ConsentType",
+            "url": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+            "version": "1.0.0",
+            "type": "CodeSystem",
+            "package": "de.gematik.erezept-patientenrechnung.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "MarkingFlag",
+            "url": "https://gematik.de/fhir/StructureDefinition/MarkingFlag",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERPCHRG_EX_MarkingFlag",
+            "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag",
+            "version": "1.0.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-patientenrechnung.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "ErxConsent",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxConsent",
+            "version": "1.1.1",
+            "type": "Profile on Consent",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERPCHRG_PR_Consent",
+            "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent",
+            "version": "1.0.0",
+            "type": "Profile on Consent",
+            "package": "de.gematik.erezept-patientenrechnung.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "ConsentTypeVS",
+            "url": "https://gematik.de/fhir/ValueSet/Consenttype",
+            "version": "1.1.1",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERPCHRG_VS_ConsentType",
+            "url": "https://gematik.de/fhir/erpchrg/ValueSet/GEM_ERPCHRG_VS_ConsentType",
+            "version": "1.0.0",
+            "type": "ValueSet",
+            "package": "de.gematik.erezept-patientenrechnung.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "ErxChargeItem",
+            "url": "https://gematik.de/fhir/StructureDefinition/ErxChargeItem",
+            "version": "1.1.1",
+            "type": "Profile on ChargeItem",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GEM_ERPCHRG_PR_ChargeItem",
+            "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem",
+            "version": "1.0.0",
+            "type": "Profile on ChargeItem",
+            "package": "de.gematik.erezept-patientenrechnung.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Date of confirmation of the prescription (AcceptDate)",
+            "url": "https://gematik.de/fhir/StructureDefinition/AcceptDate",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Date of confirmation of the prescription (GEM_ERP_EX_AcceptDate)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "Presciption expiry date (ExpiryDate)",
+            "url": "https://gematik.de/fhir/StructureDefinition/ExpiryDate",
+            "version": "1.1.1",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        },
+        {
+          "ressource": {
+            "name": "Presciption expiry date (GEM_ERP_EX_ExpiryDate)",
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gematik.erezept-workflow.r4"
+          }
+        }
+      ]
+    }
+  ]
+}

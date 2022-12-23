@@ -1,0 +1,67 @@
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+image:gematik_logo.png[width=35%]
+
+= E-Rezept FHIR-Package Änderungen bei Versionsübergängen
+
+toc::[]
+
+== Methodik
+Um Änderungen der FHIR Ressourcen nach Versionsübergängen zu ermitteln und zu visualisieren, bietet der HAPI Validator eine hilfreiche Funktionalität. link:https://confluence.hl7.org/pages/viewpage.action?pageId=35718580#UsingtheFHIRValidator-ComparingProfiles[Der Hapi Validator kann Profile miteinander vergleichen].
+
+NOTE: Bis zur Version 5.6.88 ist die Vergleichsfunktion link:https://github.com/hapifhir/org.hl7.fhir.core/issues/1040[fehlerhaft]. Ab Version 5.6.89 kann diese wie folgt benutzt werden:
+
+[source,cmd]
+----
+java -jar validator_cli.jar -compare -dest compare_results -version 4.0.1 \
+-ig de.gematik.erezept-workflow.r4#1.2.0/package/ \
+-ig de.gematik.erezept-workflow.r4#1.1.1/package/ \
+-left https://gematik.de/fhir/StructureDefinition/ErxTask|1.1.1 \
+-right https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2.0
+----
+
+Das Ergebnis eines solchen Abgleichs ist ein Ordner mit vielen (Bild-)dateien und einer index.html die als Einstiegspunkt für den erfolgten Vergleiche dient.
+Darüber hinaus enthalten die Verzeichnisse die 'union'- und 'intersection'-FHIR Strukturen die für eine vereinfachte Integration verwendet werden können.
+
+NOTE: Die CompareFunktion kann nur für Definitionen von Profilen und Extensions aufgerufen werden. 'OperationDefinition', 'CodeSystem','NamingSystem' und 'ValueSet'werden nicht direkt miteinander verglichen. Wenn Profile oder Extensions 'OperationDefinition', 'CodeSystem','NamingSystem' oder 'ValueSet' beinhalten, werden diese aber indirekt verglichen.
+
+NOTE: Da durch Änderung der Canonicals die Profilnamen (wie im obigen Beispiel) nicht immer identisch geblieben sind, ist ein automatisierter Aufruf der Vergleichsfunktionalität nicht ohne weiteres möglich. Um das problem zu lösen können "Transitionfiles" verwendet werden.
+
+== Transitionfiles
+Um die Umbenennung von Profilen oder deren Umlagerung in neue Profile festzuhalten wurden "Transitionfiles" erstellt, diese geben Auskunft über
+
+* Abhängigkeiten die für den Vergleich der Profile notwendig sind
+* Neue Profile seit dem Versionsübergang
+* Ausgeschiedene Profile mit dem Versionsübergang
+* Profiländerungen mit den Versionsübergang
+
+=== Download Transitionfiles
+
+* xref:./resources/transitionfiles/transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.0.json[transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.0.json]
+* xref:./resources/transitionfiles/transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.0.json[transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.0.json]
+* xref:./resources/transitionfiles/transitionfile_de.abda.eRezeptAbgabedatenBasis_v1.2.1_to_v1.3.0.json[transitionfile_de.abda.eRezeptAbgabedatenBasis_v1.2.1_to_v1.3.0.json]
+* xref:./resources/transitionfiles/transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json[transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json]
+
+== Generierte Vergleichs Ergebnisse
+Die Ergebnisse der Abgleiche können hier eingesehen werden.
+
+NOTE: Zur Besserung Darstellung der html-Dateien kann das xref:./resources/compare_results.zip[komprimierte Verzeichnis heruntergeladen] und lokal im Browser betrachtet werden.
+
+Ergebnisse als html-Dateien:
+
+* link:./resources/compare_results/de.abda.eRezeptAbgabedaten/index.html[de.abda.eRezeptAbgabedaten]
+* link:./resources/compare_results/de.abda.eRezeptAbgabedatenBasis/index.html[de.abda.eRezeptAbgabedatenBasis]
+* link:./resources/compare_results/de.basisprofil.r4/index.html[de.basisprofil.r4]
+* link:./resources/compare_results/de.gematik.erezept-patientenrechnung.r4/index.html[de.gematik.erezept-patientenrechnung.r4]
+* link:./resources/compare_results/de.gematik.erezept-workflow.r4/index.html[de.gematik.erezept-workflow.r4]
+* link:./resources/compare_results/de.gkvsv.erezeptabrechnungsdaten/index.html[de.gkvsv.erezeptabrechnungsdaten]
+* link:./resources/compare_results/kbv.ita.erp/index.html[kbv.ita.erp]

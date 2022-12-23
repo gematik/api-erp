@@ -1,0 +1,850 @@
+{
+  "meta": {
+    "content": {
+      "name": "FHIR profil transition summary of de.gkvsv.eRezeptAbrechnungsdaten v1.2.0 to v1.3.0",
+      "version": "1.0"
+    },
+    "fileformat": {
+      "type": "FHIR profiles version transition file",
+      "version": "0.9"
+    }
+  },
+  "publisher": "gematik GmbH",
+  "dependencies": [
+    {
+      "package": {
+        "name": "de.gkvsv.erezeptabrechnungsdaten",
+        "version": "1.2.0"
+      }
+    },
+    {
+      "package": {
+        "name": "de.gkvsv.erezeptabrechnungsdaten",
+        "version": "1.3.0"
+      }
+    }
+  ],
+  "new": [
+    {
+      "ressource": {
+        "name": "GKVSV_EX_ERP_Bin_Abgabedaten",
+        "url": "https://fhir.gevko.de/StructureDefinition/GKVSV_EX_ERP_Bin_Abgabedaten",
+        "version": "1.3.0",
+        "type": "Extension",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_EX_ERP_Bin_Bundle",
+        "url": "https://fhir.gevko.de/StructureDefinition/GKVSV_EX_ERP_Bin_Bundle",
+        "version": "1.3.0",
+        "type": "Extension",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_EX_ERP_Bin_Receipt",
+        "url": "https://fhir.gevko.de/StructureDefinition/GKVSV_EX_ERP_Bin_Receipt",
+        "version": "1.3.0",
+        "type": "Extension",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_EX_ERP_ZusatzdatenHerstellung",
+        "url": "http://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_ZusatzdatenHerstellung",
+        "version": "1.3.0",
+        "type": "Extension",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_EX_TA7_Dateistatus",
+        "url": "https://fhir.gevko.de/StructureDefinition/GKVSV_EX_TA7_Dateistatus",
+        "version": "1.3.0",
+        "type": "Extension",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_NS_Rechnungsnummer",
+        "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Rechnungsnummer",
+        "version": "1.3.0",
+        "type": "NamingSystem",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_Binary",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_Binary",
+        "version": "1.3.0",
+        "type": "Profile on Binary",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Rechnung_Bundle",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_Bundle",
+        "version": "1.3.0",
+        "type": "Profile on Bundle",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Rechnung_Composition",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_Composition",
+        "version": "1.3.0",
+        "type": "Profile on Composition",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Rechnung_List",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_List",
+        "version": "1.3.0",
+        "type": "Profile on List",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    }
+  ],
+  "unknown":[
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Rechnung",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung",
+        "version": "1.2.0",
+        "type": "Profile on Invoice",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+      {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Sammelrechnung_Bundle",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Bundle",
+        "version": "1.2.0",
+        "type": "Profile on Bundle",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Sammelrechnung_List",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_List",
+        "version": "1.2.0",
+        "type": "Profile on List",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_NS_Sammelrechnungsnummer",
+        "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Sammelrechnungsnummer",
+        "version": "1.2.0",
+        "type": "NamingSystem",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    },
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Sammelrechnung_Composition",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Composition",
+        "version": "1.2.0",
+        "type": "Profile on Composition",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Import",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Import",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Import",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Import",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Leistungserbringer_Sitz",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Leistungserbringer_Sitz",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Leistungserbringer_Sitz",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Leistungserbringer_Sitz",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Leistungserbringertyp",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Leistungserbringertyp",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Leistungserbringertyp",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Leistungserbringertyp",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Positionstyp",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Positionstyp",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Rechnungsart",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Rechnungsart",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Rechnungsart",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Rechnungsart",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_TA7",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_TA7",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_TA7",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_TA7",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Verwurf",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Verwurf",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_Verwurf",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_Verwurf",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_ZuAbschlagKey",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_ZuAbschlagKey",
+            "version": "1.2.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_CS_ERP_ZuAbschlagKey",
+            "url": "https://fhir.gkvsv.de/CodeSystem/GKVSV_CS_ERP_ZuAbschlagKey",
+            "version": "1.3.0",
+            "type": "CodeSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Import",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Import",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Import",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Import",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Import_PZN",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Import_PZN",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Import_PZN",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Import_PZN",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Irrlaeufer",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Irrlaeufer",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Irrlaeufer",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Irrlaeufer",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_LE_Sitz",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_LE_Sitz",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_LE_Sitz",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_LE_Sitz",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Positionstyp",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_Positionstyp",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_RezeptBundleReferenz",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_RezeptBundleReferenz",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_RezeptBundleReferenz",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_RezeptBundleReferenz",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_TA7_Abrechnungszeitraum",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_TA7_Abrechnungszeitraum",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_TA7_Abrechnungszeitraum",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_TA7_Abrechnungszeitraum",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_TA7_Dateinummer",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_TA7_Dateinummer",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_TA7_Dateinummer",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_TA7_Dateinummer",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_VAT_VALUE",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_VAT_VALUE",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_TA7_Rechnungsdatum",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_TA7_Rechnungsdatum",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_ZusatzdatenHerstellung",
+            "url": "http://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_ZusatzdatenHerstellung",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_ERP_VAT_VALUE",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_ERP_VAT_VALUE",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_TA7_IK_Empfaenger",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_TA7_IK_Empfaenger",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_TA7_IK_Empfaenger",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_TA7_IK_Empfaenger",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_EX_TA7_IK_Kostentraeger",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_TA7_IK_Kostentraeger",
+            "version": "1.2.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_EX_TA7_IK_Kostentraeger",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_EX_TA7_IK_Kostentraeger",
+            "version": "1.3.0",
+            "type": "Extension",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Belegnummer",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Belegnummer",
+            "version": "1.2.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Belegnummer",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Belegnummer",
+            "version": "1.3.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Dateiname",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Dateiname",
+            "version": "1.2.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Dateiname",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Dateiname",
+            "version": "1.3.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_PR_ERP_eAbrechnungsdaten",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_ERP_eAbrechnungsdaten",
+            "version": "1.2.0",
+            "type": "Profile on Invoice",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_PR_ERP_eAbrechnungsdaten",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_ERP_eAbrechnungsdaten",
+            "version": "1.3.0",
+            "type": "Profile on Invoice",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_RezeptBundle",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_RezeptBundle",
+            "version": "1.2.0",
+            "type": "Profile on Bundle",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_RezeptBundle",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_RezeptBundle",
+            "version": "1.3.0",
+            "type": "Profile on Bundle",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Import",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Import",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Import",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Import",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Leistungserbringer_Sitz",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Leistungserbringer_Sitz",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Leistungserbringer_Sitz",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Leistungserbringer_Sitz",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Leistungserbringertyp",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Leistungserbringertyp",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Leistungserbringertyp",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Leistungserbringertyp",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Positionstyp",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Positionstyp",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Positionstyp",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Rechnungsart",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Rechnungsart",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Rechnungsart",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Rechnungsart",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Verwurf",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Verwurf",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_Verwurf",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_Verwurf",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_ZuAbschlagKey",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_ZuAbschlagKey",
+            "version": "1.2.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_VS_ERP_ZuAbschlagKey",
+            "url": "https://fhir.gkvsv.de/ValueSet/GKVSV_VS_ERP_ZuAbschlagKey",
+            "version": "1.3.0",
+            "type": "ValueSet",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    }
+  ]
+}

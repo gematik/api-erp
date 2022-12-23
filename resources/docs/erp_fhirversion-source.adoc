@@ -29,9 +29,13 @@ IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versions�
 TIP: Hinweise zur aktuellen FHIR-Konfiguration des E-Rezept-Fachdienstes in der Referenzumgebung RU finden Sie auf link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[E-Rezept@RU^]
 
 == Übersicht Timeline
+IMPORTANT: Die Dauer der Übergangsphase für das Profil kbv.ita.erp befindet sich in Abstimmung. Die folgende Abbildung verwendet beispielhaft eine Übergangsfrist vom 1.7.-31.7. in der sowohl die  Version 1.0.2 als auch 1.1.0 bei der Verordnung von E-Rezepten genutzt werden kann.
+
 image:puml_fhir_version_timeline.png[width=100%]
 
 == Versionsübergang 30.06.2023 -> 01.07.2023
+IMPORTANT: Die Dauer der Übergangsphase für das Profil kbv.ita.erp befindet sich in Abstimmung. Die folgende Abbildung verwendet beispielhaft eine Übergangsfrist vom 1.7.-31.7. in der sowohl die  Version 1.0.2 als auch 1.1.0 bei der Verordnung von E-Rezepten genutzt werden kann.
+
 Annahmen:
 
 * Praxisverwaltungssysteme erhalten Update zw. 01.06. und 31.07.
@@ -108,7 +112,7 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV     |link:https://simplifier.net/packages/kbv.ita.erp/1.1.0[1.1.0^] a|
+|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.0[1.1.0^] a|
         * Integration der deutschen Basisprofile von HL7 in der Version 1.3.2 (zur Verbesserung der Interoperabilität)
         * Integration der KBV-Basis-Profile in der Version 1.3.0 (zur Verbesserung der Interoperabilität)
         * Anpassung der FOR-Profile in der Version 1.1.0
@@ -120,7 +124,7 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
         * Anpassung der Abbildung von Packungsgrößen
 
         |30.09.2022 |01.07.2023 |-
-|gematik |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.0[Package 1.2.0 Profile 1.2^] a|
+|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.0[Package 1.2.0 Profile 1.2^] a|
         * Refactoring der Profil-, Canonical- und Dateinamen nach gematik-Namensschema
         * Flowtype für neue Workflows (BtM, T-Rezept, ...)
         * Umstellung von Open Slices auf Closed Slice
@@ -136,25 +140,92 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
         * PKV-KVNR Identifier aus KBV.FOR hinzugefügt
 
         |05.10.2022 |01.07.2023 |-
-|gematik |      Profile 1.0 a|
+|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.0[Package 1.0.0 Profile 1.0^] a|
 	* Initiale Bereitstellung von ChargeItem-bezogenen Profile (eingeführt mit PKV)
         * 2 neue Communicationsprofile für PKV für Request und Reply zur Korrektur eines ChargeItems
-        |Oktober |01.07.2023 |-
-|DAV     |*tbd* a|Plan:
+        |22.12.2022 |01.07.2023 |-
+|DAV de.abda.erezeptabgabedaten    |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.3.0[Package 1.3.0 Profile 1.3^] a|
+        * Change slicing discriminator (DAV-PR-Base-AbgabedatenBundle) from "type:profile path:resource" to "type:value path:resource.meta.profile
+        * Fix Constraints
+        ** Fix Constraints (regular expressions -> start & end [^...$])
+        ** DAV-EX-ERP-Rezeptaenderung
+        *** Rezeptaenderung-1 (start & end of strings)
+        ** DAV-PR-Base-ZusatzdatenHerstellung
+        *** PR-ZusatzdatenHerstellung-1 (double quotes)
+        *** PR-ZusatzdatenHerstellung-2 (double quotes)
+        * DAV_PR_Base_ZusatzdatenHerstellung
+        ** set the minimum cardinality
+        * DAV_PR_Base_ZusatzdatenEinheit
+        ** set the minimum cardinality
+        * Change Constraint on DAV-PR-Base-Abrechnungszeilen
+        ** Split PR-Abrechnungszeilen-1 ("code.matches('^\S{8}(\S{2})?$')") to
+        *** PR-ZusatzdatenEinheit-PZN ("code.matches('^\d{8}$')")
+        *** PR-ZusatzdatenEinheit-SOK ("code.matches('^\d{8}$')")
+        *** PR-Abrechnungszeilen-HMNR ("code.matches('^\d{10}$')")
+        * Add Constraints on DAV-PR-Base-ZusatzdatenEinheit
+        ** PR-ZusatzdatenEinheit-PZN ("code.matches('^\d{8}$')")
+        ** PR-ZusatzdatenEinheit-SOK ("code.matches('^\d{8}$')")
+        * Upgrade Namingsystem (Hilfsmittelnummer (gkv-hmnr)) to DE-Basisprofil -> (http://fhir.de/sid/gkv/hmnr)
+        ** DAV-PR-Base-Abrechnungszeilen - Invoice.lineItem.chargeItemCodeableConcept.coding:Hilfsmittelnummer
+        * Upgrade Namingsystem (IKNR) to DE-Basisprofil -> (http://fhir.de/sid/arge-ik/iknr)
+        ** DAV-PR-Base-Apotheke - Organization.identifier.system
+        * Upgrade PrescriptionIdNS -> (https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId)
+        ** DAV-PR-Base-AbgabedatenBundle - Bundle.identifier.system
+        ** DAV-PR-Base-Abgabeinformationen - MedicationDispense.authorizingPrescription.identifier.system
 
+        |21.12.2022 |01.07.2023 |-
+|GKV de.gkvsv.eRezeptAbrechnungsdaten    |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.3.0[Package 1.3.0 Profile 1.3^] a|
+        * Change slicing discriminator (GKVSV_PR_TA7_Rechnung_Bundle) from "type:profile path:resource" to "type:value path:resource.meta.profile
+        * Set GKVSV_PR_Binary (TA7) meta.profile + Version
         * Migration auf DE-Basisprofil 1.3.2
+        * GKVSV_PR_TA7_Sammelrechnung_Bundle ersetzt durch GKVSV_PR_TA7_Rechnung_Bundle
+        * GKVSV_PR_TA7_Sammelrechnung_Composition ersetzt durch GKVSV_PR_TA7_Rechnung_Composition
+        ** "Rechnungsnummer" (Composition.identifier) hinzugefügt
+        ** "Rechnungsart" (Composition.type) hinzugefügt
+        ** "Rechnungsdatum" (Composition.date.extension:Rechnungsdatum) hinzugefügt
+        * GKVSV_PR_TA7_Sammelrechnung_List ersetzt durch GKVSV_PR_TA7_Rechnung_List
+        ** Die Referenz erfolgt jetzt über den Dateinamen
+        * GKVSV_PR_TA7_Rechnung entfernt
+        ** Folgende Attribute in GKVSV_PR_TA7_Rechnung_Composition verschoben
+        *** Sammelrechnungsnummer zu Rechnungsnummer umbenannt(!)
+        *** Rechnungsart
+        *** Rechnungsdatum
+        * GKVSV_EX_ERP_TA7_Abrechnungszeitraum entfernt
+        * GKVSV_EX_ERP_TA7_Rechnungsdatum hinzugefügt
+        * GKVSV_CS_ERP_TA7
+        ** Codes R, SR und LSR entfernt
+        ** Code LR (Liste der Rechnungen) hinzugefügt
+        ** Code AR (Abrechnungsdaten) hinzugefügt
+        * GKVSV_PR_TA7_Rechnung_Bundle hat jetzt den Type "collection"
+        ** Constraint "dateabrz-1" entfernt
+        ** Constraint "Dateinummer-Wert" hinzugefügt
+        *** Der Wert der Dateinummer darf nicht weniger als 00001 betragen
+        ** Constraint "Dateiname" konkretisiert
+        *** Im regulären Ausdruck wurde "." durch "[A-Z]" ersetzt
+        * GKVSV_PR_TA7_Rechnung_Composition
+        ** author.identifier.system fixedValue geändert zu "http://fhir.de/sid/arge-ik/iknr"
+        * GKVSV_PR_TA7_RezeptBundle (bleibt erhalten)
+        ** Referenzen auf Gem_erxBinary ersetzt durch GKVSV_PR_Binary
+        * GKVSV_PR_ERP_eAbrechnungsdaten
+        ** identifier:rezeptID.system fixedValue geändert zu "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"
+        * GKVSV_PR_Binary hinzugefügt
+        ** Dadurch kann die Abhängigkeit zu de.gematik.erezept-workflow.r4 entfernt werden
+        * GKVSV_PR_TA7_Rechnung_List
+        ** Constraint "Dateiname" hinzugefügt
+        * GKVSV_EX_TA7_IK_Kostentraeger
+        ** valueIdentifier.system fixedValue geändert zu "http://fhir.de/sid/arge-ik/iknr"
+        * GKVSV_EX_TA7_IK_Empfaenger
+        ** valueIdentifier.system fixedValue geändert zu "http://fhir.de/sid/arge-ik/iknr"
+        * GKVSV_EX_ERP_RezeptBundleReferenz, GKVSV_EX_ERP_Bin_Bundle, GKVSV_EX_ERP_Bin_Receipt und GKVSV_EX_ERP_Bin_Abgabedaten entfernt
+        * GKVSV_CS_ERP_TA7
+        ** Code AR (wieder) entfernt
+        ** Code RB (Rezept-Bundle) hinzugefügt
 
-        |Oktober |01.07.2023 |-
-|GKV     |*tbd* a|Plan:
+        |22.12.2022 |01.07.2023 |-
+|PKV de.abda.eRezeptAbgabedatenPKV    |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0[Package 1.1.0 Profile 1.1^] a|
+        * initial final Version
 
-        * Migration auf DE-Basisprofil 1.3.2
-
-        |Oktober |01.07.2023 |-
-|PKV     |*tbd* a|Plan:
-
-        * Migration auf DE-Basisprofil 1.3.2
-
-        |Oktober  |01.07.2023 |-
+        |21.12.2022  |01.07.2023 |-
 |===
 
 == 2022.07.01

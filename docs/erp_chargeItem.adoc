@@ -103,8 +103,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
         <reference value="#Abg123"/>
-        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
-        <display value="Abgabedatensatz" />
+        <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
 ----
@@ -162,9 +161,8 @@ NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Obj
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
-        <reference value="a5142020-7b59-4674-9b02-08f68c583610"/>
-        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
-        <display value="Abgabedatensatz" />
+        <reference value="Bundle/a5142020-7b59-4674-9b02-08f68c583610"/>
+        <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
 ----
@@ -449,8 +447,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
         <reference value="#Abg456"/>
-        <type value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen"/>
-        <display value="Abgabedatensatz" />
+        <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
 ----
@@ -501,9 +498,8 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
     </enterer>
     <enteredDate value="2022-06-01T07:13:00+05:00"/>
     <supportingInformation>
-        <reference value="f8ea6d29-d38a-41f0-839f-5ed02c1b3e41"/>
-        <type value="DAV-PKV-PR-ERP-AbgabedatenBundle"/>
-        <display value="Abgabedatensatz"/>
+        <reference value="Bundle/f8ea6d29-d38a-41f0-839f-5ed02c1b3e41"/>
+        <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
 ----
@@ -639,19 +635,16 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
-            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
-            "display": "E-Rezept"
+            "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
+            "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"
         },
         {
-            "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
-            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
-            "display": "Abgabedatensatz"
+            "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"
         },
         {
-            "reference": "074fb409-2a14-4e06-8f9b-04fbc0e3bd41",
-            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
-            "display": "Quittung"
+            "reference": "Bundle/074fb409-2a14-4e06-8f9b-04fbc0e3bd41",
+            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"
         }
     ]
 },
@@ -724,19 +717,16 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
     "enteredDate": "2021-06-01T07:13:00+05:00",
     "supportingInformation":  [
         {
-            "reference": "0428d416-149e-48a4-977c-394887b3d85c",
-            "type": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
-            "display": "E-Rezept"
+            "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
+            "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"
         },
         {
-            "reference": "72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
-            "type": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Abgabeinformationen",
-            "display": "Abgabedatensatz"
+            "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
+            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"
         },
         {
-            "reference": "2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
-            "type": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
-            "display": "Quittung"
+            "reference": "Bundle/2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
+            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"
         }
     ]
   }
@@ -1102,7 +1092,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
         },
         {
           "name": "path",
-          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"
+          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"
         },
         {
           "name": "name",
@@ -1123,7 +1113,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
         },
         {
           "name": "path",
-           "valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"
+           "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('insuranceProvider')"
         },
         {
           "name": "name",
@@ -1138,9 +1128,9 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
   ]
 }
 ----
-NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
+NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 
-NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_MarkingFlag').extension('insuranceProvider')"` Element, welches geändert werden soll.
+NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('insuranceProvider')"` Element, welches geändert werden soll.
 |===
 
 
@@ -1159,7 +1149,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
     "versionId": "1",
     "lastUpdated": "2022-04-05T11:36:19.491+00:00",
     "source": "#V4se2kvNDlSKuefe",
-    "profile": [ "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem" ]
+    "profile": [ "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" ]
   },
   "extension": [ {
     "url": "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag",
@@ -1167,7 +1157,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
       "url": "insuranceProvider",
       "valueBoolean": true
     }, {
-      "url": "subsity",
+      "url": "subsidy",
       "valueBoolean": false
     }, {
       "url": "taxOffice",
@@ -1189,8 +1179,6 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
     } ]
   },
   "subject": {
-
-
     "identifier": {
       "system": "http://fhir.de/sid/pkv/kvid-10",
       "value": "X234567890"
@@ -1205,13 +1193,15 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erp/Stru
   "enteredDate": "2021-06-01T07:13:00+05:00",
   "supportingInformation": [ {
     "reference": "Bundle/0428d416-149e-48a4-977c-394887b3d85c",
-    "display": "E-Rezept"
-  }, {
+    "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"
+  },
+  {
     "reference": "Bundle/72bd741c-7ad8-41d8-97c3-9aabbdd0f5b4",
-    "display": "Abgabedatensatz"
-  }, {
-    "reference": "Bundle/200.086.824.605.539.20",
-    "display": "Quittung"
+    "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"
+  },
+  {
+    "reference": "Bundle/2fbc0103-1d1b-4be6-8ed8-6faf87bcc09b",
+    "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"
   } ]
 }
 ----

@@ -1,3 +1,11 @@
+# Release 1.3.17
+added erp_fhirversion_changes.adoc
+* comparison of profiles
+* comparison results
+erp_fhirversion
+* discalaimer update
+* details update
+
 # Release 1.3.15
 pkv_ik_numbers.adoc
 * added info of new destination of pkv-ik-list
