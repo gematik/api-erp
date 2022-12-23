@@ -1,3 +1,7 @@
+# Release 1.3.18
+readme.md
+* added link to erp_fhirversion_changes.adoc
+
 # Release 1.3.17
 added erp_fhirversion_changes.adoc
 * comparison of profiles
