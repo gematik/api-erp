@@ -1,3 +1,7 @@
+# Release 1.3.20
+erp_fhirversion_changes.adoc
+* fixed links and content for hapi validator compare results
+
 # Release 1.3.19
 erp_fhirversion_changes.adoc
 * added preview präfix to show rendered html

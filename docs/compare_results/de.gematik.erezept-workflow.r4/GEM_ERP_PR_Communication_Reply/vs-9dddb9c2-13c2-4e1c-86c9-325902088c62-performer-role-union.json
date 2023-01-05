@@ -1,0 +1,22 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "fda0a545-c9a7-4caa-9db0-452bba00bd04-11",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/fda0a545-c9a7-4caa-9db0-452bba00bd04-11",
+  "name" : "UnionOrganizationtypeVSAndProcedurePerformerRoleCodes",
+  "title" : "Union of ValueSet of Organizationtype Codes And Procedure Performer Role Codes",
+  "status" : "draft",
+  "date" : "2023-01-05T09:35:52+01:00",
+  "compose" : {
+    "include" : [{
+      "concept" : [{
+        "code" : "urn:oid:1.2.276.0.76.4.54",
+        "display" : "Öffentliche Apotheke"
+      }],
+      "filter" : [{
+        "property" : "concept",
+        "op" : "is-a",
+        "value" : "223366009"
+      }]
+    }]
+  }
+}

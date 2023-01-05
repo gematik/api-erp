@@ -1,0 +1,26 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "22492130-25cf-41f8-ba57-c299049d94da-5",
+  "url" : "http://hl7.org/fhir/comparison/ValueSet/22492130-25cf-41f8-ba57-c299049d94da-5",
+  "name" : "UnionConsentTypeVSAndGEM_ERPCHRG_VS_ConsentType",
+  "title" : "Union of ValueSet of Consent Codes And ValueSet of Consent Codes",
+  "status" : "draft",
+  "date" : "2023-01-05T09:39:24+01:00",
+  "compose" : {
+    "include" : [{
+      "system" : "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType"
+    }]
+  },
+  "expansion" : {
+    "contains" : [{
+      "system" : "https://gematik.de/fhir/CodeSystem/Consenttype",
+      "code" : "CHARGCONS",
+      "display" : "Consent for saving electronic charge item"
+    },
+    {
+      "system" : "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+      "code" : "CHARGCONS",
+      "display" : "Consent for saving electronic charge item"
+    }]
+  }
+}

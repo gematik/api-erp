@@ -23,8 +23,8 @@ NOTE: Bis zur Version 5.6.88 ist die Vergleichsfunktion link:https://github.com/
 [source,cmd]
 ----
 java -jar validator_cli.jar -compare -dest compare_results -version 4.0.1 \
--ig de.gematik.erezept-workflow.r4#1.2.0/package/ \
--ig de.gematik.erezept-workflow.r4#1.1.1/package/ \
+-ig de.gematik.erezept-workflow.r4#1.2.0 \
+-ig de.gematik.erezept-workflow.r4#1.1.1 \
 -left https://gematik.de/fhir/StructureDefinition/ErxTask|1.1.1 \
 -right https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2.0
 ----

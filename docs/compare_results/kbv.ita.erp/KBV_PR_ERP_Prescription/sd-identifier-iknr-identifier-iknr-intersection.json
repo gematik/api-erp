@@ -1,0 +1,385 @@
+{
+  "resourceType" : "StructureDefinition",
+  "id" : "5bf7b9db-3391-4f9b-967b-455bd59259d7-21",
+  "url" : "http://hl7.org/fhir/comparison/StructureDefinition/5bf7b9db-3391-4f9b-967b-455bd59259d7-21",
+  "name" : "IntersectionIdentifierIknrAndIdentifierIknr",
+  "title" : "Intersection of Identifier-Profil für die Abbildung eines Institutionskennzeichens (IKNR) And Identifier-Profil für die Abbildung eines Institutionskennzeichens (IKNR)",
+  "status" : "draft",
+  "date" : "2023-01-05T09:46:57+01:00",
+  "snapshot" : {
+    "element" : [{
+      "path" : "Identifier",
+      "short" : "An identifier intended for computation",
+      "definition" : "An identifier - identifies some entity uniquely and unambiguously. Typically this is used for business identifiers.",
+      "min" : 0,
+      "max" : "*",
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : false,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX / EI (occasionally, more often EI maps to a resource id or a URL)"
+      },
+      {
+        "identity" : "rim",
+        "map" : "II - The Identifier class is a little looser than the v3 type II because it allows URIs as well as registered OIDs or GUIDs.  Also maps to Role[classCode=IDENT]"
+      },
+      {
+        "identity" : "servd",
+        "map" : "Identifier"
+      }]
+    },
+    {
+      "path" : "Identifier.id",
+      "representation" : ["xmlAttr"],
+      "short" : "Unique id for inter-element referencing",
+      "definition" : "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+      "min" : 0,
+      "max" : "1",
+      "type" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+          "valueUrl" : "string"
+        }],
+        "code" : "http://hl7.org/fhirpath/System.String"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : false,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      }]
+    },
+    {
+      "path" : "Identifier.extension",
+      "short" : "Additional content defined by implementations",
+      "definition" : "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+      "comment" : "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+      "alias" : ["extensions",
+      "user content"],
+      "min" : 0,
+      "max" : "*",
+      "type" : [{
+        "code" : "Extension"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      },
+      {
+        "key" : "ext-1",
+        "severity" : "error",
+        "human" : "Must have either extensions or value[x], not both",
+        "expression" : "extension.exists() != value.exists()",
+        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : false,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "rim",
+        "map" : "N/A"
+      }]
+    },
+    {
+      "path" : "Identifier.use",
+      "short" : "usual | official | temp | secondary | old (If known)",
+      "definition" : "The purpose of this identifier.",
+      "comment" : "Applications can assume that an identifier is permanent unless it explicitly says that it is temporary.",
+      "requirements" : "Allows the appropriate identifier for a particular context of use to be selected from among a set of identifiers.",
+      "min" : 0,
+      "max" : "1",
+      "type" : [{
+        "code" : "code"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      }],
+      "mustSupport" : false,
+      "isModifier" : true,
+      "isSummary" : true,
+      "binding" : {
+        "strength" : "required",
+        "description" : "Identifies the purpose for this identifier, if known .",
+        "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
+      },
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "N/A"
+      },
+      {
+        "identity" : "rim",
+        "map" : "Role.code or implied by context"
+      }]
+    },
+    {
+      "path" : "Identifier.type",
+      "short" : "Description of identifier",
+      "definition" : "A coded type for the identifier that can be used to determine which identifier to use for a specific purpose.",
+      "comment" : "This element deals only with general categories of identifiers.  It SHOULD not be used for codes that correspond 1..1 with the Identifier.system. Some identifiers may fall into multiple categories due to common usage.   Where the system is known, a type is unnecessary because the type is always part of the system definition. However systems often need to handle identifiers where the system is not known. There is not a 1:1 relationship between type and system, since many different systems have the same type.",
+      "requirements" : "Allows users to make use of identifiers when the identifier system is not known.",
+      "min" : 0,
+      "max" : "1",
+      "type" : [{
+        "code" : "CodeableConcept"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : true,
+      "binding" : {
+        "strength" : "extensible",
+        "description" : "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
+        "valueSet" : "http://hl7.org/fhir/ValueSet/identifier-type"
+      },
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CE/CNE/CWE"
+      },
+      {
+        "identity" : "rim",
+        "map" : "CD"
+      },
+      {
+        "identity" : "orim",
+        "map" : "fhir:CodeableConcept rdfs:subClassOf dt:CD"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX.5"
+      },
+      {
+        "identity" : "rim",
+        "map" : "Role.code or implied by context"
+      }]
+    },
+    {
+      "path" : "Identifier.system",
+      "short" : "The namespace for the identifier value",
+      "definition" : "Establishes the namespace for the value - that is, a URL that describes a set values that are unique.",
+      "comment" : "Identifier.system is always case sensitive.",
+      "requirements" : "There are many sets  of identifiers.  To perform matching of two identifiers, we need to know what set we're dealing with. The system identifies a particular set of unique identifiers.",
+      "min" : 1,
+      "max" : "1",
+      "type" : [{
+        "code" : "uri"
+      }],
+      "example" : [{
+        "label" : "General",
+        "valueUri" : "http://www.acme.com/identifiers/patient"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : true,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX.4 / EI-2-4"
+      },
+      {
+        "identity" : "rim",
+        "map" : "II.root or Role.id.root"
+      },
+      {
+        "identity" : "servd",
+        "map" : "./IdentifierType"
+      }]
+    },
+    {
+      "path" : "Identifier.value",
+      "short" : "The value that is unique",
+      "definition" : "The portion of the identifier typically relevant to the user and which is unique within the context of the system.",
+      "comment" : "If the value is a full URI, then the system SHALL be urn:ietf:rfc:3986.  The value's primary purpose is computational mapping.  As a result, it may be normalized for comparison purposes (e.g. removing non-significant whitespace, dashes, etc.)  A value formatted for human display can be conveyed using the [Rendered Value extension]. Identifier.value is to be treated as case sensitive unless knowledge of the Identifier.system allows the processer to be confident that non-case-sensitive processing is safe.",
+      "min" : 1,
+      "max" : "1",
+      "type" : [{
+        "code" : "string"
+      }],
+      "example" : [{
+        "label" : "General",
+        "valueString" : "123456"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      },
+      {
+        "key" : "ik-1",
+        "severity" : "warning",
+        "human" : "Eine IK muss 8- (ohne Prüfziffer) oder 9-stellig (mit Prüfziffer) sein",
+        "expression" : "matches('[0-9]{8,9}')",
+        "source" : "http://fhir.de/StructureDefinition/identifier-iknr"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : true,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX.1 / EI.1"
+      },
+      {
+        "identity" : "rim",
+        "map" : "II.extension or II.root if system indicates OID or GUID (Or Role.id.extension or root)"
+      },
+      {
+        "identity" : "servd",
+        "map" : "./Value"
+      }]
+    },
+    {
+      "path" : "Identifier.period",
+      "short" : "Time period when id is/was valid for use",
+      "definition" : "Time period during which identifier is/was valid for use.",
+      "comment" : "A Period specifies a range of time; the context of use will specify whether the entire range applies (e.g. \"the patient was an inpatient of the hospital for this time range\") or one value from the range applies (e.g. \"give to the patient between these two times\").\n\nPeriod is not used for a duration (a measure of elapsed time). See [Duration].",
+      "min" : 0,
+      "max" : "1",
+      "type" : [{
+        "code" : "Period"
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      },
+      {
+        "key" : "per-1",
+        "severity" : "error",
+        "human" : "If present, start SHALL have a lower value than end",
+        "expression" : "start.hasValue().not() or end.hasValue().not() or (start <= end)",
+        "source" : "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : true,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "v2",
+        "map" : "DR"
+      },
+      {
+        "identity" : "rim",
+        "map" : "IVL<TS>[lowClosed=\"true\" and highClosed=\"true\"] or URG<TS>[lowClosed=\"true\" and highClosed=\"true\"]"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX.7 + CX.8"
+      },
+      {
+        "identity" : "rim",
+        "map" : "Role.effectiveTime or implied by context"
+      },
+      {
+        "identity" : "servd",
+        "map" : "./StartDate and ./EndDate"
+      }]
+    },
+    {
+      "path" : "Identifier.assigner",
+      "short" : "Organization that issued id (may be just text)",
+      "definition" : "Organization that issued/manages the identifier.",
+      "comment" : "The Identifier.assigner may omit the .reference element and only contain a .display element reflecting the name or other textual information about the assigning organization.",
+      "min" : 0,
+      "max" : "1",
+      "type" : [{
+        "code" : "Reference",
+        "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Organization"]
+      }],
+      "constraint" : [{
+        "key" : "ele-1",
+        "severity" : "error",
+        "human" : "All FHIR elements must have a @value or children",
+        "expression" : "hasValue() or (children().count() > id.count())",
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
+      },
+      {
+        "key" : "ref-1",
+        "severity" : "error",
+        "human" : "SHALL have a contained resource if a local reference is provided",
+        "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
+        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+      }],
+      "mustSupport" : false,
+      "isModifier" : false,
+      "isSummary" : true,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "rim",
+        "map" : "The target of a resource reference is a RIM entry point (Act, Role, or Entity)"
+      },
+      {
+        "identity" : "v2",
+        "map" : "CX.4 / (CX.4,CX.9,CX.10)"
+      },
+      {
+        "identity" : "rim",
+        "map" : "II.assigningAuthorityName but note that this is an improper use by the definition of the field.  Also Role.scoper"
+      },
+      {
+        "identity" : "servd",
+        "map" : "./IdentifierIssuingAuthority"
+      }]
+    }]
+  }
+}
