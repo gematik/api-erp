@@ -1,3 +1,6 @@
+# Release 1.3.21
+* fixed an issue where "compare_results" would be in the wrong location
+
 # Release 1.3.20
 erp_fhirversion_changes.adoc
 * fixed links and content for hapi validator compare results
