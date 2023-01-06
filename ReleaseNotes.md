@@ -1,3 +1,6 @@
+# Release 1.3.22
+* added missing Profiles in transition files for compare_results
+
 # Release 1.3.21
 * fixed an issue where "compare_results" would be in the wrong location
 

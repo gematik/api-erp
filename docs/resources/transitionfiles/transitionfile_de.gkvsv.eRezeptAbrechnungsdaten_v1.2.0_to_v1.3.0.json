@@ -2,7 +2,7 @@
   "meta": {
     "content": {
       "name": "FHIR profil transition summary of de.gkvsv.eRezeptAbrechnungsdaten v1.2.0 to v1.3.0",
-      "version": "1.0"
+      "version": "1.1"
     },
     "fileformat": {
       "type": "FHIR profiles version transition file",
@@ -116,54 +116,95 @@
       }
     }
   ],
-  "unknown":[
-    {
-      "ressource": {
-        "name": "GKVSV_PR_TA7_Rechnung",
-        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung",
-        "version": "1.2.0",
-        "type": "Profile on Invoice",
-        "package": "de.gkvsv.erezeptabrechnungsdaten"
-      }
-    },
-      {
-      "ressource": {
-        "name": "GKVSV_PR_TA7_Sammelrechnung_Bundle",
-        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Bundle",
-        "version": "1.2.0",
-        "type": "Profile on Bundle",
-        "package": "de.gkvsv.erezeptabrechnungsdaten"
-      }
-    },
-    {
-      "ressource": {
-        "name": "GKVSV_PR_TA7_Sammelrechnung_List",
-        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_List",
-        "version": "1.2.0",
-        "type": "Profile on List",
-        "package": "de.gkvsv.erezeptabrechnungsdaten"
-      }
-    },
-    {
-      "ressource": {
-        "name": "GKVSV_NS_Sammelrechnungsnummer",
-        "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Sammelrechnungsnummer",
-        "version": "1.2.0",
-        "type": "NamingSystem",
-        "package": "de.gkvsv.erezeptabrechnungsdaten"
-      }
-    },
-    {
-      "ressource": {
-        "name": "GKVSV_PR_TA7_Sammelrechnung_Composition",
-        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Composition",
-        "version": "1.2.0",
-        "type": "Profile on Composition",
-        "package": "de.gkvsv.erezeptabrechnungsdaten"
-      }
-    }
-  ],
   "transitions": [
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Sammelrechnungsnummer",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Sammelrechnungsnummer",
+            "version": "1.2.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_NS_Rechnungsnummer",
+            "url": "https://fhir.gkvsv.de/NamingSystem/GKVSV_NS_Rechnungsnummer",
+            "version": "1.3.0",
+            "type": "NamingSystem",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Sammelrechnung_List",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_List",
+            "version": "1.2.0",
+            "type": "Profile on List",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Rechnung_List",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_List",
+            "version": "1.3.0",
+            "type": "Profile on List",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Sammelrechnung_Composition",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Composition",
+            "version": "1.2.0",
+            "type": "Profile on Composition",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Rechnung_Composition",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_Composition",
+            "version": "1.3.0",
+            "type": "Profile on Composition",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
+    {
+      "transition": [
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Sammelrechnung_Bundle",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Sammelrechnung_Bundle",
+            "version": "1.2.0",
+            "type": "Profile on Bundle",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        },
+        {
+          "ressource": {
+            "name": "GKVSV_PR_TA7_Rechnung_Bundle",
+            "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung_Bundle",
+            "version": "1.3.0",
+            "type": "Profile on Bundle",
+            "package": "de.gkvsv.erezeptabrechnungsdaten"
+          }
+        }
+      ]
+    },
     {
       "transition": [
         {
@@ -845,6 +886,17 @@
           }
         }
       ]
+    }
+  ],
+  "deprecated": [
+    {
+      "ressource": {
+        "name": "GKVSV_PR_TA7_Rechnung",
+        "url": "https://fhir.gkvsv.de/StructureDefinition/GKVSV_PR_TA7_Rechnung",
+        "version": "1.2.0",
+        "type": "Profile on Invoice",
+        "package": "de.gkvsv.erezeptabrechnungsdaten"
+      }
     }
   ]
 }
