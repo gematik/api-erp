@@ -1,3 +1,6 @@
+# Release 1.3.23
+* added missing KBV Profiles that were declared as deprecated but moved to FOR
+
 # Release 1.3.22
 * added missing Profiles in transition files for compare_results
 
