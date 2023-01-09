@@ -1,3 +1,6 @@
+# Release 1.3.24
+* add missing link on fhirversion_changes.adoc
+
 # Release 1.3.23
 * added missing KBV Profiles that were declared as deprecated but moved to FOR
 
