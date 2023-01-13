@@ -1,3 +1,4 @@
+= E-Rezept API-Dokumentation HTTP-Codes des E-Rezept-Fachdienstes image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -9,16 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%]
-
-== Übersicht der http-Status Codes des E-Rezept-Fachdienstes
 
 Folgende http Status Codes können Clients bei der Benutzung der Schnittstellen des E-Rezept-Fachdienstes erwarten.
 Fehler können sowohl im inneren http-Requests (bei fachlichen Fehlern) als auch im äußeren http-Request auftreten.
 
 toc::[]
 
-=== Status Codes am Endpunkt /VAU
+== Status Codes am Endpunkt /VAU
 Fehler in der Übertragung auf der Netzwerkstrecke oder eine syntaktisch "falsche" Verschlüsselung des inneren http-Requests führen zu Fehlern am Endpunkt /VAU. Konnte der Verarbeitungskontext innerhalb der VAU den Request entschlüsseln, liefert er bei nutzbarem Antwortschlüssel (AES256-GCM-konform) immer eine verschlüsselte Antwort. Bei fachlichen Fehlern kann diese allerdings selbst einen Fehlercode enthalten (siehe unten).
 
 [cols="a,a,a"]
@@ -83,7 +81,7 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 |===
 
 
-=== Status Codes an der inneren FHIR-Schnittstelle innerhalb des VAU-Transports
+== Status Codes an der inneren FHIR-Schnittstelle innerhalb des VAU-Transports
 
 
 [cols="a,a,a"]

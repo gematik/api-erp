@@ -1,3 +1,4 @@
+= E-Rezept API Dokumentation für Versicherte image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -9,9 +10,7 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%]
 
-= E-Rezept API Dokumentation für Versicherte
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
 
 toc::[]
@@ -122,7 +121,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "coding": [{
           "system":"http://terminology.hl7.org/CodeSystem/task-performer-type",
           "code":"1.2.276.0.76.4.32",
-          "display":"Apotheke" 
+          "display":"Apotheke"
         }],
         "text":"Apotheke"
       }],
@@ -143,7 +142,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "meta":{
         "lastUpdated":"2020-02-03T12:30:02Z",
         "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0"
+          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.0"
         ]
       },
       "identifier":{
@@ -159,7 +158,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "id":"ed52c1e3-b700-4497-ae19-b23744e29876",
           "meta":{
             "profile": [
-              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
+              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.0.0"
 [...]
                       ]}}}],
       "signature": {
@@ -202,11 +201,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +
@@ -330,7 +329,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "meta":{
         "lastUpdated":"2020-02-03T12:30:02Z",
         "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.0.0"
+          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.0"
         ]
       },
       "identifier":{
@@ -346,7 +345,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "id":"ed52c1e3-b700-4497-ae19-b23744e29876",
           "meta":{
             "profile": [
-              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.0.0"
+              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.0.0"
 [...]
                       ]}}}],
       "signature": {
@@ -391,13 +390,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +
@@ -776,7 +775,7 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404 |Not found +
@@ -786,8 +785,6 @@ s|Code   s|Type Error
 |===
 
 Mit dem Suchergebnis kennt der Versicherte nun die Apotheken in seinem Umkreis. Eine Navigationsanwendung könnte ihm nun den kürzesten Weg zu einer der beiden Apotheken berechnen, unter folgendem Link stellen wir dar, wie der link:./erp_communication.adoc[Apotheke eine Nachricht geschickt werden kann].
-
-
 
 == Abgabeinformationen abrufen
 Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
@@ -849,7 +846,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id":"med0314",
         "meta":{
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN\|1.0.1"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN|1.0.1"
           ] },
         "extension": [ {
           "url":"https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
@@ -946,7 +943,7 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404 |Not found +
@@ -998,13 +995,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist. Beispielsweise ist das Rezept grade in der Belieferung durch eine Apotheke.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +
@@ -1282,11 +1279,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +

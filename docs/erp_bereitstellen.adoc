@@ -1,3 +1,4 @@
+= E-Rezept API-Dokumentation für Ärzte/Zahnärzte image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -9,9 +10,7 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%]
 
-= E-Rezept API-Dokumentation für Ärzte/Zahnärzte
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer.
 
 toc::[]
@@ -106,7 +105,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <meta>
         <versionId value="1"/>
         <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
         <source value="#AsYR9plLkvONJAiv"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
@@ -169,11 +168,11 @@ NOTE: Der Wert `urn:oid:1.2.276.0.76.4.54` entspricht dem intendierten Instituti
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -202,7 +201,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
     <id value="4fe2013d-ae94-441a-a1b1-78236ae65680" />
     <meta>
         <lastUpdated value="2020-05-04T08:30:00Z" />
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle\|1.1" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1" />
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
@@ -216,7 +215,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Composition xmlns="http://hl7.org/fhir">
                 <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition\|1.1" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -289,7 +288,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <MedicationRequest xmlns="http://hl7.org/fhir">
                 <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription\|1.0.2" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.0.2" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_StatusCoPayment">
                     <valueCoding>
@@ -377,7 +376,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Medication xmlns="http://hl7.org/fhir">
                 <id value="e3a4efa7-84fc-465b-b14c-720195097783" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient\|1.0.2" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.0.2" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                     <valueCoding>
@@ -433,7 +432,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Patient xmlns="http://hl7.org/fhir">
                 <id value="9774f67f-a238-4daf-b4e6-679deeef3811" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient\|1.0.3" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -477,7 +476,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Practitioner xmlns="http://hl7.org/fhir">
                 <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.0.3" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -525,7 +524,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Practitioner xmlns="http://hl7.org/fhir">
                 <id value="d8463daf-258e-4cad-a86a-6fd42fac161c" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner\|1.0.3" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -568,7 +567,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Organization xmlns="http://hl7.org/fhir">
                 <id value="cf042e44-086a-4d51-9c77-172f9a972e3b" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization\|1.0.3" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.0.3" />
                 </meta>
                 <identifier>
                     <type>
@@ -607,7 +606,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
             <Coverage xmlns="http://hl7.org/fhir">
                 <id value="1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage\|1.0.3" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.0.3" />
                 </meta>
                 <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                     <valueCoding>
@@ -1148,7 +1147,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         <versionId value="2"/>
         <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
         <source value="#AsYR9plLkvONJAiv"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCodeableConcept>
@@ -1233,13 +1232,13 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -1291,13 +1290,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist. Beispielsweise ist das Rezept grade in Belieferung durch eine Apotheke.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |410 |Gone +
 [small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
 |429 |Too Many Requests +

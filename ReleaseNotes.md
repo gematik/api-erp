@@ -1,3 +1,10 @@
+# Release 1.3.25
+* restructured Health-Check warnings to better reflect where it is applicable
+* added clarification for implementing health-checks and refined ti-lagebild reference text
+* fixes for build errors in build script
+* removed escape character from profile strings
+* fixed examples for new slicing in chargeitem.adoc
+
 # Release 1.3.24
 * add missing link on fhirversion_changes.adoc
 

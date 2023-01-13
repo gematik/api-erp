@@ -1,6 +1,6 @@
+= E-Rezept API-Dokumentation TI-Konfiguration image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-= E-Rezept API-Dokumentation
 Hier gibt die gematik eine Hilfestellung zur Konfiguration des lokalen Netzwerkes der Leistungserbringerumgebung.
 Damit können Primärsysteme die Dienste der Telematikinfrastruktur über das Netzwerkrouting erreichen und
 die Namensauflösung (DNS) der TI verwenden, um zu den TI-Adressen z.B. `https://erp.zentral.erp.splitdns.ti-dienste.de` die IP-Adressen der Fachdienst zu erfahren.
@@ -11,7 +11,7 @@ IMPORTANT: Das geschlossene Netz des digitalen Gesundheitswesens nutzt IP-Adress
 
 toc::[]
 
-= Konfiguration des Routings
+== Konfiguration des Routings
 Der Host-Computer des Primärsystems kennt ein Default-Gateway, an das ausgehende Datenpakete für das weitere Routing in Richtung Zieladresse geschickt werden. Für Ziele in der Telematikinfrastruktur müssen diese Datenpakete zum Konnektor geschickt werden, der je nach Netzwerkkonfiguration nicht das Default-Gateway ist.
 
 Die Lösung besteht im Einrichten einer Weiterleitung für Zieladressen in der TI, sodass Datenpakete mit einer Zieladresse für bspw. offene Fachdienste vom Default-Gateway des Netzwerkes nicht ins Internet, sondern an den Konnektor weitergeleitet werden.
@@ -70,7 +70,7 @@ Andernfalls ist diese Netzwerkkonfiguration nach jedem Neustart zu tätigen. +
 
 
 
-= Konfiguration der DNS-Namensauflösung
+== Konfiguration der DNS-Namensauflösung
 Über die Namensauflösung werden FQDNs (z.B. `erp.zentral.erp.splitdns.ti-dienste.de` für den E-Rezept-Fachdienst) in IP-Adressen für das Routing übersetzt. Werden bpw. für die Lastverteilung oder zur Ausfallsicherheit mehrere Serverknoten eingesetzt, liefert die Namensauflösung für einen FQDN mehrere IP-Adressen zurück. Die folgende Abbildung zeigt eine Übersicht der verwendeten Namensdienste.
 
 image:../images/erx_dns.png[width=100%]

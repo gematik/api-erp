@@ -1,6 +1,6 @@
+= E-Rezept API-Dokumentation für Nachrichtenaustausch image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-= E-Rezept API-Dokumentation für Nachrichtenaustausch
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
 
 toc::[]
@@ -12,12 +12,12 @@ Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Au
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Communication
-|Method     |POST
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/Communication
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -26,7 +26,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 include::../examples/ti-dienste/communication/request_PostPatientToPharmacy.json[]
@@ -61,11 +61,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -83,12 +83,12 @@ Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Au
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
-|Method     |POST
-|HTTP Header |
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -97,7 +97,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 include::../examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
@@ -128,11 +128,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -148,12 +148,12 @@ Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht au
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Communication
-|Method     |POST
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/Communication
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -161,7 +161,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 include::../examples/ti-dienste/communication/request_RezeptZuweisen.json[]
@@ -188,11 +188,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -208,14 +208,14 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
 
 In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=NULL`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
-|Method     |GET
-|HTTP Header |
+¦Method     ¦GET
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
@@ -223,7 +223,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
-|Payload    |-
+¦Payload    ¦-
 |===
 
 *Response*
@@ -248,7 +248,7 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404 |Not found +
@@ -310,7 +310,7 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404 |Not found +
@@ -358,7 +358,7 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Wird zurückgegeben, wenn ungültige Daten an den Server geschickt werden.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404 |Not found +

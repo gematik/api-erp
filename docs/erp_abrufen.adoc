@@ -1,3 +1,4 @@
+= E-Rezept API-Dokumentation für Apotheker image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -9,9 +10,7 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.png[width=35%]
 
-= E-Rezept API-Dokumentation für Apotheker
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers.
 
 toc::[]
@@ -110,7 +109,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                 <meta>
                     <versionId value="2"/>
                     <source value="#AsYR9plLkvONJAiv"/>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
                     <valueCodeableConcept>
@@ -221,13 +220,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |409 |Conflict +
@@ -532,13 +531,13 @@ Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundl
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
-|Method     |POST
-|HTTP Header |
+¦Method     ¦POST
+¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -547,18 +546,18 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
-|Payload    |
+¦Payload    ¦
 [source,xml]
 ----
 <MedicationDispense xmlns="http://hl7.org/fhir">
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2" />
     </meta>
     <contained>
         <Medication>
             <id value="med0314"/>
             <meta>
-                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
             </meta>
             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                 <valueCoding>
@@ -658,13 +657,13 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
             <MedicationDispense>
                 <id value="a3ddc2b1-826d-4b81-87b2-558834e00f50" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2" />
                 </meta>
                 <contained>
                     <Medication>
                         <id value="c2b10a5e-3d71-434c-86e0-824af208a2bf" />
                         <meta>
-                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
                         </meta>
                         <extension url="http://fhir.de/StructureDefinition/normgroesse">
                             <valueCode value="N1" />
@@ -734,13 +733,13 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
             <MedicationDispense>
                 <id value="854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense\|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2" />
                 </meta>
                 <contained>
                     <Medication>
                         <id value="756b422f-4df0-4afe-9d54-da534a44109e" />
                         <meta>
-                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN\|1.1.0" />
+                            <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
                         </meta>
                         <extension url="http://fhir.de/StructureDefinition/normgroesse">
                             <valueCode value="N1" />
@@ -820,7 +819,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2" />
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId" />
@@ -838,7 +837,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <Composition>
                 <id value="c624cf47-e235-4624-af71-0a09dc9254dc"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.2" />
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
                     <valueIdentifier>
@@ -879,7 +878,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <Device>
                 <id value="1" />
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.2" />
                 </meta>
                 <status value="active" />
                 <serialNumber value="1.4.0" />
@@ -948,18 +947,18 @@ NOTE: Das Element `<signature>*</signature>` enthält die Signatur des Quittungs
 |===
 s|Code   s|Type Success
 |200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das „Location“-Header-Feld enthält die Adresse der erstellten Ressource.#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |409 |Conflict +
@@ -1014,13 +1013,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |410 |Gone +
@@ -1073,13 +1072,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist. Beispielsweise befindet sich das Rezept nicht in der Belieferung durch diese Apotheke.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |409 |Conflict +
@@ -1135,7 +1134,7 @@ HTTP/1.1 200 OK
                     <versionId value="2"/>
                     <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
                     <source value="#AsYR9plLkvONJAiv"/>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
                     <valueCodeableConcept>
@@ -1208,7 +1207,7 @@ HTTP/1.1 200 OK
             <Bundle xmlns="http://hl7.org/fhir">
                 <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle\|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2" />
                     <tag>
                         <display value="ePrescription receipt" />
                     </tag>
@@ -1224,7 +1223,7 @@ HTTP/1.1 200 OK
                     <resource>
                         <Composition>
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition\|1.2" />
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.2" />
                             </meta>
                             <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
                                 <valueIdentifier>
@@ -1259,7 +1258,7 @@ HTTP/1.1 200 OK
                         <Device>
                             <id value="1" />
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device\|1.2" />
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.2" />
                             </meta>
                             <status value="active" />
                             <serialNumber value="R4.0.0.287342834" />
@@ -1302,13 +1301,13 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |410 |Gone +

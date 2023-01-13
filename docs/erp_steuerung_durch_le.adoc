@@ -1,15 +1,16 @@
+= E-Rezept API-Dokumentation zur Verwendung des Features "Workflow-Steuerung durch Leistungserbringer" image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
 :imagesdir: ../images
-:caution-caption: Achtung
-:important-caption: Wichtig
-:note-caption: Hinweis
-:tip-caption: Tip
-:warning-caption: Warnung
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-image:gematik_logo.jpg[width=35%]
 
-= E-Rezept API-Dokumentation zur Verwendung des Features "Workflow-Steuerung durch Leistungserbringer"
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
 
 Für diesen Workflow wird das gleiche Datenmodell, wie für Workflow 160 genutzt. Ebenso wird das gleiche Datenmodell für den Verordnungsdatensatz der KBV verwendet. Es werden lediglich je ein neuer Flowtype für GKV `169` und PKV `209` zur Erkennung des abweichenden Prozessablaufs und zur Nutzung in der Berechnung der Rezept-ID eingeführt.
@@ -87,7 +88,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -142,11 +143,11 @@ NOTE: Der Wert `<code value="urn:oid:1.2.276.0.76.4.54" />` entspricht dem inten
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -204,7 +205,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95" />
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2" />
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -286,13 +287,13 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |404  |Not found +
 [small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
@@ -315,7 +316,7 @@ Im ersten Schritt wird eine Nachricht im Primärsystem erstellt. Der verordnende
 Die Nachricht kann nur an Empfänger versendet werden, für die ein Eintrag im Verzeichnisdienst (inklusive KIM Adresse) der TI vorhanden ist. Der KIM-Header "To" muss mit einer Email-Adresse aus dem Verzeichnisdienst befüllt werden. Das Primärsystem kann hierzu eine Abfrage der Empfänger-Adressen durchführen und agiert dabei als LDAP-Client gegenüber dem LDAP-Server (Verzeichnisdienst). Der Konnektor dient dabei als LDAP-Proxy.
 
 ==== KIM-Nachricht versenden
-Der Versand von KIM–Nachrichten erfolgt über das Clientmodul, das die Nachricht für jeden Empfänger zuerst signiert und anschließend verschlüsselt. Die KIM-Nachricht wird als "message/rfc822"-MIME Einheit erzeugt und in eine "multipart/mixed"-MIME-Nachricht verpackt. Die Message-IDs der Nachrichten dürfen keine datenschutzrelevanten Informationen - wie z. B. FQDNs - enthalten. Die E-Mail-Nachricht muss anschließend über das Clientmodul versendet werden.
+Der Versand von KIM-Nachrichten erfolgt über das Clientmodul, das die Nachricht für jeden Empfänger zuerst signiert und anschließend verschlüsselt. Die KIM-Nachricht wird als "message/rfc822"-MIME Einheit erzeugt und in eine "multipart/mixed"-MIME-Nachricht verpackt. Die Message-IDs der Nachrichten dürfen keine datenschutzrelevanten Informationen - wie z. B. FQDNs - enthalten. Die E-Mail-Nachricht muss anschließend über das Clientmodul versendet werden.
 Die Signatur erfolgt über das Primärsystem mit einem Aufruf der Signaturschnittstelle des Konnektors. Zur Signatur wird der S-MIME-Standard verwendet. Die Nachricht wird durch das Clientmodul automatisch mit dem öffentlichen Schlüssel des SMC-B-Zertifikats des Empfängers verschlüsselt und mit der SMC-B der Absenders signiert. +
 
 Beim Aufbau der SMTP-Verbindung ist es erforderlich, Kartenverwaltungsinformationen zur SMC-B mitzuliefern, die zum Integritätsschutz der Nachricht verwendet werden sollen. Dazu müssen MandantId, ClientsystemId und WorkplaceId, der Kartensitzung der erforderlichen SMC-B, über den SMTP-Benutzernamen dem Clientmodul mitgeteilt werden. Weitere Informationen zur SMTP-Kommunikation finden Sie hier: https://github.com/gematik/api-kim/blob/main/docs/Primaersystem.adoc#43-nachrichten-versenden +
@@ -464,7 +465,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "169.774.328.939.869.74",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
         ],
         "tag":  [
             {
@@ -540,7 +541,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "169.000.033.491.280.78",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task\|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
         ]
     },
     "intent": "order",
@@ -628,11 +629,11 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im „WWW-Authenticate“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 |405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im „Allow“-Header-Feld der Antwort übermittelt.#
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +

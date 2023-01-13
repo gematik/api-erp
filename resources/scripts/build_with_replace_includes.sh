@@ -1,6 +1,8 @@
 #!/bin/bash
+echo "Start building source files"
 
 # RUN_1: creates images from the puml files and will store them in /puml/images
+echo "Creating puml images"
 
 # prepare
 cd "$(dirname "$0")" || exit
@@ -31,7 +33,12 @@ rm ../puml -r
 
 
 # RUN_2 this creates new adoc files in /docs/resources
+echo "Creating source files"
+
 for filename in $(find ../docs -name '*.adoc'); do
     newFileName=${filename//-source/}
     asciidoctor-reducer -o ./../../docs/$newFileName $filename
 done
+
+# Echo that the process is finished
+echo "Finished building source files"
