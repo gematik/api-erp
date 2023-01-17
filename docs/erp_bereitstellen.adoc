@@ -182,7 +182,7 @@ NOTE: Der Wert `urn:oid:1.2.276.0.76.4.54` entspricht dem intendierten Instituti
 |===
 
 == E-Rezept qualifiziert signieren
-Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Task im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_NS_PrescriptionId` eingebettet.
+Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das Primärsystem hat soeben einen Task im E-Rezept-Fachdienst erzeugt, um eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst zurückgemeldete `Task.identifier` vom Typ `https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId` für die Rezept-ID wird in den E-Rezept-Datensatz als `Identifier` des Bundles mit dem gleichen Namingsystem `https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId` eingebettet.
 
 Im Folgenden ist ein Beispiel aus der KBV-Spezifikation des E-Rezept-Bundles aufgelistet. Die vollständige Definition inkl. aller Value Sets und Codesysteme findet sich auf der Seite https://simplifier.net/eRezept/
 
