@@ -37,10 +37,17 @@ In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzt
 
 Die Veröffentlichung an dieser Stelle erfolgt übergangsweise, bis ein gemeinsames Repository 'oberhalb' der API-Beschreibung gefunden ist.
 
-Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validator erweitert. Zukünftig werden *alle* Requests vor der Weiterverarbeitung online validiert.  
+Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validator erweitert. Zukünftig werden *alle* Requests vor der Weiterverarbeitung online validiert.
 Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc).
 
 Wie Vergleiche zwischen FHIR Profilen (z.B. nach Versionsübergängen) vorgenommen werden können und den Verweis auf die Artefakte zum aktuellen Versionsübergang finden sich [auf dieser Seite](docs/erp_fhirversion_changes.adoc).
+
+## FHIR-Beispiele
+Für die Implementierung des E-Rezeptes stehen Beispiele im FHIR-Format zur Verfügung.
+
+Im [gemeinsamen Beispiel-Repository](https://github.com/gematik/eRezept-Examples) der Gesellschafter sind sowohl Einzelbeispiele von Profilen, wie auch Beispiele von Ende zu Ende Szenarien dokumentiert.
+
+Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei der Erstellung dieser Beispiele. Über Pull-Requests und andere Formen der Kollaboration freuen wir uns.
 
 ## Zugang zu Diensten der Telematikinfrastruktur
 
