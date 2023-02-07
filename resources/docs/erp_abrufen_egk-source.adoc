@@ -183,7 +183,7 @@ Content-Type: text/xml;charset=utf-8
             <ns6:Timestamp>2020-04-01T11:38:54.000Z</ns6:Timestamp>
             <ns6:Version>5.2.0</ns6:Version>
          </ns6:VSD_Status>
-         <ns6:Pruefungsnachweis>H4sIAAAAAAAAADVN3UrDMBh9lZJ7+6Vp0SJJRjERvEgqbhPmjZQ11s41Haa0Nk/v58CLc+Aczg/f/AznZHbfoR+9IFlKSeL8cWx73wmy3z3elCQJU+Pb5jx6J8jqAtlI/mwTLPogyOc0Xe4BlpB2bmim/ittHXw0MId2gItfYL6OPijz/qpftk+1vd6gJ/luKxlljJZ5Rkt6l99yQItryThoPHmTtapWGw9FrfRiTvvMqo6aqKP506r6BzOxY7U6FuZUrYgCMwt2cxMPggMOIVn5C0OlzV/uAAAA</ns6:Pruefungsnachweis>
+         <ns6:Pruefungsnachweis>H4sIACLx4WMA/wHqABX/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxQTiB4bWxucz0iaHR0cDovL3dzLmdlbWF0aWsuZGUvZmEvdnNkbS9wbncvdjEuMCIgQ0RNX1ZFUlNJT049IjEuMC4wIj48VFM+MjAyMjA4MzEwODA3MzY8L1RTPjxFPjI8L0U+PFBaPlN6QXhNREV5TkRBeU1URTFPRFUzTXpNNU16UlZRVEZJRXlxZWF1T1lid01iQk5kZnNUR2Evb2FKTFV2NDFCZz08L1BaPjwvUE4+fXVkL+oAAAA=</ns6:Pruefungsnachweis>
       </ns6:ReadVSDResponse>
    </S:Body>
 </S:Envelope>
@@ -195,6 +195,13 @@ NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten 
 `<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQURWTjNVckRNQmg5bFpKNys2VnAwU0pKUmpFUnZFZ3FiaFBtalpRMTFzNDFIYWEwTmsvdjU4Q0xjK0FjemcvZi9Bem5aSGJmb1IrOUlGbEtTZUw4Y1d4NzN3bXkzejNlbENRSlUrUGI1ang2SjhqcUF0bEkvbXdUTFBvZ3lPYzBYZTRCbHBCMmJtaW0vaXR0SFh3ME1JZDJnSXRmWUw2T1BpanovcXBmdGsrMXZkNmdKL2x1S3hsbGpKWjVSa3Q2bDk5eVFJdHJ5VGhvUEhtVHRhcFdHdzlGcmZSaVR2dk1xbzZhcUtQNTA2cjZCek94WTdVNkZ1WlVyWWdDTXd0MmN4TVBnZ01PSVZuNUMwT2x6Vi91QUFBQQ[siehe decodiertes Beispiel^]
 
 NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
+
+NOTE: Die Prüfziffer wurde mit folgenden Parametern erstellt:
+Zeichenkette: K0101240211585733934UA1 (Länge=23)
+Schlüssel für HMAC: 8b6d075d798f6b9aeda939fd10523996c1d14cdc70b4ed922e3e25c172e6dc9d
+Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg= (Länge=64=)
+
+CAUTION: Das Beispiel für `<ns6:Pruefungsnachweis>` ist zunächst vorläufig, da sich das Verfahren noch in der Kommentierung befindet.
 
 [cols="a,a"]
 [%autowidth]
