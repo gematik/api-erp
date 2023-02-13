@@ -183,7 +183,7 @@ Content-Type: text/xml;charset=utf-8
             <ns6:Timestamp>2020-04-01T11:38:54.000Z</ns6:Timestamp>
             <ns6:Version>5.2.0</ns6:Version>
          </ns6:VSD_Status>
-         <ns6:Pruefungsnachweis>H4sIACLx4WMA/wHqABX/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxQTiB4bWxucz0iaHR0cDovL3dzLmdlbWF0aWsuZGUvZmEvdnNkbS9wbncvdjEuMCIgQ0RNX1ZFUlNJT049IjEuMC4wIj48VFM+MjAyMjA4MzEwODA3MzY8L1RTPjxFPjI8L0U+PFBaPlN6QXhNREV5TkRBeU1URTFPRFUzTXpNNU16UlZRVEZJRXlxZWF1T1lid01iQk5kZnNUR2Evb2FKTFV2NDFCZz08L1BaPjwvUE4+fXVkL+oAAAA=</ns6:Pruefungsnachweis>
+         <ns6:Pruefungsnachweis>H4sIAFjO6WMA/x2NXWuzMABG/4rk/jXR7ENekpQy47pB0s1EGd4MqVmVaSyLaPXXN/TmuTjwnEN216EPZvPnutFSEIUIBMaexqazZwoKnf1LQOCm2jZ1P1pDwWoc2DHyIQN/tI6Cdpou/yFcXHg2Qz11v2Fj4E8NZ9cM8GIXON+lL6n4Lnmu3o7ynvGMEa1YjOIYJThCCXrGTwR6RDiLCeQ+UjG17a8i5atM96vQPDqmBRabeBRbXn7qTJ1widShdU1WHsxX2eleLMXru6hR/lCkbS9w5iouZbVQSqAX+pHsBqP8S1L2AAAA</ns6:Pruefungsnachweis>
       </ns6:ReadVSDResponse>
    </S:Body>
 </S:Envelope>
@@ -192,14 +192,14 @@ Content-Type: text/xml;charset=utf-8
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. In diesem Fall muss der Anwendungsfall abgebrochen werden.
 
 NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQTQxU3dXN2JNQXk5NnlzTTNSdmFXWjIxQTYwaWE0WTJXTnNNeTlidUZtZzJXN3UxcVVHUzB5MWZQN3JJZ3FUYllSZFJwTWpIUno3aDJjK3VUZGJrUStPNDBOa28xUWx4NmFxR0h3bzlYeTZPVGs3eTA2TXMxMG1JbGl2Yk9xWkMvNktnejR6Q3IrZXJUMUxyaU51bXJPbDJ3QkhySTBtcUhOK3VyNUx6MmZYcTlzUG41WHh4VStoOE5CNWFTRk1PaGE1ai9QRU80RG1NSHFpenNYa2FWUVQzRnRhaDZvWUQxcEt2RTJtMGgrd1BYVjdOWitaam1xWForRGdkWndpdjN4UytVR1M1WE5EMzNzY2cxUHJPWktlVGlSU2tDQWRoQVhlZWJVZG1Tc3hXOExhdXdodGIxaS9YQzhjVmVVYllSUWJzVU5ZdGxYVTBkd1BremxPNGpONkdRRHl0UElrZEdMa1FXMnJpeHRhdGVaTWU1MjhSRG1JS0Z6NmFTOHZzUkJ5RXdWTjRKUXFJdVhNMUIwbHNMUTA4UkMweU00Ui9oUlhDdG1oTHdyeDNqOFJyZWtUNEUxRjRhZnZBZmRmSmJ2TUp3cDZyY01veWlXL3VaWnViUHRpNE1WOG94Q2NyNjBYNCsxSHRjUGZHaFowQzhFcEkrSThmWk5SdmpROTRPNllDQUFBPQ[siehe decodiertes Beispiel^] +
-`<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQURWTjNVckRNQmg5bFpKNys2VnAwU0pKUmpFUnZFZ3FiaFBtalpRMTFzNDFIYWEwTmsvdjU4Q0xjK0FjemcvZi9Bem5aSGJmb1IrOUlGbEtTZUw4Y1d4NzN3bXkzejNlbENRSlUrUGI1ang2SjhqcUF0bEkvbXdUTFBvZ3lPYzBYZTRCbHBCMmJtaW0vaXR0SFh3ME1JZDJnSXRmWUw2T1BpanovcXBmdGsrMXZkNmdKL2x1S3hsbGpKWjVSa3Q2bDk5eVFJdHJ5VGhvUEhtVHRhcFdHdzlGcmZSaVR2dk1xbzZhcUtQNTA2cjZCek94WTdVNkZ1WlVyWWdDTXd0MmN4TVBnZ01PSVZuNUMwT2x6Vi91QUFBQQ[siehe decodiertes Beispiel^]
+`<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFGak82V01BL3gyTlhXdXpNQUJHLzRyay9qWFI3RU5la3BReTQ3cEIwczFFR2Q0TXFWbVZhU3lMYVBYWE4vVG11VGp3bkVOMjE2RVBadlBudXRGU0VJVUlCTWFleHFhelp3b0tuZjFMUU9DbTJqWjFQMXBEd1dvYzJESHlJUU4vdEk2Q2Rwb3UveUZjWEhnMlF6MTF2MkZqNEU4Tlo5Y004R0lYT04rbEw2bjRMbm11M283eW52R01FYTFZak9JWUpUaENDWHJHVHdSNlJEaUxDZVErVWpHMTdhOGk1YXRNOTZ2UVBEcW1CUmFiZUJSYlhuN3FUSjF3aWRTaGRVMVdIc3hYMmVsZUxNWHJ1NmhSL2xDa2JTOXc1aW91WmJWUVNxQVgrcEhzQnFQOFMxTDJBQUFB[siehe decodiertes Beispiel^]
 
 NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
 
 NOTE: Die Prüfziffer wurde mit folgenden Parametern erstellt:
 Zeichenkette: K0101240211585733934UA1 (Länge=23);
-Schlüssel für HMAC: 8b6d075d798f6b9aeda939fd10523996c1d14cdc70b4ed922e3e25c172e6dc9d;
-Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg= (Länge=64=)
+Schlüssel für HMAC: 0000000000000000000000000000000000000000000000000000000000000001;
+Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFSc3V0SHhsdFVHeXViTlMwUGJMa0R4UDhlM3FsZENNZw== (Länge=76)
 
 CAUTION: Das Beispiel für `<ns6:Pruefungsnachweis>` ist zunächst vorläufig, da sich das Verfahren noch in der Kommentierung befindet.
 
