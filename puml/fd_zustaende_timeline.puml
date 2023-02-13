@@ -17,12 +17,6 @@ timingDiagram {
     FontStyle bold
     Backgroundcolor #97D2EC
   }
-  .tucolor {
-    FontColor #ffffff
-    Fontsize 16
-    FontStyle bold
-    BackgroundColor #5F6F94
-  }
   .pucolor {
     FontColor #ffffff
     Fontsize 16
@@ -36,7 +30,6 @@ footer Erstellt am 09.02.2023
 
 concise "RU-DEV" as RUDEV <<rudevcolor>>
 concise "RU" as RU <<rucolor>>
-concise "TU" as TU <<tucolor>>
 concise "PU" as PU <<pucolor>>
 
 
@@ -46,26 +39,33 @@ hide time-axis
 'manual time-axis
 'use date format "dd.MM.yyyy"
 
-@2023/01/01
-RUDEV is "FHIR 2022 + 2023"
+@2022/12/01
+RUDEV is "FHIR 2022"
 RU is "FHIR 2022"
-TU is "FHIR 2022"
 PU is "FHIR 2022"
 
-@2023/04/01
-RUDEV is "FHIR 2023"
+@2023/01/23
+RUDEV is "FHIR 2022 + 2023"
+note bottom of RUDEV : seit 23.01.23
+
+@2023/05/01
 RU is "FHIR 2022 + 2023"
-TU is "FHIR 2022 + 2023"
+note bottom of RU : KW 18/19
 
 @2023/07/01
-RU is "FHIR 2023"
 PU is "FHIR 2022 + 2023"
+note bottom of PU : 01.07.23
+RUDEV is "FHIR 2023"
+note bottom of RUDEV : tbd
 
 @2023/10/01
-TU is "FHIR 2023"
+RU is "FHIR 2023"
+note bottom of RU : tbd
+
 
 @2024/01/01
 PU is "FHIR 2023"
+note bottom of PU : 01.01.2024
 
 @2024/02/01
 @enduml
