@@ -1,14 +1,34 @@
 = E-Rezept Antworten des Fachdienstes im Übergangszeitraum 2023 image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Auf dieser Seite ist eine Übersicht dargestellt, wie sich der Fachdienst zu gegebener Zeit verhält und welche Ressourcen als Antwort gegeben werden.
+IMPORTANT: DRAFT - Work in Progress!
+
+Auf dieser Seite sind relevante Informationen zum Verhalten des Fachdienstes während und nach der Übergangszeit (01.07.2023 - 31.12.2023) aufgeführt.
+
+toc::[]
+
+== Zustände des Fachdienstes im Übergangszeitraum
+
+Diese Darstellung zeigt die Konfigurationen der Umgebungen des Fachdienstes zu gegebener Zeit auf.
+
+IMPORTANT: Dieser Stand ist vorläufig und wird noch ergänzt. Insbesondere die Umstellung von RU-DEV und RU im Übergangszeitraum sind noch zu entscheiden.
+
+image:puml_fd_zustaende_timeline.png[width=100%]
+
+== Übersicht Schnittstelle und Antwort
+
+=== Methodik
+Im Folgenden ist eine Übersicht dargestellt, wie sich der Fachdienst zu gegebener Zeit verhält und welche Ressourcen als Antwort gegeben werden.
 Hierbei gibt es zwei zu betrachtende Zeiträume in der PU:
 * *Übergangszeitraum* (01.07. - 31.12.2023)
 * *Nach dem Übergangszeitraum* (ab 01.01.2024)
 
-toc::[]
+Die zu unterscheidenden Profilversionen sind wie folgt bezeichnet:
+* FHIR 2022: bislang im FD gültige Profilversionen
+* FHIR 2023: Zum Versionsübergang 30.06.2023 -> 01.07.2023 gültige neue Profilversionen
 
-== Übersicht Schnittstelle und Antwort
+=== Daten
+IMPORTANT: Der Fachdienst antwortet ab 01.07.2023 in der PU immer mit einem Task der FHIR-Profile 2023 (gemäß E-Rezept-Workflow 1.2).
 
 [cols="h,a,a,a"]
 [%autowidth]
@@ -24,6 +44,13 @@ Request
 Response
 
 * FD antwortet immer mit FHIR 2023|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023
 //
 |GET/metadata|all a|
 Request
@@ -33,6 +60,13 @@ Request
 Response
 
 * FD antwortet immer mit FHIR 2023|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023
 //
 |POST /Task/$create|verordnende LEI a|
 Request
