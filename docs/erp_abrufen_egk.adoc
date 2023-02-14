@@ -16,9 +16,7 @@ Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts 
 toc::[]
 
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
-Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen, der mittels VSDM-Fachmodul eine Online-Gültigkeitsprüfung der eGK durchführt. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD zurück.
-
-Aus den Persönlichen Versichertendaten (PD) des Versicherten extrahiert das AVS die KVNR, mit der nach einlösbaren E-Rezepten im E-Rezept-Fachdienst gesucht werden soll.
+Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste einlösbarer E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 

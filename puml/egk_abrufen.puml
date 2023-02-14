@@ -13,27 +13,27 @@ LE -> AVS: E-Rezept mittels eGK abrufen
 AVS -> Konnektor: ReadVSD (PerformOnlineCheck=true, \rReadOnlineReceipt=true)
     activate Konnektor #8da5c4
 Konnektor -> Konnektor: VSD-Onlineprüfung
-Konnektor --> AVS: ReadVSDResponse \n(VD, PVD, GVD, PN, VSD_Status)
+Konnektor --> AVS: ReadVSDResponse \n(VD, PVD, GVD, PNW, VSD_Status)
     deactivate Konnektor
-AVS -> AVS: KVNR aus PD extrahieren \n("Versicherten_ID")
-AVS -> AVS: PN Base64 URL-safe codieren
+AVS -> AVS: PNW URL-safe codieren
 
-group opt 
+group opt
     ref over AVS, Konnektor, FD
         UC 5.2 AuthN Token durch LEI anfordern
     end ref
 end
 
-AVS -> FD:  GET /Task?KVNR=K010124021&PNW=H4sIAAAAAAA...
+AVS -> FD:  GET /Task?PNW=H4sIAAAAAAA...
     activate FD #009a7c
 FD -> FD: Rollenprüfung Apotheke
 FD -> FD: Prüfung Ratelimit Apotheke
-FD -> FD: Prüfung PN Status und Zeitstempel
-FD -> FD: Suche Task anhand übergebener KVNR
+FD -> FD: Verifizierung der im PNW enthaltenen PZ
+FD -> FD: Prüfung, ob Zeitstempel im Zeitfenster
+FD -> FD: Suche Task anhand der in PZ enthaltenen KVNR
 FD -> FD: Filter Tasks nach Task.status = "ready"
 FD --> AVS: 200: Bundle{Task, Task, ...}
     deactivate FD
 
-AVS --> LE: :Liste einlösbarer \rE-Rezepte[TaskIDs + AccessCodes] 
+AVS --> LE: :Liste einlösbarer \rE-Rezepte[TaskIDs + AccessCodes]
 LE --> Vers: :eGK zurückgeben
 @enduml
