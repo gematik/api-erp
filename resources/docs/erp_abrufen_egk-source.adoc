@@ -8,7 +8,9 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste einlösbarer E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
+Die Apotheke übermittelt den Prüfnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+
+Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugerodneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
 Mit dem Einzelabruf je Rezept erhält die Apotheke Einsicht in die eigentlichen Verordnungen, um zu klären, welche(s) davon in der Apotheke eingelöst werden soll(en). Dieses Vorgehen ist analog zum Einscannen des Sammel-Barcodes auf dem E-Rezept-Patientenausdruck.
 
