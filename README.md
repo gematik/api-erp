@@ -7,6 +7,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
   - [FHIR-Releases](#fhir-releases)
   - [FHIR-Beispiele](#fhir-beispiele)
+  - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
   - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
   - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
   - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
@@ -48,6 +49,9 @@ Für die Implementierung des E-Rezeptes stehen Beispiele im FHIR-Format zur Verf
 Im [gemeinsamen Beispiel-Repository](https://github.com/gematik/eRezept-Examples) der Gesellschafter sind sowohl Einzelbeispiele von Profilen, wie auch Beispiele von Ende zu Ende Szenarien dokumentiert.
 
 Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei der Erstellung dieser Beispiele. Über Pull-Requests und andere Formen der Kollaboration freuen wir uns.
+
+## Umfang der Anwendung E-Rezept
+[Hier geht es zur Übersicht der Produkte, die über das E-Rezept verordnet werden können](docs/erp_implemented_features.adoc)
 
 ## Zugang zu Diensten der Telematikinfrastruktur
 
