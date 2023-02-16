@@ -265,10 +265,13 @@ s|Code   s|Type Success
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
 s|Code   s|Type Error
 |403 a|Forbidden +
-Mögliche Gründe:
 
-* [small]#Prüfnachweis konnte nicht verifiziert werden#
-* [small]#Das AVS hat einen Prüfnachweis vorgelegt, dessen Zeitstempel außerhalb des erlaubten Zeitraumes liegt#
+Im OperationOutcome übermittelte Fehlermeldungen:
+
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Prüfziffer fehlt im VSDM Prüfungsnachweis).#
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Fehler bei Prüfung der HMAC-Sicherung).#
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Zeitliche Gültigkeit des Anwesenheitsnachweis überschritten).#
+
 |===
 
 NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
