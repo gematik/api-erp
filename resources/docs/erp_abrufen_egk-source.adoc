@@ -10,7 +10,7 @@ Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK 
 
 Die Apotheke übermittelt den Prüfnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
-Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugerodneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
+Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
 Mit dem Einzelabruf je Rezept erhält die Apotheke Einsicht in die eigentlichen Verordnungen, um zu klären, welche(s) davon in der Apotheke eingelöst werden soll(en). Dieses Vorgehen ist analog zum Einscannen des Sammel-Barcodes auf dem E-Rezept-Patientenausdruck.
 
@@ -160,8 +160,8 @@ SOAPAction: "http://ws.gematik.de/conn/vsds/VSDService/v5.2#ReadVSD"
 
 NOTE: Das `<ns6:EhcHandle>` benennt die Gesundheitskarte, von welcher die VSD gelesen werden sollen.
 
-NOTE: In `<ns6:PerformOnlineCheck>true</ns6:PerformOnlineCheck>` und `<ns6:ReadOnlineReceipt>true</ns6:ReadOnlineReceipt>` wird festgelet,,
-dass zwingend eine Online-Prüfung durchgeführt werden und im Anschluss ein Prüfungsnachweis zurückgegeben werden muss.
+NOTE: In `<ns6:PerformOnlineCheck>true</ns6:PerformOnlineCheck>` und `<ns6:ReadOnlineReceipt>true</ns6:ReadOnlineReceipt>` wird festgelegt,
+dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsnachweis zurückgegeben werden muss.
 
 |===
 
@@ -199,7 +199,7 @@ NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN
 NOTE: Die im `<ns6:Pruefungsnachweis>` enthaltene Prüfziffer (`<PZ>`) wurde mit folgenden Parametern erstellt:
 Zeichenkette: K0101240211585733934UA1 (Länge=23);
 Schlüssel für HMAC: 8b6d075d798f6b9aeda939fd10523996c1d14cdc70b4ed922e3e25c172e6dc9d;
-Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg= (Länge=64=)
+Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg=
 
 [cols="a,a"]
 [%autowidth]
@@ -264,8 +264,11 @@ s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
 s|Code   s|Type Error
-|403 |Forbidden +
-[small]#Das AVS hat einen veralteten Prüfnachweis vorgelegt, oder dieser ist außerhalb des zulässigen Wertebereichs#
+|403 a|Forbidden +
+Mögliche Gründe:
+
+* [small]#Prüfnachweis konnte nicht verifiziert werden#
+* [small]#Das AVS hat einen veralteten Prüfnachweis vorgelegt, der außerhalb des erlaubten Zeitfensters erstellt wurde#
 |===
 
 NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
