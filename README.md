@@ -75,7 +75,9 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
 
-[++NEU++ Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke beschrieben](docs/erp_alternative_zuweisung.adoc)
+[+++NEU+++ Hier ist der Anwendungsfall zum Abruf der E-Rezepte mittels Gesundheitskarte (eGK) beschrieben](docs/erp_abrufen_egk.adoc)
+
+[Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke beschrieben](docs/erp_alternative_zuweisung.adoc)
 
 [Hier folgt die Beschreibung der Benachrichtigungsschnittstelle für Apothekensysteme](docs/erp_notification_avs.adoc)
 

@@ -1,0 +1,277 @@
+= E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte) image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+
+Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
+
+toc::[]
+
+==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
+Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
+
+Die Apotheke übermittelt den Prüfnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+
+Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
+
+Mit dem Einzelabruf je Rezept erhält die Apotheke Einsicht in die eigentlichen Verordnungen, um zu klären, welche(s) davon in der Apotheke eingelöst werden soll(en). Dieses Vorgehen ist analog zum Einscannen des Sammel-Barcodes auf dem E-Rezept-Patientenausdruck.
+
+image:puml_egk_abrufen.png[width=100%]
+
+== Versichertenstammdaten von eGK lesen
+Vor dem Zugriff auf den E-Rezept-Fachdienst muss ein Prüfungsnachweis mittels VSD-Online-Prüfung durch den Konnektor erstellt werden.
+
+=== Vorbedingungen
+Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden, von welcher die Daten gelesen werden sollen. Das ist im Kontext paralleler Vorgänge an mehreren Handverkaufstischen relevant.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/EventService
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+SOAPAction: "http://ws.gematik.de/conn/EventService/v7.2#GetCards"
+----
+|Payload    |
+[source,xml]
+----
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap-env:Body>
+      <EVT:GetCards xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:EVT="http://ws.gematik.de/conn/EventService/v7.2" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" mandant-wide="false" xsi:schemaLocation="http://ws.gematik.de/conn/EventService/v7.2 EventService.xsd">
+	      <CCTX:Context>
+	         <CONN:MandantId>Mandant1</CONN:MandantId>
+		      <CONN:ClientSystemId>CS1</CONN:ClientSystemId>
+		      <CONN:WorkplaceId>AP1</CONN:WorkplaceId>
+	      </CCTX:Context>
+	      <CARDCMN:CtId>Terminal1</CARDCMN:CtId>
+	      <CARDCMN:CardType>EGK</CARDCMN:CardType>
+      </EVT:GetCards>
+   </soap-env:Body>
+</soap-env:Envelope>
+----
+
+NOTE: `<CARDCMN:CtId>Terminal1</CARDCMN:CtId>` hier wird das Kartenterminal am jeweiligen Handverkaufstisch benannt, wie es in der Mandanten- und Arbeitsplatzkonfiguration im Konnektor und AVS konfiguriert ist.
+
+|===
+
+*Response*
+[source,xml]
+----
+<EVT:GetCardsResponse xmlns:GERROR="http://ws.gematik.de/tel/error/v2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:CARD="http://ws.gematik.de/conn/CardService/v8.1" xmlns:EVT="http://ws.gematik.de/conn/EventService/v7.2" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" xsi:schemaLocation="http://ws.gematik.de/conn/EventService/v7.2 EventService.xsd">
+	<CONN:Status>
+		<CONN:Result>OK</CONN:Result>
+	</CONN:Status>
+	<CARD:Cards>
+		<CARD:Card>
+			<CONN:CardHandle>a5567061-f3b0-436b-b702-fbb5026aa168</CONN:CardHandle>
+			<CARDCMN:CardType>EGK</CARDCMN:CardType>
+			<CARD:CardVersion>
+				<CARD:COSVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:COSVersion>
+				<CARD:ObjectSystemVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:ObjectSystemVersion>
+				<CARD:CardPTPersVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:CardPTPersVersion>
+				<CARD:DataStructureVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:DataStructureVersion>
+				<CARD:LoggingVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:LoggingVersion>
+				<CARD:ATRVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:ATRVersion>
+				<CARD:GDOVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:GDOVersion>
+				<CARD:KeyInfoVersion>
+					<CARD:Major>65535</CARD:Major>
+					<CARD:Minor>65535</CARD:Minor>
+					<CARD:Revision>65535</CARD:Revision>
+				</CARD:KeyInfoVersion>
+			</CARD:CardVersion>
+			<CARDCMN:Iccsn>00000000000000000000</CARDCMN:Iccsn>
+			<CARDCMN:CtId>Terminal1</CARDCMN:CtId>
+			<CARDCMN:SlotId>2</CARDCMN:SlotId>
+			<CARD:InsertTime>2022-08-17T09:30:47Z</CARD:InsertTime>
+			<CARD:CardHolderName>Patientin Muster</CARD:CardHolderName>
+			<CARD:Kvnr>K010124021</CARD:Kvnr>
+			<CARD:CertificateExpirationDate>2024-08-13</CARD:CertificateExpirationDate>
+		</CARD:Card>
+	</CARD:Cards>
+</EVT:GetCardsResponse>
+----
+
+NOTE: Mit dem gemeldeten `<CONN:CardHandle>a5567061-f3b0-436b-b702-fbb5026aa168</CONN:CardHandle>` wird die eGK zum Auslesen der Versichertenstammdaten adressiert.
+
+NOTE: Die Werte `65535` und `00000000000000000000` für die ICCSN sind Dummy-Werte und im Anwendungsfall nicht relevant.
+
+
+=== VSD-Abruf
+Für den VSD-Abruf wird die ReadVSD-Operation des Konnektors mittels folgendem Aufruf gestartet.
+
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/VSDService
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+SOAPAction: "http://ws.gematik.de/conn/vsds/VSDService/v5.2#ReadVSD"
+----
+|Payload    |
+[source,xml]
+----
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns6:ReadVSD xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2" xmlns:ns2="http://ws.gematik.de/tel/error/v2.0" xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns5="http://www.w3.org/2000/09/xmldsig#" xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+         <ns6:EhcHandle>a5567061-f3b0-436b-b702-fbb5026aa168</ns6:EhcHandle>
+         <ns6:HpcHandle>3ddfbd41-4737-4bfc-9e26-eb5580ec2f4d</ns6:HpcHandle>
+         <ns6:PerformOnlineCheck>true</ns6:PerformOnlineCheck>
+         <ns6:ReadOnlineReceipt>true</ns6:ReadOnlineReceipt>
+         <ns7:Context>
+            <ns3:MandantId>Mandant1</ns3:MandantId>
+            <ns3:ClientSystemId>CS1</ns3:ClientSystemId>
+            <ns3:WorkplaceId>AP1</ns3:WorkplaceId>
+            <ns3:UserId>user1</ns3:UserId>
+         </ns7:Context>
+      </ns6:ReadVSD>
+   </S:Body>
+</S:Envelope>
+----
+
+NOTE: Das `<ns6:EhcHandle>` benennt die Gesundheitskarte, von welcher die VSD gelesen werden sollen.
+
+NOTE: In `<ns6:PerformOnlineCheck>true</ns6:PerformOnlineCheck>` und `<ns6:ReadOnlineReceipt>true</ns6:ReadOnlineReceipt>` wird festgelegt,
+dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsnachweis zurückgegeben werden muss.
+
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+
+<?xml version="1.0" encoding="UTF-8"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns6:ReadVSDResponse xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2" xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema" xmlns:ns4="http://www.w3.org/2000/09/xmldsig#" xmlns:ns5="http://ws.gematik.de/tel/error/v2.0" xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+         <ns6:PersoenlicheVersichertendaten>H4sIAAAAAAAAA41SwW7bMAy96ysM3RvaWZ21A60ia4Y2WNsMy9buFmg2W7u1qUGS0y1fP7rIgqTbYRdRpMjHRz7h2c+uTdbkQ+O40Nko1Qlx6aqGHwo9Xy6OTk7y06Ms10mIlivbOqZC/6Kgz4zCr+erT1LriNumrOl2wBHrI0mqHN+ur5Lz2fXq9sPn5XxxU+h8NB5aSFMOha5j/PEO4DmMHqizsXkaVQT3Ftah6oYD1pKvE2m0h+wPXV7NZ+ZjmqXZ+DgdZwiv3xS+UGS5XND33scg1PrOZKeTiRSkCAdhAXeebUdmSsxW8Lauwhtb1i/XC8cVeUbYRQbsUNYtlXU0dwPkzlO4jN6GQDytPIkdGLkQW2rixtateZMe528RDmIKFz6aS8vsRByEwVN4JQqIuXM1B0lsLQ08RC0yM4R/hRXCtmhLwrx3j8RrekT4E1F4afvAfdfJbvMJwp6rcMoyiW/uZZubPti4MV8oxCcr60X4+1HtcPfGhZ0C8EpI+I8fZNRvjQ94O6YCAAA=</ns6:PersoenlicheVersichertendaten>
+         <ns6:AllgemeineVersicherungsdaten>H4sIAAAAAAAAA7VSW0/CMBR+369Y+s66kiwD05UgGCUIGIlofFnqdtgWtjOzFlR+vR0Sw4CoL760PZfvkp7De+9Fbm+gUlmJAWGOS2zAqIwzTAIyms9anY7XbTGP2EpLjGVeIgTkAxTpCYs/DMJ+nidQQIawqFmiFKo1JiqWGvBpcmsPhpNwcXU/H82mAfGcdq1gNFEFJNX69YLSN+UYBqmzlRMDXUq6UXFRH3Rj+oltdL6pNVSHYa2konSttyZ7CUmGKFi367vMZZzuExYfl8q40ZWEZIdvxCtANDyCuW3mG1yb07P1I1guAWOozFeBGB5BDmsWn8oCxHh8w+nuZfH+SwVRirueP1pjvu95rvvv1uhP3uhJ4vwgntdK6m2Gy1I1o+vxojlMlJUW7IBnn2qgwr0noxF+MTzO7gTzOa1v4+LHXnqiT5v+6NFy0d+XWlif5+JLJDgDAAA=</ns6:AllgemeineVersicherungsdaten>
+         <ns6:GeschuetzteVersichertendaten>H4sIAAAAAAAAA4WQUUvDQAzH3/cpjryv2QaFTXodMkUGzoHFIb6Mo816Zder9NKq/fSmiKgw8CUk//zJL0myfq+d6qkNVeM1zKMZKPJ5U1S+1LDN9tPlMl5N5zGowMYXxjWeNHxQgHU6SZ42xzsKue2IB6bDOCa31DKJU8Lz7l5tbnbHw+1jtt0/aIijxUgQpg8aLPPrFeJbiEqqDVfnqCA8GexDUY8Be/GDEs5LNxjrOl8G2YK7IFL2lcwSzL4lvGQjR2euejmRW0MliXZN7cBONk1XCf4UgjHWm9/Nv4IQLo3D/7+QTj4BWbDYuGkBAAA=</ns6:GeschuetzteVersichertendaten>
+         <ns6:VSD_Status>
+            <ns6:Status>0</ns6:Status>
+            <ns6:Timestamp>2020-04-01T11:38:54.000Z</ns6:Timestamp>
+            <ns6:Version>5.2.0</ns6:Version>
+         </ns6:VSD_Status>
+         <ns6:Pruefungsnachweis>H4sIACLx4WMA/wHqABX/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxQTiB4bWxucz0iaHR0cDovL3dzLmdlbWF0aWsuZGUvZmEvdnNkbS9wbncvdjEuMCIgQ0RNX1ZFUlNJT049IjEuMC4wIj48VFM+MjAyMjA4MzEwODA3MzY8L1RTPjxFPjI8L0U+PFBaPlN6QXhNREV5TkRBeU1URTFPRFUzTXpNNU16UlZRVEZJRXlxZWF1T1lid01iQk5kZnNUR2Evb2FKTFV2NDFCZz08L1BaPjwvUE4+fXVkL+oAAAA=</ns6:Pruefungsnachweis>
+      </ns6:ReadVSDResponse>
+   </S:Body>
+</S:Envelope>
+----
+
+CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
+
+NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQTQxU3dXN2JNQXk5NnlzTTNSdmFXWjIxQTYwaWE0WTJXTnNNeTlidUZtZzJXN3UxcVVHUzB5MWZQN3JJZ3FUYllSZFJwTWpIUno3aDJjK3VUZGJrUStPNDBOa28xUWx4NmFxR0h3bzlYeTZPVGs3eTA2TXMxMG1JbGl2Yk9xWkMvNktnejR6Q3IrZXJUMUxyaU51bXJPbDJ3QkhySTBtcUhOK3VyNUx6MmZYcTlzUG41WHh4VStoOE5CNWFTRk1PaGE1ai9QRU80RG1NSHFpenNYa2FWUVQzRnRhaDZvWUQxcEt2RTJtMGgrd1BYVjdOWitaam1xWForRGdkWndpdjN4UytVR1M1WE5EMzNzY2cxUHJPWktlVGlSU2tDQWRoQVhlZWJVZG1Tc3hXOExhdXdodGIxaS9YQzhjVmVVYllSUWJzVU5ZdGxYVTBkd1BremxPNGpONkdRRHl0UElrZEdMa1FXMnJpeHRhdGVaTWU1MjhSRG1JS0Z6NmFTOHZzUkJ5RXdWTjRKUXFJdVhNMUIwbHNMUTA4UkMweU00Ui9oUlhDdG1oTHdyeDNqOFJyZWtUNEUxRjRhZnZBZmRmSmJ2TUp3cDZyY01veWlXL3VaWnViUHRpNE1WOG94Q2NyNjBYNCsxSHRjUGZHaFowQzhFcEkrSThmWk5SdmpROTRPNllDQUFBPQ[siehe decodiertes Beispiel^] +
+`<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQURWTjNVckRNQmg5bFpKNys2VnAwU0pKUmpFUnZFZ3FiaFBtalpRMTFzNDFIYWEwTmsvdjU4Q0xjK0FjemcvZi9Bem5aSGJmb1IrOUlGbEtTZUw4Y1d4NzN3bXkzejNlbENRSlUrUGI1ang2SjhqcUF0bEkvbXdUTFBvZ3lPYzBYZTRCbHBCMmJtaW0vaXR0SFh3ME1JZDJnSXRmWUw2T1BpanovcXBmdGsrMXZkNmdKL2x1S3hsbGpKWjVSa3Q2bDk5eVFJdHJ5VGhvUEhtVHRhcFdHdzlGcmZSaVR2dk1xbzZhcUtQNTA2cjZCek94WTdVNkZ1WlVyWWdDTXd0MmN4TVBnZ01PSVZuNUMwT2x6Vi91QUFBQQ[siehe decodiertes Beispiel^]
+
+NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
+
+NOTE: Die im `<ns6:Pruefungsnachweis>` enthaltene Prüfziffer (`<PZ>`) wurde mit folgenden Parametern erstellt:
+Zeichenkette: K0101240211585733934UA1 (Länge=23);
+Schlüssel für HMAC: 8b6d075d798f6b9aeda939fd10523996c1d14cdc70b4ed922e3e25c172e6dc9d;
+Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg=
+
+[cols="a,a"]
+[%autowidth]
+|===
+|Code   |Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
+|Code   |Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+=== Fehlerbehandlung
+Ist die Gesundheitskarte gesperrt, bspw. wegen Kartenwechsel oder -verlust, liefert die Operation ReadVSD *keine ReadVSDResponse* sondern einen `SOAP:Fault`. In diesem Fall muss der Anwendungsfall abgebrochen werden.
+
+Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der Patient bereits im Besitz einer neuen eGK.
+
+* Fehlercode 106
+* Fehlercode 107
+* Fehlercode 114
+
+
+== Liste einlösbarer E-Rezepte vom Fachdienst abrufen
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?pnw=H4sIACLx4WMA%2FwHqABX%2FPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI%2FPjxQTiB4bWxucz0iaHR0cDovL3dzLmdlbWF0aWsuZGUvZmEvdnNkbS9wbncvdjEuMCIgQ0RNX1ZFUlNJT049IjEuMC4wIj48VFM%2BMjAyMjA4MzEwODA3MzY8L1RTPjxFPjI8L0U%2BPFBaPlN6QXhNREV5TkRBeU1URTFPRFUzTXpNNU16UlZRVEZJRXlxZWF1T1lid01iQk5kZnNUR2Evb2FKTFV2NDFCZz08L1BaPjwvUE4%2BfXVkL%2BoAAAA%3D
+
+CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
+
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+|===
+
+*Response*
+[source,xml]
+----
+include::../examples/ti-dienste/task/response_taskGet_eGK.xml[]
+----
+
+NOTE: Alle gelieferten Tasks haben den Status `<status value="ready" />` und können im Folgenden durch die Apotheke einzeln abgerufen und beliefert werden.
+
+NOTE: Eine Sortierung der Ergebnisse der Liste durch den Fachdienst erfolgt nicht. Ab eine Ergebnismenge von 50 Einträge erfolgt ein paging.
+
+NOTE: Je Rezept müssen die Task-ID `<id value="160.000.166.571.419.21" />` und der AccessCode +
+ `<value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />` ausgelesen und für den Folgeaufruf der
+ `POST /Task/160.000.166.571.419.21/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea`-Operation zusammengesetzt werden, siehe link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^].
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|403 a|Forbidden +
+
+Im OperationOutcome übermittelte Fehlermeldungen:
+
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Prüfziffer fehlt im VSDM Prüfungsnachweis).#
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Fehler bei Prüfung der HMAC-Sicherung).#
+* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Zeitliche Gültigkeit des Anwesenheitsnachweis überschritten).#
+
+|===
+
+NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
