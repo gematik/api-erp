@@ -1,0 +1,71 @@
+@startuml fhir_version_timeline
+<style>
+root {
+    Margin 0 0 0 30
+}
+
+timingDiagram {
+  .rudevcolor {
+    FontColor #000e52
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #FEF5AC
+  }
+  .rucolor {
+    FontColor #000e52
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #97D2EC
+  }
+  .pucolor {
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #25316D
+  }
+}
+</style>
+title Zeitleiste der Zustände vom Fachdienst
+footer Erstellt am 09.02.2023
+
+concise "RU-DEV" as RUDEV <<rudevcolor>>
+concise "RU" as RU <<rucolor>>
+concise "PU" as PU <<pucolor>>
+
+
+'30 days is scaled to 50 pixels
+scale 2592000 as 60 pixels
+hide time-axis
+'manual time-axis
+'use date format "dd.MM.yyyy"
+
+@2022/12/01
+RUDEV is "A"
+RU is "A"
+PU is "A"
+
+@2023/01/23
+RUDEV is "B"
+note bottom of RUDEV : seit 23.01.23
+
+@2023/05/01
+RU is "B"
+note bottom of RU : KW 18/19
+
+@2023/07/01
+PU is "B"
+note bottom of PU : 01.07.23
+RUDEV is "C"
+note bottom of RUDEV : tbd
+
+@2023/10/01
+RU is "C"
+note bottom of RU : tbd
+
+
+@2024/01/01
+PU is "C"
+note bottom of PU : 01.01.2024
+
+@2024/02/01
+@enduml

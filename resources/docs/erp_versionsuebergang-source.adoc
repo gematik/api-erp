@@ -1,0 +1,687 @@
+= E-Rezept Antworten des Fachdienstes im Übergangszeitraum 2023 image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+
+Auf dieser Seite sind relevante Informationen zum Verhalten des Fachdienstes während und nach der Übergangszeit aufgeführt. Dieser Übergangszeitraum wird nach der Technischen Anlage der KBV 6 Monate betragen. Gilt also somit vom 01.07.2023 bis 31.12.2023.
+
+toc::[]
+
+== Zustände des Fachdienstes im Zusammenhang mit dem Übergangszeitraum
+
+Diese Darstellung zeigt die Konfigurationen der Umgebungen des Fachdienstes zu gegebener Zeit auf. Es ist dargestellt, welche Profilversionen vom Fachdienst akzeptiert werden.
+Folgende Konfigurationen wurden definiert:
+
+[cols="h,a"]
+[%autowidth]
+|===
+|Name | Eigenschaften
+
+| A | vor Übergangszeitraum
+| B | während Übergangszeitraum
+| C | nach Übergangszeitraum
+
+|===
+
+
+IMPORTANT: Dieser Stand ist vorläufig und wird noch ergänzt. Insbesondere der Zeitpunkt der Umstellung von RU-DEV und RU im Übergangszeitraum ist noch zu entscheiden.
+
+image:puml_fd_zustaende_timeline.png[width=100%]
+
+== Übersicht Schnittstelle und Antwort
+
+=== Methodik
+Im Folgenden ist eine Übersicht dargestellt, wie sich der Fachdienst zu gegebener Zeit verhält und welche Ressourcen als Antwort gegeben werden.
+Hierbei gibt es zwei zu betrachtende Zeiträume in der PU:
+* *Übergangszeitraum* (01.07. - 31.12.2023)
+* *Nach dem Übergangszeitraum* (ab 01.01.2024)
+
+Die zu unterscheidenden Profilversionen sind wie folgt bezeichnet:
+* FHIR 2022: bis 30.06.2023 gültige Profilversionen
+* FHIR 2023: ab 01.07.2023 gültige Profilversionen
+
+=== Wichtige Bemerkungen
+
+* Ab Konfiguration "B" antwortet der Fachdienst immer mit den neuen Profilversionen von Task, AuditEvent, ChargeItems, Consent, auch wenn diese auf alte Profile verweisen
+* Die letzten KBV Bundle und Medication Ressourcen werden den Fachdienst rechnerisch nach dem 09.04.2025 verlassen
+* Eine MVO-Verordnung, die am 31.12.2023 eingestellt wird behält seine Gültigkeit und muss damit bis zum 30.12.2024 eingelöst und verarbeitet werden können
+* ...weitere
+
+=== Daten
+
+[cols="h,a,a,a"]
+[%autowidth]
+|===
+|Operation|Schnittstelle zu|Während Übergangszeit|Nach Übergangszeit
+
+
+|GET /Device|all a|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023
+//
+|GET/metadata|all a|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023|
+Request
+
+    * n/a
+
+Response
+
+* FD antwortet immer mit FHIR 2023
+//
+|POST /Task/$create|verordnende LEI a|
+Request
+
+* Akzeptiert wird eine <Parameters> FHIR Resource gemäß FHIR 2022 Namespace
+* Akzeptiert wird eine <Parameters> FHIR Resource gemäß FHIR 2023 Namespace
+
+Response
+
+* FD antwortet mit einem Task gemäß FHIR 2023
+a|
+Request
+
+* Akzeptiert wird eine <Parameters> FHIR Resource gemäß FHIR 2023 Namespace
+
+Response
+
+* FD antwortet mit einem Task gemäß FHIR 2023
+//
+|POST /Task/<id>/$activate|verordnende LEI a|
+Request
+
+* Akzeptiert wird ein 2022 KBV Bundle
+* Akzeptiert wird ein 2023 KBV Bundle
+
+Response
+
+* FD antwortet mit einem Task gemäß FHIR 2023
+|
+Request
+
+* Akzeptiert wird ein 2023 KBV Bundle
+
+Response
+
+* FD antwortet mit einem Task gemäß FHIR 2023
+//
+|POST /Task/<id>/$abort|verordnende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+//
+|GET /Task|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of Tasks gemäß FHIR 2023
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of Tasks gemäß FHIR 2023
+//
+|POST /Task/<id>/$abort|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+//
+|POST /Communication|Versicherte
+a|
+Request
+
+[.underline]#DispReq#
+
+* 2022 FHIR Communication
+* 2023 FHIR Communication
+
+[.underline]#InfoReq#
+
+* Implementierung in der App erfolgt Q3/Q4 2023
+* 2023 FHIR Communication mit 2022 KBV Medication
+* 2023 FHIR Communication mit 2023 KBV Medication
+
+Response
+
+* Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurde
+a|
+
+Der ERP-FD müsste zumindest die "2022 KBV Medication" akzeptieren, bis diese abgelaufen sind. Das kann bei MVO 1 Jahr + <Dauer Übergangszeit> nach Gültigkeit der Fall sein.
+
+Request
+
+[.underline]#DispReq#
+
+* 2023 FHIR Communication
+
+[.underline]#InfoReq#
+
+* Implementierung erfolgt in der App voraussichtlich Q3/Q4 2023
+* 2023 FHIR Communication mit 2022 KBV Medication
+** bis 30.12.2024
+** ergibt sich aus: Ende Übergangszeitraum + 1 Jahr (MVO)
+
+* 2023 FHIR Communication mit 2023 KBV Medication
+
+Response
+
+* Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurde
+//
+|GET /Communication|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+[.underline]#DispReq#
+
+* 2022 FHIR Communication
+* 2023 FHIR Communication
+
+[.underline]#InfoReq#
+
+* Implementierung in der App erfolgt Q3/Q4 2023
+* 2023 FHIR Communication mit 2022 KBV_Medication
+* 2023 FHIR Communication mit 2023 KBV_Medication
+
+[.underline]#Communication_Reply#
+
+* 2022 FHIR Communication
+* 2023 FHIR Communication
+
+Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurden.
+a|
+Request
+
+* n/a
+
+Response
+
+[.underline]#DispReq#
+
+* 2023 FHIR Communication
+
+[.underline]#InfoReq#
+
+* Implementierung in der App erfolgt Q3/Q4 2023
+* 2023 FHIR Communication mit 2022 KBV_Medication
+* 2023 FHIR Communication mit 2023 KBV_Medication
+
+[.underline]#Communication_Reply#
+
+* 2023 FHIR Communication
+
+Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurden.
+//
+|GET /AuditEvent|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of AuditEvents gemäß FHIR 2023
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of AuditEvents gemäß FHIR 2023
+//
+|GET /Task/<id>|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+Der FD antwortet mit einem Bundle bestehend aus Task und KBV Bundle
+
+* Task gemäß FHIR 2023 Profil
+* KBV Bundle 2022 FHIR oder KBV Bundle 2023 FHIR
+a|
+Request
+
+* n/a
+
+Response
+
+Der FD antwortet mit einem Bundle bestehend aus Task und KBV Bundle
+
+* Task gemäß FHIR 2023 Profil mit
+** KBV Bundle 2022 FHIR
+*** bis 09.04.2025
+*** ergibt sich aus: Ende Übergangszeitraum + MVO (1 Jahr) + Löschfrist (100 Tage)
+** oder KBV Bundle 2023 FHIR
+
+//
+|GET /ChargeItem/<id>|Versicherte
+a|
+pkv
+a|
+pkv
+//
+|DELETE /Communication/<id>|Versicherte
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a
+//
+|GET /MedicationDispense|Versicherte
+a|
+Request
+
+* akzeptiert PrescriptionId gemäß
+** 2022 Namespace
+** 2023 Namespace
+
+Response
+
+* Bundle von MedicationDispenses (wie vom AVS eingestellt)
+** MedicationDispense 2022 mit 2022 KBV_Medication
+** MedicationDispense 2022 mit 2023 KBV_Medication
+** MedicationDispense 2023 mit 2022 KBV_Medication
+** MedicationDispense 2023 mit 2023 KBV_Medication
+a|
+Request
+
+* akzeptiert PrescriptionId gemäß
+** 2022 Namespace (bis 01.07.2024)
+** 2023 Namespace
+
+Response
+
+* Bundle von MedicationDispenses (wie vom AVS eingestellt)
+** MedicationDispense 2023 mit 2022 KBV_Medication
+*** bis 30.01.2025
+*** ergibt sich aus: Ende Übergangszeitraum + MVO (1 Jahr) + Einlösezeit der Apotheken (1 Monat)
+** MedicationDispense 2023 mit 2023 KBV_Medication
+
+//
+|GET /ChargeItem|Versicherte
+a|pkv
+a|pkv
+//
+|DELETE /ChargeItem/<id>|Versicherte
+a|pkv
+a|pkv
+//
+|PATCH /ChargeItem/<id>|Versicherte
+a|pkv
+a|pkv
+//
+|GET /Consent|Versicherte
+a|pkv
+a|pkv
+//
+|POST /Consent|Versicherte
+a|pkv
+a|pkv
+//
+|DELETE /Consent|Versicherte
+a|pkv
+a|pkv
+//
+|POST /Task/<id>/$accept|abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+<Bundle> mit Tasks und PKCS7 Datei mit Verordnung
+
+* Task gemäß FHIR 2023
+* KBV Bundle FHIR 2022 oder FHIR 2023
+
+a|
+Request
+
+* n/a
+
+Response
+
+<Bundle> mit Tasks und PKCS7 Datei mit Verordnung
+
+* Task gemäß FHIR 2023
+* Die Verordnung ist wie vom Arzt eingestellt
+** KBV Bundle FHIR 2022
+*** bis 30.12.2024
+*** ergibt sich aus: Ende Übergangszeitraum + MVO (1 Jahr)
+** KBV Bundle FHIR 2023
+//
+|POST /Task/<id>/$reject|abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+//
+|POST /Task/<id>/$abort|abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+//
+|POST /Task/<id>/$close|abgebende LEI
+a|
+Request
+
+* <MedicationDispense> bzw. Bundle von MedicationDispense - FHIR 2022
+** enthält 2022 KBV Medication
+** enthält 2023 KBV Medication
+
+* <MedicationDispense> bzw. Bundle von MedicationDispense - FHIR 2023
+** enthält 2022 KBV Medication
+** enthält 2023 KBV Medication
+
+Response
+
+* <Bundle> mit PKCS7 mit Quittung - FHIR 2023
+
+a|
+Request
+
+* <MedicationDispense> bzw. Bundle von MedicationDispense - FHIR 2023
+** enthält 2022 KBV Medication
+*** bis 09.04.2025
+*** ergibt sich aus: Ende Übergangszeitraum + MVO (1 Jahr) + Löschfrist (100 Tage)
+** enthält 2023 KBV Medication
+
+Response
+
+* <Bundle> mit PKCS7 mit Quittung - FHIR 2023
+//
+|POST /Communication|abgebende LEI
+a|
+Request
+
+* 2022 FHIR Communication
+* 2023 FHIR Communication
+
+Response
+
+* Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurde
+
+a|
+Request
+
+* 2023 FHIR Communication
+
+Response
+
+* Der FD antwortet mit der Communication mit den Profilversionen, wie sie eingestellt wurde
+//
+|GET /Task/<id>|abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* <Bundle> mit PKCS7 mit Quittung - FHIR 2022 (falls ursprünglich vor dem 01.07. erzeugt)
+* <Bundle> mit PKCS7 mit Quittung - FHIR 2023
+a|
+Request
+
+* n/a
+
+Response
+
+* <Bundle> mit PKCS7 mit Quittung - FHIR 2023
+//
+|DELETE /Communication/<id>|abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+a|
+Request
+
+* n/a
+
+Response
+
+* n/a - no content
+//
+|GET /ChargeItem/<id>|abgebende LEI
+a|pkv
+a|pkv
+//
+|POST /ChargeItem|abgebende LEI
+a|pkv
+a|pkv
+//
+|GET /Task |abgebende LEI
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of Tasks gemäß FHIR 2023
+
+a|
+Request
+
+* n/a
+
+Response
+
+* Bundle of Tasks gemäß FHIR 2023
+
+//
+|PUT /ChargeItem/<id>|abgebende LEI
+a|pkv
+a|pkv
+
+//
+|POST /Subscription|abgebende LEI
+a|
+Request
+
+* 2022 FHIR Subscription
+* 2023 FHIR Subscription
+
+Response
+
+* 2023 FHIR Subscription
+a|
+Request
+
+* 2023 FHIR Subscription
+
+Response
+
+* 2023 FHIR Subscription
+//
+
+
+|===
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
