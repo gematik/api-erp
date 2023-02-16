@@ -23,10 +23,9 @@ group opt
     end ref
 end
 
-AVS -> FD:  GET /Task?PNW=H4sIAAAAAAA...
+AVS -> FD:  GET /Task?pnw=H4sIAAAAAAA...
     activate FD #009a7c
 FD -> FD: Rollenprüfung Apotheke
-FD -> FD: Prüfung Ratelimit Apotheke
 FD -> FD: Verifizierung der im PNW enthaltenen PZ
 FD -> FD: Prüfung, ob Zeitstempel im Zeitfenster
 FD -> FD: Suche Task anhand der in PZ enthaltenen KVNR

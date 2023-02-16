@@ -30,7 +30,7 @@ image:puml_egk_abrufen.png[width=100%]
 Vor dem Zugriff auf den E-Rezept-Fachdienst muss ein Prüfungsnachweis mittels VSD-Online-Prüfung durch den Konnektor erstellt werden.
 
 === Vorbedingungen
-Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden, von welcher die Daten gelesen werden sollen. Das ist im Kontext paralleler Vorgänge an mehreren HV-Tischen relevant.
+Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden, von welcher die Daten gelesen werden sollen. Das ist im Kontext paralleler Vorgänge an mehreren Handverkaufstischen relevant.
 
 [cols="h,a"]
 [%autowidth]
@@ -60,7 +60,7 @@ SOAPAction: "http://ws.gematik.de/conn/EventService/v7.2#GetCards"
 </soap-env:Envelope>
 ----
 
-NOTE: `<CARDCMN:CtId>Terminal1</CARDCMN:CtId>` hier wird das Kartenterminal am jeweiligen HV-Tisch benannt, wie es in der Mandanten- und Arbeitsplatzkonfiguration im Konnektor und AVS konfiguriert ist.
+NOTE: `<CARDCMN:CtId>Terminal1</CARDCMN:CtId>` hier wird das Kartenterminal am jeweiligen Handverkaufstisch benannt, wie es in der Mandanten- und Arbeitsplatzkonfiguration im Konnektor und AVS konfiguriert ist.
 
 |===
 
@@ -199,19 +199,17 @@ Content-Type: text/xml;charset=utf-8
 </S:Envelope>
 ----
 
-CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. In diesem Fall muss der Anwendungsfall abgebrochen werden.
+CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
 NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQTQxU3dXN2JNQXk5NnlzTTNSdmFXWjIxQTYwaWE0WTJXTnNNeTlidUZtZzJXN3UxcVVHUzB5MWZQN3JJZ3FUYllSZFJwTWpIUno3aDJjK3VUZGJrUStPNDBOa28xUWx4NmFxR0h3bzlYeTZPVGs3eTA2TXMxMG1JbGl2Yk9xWkMvNktnejR6Q3IrZXJUMUxyaU51bXJPbDJ3QkhySTBtcUhOK3VyNUx6MmZYcTlzUG41WHh4VStoOE5CNWFTRk1PaGE1ai9QRU80RG1NSHFpenNYa2FWUVQzRnRhaDZvWUQxcEt2RTJtMGgrd1BYVjdOWitaam1xWForRGdkWndpdjN4UytVR1M1WE5EMzNzY2cxUHJPWktlVGlSU2tDQWRoQVhlZWJVZG1Tc3hXOExhdXdodGIxaS9YQzhjVmVVYllSUWJzVU5ZdGxYVTBkd1BremxPNGpONkdRRHl0UElrZEdMa1FXMnJpeHRhdGVaTWU1MjhSRG1JS0Z6NmFTOHZzUkJ5RXdWTjRKUXFJdVhNMUIwbHNMUTA4UkMweU00Ui9oUlhDdG1oTHdyeDNqOFJyZWtUNEUxRjRhZnZBZmRmSmJ2TUp3cDZyY01veWlXL3VaWnViUHRpNE1WOG94Q2NyNjBYNCsxSHRjUGZHaFowQzhFcEkrSThmWk5SdmpROTRPNllDQUFBPQ[siehe decodiertes Beispiel^] +
 `<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQURWTjNVckRNQmg5bFpKNys2VnAwU0pKUmpFUnZFZ3FiaFBtalpRMTFzNDFIYWEwTmsvdjU4Q0xjK0FjemcvZi9Bem5aSGJmb1IrOUlGbEtTZUw4Y1d4NzN3bXkzejNlbENRSlUrUGI1ang2SjhqcUF0bEkvbXdUTFBvZ3lPYzBYZTRCbHBCMmJtaW0vaXR0SFh3ME1JZDJnSXRmWUw2T1BpanovcXBmdGsrMXZkNmdKL2x1S3hsbGpKWjVSa3Q2bDk5eVFJdHJ5VGhvUEhtVHRhcFdHdzlGcmZSaVR2dk1xbzZhcUtQNTA2cjZCek94WTdVNkZ1WlVyWWdDTXd0MmN4TVBnZ01PSVZuNUMwT2x6Vi91QUFBQQ[siehe decodiertes Beispiel^]
 
 NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
 
-NOTE: Die Prüfziffer wurde mit folgenden Parametern erstellt:
+NOTE: Die im `<ns6:Pruefungsnachweis>` enthaltene Prüfziffer (`<PZ>`) wurde mit folgenden Parametern erstellt:
 Zeichenkette: K0101240211585733934UA1 (Länge=23);
 Schlüssel für HMAC: 8b6d075d798f6b9aeda939fd10523996c1d14cdc70b4ed922e3e25c172e6dc9d;
 Prüfziffer: SzAxMDEyNDAyMTE1ODU3MzM5MzRVQTFIEyqeauOYbwMbBNdfsTGa/oaJLUv41Bg= (Länge=64=)
-
-CAUTION: Das Beispiel für `<ns6:Pruefungsnachweis>` ist zunächst vorläufig, da sich das Verfahren noch in der Kommentierung befindet.
 
 [cols="a,a"]
 [%autowidth]
@@ -226,9 +224,9 @@ CAUTION: Das Beispiel für `<ns6:Pruefungsnachweis>` ist zunächst vorläufig, d
 
 
 === Fehlerbehandlung
-Ist die Gesundheitskarte gesperrt, bspw. wegen Kartenwechsel oder -verlust, liefert die Operation ReadVSD *keine ReadSDResponse* sondern einen `SOAP:Fault`. In diesem Fall muss der Anwendungsfall abgebrochen werden.
+Ist die Gesundheitskarte gesperrt, bspw. wegen Kartenwechsel oder -verlust, liefert die Operation ReadVSD *keine ReadVSDResponse* sondern einen `SOAP:Fault`. In diesem Fall muss der Anwendungsfall abgebrochen werden.
 
-Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der Patient bereits im Besitz einer neuen.
+Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der Patient bereits im Besitz einer neuen eGK.
 
 * Fehlercode 106
 * Fehlercode 107
@@ -242,7 +240,7 @@ Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?KVNR=K010124021&PNW=H4sIAAAAAAAAADVN3UrDMBh9lZJ7%2B6Vp0SJJRjERvEgqbhPmjZQ11s41Haa0Nk%2Fv58CLc%2BAczg%2Ff%2FAznZHbfoR%2B9IFlKSeL8cWx73wmy3z3elCQJU%2BPb5jx6J8jqAtlI%2FmwTLPogyOc0Xe4BlpB2bmim%2FittHXw0MId2gItfYL6OPijz%2Fqpftk%2B1vd6gJ%2FluKxlljJZ5Rkt6l99yQItryThoPHmTtapWGw9FrfRiTvvMqo6aqKP506r6BzOxY7U6FuZUrYgCMwt2cxMPggMOIVn5C0OlzV%2FuAAAA
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?pnw=H4sIAAAAAAAAADVN3UrDMBh9lZJ7%2B6Vp0SJJRjERvEgqbhPmjZQ11s41Haa0Nk%2Fv58CLc%2BAczg%2Ff%2FAznZHbfoR%2B9IFlKSeL8cWx73wmy3z3elCQJU%2BPb5jx6J8jqAtlI%2FmwTLPogyOc0Xe4BlpB2bmim%2FittHXw0MId2gItfYL6OPijz%2Fqpftk%2B1vd6gJ%2FluKxlljJZ5Rkt6l99yQItryThoPHmTtapWGw9FrfRiTvvMqo6aqKP506r6BzOxY7U6FuZUrYgCMwt2cxMPggMOIVn5C0OlzV%2FuAAAA
 
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
@@ -460,11 +458,6 @@ s|Code   s|Type Success
 s|Code   s|Type Error
 |403 |Forbidden +
 [small]#Das AVS hat einen veralteten Prüfnachweis vorgelegt, oder dieser ist außerhalb des zulässigen Wertebereichs#
-|429 |Too Many Requests +
-[small]#Das AVS hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.# +
-[small]*#Es gibt ein Limit für die maximale Anzahl der Aufrufe je Minute und ein Tageslimit.#*
-
-NOTE: Bei Überschreitung des Tageslimits, wird die Sperre erst nach Überschreitung der neuen Tagesgrenze (UTC) zurückgesetzt.
 |===
 
 NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
