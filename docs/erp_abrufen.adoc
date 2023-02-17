@@ -559,6 +559,16 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
             <meta>
                 <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
             </meta>
+            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type">
+                <valueCodeableConcept>
+                    <coding>
+                        <system value="http://snomed.info/sct" />
+                        <version value="http://snomed.info/sct/900000000000207008/version/20220331" />
+                        <code value="763158003" />
+                        <display value="Medicinal product (product)" />
+                    </coding>
+                </valueCodeableConcept>
+            </extension>
             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                 <valueCoding>
                     <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category" />
@@ -583,7 +593,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
             </form>
             <amount>
                 <numerator>
-                    <value value="12" />
+                    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize">
+                        <valueString value="10" />
+                    </extension>
                     <unit value="Tabletten" />
                     <system value="http://unitsofmeasure.org" />
                     <code value="{tbl}" />
@@ -606,7 +618,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <subject>
         <identifier>
             <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="x1234567" />
+            <value value="X123456789" />
         </identifier>
     </subject>
     <performer>
