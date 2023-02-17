@@ -599,12 +599,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             ]
           }
         ],
-        "enterer": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-15.2.1456789123.191"
-          }
-        },
         "identifier": [
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
@@ -673,12 +667,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             ]
           }
         ],
-        "enterer": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-15.2.1456789123.191"
-          }
-        },
         "identifier": [
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
@@ -719,6 +707,8 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ----
 
 NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
+
+NOTE: .enterer ist in diesem Aufruf nicht enthalten, um die Performance im Fachdienst zu erhöhen.
 
 |===
 
