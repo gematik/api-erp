@@ -224,57 +224,69 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
 {
-    "resourceType": "Consent",
-    "id": "0dcc5d4c-bf24-4c06-b02e-be5bc24587e2",
-    "meta": {
-        "profile":  [
+  "resourceType": "Bundle",
+  "id": "a14623ad-0b89-4d8e-9719-87e07e3af560",
+  "type": "searchset",
+  "timestamp": "2023-02-15T15:19:19.394+00:00",
+  "total": 0,
+  "entry": [
+    {
+      "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/CHARGCONS-X234567890",
+      "resource": {
+        "resourceType": "Consent",
+        "id": "CHARGCONS-X234567890",
+        "meta": {
+          "profile": [
             "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent"
-        ]
-    },
-    "status": "active",
-    "scope": {
-        "coding":  [
+          ]
+        },
+        "status": "active",
+        "scope": {
+          "coding": [
             {
-                "code": "patient-privacy",
-                "system": "http://terminology.hl7.org/CodeSystem/consentscope",
-                "display": "Privacy Consent"
+              "code": "patient-privacy",
+              "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+              "display": "Privacy Consent"
             }
-        ]
-    },
-    "category":  [
-        {
-            "coding":  [
-                {
-                    "code": "CHARGCONS",
-                    "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
-                    "display": "Saving electronic charge item."
-                }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "CHARGCONS",
+                "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+                "display": "Saving electronic charge item."
+              }
             ]
-        }
-    ],
-    "patient": {
-        "identifier": {
+          }
+        ],
+        "patient": {
+          "identifier": {
             "type": {
-                "coding":  [
-                    {
-                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                        "code": "PKV"
-                    }
-                ]
+              "coding": [
+                {
+                  "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
+                  "code": "PKV"
+                }
+              ]
             },
             "system": "http://fhir.de/sid/pkv/kvid-10",
             "value": "X234567890"
-        }
-    },
-    "dateTime": "2021-06-01T07:13:00+05:00",
-    "policyRule": {
-        "coding":  [
+          }
+        },
+        "dateTime": "2021-06-01T07:13:00+05:00",
+        "policyRule": {
+          "coding": [
             {
-                "code": "OPTIN",
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+              "code": "OPTIN",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
             }
-        ]
+          ]
+        }
+      }
     }
+  ]
 }
 ----
 
