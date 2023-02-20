@@ -11,7 +11,7 @@
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
 
-Auf dieser Seite sind relevante Informationen zum Verhalten des Fachdienstes während und nach der Übergangszeit aufgeführt. Dieser Übergangszeitraum wird nach der Technischen Anlage der KBV 6 Monate betragen. Gilt also somit vom 01.07.2023 bis 31.12.2023.
+Auf dieser Seite sind relevante Informationen zum Verhalten des Fachdienstes während und nach der Übergangszeit aufgeführt. Dieser Übergangszeitraum wird nach der https://update.kbv.de/ita-update/DigitaleMuster/ERP/III_2023/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[Technischen Anlage der KBV] (KP36-04) *6 Monate* betragen. Gilt also somit vom 01.07.2023 bis 31.12.2023.
 
 toc::[]
 
@@ -48,11 +48,23 @@ Die zu unterscheidenden Profilversionen sind wie folgt bezeichnet:
 * FHIR 2022: bis 30.06.2023 gültige Profilversionen
 * FHIR 2023: ab 01.07.2023 gültige Profilversionen
 
+==== Übersicht der FHIR-Profile
+[cols="h,a,a"]
+[%autowidth]
+|===
+|Projekt|FHIR 2022|FHIR 2023
+
+|gematik E-Rezept Workflow|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.0|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.0
+|gematik E-Rezept Abrechnungsinformation|n/a|https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.0
+|KBV eRezept|https://simplifier.net/packages/kbv.ita.erp/1.0.2|https://simplifier.net/packages/kbv.ita.erp/1.1.0
+|ABDA eRezeptAbgabedaten|n/a|https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0
+|===
+
 === Wichtige Bemerkungen
 
 * Ab Konfiguration "B" antwortet der Fachdienst immer mit den neuen Profilversionen von Task, AuditEvent, ChargeItems, Consent, auch wenn diese auf alte Profile verweisen
 * Die letzten KBV Bundle und Medication Ressourcen werden den Fachdienst rechnerisch nach dem 09.04.2025 verlassen
-* Eine MVO-Verordnung, die am 31.12.2023 eingestellt wird behält seine Gültigkeit und muss damit bis zum 30.12.2024 eingelöst und verarbeitet werden können
+* Eine MVO-Verordnung, die am 31.12.2023 eingestellt wird kann, falls kein expliziter Gültigkeitszeitraum angegeben wurde, bis zum 30.12.2024 eingelöst und verarbeitet werden
 
 === Daten
 
