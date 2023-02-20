@@ -33,7 +33,7 @@ AuditEvent: https://simplifier.net/erezept-workflow/gem_erp_pr_auditevent
 == Alle E-Rezepte ansehen
 Als Versicherter möchte ich all meine E-Rezepte einsehen.
 
-Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Task-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten. Werden ein oder mehrere Tasks gefunden, erfolgt die Rückgabe eines Tasks immer zusammen mit dem entsprechenden, signierten E-Rezept-Datensatz zu diesem Task, welcher die Verordnungsinformationen des E-Rezepts enthält.
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Task-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
 
 *Request*
 [cols="h,a"]
@@ -54,10 +54,10 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 *Response*
 [source,json]
-----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
+----
 {
   "resourceType": "Bundle",
   "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
@@ -65,117 +65,134 @@ Content-Type: application/fhir+json;charset=utf-8
     "lastUpdated": "2020-03-01T07:02:37.836+00:00"
   },
   "type": "collection",
-  "total": 2,
-  "link": [{
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/Task/"
-  }],
-  "entry": [{
-    "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-    "resource": {
-      "resourceType":"Task",
-      "id":"160.123.456.789.123.58",
-      "meta":{
-        "versionId":"2",
-        "lastUpdated":"2020-02-18T10:05:05.038+00:00",
-        "source":"#AsYR9plLkvONJAiv",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
-        ]
-      },
-      "identifier": [{
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-        "value":"160.123.456.789.123.58"
-      },{
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-        "value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-      },{
-        "use":"official",
-        "system":"http://fhir.de/sid/gkv/kvid-10",
-        "value":"X123456789"
-      }],
-      "intent":"order",
-      "status":"ready",
-      "extension": [ {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-        "valueCodeableConcept":{
-          "coding": [ {
-            "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-            "code":"160",
-            "display":"Muster 16 (Apothekenpflichtige Arzneimittel)"
-          } ]
-        }
-      }, {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-          "valueDateTime": "2020-06-02"
-      }, {
-        "url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-          "valueDateTime": "2020-04-01"
-      }
-    ],
-      "authoredOn":"2020-03-02T08:25:05+00:00",
-      "lastModified":"2020-03-02T08:45:05+00:00",
-      "performerType": [{
-        "coding": [{
-          "system":"http://terminology.hl7.org/CodeSystem/task-performer-type",
-          "code":"1.2.276.0.76.4.32",
-          "display":"Apotheke"
-        }],
-        "text":"Apotheke"
-      }],
-      "input": [{
-        "type": {
-          "coding": [{
-            "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-            "code":"2"
-          }]
-        },
-        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
-      }]
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.app.ti-dienste.de/Task/"
     }
-  },{
-    "resource": {
-      "resourceType":"Bundle",
-      "id":"f8c2298f-7c00-4a68-af29-8a2862d55d43",
-      "meta":{
-        "lastUpdated":"2020-02-03T12:30:02Z",
-        "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.0"
-        ]
-      },
-      "identifier":{
-          "system":"urn:ietf:rfc:3986",
-          "value":"281a985c-f25b-4aae-91a6-41ad744080b0"
-      },
-      "type":"document",
-      "timestamp":"2020-02-03T12:30:02Z",
-      "entry": [{
-        "fullUrl":"http://pvs.praxis-topp-gluecklich.local/fhir/Composition/ed52c1e3-b700-4497-ae19-b23744e29876",
-        "resource":{
-          "resourceType":"Composition",
-          "id":"ed52c1e3-b700-4497-ae19-b23744e29876",
-          "meta":{
-            "profile": [
-              "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.0.0"
-[...]
-                      ]}}}],
-      "signature": {
-        "type": {
-          "system": "http://hl7.org/fhir/ValueSet/signature-type",
-          "code": "1.2.840.10065.1.12.1.1"
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
+      "resource": {
+        "resourceType": "Task",
+        "id": "160.123.456.789.123.58",
+        "meta": {
+          "versionId": "2",
+          "lastUpdated": "2020-02-18T10:05:05.038+00:00",
+          "source": "#AsYR9plLkvONJAiv",
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
+          ]
         },
-        "when": "2020-03-20T07:31:34.328+00:00",
-        "who": "https://erp.app.ti-dienste.de/signature/verification",
-        "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
-        .
-        eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
-        .
-        SSBhbSBhIHNpZ25hdHVyZSE="
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.123.456.789.123.58"
+          },
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "intent": "order",
+        "status": "ready",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "160",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2020-06-02"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2020-04-01"
+          }
+        ],
+        "authoredOn": "2020-03-02T08:25:05+00:00",
+        "lastModified": "2020-03-02T08:45:05+00:00",
+        "performerType": [
+           {
+             "coding": [
+               {
+                 "code": "urn:oid:1.2.276.0.76.4.54",
+                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                 "display": "Öffentliche Apotheke"
+               }
+             ]
+           }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.78",
+      "resource": {
+        "resourceType": "Task",
+        "id": "160.123.456.789.123.78",
+        "meta": {
+          "versionId": "2",
+          "lastUpdated": "2020-02-18T10:06:05.038+00:00",
+          "source": "#AsYR9plLkvONJAiv",
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
+          ]
+        },
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.123.456.789.123.78"
+          },
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "value": "777bea0e13cc9c42ceec14aec3ddee8402643dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "intent": "order",
+        "status": "ready",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "160",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2020-06-02"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2020-04-01"
+          }
+        ],
+        "authoredOn": "2020-03-02T08:25:05+00:00",
+        "lastModified": "2020-03-02T08:45:05+00:00",
+        "performerType": [
+           {
+             "coding": [
+               {
+                 "code": "urn:oid:1.2.276.0.76.4.54",
+                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                 "display": "Öffentliche Apotheke"
+               }
+             ]
+           }
+        ]
       }
     }
-  }]
+  ]
 }
 ----
 NOTE: Mit dem AccessCode `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"` wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt
@@ -183,13 +200,6 @@ NOTE: Mit dem AccessCode `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c69
 NOTE: Der Prozesstyp referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel mit `"url":"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"`
 
 NOTE:  Mit der Angabe `"display":"Apotheke"` kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann (bspw. Apotheke oder Sanitätshaus).
-
-NOTE: In `"valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"` verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
-
-NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
-
-NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format der ` "signature"` ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature`
-
 
 [cols="a,a"]
 [%autowidth]
