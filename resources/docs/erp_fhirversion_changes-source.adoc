@@ -1,5 +1,15 @@
 = E-Rezept FHIR-Package Änderungen bei Versionsübergängen image:gematik_logo.png[width=150, float="right"]
-include::./config-source.adoc[]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
 
 toc::[]
 
@@ -40,7 +50,9 @@ Um die Umbenennung von Profilen oder deren Umlagerung in neue Profile festzuhalt
 * xref:./resources/transitionfiles/transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json[transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json]
 
 == Generierte Vergleichs Ergebnisse
-Die Ergebnisse der Abgleiche können hier eingesehen werden:
+NOTE: Die Abhängigkeiten der vorgestellten Komponenten können auf Simplifier unter dem Tab "Dependencies" eingesehen werden. Zum Beispiel können Sie die Abhängigkeiten des eRezept-Workflows unter https://simplifier.net/erezept-workflow/~dependencies einsehen. Für Änderungen innerhalb der Abhängigkeiten empfehlen wir Ihnen, die Releasenotes der Pakete zu analysieren. Beispielsweise finden Sie eine Liste der Releasenotes für das Paket "de.basisprofil.r4" in Version 1.3.2 unter https://simplifier.net/packages/de.basisprofil.r4/1.3.2.
+
+Die Ergebnisse des Abgleichs der betroffenen Pakete (ohne deren direkte und indirekte Abhängigkeiten) können hier eingesehen werden:
 
 
 * link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/de.abda.eRezeptAbgabedaten/index.html[de.abda.eRezeptAbgabedaten]
