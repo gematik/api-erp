@@ -16,6 +16,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
   - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
     - [PKV Versicherte](#pkv-versicherte)
   - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
+  - [Bekannte Fehler im Fachdienst](#bekannte-fehler-im-fachdienst)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -102,6 +103,9 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 ## Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
+
+## Bekannte Fehler im Fachdienst
+* Referenzen in einigen responses des Fachdienstes sind noch nicht FHIR konform (bsp: Task.input oder erneutes Abrufen der Quittung). Da dies ein breaking change ist, wird dies in einer späteren Version behoben
 
 ## Lizenzbedingungen
 
