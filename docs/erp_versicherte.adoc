@@ -1037,6 +1037,8 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: AuditEvent` zu setzen.
 
+WARNING: In einigen Fällen kann der Versichtungstyp (GKV/PKV) nicht eindeutig vom Fachdienst bestimmt werden. Hier setzt der Fachdienst per default den Wert "GKV".
+
 |Payload    | -
 |===
 
