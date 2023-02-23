@@ -12,20 +12,22 @@ rm ../../images/puml_*
 for filename in $(find ../../puml -name '*.puml'); do
 
     filebase=$(basename -- "$filename") # test.adoc
+
     name="${filebase%.*}" # test
 
-
-    newFileName=${filename//-source/}
-    tempAdocFile=../docs/${name}.adoc
+    pumlPath=../puml/${name}.puml
+    newFileRoot=../puml/${name}
+    newFileName=${newFileRoot//-source/}
+    tempAdocFile=../../docs_sources/${name}.adoc
 
 # creates a temporary adoc file in order to render with asciidoctor-diagram
     touch ${tempAdocFile}
     echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
-include::${filename}[]
+include::${pumlPath}[]
 ...." > ${tempAdocFile}
-    asciidoctor -r asciidoctor-diagram -o ../docs/puml/$newFileName ../docs/${name}.adoc
-    rm ../docs/${name}.adoc
+    asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
+    rm ../../docs_sources/${name}.adoc
 done
 
 # cleanup temp files
@@ -35,7 +37,7 @@ rm ../puml -r
 # RUN_2 this creates new adoc files in /docs/resources
 echo "Creating source files"
 
-for filename in $(find ../docs -name '*.adoc'); do
+for filename in $(find ../../docs_sources -name '*.adoc'); do
     newFileName=${filename//-source/}
     asciidoctor-reducer -o ./../../docs/$newFileName $filename
 done
