@@ -98,7 +98,7 @@ SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertifica
 |Payload    |
 [source,xml]
 ----
-include::../examples/konnektorservice/request_ReadCardCertificate.xml[]
+include::../resources/examples/konnektorservice/request_ReadCardCertificate.xml[]
 ----
 NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
 |===
@@ -106,7 +106,7 @@ NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat 
 *Response*
 [source,xml]
 ----
-include::../examples/konnektorservice/response_ReadCardCertificate.xml[]
+include::../resources/examples/konnektorservice/response_ReadCardCertificate.xml[]
 ----
 NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
@@ -145,7 +145,7 @@ IMPORTANT: Die Länge des Soap-Requests, muss entsprechend im Header mit der Eig
 |Payload    |
 [source,xml]
 ----
-include::../examples/konnektorservice/request_VerifyCertificate.xml[]
+include::../resources/examples/konnektorservice/request_VerifyCertificate.xml[]
 ----
 NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certificate></m2:X509Certificate>` identifiziert.
 |===
@@ -155,7 +155,7 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
-include::../examples/konnektorservice/response_VerifyCertificate.xml[]
+include::../resources/examples/konnektorservice/response_VerifyCertificate.xml[]
 ----
 NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
 
@@ -185,7 +185,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
 |Payload    |
 [source,xml]
 ----
-include::../examples/konnektorservice/request_ExternalAuthenticate.xml[]
+include::../resources/examples/konnektorservice/request_ExternalAuthenticate.xml[]
 ----
 NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
 
@@ -197,7 +197,7 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
-include::../examples/konnektorservice/response_ExternalAuthenticate.xml[]
+include::../resources/examples/konnektorservice/response_ExternalAuthenticate.xml[]
 ----
 
 
@@ -378,7 +378,7 @@ Nach dem erfolgreichen Abschluss der Bearbeitung des Requests durch die VAU des 
 Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstellung der verschlüsselten Antwort. Die innere HTTP-Response des fachlichen Ergebnisses aus der VAU kann dabei einen abweichenden HTTP-Statuscode beinhalten, wenn aufgrund der Daten oder Verarbeitung innerhalb der VAU Fehlerzustände eintreten oder ungültige Daten übergeben wurden. Sei `001111101111100110001001001111010110010010111110101100100011110...` die verschlüsselte Response zum obigen Beispiel. Die Entschlüsselung mit dem für den Request generierten Antwortschlüssel `16bac90134c635e4ec85fae0e4885d9f`mittels AES-GCM liefert die innere HTTP-Response der VAU als leerzeichengetrennte Zeichenkette:
 [source,json]
 ----
-include::../examples/vau/response_InnerVau.json[]
+include::../resources/examples/vau/response_InnerVau.json[]
 ----
 
 NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body

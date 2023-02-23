@@ -31,7 +31,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::../examples/ti-dienste/communication/request_PostPatientToPharmacy.json[]
+include::../resources/examples/ti-dienste/communication/request_PostPatientToPharmacy.json[]
 ----
 NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
 
@@ -46,7 +46,7 @@ NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-
 *Response*
 [source,json]
 ----
-include::../examples/ti-dienste/communication/response_PostPatientToPharmacy.json[]
+include::../resources/examples/ti-dienste/communication/response_PostPatientToPharmacy.json[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
 
@@ -102,7 +102,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::../examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
+include::../resources/examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
 ----
 NOTE: Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">` dargestellt von den angefragten Optionen bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern.
 
@@ -113,7 +113,7 @@ NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/communication/response_PostPharmacyToPatient.xml[]
+include::../resources/examples/ti-dienste/communication/response_PostPharmacyToPatient.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
@@ -166,7 +166,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::../examples/ti-dienste/communication/request_RezeptZuweisen.json[]
+include::../resources/examples/ti-dienste/communication/request_RezeptZuweisen.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -176,7 +176,7 @@ NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein stru
 *Response*
 [source,json]
 ----
-include::../examples/ti-dienste/communication/response_RezeptZuweisen.json[]
+include::../resources/examples/ti-dienste/communication/response_RezeptZuweisen.json[]
 ----
 NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
 
@@ -231,7 +231,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,json]
 ----
-include::../examples/ti-dienste/communication/response_GetMessages.json[]
+include::../resources/examples/ti-dienste/communication/response_GetMessages.json[]
 ----
 NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 
@@ -291,7 +291,7 @@ D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communi
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/communication/response_GetAllMessages.xml[]
+include::../resources/examples/ti-dienste/communication/response_GetAllMessages.xml[]
 
 ----
 NOTE: `<total value="391"/>` gibt Auskunft über die Anzahl der Ergebnis-Einträge.

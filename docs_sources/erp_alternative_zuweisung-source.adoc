@@ -16,7 +16,7 @@ Die Apotheke kann die verschlüsselten Informationen mit dem Konnektor entschlü
 
 == Anwendungsfall Bereitstellung der Zusatzinformationen im APOVZD durch die Apotheke
 
-image:../puml/images/az_apovzd.png[width=100%]
+image:../images/puml_az_apovzd.png[width=100%]
 
 Jede Apotheke, die an diesem Dienst teilnehmen möchte, stellt eine REST-API an denen im APOVZD veröffentlichten URLs zur Verfügung. Diese Funktion kann auch von einem Dienstleister erbracht werden. Hierfür kann sich eine Apotheke für diesen Service bei einem Apothekendienstleister registrieren, der einem dann die URLs zur Verfügung stellt. Die Spezifikation und API-Beschreibung der Dienstleister wird von der gematik nicht vorgenommen.
 
@@ -71,7 +71,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::../examples/alternative_zuweisung/sign_avs_request.xml[]
+include::../resources/examples/alternative_zuweisung/sign_avs_request.xml[]
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der nonQES als CMS-Signatur (CAdES).
 
@@ -85,7 +85,7 @@ NOTE: In `<ns5:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign">` erfolgt d
 *Response*
 [source,xml]
 ----
-include::../examples/alternative_zuweisung/sign_avs_response.xml[]
+include::../resources/examples/alternative_zuweisung/sign_avs_response.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen nonQES wird Base64-codiert in `<ns7:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -159,7 +159,7 @@ Das APOVZD stellt jedes Zertifikat in einer eigenen FHIR-Binary-Ressource bereit
 Beispiel eines solchen Binaries:
 [[apovzd-cert-binary]]
 ----
-include::../examples/alternative_zuweisung/certificate_in_apovzd.json[]
+include::../resources/examples/alternative_zuweisung/certificate_in_apovzd.json[]
 ----
 
 Das Synchronisieren vom Upload-Container in das APOVZD erfolgt täglich zwischen 0 und 6 Uhr. Spätestens ab 6 Uhr ist die Änderung für das E-Rezept-FdV verfügbar.
@@ -177,7 +177,7 @@ Dem E-Rezept-FdV werden über das APOVZD die URLs innerhalb der LocationRessourc
 
 Beispiel:
 ----
-include::../examples/alternative_zuweisung/url_in_apovzd.json[]
+include::../resources/examples/alternative_zuweisung/url_in_apovzd.json[]
 ----
 
 Um aus dem E-Rezept-FdV nach Apotheken zu filtern, die dieses Feature unterstützen, wird ein zusätzlicher Type DELEGATOR aus dem Codesystem http://terminology.hl7.org/CodeSystem/v3-RoleCode eingeführt.
@@ -195,7 +195,7 @@ Sobald eine Apotheke ausgewählt wurde, können zum Verschlüsseln der Nachricht
 
 NOTE: Bis der APOVZD die Funktionalität zur Bereitstellung der URLs für die Belieferungsoptionen und SMC-B Verschlüsselungszertifikate in der Testumgebung implementiert hat, können AVS-Hersteller das Zuweisen mit der Konny-App testen, indem obige Informationen durch den Nutzer in die Konny-App eingepflegt werden. Siehe link:../attachments/Konny_Zuweisen-ohne-ti2.pdf[Installation Konny-App].
 
-image:../puml/images/az_patient.png[width=100%]
+image:../images/puml_az_patient.png[width=100%]
 
 
 Als Versicherter möchte ich mein Rezept an die Apotheke meiner Wahl übermitteln. Meine App kennt die notwendigen Verschlüsselungszertifikate der Apotheke und die URL der gewünschten Belieferungsoption.
@@ -213,7 +213,7 @@ Als Versicherter möchte ich mein Rezept an die Apotheke meiner Wahl übermittel
 Der folgende Datensatz wird erstellt:
 
 ----
-include::../examples/alternative_zuweisung/message_from_fdv.json[]
+include::../resources/examples/alternative_zuweisung/message_from_fdv.json[]
 ----
 
 === Verschlüsselung des Datensatzes
@@ -239,7 +239,7 @@ Diese ASN.1-Struktur muss Base64-DER codiert im Aufruf der Verschlüsselungsoper
 Das folgende beispielhafte Kommando verschlüsselt einen Datensatz für ein ENC-Zertifikat inkl. Einbettung der unsafe-Attribute (kotlin-Code).
 
 ----
-include::../examples/alternative_zuweisung/example_encryption.java[]
+include::../resources/examples/alternative_zuweisung/example_encryption.java[]
 ----
 
 Der erhaltene CMS-Datensatz enthält unter der genannten OID die Entschlüsselungsinformationen für den Empfänger:
@@ -250,7 +250,7 @@ Abschließend wird der verschlüsselte Datensatz mit einem POST and die entsprec
 
 == Anwendungsfall Übermittlung der alternativen Zuweisung durch einen Dienstleister/Rest-Api an das AVS
 
-image:../puml/images/az_apotheke.png[width=100%]
+image:../images/puml_az_apotheke.png[width=100%]
 
 Als Apotheke erhalte ich eine Benachrichtigung über das AVS, dass eine neue Zuweisung durch einen Patienten an die Apotheke übermittelt wurde.
 
@@ -259,13 +259,13 @@ Wenn das FdV eine mit dem Zertifikat der SMB-C verschlüsselte Nachricht an den 
 === Entschlüsselung der Nachricht
 Der übermittelte CMS-Datensatz enthält die notwendigen Informationen zur Lokalisierung der für die Entschlüsselung zu nutzende SMC-B. Der Datensatz kann mit der Operation `DecryptDocument` des Konnektors entschlüsselt werden.
 ----
-include::../examples/alternative_zuweisung/decrypt_request.xml[]
+include::../resources/examples/alternative_zuweisung/decrypt_request.xml[]
 ----
 
 Der entschlüsselte Datensatz enthält folgende Informationen:
 
 ----
-include::../examples/alternative_zuweisung/message_from_fdv.json[]
+include::../resources/examples/alternative_zuweisung/message_from_fdv.json[]
 ----
 
 NOTE: "transactionID" beinhaltet die von der E-Rezept-App erzeuge UUID zur eindeutigen Identifikation der Transaktion.

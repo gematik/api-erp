@@ -90,7 +90,7 @@ NOTE: Der  Parameter `<code value="*"/>` steuert den Typ des dem Task zugrunde l
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
-include::../examples/ti-dienste/task/response_taskCreate.xml[]
+include::../resources/examples/ti-dienste/task/response_taskCreate.xml[]
 ----
 
 NOTE: Der unter dem Identifier `GEM_ERP_NS_PrescriptionId` hinterlegte `<identifier><value value="*"/></identifier>` stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
@@ -141,7 +141,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023
 
 [source,xml]
 ----
-include::../examples/kbv/Prescription_bundle.xml[]
+include::../resources/examples/kbv/Prescription_bundle.xml[]
 ----
 ====
 
@@ -174,7 +174,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::../examples/konnektorservice/request_SignDocument.xml[]
+include::../resources/examples/konnektorservice/request_SignDocument.xml[]
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der QES als CMS-Signatur (CAdES).
 
@@ -192,7 +192,7 @@ IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender B
 *Response*
 [source,xml]
 ----
-include::../examples/konnektorservice/response_SignDocument.xml[]
+include::../resources/examples/konnektorservice/response_SignDocument.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -252,7 +252,7 @@ NOTE: Bei dem Wert in `<Binary><data value="*"/></Binary>` handelt es sich um di
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/task/response_taskActivate.xml[]
+include::../resources/examples/ti-dienste/task/response_taskActivate.xml[]
 ----
 NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter dem `value` von `<system value="http://fhir.de/sid/gkv/kvid-10"/>` hinterlegt.
 
