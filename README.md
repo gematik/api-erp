@@ -9,13 +9,14 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
   - [FHIR-Releases](#fhir-releases)
   - [FHIR-Beispiele](#fhir-beispiele)
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
-  - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
-  - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
-  - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
-  - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
-  - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
-    - [PKV Versicherte](#pkv-versicherte)
-  - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
+  - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
+    - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
+    - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
+    - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
+    - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
+    - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
+      - [PKV Versicherte](#pkv-versicherte)
+    - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
   - [Bekannte Fehler im Fachdienst](#bekannte-fehler-im-fachdienst)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
@@ -58,7 +59,9 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 ## Umfang der Anwendung E-Rezept
 [Hier geht es zur Übersicht der Produkte, die über das E-Rezept verordnet werden können](docs/erp_implemented_features.adoc)
 
-## Zugang zu Diensten der Telematikinfrastruktur
+## Anwendungsfälle im E-Rezept
+
+### Zugang zu Diensten der Telematikinfrastruktur
 
 [Hier geht es zur Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)
 
@@ -68,7 +71,7 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
 
-## Anwendungsfälle E-Rezept in der Praxis
+### Anwendungsfälle E-Rezept in der Praxis
 
 [Hier geht es zu den Anwendungsfällen in der (Zahn-)Arztpraxis zur Verordnung von E-Rezepten](docs/erp_bereitstellen.adoc)
 
@@ -76,11 +79,11 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hier geht es zu der vorabveröffentlichten und unvollständigen Liste der PKV-Institutionskennzeichen](docs/pkv_ik_numbers.adoc)
 
-## Besonderheiten der Mehrfachverordnung (MVO)
+### Besonderheiten der Mehrfachverordnung (MVO)
 
 [Hier geht es zu den Besonderheiten der Mehrfachverordnung (MVO)](docs/erp_versicherte_mvo.adoc)
 
-## Anwendungsfälle E-Rezept in der Apotheke
+### Anwendungsfälle E-Rezept in der Apotheke
 
 [Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
 
@@ -90,17 +93,17 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hier folgt die Beschreibung der Benachrichtigungsschnittstelle für Apothekensysteme](docs/erp_notification_avs.adoc)
 
-## Anwendungsfälle für Versicherte
+### Anwendungsfälle für Versicherte
 
 [Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
 
-### PKV Versicherte
+#### PKV Versicherte
 
 [Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
 
 [Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
 
-## Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
+### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
 
