@@ -82,7 +82,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/task/response_taskAccept.xml[]
+include::../resources/examples/ti-dienste/task/response_taskAccept.xml[]
 ----
 NOTE: Das generierte `Secret` stellt den Zugriffscode der abrufenden Apotheke dar und muss in allen folgenden Workflowschritten als `<identifier><value value="*"/></identifier>` angegeben werden, damit nicht eine fremde Apotheke den Prozess übernehmen kann.
 
@@ -143,7 +143,7 @@ Content-Length: 1234
 |Payload    |
 [source,xml]
 ----
-include::../examples/konnektorservice/request_VerifySignatureTask.xml[]
+include::../resources/examples/konnektorservice/request_VerifySignatureTask.xml[]
 ----
 
 NOTE: Das Element `<m2:Base64Signature></m2:Base64Signature>`enthält das Signaturelement inkl. des signierten E-Rezept-Datensatzes (CAdES-enveloping) als PKCS#7-Datei in Base64-Codierung
@@ -162,7 +162,7 @@ IMPORTANT: Im Verzeichnis link:../samples/qes-cases/HBA-gueltig-bis-24.4.2021[HB
 *Response*
 [source,xml]
 ----
-include::../examples/konnektorservice/response_VerifySignatureTask.xml[]
+include::../resources/examples/konnektorservice/response_VerifySignatureTask.xml[]
 ----
 NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Signatur aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:../samples/qes/signed[Beispiele].
 
@@ -203,7 +203,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::../examples/ti-dienste/task/request_taskClose.xml[]
+include::../resources/examples/ti-dienste/task/request_taskClose.xml[]
 ----
 NOTE: Mit der Übergabe der MedicationDispense signalisiert der Apotheker den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen über das abgegebene Medikament.
 
@@ -225,7 +225,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
 
 [source,xml]
 ----
-include::../examples/ti-dienste/task/request_taskCloseMultiple.xml[]
+include::../resources/examples/ti-dienste/task/request_taskCloseMultiple.xml[]
 ----
 
 ====
@@ -234,7 +234,7 @@ include::../examples/ti-dienste/task/request_taskCloseMultiple.xml[]
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/task/response_taskClose.xml[]
+include::../resources/examples/ti-dienste/task/response_taskClose.xml[]
 ----
 NOTE: Im Ergebnis der Operation wird ein signiertes Bundle als Nachweis des ordnungsgemäßen Durchlaufs des E-Rezept-Workflows zurückgegeben.
 
@@ -429,7 +429,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::../examples/ti-dienste/task/response_taskGet.xml[]
+include::../resources/examples/ti-dienste/task/response_taskGet.xml[]
 ----
 In `<resource><Bundle/></resource>` wird die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
 

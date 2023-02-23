@@ -52,7 +52,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/request_PostChargeItem.xml[]
+include::../resources/examples/prescriptionserver/request_PostChargeItem.xml[]
 ----
 NOTE: Der PKV-Abgabesatz in Binary.data ist aus Platzgründen stark gekürzt.
 
@@ -72,7 +72,7 @@ NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Obj
 ¦Payload¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/response_PostChargeItem.xml[]
+include::../resources/examples/prescriptionserver/response_PostChargeItem.xml[]
 ----
 |===
 
@@ -131,7 +131,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload ¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/Bundle-Response-Apotheker-GetChargeIItemById.xml[]
+include::../resources/examples/prescriptionserver/Bundle-Response-Apotheker-GetChargeIItemById.xml[]
 ----
 NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt. Es kann aber vollständig unter https://simplifier.net/erezept-patientenrechnung/~resources?category=Example&exampletype=Bundle eingesehen werden.
 
@@ -187,7 +187,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload    ¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/request_PutChargeItem.xml[]
+include::../resources/examples/prescriptionserver/request_PutChargeItem.xml[]
 ----
 NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabedatensatz ein.
 |===
@@ -200,7 +200,7 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 ¦Payload ¦
 [source,xml]
 ----
-include::../examples/prescriptionserver/response_PutChargeItem.xml[]
+include::../resources/examples/prescriptionserver/response_PutChargeItem.xml[]
 ----
 
 |===
@@ -260,7 +260,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload ¦
 [source,json]
 ----
-include::../examples/prescriptionserver/response_GetChargeItemsVersicherter.json[]
+include::../resources/examples/prescriptionserver/response_GetChargeItemsVersicherter.json[]
 ----
 
 NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
@@ -299,7 +299,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload ¦
 [source,json]
 ----
-include::../examples/prescriptionserver/Bundle-Response-App-GETChargeItemById.json[]
+include::../resources/examples/prescriptionserver/Bundle-Response-App-GETChargeItemById.json[]
 ----
 
 NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
@@ -355,7 +355,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload    ¦
 [source,json]
 ----
-include::../examples/prescriptionserver/request_PatchChargeItem.xml[]
+include::../resources/examples/prescriptionserver/request_PatchChargeItem.xml[]
 ----
 NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 
@@ -371,7 +371,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
 ¦Payload ¦
 [source,json]
 ----
-include::../examples/prescriptionserver/response_PatchChargeItem.json[]
+include::../resources/examples/prescriptionserver/response_PatchChargeItem.json[]
 ----
 
 |===
