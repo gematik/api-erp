@@ -7,15 +7,18 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
   - [Versionsübergang 30.06.2023 -\> 01.07.2023](#versionsübergang-30062023---01072023)
   - [FHIR-Releases](#fhir-releases)
-  - [FHIR-Beispiele](#fhir-beispiele)
+  - [Implementierungsunterstützung](#implementierungsunterstützung)
+    - [FHIR-Beispiele](#fhir-beispiele)
+    - [Konvertierung von FHIR XML und JSON](#konvertierung-von-fhir-xml-und-json)
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
-  - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
-  - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
-  - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
-  - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
-  - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
-    - [PKV Versicherte](#pkv-versicherte)
-  - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
+  - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
+    - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
+    - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
+    - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
+    - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
+    - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
+      - [PKV Versicherte](#pkv-versicherte)
+    - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -47,17 +50,31 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc).
 
 Wie Vergleiche zwischen FHIR Profilen (z.B. nach Versionsübergängen) vorgenommen werden können und den Verweis auf die Artefakte zum aktuellen Versionsübergang finden sich [auf dieser Seite](docs/erp_fhirversion_changes.adoc).
 
-## FHIR-Beispiele
+## Implementierungsunterstützung
+
+### FHIR-Beispiele
 Für die Implementierung des E-Rezeptes stehen Beispiele im FHIR-Format zur Verfügung.
 
 Im [gemeinsamen Beispiel-Repository](https://github.com/gematik/eRezept-Examples) der Gesellschafter sind sowohl Einzelbeispiele von Profilen, wie auch Beispiele von Ende zu Ende Szenarien dokumentiert.
 
 Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei der Erstellung dieser Beispiele. Über Pull-Requests und andere Formen der Kollaboration freuen wir uns.
 
+### Konvertierung von FHIR XML und JSON
+Der FHIR Standard unterstützt für den Datenaustausch mehrere Formate. Die beiden vom E-Rezept Fachdienst unterstützten Formate sind XML (Content-Type: application/fhir+xml) und JSON (Content-Type: application/fhir+json). Der Fachdienst unterstützt an jedem Endpunkt beide Formate. Mit den Gesellschaftern wurde abgestimmt, dass bei der Kommunikation und Beschreibung der Endpunkte, die Primärsysteme betreffen, das Format XML genutzt wird. Das heißt, dass die Beispiele in der API und im [eRezept-Examples Repository](https://github.com/gematik/eRezept-Examples), die die Primärsysteme betreffen in XML dargestellt werden.
+Der Datenaustausch zwischen dem Fachdienst und dem Frontend des Versicherten (FdV) dagegen geschieht im JSON-Format.
+
+Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON zu konvertieren:
+* [Webseite zum Konvertieren](https://fhir-formats.github.io/)
+* [FHIR tools VS Code Extension](https://marketplace.visualstudio.com/items?itemName=Yannick-Lagger.vscode-fhir-tools)
+* [FHIR.js npm Package](https://www.npmjs.com/package/fhir)
+* [Beschreibung zur Umwandlung mit HAPI (Java)](https://hapifhir.io/hapi-fhir/docs/model/parsers.html)
+
 ## Umfang der Anwendung E-Rezept
 [Hier geht es zur Übersicht der Produkte, die über das E-Rezept verordnet werden können](docs/erp_implemented_features.adoc)
 
-## Zugang zu Diensten der Telematikinfrastruktur
+## Anwendungsfälle im E-Rezept
+
+### Zugang zu Diensten der Telematikinfrastruktur
 
 [Hier geht es zur Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)
 
@@ -67,7 +84,7 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
 
-## Anwendungsfälle E-Rezept in der Praxis
+### Anwendungsfälle E-Rezept in der Praxis
 
 [Hier geht es zu den Anwendungsfällen in der (Zahn-)Arztpraxis zur Verordnung von E-Rezepten](docs/erp_bereitstellen.adoc)
 
@@ -75,11 +92,11 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hier geht es zu der vorabveröffentlichten und unvollständigen Liste der PKV-Institutionskennzeichen](docs/pkv_ik_numbers.adoc)
 
-## Besonderheiten der Mehrfachverordnung (MVO)
+### Besonderheiten der Mehrfachverordnung (MVO)
 
 [Hier geht es zu den Besonderheiten der Mehrfachverordnung (MVO)](docs/erp_versicherte_mvo.adoc)
 
-## Anwendungsfälle E-Rezept in der Apotheke
+### Anwendungsfälle E-Rezept in der Apotheke
 
 [Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
 
@@ -89,17 +106,17 @@ Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei de
 
 [Hier folgt die Beschreibung der Benachrichtigungsschnittstelle für Apothekensysteme](docs/erp_notification_avs.adoc)
 
-## Anwendungsfälle für Versicherte
+### Anwendungsfälle für Versicherte
 
 [Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
 
-### PKV Versicherte
+#### PKV Versicherte
 
 [Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
 
 [Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
 
-## Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
+### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
 
