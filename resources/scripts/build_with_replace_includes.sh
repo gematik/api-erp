@@ -38,8 +38,10 @@ rm ../puml -r
 echo "Creating source files"
 
 for filename in $(find ../../docs_sources -name '*.adoc'); do
-    newFileName=${filename//-source/}
-    asciidoctor-reducer -o ./../../docs/$newFileName $filename
+    filenameBase=$(basename -- "$filename") # test.adoc
+    newFileName=../../docs/${filenameBase//-source/}
+
+    asciidoctor-reducer -o $newFileName $filename
 done
 
 # Echo that the process is finished
