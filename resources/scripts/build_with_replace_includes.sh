@@ -38,7 +38,8 @@ echo "Creating source files"
 
 for filename in $(find ../../docs_sources -name '*.adoc'); do
     newFileName=${filename//-source/}
-    asciidoctor-reducer -o ./../../docs/$newFileName $filename
+    newFileName=${newFileName//_sources/}
+    asciidoctor-reducer $filename -o $newFileName
 done
 
 # Echo that the process is finished
