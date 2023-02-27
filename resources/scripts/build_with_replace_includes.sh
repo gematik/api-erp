@@ -20,7 +20,7 @@ for filename in $(find ../../puml -name '*.puml'); do
     newFileName=${newFileRoot//-source/}
     tempAdocFile=../../docs_sources/${name}.adoc
 
-# creates a temporary adoc file in order to render with asciidoctor-diagram
+    # creates a temporary adoc file in order to render with asciidoctor-diagram
     touch ${tempAdocFile}
     echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
@@ -38,10 +38,9 @@ rm ../puml -r
 echo "Creating source files"
 
 for filename in $(find ../../docs_sources -name '*.adoc'); do
-    filenameBase=$(basename -- "$filename") # test.adoc
-    newFileName=../../docs/${filenameBase//-source/}
-
-    asciidoctor-reducer -o $newFileName $filename
+    newFileName=${filename//-source/}
+    newFileName=${newFileName//_sources/}
+    asciidoctor-reducer $filename -o $newFileName
 done
 
 # Echo that the process is finished
