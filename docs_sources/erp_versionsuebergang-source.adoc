@@ -36,6 +36,12 @@ Die zu unterscheidenden Profilversionen sind wie folgt bezeichnet:
 * FHIR 2022: bis 30.06.2023 gültige Profilversionen
 * FHIR 2023: ab 01.07.2023 gültige Profilversionen
 
+
+WARNING: Der Fachdienst wird ab 01.07. so konfiguriert,
+dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen),
+die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden,
+abgewiesen werden.
+
 ==== Übersicht der FHIR-Profile
 [cols="h,a,a"]
 [%autowidth]
@@ -123,8 +129,6 @@ Workflow 160/169 (GKV):
 Workflow 200/209 (PKV):
 
 * Akzeptiert wird ein 2023 KBV Bundle
-
-WARNING: Der Fachdienst wird ab 01.07. so konfiguriert, dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen), die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden, abgewiesen werden.
 
 Response
 
