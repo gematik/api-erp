@@ -125,8 +125,16 @@ Response
 |POST /Task/<id>/$activate|verordnende LEI a|
 Request
 
+Workflow 160/169 (GKV):
+
 * Akzeptiert wird ein 2022 KBV Bundle
 * Akzeptiert wird ein 2023 KBV Bundle
+
+Workflow 200/209 (PKV):
+
+* Akzeptiert wird ein 2023 KBV Bundle
+
+WARNING: Der Fachdienst wird ab 01.07. so konfiguriert, dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen), die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden, abgewiesen werden.
 
 Response
 
