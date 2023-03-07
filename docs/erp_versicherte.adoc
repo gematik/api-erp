@@ -823,11 +823,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 
 *Response*
-[source,json]
-----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
+[source,json]
+----
 {
   "resourceType": "Bundle",
   "id": "187dc298-c2b8-40f5-8938-c6c4078660ed",
@@ -836,104 +836,137 @@ Content-Type: application/fhir+json;charset=utf-8
   },
   "type": "searchset",
   "total": 1,
-  "link": [ {
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-01-01"
-  } ],
-  "entry": [ {
-    "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/1093629",
-    "resource": {
-      "resourceType": "MedicationDispense",
-      "id": "1093629",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-04-02T09:06:40.735+00:00",
-        "source": "#IanTxrBta61i4om4",
-        "profile": [ "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense" ]
-      },
-      "contained": [ {
-        "resourceType":"Medication",
-        "id":"med0314",
-        "meta":{
-          "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medikament_PZN|1.0.1"
-          ] },
-        "extension": [ {
-          "url":"https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-          "valueCoding":{
-            "system":"http://fhir.de/CodeSystem/ifa/pzn",
-            "code":"06313728"
-          }
-        }, {
-          "url":"https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-          "valueBoolean":false
-        }, {
-          "url":"http://fhir.de/StructureDefinition/normgroesse",
-          "valueCode":"N1"
-        } ],
-        "code":{
-          "coding": [ {
-            "system":"http://fhir.de/CodeSystem/ifa/pzn",
-            "code":"06313728"
-          } ],
-          "text":"Sumatriptan-1a Pharma 100 mg Tabletten"
-        },
-        "form":{
-          "coding": [ {
-            "system":"https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-            "code":"TAB"
-          } ]
-        },
-        "amount":{
-          "numerator":{
-            "value":"12",
-            "system":"http://unitsofmeasure.org",
-            "unit":"{tbl}"
-          },
-          "denominator":{
-            "value":"1"
-          }
-        }
-      } ],
-      "identifier": [ {
-        "use":"official",
-        "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-        "value":"12345678"
-      } ],
-      "status":"completed",
-      "medicationReference":{
-        "reference":"#med0314",
-        "display":"Sumatriptan-1a Pharma 100 mg Tabletten"
-      },
-      "supportingInformation": [ {
-        "reference":"Task/160.880.966.157.248.22"
-      } ],
-      "subject": [ {
-        "identifier":{
-          "system":"http://fhir.de/sid/gkv/kvid-10",
-          "value":"x1234567"
-        }
-        } ],
-      "performer": [ {
-        "actor":{
-          "identifier":{
-            "use":"official",
-            "system":"https://gematik.de/fhir/sid/telematik-id",
-            "value":"3-1.54.10123404"
-          },
-          "display":"Ihre Apotheke um die Ecke"
-        }
-      } ],
-      "whenPrepared":"2020-03-20T07:13:00+05:00",
-      "whenHandedOver":"2020-03-20T07:13:00+05:00",
-      "dosageInstruction": [ {
-        "text":"1-0-1-0"
-      } ]
-    },
-    "search": {
-      "mode": "match"
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-01-01"
     }
-  } ]
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/1093629",
+      "resource": {
+        "status": "completed",
+        "id": "1093629",
+        "identifier": [
+          {
+            "value": "160.123.456.789.123.58",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"
+          }
+        ],
+        "resourceType": "MedicationDispense",
+        "medicationReference": {
+          "display": "Sumatriptan-1a Pharma 100 mg Tabletten",
+          "reference": "#med0314"
+        },
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2"
+          ]
+        },
+        "contained": [
+          {
+            "meta": {
+              "profile": [
+                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
+              ]
+            },
+            "id": "med0314",
+            "code": {
+              "coding": [
+                {
+                  "code": "06313728",
+                  "system": "http://fhir.de/CodeSystem/ifa/pzn"
+                }
+              ],
+              "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+            },
+            "extension": [
+              {
+                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
+                "valueCodeableConcept": {
+                  "coding": [
+                    {
+                      "display": "Medicinal product (product)",
+                      "system": "http://snomed.info/sct",
+                      "version": "http://snomed.info/sct/900000000000207008/version/20220331",
+                      "code": "763158003"
+                    }
+                  ]
+                }
+              },
+              {
+                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
+                "valueCoding": {
+                  "code": "00",
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category"
+                }
+              },
+              {
+                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
+                "valueBoolean": false
+              }
+            ],
+            "resourceType": "Medication",
+            "amount": {
+              "denominator": {
+                "value": 1
+              },
+              "numerator": {
+                "unit": "Tabletten",
+                "extension": [
+                  {
+                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
+                    "valueString": "10"
+                  }
+                ],
+                "system": "http://unitsofmeasure.org",
+                "code": "{tbl}"
+              }
+            },
+            "form": {
+              "coding": [
+                {
+                  "code": "TAB",
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"
+                }
+              ]
+            }
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "1-0-1-0"
+          }
+        ],
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "value": "3-SMC-B-Testkarte-883110000129070",
+                "system": "https://gematik.de/fhir/sid/telematik-id"
+              }
+            }
+          }
+        ],
+        "whenHandedOver": "2020-03-20",
+        "quantity": {
+          "system": "http://unitsofmeasure.org",
+          "value": 1,
+          "code": "{Package}"
+        },
+        "subject": {
+          "identifier": {
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
+          }
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
 }
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
