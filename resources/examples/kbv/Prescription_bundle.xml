@@ -3,10 +3,10 @@
     <id value="4fe2013d-ae94-441a-a1b1-78236ae65680" />
     <meta>
         <lastUpdated value="2020-05-04T08:30:00Z" />
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1" />
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.0.1" />
     </meta>
     <identifier>
-        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+        <system value="https://gematik.de/fhir/NamingSystem/PrescriptionID" />
         <value value="160.123.456.789.123.58" />
     </identifier>
     <type value="document" />
@@ -17,7 +17,7 @@
             <Composition xmlns="http://hl7.org/fhir">
                 <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -77,7 +77,7 @@
                         </coding>
                     </code>
                     <entry>
-                        <!-- Referenz auf Krankenkasse/KostentrĂ¤ger  -->
+                        <!-- Referenz auf Krankenkasse/Kostentr�ger  -->
                         <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                     </entry>
                 </section>
@@ -90,7 +90,7 @@
             <MedicationRequest xmlns="http://hl7.org/fhir">
                 <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.0.2" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_StatusCoPayment">
                     <valueCoding>
@@ -152,7 +152,7 @@
                     <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                 </insurance>
                 <note>
-                    <text value="Dummy-Hinweis für die Apotheke" />
+                    <text value="Dummy-Hinweis f�r die Apotheke" />
                 </note>
                 <dosageInstruction>
                     <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag">
@@ -178,7 +178,7 @@
             <Medication xmlns="http://hl7.org/fhir">
                 <id value="e3a4efa7-84fc-465b-b14c-720195097783" />
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.0.2" />
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.0.1" />
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                     <valueCoding>
@@ -243,14 +243,14 @@
                             <code value="GKV" />
                         </coding>
                     </type>
-                    <system value="http://fhir.de/sid/gkv/kvid-10" />
+                    <system value="http://fhir.de/NamingSystem/gkv/kvid-10" />
                     <value value="X234567890" />
                 </identifier>
                 <name>
                     <use value="official" />
-                    <family value="Ludger Königsstein">
+                    <family value="Ludger K�nigsstein">
                         <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
-                            <valueString value="Königsstein" />
+                            <valueString value="K�nigsstein" />
                         </extension>
                     </family>
                     <given value="Ludger" />
@@ -292,9 +292,9 @@
                 </identifier>
                 <name>
                     <use value="official" />
-                    <family value="Topp-Glücklich">
+                    <family value="Topp-Gl�cklich">
                         <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
-                            <valueString value="Topp-Glücklich" />
+                            <valueString value="Topp-Gl�cklich" />
                         </extension>
                     </family>
                     <given value="Hans" />
@@ -345,7 +345,7 @@
                             <valueString value="Meier" />
                         </extension>
                     </family>
-                    <given value="Jörgen" />
+                    <given value="J�rgen" />
                 </name>
                 <qualification>
                     <code>
@@ -381,7 +381,7 @@
                     <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR" />
                     <value value="031234567" />
                 </identifier>
-                <name value="Hausarztpraxis Dr. Topp-Glücklich" />
+                <name value="Hausarztpraxis Dr. Topp-Gl�cklich" />
                 <telecom>
                     <system value="phone" />
                     <value value="0301234567" />
