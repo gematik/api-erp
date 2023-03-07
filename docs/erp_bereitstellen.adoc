@@ -192,7 +192,7 @@ NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit
 [%collapsible]
 ====
 
-CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen wird dies hier genutzt.
+CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Da die Signatur nicht verändert werden kann, wird hier noch ein altes KBV-Bundle beispielhaft verwendet.
 
 [source,xml]
 ----
@@ -275,7 +275,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                         </coding>
                     </code>
                     <entry>
-                        <!-- Referenz auf Krankenkasse/Kostentr�ger  -->
+                        <!-- Referenz auf Krankenkasse/KostentrĂ¤ger  -->
                         <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                     </entry>
                 </section>
@@ -350,7 +350,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                     <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-e7818fe9661a" />
                 </insurance>
                 <note>
-                    <text value="Dummy-Hinweis f�r die Apotheke" />
+                    <text value="Dummy-Hinweis für die Apotheke" />
                 </note>
                 <dosageInstruction>
                     <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag">
@@ -446,9 +446,9 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                 </identifier>
                 <name>
                     <use value="official" />
-                    <family value="Ludger K�nigsstein">
+                    <family value="Ludger Königsstein">
                         <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
-                            <valueString value="K�nigsstein" />
+                            <valueString value="Königsstein" />
                         </extension>
                     </family>
                     <given value="Ludger" />
@@ -490,9 +490,9 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                 </identifier>
                 <name>
                     <use value="official" />
-                    <family value="Topp-Gl�cklich">
+                    <family value="Topp-Glücklich">
                         <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
-                            <valueString value="Topp-Gl�cklich" />
+                            <valueString value="Topp-Glücklich" />
                         </extension>
                     </family>
                     <given value="Hans" />
@@ -543,7 +543,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                             <valueString value="Meier" />
                         </extension>
                     </family>
-                    <given value="J�rgen" />
+                    <given value="Jörgen" />
                 </name>
                 <qualification>
                     <code>
@@ -579,7 +579,7 @@ CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Aus konsistenzgründen
                     <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR" />
                     <value value="031234567" />
                 </identifier>
-                <name value="Hausarztpraxis Dr. Topp-Gl�cklich" />
+                <name value="Hausarztpraxis Dr. Topp-Glücklich" />
                 <telecom>
                     <system value="phone" />
                     <value value="0301234567" />
