@@ -84,6 +84,20 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 include::../resources/examples/ti-dienste/task/response_taskAccept.xml[]
 ----
+
+.Beispiel-Response für einen Consent in der Rückgabe (Klicken zum Ausklappen)
+Wenn ein E-Rezept vom Workflow-type 200/209 abgerufen wird liefert der E-Rezept Fachdienst einen Consent zurück, wenn der Versicherte die Einwilligung über die Bereitstellung der Abrechnungsinformationen im Frontend des Versicherten erteilt hat.
+[%collapsible]
+====
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+[source,xml]
+----
+include::../resources/examples/ti-dienste/task/response_taskAcceptWithConsent.xml[]
+----
+
+====
+
 NOTE: Das generierte `Secret` stellt den Zugriffscode der abrufenden Apotheke dar und muss in allen folgenden Workflowschritten als `<identifier><value value="*"/></identifier>` angegeben werden, damit nicht eine fremde Apotheke den Prozess übernehmen kann.
 
 NOTE: Der Status des Tasks unter `<status value="*"/>` ist in Bearbeitung (`in-progress`)
