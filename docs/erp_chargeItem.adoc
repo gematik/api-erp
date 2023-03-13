@@ -207,7 +207,7 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem/'Pres
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.000.000.022.127.38?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |GET
 |HTTP Header |
 ----
@@ -942,7 +942,7 @@ Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'Pres
 *Request*
 [cols="h,a",separator=¦]
 |===
-¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ¦Method     ¦PUT
 ¦HTTP Header ¦
 ----
@@ -1261,8 +1261,6 @@ NOTE: .enterer ist in diesem Aufruf nicht enthalten, um die Performance im Fachd
 |===
 
 
-
-
 Sind die ChargeItem-Instanzen in der App bekannt, kann direkt auf eine konkrete Instanz zugegriffen werden. Es wird das ChargeItem mit den referenzierten Bundles zurückgegeben.
 
 Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, den Abgabedatensatz und die Quittung beinhaltet. An den drei Abrechnungsdatensätzen (Verordnungs-, Abgabedatensatz und an der Quittung hängt die Signatur im CAdES-Enveloping-Format).
@@ -1270,7 +1268,7 @@ Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 |Method     |GET
 |HTTP Header |
 ----
@@ -1300,10 +1298,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
   "total": 4,
   "entry": [
     {
-      "fullUrl": "https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45",
+      "fullUrl": "https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20",
       "resource": {
         "resourceType": "ChargeItem",
-        "id": "App-ChargeItem-abc825bc-bc30-45f8-b109-1b343fff5c45",
+        "id": "200.086.824.605.539.20",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
@@ -1594,7 +1592,7 @@ Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
 *Request*
 [cols="h,a",separator=¦]
 |===
-¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 ¦Method     ¦PATCH
 ¦HTTP Header ¦
 ----
@@ -1670,7 +1668,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
 ----
 {
   "resourceType": "ChargeItem",
-  "id": "2872799",
+  "id": "200.086.824.605.539.20",
   "meta": {
     "versionId": "1",
     "lastUpdated": "2022-04-05T11:36:19.491+00:00",
@@ -1765,7 +1763,7 @@ Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/ChargeItem`. 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 |Method     |DELETE
 |HTTP Header |
 ----
