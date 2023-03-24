@@ -44,6 +44,8 @@ NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-
 
 
 *Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 include::../resources/examples/ti-dienste/communication/response_PostPatientToPharmacy.json[]
@@ -111,6 +113,11 @@ NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url
 
 
 *Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+Location:
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
+  
 [source,xml]
 ----
 include::../resources/examples/ti-dienste/communication/response_PostPharmacyToPatient.xml[]
@@ -174,6 +181,9 @@ NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein stru
 |===
 
 *Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
+
 [source,json]
 ----
 include::../resources/examples/ti-dienste/communication/response_RezeptZuweisen.json[]
@@ -229,6 +239,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 |===
 
 *Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
 [source,json]
 ----
 include::../resources/examples/ti-dienste/communication/response_GetMessages.json[]
@@ -289,6 +302,9 @@ IMPORTANT: Der E-Rezept-Fachdienst verarbeitet Zeitstempel in UTC. D.h. bei der 
 D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communications mit "sent" Timestamp größer gleich `2021-05-20 00:00:00 UTC` und kleiner `2021-05-21 00:00:00 UTC`.
 
 *Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+
 [source,xml]
 ----
 include::../resources/examples/ti-dienste/communication/response_GetAllMessages.xml[]

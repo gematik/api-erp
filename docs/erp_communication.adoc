@@ -205,6 +205,8 @@ NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-
 
 
 *Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 {
@@ -467,13 +469,13 @@ NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url
 
 
 *Response*
-[source,xml]
-----
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml;charset=utf-8
 Location:
   https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
 
+[source,xml]
+----
 <Communication xmlns="http://hl7.org/fhir">
     <id value="12346"/>
     <meta>
@@ -600,41 +602,47 @@ NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein stru
 |===
 
 *Response*
-[source,json]
-----
 HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
 
+[source,json]
+----
 {
   "resourceType": "Communication",
   "id": "12350",
   "meta": {
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
-    "profile":  [
+    "profile": [
       "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2"
     ]
   },
   "sent": "2020-03-12T18:01:10+00:00",
-  "basedOn":  [{
-    "reference": "Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-  }],
-  "status": "unknown",
-  "recipient":  [{
-    "identifier": {
-      "system": "https://gematik.de/fhir/sid/telematik-id",
-      "value": "3-1.54.10123404"
+  "basedOn": [
+    {
+      "reference": "Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
     }
-  }],
+  ],
+  "status": "unknown",
+  "recipient": [
+    {
+      "identifier": {
+        "system": "https://gematik.de/fhir/sid/telematik-id",
+        "value": "3-1.54.10123404"
+      }
+    }
+  ],
   "sender": {
     "identifier": {
       "system": "http://fhir.de/sid/gkv/kvid-10",
       "value": "X234567890"
     }
   },
-  "payload":  [{
-    "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
-  }]
+  "payload": [
+    {
+      "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
+    }
+  ]
 }
 ----
 NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
@@ -688,11 +696,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 |===
 
 *Response*
-[source,json]
-----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
+[source,json]
+----
 {
   "resourceType": "Bundle",
   "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
@@ -701,60 +709,75 @@ Content-Type: application/fhir+json;charset=utf-8
   },
   "type": "searchset",
   "total": 1,
-  "link": [ {
-    "relation": "self",
-    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL"
-  } ],
-  "entry": [ {
-    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346",
-    "resource": {
-      "resourceType": "Communication",
-      "id": "12346",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-03-12T18:15:10+00:00",
-        "profile":  [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2"
-        ]
-      },
-      "status": "unknown",
-      "sent": "2020-03-12T18:01:10+00:00",
-      "recipient":  [{
-        "identifier": {
-          "system": "http://fhir.de/sid/gkv/kvid-10",
-          "value": "X234567890"
-        }
-      }],
-      "sender": {
-        "identifier": {
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346",
+      "resource": {
+        "resourceType": "Communication",
+        "id": "12346",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2020-03-12T18:15:10+00:00",
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2"
+          ]
+        },
+        "status": "unknown",
+        "sent": "2020-03-12T18:01:10+00:00",
+        "recipient": [
+          {
+            "identifier": {
+              "system": "http://fhir.de/sid/gkv/kvid-10",
+              "value": "X234567890"
+            }
+          }
+        ],
+        "sender": {
+          "identifier": {
             "system": "https://gematik.de/fhir/sid/telematik-id",
             "value": "3-1.54.10123404"
-        }
-      },
-      "payload":  [{
-        "extension":  [{
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
-          "extension":  [{
-            "url": "onPremise",
-            "valueBoolean": true
-          },{
-            "url": "delivery",
-            "valueBoolean": true
-          },{
-            "url": "shipment",
-            "valueBoolean": true
-          }]
-        },{
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState",
-          "valueCoding": {
-            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus",
-            "code": "10"
           }
-        }],
-        "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"onPremise\",\"info_text\": \"Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.\", \"pickUpCodeHR\": \"12341234\", \"pickUpCodeDMC\": \"\", \"url\": \"\" }"
-      }]
+        },
+        "payload": [
+          {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
+                "extension": [
+                  {
+                    "url": "onPremise",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "delivery",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "shipment",
+                    "valueBoolean": true
+                  }
+                ]
+              },
+              {
+                "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState",
+                "valueCoding": {
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus",
+                  "code": "10"
+                }
+              }
+            ],
+            "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"onPremise\",\"info_text\": \"Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.\", \"pickUpCodeHR\": \"12341234\", \"pickUpCodeDMC\": \"\", \"url\": \"\" }"
+          }
+        ]
+      }
     }
-  }]
+  ]
 }
 ----
 NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
@@ -813,11 +836,11 @@ IMPORTANT: Der E-Rezept-Fachdienst verarbeitet Zeitstempel in UTC. D.h. bei der 
 D.h. eine Suchanfrage "GET Communication?sent=eq2021-05-20" liefert alle Communications mit "sent" Timestamp größer gleich `2021-05-20 00:00:00 UTC` und kleiner `2021-05-21 00:00:00 UTC`.
 
 *Response*
-[source,xml]
-----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 
+[source,xml]
+----
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="48829c84-7ad7-4834-8362-2c2c109379b1"/>
     <meta>
