@@ -34,35 +34,50 @@ TIP: Beispieldatensätze finden sich im Unterverzeichnis link:../samples/MVO_KBV
 
 Die folgenden Felder sind dabei charakteristisch für die Teilverordnungen einer Mehrfachverordnung
 
-Kennzeichen einer Verordnung als Teilverordnung einer Mehrfachverordnung
+=== Kennzeichen einer Verordnung als Teilverordnung einer Mehrfachverordnung
+
+Wenn im Verordnungsdatensatz das Flag MedicationRequest.extension:Mehrfachverordnung.extension:Kennzeichen = true gesetzt ist, dann ist dieses E-Rezept eine Teilverordnung einer Mehrfachverordnung.
+
 [source,json]
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Kennzeichen = true
 ----
 
-Nummer des Rezepts der Mehrfachverordnung ("Zähler")
+=== Nummer des Rezepts der Mehrfachverordnung ("Zähler")
 [source,json]
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Nummerierung.value[x]:valueRatio.numerator
 ----
 
-Gesamtzahl der Teilverordnungen in der Mehrfachverordnung ("Nenner")
+=== Gesamtzahl der Teilverordnungen in der Mehrfachverordnung ("Nenner")
 [source,json]
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Nummerierung.value[x]:valueRatio.denominator
 ----
 
-Start der Gültigkeit
+=== Start der Gültigkeit
+
+Die Teilverordnungen von Mehrfachverordnungen haben einen Gültigkeitszeitraum. Der Beginn des Gültigkeitszeitraumes ist in MedicationRequest.extension:Mehrfachverordnung.extension:Zeitraum.value[x]:valuePeriod.start angegeben.
+
 [source,json]
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Zeitraum.value[x]:valuePeriod.start
 ----
 
-Ende der Gültigkeit
+=== Ende der Gültigkeit
+
+Der Verordnende kann im Verordnungsdatensatz ein Ende des Gültigkeitszeitraumes angeben (MedicationRequest.extension:Mehrfachverordnung.extension:Zeitraum.value[x]:valuePeriod.end). Wenn kein explizites Ende des Gültigkeitszeitraumes angegeben ist, dann endet der Gültigkeitszeitraum 365 Tage nach Ausstellen der Teilverordnung. Der E-Rezept-Fachdienst berechnet den Wert für Task.extension:expiryDate entsprechend.
+
+Wird der Gültigkeitszeitraum überschritten darf das E-Rezept nicht mehr eingelöst werden.
+
 [source,json]
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Zeitraum.value[x]:valuePeriod.end
 ----
+
+NOTE: Eine Teilverordnung kann zu Lastern der GKV abgerechnet werden, wenn es innerhalb des Gültigkeitszeitraums eingelöst wird. D.h. ein Einlösen als Selbstzahler entfällt bzw, gibt es bei Teilverordnungen einer MVO nicht.
+
+NOTE: Eine Reihenfolge der Abgabe der einzelnen Teilverordnungen einer MVO ist bei Abgabe nicht zu beachten.
 
 WARNING: Patienten haben zu jeder Zeit die Möglichkeit, alle Teilverordnungen einer Mehrfachverordnung über die E-Rezept-App einzusehen und die Einlöseinformationen als Datamatrix oder Zuweisung an Apotheken zu teilen (und bei Bedarf zu löschen).
 
