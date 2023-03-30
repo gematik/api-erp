@@ -222,7 +222,7 @@ s|Code   s|Type Error
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist oder weil keine Einwilligung vorliegt.#
 |404  |Not found +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig oder die Abrechnungsinformationen wurden gelöscht. Das kann auch dadurch begründet sein, dass der Consent des Versicherten nach dem Bereitstellen der Abrechnungsinformationen entzogen wurde.#
 |405 |Method Not Allowed +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
