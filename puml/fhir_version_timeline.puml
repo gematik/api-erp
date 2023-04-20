@@ -1,0 +1,110 @@
+@startuml fhir_version_timeline
+<style>
+timingDiagram {
+  .kbvcolor {
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #c30059
+  }
+  .gematikcolor {
+    FontColor #000e52
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #00ff64
+  }
+  .davcolor {
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #f00000
+  }
+  .gkvcolor {
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #b10f21
+  }
+}
+</style>
+title Zeitleiste der Versionsübergänge der FHIR-Profile
+footer Erstellt am 01.09.2022
+
+concise "de.gkvsv.eRezeptAbrechnungsdaten" as GKV <<gkvcolor>>
+concise "kbv.ita.erp" as KBV <<kbvcolor>>
+concise "de.gematik.erezept-workflow.r4" as gematik <<gematikcolor>>
+concise "de.abda.eRezeptAbgabedaten" as DAV <<davcolor>>
+concise "de.abda.eRezeptAbgabedatenPKV" as PKV <<davcolor>>
+concise "de.gematik.erezept-patientenrechnung.r4" as gematikpkv <<gematikcolor>>
+
+
+'30 days is scaled to 50 pixels
+scale 2592000 as 50 pixels
+hide time-axis
+
+@2022/01/01
+note bottom of KBV : seit 01.01.2022
+KBV is 1.0.2
+note bottom of gematik : seit 01.01.2022
+gematik is 1.1.1
+DAV is 1.1.0
+GKV is 1.1.0
+
+@2022/07/01
+note bottom of DAV : seit 01.07.2022
+DAV is 1.2
+
+
+@2022/08/01 
+note bottom of GKV : seit 01.08.2022
+GKV is 1.2
+
+@2023/02/01
+note bottom of GKV : bis 30.06.2023\nKBV 1.0.2\n(für Abrechnungsmonat Juni)
+
+@2023/06/15
+'KBV -> GKV@2023/07/01
+
+@2023/07/01
+note bottom of KBV : 01.07.2023 Übergangsphase\nPVS/ZPVS/KIS \nKBV 1.0.2/1.1.0
+note bottom of PKV : 01.07.2023
+note top of gematik : 01.07.2023\nÜbergangsphase\nFachdienst\n$activate: KBV 1.0.2/1.1.0\n$accept: KBV 1.0.2/1.1.0
+note bottom of gematikpkv : 01.07.2023
+note bottom of DAV : 01.07.2023
+KBV is 1.1.0
+KBV -> gematik@2023/07/01
+KBV -> GKV@2023/08/01
+gematik is 1.2
+gematikpkv is 1.0
+DAV is 1.3
+PKV is 1.0
+
+@2023/08/01
+KBV -> gematik@2023/11/01
+KBV -> GKV@2023/12/01
+note top of KBV : 01.08.2023
+note bottom of gematik : 01.08.2023\n$activate: KBV 1.1.0\n$accept: KBV 1.0.2/1.1.0
+note top of GKV : 01.08.2023 Übergangsphase\nKBV 1.0.2/1.1.0\n(für Abrechnungsmonate Jul, Aug, Sept, Okt) 
+KBV is 1.1.0
+GKV is 1.3
+
+
+@2023/09/01
+
+
+@2023/10/01
+
+
+@2023/11/01
+note top of gematik : 01.11.2023\n$activate: KBV 1.1.0\n$accept: KBV 1.1.0
+gematik is 1.2
+
+@2023/12/01
+note bottom of GKV : 01.12.2023\nKBV 1.1.0\n(ab Abrechnugnsmonat Nov)
+GKV is 1.3
+
+
+
+@2024/03/01
+
+@enduml

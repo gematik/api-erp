@@ -1,0 +1,28 @@
+@startuml az_apotheke
+title Alternative Zuweisung eines E-Rezeptes aus Sicht der Apotheke
+hide footbox
+
+participant "Apothekendienstleister" as ADL order 0
+participant "AVS" as AVS order 0
+participant "eRp FD" as FD order 0
+actor "Apotheker" as ALE order 0
+
+activate ADL
+[-> ADL: messageFromPatient(encryptMessage)
+ADL -> AVS ++--: sendMessage(encryptMessage)
+AVS -> AVS: decrypt(encryptMessage, SMC-B_Cert):\nUUID, Message, Attributes
+AVS -> AVS: storeMessageAndAttributes()
+
+AVS -> FD:  POST /Task/$accept
+FD --> AVS: eRezept
+
+AVS -> ALE: displayERezept()
+ALE -> ALE: processRequest()
+ALE -> AVS: requestContactInfo()
+
+AVS --> ALE ++: displayContactInfo()
+ALE -->]: orderMedication()
+ALE -->]: contactPatient()
+
+ALE -> AVS: closePrescription()
+@enduml
