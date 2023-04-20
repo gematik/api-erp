@@ -268,9 +268,17 @@ s|Code   s|Type Error
 
 Im OperationOutcome übermittelte Fehlermeldungen:
 
-* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Prüfziffer fehlt im VSDM Prüfungsnachweis).#
-* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Fehler bei Prüfung der HMAC-Sicherung).#
-* [small]#Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Zeitliche Gültigkeit des Anwesenheitsnachweis überschritten).#
+__Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Prüfziffer fehlt im VSDM Prüfungsnachweis).__
+
+* [small]#hierbei kann es sich um ein technisches Problem bei der Erreichbarkeit von Diensten im zentralen Netz der TI handeln#
+* [small]#Eine Fehlerbehebung kann durch erneutes Ausführen der Operation versucht werden.#
+
+__Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Fehler bei Prüfung der HMAC-Sicherung).__
+
+__Anwesenheitsnachweis konnte nicht erfolgreich durchgeführt werden (Zeitliche Gültigkeit des Anwesenheitsnachweis überschritten).__
+
+* [small]#Der Aufruf der Operation ReadVSD am Konnektor ist zu lange her.#
+* [small]#Der Aufruf ist erneut durchzuführen, um einen aktuellen VSDM Prüfungsnachweis zu erhalten.#
 
 |===
 
