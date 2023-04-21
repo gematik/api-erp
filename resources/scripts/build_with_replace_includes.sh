@@ -18,6 +18,7 @@ for filename in $(find ../../puml -name '*.puml'); do
     pumlPath=../puml/${name}.puml
     newFileRoot=../puml/${name}
     newFileName=${newFileRoot//-source/}
+    echo "Creating Puml ${name}"
     tempAdocFile=../../docs_sources/${name}.adoc
 
     # creates a temporary adoc file in order to render with asciidoctor-diagram
@@ -31,8 +32,7 @@ include::${pumlPath}[]
 done
 
 # cleanup temp files
-rm ../puml -r
-
+rm -r ../puml
 
 # RUN_2 this creates new adoc files in /docs/resources
 echo "Creating source files"
