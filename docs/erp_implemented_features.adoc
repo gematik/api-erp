@@ -64,20 +64,22 @@ s|[.underline]#Nicht# verschreibungspflichtige aber zu Lasten der GKV verordnete
 //
 4+|
 //
-s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:information_source: optional| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
+s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:information_source: optional| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 (KBV_PR_FOR_Coverage.type = "SEL") genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
 //
 |grünes Rezept |:information_source: optional | :information_source: freiwillig a|
 * Freiwilligkeit nach BMV-Ä.
-* Empfehlungen für nicht verschreibungspflichtige AM können über das eRezept bereits jetzt erfolgen.
+* Empfehlungen für nicht verschreibungspflichtige AM können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
 * Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
 * Es werden ein separater Workflow und Datenmodell in einer späteren Ausbaustufe eingeführt für das grüne Rezept.
 //
 4+|
 //
-s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel | :heavy_check_mark: | :bulb: wird geduldet | Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular
+s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel | :heavy_check_mark: | :bulb: wird geduldet a| Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular.
+
+* Diese Verordnungen können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich)
 //
 |blaues Rezept |:heavy_check_mark: | :bulb: wird geduldet a|
-* Privatrezept für GKV Versicherte und verschreibungspflichtige Arzneimittel können über das eRezept bereits jetzt erfolgen.
+* Privatrezept für GKV Versicherte und verschreibungspflichtige Arzneimittel können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
 * Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
 * Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular
 //
