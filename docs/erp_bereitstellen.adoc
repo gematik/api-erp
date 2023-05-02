@@ -27,6 +27,8 @@ NOTE: Die Qualifizierte elektronischen Signatur QES kann ausschliesslich von ein
 
 NOTE: Das im Verordnungsdatensatz im Attribut authoredOn angegebene Datum muss identisch mit dem Datum der Erstellung des QES sein. Bei Ungleichheit lehnt der E-Rezept-Fachdienst das E-Rezept beim Einstellen ab. Sollte der Verordnungsdatensatz bspw. am Vortag bereits vorbereitet worden sein, muss das Primärsystem den Wert für authoredOn vor der QES anpassen.
 
+NOTE: Der im Verordnetendatensatz angegebene Name des Verordnenden muss dem im Namen im der Qualifizierte elektronischen Signatur QES entsprechen. Eine Prüfung der erlaubten Manipulation des QES-Namens wird Fachdienstseitig vorgenommen und orientiert sich an der Referenzimplementierung zum Namensabgleich. Siehe xref:./resources/referenzimplementierung_namensabgleich.py[]
+
 image:api_rezept_einstellen.png[width=100%]
 
 == Profilierung
