@@ -41,36 +41,6 @@ dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen),
 die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden,
 abgewiesen werden.
 
-=== Hinweis zur Prüfung der Profilversionen
-Nach A_23384 der gemSpec_eRp_FD prüft der Fachdienst die Gültigkeit der Profile nach Aufrufzeitpunkt, oder Zeitangabe im Profil. Hierbei gilt der 01.07.2023 als Referenz auch in der RU. Somit können für den Verordnungsdatensatz sowie für die MedicationDispense, je nach Angabe des Datums, die Antworten des Fachdienstes getestet werden.
-
-[cols="h,a,a"]
-[%autowidth]
-|===
-|Bezeichnung|FHIR Profil|Zeitpunkt
-
-|KBV Verordnungsdatensatz a| * KBV_PR_ERP_Prescription|MedicationRequest.authoredOn
-|Communication a|
-
-* Gem_ErxCommunicationDispReq
-* Gem_ErxCommunicationInfoReq
-* Gem_ErxCommunicationReply
-* Gem_ErxCommunicationDispRepresentative
-* GEM_ERP_PR_Communication_DispReq
-* GEM_ERP_PR_Communication_InfoReq
-* GEM_ERP_PR_Communication_Reply
-* GEM_ERP_PR_Communication_Representative| Zeitpunkt des Aufrufs der Operation am E-Rezept-Fachdienst
-|MedicationDispense a|
-* Gem_erxMedicationDispense
-* GEM_ERP_PR_MedicationDispense|MedicationDispense.whenHandedOver
-|PKV Patientenrechnung a|
-* GEM_ERPCHRG_PR_ChargeItem
-* GEM_ERPCHRG_PR_Consent
-|Zeitpunkt des Aufrufs der Operation am E-Rezept-Fachdienst
-|PKV Abgabedatensatz|
-* DAV_PKV_PR_ERP_Abgabeinformationen| MedicationDispense.whenHandedOver
-|===
-
 ==== Übersicht der FHIR-Profile
 [cols="h,a,a"]
 [%autowidth]
