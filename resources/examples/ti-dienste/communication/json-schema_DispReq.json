@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "enum": [2]
+    },
+    "supplyOptionsType": {
+      "type": "string",
+      "enum": ["onPremise", "shipment", "delivery"]
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "address": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "hint": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "text": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 32
+    },
+    "mail": {
+      "type": "string"
+    },
+    "transactionID": {
+      "type": "string"
+    },
+    "taskID": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "accessCode": {
+      "type": "string",
+      "maxLength": 25
+    }
+  },
+  "required": [
+    "version",
+    "supplyOptionsType",
+    "transactionID",
+    "taskID",
+    "accessCode"
+  ]
+}

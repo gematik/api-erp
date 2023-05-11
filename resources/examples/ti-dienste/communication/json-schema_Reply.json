@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schema für contentString in Communication Profilen des FHIR-Pakets 'de.gematik.erezept-workflow.r4'",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 999999
+    },
+    "supplyOptionsType": {
+      "type": "string",
+      "enum": ["onPremise", "shipment", "delivery"]
+    },
+    "info_text": {
+      "type": "string",
+      "maxLength": 512
+    },
+    "url": {
+      "type": "string",
+      "maxLength": 512
+    },
+    "pickUpCodeHR": {
+      "type": "string",
+      "maxLength": 8
+    },
+    "pickUpCodeDMC": {
+      "type": "object",
+      "maxLength": 128,
+      "properties": {
+        "pickUpCode": {
+          "type": "string"
+        },
+        "interpretation": {
+          "type": "string"
+        }
+      },
+      "required": ["pickUpCode"]
+    }
+  },
+  "required": ["version", "supplyOptionsType"]
+}
