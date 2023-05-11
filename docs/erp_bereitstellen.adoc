@@ -194,6 +194,8 @@ NOTE: Vollständiges Beispiel entnommen aus link:../samples/qes[samples/qes] mit
 
 CAUTION: DEPRECATED KBV-Bundle, zulässig bis 30.06.2023. Da die Signatur nicht verändert werden kann, wird hier noch ein altes KBV-Bundle beispielhaft verwendet.
 
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|*1.0.1*")
+
 [source,xml]
 ----
 <Bundle xmlns="http://hl7.org/fhir">
@@ -1115,8 +1117,6 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
-
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
 
 |Payload    |
 [source,xml]
