@@ -59,7 +59,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` (kleines L) und `X-erp-resource: ChargeItem` zu setzen.
 
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|*1.0*")
 
 ¦Payload    ¦
 [source,xml]
@@ -950,7 +950,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|*1.0*")
 
 ¦Payload    ¦
 [source,xml]
