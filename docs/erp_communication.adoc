@@ -592,7 +592,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     }
   }],
   "payload":  [{
-    "contentString": "{\"version\": 2,\"supplyOptionsType\": \"delivery\",\"name\": \"Dr. Peter Lustig\",\"address\": \"Am Löwenzahn 4, 14482 Potsdam\",\"hint\": \"Bitte am Bauwagen klopfen\",\"text\": \"Stellen Sie mir bitte folgendes Medikament zu\",\"phone\": \"0179 123456\",\"mail\": \"peter.lustig@mail.de\",\"transactionID\": \"0091a0b6-15e8-4110-acde-21b6bd50b54a\",\"taskID\": \"160.123.456.789.123.58\",\"accessCode\": \"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea\"}"
+    "contentString": "{\"version\": 2,\"supplyOptionsType\": \"onPremise\",\"name\": \"Dr. Peter Lustig\",\"address\": \"Am Löwenzahn 4, 14482 Potsdam\",\"hint\": \"Kontakt gerne via E-Rezept App\",\"text\": \"Folgendes Medikament möchte ich gerne abholen\",\"phone\": \"0179 123456\",\"mail\": \"peter.lustig@mail.de\",\"transactionID\": \"0091a0b6-15e8-4110-acde-21b6bd50b54a\",\"taskID\": \"160.123.456.789.123.58\",\"accessCode\": \"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea\"}"
   }]
 }
 ----
@@ -640,7 +640,7 @@ Content-Type: application/fhir+json;charset=utf-8
   },
   "payload": [
     {
-      "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
+      "contentString": "{\"version\": 2,\"supplyOptionsType\": \"onPremise\",\"name\": \"Dr. Peter Lustig\",\"address\": \"Am Löwenzahn 4, 14482 Potsdam\",\"hint\": \"Kontakt gerne via E-Rezept App\",\"text\": \"Folgendes Medikament möchte ich gerne abholen\",\"phone\": \"0179 123456\",\"mail\": \"peter.lustig@mail.de\",\"transactionID\": \"0091a0b6-15e8-4110-acde-21b6bd50b54a\",\"taskID\": \"160.123.456.789.123.58\",\"accessCode\": \"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea\"}"
     }
   ]
 }
@@ -772,7 +772,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 }
               }
             ],
-            "contentString": "{ \"version\": \"1\", \"supplyOptionsType\": \"onPremise\",\"info_text\": \"Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.\", \"pickUpCodeHR\": \"12341234\", \"pickUpCodeDMC\": \"\", \"url\": \"\" }"
+            "contentString": "{\"version\": 2,\"supplyOptionsType\": \"onPremise\",\"info_text\": \"Ihre Bestellung steht zur Abholung bereit.\",\"url\": \"https://meine-apotheke.de/pickup/a9afa068\",\"pickUpCodeHR\": \"a9afa068\",\"pickUpCodeDMC\": {  \"pickUpCode\": \"a9afa068\",  \"interpretation\": \"data-matrix\"}}"
           }
         ]
       }
