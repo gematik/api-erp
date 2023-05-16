@@ -54,7 +54,20 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.0[1.1.0^] a|
+|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.1[Package 1.1.1 Profile 1.1.0^] a|
+
+1.1.1
+
+Hinweis: Die Versionsnummer der FHIR-Profile ist weiterhin 1.1.0
+
+        * Im Profil KBV_PR_ERP_Bundle Constraint -erp-angabeFachgruppennummerAsvVerantwortlichePersonVerbot korrigiert
+        * In den Profilen KBV_PR_ERP_Medication_PZN, KBV_PR_ERP_Medication_Ingredient und KBV_PR_ERP_Medication_Compounding wurden der Constraint -erp-begrenzungValue entfernt
+        * Im Profil KBV_PR_ERP_Prescription wurde der Constraint -erp-begrenzungText angepasst (Länge des Abgabehinweises auf 500 Zeichen korrigiert)
+        * Im Profil KBV_PR_ERP_Medication_Ingredient wurde die Angabe beim Element "Medication.amount.numerator.extension:Packungsgroesse.value:valueString" korrigiert
+        * In den Profilen KBV_PR_ERP_Medication_Ingredient und KBV_PR_ERP_Medication_Compounding wurde die Typisierung beim Element „Medication.ingredient.item“ konkret abgebildet
+
+1.1.0
+
         * Integration der deutschen Basisprofile von HL7 in der Version 1.3.2 (zur Verbesserung der Interoperabilität)
         * Integration der KBV-Basis-Profile in der Version 1.3.0 (zur Verbesserung der Interoperabilität)
         * Anpassung der FOR-Profile in der Version 1.1.0
@@ -66,7 +79,14 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
         * Anpassung der Abbildung von Packungsgrößen
 
         |30.09.2022 |01.07.2023 |-
-|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.0[Package 1.2.0 Profile 1.2^] a|
+|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1[Package 1.2.1 Profile 1.2^] a|
+
+1.2.1
+
+* Aktualisierung der Abhängigkeit kbv.ita.erp von 1.1.0 auf 1.1.1
+
+1.2.0
+
         * Refactoring der Profil-, Canonical- und Dateinamen nach gematik-Namensschema
         * Flowtype für neue Workflows (BtM, T-Rezept, ...)
         * Umstellung von Open Slices auf Closed Slice
@@ -82,7 +102,15 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
         * PKV-KVNR Identifier aus KBV.FOR hinzugefügt
 
         |05.10.2022 |01.07.2023 |-
-|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.0[Package 1.0.0 Profile 1.0^] a|
+|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.1[Package 1.0.1 Profile 1.0^] a|
+
+
+1.0.1
+
+* Aktualisierung der Abhängigkeit de.gematik.erezept-workflow.r4 von 1.2.0 auf 1.2.1
+
+1.0.0
+
 	* Initiale Bereitstellung von ChargeItem-bezogenen Profile (eingeführt mit PKV)
         * 2 neue Communicationsprofile für PKV für Request und Reply zur Korrektur eines ChargeItems
         |22.12.2022 |01.07.2023 |-
