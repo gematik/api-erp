@@ -9,10 +9,10 @@ NOTE: Bis zur Version 5.6.88 ist die Vergleichsfunktion link:https://github.com/
 [source,cmd]
 ----
 java -jar validator_cli.jar -compare -dest compare_results -version 4.0.1 \
--ig de.gematik.erezept-workflow.r4#1.2.0 \
+-ig de.gematik.erezept-workflow.r4#1.2.1 \
 -ig de.gematik.erezept-workflow.r4#1.1.1 \
 -left https://gematik.de/fhir/StructureDefinition/ErxTask|1.1.1 \
--right https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2.0
+-right https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2.1
 ----
 
 Das Ergebnis eines solchen Abgleichs ist ein Ordner mit vielen (Bild-)dateien und einer index.html die als Einstiegspunkt für den erfolgten Vergleiche dient.
@@ -32,8 +32,8 @@ Um die Umbenennung von Profilen oder deren Umlagerung in neue Profile festzuhalt
 
 === Download Transitionfiles
 
-* xref:./resources/transitionfiles/transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.0.json[transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.0.json]
-* xref:./resources/transitionfiles/transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.0.json[transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.0.json]
+* xref:./resources/transitionfiles/transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.1.json[transitionfile_kbv.ita.erp_v1.0.2_to_v1.1.1.json]
+* xref:./resources/transitionfiles/transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.1.json[transitionfile_de.gematik.erezept-workflow.r4_v1.1.1_to_v1.2.1.json]
 * xref:./resources/transitionfiles/transitionfile_de.abda.eRezeptAbgabedatenBasis_v1.2.1_to_v1.3.0.json[transitionfile_de.abda.eRezeptAbgabedatenBasis_v1.2.1_to_v1.3.0.json]
 * xref:./resources/transitionfiles/transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json[transitionfile_de.gkvsv.eRezeptAbrechnungsdaten_v1.2.0_to_v1.3.0.json]
 
@@ -50,7 +50,7 @@ Die Ergebnisse des Abgleichs der betroffenen Pakete (ohne deren direkte und indi
 * link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/de.gematik.erezept-patientenrechnung.r4/index.html[de.gematik.erezept-patientenrechnung.r4]
 * link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/de.gematik.erezept-workflow.r4/index.html[de.gematik.erezept-workflow.r4]
 * link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/de.gkvsv.erezeptabrechnungsdaten/index.html[de.gkvsv.erezeptabrechnungsdaten]
-* link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/kbv.ita.erp/index.html[kbv.ita.erp]
+* link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/feature/update_compress-results/docs/resources/compare_results/kbv.ita.erp/index.html[kbv.ita.erp]
 * link:https://htmlpreview.github.io/?https://github.com/gematik/api-erp/blob/master/docs/resources/compare_results/kbv.ita.for/index.html[kbv.ita.for]
 
 NOTE: Die html-Dateien können auch als xref:./resources/compare_results.zip[komprimiertes Verzeichnis heruntergeladen] werden und lokal im Browser betrachtet werden.
