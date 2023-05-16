@@ -1,11 +1,11 @@
 {
   "resourceType" : "StructureDefinition",
-  "id" : "c117aadc-9747-4a75-9446-8047b201d931-3",
-  "url" : "http://hl7.org/fhir/comparison/StructureDefinition/c117aadc-9747-4a75-9446-8047b201d931-3",
+  "id" : "f7c23982-6626-4f06-bd45-a0b9ee6aa752-3",
+  "url" : "http://hl7.org/fhir/comparison/StructureDefinition/f7c23982-6626-4f06-bd45-a0b9ee6aa752-3",
   "name" : "IntersectionPrescriptionTypeAndGEM_ERP_EX_PrescriptionType",
   "title" : "Intersection of null And null",
   "status" : "draft",
-  "date" : "2023-01-09T06:28:02+01:00",
+  "date" : "2023-05-16T08:49:57+02:00",
   "snapshot" : {
     "element" : [{
       "path" : "Extension",
@@ -14,6 +14,10 @@
       "min" : 0,
       "max" : "*",
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -21,6 +25,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
@@ -74,6 +82,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -81,6 +93,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
@@ -133,6 +149,10 @@
         "code" : "Coding"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -144,7 +164,7 @@
       "isSummary" : false,
       "binding" : {
         "strength" : "required",
-        "valueSet" : "http://hl7.org/fhir/comparison/ValueSet/c117aadc-9747-4a75-9446-8047b201d931-6"
+        "valueSet" : "http://hl7.org/fhir/comparison/ValueSet/f7c23982-6626-4f06-bd45-a0b9ee6aa752-6"
       },
       "mapping" : [{
         "identity" : "rim",
@@ -190,6 +210,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -197,6 +221,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
@@ -227,6 +255,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -264,6 +296,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -302,6 +338,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -340,6 +380,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -378,6 +422,10 @@
         "code" : "boolean"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",

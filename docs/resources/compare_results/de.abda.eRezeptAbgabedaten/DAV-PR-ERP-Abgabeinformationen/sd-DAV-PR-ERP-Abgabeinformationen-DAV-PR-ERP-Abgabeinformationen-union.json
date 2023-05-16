@@ -1,11 +1,11 @@
 {
   "resourceType" : "StructureDefinition",
-  "id" : "1af00993-cfb7-43d8-a4c1-ca5497b94ab1-2",
-  "url" : "http://hl7.org/fhir/comparison/StructureDefinition/1af00993-cfb7-43d8-a4c1-ca5497b94ab1-2",
+  "id" : "5a1a79f2-f287-43ec-8652-30bc89616fc9-2",
+  "url" : "http://hl7.org/fhir/comparison/StructureDefinition/5a1a79f2-f287-43ec-8652-30bc89616fc9-2",
   "name" : "UnionDAV_PR_ERP_AbgabeinformationenAndDAV_PR_ERP_Abgabeinformationen",
   "title" : "Union of DAV_PR_ERP_Abgabeinformationen And DAV_PR_ERP_Abgabeinformationen",
   "status" : "active",
-  "date" : "2023-01-09T07:29:03+01:00",
+  "date" : "2023-05-16T08:44:39+02:00",
   "snapshot" : {
     "element" : [{
       "path" : "MedicationDispense",
@@ -14,6 +14,10 @@
       "min" : 0,
       "max" : "*",
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(parent::f:contained and f:contained)"
+        }],
         "key" : "dom-2",
         "severity" : "error",
         "human" : "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
@@ -21,6 +25,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:contained/*/f:meta/f:versionId)) and not(exists(f:contained/*/f:meta/f:lastUpdated))"
+        }],
         "key" : "dom-4",
         "severity" : "error",
         "human" : "If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
@@ -28,6 +36,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(for $id in f:contained/*/f:id/@value return $contained[not(parent::*/descendant::f:reference/@value=concat('#', $contained/*/id/@value) or descendant::f:reference[@value='#'])]))"
+        }],
         "key" : "dom-3",
         "severity" : "error",
         "human" : "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
@@ -42,6 +54,10 @@
         {
           "url" : "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice-explanation",
           "valueMarkdown" : "When a resource has no narrative, only systems that fully understand the data can display the resource to a human safely. Including a human readable representation in the resource makes for a much more robust eco-system and cheaper handling of resources by intermediary systems. Some ecosystems restrict distribution of resources to only those systems that do fully understand the resources, and as a consequence implementers may believe that the narrative is superfluous. However experience shows that such eco-systems often open up to new participants over time."
+        },
+        {
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:text/h:div)"
         }],
         "key" : "dom-6",
         "severity" : "warning",
@@ -50,6 +66,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:contained/*/f:meta/f:security))"
+        }],
         "key" : "dom-5",
         "severity" : "error",
         "human" : "If a resource is contained in another resource, it SHALL NOT have a security label",
@@ -57,6 +77,10 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:whenHandedOver/@value)) or not(exists(f:whenPrepared/@value)) or ( f:whenHandedOver/@value >= f:whenPrepared/@value)"
+        }],
         "key" : "mdd-1",
         "severity" : "error",
         "human" : "whenHandedOver cannot be before whenPrepared",
@@ -92,6 +116,13 @@
           "valueUrl" : "id"
         }],
         "code" : "http://hl7.org/fhirpath/System.String"
+      },
+      {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+          "valueUrl" : "string"
+        }],
+        "code" : "http://hl7.org/fhirpath/System.String"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -108,6 +139,10 @@
         "profile" : ["http://fhir.abda.de/StructureDefinition/DAV-PR-ERP-AbgabedatenMeta"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -161,6 +196,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -168,11 +207,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -197,6 +240,10 @@
         "code" : "id"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -222,6 +269,10 @@
         "code" : "instant"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -247,6 +298,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -273,6 +328,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/StructureDefinition"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -298,6 +357,10 @@
         "code" : "Coding"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -340,6 +403,10 @@
         "code" : "Coding"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -382,6 +449,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -407,6 +478,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -441,6 +516,10 @@
         "code" : "Narrative"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -490,14 +569,21 @@
     },
     {
       "path" : "MedicationDispense.extension",
-      "short" : "Extension",
-      "definition" : "An Extension",
+      "short" : "left: Extension; right: Additional content defined by implementations",
+      "definition" : "left: An Extension; right: May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+      "comment" : "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+      "alias" : ["extensions",
+      "user content"],
       "min" : 1,
       "max" : "*",
       "type" : [{
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -505,15 +591,27 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
-      "isSummary" : false
+      "isSummary" : false,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "rim",
+        "map" : "N/A"
+      }]
     },
     {
       "path" : "MedicationDispense.modifierExtension",
@@ -529,6 +627,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -536,11 +638,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : true,
@@ -565,6 +671,10 @@
         "code" : "Identifier"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -619,6 +729,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Procedure"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -626,11 +740,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -663,6 +781,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -712,6 +834,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/DetectedIssue"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -750,6 +876,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -796,6 +926,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -870,6 +1004,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -877,11 +1015,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -907,6 +1049,10 @@
         "code" : "Coding"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -980,6 +1126,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -987,11 +1137,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1017,6 +1171,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1054,6 +1212,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1092,6 +1254,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1130,6 +1296,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1168,6 +1338,10 @@
         "code" : "boolean"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1206,6 +1380,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1245,6 +1423,10 @@
         "http://hl7.org/fhir/StructureDefinition/Group"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1252,11 +1434,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1303,6 +1489,10 @@
         "http://hl7.org/fhir/StructureDefinition/EpisodeOfCare"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1310,11 +1500,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1348,6 +1542,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Resource"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1355,11 +1553,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1391,6 +1593,10 @@
         "code" : "BackboneElement"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1448,6 +1654,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1455,11 +1665,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1488,6 +1702,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1495,11 +1713,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : true,
@@ -1525,6 +1747,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1572,6 +1798,10 @@
         "targetProfile" : ["http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PR-ERP-Apotheke"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1579,11 +1809,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1640,6 +1874,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1647,11 +1885,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1676,6 +1918,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1705,6 +1951,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1739,6 +1989,10 @@
         "code" : "Identifier"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1780,6 +2034,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1810,6 +2068,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Location"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1817,11 +2079,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1855,6 +2121,10 @@
         "targetProfile" : ["https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1862,11 +2132,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1931,6 +2205,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1938,11 +2216,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -1967,6 +2249,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -1996,6 +2282,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2030,6 +2320,10 @@
         "code" : "Identifier"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2095,6 +2389,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2102,11 +2400,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2132,6 +2434,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2171,6 +2477,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2226,6 +2536,10 @@
         "valueUri" : "http://www.acme.com/identifiers/patient"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2267,6 +2581,10 @@
         "valueString" : "123456"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2304,6 +2622,10 @@
         "code" : "Period"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2311,11 +2633,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:start/@value)) or not(exists(f:end/@value)) or (xs:dateTime(f:start/@value) <= xs:dateTime(f:end/@value))"
+        }],
         "key" : "per-1",
         "severity" : "error",
         "human" : "If present, start SHALL have a lower value than end",
         "expression" : "start.hasValue().not() or end.hasValue().not() or (start <= end)",
-        "source" : "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Library"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2357,6 +2683,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Organization"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2364,11 +2694,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2405,6 +2739,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2434,6 +2772,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2512,6 +2854,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2519,11 +2865,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2549,6 +2899,10 @@
         "code" : "Coding"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2622,6 +2976,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2629,11 +2987,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2659,6 +3021,10 @@
         "code" : "uri"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2696,6 +3062,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2734,6 +3104,10 @@
         "code" : "code"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2772,6 +3146,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2810,6 +3188,10 @@
         "code" : "boolean"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2848,6 +3230,10 @@
         "code" : "string"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2886,6 +3272,10 @@
         "profile" : ["http://hl7.org/fhir/StructureDefinition/SimpleQuantity"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2893,18 +3283,26 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:code)) or exists(f:system)"
+        }],
         "key" : "qty-3",
         "severity" : "error",
         "human" : "If a code for the unit is present, the system SHALL also be present",
         "expression" : "code.empty() or system.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/MedicinalProductIndication"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:comparator))"
+        }],
         "key" : "sqty-1",
         "severity" : "error",
         "human" : "The comparator is not used on a SimpleQuantity",
         "expression" : "comparator.empty()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -2946,6 +3344,10 @@
         "profile" : ["http://hl7.org/fhir/StructureDefinition/SimpleQuantity"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -2953,18 +3355,26 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:code)) or exists(f:system)"
+        }],
         "key" : "qty-3",
         "severity" : "error",
         "human" : "If a code for the unit is present, the system SHALL also be present",
         "expression" : "code.empty() or system.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/MedicinalProductIndication"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(exists(f:comparator))"
+        }],
         "key" : "sqty-1",
         "severity" : "error",
         "human" : "The comparator is not used on a SimpleQuantity",
         "expression" : "comparator.empty()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/MedicationDispense"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -3000,6 +3410,10 @@
         "code" : "dateTime"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3036,6 +3450,10 @@
         "code" : "dateTime"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3085,6 +3503,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Location"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3092,11 +3514,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -3135,6 +3561,10 @@
         "http://hl7.org/fhir/StructureDefinition/Practitioner"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3142,11 +3572,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -3179,6 +3613,10 @@
         "code" : "Annotation"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3224,6 +3662,10 @@
         "code" : "Dosage"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3252,6 +3694,10 @@
         "code" : "BackboneElement"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3298,14 +3744,21 @@
     },
     {
       "path" : "MedicationDispense.substitution.extension",
-      "short" : "Extension",
-      "definition" : "An Extension",
+      "short" : "left: Extension; right: Additional content defined by implementations",
+      "definition" : "left: An Extension; right: May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+      "comment" : "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+      "alias" : ["extensions",
+      "user content"],
       "min" : 1,
       "max" : "*",
       "type" : [{
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3313,15 +3766,27 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : false,
-      "isSummary" : false
+      "isSummary" : false,
+      "mapping" : [{
+        "identity" : "rim",
+        "map" : "n/a"
+      },
+      {
+        "identity" : "rim",
+        "map" : "N/A"
+      }]
     },
     {
       "path" : "MedicationDispense.substitution.modifierExtension",
@@ -3338,6 +3803,10 @@
         "code" : "Extension"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3345,11 +3814,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"
+        }],
         "key" : "ext-1",
         "severity" : "error",
         "human" : "Must have either extensions or value[x], not both",
         "expression" : "extension.exists() != value.exists()",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DomainResource"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       }],
       "mustSupport" : false,
       "isModifier" : true,
@@ -3373,6 +3846,10 @@
         "code" : "boolean"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3402,6 +3879,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3456,6 +3937,10 @@
         "code" : "CodeableConcept"
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3508,6 +3993,10 @@
         "http://hl7.org/fhir/StructureDefinition/PractitionerRole"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3515,11 +4004,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -3556,6 +4049,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/DetectedIssue"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3563,11 +4060,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
@@ -3597,6 +4098,10 @@
         "targetProfile" : ["http://hl7.org/fhir/StructureDefinition/Provenance"]
       }],
       "constraint" : [{
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "@value|f:*|h:div"
+        }],
         "key" : "ele-1",
         "severity" : "error",
         "human" : "All FHIR elements must have a @value or children",
@@ -3604,11 +4109,15 @@
         "source" : "http://hl7.org/fhir/StructureDefinition/Element"
       },
       {
+        "extension" : [{
+          "url" : "http://hl7.org/fhir/4.0/StructureDefinition/extension-ElementDefinition.constraint.xpath",
+          "valueString" : "not(starts-with(f:reference/@value, '#')) or exists(ancestor::*[self::f:entry or self::f:parameter]/f:resource/f:*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')]|/*/f:contained/f:*[f:id/@value=substring-after(current()/f:reference/@value, '#')])"
+        }],
         "key" : "ref-1",
         "severity" : "error",
         "human" : "SHALL have a contained resource if a local reference is provided",
         "expression" : "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
-        "source" : "http://hl7.org/fhir/StructureDefinition/DetectedIssue"
+        "source" : "http://hl7.org/fhir/StructureDefinition/Observation"
       }],
       "mustSupport" : false,
       "isModifier" : false,
