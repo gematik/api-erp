@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns6:ReadVSD xmlns:ns2="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns5="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2"
+            xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+            <ns6:EhcHandle>a5567061-f3b0-436b-b702-fbb5026aa168</ns6:EhcHandle>
+            <ns6:HpcHandle>3ddfbd41-4737-4bfc-9e26-eb5580ec2f4d</ns6:HpcHandle>
+            <ns6:PerformOnlineCheck>true</ns6:PerformOnlineCheck>
+            <ns6:ReadOnlineReceipt>true</ns6:ReadOnlineReceipt>
+            <ns7:Context>
+                <ns3:MandantId>Mandant1</ns3:MandantId>
+                <ns3:ClientSystemId>CS1</ns3:ClientSystemId>
+                <ns3:WorkplaceId>AP1</ns3:WorkplaceId>
+                <ns3:UserId>user1</ns3:UserId>
+            </ns7:Context>
+        </ns6:ReadVSD>
+    </S:Body>
+</S:Envelope>
