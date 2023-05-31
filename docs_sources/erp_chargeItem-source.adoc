@@ -49,6 +49,8 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` (kleines L) und `X-erp-resource: ChargeItem` zu setzen.
 
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|*1.0*")
+
 ¦Payload    ¦
 [source,xml]
 ----
@@ -104,17 +106,21 @@ Status Codes
 |===
 
 
-==  Anwendungsfall Abrechnungsinformationen abrufen
-Als Apotheker möchte ich eine von mir erstellte Abrechnungsinformation abrufen, um sie bearbeiten zu können oder sie zu kontrollieren. Falls die Abrechnung eine Korrektur benötigt, kann der Versicherte um eine Änderung des PKV-Abgabedatensatzes bitten. Liegen die Daten im System nicht mehr vor, übermittelt der Versicherte der Apotheke den AccessCode zum Ändern mittels einer Nachricht über das E-Rezept-FdV oder durch Anzeige zum Abscannen im E-Rezept-FdV.
+==  Anwendungsfall Abrechnungsinformation zum Ändern abrufen
+Falls die Abrechnung eine Korrektur benötigt, kann der Versicherte die Apotheke um eine Änderung des PKV-Abgabedatensatzes bitten. Hierzu übermittelt der Versicherte der Apotheke den AccessCode zum Ändern mittels einer Nachricht über das E-Rezept-FdV oder durch Anzeige zum Abscannen im E-Rezept-FdV. Mit diesem AccessCode ruft die Apotheke die Daten des zu ändernden PKV-Abgabedatensatz vom E-Rezept-Fachdienst ab.
 
-Rückgabewert ist ein Bundle, welches das ChargeItem und den Abgabedatensatz, mit seiner Signatur im CAdES-Enveloping-Format, beinhaltet.
+Rückgabewert ist ein Bundle, welches folgende Einträge enthält:
+
+* das ChargeItem
+* den Verordnungsdatensatz mit der QES des Verordnenden in .signature
+* den Abgabedatensatz mit seiner ursprünglich eingestellten Signatur in .signature
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem/'PrescriptionID'`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die ChargeItem-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.000.000.022.127.38?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |GET
 |HTTP Header |
 ----
@@ -178,13 +184,15 @@ Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'Pres
 *Request*
 [cols="h,a",separator=¦]
 |===
-¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ¦Method     ¦PUT
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|*1.0*")
 
 ¦Payload    ¦
 [source,xml]
@@ -220,7 +228,7 @@ s|Code   s|Type Error
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist oder weil keine Einwilligung vorliegt.#
 |404  |Not found +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig oder die Abrechnungsinformationen wurden gelöscht. Das kann auch dadurch begründet sein, dass der Consent des Versicherten nach dem Bereitstellen der Abrechnungsinformationen entzogen wurde.#
 |405 |Method Not Allowed +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |408 |Request Timeout +
@@ -274,8 +282,6 @@ NOTE: .enterer ist in diesem Aufruf nicht enthalten, um die Performance im Fachd
 |===
 
 
-
-
 Sind die ChargeItem-Instanzen in der App bekannt, kann direkt auf eine konkrete Instanz zugegriffen werden. Es wird das ChargeItem mit den referenzierten Bundles zurückgegeben.
 
 Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, den Abgabedatensatz und die Quittung beinhaltet. An den drei Abrechnungsdatensätzen (Verordnungs-, Abgabedatensatz und an der Quittung hängt die Signatur im CAdES-Enveloping-Format).
@@ -283,7 +289,7 @@ Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 |Method     |GET
 |HTTP Header |
 ----
@@ -347,7 +353,7 @@ Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
 *Request*
 [cols="h,a",separator=¦]
 |===
-¦URI        ¦https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 ¦Method     ¦PATCH
 ¦HTTP Header ¦
 ----
@@ -359,7 +365,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload    ¦
 [source,json]
 ----
-include::../resources/examples/prescriptionserver/request_PatchChargeItem.xml[]
+include::../resources/examples/prescriptionserver/request_PatchChargeItem.json[]
 ----
 NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 
@@ -411,7 +417,7 @@ Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/ChargeItem`. 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/abc825bc-bc30-45f8-b109-1b343fff5c45
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20
 |Method     |DELETE
 |HTTP Header |
 ----

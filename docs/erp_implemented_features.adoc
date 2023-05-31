@@ -64,20 +64,22 @@ s|[.underline]#Nicht# verschreibungspflichtige aber zu Lasten der GKV verordnete
 //
 4+|
 //
-s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:information_source: optional| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
+s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:information_source: optional| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 (KBV_PR_FOR_Coverage.type = "SEL") genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
 //
 |grünes Rezept |:information_source: optional | :information_source: freiwillig a|
 * Freiwilligkeit nach BMV-Ä.
-* Empfehlungen für nicht verschreibungspflichtige AM können über das eRezept bereits jetzt erfolgen.
+* Empfehlungen für nicht verschreibungspflichtige AM können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
 * Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
 * Es werden ein separater Workflow und Datenmodell in einer späteren Ausbaustufe eingeführt für das grüne Rezept.
 //
 4+|
 //
-s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel | :heavy_check_mark: | :bulb: wird geduldet | Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular
+s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel | :heavy_check_mark: | :bulb: wird geduldet a| Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular.
+
+* Diese Verordnungen können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich)
 //
 |blaues Rezept |:heavy_check_mark: | :bulb: wird geduldet a|
-* Privatrezept für GKV Versicherte und verschreibungspflichtige Arzneimittel können über das eRezept bereits jetzt erfolgen.
+* Privatrezept für GKV Versicherte und verschreibungspflichtige Arzneimittel können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
 * Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
 * Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular
 //
@@ -160,7 +162,11 @@ Hinweis GKV-SV: Verhandlungen zu Anlage 23 Anforderungskatalog laufen
 
 |Entlassrezepte (Kennzeichnung) |:heavy_check_mark: |  | Workflow 160/200
 //
-|Mehrfachverordnung (Kennzeichnung) |:x: |  | Verwendung in PU ab 01.04.2023 → Workflow 160/200
+|Mehrfachverordnung (Kennzeichnung) |:x: |  |
+Verwendung in PU ab 01.04.2023  → Workflow 160/169 +
+Verwendung in PU ab 01.07.2023  → zusätzlich Workflow 200/209
+
+Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023): Die Umsetzung der AMV-Anforderung zur Mehrfachverordnung gemäß der Pflichtfunktion P3-640 muss zum 1. April 2023 erfolgen. Der E-Rezept-Fachdienst der gematik unterstützt diese Funktionalität seit dem 4. Oktober 2022 im produktiven Betrieb. AMV-Anforderungskatalog siehe: https://update.kbv.de/ita-update/Verordnungen/Arzneimittel/EXT_ITA_VGEX_Anforderungskatalog_AVWG.pdf.
 //
 |Isotretinoin, Alitretinoin und Acitretin |:heavy_check_mark: :bulb: |  a|
 * Retinoid-haltige Arzneimittel (Isotretinoin, Alitretinoin und Acitretin) sind zwar teratogen, werden aber nicht auf T-Rezept-Formularvordrucken verordnet sondern auf Muster 16

@@ -106,6 +106,8 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 
 *Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 include::../resources/examples/ti-dienste/task/versicherte/response_taskGetSingle.json[]
@@ -120,7 +122,7 @@ NOTE: Mit der Angabe ` "display":"Apotheke"` kann dem Versicherten ein Hinweis a
 
 NOTE: Mit `"valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"` verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
 
-NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Das komplette Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/Bundle-example/~json.
+NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Ein komplettes Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/0428d416-149e-48a4-977c-394887b3d85c/~json.
 
 NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil in ` "signature"` des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature` .
 
@@ -290,6 +292,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 
 *Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
 [source,json]
 ----
 include::../resources/examples/ti-dienste/erp/response_getDispense.json[]
@@ -402,6 +407,9 @@ WARNING: In einigen Fällen kann der Versichtungstyp (GKV/PKV) nicht eindeutig v
 
 
 *Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
 [source,json]
 ----
 include::../resources/examples/ti-dienste/erp/response_getAuditEvent.json[]

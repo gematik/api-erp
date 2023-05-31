@@ -18,18 +18,7 @@ toc::[]
 == Zustände des Fachdienstes im Zusammenhang mit dem Übergangszeitraum
 
 Diese Darstellung zeigt die Konfigurationen der Umgebungen des Fachdienstes zu gegebener Zeit auf. Es ist dargestellt, welche Profilversionen vom Fachdienst akzeptiert werden.
-Folgende Konfigurationen wurden definiert:
-
-[cols="h,a"]
-[%autowidth]
-|===
-|Name | Eigenschaften
-
-| A | vor Übergangszeitraum
-| B | während Übergangszeitraum
-| C | nach Übergangszeitraum
-
-|===
+Die Konfigurationen und Beschreibung sind der Legende zu entnehmen.
 
 
 image:puml_fd_zustaende_timeline.png[width=100%]
@@ -46,15 +35,20 @@ Die zu unterscheidenden Profilversionen sind wie folgt bezeichnet:
 * FHIR 2022: bis 30.06.2023 gültige Profilversionen
 * FHIR 2023: ab 01.07.2023 gültige Profilversionen
 
+WARNING: Der Fachdienst wird ab 01.07. so konfiguriert,
+dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen),
+die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden,
+abgewiesen werden.
+
 ==== Übersicht der FHIR-Profile
 [cols="h,a,a"]
 [%autowidth]
 |===
 |Projekt|FHIR 2022|FHIR 2023
 
-|gematik E-Rezept Workflow|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.0|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.0
-|gematik E-Rezept Abrechnungsinformation|n/a|https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.0
-|KBV eRezept|https://simplifier.net/packages/kbv.ita.erp/1.0.2|https://simplifier.net/packages/kbv.ita.erp/1.1.0
+|gematik E-Rezept Workflow|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.1.0|https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1
+|gematik E-Rezept Abrechnungsinformation|n/a|https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.1
+|KBV eRezept|https://simplifier.net/packages/kbv.ita.erp/1.0.2|https://simplifier.net/packages/kbv.ita.erp/1.1.1
 |ABDA eRezeptAbgabedaten|n/a|https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.1.0
 |===
 
@@ -125,7 +119,13 @@ Response
 |POST /Task/<id>/$activate|verordnende LEI a|
 Request
 
+Workflow 160/169 (GKV):
+
 * Akzeptiert wird ein 2022 KBV Bundle
+* Akzeptiert wird ein 2023 KBV Bundle
+
+Workflow 200/209 (PKV):
+
 * Akzeptiert wird ein 2023 KBV Bundle
 
 Response
@@ -476,10 +476,6 @@ Response
 |POST /Task/<id>/$close|abgebende LEI
 a|
 Request
-
-* <MedicationDispense> bzw. Bundle von MedicationDispense - FHIR 2022
-** enthält 2022 KBV Medication
-** enthält 2023 KBV Medication
 
 * <MedicationDispense> bzw. Bundle von MedicationDispense - FHIR 2023
 ** enthält 2022 KBV Medication

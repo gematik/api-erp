@@ -26,7 +26,7 @@ timingDiagram {
 }
 </style>
 title Zeitleiste der Zustände vom Fachdienst
-footer Erstellt am 23.02.2023
+footer Erstellt am 15.05.2023
 
 concise "RU-DEV" as RUDEV <<rudevcolor>>
 concise "RU" as RU <<rucolor>>
@@ -52,13 +52,15 @@ note bottom of RUDEV : seit 23.01.23
 RU is "B"
 note bottom of RU : 09.05.23
 
+@2023/05/12
+RUDEV is "A*"
+note bottom of RUDEV : 12.05.23
+
 @2023/07/01
 PU is "B"
 note bottom of PU : 01.07.23
-
-@2023/08/01
 RUDEV is "C"
-note bottom of RUDEV : 01.08.23
+note bottom of RUDEV : 01.07.23
 
 @2023/10/03
 RU is "C"
@@ -70,4 +72,12 @@ PU is "C"
 note bottom of PU : 01.01.2024
 
 @2024/02/01
+
+legend
+  | Zustand | Beschreibung |
+  | A | vor Übergangszeitraum |
+  | A* | vor Übergangszeitraum (FD-Version 1.11.0) |
+  | B | während Übergangszeitraum |
+  | C | nach Übergangszeitraum |
+endlegend
 @enduml

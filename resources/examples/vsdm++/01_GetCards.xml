@@ -1,0 +1,13 @@
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap-env:Body>
+      <EVT:GetCards xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:EVT="http://ws.gematik.de/conn/EventService/v7.2" xmlns:CONN="http://ws.gematik.de/conn/ConnectorCommon/v5.0" xmlns:CCTX="http://ws.gematik.de/conn/ConnectorContext/v2.0" xmlns:CARDCMN="http://ws.gematik.de/conn/CardServiceCommon/v2.0" mandant-wide="false" xsi:schemaLocation="http://ws.gematik.de/conn/EventService/v7.2 EventService.xsd">
+	      <CCTX:Context>
+	         <CONN:MandantId>Mandant1</CONN:MandantId>
+		      <CONN:ClientSystemId>CS1</CONN:ClientSystemId>
+		      <CONN:WorkplaceId>AP1</CONN:WorkplaceId>
+	      </CCTX:Context>
+	      <CARDCMN:CtId>Terminal1</CARDCMN:CtId>
+	      <CARDCMN:CardType>EGK</CARDCMN:CardType>
+      </EVT:GetCards>
+   </soap-env:Body>
+</soap-env:Envelope>
