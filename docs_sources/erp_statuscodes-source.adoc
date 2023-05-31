@@ -44,7 +44,7 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 .2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten,
                         die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
-.12+|<in allen Operationen>          |500	           |Internal Server Error +
+.13+|<in allen Operationen>          |500	           |Internal Server Error +
                                      *Client-Failover angeraten: Ja*
                                      |501	           |Not Implemented +
                                      *Client-Failover angeraten: Ja*
@@ -68,6 +68,8 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
                                      Client-Failover angeraten: Nein
                                      |511            |Network Authentication Required +
                                      Client-Failover angeraten: Nein
+                                     |512            |OCSP Backend Error +
+                                     *Client-Failover angeraten: Ja*
 |===
 
 

@@ -26,7 +26,7 @@ for filename in $(find ../../puml -name '*.puml'); do
     echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
 include::${pumlPath}[]
-...." > ${tempAdocFile}
+...." >${tempAdocFile}
     asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
     rm ../../docs_sources/${name}.adoc
 done
