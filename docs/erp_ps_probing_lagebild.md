@@ -1,0 +1,95 @@
+Das TI-Lagebilds kann für ein probing herangezogen werden. Die
+zugehörige REST-API (Routen und Auslierferungsformat) werden im weiteren
+beschrieben.
+
+# Abruf der Gesamtliste
+
+Die Inhalte werden maßgeblich durch eine Route und einige Sub-Routen
+welche Filterungen anbieten ausgeliefert. Die Gesamtliste zu TI-Lage ist
+unter folgendem Pfad erreichbar: \`\`\`
+<https://ti-lage.prod.ccs.gematik.solutions/lageapi/v1/tilage/> \`\`\`
+
+Der Abruf erfolgt in Form einer REST-API, im Ergebnis wird somit JSON
+geliefert. Das Ergebnis beinhaltet bei einem erfolgreichen Abruf immer
+ein Array von Objekten. \`\`\`json
+
+\`\`\`
+
+Der Aufgabe eines einzelnen Objektes kann der nachfolgenden Beschreibung
+entnommen werden. \`\`\`json { "time":"Zeitangange im Format
+YYYY-MM-DDTHH:mm:ss.fffZ, die Zeitangabe wird immer als UTC Zeitzone
+geliefert", "ci":"CI-0000XXX", "tid":"\[Text\]", "bu":"PU|RU|TU",
+"organization":"\[Text\]", "pdt":"\[Text\]", "product":"\[Text\]",
+"availability":1, // Zahl 0 | 1 welche die aktuelle Verfügbarkeit
+darstellt "comment":"\[Text\]", "name":"\[Text\]" } \`\`\`
+
+## Weitere Routen
+
+Für den gezielteren Abruf sind weitere Routen vorhanden, welche jeweils
+eine Filterung der Gesamtliste bewirken. \* Filterung nach
+Betriebsumgebung, hier kann "PU", "RU" oder "TU" angegeben werden.
+Achtung die Werte sind jeweils in Großbuchstaben zu übergeben. \`\`\`
+/lageapi/v1/tilage/bu/\[:bu\] Beispiel:
+<https://ti-lage.prod.ccs.gematik.solutions/lageapi/v1/tilage/bu/PU>
+\`\`\` \* Filterung auf konkrete CI \`\`\` /lageapi/v1/tilage/ci/\[:ci\]
+Beispiel:
+<https://ti-lage.prod.ccs.gematik.solutions/lageapi/v1/tilage/ci/CI-0000001>
+
+CIs für den E-Rezept Fachdienst: RU CI-0000471, PU CI-0000485 den IDP:
+RU CI-0000472, PU CI-0000484
+
+\`\`\` \* Filterung auf konkrete TID \`\`\`
+/lageapi/v1/tilage/tid/\[:tid\] Beispiel:
+<https://ti-lage.prod.ccs.gematik.solutions/lageapi/v1/tilage/tid/ARVTO>
+\`\`\`
+
+# TI Kennzahlen
+
+Kennzahlen werden immer in Form eines Wertes zu einem konkreten
+Erhebungszeitpukt bereitgestellt. Jede Kennzahl ist durch eine eindeute
+Kennzahl-Id identifiziert, dies muss für den Abruf entsprechend
+angegeben werden.
+
+## Aktueller Wert einer spezifischen Kennzahl
+
+\`\`\` /lageapi/v1/kpi/\[:kpiId\]/date/latest \`\`\` Liefert den
+aktuellsten Wert der Kennzahl und damit genau ein JSON Objekt.
+\`\`\`json
+{"kpiId":1000,"value":"121152","utcTime":"2022-08-03T22:10:04.123Z"}
+\`\`\`
+
+## Chronologische Werte einer spezifischen Kennzahl
+
+\`\`\` /lageapi/v1/kpi/\[:kpiId\] \`\`\` Liefert alle Wert einer
+Kennzahl als Liste aus. \`\`\`json
+
+\`\`\`
+
+## Historischer Werte einer spezifischen Kennzahl
+
+\`\`\` /lageapi/v1/kpi/\[:kpiId\]/date/\[:date\] \`\`\` Kann verwendet
+werden um die Kennzahlwerte eines konkreten Tages abzurufen. Der Wert
+\[:date\] muss dabei im Format "yyyy-mm-dd" geliefert werden. \`\`\`
+Liefert alle Wert einer Kennzahl als Liste aus. \`\`\`json
+
+\`\`\`
+
+# Allgemein
+
+## Technische Gegebenheiten
+
+-   die Aktualisierung der Dateninhalt erfolgt im 5 Minuten Rhythmus,
+    die Aktualität der Daten kann dem \`\`time\`\` Attribut des
+    jeweiligen JSON-Objektes entnommen werden.
+
+-   HTTP-Statusmeldungen des Webservice:
+
+-   200 - angefragte Datenliste wurde korrekt ausgeliefert
+
+-   404 - es wurde eine unbekannte / nicht gültige Route verwendet
+
+-   500 - bei der internen Verarbeitung der Daten ist ein Fehler
+    aufgetreten
+
+-   eine Authentifizierung zur Nutzung des Webservice ist nicht
+    erforderlich
