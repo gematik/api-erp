@@ -5,9 +5,16 @@ Diese Seite dient als Ausgangspunkt für Entwickler, um Informationen zum E-Reze
 ## Ankündigungen und Aktuelles
 
 //TODO: change link
+
 Aktuelle Informationen zum Thema E-Rezept finden sie auf [GitHub Discussions](https://github.com/florianschoffke/test-openapi/discussions) in diesem Repository.
 
-Aktuelle Informationen und Konfigurationen des Fachdienstes sind [hier](./docs/ru_aas.md) zu finden 
+Hier befinden sich aktuelle [Informationen und Konfigurationen des Fachdienstes](./docs/ru_aas.md) zu finden
+
+### Sprechstunde
+
+Die Sprechstunde zum E-Rezept findet Montags 11:00 - 12:00 statt. Sie können unter diesem [Teams-Link](https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODZlNTUyZjUtZjNjNy00NzI3LWI2NGMtMDI4OTgyYzJkN2Vk%40thread.v2/0?context=%7b%22Tid%22%3a%2230092c62-4dbf-43bf-a33f-10d21b5b660a%22%2c%22Oid%22%3a%226ffbeb95-9578-4047-93a2-fb302f6b9f53%22%7d) teilnehmen. 
+
+Auf unserem Confluence Portal befinden sich [Protokolle vergangener Sprechstunden](https://wiki.gematik.de/pages/viewpage.action?pageId=459882758#)
 
 ## Fachportal
 
