@@ -7,6 +7,8 @@ Diese Seite dient als Ausgangspunkt für Entwickler, um Informationen zum E-Reze
 //TODO: change link
 Aktuelle Informationen zum Thema E-Rezept finden sie auf [GitHub Discussions](https://github.com/florianschoffke/test-openapi/discussions) in diesem Repository.
 
+Aktuelle Informationen und Konfigurationen des Fachdienstes sind [hier](./docs/ru_aas.md) zu finden 
+
 ## Fachportal
 
 Im Fachportal veröffentlicht die gematik normative Spezifikationen. Es sind auch wesentliche Dokumente und weiterführende Informationen zum E-Rezept zu finden: [Fachportal E-Rezept](https://fachportal.gematik.de/anwendungen/elektronisches-rezept)
