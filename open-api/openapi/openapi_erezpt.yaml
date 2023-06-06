@@ -28,14 +28,19 @@ paths:
           schema:
             type: string
           example: application/fhir+xml
+          description: application/fhir+xml; charset=UTF-8
         - name: Authorization
           in: header
           schema:
             type: string
           example: 'Bearer {{access_token_arztpraxis}}'
+          description: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
       responses:
         '201':
-          description: '[Task mit AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
+          description: |-
+            Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das Location-Header-Feld enthält die Adresse der erstellten Ressource.
+
+            Als Antwort vom Fachdienst kommt eine [Task-Ressource mit Task-ID und AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)
           content:
             application/fhir+xml:
               examples:
@@ -135,13 +140,61 @@ paths:
                             <text value="Apotheke"/>
                         </performerType>
                     </Task>
-      description: ''
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: 'Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.'
+        '403':
+          description: 'Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.'
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '408':
+          description: Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler
+      description: |-
+        Abrufen der Task ID und Access Code. Der Verordnende gibt an, welcher Workflowtyp erstellt werden soll. Der Parameter <code value="*"/> steuert den Typ des dem Task zugrunde liegenden Workflows. Es gibt derzeit folgende Optionen:
+
+        * 160 (GKV)
+        * 169 (GKV-Direktzuweisung)
+        * 200 (PKV)
+        * 209 (PKV-Direktzuweisung)
+
+        NOTE: Mit dem ACCESS_TOKEN im Authorization-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+        NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header X-erp-user: l und X-erp-resource: Task zu setzen.
       requestBody:
         content:
           application/fhir+xml:
             schema:
               type: object
-              properties: {}
+              x-examples:
+                Example 1:
+                  parameter:
+                    - valueCoding:
+                        system: 'https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType'
+                        code: '160'
+                      name: workflowType
+                  resourceType: Parameters
+              properties:
+                parameter:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      valueCoding:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                          code:
+                            type: string
+                      name:
+                        type: string
+                resourceType:
+                  type: string
             examples:
               Workflow 160:
                 value: |-
@@ -165,6 +218,37 @@ paths:
                       </valueCoding>
                     </parameter>
                   </Parameters>
+          application/json:
+            schema:
+              type: object
+              properties:
+                parameter:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      valueCoding:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                          code:
+                            type: string
+                      name:
+                        type: string
+                resourceType:
+                  type: string
+              x-examples:
+                Example 1:
+                  parameter:
+                    - valueCoding:
+                        system: 'https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType'
+                        code: '160'
+                      name: workflowType
+                  resourceType: Parameters
+        description: '[Task mit AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
+      operationId: $create
+      summary: $create
   '/Task/{task_id}/$activate':
     post:
       tags:
@@ -378,6 +462,18 @@ paths:
       responses:
         '200':
           description: Successful response
+  '/ChargeItem/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-ChargeItem-id
 components:
   schemas: {}
   examples: {}
