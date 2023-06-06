@@ -1,0 +1,69 @@
+<Task xmlns="http://hl7.org/fhir">
+   <id value="160.000.040.327.755.42"/>
+   <meta>
+      <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+   </meta>
+   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+      <valueCoding>
+         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+         <code value="160"/>
+         <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+      </valueCoding>
+   </extension>
+   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+      <valueDate value="2023-07-21"/>
+   </extension>
+   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+      <valueDate value="2023-05-19"/>
+   </extension>
+   <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+      <value value="160.000.040.327.755.42"/>
+   </identifier>
+   <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+      <value value="306fcf2da642c478b81727c94211af48057adfd5c5c065c4ef7d5b0632e2cb4f"/>
+   </identifier>
+   <status value="ready"/>
+   <intent value="order"/>
+   <for>
+      <identifier>
+         <system value="http://fhir.de/sid/gkv/kvid-10"/>
+         <value value="X110498565"/>
+      </identifier>
+   </for>
+   <authoredOn value="2023-04-21T07:06:02.644+00:00"/>
+   <lastModified value="2023-04-21T07:06:02.997+00:00"/>
+   <performerType>
+      <coding>
+         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+         <code value="urn:oid:1.2.276.0.76.4.54"/>
+         <display value="Öffentliche Apotheke"/>
+      </coding>
+      <text value="Öffentliche Apotheke"/>
+   </performerType>
+   <input>
+      <type>
+         <coding>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+            <code value="1"/>
+         </coding>
+      </type>
+      <valueReference>
+         <reference value="a04b5a67-0200-0000-0001-000000000000"/>
+      </valueReference>
+   </input>
+   <input>
+      <type>
+         <coding>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+            <code value="2"/>
+         </coding>
+      </type>
+      <valueReference>
+         <reference value="a04b5a67-0200-0000-0002-000000000000"/>
+      </valueReference>
+   </input>
+</Task>
