@@ -133,6 +133,8 @@ dieser Attribute erfolgt.
 
 # E-Rezept erstellen
 
+[API POST /Task/$create](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create)
+
 Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept
 erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der
 KBV-Profilierung des E-Rezepts (siehe <https://simplifier.net/erezept>).
@@ -166,111 +168,6 @@ welche im Response-Header `Location` zurückgemeldet wird und zusätzlich
 ist im http-ResponseBody des Task der serverseitig generierte AccessCode
 als Identifier enthalten.
 
-**Request**
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>URI</strong></p></td>
-<td style="text-align: left;"><p><a
-href="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create">https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create</a></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>Method</strong></p></td>
-<td style="text-align: left;"><p>POST</p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>HTTP Header</strong></p></td>
-<td style="text-align: left;"><pre><code>Content-Type: application/fhir+xml; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J</code></pre>
-<div class="note">
-<p>Mit dem ACCESS_TOKEN im <code>Authorization</code>-Header weist sich
-der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle
-enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.</p>
-</div>
-<div class="note">
-<p>Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind
-die Header <code>X-erp-user: l</code> und
-<code>X-erp-resource: Task</code> zu setzen.</p>
-</div></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>Payload</strong></p></td>
-<td style="text-align: left;"><div class="sourceCode" id="cb2"><pre
-class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Parameters</span><span class="ot"> xmlns=</span><span class="st">&quot;http://hl7.org/fhir&quot;</span>&gt;</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">parameter</span>&gt;</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">name</span><span class="ot"> value=</span><span class="st">&quot;workflowType&quot;</span>/&gt;</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">valueCoding</span>&gt;</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">system</span><span class="ot"> value=</span><span class="st">&quot;https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType&quot;</span>/&gt;</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">code</span><span class="ot"> value=</span><span class="st">&quot;160&quot;</span>/&gt;</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">valueCoding</span>&gt;</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">parameter</span>&gt;</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Parameters</span>&gt;</span></code></pre></div>
-<div class="note">
-<p>Der Parameter <code>&lt;code value="*"/&gt;</code> steuert den Typ
-des dem Task zugrunde liegenden Workflows. In Stufe 1 des E-Rezepts wird
-das Muster16 umgesetzt. Daraus ergibt sich, dass der Versicherte diese
-Rezepte nur in einer Apotheke einlösen kann.</p>
-</div></td>
-</tr>
-</tbody>
-</table>
-
-**Response**
-
-    HTTP/1.1 201 Created
-    Content-Type: application/fhir+xml; charset=UTF-8
-
-    <Task xmlns="http://hl7.org/fhir">
-        <id value="160.123.456.789.123.58"/>
-        <meta>
-            <versionId value="1"/>
-            <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
-            <source value="#AsYR9plLkvONJAiv"/>
-        </meta>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-            <valueCodeableConcept>
-                <coding>
-                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-                    <code value="160" />
-                    <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-                </coding>
-            </valueCodeableConcept>
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-            <valueDateTime value="2020-06-02" />
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-            <valueDateTime value="2020-04-01" />
-        </extension>
-        <identifier>
-            <use value="official"/>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-            <value value="160.123.456.789.123.58"/>
-        </identifier>
-        <identifier>
-            <use value="official"/>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
-            <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
-        </identifier>
-        <status value="draft"/>
-        <intent value="order"/>
-        <authoredOn value="2020-03-02T08:25:05+00:00"/>
-        <lastModified value="2020-03-02T08:25:05+00:00"/>
-        <performerType>
-            <coding>
-                <system value="urn:ietf:rfc:3986"/>
-                <code value="urn:oid:1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </coding>
-            <text value="Apotheke"/>
-        </performerType>
-    </Task>
 
 Der unter dem Identifier `GEM_ERP_NS_PrescriptionId` hinterlegte
 `<identifier><value value="*"/></identifier>` stellt die 10 Jahre lang
