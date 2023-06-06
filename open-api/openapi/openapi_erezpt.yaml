@@ -2,14 +2,14 @@ openapi: 3.0.0
 info:
   title: E-Rezept API
   version: 1.0.0
-  description: ''
+  description: OpenAPI Beschreibung der Endpunkte vom E-Rezept Fachdienst
 servers:
-  - url: 'http://127.0.0.1:15081'
-    description: Lokal
-  - description: Development
-    url: 'http://{{address_dev_endpoint}}'
-  - url: 'https://fd.erezept-instanz1.titus.gematik.solutions'
-    description: Produktiv
+  - description: RU-DEV
+    url: 'https://erp-dev.zentral.erp.splitdns.ti-dienste.de'
+  - description: RU
+    url: 'https://erp-ref.zentral.erp.splitdns.ti-dienste.de'
+  - description: PU
+    url: 'https://erp.zentral.erp.splitdns.ti-dienste.de'
 tags:
   - name: Rezept abrufen
   - name: Rezept zurückgeben
@@ -42,7 +42,7 @@ paths:
           example: 'Bearer {{access_token_arztpraxis}}'
       responses:
         '201':
-          description: 'Task mit AccessCode https://simplifier.net/erezept-workflow/gem_erp_pr_task'
+          description: '[Task mit AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
           content:
             application/json: {}
       description: '[Get IDP Token](../docs/idp_token.md)'
