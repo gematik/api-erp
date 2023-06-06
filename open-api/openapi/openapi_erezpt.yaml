@@ -22,14 +22,6 @@ paths:
     post:
       tags:
         - Arztpraxis
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/CreateTask'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateTask'
       parameters:
         - name: Content-Type
           in: header
@@ -47,7 +39,7 @@ paths:
           content:
             application/fhir+xml:
               examples:
-                Task (160):
+                'Task (WF: 160)':
                   value: |-
                     <Task xmlns="http://hl7.org/fhir">
                         <id value="160.123.456.789.123.58"/>
@@ -95,7 +87,84 @@ paths:
                             <text value="Apotheke"/>
                         </performerType>
                     </Task>
+                'Task (WF: 200)':
+                  value: |-
+                    <Task xmlns="http://hl7.org/fhir">
+                        <id value="200.123.456.789.123.58"/>
+                        <meta>
+                            <versionId value="1"/>
+                            <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
+                            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+                            <source value="#AsYR9plLkvONJAiv"/>
+                        </meta>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                            <valueCodeableConcept>
+                                <coding>
+                                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                                    <code value="200" />
+                                    <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+                                </coding>
+                            </valueCodeableConcept>
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                            <valueDateTime value="2020-06-02" />
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                            <valueDateTime value="2020-04-01" />
+                        </extension>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                            <value value="200.123.456.789.123.58"/>
+                        </identifier>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                            <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                        </identifier>
+                        <status value="draft"/>
+                        <intent value="order"/>
+                        <authoredOn value="2020-03-02T08:25:05+00:00"/>
+                        <lastModified value="2020-03-02T08:25:05+00:00"/>
+                        <performerType>
+                            <coding>
+                                <system value="urn:ietf:rfc:3986"/>
+                                <code value="urn:oid:1.2.276.0.76.4.54"/>
+                                <display value="Öffentliche Apotheke"/>
+                            </coding>
+                            <text value="Apotheke"/>
+                        </performerType>
+                    </Task>
       description: ''
+      requestBody:
+        content:
+          application/fhir+xml:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              Workflow 160:
+                value: |-
+                  <Parameters xmlns="http://hl7.org/fhir">
+                    <parameter>
+                      <name value="workflowType"/>
+                      <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                      </valueCoding>
+                    </parameter>
+                  </Parameters>
+              Workflow 169:
+                value: |-
+                  <Parameters xmlns="http://hl7.org/fhir">
+                    <parameter>
+                      <name value="workflowType"/>
+                      <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="169"/>
+                      </valueCoding>
+                    </parameter>
+                  </Parameters>
   '/Task/{task_id}/$activate':
     post:
       tags:
@@ -312,147 +381,5 @@ paths:
 components:
   schemas: {}
   examples: {}
-  responses:
-    create:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            properties:
-              id:
-                type: string
-          examples:
-            Example 1:
-              value:
-                id: string
-        application/xml:
-          schema:
-            type: object
-            properties: {}
-          examples:
-            Example 1:
-              value: |-
-                <Task xmlns="http://hl7.org/fhir">
-                   <id value="160.000.040.327.755.42"/>
-                   <meta>
-                      <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
-                   </meta>
-                   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-                      <valueCoding>
-                         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                         <code value="160"/>
-                         <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
-                      </valueCoding>
-                   </extension>
-                   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-                      <valueDate value="2023-07-21"/>
-                   </extension>
-                   <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-                      <valueDate value="2023-05-19"/>
-                   </extension>
-                   <identifier>
-                      <use value="official"/>
-                      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                      <value value="160.000.040.327.755.42"/>
-                   </identifier>
-                   <identifier>
-                      <use value="official"/>
-                      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
-                      <value value="306fcf2da642c478b81727c94211af48057adfd5c5c065c4ef7d5b0632e2cb4f"/>
-                   </identifier>
-                   <status value="ready"/>
-                   <intent value="order"/>
-                   <for>
-                      <identifier>
-                         <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                         <value value="X110498565"/>
-                      </identifier>
-                   </for>
-                   <authoredOn value="2023-04-21T07:06:02.644+00:00"/>
-                   <lastModified value="2023-04-21T07:06:02.997+00:00"/>
-                   <performerType>
-                      <coding>
-                         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
-                         <code value="urn:oid:1.2.276.0.76.4.54"/>
-                         <display value="Öffentliche Apotheke"/>
-                      </coding>
-                      <text value="Öffentliche Apotheke"/>
-                   </performerType>
-                   <input>
-                      <type>
-                         <coding>
-                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                            <code value="1"/>
-                         </coding>
-                      </type>
-                      <valueReference>
-                         <reference value="a04b5a67-0200-0000-0001-000000000000"/>
-                      </valueReference>
-                   </input>
-                   <input>
-                      <type>
-                         <coding>
-                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                            <code value="2"/>
-                         </coding>
-                      </type>
-                      <valueReference>
-                         <reference value="a04b5a67-0200-0000-0002-000000000000"/>
-                      </valueReference>
-                   </input>
-                </Task>
-  requestBodies:
-    01_create_req:
-      content:
-        application/json:
-          schema:
-            type: object
-        application/xml:
-          schema:
-            type: object
-            properties: {}
-          examples:
-            Workflow 160:
-              value: |-
-                <Parameters xmlns="http://hl7.org/fhir">
-                  <parameter>
-                    <name value="workflowType"/>
-                    <valueCoding>
-                      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                      <code value="160"/>
-                    </valueCoding>
-                  </parameter>
-                </Parameters>
-            Workflow 169:
-              value: |-
-                <Parameters xmlns="http://hl7.org/fhir">
-                  <parameter>
-                    <name value="workflowType"/>
-                    <valueCoding>
-                      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                      <code value="169"/>
-                    </valueCoding>
-                  </parameter>
-                </Parameters>
-            Workflow 200:
-              value: |-
-                <Parameters xmlns="http://hl7.org/fhir">
-                  <parameter>
-                    <name value="workflowType"/>
-                    <valueCoding>
-                      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                      <code value="200"/>
-                    </valueCoding>
-                  </parameter>
-                </Parameters>
-            Workflow 209:
-              value: |-
-                <Parameters xmlns="http://hl7.org/fhir">
-                  <parameter>
-                    <name value="workflowType"/>
-                    <valueCoding>
-                      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                      <code value="209"/>
-                    </valueCoding>
-                  </parameter>
-                </Parameters>
+  responses: {}
+  requestBodies: {}
