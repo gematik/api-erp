@@ -11,11 +11,12 @@ servers:
   - description: PU
     url: 'https://erp.zentral.erp.splitdns.ti-dienste.de'
 tags:
-  - name: Rezept abrufen
-  - name: Rezept zurückgeben
-  - name: Rezept löschen
+  - name: Arztpraxis
   - name: Quittung abrufen
   - name: Quittung erneut abrufen
+  - name: Rezept abrufen
+  - name: Rezept löschen
+  - name: Rezept zurückgeben
 paths:
   /Task/$create:
     post:
@@ -260,6 +261,13 @@ paths:
       responses:
         '200':
           description: Successful response
+  /Test/$Peter:
+    get:
+      summary: Your GET endpoint
+      tags:
+        - Arztpraxis
+      responses: {}
+      operationId: get-Test-$Peter
 components:
   schemas:
     CreateTask:
