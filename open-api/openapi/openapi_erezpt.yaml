@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: E-Rezept API
+  title: E-Rezept Fachdienst API
   version: 1.0.0
   description: OpenAPI Beschreibung der Endpunkte vom E-Rezept Fachdienst
 servers:
@@ -11,45 +11,249 @@ servers:
   - description: PU
     url: 'https://erp.zentral.erp.splitdns.ti-dienste.de'
 tags:
-  - name: Rezept abrufen
-  - name: Rezept zurückgeben
-  - name: Rezept löschen
+  - name: Arztpraxis
   - name: Quittung abrufen
   - name: Quittung erneut abrufen
+  - name: Rezept abrufen
+  - name: Rezept löschen
+  - name: Rezept zurückgeben
 paths:
   /Task/$create:
     post:
       tags:
-        - Rezept abrufen
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/CreateTask'
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateTask'
+        - Arztpraxis
       parameters:
         - name: Content-Type
           in: header
           schema:
             type: string
           example: application/fhir+xml
+          description: application/fhir+xml; charset=UTF-8
         - name: Authorization
           in: header
           schema:
             type: string
           example: 'Bearer {{access_token_arztpraxis}}'
+          description: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
       responses:
         '201':
-          description: '[Task mit AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
+          description: |-
+            Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das Location-Header-Feld enthält die Adresse der erstellten Ressource.
+
+            Als Antwort vom Fachdienst kommt eine [Task-Ressource mit Task-ID und AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)
           content:
-            application/json: {}
-      description: '[Get IDP Token](../docs/idp_token.md)'
+            application/fhir+xml:
+              examples:
+                'Task (WF: 160)':
+                  value: |-
+                    <Task xmlns="http://hl7.org/fhir">
+                        <id value="160.123.456.789.123.58"/>
+                        <meta>
+                            <versionId value="1"/>
+                            <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
+                            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+                            <source value="#AsYR9plLkvONJAiv"/>
+                        </meta>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                            <valueCodeableConcept>
+                                <coding>
+                                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                                    <code value="160" />
+                                    <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+                                </coding>
+                            </valueCodeableConcept>
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                            <valueDateTime value="2020-06-02" />
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                            <valueDateTime value="2020-04-01" />
+                        </extension>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                            <value value="160.123.456.789.123.58"/>
+                        </identifier>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                            <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                        </identifier>
+                        <status value="draft"/>
+                        <intent value="order"/>
+                        <authoredOn value="2020-03-02T08:25:05+00:00"/>
+                        <lastModified value="2020-03-02T08:25:05+00:00"/>
+                        <performerType>
+                            <coding>
+                                <system value="urn:ietf:rfc:3986"/>
+                                <code value="urn:oid:1.2.276.0.76.4.54"/>
+                                <display value="Öffentliche Apotheke"/>
+                            </coding>
+                            <text value="Apotheke"/>
+                        </performerType>
+                    </Task>
+                'Task (WF: 200)':
+                  value: |-
+                    <Task xmlns="http://hl7.org/fhir">
+                        <id value="200.123.456.789.123.58"/>
+                        <meta>
+                            <versionId value="1"/>
+                            <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
+                            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+                            <source value="#AsYR9plLkvONJAiv"/>
+                        </meta>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                            <valueCodeableConcept>
+                                <coding>
+                                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+                                    <code value="200" />
+                                    <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+                                </coding>
+                            </valueCodeableConcept>
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                            <valueDateTime value="2020-06-02" />
+                        </extension>
+                        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                            <valueDateTime value="2020-04-01" />
+                        </extension>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                            <value value="200.123.456.789.123.58"/>
+                        </identifier>
+                        <identifier>
+                            <use value="official"/>
+                            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                            <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                        </identifier>
+                        <status value="draft"/>
+                        <intent value="order"/>
+                        <authoredOn value="2020-03-02T08:25:05+00:00"/>
+                        <lastModified value="2020-03-02T08:25:05+00:00"/>
+                        <performerType>
+                            <coding>
+                                <system value="urn:ietf:rfc:3986"/>
+                                <code value="urn:oid:1.2.276.0.76.4.54"/>
+                                <display value="Öffentliche Apotheke"/>
+                            </coding>
+                            <text value="Apotheke"/>
+                        </performerType>
+                    </Task>
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: 'Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.'
+        '403':
+          description: 'Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.'
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '408':
+          description: Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler
+      description: |-
+        Abrufen der Task ID und Access Code. Der Verordnende gibt an, welcher Workflowtyp erstellt werden soll. Der Parameter <code value="*"/> steuert den Typ des dem Task zugrunde liegenden Workflows. Es gibt derzeit folgende Optionen:
+
+        * 160 (GKV)
+        * 169 (GKV-Direktzuweisung)
+        * 200 (PKV)
+        * 209 (PKV-Direktzuweisung)
+
+        NOTE: Mit dem ACCESS_TOKEN im Authorization-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+        NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header X-erp-user: l und X-erp-resource: Task zu setzen.
+      requestBody:
+        content:
+          application/fhir+xml:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  parameter:
+                    - valueCoding:
+                        system: 'https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType'
+                        code: '160'
+                      name: workflowType
+                  resourceType: Parameters
+              properties:
+                parameter:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      valueCoding:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                          code:
+                            type: string
+                      name:
+                        type: string
+                resourceType:
+                  type: string
+            examples:
+              Workflow 160:
+                value: |-
+                  <Parameters xmlns="http://hl7.org/fhir">
+                    <parameter>
+                      <name value="workflowType"/>
+                      <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                      </valueCoding>
+                    </parameter>
+                  </Parameters>
+              Workflow 169:
+                value: |-
+                  <Parameters xmlns="http://hl7.org/fhir">
+                    <parameter>
+                      <name value="workflowType"/>
+                      <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="169"/>
+                      </valueCoding>
+                    </parameter>
+                  </Parameters>
+          application/json:
+            schema:
+              type: object
+              properties:
+                parameter:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      valueCoding:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                          code:
+                            type: string
+                      name:
+                        type: string
+                resourceType:
+                  type: string
+              x-examples:
+                Example 1:
+                  parameter:
+                    - valueCoding:
+                        system: 'https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType'
+                        code: '160'
+                      name: workflowType
+                  resourceType: Parameters
+        description: '[Task mit AccessCode](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
+      operationId: $create
+      summary: $create
   '/Task/{task_id}/$activate':
     post:
       tags:
         - Rezept abrufen
+        - Arztpraxis
       requestBody:
         content:
           application/xml:
@@ -87,7 +291,7 @@ paths:
         - name: Accept
           in: header
           schema:
-            type: number
+            type: string
           example: 'application/fhir+xml;q=1.0, application/json+fhir;q=0.9'
         - name: Authorization
           in: header
@@ -258,190 +462,20 @@ paths:
       responses:
         '200':
           description: Successful response
-components:
-  schemas:
-    CreateTask:
-      type: object
-      xml:
-        name: Parameters
-        namespace: 'http://hl7.org/fhir'
-      properties:
-        parameter:
-          properties:
-            name:
-              properties:
-                value:
-                  example: workflowType
-                  xml:
-                    attribute: true
-                    wrapped: true
-            valueCoding:
-              properties:
-                system:
-                  properties:
-                    value:
-                      example: 'https://gematik.de/fhir/CodeSystem/Flowtype'
-                      xml:
-                        attribute: true
-                        wrapped: true
-                code:
-                  properties:
-                    value:
-                      example: '160'
-                      xml:
-                        attribute: true
-                        wrapped: true
-    ActivateTask:
-      type: object
-      xml:
-        name: Parameters
-        namespace: 'http://hl7.org/fhir'
-      properties:
-        parameter:
-          properties:
-            name:
-              properties:
-                value:
-                  example: ePrescription
-                  xml:
-                    attribute: true
-                    wrapped: true
-            resource:
-              properties:
-                Binary:
-                  properties:
-                    contentType:
-                      properties:
-                        value:
-                          example: application/pkcs7-mime
-                          xml:
-                            attribute: true
-                            wrapped: true
-                    data:
-                      properties:
-                        value:
-                          example: '{{signed_document}}'
-                          xml:
-                            attribute: true
-                            wrapped: true
-    MedicationDispense:
-      type: object
-      xml:
-        name: MedicationDispense
-        namespace: 'http://hl7.org/fhir'
-      properties:
-        meta:
-          properties:
-            profile:
-              properties:
-                value:
-                  example: 'https://gematik.de/fhir/StructureDefinition/ErxMedicationDispense'
-                  xml:
-                    attribute: true
-                    wrapped: true
-        contained:
+  '/ChargeItem/{id}':
+    parameters:
+      - schema:
           type: string
-          example: '{{aps_medication}}'
-        identifier:
-          properties:
-            system:
-              properties:
-                value:
-                  example: 'https://gematik.de/fhir/NamingSystem/PrescriptionID'
-                  xml:
-                    attribute: true
-                    wrapped: true
-            value:
-              properties:
-                value:
-                  example: '{{aps_prescription_id}}'
-                  xml:
-                    attribute: true
-                    wrapped: true
-        status:
-          properties:
-            value:
-              example: completed
-              xml:
-                attribute: true
-                wrapped: true
-        medicationReference:
-          properties:
-            reference:
-              properties:
-                value:
-                  example: '#{{aps_medication_id}}'
-                  xml:
-                    attribute: true
-                    wrapped: true
-            display:
-              properties:
-                value:
-                  example: Sumatriptan-1a Pharma 100 mg Tabletten
-                  xml:
-                    attribute: true
-                    wrapped: true
-        subject:
-          properties:
-            identifier:
-              properties:
-                system:
-                  properties:
-                    value:
-                      example: 'http://fhir.de/NamingSystem/gkv/kvid-10'
-                      xml:
-                        attribute: true
-                        wrapped: true
-                value:
-                  properties:
-                    value:
-                      example: '{{kvnr}}'
-                      xml:
-                        attribute: true
-                        wrapped: true
-        performer:
-          properties:
-            actor:
-              properties:
-                identifier:
-                  properties:
-                    system:
-                      properties:
-                        value:
-                          example: 'https://gematik.de/fhir/NamingSystem/TelematikID'
-                          xml:
-                            attribute: true
-                            wrapped: true
-                    value:
-                      properties:
-                        value:
-                          example: '{{aps_telematik_id}}'
-                          xml:
-                            attribute: true
-                            wrapped: true
-        whenHandedOver:
-          properties:
-            value:
-              example: '2022-08-11T17:11:00+02:00'
-              xml:
-                attribute: true
-                wrapped: true
-        dosageInstruction:
-          properties:
-            text:
-              properties:
-                value:
-                  example: 1-0-1-0
-                  xml:
-                    attribute: true
-                    wrapped: true
-  examples:
-    test-idp:
-      value:
-        description: Example shared example
-        type: object
-        properties:
-          id:
-            type: string
-        required:
-          - id
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-ChargeItem-id
+components:
+  schemas: {}
+  examples: {}
+  responses: {}
+  requestBodies: {}
