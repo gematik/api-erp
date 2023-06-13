@@ -1,6 +1,21 @@
 #!/bin/bash
 echo "Start building source files"
 
+# check prerequisites
+required_asciidoctor_version="2.0.20"
+actual_asciidoctor_version=$(asciidoctor --version)
+if ! grep -q "$required_asciidoctor_version" <<<"$actual_asciidoctor_version"; then
+    echo "Incorrect asciidoctor version. Expected $required_asciidoctor_version but found $actual_asciidoctor_version"
+    exit 1
+fi
+
+required_asciidoctor_diagram_version="2.2.9"
+actual_asciidoctor_diagram_version=$(gem list | grep "asciidoctor-diagram (")
+if ! grep -q "$required_asciidoctor_diagram_version" <<<"$actual_asciidoctor_diagram_version"; then
+    echo "Incorrect asciidoctor diagram version. Expected $required_asciidoctor_diagram_version but found $actual_asciidoctor_diagram_version"
+    exit 1
+fi
+
 # RUN_1: creates images from the puml files and will store them in /puml/images
 echo "Creating puml images"
 
