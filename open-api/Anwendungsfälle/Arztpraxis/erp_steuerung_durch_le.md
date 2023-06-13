@@ -1,3 +1,5 @@
+# Direktzuweisung (Steuerung durch LE)
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das
 E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei
 handelt es sich um eine besondere Versorgungssituation, bei der ein
@@ -15,7 +17,7 @@ Flowtype für GKV `169` und PKV `209` zur Erkennung des abweichenden
 Prozessablaufs und zur Nutzung in der Berechnung der Rezept-ID
 eingeführt.
 
-# Profilierung
+## Profilierung
 
 Für diesen Anwendungsfall wird die FHIR-Resource "Task" profiliert. Das
 Profil kann als JSON oder XML hier eingesehen werden:
