@@ -152,6 +152,8 @@ paths:
         '500':
           description: Unerwarteter Serverfehler
       description: |-
+        ## E-Rezept erstellen
+
         Abrufen der Task ID und Access Code. Der Verordnende gibt an, welcher Workflowtyp erstellt werden soll. Der Parameter <code value="*"/> steuert den Typ des dem Task zugrunde liegenden Workflows. Es gibt derzeit folgende Optionen:
 
         * 160 (GKV)
@@ -277,8 +279,8 @@ paths:
       responses:
         '200':
           description: '[Successful response](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
-      summary: Activate Prescription
-      description: '[Get IDP Token](../docs/idp_token.md)'
+      summary: $activate
+      description: E-Rezept aktivieren
   '/Task/{task_id}/$accept':
     post:
       parameters:
@@ -322,7 +324,7 @@ paths:
           description: Successful response
       tags:
         - Apotheke
-        - Arztpraxis
+      summary: $accept
   '/Task/{task_id}/$reject':
     post:
       parameters:
@@ -349,9 +351,10 @@ paths:
       responses:
         '204':
           description: Successful response
-      summary: Ein Rezept zurückweisen
+      summary: $reject
       tags:
         - Apotheke
+      description: E-Rezept zurückweisen
   '/Task/{task_id}/$abort':
     post:
       parameters:
@@ -386,6 +389,8 @@ paths:
       tags:
         - Apotheke
         - Arztpraxis
+      summary: $abort
+      description: E-Rezept löschen
   '/Task/{task_id}/$close':
     post:
       tags:
@@ -427,10 +432,10 @@ paths:
       responses:
         '200':
           description: '[Successful response](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
+      summary: $close
+      description: E-Rezept Abgabe vollziehen
   '/Task/{task_id}':
     get:
-      tags:
-        - Quittung erneut abrufen
       parameters:
         - name: Authorization
           in: header
@@ -460,6 +465,10 @@ paths:
       responses:
         '200':
           description: Successful response
+      tags:
+        - Apotheke
+      summary: 'GET /Task/{id}'
+      description: Quittung erneut abrufen
   '/ChargeItem/{id}':
     parameters:
       - schema:
@@ -468,10 +477,12 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: 'GET /ChargeItem/{id}'
+      tags:
+        - Apotheke
       responses: {}
       operationId: get-ChargeItem-id
+      description: Abrechnungsinformationen abrufen
 components:
   schemas: {}
   examples: {}
