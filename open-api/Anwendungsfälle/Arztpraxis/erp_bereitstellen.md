@@ -35,6 +35,7 @@ der Verordnungsdatensatz bspw. am Vortag bereits vorbereitet worden
 sein, muss das Primärsystem den Wert für authoredOn vor der QES
 anpassen.
 
+
 ## Kurzbeschreibung der Abfolge zum Bereitstellen eines E-Rezeptes
 
 1. PrescriptionID und AccessCode vom E-Rezept Fachdienst anfordern ([POST /Task/$create]((../openapi_erezpt.yaml/paths/~1Task~1$create/post)))
