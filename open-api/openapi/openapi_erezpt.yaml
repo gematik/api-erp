@@ -11,12 +11,9 @@ servers:
   - description: PU
     url: 'https://erp.zentral.erp.splitdns.ti-dienste.de'
 tags:
+  - name: Apotheke
   - name: Arztpraxis
-  - name: Quittung abrufen
-  - name: Quittung erneut abrufen
-  - name: Rezept abrufen
-  - name: Rezept löschen
-  - name: Rezept zurückgeben
+  - name: Versicherte
 paths:
   /Task/$create:
     post:
@@ -252,7 +249,6 @@ paths:
   '/Task/{task_id}/$activate':
     post:
       tags:
-        - Rezept abrufen
         - Arztpraxis
       requestBody:
         content:
@@ -285,8 +281,6 @@ paths:
       description: '[Get IDP Token](../docs/idp_token.md)'
   '/Task/{task_id}/$accept':
     post:
-      tags:
-        - Rezept abrufen
       parameters:
         - name: Accept
           in: header
@@ -326,10 +320,11 @@ paths:
       responses:
         '200':
           description: Successful response
+      tags:
+        - Apotheke
+        - Arztpraxis
   '/Task/{task_id}/$reject':
     post:
-      tags:
-        - Rezept zurückgeben
       parameters:
         - name: Accept
           in: header
@@ -355,10 +350,10 @@ paths:
         '204':
           description: Successful response
       summary: Ein Rezept zurückweisen
+      tags:
+        - Apotheke
   '/Task/{task_id}/$abort':
     post:
-      tags:
-        - Rezept löschen
       parameters:
         - name: Accept
           in: header
@@ -388,6 +383,9 @@ paths:
       responses:
         '204':
           description: Successful response
+      tags:
+        - Apotheke
+        - Arztpraxis
   '/Task/{task_id}/$close':
     post:
       tags:
