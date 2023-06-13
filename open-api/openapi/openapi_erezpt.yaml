@@ -393,8 +393,6 @@ paths:
       description: E-Rezept löschen
   '/Task/{task_id}/$close':
     post:
-      tags:
-        - Quittung abrufen
       requestBody:
         content:
           application/xml:
@@ -434,6 +432,8 @@ paths:
           description: '[Successful response](https://simplifier.net/erezept-workflow/gem_erp_pr_task)'
       summary: $close
       description: E-Rezept Abgabe vollziehen
+      tags:
+        - Apotheke
   '/Task/{task_id}':
     get:
       parameters:
