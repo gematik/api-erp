@@ -18,7 +18,7 @@ Der Datenaustausch zum E-Rezept basiert auf dem internationalen Austauschformat 
 
 ## Onboarding für PVS, AVS, App-Entwickler
 
-// TODO: Entweder Link zu einer neuen Seite oder hier Schritte auflisten zum Onboarding
+// TODO: Entweder Link zu einer neuen Seite oder hier Schritte auflisten zum Onboarding, evtl unter "Zugang zur TI" noch "Onboarding"
 1. ERPFIND
 2. ANFERP
 3. Registrieren am IDP
