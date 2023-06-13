@@ -39,7 +39,7 @@ anpassen.
 
 ## Kurzbeschreibung der Abfolge zum Bereitstellen eines E-Rezeptes
 
-1. PrescriptionID und AccessCode vom E-Rezept Fachdienst anfordern ([POST /Task/$create]((https://gematiktest.stoplight.io/docs/gematik-api-erp/d2f8c474214fc-create-a-task-accept)))
+1. PrescriptionID und AccessCode vom E-Rezept Fachdienst anfordern ([POST /Task/$create]((open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create/post)))
 2. Verordnungsdatensatz erstellen
 3. Verordnungsdatensatz signieren
 4. Verordnungsdatensatz im E-Rezept Fachdienst einstellen ([POST /Task/$activate](../open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$activate/post))
