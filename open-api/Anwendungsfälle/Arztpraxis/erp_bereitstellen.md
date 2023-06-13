@@ -41,53 +41,22 @@ anpassen.
 1. PrescriptionID und AccessCode vom E-Rezept Fachdienst anfordern ([POST /Task/$create](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create/post))
 2. Verordnungsdatensatz erstellen
 3. Verordnungsdatensatz signieren
-4. Verordnungsdatensatz im E-Rezept Fachdienst einstellen ([POST /Task/$activate](../open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$activate/post))
+4. Verordnungsdatensatz im E-Rezept Fachdienst einstellen ([POST /Task/$activate](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$activate/post))
+5. Optional ist auch das Löschen eines E-Rezepts für den Verordnenden möglich ([POST /Task/{id}/$abort](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$abort))
 
-![width=100%](../../../images/api_rezept_einstellen.png)
+![width=100%](../../assets/images/api_rezept_einstellen.png)
 
 ## Profilierung
 
-Für diesen Anwendungsfall wird die FHIR-Resource "Task" profiliert. Das
-Profil kann als JSON oder XML hier eingesehen werden:
+Für diesen Anwendungsfall wird die FHIR-Resource "Task" profiliert. Für die Nutzung im E-Rezept relevante Felder sind als "Must Support" (MS) gekennzeichnet. 
 <https://simplifier.net/erezept-workflow/gem_erp_pr_task>.
-
-Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die
-Profilierung der Ressourcen werden durch das "must be supported"-Flag
-gekennzeichnet. Sie werden in der folgenden Tabelle kurz
-zusammengefasst:
-
-| Name                      | Beschreibung                                                                 |
-|---------------------------|------------------------------------------------------------------------------|
-| identifier:PrescriptionID | Rezept-ID; eindeutig für jedes
-Rezept                                        |
-| identifier:AccessCode     | Vom E-Rezept-Fachdienst generierter
-Berechtigungs-Code                       |
-| identifier:Secret         | Vom E-Rezept-Fachdienst generierter
-Berechtigungs-Code                       |
-| status                    | Status des E-Rezepts                                                         |
-| intent                    | Intension des Tasks. Fixer
-Wert="order"                                      |
-| for                       | Krankenversichertennummer                                                    |
-| authoredOn                | Erstellungszeitpunkt des Tasks                                               |
-| lastModified              | Letzte Änderung am Task                                                      |
-| performerType             | Institution, in der das Rezept
-eingelöst werden soll                         |
-| input                     | Verweis auf das für den Patient und den
-Leistungserbringer erstellten Bundle |
-| output                    | Verweis auf das
-Quittungs-Bundle                                             |
-| extension:flowType        | Gibt den Typ des Rezeptes an                                                 |
-| extension:expiryDate      | Verfallsdatum                                                                |
-| extension:acceptDate      | Datum, bis zu welchem die Krankenkasse
-spätestens die Kosten übernimmt       |
-
 
 In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung
 dieser Attribute erfolgt.
 
 ## E-Rezept erstellen
 
-[API-Endpunkt: POST /Task/$create](../open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create/post)
+[API-Endpunkt: POST /Task/$create](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create/post)
 
 Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept
 erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der
@@ -143,8 +112,8 @@ Rezepts gelenkt werden soll (öffentliche Apotheke für Workflow `160`).
 
 [API-Endpoint zur Signatur](../open-api/openapi/konnektor.yaml/paths/~1Konnektorservice#SignDocument/post)
 
-Im Primärsystem liegt ein E-Rezept-Datensatz als FHIR-Bundle vor. Das
-Primärsystem hat soeben einen Task im E-Rezept-Fachdienst erzeugt, um
+Nachdem ein gültiger Verordnungsdatensatz gemäß den Vorgaben der KBV erstellt wurde, liegt im Primärsystem ein E-Rezept-Datensatz als FHIR-Bundle vor. Im vorhergehenden Schritt hat das
+Primärsystem einen Task im E-Rezept-Fachdienst erzeugt, um
 eine langlebige Rezept-ID zu erhalten. Der vom Fachdienst
 zurückgemeldete `Task.identifier` vom Typ
 `https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId` für
@@ -198,6 +167,8 @@ drei Konnektoren notwendig:
 
 ## E-Rezept vervollständigen und Task aktivieren
 
+[API-Endpoint: POST /Task/$activate](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$activate/post)
+
 Nach der erfolgreichen qualifizierten Signatur kann nun der Task im
 Fachdienst aktiviert werden, indem das Ergebnis der erfolgreichen
 QES-Erstellung als Base64-codierter Datensatz an den E-Rezept-Fachdienst
@@ -212,141 +183,6 @@ E-Rezept enthalten sein. Der E-Rezept-Fachdienst aktualisiert bei
 gültiger QES den Task und erzeugt eine Signatur über den Datensatz, die
 als signierte Kopie des KBV-`Bundle` für den Abruf durch den
 Versicherten gespeichert wird.
-
-**Request**
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>URI</strong></p></td>
-<td style="text-align: left;"><p><a
-href="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate">https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate</a></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>Method</strong></p></td>
-<td style="text-align: left;"><p>POST</p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>HTTP Header</strong></p></td>
-<td style="text-align: left;"><pre><code>Content-Type: application/fhir+xml; charset=UTF-8
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J</code></pre>
-<div class="note">
-<p>Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind
-die Header <code>X-erp-user: l</code> und
-<code>X-erp-resource: Task</code> zu setzen.</p>
-</div></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>Payload</strong></p></td>
-<td style="text-align: left;"><div class="sourceCode" id="cb2"><pre
-class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">Parameters</span><span class="ot"> xmlns=</span><span class="st">&quot;http://hl7.org/fhir&quot;</span>&gt;</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">parameter</span>&gt;</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">name</span><span class="ot"> value=</span><span class="st">&quot;ePrescription&quot;</span> /&gt;</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        &lt;<span class="kw">resource</span>&gt;</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            &lt;<span class="kw">Binary</span>&gt;</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">contentType</span><span class="ot"> value=</span><span class="st">&quot;application/pkcs7-mime&quot;</span> /&gt;</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                &lt;<span class="kw">data</span><span class="ot"> value=</span><span class="st">&quot;MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg...&quot;</span> /&gt;</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>            &lt;/<span class="kw">Binary</span>&gt;</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        &lt;/<span class="kw">resource</span>&gt;</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">parameter</span>&gt;</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">Parameters</span>&gt;</span></code></pre></div>
-<div class="note">
-<p>Bei dem Wert in
-<code>&lt;Binary&gt;&lt;data value="*"/&gt;&lt;/Binary&gt;</code>
-handelt es sich um die base64-codierte Repräsentation der
-enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte
-base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig
-dargestellt. Das vollständige Beispiel findet sich im Unterordner der <a
-href="../samples/qes/signed">Beispiele</a> in der Datei
-<code>4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7</code></p>
-</div></td>
-</tr>
-</tbody>
-</table>
-
-**Response**
-
-    HTTP/1.1 200 OK
-    Content-Type: application/fhir+xml;charset=utf-8
-
-    <Task xmlns="http://hl7.org/fhir">
-        <id value="160.123.456.789.123.58"/>
-        <meta>
-            <versionId value="2"/>
-            <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
-            <source value="#AsYR9plLkvONJAiv"/>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
-        </meta>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-            <valueCodeableConcept>
-                <coding>
-                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-                    <code value="160" />
-                    <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-                </coding>
-            </valueCodeableConcept>
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-            <valueDateTime value="2020-06-02" />
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-            <valueDateTime value="2020-04-01" />
-        </extension>
-        <identifier>
-            <use value="official"/>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-            <value value="160.123.456.789.123.58"/>
-        </identifier>
-        <identifier>
-            <use value="official"/>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
-            <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
-        </identifier>
-        <identifier>
-            <use value="official"/>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-        <status value="ready"/>
-        <intent value="order"/>
-        <authoredOn value="2020-03-02T08:25:05+00:00"/>
-        <lastModified value="2020-03-02T08:45:05+00:00"/>
-        <performerType>
-            <coding>
-                <system value="urn:ietf:rfc:3986"/>
-                <code value="urn:oid:1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </coding>
-        </performerType>
-        <input>
-            <type>
-                <coding>
-                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                    <code value="1"/>
-                    <display value="Health Care Provider Prescription"/>
-                </coding>
-            </type>
-            <valueReference>
-                <reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
-            </valueReference>
-        </input>
-        <input>
-            <type>
-                <coding>
-                    <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                    <code value="2"/>
-                </coding>
-            </type>
-            <valueReference>
-                <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>
-            </valueReference>
-        </input>
-    </Task>
 
 Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur
 des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und
@@ -366,86 +202,9 @@ serverseitiger Signatur bereitgestellt, die an der Stelle
 `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>` referenziert
 wird.
 
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p>Code</p></td>
-<td style="text-align: left;"><p>Type Success</p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>200</p></td>
-<td style="text-align: left;"><pre><code> OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#</code></pre></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>Code</p></td>
-<td style="text-align: left;"><p>Type Error</p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>400</p></td>
-<td style="text-align: left;"><pre><code> Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#</code></pre></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>401</p></td>
-<td style="text-align: left;"><p>Unauthorized<br />
-<span class="small">Die Anfrage kann nicht ohne gültige
-Authentifizierung durchgeführt werden. Wie die Authentifizierung
-durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der
-Antwort übermittelt.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>403</p></td>
-<td style="text-align: left;"><p>Forbidden<br />
-<span class="small">Die Anfrage wurde mangels Berechtigung des Clients
-nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht
-berechtigt ist.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>404</p></td>
-<td style="text-align: left;"><p>Not found<br />
-<span class="small">Die adressierte Ressource wurde nicht gefunden, die
-übergebene ID ist ungültig.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>405</p></td>
-<td style="text-align: left;"><p>Method Not Allowed<br />
-<span class="small">Die Anfrage darf nur mit anderen HTTP-Methoden (zum
-Beispiel GET statt POST) gestellt werden. Gültige Methoden für die
-betreffende Ressource werden im "Allow"-Header-Feld der Antwort
-übermittelt.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>408</p></td>
-<td style="text-align: left;"><p>Request Timeout<br />
-<span class="small">Innerhalb der vom Server erlaubten Zeitspanne wurde
-keine vollständige Anfrage des Clients empfangen.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>429</p></td>
-<td style="text-align: left;"><p>Too Many Requests<br />
-<span class="small">Der Client hat zu viele Anfragen in einem bestimmten
-Zeitraum gesendet.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>500</p></td>
-<td style="text-align: left;"><p>Server Errors<br />
-<span class="small">Unerwarteter Serverfehler</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>512</p></td>
-<td style="text-align: left;"><p>OCSP Backend Error<br />
-<span class="small">Innerhalb der vom Server erlaubten Zeitspanne wurde
-keine gültige Antwort des OCSP-Responders geliefert.</span></p></td>
-</tr>
-</tbody>
-</table>
+## Ein E-Rezept löschen
 
-# Ein E-Rezept löschen
+[API-Endpoint: POST /Task/$activate](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1{task_id}~1$activate/post)
 
 Als verordnender Leistungserbringer möchte ich ein E-Rezept löschen
 können, um den Patienten vor dem Bezug und der Einnahme eines fälschlich
@@ -455,127 +214,3 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation
 `$abort`. Im http-Request-Header `Authorization` müssen das während der
 Authentisierung erhaltene ACCESS\_TOKEN und der AccessCode im Header
 `X-AccessCode` für die Berechtigungsprüfung übergeben werden.
-
-**Request**
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>URI</strong></p></td>
-<td style="text-align: left;"><p><a
-href="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort">https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort</a></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p><strong>Method</strong></p></td>
-<td style="text-align: left;"><p>POST</p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>HTTP Header</strong></p></td>
-<td style="text-align: left;"><pre><code>Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea</code></pre>
-<div class="note">
-<p>Mit dem ACCESS_TOKEN im <code>Authorization</code>-Header weist sich
-der Zugreifende als Leistungerbringer aus, im Token ist seine Rolle als
-Verordnender enthalten. Die Base64-Darstellung des Tokens ist stark
-gekürzt.</p>
-</div>
-<div class="note">
-<p>Der Zugreifende, der nicht der betroffene Versicherte ist, muss im
-http-Header den <code>AccessCode</code> übergeben. Der
-<code>AccessCode</code> ist dem Primärsystem des Verordnenden bekannt,
-da von diesem aus das E-Rezept ursprünglich eingestellt wurde.</p>
-</div>
-<div class="note">
-<p>Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind
-die Header <code>X-erp-user: l</code> und
-<code>X-erp-resource: Task</code> zu setzen.</p>
-</div></td>
-</tr>
-</tbody>
-</table>
-
-**Response**
-
-    HTTP/1.1 204 No Content
-
-Im Ergebnis der $abort-Operation wird der referenzierte Task gelöscht.
-Dementsprechend werden keine Daten an den aufrufenden Client
-zurückgegeben.
-
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>Code</strong></p></td>
-<td style="text-align: left;"><p><strong>Type Success</strong></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>204</p></td>
-<td style="text-align: left;"><pre><code> No Content +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#</code></pre></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p><strong>Code</strong></p></td>
-<td style="text-align: left;"><p><strong>Type Error</strong></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>400</p></td>
-<td style="text-align: left;"><pre><code> Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#</code></pre></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>401</p></td>
-<td style="text-align: left;"><p>Unauthorized<br />
-<span class="small">Die Anfrage kann nicht ohne gültige
-Authentifizierung durchgeführt werden. Wie die Authentifizierung
-durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der
-Antwort übermittelt.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>403</p></td>
-<td style="text-align: left;"><p>Forbidden<br />
-<span class="small">Die Anfrage wurde mangels Berechtigung des Clients
-nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht
-berechtigt ist. Beispielsweise ist das Rezept grade in Belieferung durch
-eine Apotheke.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>404</p></td>
-<td style="text-align: left;"><p>Not found<br />
-<span class="small">Die adressierte Ressource wurde nicht gefunden, die
-übergebene ID ist ungültig.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>405</p></td>
-<td style="text-align: left;"><p>Method Not Allowed<br />
-<span class="small">Die Anfrage darf nur mit anderen HTTP-Methoden (zum
-Beispiel GET statt POST) gestellt werden. Gültige Methoden für die
-betreffende Ressource werden im "Allow"-Header-Feld der Antwort
-übermittelt.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>410</p></td>
-<td style="text-align: left;"><p>Gone<br />
-<span class="small">Die angeforderte Ressource wird nicht länger
-bereitgestellt und wurde dauerhaft entfernt.</span></p></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><p>429</p></td>
-<td style="text-align: left;"><p>Too Many Requests<br />
-<span class="small">Der Client hat zu viele Anfragen in einem bestimmten
-Zeitraum gesendet.</span></p></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><p>500</p></td>
-<td style="text-align: left;"><p>Server Errors<br />
-<span class="small">Unerwarteter Serverfehler</span></p></td>
-</tr>
-</tbody>
-</table>
