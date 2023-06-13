@@ -57,6 +57,7 @@ dieser Attribute erfolgt.
 ## E-Rezept erstellen
 
 [API-Endpunkt: POST /Task/$create](open-api/openapi/openapi_erezpt.yaml/paths/~1Task~1$create/post)
+
 [Absoluter Link Beispiel: POST /Task/$create](https://gematiktest.stoplight.io/docs/gematik-api-erp/e2fbe0e57ab74-create)
 
 Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept
