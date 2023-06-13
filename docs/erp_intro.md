@@ -16,6 +16,14 @@ Im Fachportal veröffentlicht die gematik normative Spezifikationen. Es sind auc
 
 Der Datenaustausch zum E-Rezept basiert auf dem internationalen Austauschformat [FHIR](https://hl7.org/fhir/R4/). Informationen zu den FHIR-Profilen finden sich auf der entsprechenden [Übersichtsseite](./docs/fhir_intro.md)
 
+## Onboarding für PVS, AVS, App-Entwickler
+
+// TODO: Entweder Link zu einer neuen Seite oder hier Schritte auflisten zum Onboarding
+1. ERPFIND
+2. ANFERP
+3. Registrieren am IDP
+4. Erklären der Umgebungen RU,RU-DEV...
+
 ## Schnittstellenbeschreibung
 
 Der E-Rezept-Fachdienst ist einer der zentralen Dienste der Telematik Infrastruktur, der die Verwaltung von E-Rezepten umsetzt. Hier finden sie eine OpenAPI der [Schnittstellen des E-Rezept-Fachdienstes](https://gematiktest.stoplight.io/docs/test-openapi/95201cd74824d-intro-open-api-beschreibung)
