@@ -42,7 +42,7 @@ abgewiesen werden.
 
 === Umgang mit neuer Task-Ressource
 
-`PrescriptionID` und `AccessCode` werden in der ab 01.07. gültigen Task-Ressource mit einem aktualisierten NamingSystem ausgewiesen.
+Ab 01.07 liefert der Fachdienst als Antwort auf `POST /Task/$create` die [Task-Ressource in Version 1.2](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030551) aus. Diese weist `PrescriptionID` und `AccessCode` mit einem aktualisierten NamingSystem aus.
 
 Die PrescriptionID befindet sich nun unter Task.identifier.value mit identifier.system = "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId".
 
