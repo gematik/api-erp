@@ -40,6 +40,18 @@ dass Verordnungen mit dem Workflowtype 200 oder 209 (PKV Verordnungen),
 die mit einer KBV Verordnung der Version 1.0.2 erstellt wurden,
 abgewiesen werden.
 
+=== Umgang mit neuer Task-Ressource
+
+Ab 01.07 liefert der Fachdienst als Antwort auf `POST /Task/$create` die [Task-Ressource in Version 1.2](https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.1/files/2030551) aus. Diese weist `PrescriptionID` und `AccessCode` mit einem aktualisierten NamingSystem aus.
+
+Die PrescriptionID befindet sich nun unter Task.identifier.value mit identifier.system = "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId".
+
+Der AccessCode befindet sich nun unter Task.identifier.value mit identifier.system = "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode".
+
+Eine Beispielressource kann im Anwendungsfall ["E-Rezept erstellen"](https://github.com/gematik/api-erp/blob/master/docs/erp_bereitstellen.adoc#e-rezept-erstellen) eingesehen werden.
+
+WARNING: Ab 01.07.2023 müssen PVS Systeme in der Lage sein PrescriptionID und AccessCode mit den neuen NamingSystems aus dem Response der POST /Task/$create Operation auszulesen. Falls im Verordnungsdatensatz ein KBV_Bundle der Version 1.0.2 erstellt wird, muss das alte NamingSystems für `PrescriptionID` eingetragen werden.
+
 ==== Übersicht der FHIR-Profile
 [cols="h,a,a"]
 [%autowidth]
