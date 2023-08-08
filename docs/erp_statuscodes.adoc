@@ -1,4 +1,4 @@
-= E-Rezept API-Dokumentation HTTP-Codes des E-Rezept-Fachdienstes image:gematik_logo.png[width=150, float="right"]
+= E-Rezept API-Dokumentation Fehlerbehandlung am E-Rezept-Fachdienst image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -15,6 +15,32 @@ Folgende http Status Codes können Clients bei der Benutzung der Schnittstellen 
 Fehler können sowohl im inneren http-Requests (bei fachlichen Fehlern) als auch im äußeren http-Request auftreten.
 
 toc::[]
+
+== Auswertung eines OperationOutcomes
+
+Bei Fehlern zur Validierung von FHIR-Ressourcen gibt der E-Rezept-Fachdienst einen OperationOutcome zurück. Dieser enthält in den Feldern `.severity` und `.code` kodierte Informationen zur Schwere des Fehlers. `.details` gibt eine kurze Beschreibung des Fehlers wieder und `.diagnostics` dient der detaillierten Fehleranalyse.
+
+Folgendes Beispiel soll das veranschaulichen:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="utf-8"?>
+
+<OperationOutcome xmlns="http://hl7.org/fhir">
+    <meta>
+        <profile value="http://hl7.org/fhir/StructureDefinition/OperationOutcome" />
+    </meta>
+    <issue>
+        <severity value="error" />
+        <code value="invalid" />
+        <details>
+            <text value="FHIR-Validation error" />
+        </details>
+        <diagnostics
+            value="Bundle: error: -erp-angabeZuzahlungsstatus: In der Ressource vom Typ Coverage ist kein Zuzahlungsstatus vorhanden, dieser ist aber eine Pflichtangabe bei den Kostentraegern der Typen 'GKV' 'SKT', 'BG' oder 'UK' (from profile: [https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0|https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0]); Bundle.entry[1].resource{MedicationRequest}.extension[0]: error: element doesn't match any slice in closed slicing (from profile: [https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0|https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0]); " />
+    </issue>
+</OperationOutcome>
+----
 
 == Status Codes am Endpunkt /VAU
 Fehler in der Übertragung auf der Netzwerkstrecke oder eine syntaktisch "falsche" Verschlüsselung des inneren http-Requests führen zu Fehlern am Endpunkt /VAU. Konnte der Verarbeitungskontext innerhalb der VAU den Request entschlüsseln, liefert er bei nutzbarem Antwortschlüssel (AES256-GCM-konform) immer eine verschlüsselte Antwort. Bei fachlichen Fehlern kann diese allerdings selbst einen Fehlercode enthalten (siehe unten).
