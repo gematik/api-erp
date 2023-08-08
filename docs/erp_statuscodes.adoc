@@ -20,12 +20,14 @@ toc::[]
 
 Bei Fehlern zur Validierung von FHIR-Ressourcen gibt der E-Rezept-Fachdienst einen OperationOutcome zurück. Dieser enthält in den Feldern `.severity` und `.code` kodierte Informationen zur Schwere des Fehlers. `.details` gibt eine kurze Beschreibung des Fehlers wieder und `.diagnostics` dient der detaillierten Fehleranalyse.
 
-Folgendes Beispiel soll das veranschaulichen:
+Fehlermeldungen, die in der API oder Spezifikation vorgegeben sind, werden in `.details` angegeben.
+
+Nach FHIR Spezifikation sind die Felder `.severity` und `.code` verpflichtend (1..1). `.details` und `.diagnostics` sind hingegen optional (0..1).
+
+Im Folgenden ein Beispiel ein OperationOutcome eines Validierungsfehlers, der vom E-Rezept-Fachdienst an den Client zurückgegeben wird:
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="utf-8"?>
-
 <OperationOutcome xmlns="http://hl7.org/fhir">
     <meta>
         <profile value="http://hl7.org/fhir/StructureDefinition/OperationOutcome" />
@@ -40,6 +42,24 @@ Folgendes Beispiel soll das veranschaulichen:
             value="Bundle: error: -erp-angabeZuzahlungsstatus: In der Ressource vom Typ Coverage ist kein Zuzahlungsstatus vorhanden, dieser ist aber eine Pflichtangabe bei den Kostentraegern der Typen 'GKV' 'SKT', 'BG' oder 'UK' (from profile: [https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0|https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0]); Bundle.entry[1].resource{MedicationRequest}.extension[0]: error: element doesn't match any slice in closed slicing (from profile: [https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0|https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0]); " />
     </issue>
 </OperationOutcome>
+----
+
+Dies ist ein Beispiel für eine OperationOutcome, in der ein Abruf nicht erlaubt ist, da sich der Task in einem entsprechenden Status befindet. Siehe Fehlercode 409 aus link:./erp_abrufen.adoc#E-Rezeptabrufen[E-Rezept abrufen].
+
+[source,xml]
+----
+<OperationOutcome xmlns="http://hl7.org/fhir">
+    <meta>
+       <profile value="http://hl7.org/fhir/StructureDefinition/OperationOutcome"/>
+    </meta>
+    <issue>
+       <severity value="error"/>
+       <code value="conflict"/>
+       <details>
+          <text value="Task has invalid status in-progress"/>
+       </details>
+    </issue>
+ </OperationOutcome>
 ----
 
 == Status Codes am Endpunkt /VAU
