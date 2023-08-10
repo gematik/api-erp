@@ -111,6 +111,8 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 [Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
 
+[Hier geht es zu den Anwendungsfällen für Versicherte, um sich für Notifications zu registrieren](docs/erp_notification.adoc)
+
 #### PKV Versicherte
 
 [Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
