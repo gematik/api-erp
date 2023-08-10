@@ -1,43 +1,79 @@
-= E-Rezept API-Dokumentation für den Benachrichtigungsdienst image:gematik_logo.png[width=150, float="right"]
+= E-Rezept API-Dokumentation für Notifications image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Benachrichtigungsdienst.
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um die Aktivierung und Verwaltung von Notifications.
 
 toc::[]
 
+== Verschlüsselung
+Vor der Registrierung der App beim Fachdienst wird vom E-Rezept-FdV ein gemeinsames Geheimnis erstellt (ISS) und bei der Registrierung übertragen. 
+Schlüssel für die Sicherung werden regelmäßig gewechselt, um ältere Nachrichten zu schützen. 
+
+Der Fachdienst erhält das Geheimnis, leitet daraus monatsspezifische Schlüssel ab und speichert diese sicher. Alte Schlüssel werden gelöscht, außer dem aktuellsten. Das System zielt darauf ab, durch regelmäßige Schlüsselwechsel und rückwärtsgerichtete Geheimhaltung (backward secrecy) ältere Nachrichten zu schützen.
+
+Entsprechende Anforderungen an ein E-Rezept-FdV zur Handhabung und Entschlüsselung von Benachrichtigungen sind unter gemF_eRp_Notification# //TODO: Link zum Feature Dokument nachzulesen.
+
 ==  Anwendungsfall Benachrichtigungen aktivieren
-Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
+Als Versicherter möchte ich Benachrichtigungen auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
 
 Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+
+In diesem Aufruf sind auch die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Sind keine Kanäle angegeben werden per Default alle Benachrichtigungen aktiviert. Eine Liste der verfügbaren Kanäle finden sich in gemF_eRp_Notification# //TODO: Link zum Feature Dokument
+
+=== Vorbereitung
+Bevor die App sich für Notifications registrieren kann sind Vorbereitungen zu treffen und Daten zu erheben.
+
+==== App ID
+Eine konkrete App-Installation muss sich eine eigene ID generieren, die am Notification Service dem Benutzer zugewiesen wird. Dies kann eine UUID sein.
+
+==== Tenant ID
+Um sich als E-Rezept-FdV für Notifications zu registrieren muss der Hersteller sich zunächst über einen gematik internen Prozess registrieren. Die ausgestellte tenant_id muss dann bei der Registrierung Aufruf mitgegeben werden, damit sich mehrere Mandanten am E-Rezept-Fachdienst registrieren können.
+
+==== Push Token
+Für das Versenden von Benachrichtungen wird ein plattformspezifischer Push-Token benötigt. Dieser wird typischerweise vom Betriebssystem bereitgestellt.
+
+==== Initial Shared Secret
+Um die Verschlüsselung der Nachrichten zu ermöglichen muss das E-Rezept-FdV ein Initial Shared Secret (ISS) erstellen.
 
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/notifications/opt-in
-|Method     |GET
+|URI        |https://erp.app.ti-dienste.de/notifications/registerApp
+|Method     |POST
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-RegistrationToken: bk3RNwTe3H0:CI2k_HHwgIpoDKCIZvvDMExUdFQ3P1
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Darstellung des Tokens ist stark gekürzt.
 
-NOTE: Der X-Registration-Token transportiert das FCM-Registration-Token base64-codiert.
-|Payload    | -
+|Payload    | 
+[source,json]
+----
+{
+  "app_id": "string",
+  "tenant_id": "string",
+  "platform": "enum[iOS, Android, Huawei]",
+  "push_token": "string",
+  "initial_shared_secret": "string",
+  "channels": [
+    "[optional] enum[TASK, COMMUNICATION]"
+  ]
+}
+----
 |===
 
 *Response*
 [source,xml]
 ----
-HTTP/1.1 204 No Content
+HTTP/1.1 200 OK
 ----
 
 [cols="a,a"]
 [%autowidth]
 |===
 s|Code   s|Type Success
-|204  | No Content +
+|201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
 s|Code   s|Type Error
 |400  | Bad Request  +
@@ -55,35 +91,132 @@ s|Code   s|Type Error
 |===
 
 ==  Anwendungsfall Benachrichtigungen deaktivieren
-Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät deaktivieren. Das mobile Gerät wird aus dem Benachrichtigungsdienst entfernt und es werden keine Benachrichtigungen versendet.
+Als Versicherter möchte ich die Benachrichtigungsfunktion auf meinem mobilen Gerät deaktivieren. Dazu deaktiviert der Nutzer die Benachrichtigungsfunktion auf seinem Endgerät. Über interne Prozesse im NotificationService werden nach einem Zeitraum die entsprechenden Einträge zur App Installation gelöscht.
 
-Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+== Anwendungsfall Benachrichtungskanäle abrufen
+Als Versicherter möchte ich die für Notifications abonnierten Kanäle abrufen können.
 
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de//notifications/opt-out
+|URI        |https://erp.app.ti-dienste.de/notifications/channels?app_id=af199edb-4d7a-4da8-8a70-59378b8f668e
 |Method     |GET
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
-|Payload    |-
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Darstellung des Tokens ist stark gekürzt.
+
+|Payload    | -
 |===
 
-
 *Response*
-[source,xml]
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/json;charset=utf-8
+¦Payload ¦
+[source, json]
 ----
-HTTP/1.1 204 No Content
+{
+  "channels": [
+    "TASK",
+    "COMMUNICATION"
+  ]
+}
 ----
 
+|===
+
+Status Codes
 [cols="a,a"]
 |===
 s|Code   s|Type Success
-|204  | No Content +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderten Kanäle werden im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+== Anwendungsfall Benachrichtungskanäle verändern
+Als Versicherte mich ich entscheiden über welche Aktivitäten ich informiert werden möchte, um nur über bestimmte Vorgänge zu meinen E-Rezepten informiert zu werden.
+
+Folgende Events können auftreten, die dann über einen entsprechenden Kanal ausgeliefert werden.
+
+[%autowidth]
+|===
+s|event_id s| Kanal s| Auslöser
+|task.activate | TASK | Ein neues E-Rezept wurde für den Nutzer eingestellt.
+|task.accept | TASK | Ein E-Rezept des Nutzers wurde durch eine Apotheke vom E-Rezept-Fachdienst abgerufen.
+|task.close | TASK | Die Abgabe eines E-Rezept des Nutzers wurde vollzogen und die Informationen zur Abgabe zum Abruf vom E-Rezept-Fachdienst bereitgestellt.
+|task.abort | TASK | Ein E-Rezept des Nutzers wurde vom E-Rezept-Fachdienst gelöscht.
+|task.reject | TASK | Ein E-Rezept des Nutzers wurde durch eine Apotheke zurückgewiesen.
+|task.getbyId | TASK | Ein Vertreter hat ein E-Rezept des Nutzers vom E-Rezept-Fachdienst abgerufen.
+|communication.new | COMMUNICATION | Eine neue Nachricht für den Versicherten wurde dem E-Rezept-Fachdienst übergeben und kann abgerufen werden.
+|===
+
+In diesem Aufruf sind die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Nicht angegebene Kanäle werden nicht abonniert.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/notifications?app_id=f715c411-6d7c-4f7f-a396-a02b58319181
+|Method     |PATCH
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Darstellung des Tokens ist stark gekürzt.
+
+|Payload    | 
+[source,json]
+----
+{
+  "channels": [
+    "TASK"
+  ]
+}
+----
+|===
+
+*Response*
+[cols="h,a",separator=¦]
+|===
+¦HTTP Status Code¦200 OK
+¦HTTP Header ¦Content-Type: application/json;charset=utf-8
+¦Payload ¦
+[source,json]
+{
+  "channels": [
+    "TASK"
+  ]
+}
+
+|===
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet.#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
