@@ -13,14 +13,14 @@ Schlüssel für die Sicherung werden regelmäßig gewechselt, um ältere Nachric
 
 Der Fachdienst erhält das Geheimnis, leitet daraus monatsspezifische Schlüssel ab und speichert diese sicher. Alte Schlüssel werden gelöscht, außer dem aktuellsten. Das System zielt darauf ab, durch regelmäßige Schlüsselwechsel und rückwärtsgerichtete Geheimhaltung (backward secrecy) ältere Nachrichten zu schützen.
 
-Entsprechende Anforderungen an ein E-Rezept-FdV zur Handhabung und Entschlüsselung von Benachrichtigungen sind unter gemF_eRp_Notification# //TODO: Link zum Feature Dokument nachzulesen.
+Entsprechende Anforderungen an ein E-Rezept-FdV zur Handhabung und Entschlüsselung von Benachrichtigungen sind unter gemF_eRp_Notification unter link:https://fachportal.gematik.de/schnelleinstieg/downloadcenter/feature-dokumente[Featuredokumente Fachportal] nachzulesen.
 
 ==  Anwendungsfall Benachrichtigungen aktivieren
 Als Versicherter möchte ich Benachrichtigungen auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
 
 Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
-In diesem Aufruf sind auch die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Sind keine Kanäle angegeben werden per Default alle Benachrichtigungen aktiviert. Eine Liste der verfügbaren Kanäle finden sich in gemF_eRp_Notification# //TODO: Link zum Feature Dokument. 
+In diesem Aufruf sind auch die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Sind keine Kanäle angegeben werden per Default alle Benachrichtigungen aktiviert. Eine Liste der verfügbaren Kanäle finden sich in gemF_eRp_Notification auf link:https://fachportal.gematik.de/schnelleinstieg/downloadcenter/feature-dokumente[Featuredokumente Fachportal]
 
 === Vorbereitung
 Bevor die App sich für Notifications registrieren kann sind Vorbereitungen zu treffen und Daten zu erheben.
@@ -35,7 +35,7 @@ Um sich als E-Rezept-FdV für Notifications zu registrieren muss der Hersteller 
 Für das Versenden von Benachrichtungen wird ein plattformspezifischer Push-Token benötigt. Dieser wird typischerweise vom Betriebssystem bereitgestellt.
 
 ==== Initial Shared Secret
-Um die Verschlüsselung der Nachrichten zu ermöglichen muss das E-Rezept-FdV ein Initial Shared Secret (ISS) erstellen.
+Um die Verschlüsselung der Nachrichten zu ermöglichen, muss das E-Rezept-FdV ein Initial Shared Secret (ISS) erstellen.
 
 *Request*
 [cols="h,a"]
