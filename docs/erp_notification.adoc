@@ -23,12 +23,15 @@ Der Fachdienst erhält das Geheimnis, leitet daraus monatsspezifische Schlüssel
 
 Entsprechende Anforderungen an ein E-Rezept-FdV zur Handhabung und Entschlüsselung von Benachrichtigungen sind unter gemF_eRp_Notification# //TODO: Link zum Feature Dokument nachzulesen.
 
+== Abbonieren von Kanälen
+Das E-Rezept-FdV kann sich für verschiedene Kanäle
+
 ==  Anwendungsfall Benachrichtigungen aktivieren
 Als Versicherter möchte ich Benachrichtigungen auf meinem mobilen Gerät aktivieren, um Benachrichtigungen über neue Informationen auf dem E-Rezept-Fachdienst zu erhalten.
 
 Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
-In diesem Aufruf sind auch die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Sind keine Kanäle angegeben werden per Default alle Benachrichtigungen aktiviert. Eine Liste der verfügbaren Kanäle finden sich in gemF_eRp_Notification# //TODO: Link zum Feature Dokument
+In diesem Aufruf sind auch die Kanäle anzugeben, für die sich der Nutzer registrieren möchte. Sind keine Kanäle angegeben werden per Default alle Benachrichtigungen aktiviert. Eine Liste der verfügbaren Kanäle finden sich in gemF_eRp_Notification# //TODO: Link zum Feature Dokument.
 
 === Vorbereitung
 Bevor die App sich für Notifications registrieren kann sind Vorbereitungen zu treffen und Daten zu erheben.
@@ -166,7 +169,7 @@ s|Code   s|Type Error
 |===
 
 == Anwendungsfall Benachrichtungskanäle verändern
-Als Versicherte mich ich entscheiden über welche Aktivitäten ich informiert werden möchte, um nur über bestimmte Vorgänge zu meinen E-Rezepten informiert zu werden.
+Als Versicherte mich ich entscheiden über welche Aktivitäten ich informiert werden möchte, um nur über bestimmte Vorgänge zu meinen E-Rezepten informiert zu werden. Hierbei kann sich das E-Rezept-FdV für Kanäle, aber nicht die event_ids registrieren. Wenn ein Kanal registriert ist, erhält der Nutzer Benachrichtigungen für alle event_ids des Kanals.
 
 Folgende Events können auftreten, die dann über einen entsprechenden Kanal ausgeliefert werden.
 
