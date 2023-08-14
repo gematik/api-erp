@@ -1,0 +1,146 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: Fachdienst Notification Endpoints
+servers:
+  - url: 'https://erp.app.ti-dienste.de/notifications'
+  - url: 'https://erp-ref.app.ti-dienste.de/notifications'
+  - url: 'https://erp-dev.app.ti-dienste.de/notifications'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /registerApp:
+    post:
+      summary: Register a new App
+      operationId: registerApp
+      tags:
+        - App Registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                app_id:
+                  type: string
+                  description: unique id of the application installation
+                tenant_id:
+                  type: string
+                  description: unique id of the application installation of a tenant
+                platform:
+                  type: string
+                  description: Operating system of the App (iOS, Android, Huawei)
+                  enum: [iOS, Android, Huawei]
+                push_token:
+                  type: string
+                  description: App-specific identifier from the mobile operating system.
+                initial_shared_secret:
+                  type: string
+                  description: Secret key for message encryption.
+                channels:
+                  type: array
+                  description: Public encryption key for message encryption.
+                  items:
+                    type: string
+              required:
+                - accessToken
+                - app_id
+                - tenant_id
+                - platform
+                - push_token
+                - initial_shared_secret
+      responses:
+        '200':
+          description: The App was successfully registered.
+        '400':
+          description: Invalid request. One or more of the parameters are incorrect.
+        '401':
+          description: Unauthorized. The access token is invalid or expired.
+        '500':
+          description: An error occurred while processing the request.
+  /channels:
+    get:
+      summary: View the notification channel configuration
+      operationId: viewChannelConfig
+      tags:
+        - Channel Configuration
+      parameters:
+        - name: app_id
+          in: query
+          description: unique id of the application installation
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successfully retrieved the channel configuration.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channels:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - channels
+        '400':
+          description: Invalid request. One or more of the parameters are incorrect.
+        '404':
+          description: Not found. Channel configuration for the parameters are not available.
+        '500':
+          description: An error occurred while processing the request.
+    patch:
+      summary: Update the notification channel configuration
+      operationId: updateChannelConfig
+      tags:
+        - Channel Configuration
+      parameters:
+        - name: app_id
+          in: query
+          description: unique id of the application installation
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channels:
+                    type: array
+                    items:
+                      type: string
+                required:
+                  - app_id
+                  - channels
+      responses:
+        '200':
+          description: Successfully updated the channel configuration.
+          content:
+             application/json:
+              schema:
+                type: object
+                properties:
+                  channels:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Invalid request. One or more of the parameters are incorrect.
+        '401':
+          description: Unauthorized. The access token is invalid or expired.
+        '500':
+          description: An error occurred while processing the request.
