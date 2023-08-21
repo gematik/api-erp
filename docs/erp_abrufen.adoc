@@ -387,7 +387,7 @@ s|Code   s|Type Error
 |===
 
 == Qualifizierte Signatur des E-Rezepts prüfen
-Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst der Task des Workflows und der qualifiziert signierte Verordnungsdatensatz vor. Die Rechtmäßigkeit der elektronischen Verordnung wird mittels Prüfung der QES durch den Konnektor verifiziert. Nur bei gültiger qualifizierter elektronischer Signatur des E-Rezepts darf der Apotheker mit der Bearbeitung der Verordnung fortfahren. Für die Prüfung wird die soeben heruntergeladene PKCS#7-Datei in Base64-codierter Form an die SOAP-Schnittstelle der Signaturprüfung des Konnektors als http-POST-Operation geschickt.
+Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst der Task des Workflows und der qualifiziert signierte Verordnungsdatensatz vor. Die Rechtmäßigkeit der elektronischen Verordnung wird mittels Prüfung der QES durch den Konnektor verifiziert. Der E-Rezept-Fachdienst prüft die Signatur beim Einstellen des E-Rezepts. Die Apotheke kann sich auf diese Prüfung verlassen, hat aber auch die Möglichkeit die Signatur selbst zu prüfen. Für die Prüfung wird die soeben heruntergeladene PKCS#7-Datei in Base64-codierter Form an die SOAP-Schnittstelle der Signaturprüfung des Konnektors als http-POST-Operation geschickt.
 
 *Request*
 [cols="h,a"]
