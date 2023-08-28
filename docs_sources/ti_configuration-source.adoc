@@ -98,11 +98,10 @@ In Netzwerken, in denen stärkere Gateway Hard- und Software zum Einsatz kommt, 
 Ein Beispiel für eine Gateway Software, die diese Funktion standardmäßig aktiviert hat, ist die Open-source Lösung OPNsense. Sie basiert auf BSD und nutzt als DNS Dienst die Software Unbound.
 
 ==== Diagnose 
-Eine einfach DNS record abfrage kann mögliche Probleme bei der Namensauflösung aufzeigen. 
-Öffnen Sie hierfür ein Terminal unter Windows und geben folgende Zeile ein: `nslookup erp.zentral.erp.splitdns.ti-dienste.de`
+Eine einfach DNS Abfrage kann mögliche Probleme bei der Namensauflösung aufzeigen. 
+Öffnen Sie hierfür ein Terminal unter Windows und geben Sie folgende Zeile ein: `nslookup erp.zentral.erp.splitdns.ti-dienste.de`
 
 Erhalten Sie folgende Antwort, kann dies auf eine aktivierte _"DNS rebind protection"_ zurückzuführen sein.
-
 ....
 >nslookup erp.zentral.erp.splitdns.ti-dienste.de
 Server:  OPNsense.home
@@ -114,9 +113,10 @@ Address:  192.168.1.1
 ==== Lösung der Problematik
 Eine Ausnahme für die Auflösung der Adressen `splitdns.ti-dienste.de` und `*.telematik` für den Fachdienst des eRezeptes müssen in den DNS Einstellungen des DNS Servers eingetragen werden.
 
-Im Falle einer OPNsense Firewall ist dies im Web Interface in wenigen Schritten getan. Öffnen Sie die Weboberfläche und klicken Sie auf der linken Seite auf [Dienste], weiter auf [Unbound DNS] dort auf [Erweitert].
-Suchen Sie hier den Punkt [private Domains], tragen Sie dort die Adresse `splitdns.ti-dienste.de` ein und bestätigen Sie die Eingabe mit Enter. Führen Sie dies genauso mit der `*.telematik` Adresse durch. Wenn Sie
-dies abgeschlossen haben, scrollen Sie an das Ende der Seite und klicken Sie [Anwenden]. Der Dienst übernimmt nun die Einstellungen. 
+===== OPNsense-Konfiguration
+Im Falle einer OPNsense Firewall ist dies im Web Interface in wenigen Schritten getan. Öffnen Sie das Web Interface und klicken Sie auf der linken Seite auf [Dienste], weiter auf [Unbound DNS] und dort auf [Erweitert].
+Suchen Sie hier den Punkt [private Domains], tragen Sie dort die Adresse `splitdns.ti-dienste.de` ein und bestätigen Sie die Eingabe mit Enter. Führen Sie dies genauso mit der `*.telematik` Adresse durch. 
+Wenn Sie dies abgeschlossen haben, scrollen Sie an das Ende der Seite und klicken Sie [Anwenden]. Der Dienst übernimmt nun die Einstellungen. 
 
 ==== Kontrolle
 Eine erneute DNS Abfrage sollte nun die aufgelösten Adressen zurückgeben:
