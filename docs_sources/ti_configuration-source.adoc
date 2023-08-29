@@ -93,7 +93,7 @@ Eine Variante der direkten Namensauflösung für Adressen der Telematikinfrastru
 Die Alternative dazu nutzt den Konnektor für die Namensauflösung nicht direkt. In Netzwerken mit eigenem Domain Controller lässt sich ein domain-spezifischer Forwarder konfigurieren, mit dem die Adressen `splitdns.ti-dienste.de` und die Adressen mit `*.telematik` über den Konnektor in IP-Adressen der TI aufgelöst werden können.
 
 === Fehlerbehandlung der DNS Konfiguration
-In Netzwerken, in denen stärkere Gateway Hard- und Software zum Einsatz kommt, kann es sein, dass die Funktion der _"DNS rebind protection"_ aktiviert ist. Die DNS rebind protection ist im Wesentlichen als Sicherheitsfeature anzusehen und soll verhindern, dass im Internet aufgelöste FQDNs in eine private/lokale IP-Adresse (zB. für einen Phishing Server im lokalen Netz) übersetzt werden dürfen. Einige Dienste sind jedoch darauf ausgelegt, dass die Auflösung der FQDNs auch private/lokale IP-Adressen zurückgeben darf, so wie im Fall des eRezeptes. Die IP-Adressen hierfür stammen aus dem _"Shared address space"_. 
+In Netzwerken, in denen stärkere Gateway Hard- und Software zum Einsatz kommt, kann es sein, dass die Funktion der _"DNS rebinding protection"_ aktiviert ist. Die DNS rebinding protection ist im Wesentlichen als Sicherheitsfeature anzusehen und soll verhindern, dass im Internet aufgelöste FQDNs in eine private/lokale IP-Adresse (zB. für einen Phishing Server im lokalen Netz) übersetzt werden dürfen. Einige Dienste sind jedoch darauf ausgelegt, dass die Auflösung der FQDNs auch private/lokale IP-Adressen zurückgeben darf, so wie im Fall des E-Rezepts. Die IP-Adressen hierfür stammen aus dem _"shared address space"_. 
 
 Ein Beispiel für eine Gateway Software, die diese Funktion standardmäßig aktiviert hat, ist die Open-source Lösung OPNsense. Sie basiert auf BSD und nutzt als DNS Dienst die Software Unbound.
 
@@ -101,7 +101,7 @@ Ein Beispiel für eine Gateway Software, die diese Funktion standardmäßig akti
 Eine einfach DNS Abfrage kann mögliche Probleme bei der Namensauflösung aufzeigen. 
 Öffnen Sie hierfür ein Terminal unter Windows und geben Sie folgende Zeile ein: `nslookup erp.zentral.erp.splitdns.ti-dienste.de`
 
-Erhalten Sie folgende Antwort, kann dies auf eine aktivierte _"DNS rebind protection"_ zurückzuführen sein.
+Erhalten Sie folgende Antwort, kann dies auf eine aktivierte _"DNS rebinding protection"_ zurückzuführen sein.
 ....
 >nslookup erp.zentral.erp.splitdns.ti-dienste.de
 Server:  OPNsense.home
@@ -111,7 +111,7 @@ Address:  192.168.1.1
 ....
 
 ==== Lösung der Problematik
-Eine Ausnahme für die Auflösung der Adressen `splitdns.ti-dienste.de` und `*.telematik` für den Fachdienst des eRezeptes müssen in den DNS Einstellungen des DNS Servers eingetragen werden.
+Eine Ausnahme für die Auflösung der Adressen `splitdns.ti-dienste.de` und `*.telematik` für den Fachdienst des E-Rezepts müssen in den DNS Einstellungen des DNS Servers eingetragen werden.
 
 ===== OPNsense-Konfiguration
 Im Falle einer OPNsense Firewall ist dies im Web Interface in wenigen Schritten getan. Öffnen Sie das Web Interface und klicken Sie auf der linken Seite auf [Dienste], weiter auf [Unbound DNS] und dort auf [Erweitert].
