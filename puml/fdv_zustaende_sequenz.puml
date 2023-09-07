@@ -14,7 +14,7 @@ FD -> AVS: E-Rezept
 AVS -> Apotheker: showEPrescription()
 end
 
-group Medikament abgeben
+group Dispensierinformation bereitstellen
 Apotheker -> AVS: dispenseMedication()
 AVS -> FD: POST /Task/<id>/$dispense
 FD -> FD: storeMedicationDispense()
@@ -39,7 +39,7 @@ AVS --> Apotheker: ok
 Apotheker -> Versicherter: Abgabe neues Medikament
 end
 
-group Medikament zurückgeben
+group Dispensierinformation löschen
 Versicherter -> Apotheker: Bitte um Rückgabe
 Apotheker -> Apotheker: Medikament zurücknehmen
 Apotheker -> AVS: deleteDispense()
@@ -47,13 +47,12 @@ AVS -> FD: POST /Task/<id>/$reject
 FD -> FD: deleteReferenceForMedicationDispense()
 FD -> FD: deleteMedicationDispense()
 FD -> FD: setLastModified()
-FD -> FD: deleteLastMedicationDispense(currentTime())
 FD -> FD: updateTaskStatus(id, 'ready')
 FD --> AVS: ok
 AVS --> Apotheker: ok
 end
 
-group Quittung ziehen
+group E-Rezept Abgabe vollziehen 
 Apotheker -> AVS: getReceipt()
 AVS -> FD: POST /Task/<id>/$close
 FD -> FD: updateTaskStatus(id, 'completed')
