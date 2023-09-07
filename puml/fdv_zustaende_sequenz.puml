@@ -5,7 +5,7 @@ participant "E-Rezept-Fachdienst" as FD
 participant AVS
 actor Apotheker
 
-group E-Rezept an Apotheke übergeben
+group E-Rezept abrufen
 Versicherter -> Apotheker: Zeige Rezeptcode
 Apotheker -> AVS: scanCode():E-Rezept-Token
 AVS -> FD: POST /Task/<id>/$accept
