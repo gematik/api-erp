@@ -16,41 +16,46 @@ if ! grep -q "$required_asciidoctor_diagram_version" <<<"$actual_asciidoctor_dia
     exit 1
 fi
 
-# RUN_1: creates images from the puml files and will store them in /puml/images
-echo "Creating puml images"
+# STAGE_1: creates images from the puml files and will store them in /puml/images
 
 # prepare
 cd "$(dirname "$0")" || exit
-rm ../../images/puml_*
+# rm ../../images/puml_*
 
 # loop through all puml files and create the image
 for filename in $(find ../../puml -name '*.puml'); do
 
     filebase=$(basename -- "$filename") # test.adoc
-
     name="${filebase%.*}" # test
 
-    pumlPath=../puml/${name}.puml
-    newFileRoot=../puml/${name}
-    newFileName=${newFileRoot//-source/}
-    echo "Creating Puml ${name}"
-    tempAdocFile=../../docs_sources/${name}.adoc
+    if ! git diff --quiet -- "$filename"; then
+        echo "$filebase has been modified. Creating Puml"
 
-    # creates a temporary adoc file in order to render with asciidoctor-diagram
-    touch ${tempAdocFile}
-    echo "[plantuml, target=../../images/puml_${name}, format=png]
+        pumlPath=../puml/${name}.puml
+        newFileRoot=../puml/${name}
+        newFileName=${newFileRoot//-source/}
+        echo "Creating Puml ${name}"
+
+        tempAdocFile=../../docs_sources/${name}.adoc
+
+        # creates a temporary adoc file in order to render with asciidoctor-diagram
+        touch ${tempAdocFile}
+        echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
 include::${pumlPath}[]
 ...." >${tempAdocFile}
-    asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
-    rm ../../docs_sources/${name}.adoc
+        asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
+        rm ../../docs_sources/${name}.adoc
+    fi
+
 done
 
 # cleanup temp files
-rm -r ../puml
+if [ -d "../puml" ]; then
+    rm -r ../puml
+fi
 
-# RUN_2 this creates new adoc files in /docs/resources
-echo "Creating source files"
+# STAGE_2 this creates new adoc files in /docs/resources
 
 for filename in $(find ../../docs_sources -name '*.adoc'); do
     newFileName=${filename//-source/}
