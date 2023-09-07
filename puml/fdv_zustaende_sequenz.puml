@@ -1,0 +1,65 @@
+@startuml Aktualisierte Abgabeinformationen
+
+actor Versicherter
+participant "E-Rezept-Fachdienst" as FD
+participant AVS
+actor Apotheker
+
+group E-Rezept an Apotheke übergeben
+Versicherter -> Apotheker: Zeige Rezeptcode
+Apotheker -> AVS: scanCode():E-Rezept-Token
+AVS -> FD: POST /Task/<id>/$accept
+FD -> FD: updateTaskStatus(id, 'in-progress')
+FD -> AVS: E-Rezept
+AVS -> Apotheker: showEPrescription()
+end
+
+group Medikament abgeben
+Apotheker -> AVS: dispenseMedication()
+AVS -> FD: POST /Task/<id>/$dispense
+FD -> FD: storeMedicationDispense()
+FD -> FD: setReferenceForMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: setLastMedicationDispense(currentTime())
+FD --> AVS: ok
+AVS --> Apotheker: ok
+Apotheker -> Versicherter: Übergabe Medikament
+end
+
+group Aktualisierung der Dispensierinformation
+Versicherter -> Apotheker: Bitte um Aktualisierung der Dispensierinformation
+Apotheker -> AVS: updateMedication()
+AVS -> FD: PUT /Task/<id>/$dispense
+FD -> FD: replaceMedicationDispense()
+FD -> FD: setReferenceForMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: setLastMedicationDispense(currentTime())
+FD --> AVS: ok
+AVS --> Apotheker: ok
+Apotheker -> Versicherter: Abgabe neues Medikament
+end
+
+group Medikament zurückgeben
+Versicherter -> Apotheker: Bitte um Rückgabe
+Apotheker -> Apotheker: Medikament zurücknehmen
+Apotheker -> AVS: deleteDispense()
+AVS -> FD: POST /Task/<id>/$reject
+FD -> FD: deleteReferenceForMedicationDispense()
+FD -> FD: deleteMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: deleteLastMedicationDispense(currentTime())
+FD -> FD: updateTaskStatus(id, 'ready')
+FD --> AVS: ok
+AVS --> Apotheker: ok
+end
+
+group Quittung ziehen
+Apotheker -> AVS: getReceipt()
+AVS -> FD: POST /Task/<id>/$close
+FD -> FD: updateTaskStatus(id, 'completed')
+FD -> FD: generateReceipt()
+FD -> AVS: ePrescriptionReceipt()
+end
+
+
+@enduml
