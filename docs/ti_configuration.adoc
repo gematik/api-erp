@@ -141,3 +141,31 @@ Name:    erp.zentral.erp.splitdns.ti-dienste.de
 Addresses:  100.102.28.10
           100.102.29.10
 ....
+
+== Fehlerbehandlung Konnektor
+
+In besonderen Konstellationen kann es zu Fehlern im Verbindungsaufbau der TI kommen. Folgende Probleme und Workarounds wurden derzeit identifiziert und definiert.
+
+=== Verwendung SMC-B G2 mit secunet Konnektor
+
+==== Problemstellung
+Der secunet Konnektor bietet Funktionalitäten an, welche die Migration von RSA zu ECC vorbereiten. Es ist zu beachten, dass Smartcards der Generation G2 (bspw. SMC-B) noch keine ECC Zertifikate beinhalten und somit kein ECC unterstützen können und somit der TLS-Verbindungsaufbau (bspw. zwischen Fachmodul VSDM und Intermediär VSDM) auf Basis ECC nicht funktioniert.
+
+==== Lösung
+Es ist bei der Verwendung von Smartcards G2 darauf zu achten, dass im Setting des secunet Konnektors für TLS die Verwendung von ECC-Ciphersuiten deaktiviert ist.
+
+image:SMC-B_ECC_secunet_setting.png[width=100%]
+
+=== Fehlerhafter VSDM Aufruf mit PN3
+
+==== Problemstellung
+Der VSDM++ Abruf für das Feature "eGK in der Apotheke" läuft in einigen Fällen in einen Timeout. Das stellt sich dadurch da, dass der Aufruf ca. 25 Sekunden dauert und mit einem Prüfungsnachweis mit Code "3" quittiert wird.
+
+Dies betrifft AVS-Systeme mit einem secunet-Konnektor.
+
+==== Lösung
+Die Konnektor-Einstellung "nonQES-Authentifizierungstimeout" wird von 3 Sekunden auf 6 Sekunden erhöht. Das führt dazu, dass der Timeout für OCSP-Abfragen erhöht wird. Hierbei reduziert sich die Fehlerrate signifikant. Es ist darauf zu achten, dass dies nur von AVS zu implementieren ist, wenn die Operation ReadVSD() asynchon umgesetzt wird, da es sonst zu Seiteneffekten kommen kann.
+
+Möglicherweise sind durch diese Einstellung auch andere TI-Anwendungen betroffen, bspw. KIM, VZD.
+
+image:secunet-ocsp-timeout.png[width=100%]
