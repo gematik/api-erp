@@ -29,7 +29,7 @@ end
 group Aktualisierung der Dispensierinformationen
 Versicherter -> Apotheker: Bitte um Aktualisierung der Dispensierinformation
 Apotheker -> AVS: updateMedication()
-AVS -> FD: PUT /Task/<id>/$dispense
+AVS -> FD: POST /Task/<id>/$dispense
 FD -> FD: replaceMedicationDispense()
 FD -> FD: setReferenceForMedicationDispense()
 FD -> FD: setLastModified()
@@ -48,6 +48,17 @@ FD -> FD: deleteReferenceForMedicationDispense()
 FD -> FD: deleteMedicationDispense()
 FD -> FD: setLastModified()
 FD -> FD: updateTaskStatus(id, 'ready')
+FD --> AVS: ok
+AVS --> Apotheker: ok
+end
+
+group E-Rezept löschen
+Apotheker -> AVS: deletePrescription()
+AVS -> FD: POST /Task/<id>/$abort
+FD -> FD: deleteReferenceForMedicationDispense()
+FD -> FD: deleteMedicationDispense()
+FD -> FD: deleteEPrescription()
+FD -> FD: deleteTask()
 FD --> AVS: ok
 AVS --> Apotheker: ok
 end
