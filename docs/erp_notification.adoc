@@ -46,7 +46,7 @@ Um sich als E-Rezept-FdV für Notifications zu registrieren muss der Hersteller 
 Für das Versenden von Benachrichtungen wird ein plattformspezifischer Push-Token benötigt. Dieser wird typischerweise vom Betriebssystem bereitgestellt.
 
 ==== Initial Shared Secret
-Um die Verschlüsselung der Nachrichten zu ermöglichen, muss das E-Rezept-FdV ein Initial Shared Secret (ISS) erstellen.
+Um die Verschlüsselung der Nachrichten zu ermöglichen, muss das E-Rezept-FdV ein Initial Shared Secret (ISS) erstellen. Weiterhin muss dem E-Rezept-Fachdienst der Zeitpunkt der Erstellung des Schlüssels mitgegeben werden, da die Ableitung der Schlüssel auf Zeit basiert.
 
 *Request*
 [cols="h,a"]
@@ -69,6 +69,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
   "platform": "enum[iOS, Android, Huawei]",
   "push_token": "string",
   "initial_shared_secret": "string",
+  "time_iss_created": "string",
   "channels": [
     "[optional] enum[TASK, COMMUNICATION]"
   ]
