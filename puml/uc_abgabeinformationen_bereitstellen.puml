@@ -1,0 +1,25 @@
+@startuml Aktualisierte Abgabeinformationen
+
+actor Versicherter
+participant "E-Rezept-Fachdienst" as FD
+participant "Primärsystem abgebende LEI" as AVS
+actor "Mitarbeiter LEI" as Apotheker
+
+group Bereitstellen der Abgabeinformationen
+Apotheker -> Apotheker: E-Rezept dispensieren()
+Apotheker -> AVS: Abgabeinformationen bereitstellen()
+AVS -> AVS: MedicationDispense erstellen()
+AVS -> AVS: Rezept-ID und AccessCode des E-Rezepts bestimmen()
+AVS -> FD: POST /Task/{Rezept-ID}/$dispense(AuthN-Token, Geheimnis, MedicationDispense)
+
+FD -> FD: AccessCode prüfen()
+FD -> FD: E-Rezept-Status und Geheimnis prüfen()
+FD -> FD: MedicationDispense speichern()
+FD -> FD: Referenz zur MedicationDispense im Task speichern()
+FD -> FD: Task.lastModified aktualisieren(aktuelleZeit())
+FD -> FD: Task.extension:lastMedicationDispense setzen(aktuelleZeit())
+FD --> AVS: :Status
+AVS --> Apotheker: :Status
+end
+
+@enduml
