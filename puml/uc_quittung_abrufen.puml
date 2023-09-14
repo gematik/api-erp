@@ -1,0 +1,44 @@
+@startuml Quittung Abrufen
+skinparam sequenceReferenceBackgroundColor LightYellow
+mainframe **UC 4.4 Quittung abrufen**
+
+actor "Mitarbeiter LEI" as Apotheker
+participant "Primärsystem abgebende LEI" as AVS
+participant "E-Rezept-Fachdienst" as FD
+participant "Identity Provider" as IDP
+
+Apotheker -> Apotheker: E-Rezept Workflow abschließen()
+Apotheker -> AVS: Quittung abrufen()
+
+opt
+    AVS -> AVS: MedicationDispense erstellen()
+end
+
+AVS -> AVS: Rezept-ID und AccessCode des E-Rezepts bestimmen()
+
+opt#LightYellow kein gültiger AuthN-Token
+|||
+    ref#LightYellow over FD, AVS, IDP: <b>UC 5.2 - AuthN-Token durch LEI anfordern</b>
+|||
+end
+
+AVS -> FD: POST /Task/{Rezept-ID}/$close(AuthN-Token, Geheimnis, opt. MedicationDispense)
+
+FD -> FD: AccessCode prüfen()
+FD -> FD: E-Rezept-Status und Geheimnis prüfen()
+
+opt
+    FD -> FD: MedicationDispense speichern()
+end
+
+FD -> FD: Task.lastModified aktualisieren(aktuelleZeit())
+FD -> FD: Task.extension:lastMedicationDispense löschen
+
+opt
+    FD -> FD: Task.input:MedicationDispense aktualisieren
+end
+
+FD --> AVS: :Status
+AVS --> Apotheker: :Status
+
+@enduml
