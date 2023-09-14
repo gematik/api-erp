@@ -7,8 +7,6 @@ participant "Primärsystem abgebende LEI" as AVS
 participant "E-Rezept-Fachdienst" as FD
 participant "Identity Provider" as IDP
 
-
-group Bereitstellen der Abgabeinformationen
 Apotheker -> Apotheker: E-Rezept dispensieren()
 Apotheker -> AVS: Abgabeinformationen bereitstellen()
 AVS -> AVS: MedicationDispense erstellen()
@@ -28,6 +26,5 @@ FD -> FD: Task.lastModified aktualisieren(aktuelleZeit())
 FD -> FD: Task.extension:lastMedicationDispense setzen(aktuelleZeit())
 FD --> AVS: :Status
 AVS --> Apotheker: :Status
-end
 
 @enduml
