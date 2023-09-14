@@ -196,8 +196,19 @@ Status Codes
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine gültige Antwort des OCSP-Responders geliefert.#
 |===
 
+== Anwendungsfall Abrechnungsinformation zum Ändern abrufen
 
-==  Anwendungsfall Abrechnungsinformation zum Ändern abrufen
+.Umsetzungsstand
+[%autowidth, cols="2*" options="header"]
+|===
+|Plattform|Status
+|iOS| in planung
+|Android| in planung
+|Desktop| nicht implementiert
+|FD | implementiert
+|===
+
+
 Falls die Abrechnung eine Korrektur benötigt, kann der Versicherte die Apotheke um eine Änderung des PKV-Abgabedatensatzes bitten. Hierzu übermittelt der Versicherte der Apotheke den AccessCode zum Ändern mittels einer Nachricht über das E-Rezept-FdV oder durch Anzeige zum Abscannen im E-Rezept-FdV. Mit diesem AccessCode ruft die Apotheke die Daten des zu ändernden PKV-Abgabedatensatz vom E-Rezept-Fachdienst ab.
 
 Rückgabewert ist ein Bundle, welches folgende Einträge enthält:
@@ -1087,6 +1098,17 @@ s|Code   s|Type Error
 
 
 == Anwendungsfall Abrechnungsinformationen durch den Versicherten abrufen
+
+.Umsetzungsstand
+[%autowidth, cols="2" options="header"]
+|===
+|Plattform|Status
+|iOS| in planung
+|Android| in planung
+|Desktop| nicht implementiert
+|FD | implementiert
+|===
+
 Als Versicherter möchte ich auf meine Abrechnungsinformationen zugreifen und diese in der E-Rezept-App einsehen können. Sind die Abrechunngsinformationen nicht bekannt (z.B. beim Wechsel des Smartphones), können diese mit einem GET-Befehl abgerufen werden. Werden ein oder mehrere ChargeItems gefunden, erfolgt die Rückgabe als Liste aller gefundenen ChargeItems ohne die im ChargeItem enthaltenen Referenzen.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`.
@@ -1586,6 +1608,17 @@ s|Code   s|Type Error
 
 
 == Anwendungsfall Abrechnungsinformationen durch den Versicherten ändern
+
+.Umsetzungsstand
+[%autowidth, cols="2" options="header"]
+|===
+|Plattform|Status
+|iOS| in planung
+|Android| in planung
+|Desktop| nicht implementiert
+|FD | implementiert
+|===
+
 Als Versicherter möchte ich vorhandene Abrechnungsinformationen ändern, indem ich markiere, ob ich meine Abrechnungsdaten bei Abrechnungsstellen eingereicht habe.
 
 Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
@@ -1757,6 +1790,17 @@ s|Code   s|Type Error
 
 
 ==  Anwendungsfall Löschen der Abrechnungsinformationen durch den Versicherten
+
+.Umsetzungsstand
+[%autowidth, cols="2" options="header"]
+|===
+|Plattform|Status
+|iOS| implementiert
+|Android| implementiert
+|Desktop| nicht implementiert
+|FD | implementiert
+|===
+
 Als Versicherter möchte ich eine durch die Apotheke eingestellte Abrechnungsinformation löschen. Das Löschen erfolgt unwiederbringlich.
 
 Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/ChargeItem`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Consent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
