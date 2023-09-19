@@ -22,9 +22,9 @@ FD -> FD: AccessCode prüfen()
 FD -> FD: E-Rezept-Status und Geheimnis prüfen()
 FD -> FD: MedicationDispense speichern()
 FD -> FD: Referenz zur MedicationDispense im Task speichern()
-FD -> FD: Task.lastModified aktualisieren(aktuelleZeit())
-FD -> FD: Task.extension:lastMedicationDispense setzen(aktuelleZeit())
-FD --> AVS: :Status
-AVS --> Apotheker: :Status
+FD -> FD: Zeitstempel der Abgabeinformationen setzen(aktuelleZeit())
+FD -> FD: Datenzugriff protokollieren()
+FD --> AVS: :Abgabeinformation
+AVS --> Apotheker: :Abgabeinformation
 
 @enduml

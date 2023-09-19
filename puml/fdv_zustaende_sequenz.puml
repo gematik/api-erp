@@ -46,6 +46,7 @@ Apotheker -> AVS: deleteDispense()
 AVS -> FD: POST /Task/<id>/$reject
 FD -> FD: deleteReferenceForMedicationDispense()
 FD -> FD: deleteMedicationDispense()
+FD -> FD: deleteTimeStampLastMedicationDispense()
 FD -> FD: setLastModified()
 FD -> FD: updateTaskStatus(id, 'ready')
 FD --> AVS: ok

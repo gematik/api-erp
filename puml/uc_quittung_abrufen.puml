@@ -38,7 +38,11 @@ opt
     FD -> FD: Task.input:MedicationDispense aktualisieren
 end
 
-FD --> AVS: :Status
-AVS --> Apotheker: :Status
+FD -> FD: E-Rezept Status in "quittiert" ändern()
+FD -> FD: Quittung erzeugen()
+FD -> FD: Datenzugriff protokollieren()
+
+FD --> AVS: :Receipt
+AVS --> Apotheker: :Receipt
 
 @enduml
