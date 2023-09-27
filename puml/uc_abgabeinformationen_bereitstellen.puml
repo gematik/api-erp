@@ -1,6 +1,6 @@
-@startuml Abgabeinformationen bereitstellen
+@startuml Dispensierinformationen bereitstellen
 skinparam sequenceReferenceBackgroundColor LightYellow
-mainframe **UC 4.X Abgabeinformationen durch Abgebenden bereitstellen**
+mainframe **UC 4.16 Dispensierinformationen durch Abgebenden bereitstellen**
 
 actor "Mitarbeiter LEI" as Apotheker
 participant "Primärsystem abgebende LEI" as AVS
@@ -8,7 +8,7 @@ participant "E-Rezept-Fachdienst" as FD
 participant "Identity Provider" as IDP
 
 Apotheker -> Apotheker: E-Rezept dispensieren()
-Apotheker -> AVS: Abgabeinformationen bereitstellen()
+Apotheker -> AVS: Dispensierinformationen bereitstellen()
 AVS -> AVS: MedicationDispense erstellen()
 AVS -> AVS: Rezept-ID und AccessCode des E-Rezepts bestimmen()
 opt#LightYellow kein gültiger AuthN-Token
@@ -24,7 +24,7 @@ FD -> FD: MedicationDispense speichern()
 FD -> FD: Referenz zur MedicationDispense im Task speichern()
 FD -> FD: Zeitstempel der Abgabeinformationen setzen(aktuelleZeit())
 FD -> FD: Datenzugriff protokollieren()
-FD --> AVS: :Abgabeinformation
-AVS --> Apotheker: :Abgabeinformation
+FD --> AVS: :Dispensierinformation
+AVS --> Apotheker: :Dispensierinformation
 
 @enduml
