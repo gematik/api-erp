@@ -159,9 +159,9 @@ image:SMC-B_ECC_secunet_setting.png[width=100%]
 === Fehlerhafter VSDM Aufruf mit PN3
 
 ==== Problemstellung
-Der VSDM++ Abruf für das Feature "eGK in der Apotheke" läuft in einigen Fällen in einen Timeout. Das stellt sich dadurch da, dass der Aufruf ca. 25 Sekunden dauert und mit einem Prüfungsnachweis mit Code "3" quittiert wird.
+Der VSDM++-Abruf für das Feature „eGK in der Apotheke“ führt in einigen Fällen zu einem Timeout. Dies äußert sich dadurch, dass der Abruf etwa 25 Sekunden dauert und mit einem Prüfnachweis mit dem Code „3“ quittiert wird.
 
-Dies betrifft AVS-Systeme mit einem secunet-Konnektor.
+Dies betrifft nachweislich AVS-Systeme mit einem secunet-Konnektor. Andere Konfigurationen mit einem RISE- oder KoCo-Konnektor können ebenso von einer signifikanten Anzahl an Prüfnachweisen mit dem Code „3“ betroffen sein.
 
 ==== Lösung
 Die Konnektor-Einstellung "nonQES-Authentifizierungstimeout" wird von 3 Sekunden auf 6 Sekunden erhöht. Das führt dazu, dass der Timeout für OCSP-Abfragen erhöht wird. Hierbei reduziert sich die Fehlerrate signifikant. Es ist darauf zu achten, dass dies nur von AVS zu implementieren ist, wenn die Operation ReadVSD() asynchon umgesetzt wird, da es sonst zu Seiteneffekten kommen kann.
