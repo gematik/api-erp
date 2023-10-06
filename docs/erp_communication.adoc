@@ -443,30 +443,15 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         </identifier>
     </recipient>
     <payload>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
-            <extension url="onPremise">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="delivery">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="shipment">
-                <valueBoolean value="true" />
-            </extension>
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
-                <code value="10" />
-            </valueCoding>
-        </extension>
-        <contentString value="Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten." />
+        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;info_text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickUpCodeHR&quot;: &quot;12341234&quot;, &quot;pickUpCodeDMC&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;}" />
     </payload>
 </Communication>
 ----
-NOTE: Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">` dargestellt von den angefragten Optionen bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern.
+NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
-NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
+NOTE: In der Extension .payload.extension:OfferedSupplyOptions kann das AVS die zur Verfügung gestellten Optionen zur Belieferung angeben. Im JSON unter "supplyOptionsType" wird die ausgewählte Belieferungsart angegeben.
+
+NOTE: Die Extension .payload.extension:AvailabilityStatus kann genutzt werden, um anzugeben, wann eine Belieferung möglich ist. Die möglichen Werte sind in https://simplifier.net/erezept-workflow/gem-erp-cs-availabilitystatus definiert.
 |===
 
 
@@ -490,38 +475,20 @@ Location:
     </basedOn>
     <status value="unknown" />
     <sent value="2020-03-12T18:01:10+00:00" />
- (1)
     <recipient>
         <identifier>
             <system value="http://fhir.de/sid/gkv/kvid-10" />
             <value value="X234567890" />
         </identifier>
     </recipient>
-    <sender> (2)
+    <sender>
         <identifier>
             <system value="https://gematik.de/fhir/sid/telematik-id" />
             <value value="606358757" />
         </identifier>
     </sender>
     <payload>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">
-            <extension url="onPremise">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="delivery">
-                <valueBoolean value="true" />
-            </extension>
-            <extension url="shipment">
-                <valueBoolean value="true" />
-            </extension>
-        </extension>
-        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_AvailabilityStatus" />
-                <code value="10" />
-            </valueCoding>
-        </extension>
-        <contentString value="Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten." />
+        <contentString value="{&quot;version&quot;: 1,&quot;supplyOptionsType&quot;: &quot;onPremise&quot;,&quot;info_text&quot;: &quot;Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten.&quot;,&quot;url&quot;: &quot;https://sonnenschein-apotheke.de&quot;}" />
     </payload>
 </Communication>
 ----
@@ -594,7 +561,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     }
   }],
   "payload":  [{
-    "contentString": "{ "\"version\": 1, \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
+    "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"delivery\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"hint\": \"Bitte im Morsecode klingeln: -.-.\", \"phone\": \"004916094858168\" }"
   }]
 }
 ----

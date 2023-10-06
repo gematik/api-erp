@@ -108,9 +108,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 include::../resources/examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
 ----
-NOTE: Die Apotheke antwortet mit den angebotenen Belieferungsoptionen, die wie hier in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType">` dargestellt von den angefragten Optionen bei `shipment` abweichen, d.h. die Apotheke bietet zusätzlich an, das Medikament per Post zu liefern.
+NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
-NOTE: Der `AvailabilityStatus` gibt mit dem Beispielwert `10` in `<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AvailabilityState">` an, dass das angefragte Medikament vorrätig und sofort belieferbar ist.
+NOTE: In der Extension .payload.extension:OfferedSupplyOptions kann das AVS die zur Verfügung gestellten Optionen zur Belieferung angeben. Im JSON unter "supplyOptionsType" wird die ausgewählte Belieferungsart angegeben.
+
+NOTE: Die Extension .payload.extension:AvailabilityStatus kann genutzt werden, um anzugeben, wann eine Belieferung möglich ist. Die möglichen Werte sind in https://simplifier.net/erezept-workflow/gem-erp-cs-availabilitystatus definiert.
 |===
 
 
