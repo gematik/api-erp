@@ -123,6 +123,7 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 ## Bekannte Fehler im Fachdienst
 * Referenzen in einigen responses des Fachdienstes sind noch nicht FHIR konform (bsp: Task.input oder erneutes Abrufen der Quittung). Da dies ein breaking change ist, wird dies in einer späteren Version behoben
+* Bis zum Release der Version 1.12, die für Dezember 2023 geplant ist, werden die Schlüsseltabellen 'NORMGROESSE' und 'DARREICHUNGSFORM' nicht validiert. Diese werden in den [Medication Profilen](https://simplifier.net/erezept/~resources?category=Profile&corebasetype=Medication&sortBy=RankScore_desc) der KBV verwendet. Der Issue kann in [ERPFIND-533](https://service.gematik.de/browse/ERPFIND-533) verfolgt werden.
 
 ## Lizenzbedingungen
 
