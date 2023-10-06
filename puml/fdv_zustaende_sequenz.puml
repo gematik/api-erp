@@ -1,0 +1,75 @@
+@startuml Aktualisierte Abgabeinformationen
+
+actor Versicherter
+participant "E-Rezept-Fachdienst" as FD
+participant AVS
+actor Apotheker
+
+group E-Rezept abrufen
+Versicherter -> Apotheker: Zeige Rezeptcode
+Apotheker -> AVS: scanCode():E-Rezept-Token
+AVS -> FD: POST /Task/<id>/$accept
+FD -> FD: updateTaskStatus(id, 'in-progress')
+FD -> AVS: E-Rezept
+AVS -> Apotheker: showEPrescription()
+end
+
+group Bereitstellen der Dispensierinformationen
+Apotheker -> AVS: dispenseMedication()
+AVS -> FD: POST /Task/<id>/$dispense
+FD -> FD: storeMedicationDispense()
+FD -> FD: setReferenceForMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: setLastMedicationDispense(currentTime())
+FD --> AVS: ok
+AVS --> Apotheker: ok
+Apotheker -> Versicherter: Übergabe Medikament
+end
+
+group Aktualisierung der Dispensierinformationen
+Versicherter -> Apotheker: Bitte um Aktualisierung der Dispensierinformation
+Apotheker -> AVS: updateMedication()
+AVS -> FD: POST /Task/<id>/$dispense
+FD -> FD: replaceMedicationDispense()
+FD -> FD: setReferenceForMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: setLastMedicationDispense(currentTime())
+FD --> AVS: ok
+AVS --> Apotheker: ok
+Apotheker -> Versicherter: Abgabe neues Medikament
+end
+
+group Löschen der Dispensierinformationen
+Versicherter -> Apotheker: Bitte um Rückgabe
+Apotheker -> Apotheker: Medikament zurücknehmen
+Apotheker -> AVS: deleteDispense()
+AVS -> FD: POST /Task/<id>/$reject
+FD -> FD: deleteReferenceForMedicationDispense()
+FD -> FD: deleteMedicationDispense()
+FD -> FD: setLastModified()
+FD -> FD: updateTaskStatus(id, 'ready')
+FD --> AVS: ok
+AVS --> Apotheker: ok
+end
+
+group E-Rezept löschen
+Apotheker -> AVS: deletePrescription()
+AVS -> FD: POST /Task/<id>/$abort
+FD -> FD: deleteReferenceForMedicationDispense()
+FD -> FD: deleteMedicationDispense()
+FD -> FD: deleteEPrescription()
+FD -> FD: deleteTask()
+FD --> AVS: ok
+AVS --> Apotheker: ok
+end
+
+group E-Rezept Abgabe vollziehen 
+Apotheker -> AVS: getReceipt()
+AVS -> FD: POST /Task/<id>/$close
+FD -> FD: updateTaskStatus(id, 'completed')
+FD -> FD: generateReceipt()
+FD -> AVS: ePrescriptionReceipt()
+end
+
+
+@enduml
