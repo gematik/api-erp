@@ -1300,9 +1300,12 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <Bundle xmlns="http://hl7.org/fhir">
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_CloseOperationInputBundle|1.2" />
+    </meta>
     <type value="collection"/>
     <entry>
-        <fullUrl value="MedicationDispense/a3ddc2b1-826d-4b81-87b2-558834e00f50" />
+        <fullUrl value="urn:uuid:a3ddc2b1-826d-4b81-87b2-558834e00f50" />
         <resource>
             <MedicationDispense>
                 <id value="a3ddc2b1-826d-4b81-87b2-558834e00f50" />
@@ -1315,6 +1318,16 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                         <meta>
                             <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
                         </meta>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type">
+                            <valueCodeableConcept>
+                                <coding>
+                                    <system value="http://snomed.info/sct"/>
+                                    <version value="http://snomed.info/sct/900000000000207008/version/20220331"/>
+                                    <code value="763158003"/>
+                                    <display value="Medicinal product (product)"/>
+                                </coding>
+                            </valueCodeableConcept>
+                        </extension>
                         <extension url="http://fhir.de/StructureDefinition/normgroesse">
                             <valueCode value="N1" />
                         </extension>
@@ -1340,15 +1353,6 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                                 <code value="IHP" />
                             </coding>
                         </form>
-                        <amount>
-                            <numerator>
-                                <value value="1" />
-                                <unit value="St" />
-                            </numerator>
-                            <denominator>
-                                <value value="1" />
-                            </denominator>
-                        </amount>
                     </Medication>
                 </contained>
                 <identifier>
@@ -1357,7 +1361,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                 </identifier>
                 <status value="completed" />
                 <medicationReference>
-                    <reference value="Medication/c2b10a5e-3d71-434c-86e0-824af208a2bf" />
+                    <reference value="#c2b10a5e-3d71-434c-86e0-824af208a2bf" />
                 </medicationReference>
                 <subject>
                     <identifier>
@@ -1378,7 +1382,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
         </resource>
     </entry>
     <entry>
-        <fullUrl value="MedicationDispense/854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
+        <fullUrl value="urn:uuid:854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
         <resource>
             <MedicationDispense>
                 <id value="854b6c62-8c8a-4ad6-b145-d5bac5f9f010" />
@@ -1391,6 +1395,16 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                         <meta>
                             <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0" />
                         </meta>
+                        <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type">
+                            <valueCodeableConcept>
+                                <coding>
+                                    <system value="http://snomed.info/sct"/>
+                                    <version value="http://snomed.info/sct/900000000000207008/version/20220331"/>
+                                    <code value="763158003"/>
+                                    <display value="Medicinal product (product)"/>
+                                </coding>
+                            </valueCodeableConcept>
+                        </extension>
                         <extension url="http://fhir.de/StructureDefinition/normgroesse">
                             <valueCode value="N1" />
                         </extension>
@@ -1416,15 +1430,6 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                                 <code value="IHP" />
                             </coding>
                         </form>
-                        <amount>
-                            <numerator>
-                                <value value="1" />
-                                <unit value="St" />
-                            </numerator>
-                            <denominator>
-                                <value value="1" />
-                            </denominator>
-                        </amount>
                     </Medication>
                 </contained>
                 <identifier>
@@ -1433,7 +1438,7 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
                 </identifier>
                 <status value="completed" />
                 <medicationReference>
-                    <reference value="Medication/756b422f-4df0-4afe-9d54-da534a44109e" />
+                    <reference value="#756b422f-4df0-4afe-9d54-da534a44109e" />
                 </medicationReference>
                 <subject>
                     <identifier>
