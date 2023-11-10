@@ -32,6 +32,8 @@ s|verschreibungspflichtige Arzneimittel zu Lasten der GKV verordnet |:heavy_chec
 
 Problemstellung bei diesen Verordnungen (Rückmeldung von Apothekerin): _Es geht um Dauertherapien mit Importarzneimitteln. Hier wird von den Krankenkassen oft eine Genehmigung für einen Zeitraum ausgestellt, also gleich für mehrere Rezepte. Dabei wird dann oft keine Genehmigungsnummer vergeben. Also schicken Apotheken bislang eine Kopie der Genehmigung in Papierform mit dem Rezept zur Abrechnung. Da man nichts antackern darf nur mit Büroklammer, da hier das Papier verloren gehen könnte oder die Kontrollierenden bei den Krankenkassen z.T. nur die Vorderseite sehen können (als scan) notieren Apotheken zur Sicherheit: "Kostenübernahmegenehmigung siehe anhängendes Schreiben vom 25.04.2020" oä. Das kann man beim E-Rezept auch als Text eingeben. Zusätzlich ist Importeur und EK zu notieren._
 //
+|Verordnungen nach §27a SGB V | :heavy_check_mark: | :heavy_check_mark: | Entsprechendes Kennzeichen im FHIR Profil (KBV_PR_ERP_Prescription.extension:Zuzahlungsstatus) kann gesetzt werden. Wert "2" aus link:https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086[KBV_CS_FOR_StatusCoPayment]
+//
 |Betäubungsmittel |:x: | :x: | Fertigarzneimittel und z.B. auch cannabishaltige Arzneimittel (voraussichtlich Bereitstellung in PU Ende 2024)
 //
 |Rezepte für Dosierautomaten |:x: | :x: | Keine bundeseinheitliche Regelung derzeit. Im Kontext BTM Rezept ist dies mit BfArM noch zu besprechen und zu klären bzw. von den Vertragspartnern (LAV und Kassen) in den vertraglichen Regelungen zu berücksichtigen.
