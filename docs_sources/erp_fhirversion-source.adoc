@@ -44,11 +44,16 @@ Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und K
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.1[Package 1.1.1 Profile 1.1.0^] a|
+|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.2[Package 1.1.2 Profile 1.1.0^] a|
 
-1.1.1
+1.1.2
 
 Hinweis: Die Versionsnummer der FHIR-Profile ist weiterhin 1.1.0
+
+        * Im Profil KBV_PR_ERP_Bundle wurden Constraints nur aktiviert, wenn im Bundle eine relative Referenzierung genutzt wurde
+        * Die folgenden Constraints korrigiert: -erp-angabeIdentifikatorAusstellendePerson, -erp-angabeVerantwortlichePersonVerbot-1, -erp-angabeVerantwortlichePersonVerbot-2, -erp-angabeIdentifikatorVerantwortlichePerson,-erp-angabeFachgruppennummerAsvAusstellendePersonVerbot, -erp-angabeFachgruppennummerAsvVerantwortlichePersonVerbot und -erp-angabeIdentifikatorEinrichtung
+
+1.1.1
 
         * Im Profil KBV_PR_ERP_Bundle Constraint -erp-angabeFachgruppennummerAsvVerantwortlichePersonVerbot korrigiert
         * In den Profilen KBV_PR_ERP_Medication_PZN, KBV_PR_ERP_Medication_Ingredient und KBV_PR_ERP_Medication_Compounding wurden der Constraint -erp-begrenzungValue entfernt
