@@ -94,6 +94,7 @@ s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GK
 |Medizinprodukte nach § 31 Abs. 1 Satz 2 SGB V|:x: | :x: a|
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
+* *Spezialfall*: Macrogol welches aus der Arzneimitteldatenbank als Medizinprodukt übernommen wird im Verordnungsvorgang kann derzeit nicht auf einem E-Rezept verschrieben werden.
 * kommt voraussichtlich nach 2025
 
 4+s|Bilanzierte Diäten zur enteralen Ernährung nach § 31 Abs. 5 SGB V
@@ -157,11 +158,9 @@ Hinweis GKV-SV: Verhandlungen zu Anlage 23 Anforderungskatalog laufen
 |Leistungsinhalt |Status technische Verfügbarkeit im Fachdienst | Status BMV-Ä | Details / Weitere Infos
 
 |Entlassrezepte (Kennzeichnung) |:heavy_check_mark: |  | Workflow 160/200
-//
-|Mehrfachverordnung (Kennzeichnung) |:x: |  |
-Verwendung in PU ab 01.04.2023  → Workflow 160/169 +
-Verwendung in PU ab 01.07.2023  → zusätzlich Workflow 200/209
 
+// Mehrfachverordnung
+|Mehrfachverordnung (Kennzeichnung) |:heavy_check_mark: |  |
 Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023): Die Umsetzung der AMV-Anforderung zur Mehrfachverordnung gemäß der Pflichtfunktion P3-640 muss zum 1. April 2023 erfolgen. Der E-Rezept-Fachdienst der gematik unterstützt diese Funktionalität seit dem 4. Oktober 2022 im produktiven Betrieb. AMV-Anforderungskatalog siehe: https://update.kbv.de/ita-update/Verordnungen/Arzneimittel/EXT_ITA_VGEX_Anforderungskatalog_AVWG.pdf.
 //
 |Isotretinoin, Alitretinoin und Acitretin |:heavy_check_mark: :bulb: |  a|
@@ -195,9 +194,9 @@ Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023)
 //
 |(gesetzlich Versicherte) Selbstzahler  | :heavy_check_mark: | Nur für Selbstzahler die im Besitz einer KVNr sind (Pflichtfeld).
 //
-|Private Krankenversicherungen |:x: | Noch nicht in PU verfügbar, Vorarbeiten laufen (abhängig von digitaler Identität) (derzeitige Planung Mitte 2023)
+|Private Krankenversicherungen |:heavy_check_mark: | Noch nicht in PU verfügbar, Vorarbeiten laufen (abhängig von digitaler Identität) (derzeitige Planung Mitte 2023)
 //
-|Beihilfe |:x: | siehe Status für "Private Krankenversicherung" (derzeitige Planung Mitte 2023)
+|Beihilfe |:heavy_check_mark: | siehe Status für "Private Krankenversicherung" (derzeitige Planung Mitte 2023)
 //
 |Sonstige Kostenträger (Heilfürsorge, Postbeamtenkrankenkasse) |:x: | Die jeweiligen Kostenträger der Heilfürsorge, also Bund bzw. Länder, sind für die Umsetzung der TI-Anbindung und Anwendungsnutzung verantwortlich. Verpflichtende Termine gibt es nicht.
 
@@ -242,11 +241,11 @@ Es gibt bis heute einige Interessens- bzw. Absichtsbekundungen, insbesondere von
 → Aktuell nicht notwendig an sich an TI anzuschließen, werden Akteur wenn Hilfsmittel als E-Rezept verordnet werden können.
 //
 3+|
-3+s| Vertriebswege nach §47 AMG
+3+s| Leistungserbringer Heilmittel
 |Physiotherapeuten |:x: |
 //
 3+|
-3+s| Leistungserbringer Heilmittel
+3+s| Vertriebswege nach §47 AMG
 |zentrale Beschaffungsstellen nach AMG §47 Abs.1 Satz 1. Nr. 5 |:x: | Ausgabe von SMC-B für zentrale Beschaffungsstellen für Arzneimittel der nephrologischen Versorgung (z.B. Dialysezentren) gemäß §340 Absatz 4 SGB V durch gematik legitimiert.
 //
 |===
