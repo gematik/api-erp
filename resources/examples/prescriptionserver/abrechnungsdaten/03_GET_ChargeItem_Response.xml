@@ -1,45 +1,83 @@
-<ChargeItem xmlns="http://hl7.org/fhir">
-    <id value="200.000.001.944.091.20"/>
-    <meta>
-       <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
-    </meta>
-    <identifier>
-       <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-       <value value="200.000.001.944.091.20"/>
-    </identifier>
-    <status value="billable"/>
-    <code>
-       <coding>
-          <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason"/>
-          <code value="not-applicable"/>
-       </coding>
-    </code>
-    <subject>
-       <identifier>
-          <system value="http://fhir.de/sid/pkv/kvid-10"/>
-          <value value="X110465770"/>
-          <assigner>
-             <display value="KOA Hamburg"/>
-          </assigner>
-       </identifier>
-    </subject>
-    <enterer>
-       <identifier>
-          <system value="https://gematik.de/fhir/sid/telematik-id"/>
-          <value value="3-SMC-B-Testkarte-883110000116873"/>
-       </identifier>
-    </enterer>
-    <enteredDate value="2023-04-21T07:12:29.316+00:00"/>
-    <supportingInformation>
-       <reference value="urn:uuid:c81baa1d-0000-0000-0001-000000000000"/>
-       <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
-    </supportingInformation>
-    <supportingInformation>
-       <reference value="urn:uuid:c81baa1d-0000-0000-0003-000000000000"/>
-       <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
-    </supportingInformation>
-    <supportingInformation>
-       <reference value="urn:uuid:c81baa1d-0000-0000-0004-000000000000"/>
-       <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
-    </supportingInformation>
- </ChargeItem>
+<?xml version="1.0" encoding="utf-8"?>
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="803bc98b-6ad6-4caa-81c1-893600ba4e4b" />
+    <type value="collection" />
+    <timestamp value="2023-11-21T08:18:58.929+00:00" />
+    <entry>
+        <fullUrl
+            value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/ChargeItem/200.000.002.078.556.48" />
+        <resource>
+            <ChargeItem xmlns="http://hl7.org/fhir">
+                <id value="200.000.001.944.091.20"/>
+                <meta>
+                   <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
+                </meta>
+                <identifier>
+                   <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                   <value value="200.000.001.944.091.20"/>
+                </identifier>
+                <status value="billable"/>
+                <code>
+                   <coding>
+                      <system value="http://terminology.hl7.org/CodeSystem/data-absent-reason"/>
+                      <code value="not-applicable"/>
+                   </coding>
+                </code>
+                <subject>
+                   <identifier>
+                      <system value="http://fhir.de/sid/pkv/kvid-10"/>
+                      <value value="X110465770"/>
+                      <assigner>
+                         <display value="KOA Hamburg"/>
+                      </assigner>
+                   </identifier>
+                </subject>
+                <enterer>
+                   <identifier>
+                      <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                      <value value="3-SMC-B-Testkarte-883110000116873"/>
+                   </identifier>
+                </enterer>
+                <enteredDate value="2023-04-21T07:12:29.316+00:00"/>
+                <supportingInformation>
+                   <reference value="urn:uuid:c81baa1d-0000-0000-0001-000000000000"/>
+                   <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
+                </supportingInformation>
+                <supportingInformation>
+                   <reference value="urn:uuid:c81baa1d-0000-0000-0003-000000000000"/>
+                   <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
+                </supportingInformation>
+                <supportingInformation>
+                   <reference value="urn:uuid:c81baa1d-0000-0000-0004-000000000000"/>
+                   <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+                </supportingInformation>
+             </ChargeItem>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:c81baa1d-0000-0000-0001-000000000000" />
+        <resource>
+            <Bundle>
+                <id value="1ad84b2a-b444-430c-9902-de9e07547cc8" />
+                <meta>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0" />
+                </meta>
+                ...
+            </Bundle>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:c81baa1d-0000-0000-0004-000000000000" />
+        <resource>
+            <Bundle>
+                <id value="21e93051-7bce-43b5-9687-26b5b73c7c71" />
+                <meta>
+                    <lastUpdated value="2023-11-21T00:10:23.724+01:00" />
+                    <profile
+                        value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.2" />
+                </meta>
+                ...
+            </Bundle>
+        </resource>
+    </entry>
+</Bundle>
