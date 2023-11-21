@@ -72,6 +72,10 @@ NOTE: `<reference value="#Abg123"/>` enthält die Referenz auf das Contained-Obj
 ¦HTTP Status Code¦201 Created
 ¦HTTP Header ¦Content-Type: application/fhir+xml;charset=utf-8
 ¦Payload¦
+
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+
 [source,xml]
 ----
 include::../resources/examples/prescriptionserver/response_PostChargeItem.xml[]
@@ -120,7 +124,7 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem/'Pres
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://prescriptionserver.telematik/ChargeItem/200.000.000.022.127.38?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|URI        |https://prescriptionserver.telematik/ChargeItem/200.086.824.605.539.20?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |GET
 |HTTP Header |
 ----
