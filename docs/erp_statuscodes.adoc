@@ -100,32 +100,76 @@ h|http Operation  h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails
 .2+|POST /ocspf                      |400            |Der http-Request enthält ungültige Zertifikatsdaten,
                         die nicht für eine OCSP-Responderanfrage verarbeitet werden können.
                                      |401            |Die Berechtigung zum Zugriff auf die Schnittstelle konnte nicht geprüft werden.
-.13+|<in allen Operationen>          |500	           |Internal Server Error +
-                                     *Client-Failover angeraten: Ja*
-                                     |501	           |Not Implemented +
-                                     *Client-Failover angeraten: Ja*
-                                     |502	           |Bad Gateway +
-                                     *Client-Failover angeraten: Ja*
-                                     |503            |Service Unavailable +
-                                     *Client-Failover angeraten: Ja*
-                                     |504            |Gateway Timeout +
-                                     *Client-Failover angeraten: Ja*
-                                     |505            |HTTP Version not supported +
+|===
+
+== Server Fehlercodes am Endpunkt /VAU
+
+Folgende Fehler können in allen Operationen ausgegeben werden. Enthalten sind vorgaben, wie sich Clients im Fehlerfall verhalten sollen.
+
+[cols="a,a,a"]
+[cols="30%,10%,60%"]
+|===
+h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails h|Verhalten im Fehlerfall
+|4XX außer 408 und 429	           | | *Client-Failover angeraten: Nein*
+
+ Ein Retry ist nicht zulässig.
+ |408	           |Timeout | Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+ |429	           |Zu viele Anfragen pro Zeiteinheit durch Nutzer | Client-Failover angeraten: Ja
+
+ Ein Retry ist stündlich zulässig. (Max 10 Wiederholungen)
+|500	           |Internal Server Error | Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+                                     |501	           |Not Implemented |
                                      Client-Failover angeraten: Nein
-                                     |506            |Variant Also Negotiates +
+
+ Ein Retry ist nicht zulässig.
+                                     |502	           |Bad Gateway |
+                                     Client-Failover angeraten: Ja
+
+                                     Ein Retry nur mit Client-Failover (Max. 10 Wiederholungen)
+                                     |503            |Service Unavailable |
+                                     Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+                                     |504            |Gateway Timeout |
+                                     Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+                                     |505            |HTTP Version not supported |
                                      Client-Failover angeraten: Nein
-                                     |507            |Insufficient Storage +
-                                     *Client-Failover angeraten: Ja*
-                                     |508            |Loop Detected +
+
+                                     Ein Retry ist nicht zulässig.
+                                     |506            |Variant Also Negotiates |
+                                     Client-Failover angeraten: Ja
+
+                                     Ein Retry nur mit Client-Failover (Max. 10 Wiederholungen)
+                                     |507            |Insufficient Storage |
+                                     Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+                                     |508            |Loop Detected |
                                      Client-Failover angeraten: Nein
-                                     |509            |Bandwidth Limit Exceeded +
-                                     *Client-Failover angeraten: Ja*
-                                     |510            |Not Extended +
+
+                                     Ein Retry ist nicht zulässig.
+                                     |509            |Bandwidth Limit Exceeded |
+                                     Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+                                     |510            |Not Extended |
                                      Client-Failover angeraten: Nein
-                                     |511            |Network Authentication Required +
+
+                                     Ein Retry ist nicht zulässig.
+                                     |511            |Network Authentication Required |
                                      Client-Failover angeraten: Nein
-                                     |512            |OCSP Backend Error +
-                                     *Client-Failover angeraten: Ja*
+
+                                     Ein Retry ist nicht zulässig.
+                                     |512            |OCSP Backend Error |
+                                     Client-Failover angeraten: Ja
+
+ Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
 |===
 
 
