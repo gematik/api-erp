@@ -1164,7 +1164,37 @@ Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundl
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
 === Stapelverarbeitung
+Laut *inserthere* dürfen die Apotheken bis zum Ende des nächsten Geschäftstages warten, bevor sie ein eRezept abschließen. Es besteht die Möglichkeit, dies automatisch als Stapelverarbeitung zwischen 18:00 und 22:00 Uhr durchzuführen. Wenn diese Option verwendet wird, sollte ein Algorithmus verwendet werden, um jeden Tag eine zufällige Startzeit festzulegen.
 
+Der Algorithmus sollte eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl entspricht den Sekunden nach 18:00 Uhr, zu denen die Stapelverarbeitung beginnen sollte.
+
+HINWEIS: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
+
+.Beispiel für eines Algorithmus (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,code]
+----
+// Generiere einen zufälligen Offset zwischen 0 und 14.400 Sekunden, um die Zeit zwischen 18:00 und 22:00 zu repräsentieren
+int vonWert = 0
+int bisWert = 14400
+int offset = random(vonWert, bisWert)
+
+// Erhalte das aktuelle Datum und die aktuelle Uhrzeit
+DateTime anfangsZeit= new DateTime()
+
+// Setze die Uhrzeit auf 18:00 Uhr
+anfangsZeit.setTime(18, 00)
+
+// Füge den zufälligen Offset zur Startzeit hinzu
+anfangsZeit.addSeconds(offset)
+
+// Die Variable 'anfangsZeit' enthält jetzt DateTime mit der angepassten Anfangszeit
+----
+
+====
 
 *Request*
 [cols="h,a", separator=¦]
