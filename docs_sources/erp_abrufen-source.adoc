@@ -306,7 +306,7 @@ Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundl
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
 === Stapelverarbeitung
-Laut *inserthere* dürfen die Apotheken bis zum Ende des nächsten Geschäftstages warten, bevor sie ein E-Rezept abschließen. Es besteht die Möglichkeit, dies automatisch als Stapelverarbeitung zwischen 18:00 und 22:00 Uhr durchzuführen. Um die betriebliche Stabilität zu gewährleisten darf die Stapelverarbeitung nur durchgeführt werden, wenn der Startzeitpunkt durch einen Algorithmus zufällig bestimmt wird.
+Die Apotheken können bis zum Ende des nächsten Werkstages warten, bevor sie ein E-Rezept abschließen. Es besteht die Möglichkeit, dies automatisch als Stapelverarbeitung zwischen 18:00 und 22:00 Uhr durchzuführen. Um die betriebliche Stabilität zu gewährleisten darf die Stapelverarbeitung nur durchgeführt werden, wenn der Startzeitpunkt durch einen Algorithmus zufällig bestimmt wird.
 
 Der Algorithmus sollte eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl entspricht den Sekunden nach 18:00 Uhr, zu denen die Stapelverarbeitung beginnen sollte.
 
