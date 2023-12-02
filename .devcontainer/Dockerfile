@@ -1,0 +1,17 @@
+# Use the official Debian bullseye image as a parent image
+FROM mcr.microsoft.com/devcontainers/base:bullseye
+
+# Install dependencies required for asciidoctor and Asciidoctor Diagram
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ruby \
+        ruby-dev \
+        build-essential \
+        graphviz \
+        plantuml \
+    && gem install asciidoctor \
+    && gem install asciidoctor-diagram \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+# Set the default command to execute
+CMD ["bash"]

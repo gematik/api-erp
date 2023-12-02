@@ -9,7 +9,7 @@ if ! grep -q "$required_asciidoctor_version" <<<"$actual_asciidoctor_version"; t
     exit 1
 fi
 
-required_asciidoctor_diagram_version="2.2.9"
+required_asciidoctor_diagram_version="2.2.14"
 actual_asciidoctor_diagram_version=$(gem list | grep "asciidoctor-diagram (")
 if ! grep -q "$required_asciidoctor_diagram_version" <<<"$actual_asciidoctor_diagram_version"; then
     echo "Incorrect asciidoctor diagram version. Expected $required_asciidoctor_diagram_version but found $actual_asciidoctor_diagram_version"
