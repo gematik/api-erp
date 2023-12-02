@@ -14,7 +14,7 @@ RUN apt-get update \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Copy keybinding and task configuration files to the container's .vscode directory
-COPY .vscode/tasks.json .vscode/keybindings.json /workspace/.vscode/
+# COPY .vscode/tasks.json .vscode/keybindings.json /workspace/.vscode/
 
 # Set the default command to execute
 CMD ["bash"]
