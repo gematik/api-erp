@@ -9,9 +9,9 @@ RUN apt-get update \
         build-essential \
         graphviz \
         plantuml \
-    && gem install asciidoctor \
-    && sudo gem install asciidoctor-diagram \
-    && sudo gem install asciidoctor-reducer \
+    && gem install asciidoctor -v 2.0.20 \
+    && gem install asciidoctor-diagram -v 2.2.14 \
+    && gem install asciidoctor-reducer \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # Copy keybinding and task configuration files to the container's .vscode directory
