@@ -7,6 +7,21 @@ toc::[]
 
 WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
 
+*Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
+
+1. C0-Steuercodes:
+* Bereich: U+0000 bis U+001F
+* Beispiel: Null-Byte (U+0000), Start of Header (U+0001), Line Feed (U+000A), Tabulator (U+0009), usw.
+
+2. C1-Steuercodes:
+* Bereich: U+0080 bis U+009F
+* Beispiel: Start of Sentence (U+0082), End of Text (U+0003), Escape (U+001B), usw.
+
+3. Andere non-printable Zeichen:
+* Null-Byte (U+0000)
+* Byte Order Mark (BOM): U+FEFF
+* Replace Character (U+FFFD)
+
 ==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
 Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
 
