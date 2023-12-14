@@ -1,0 +1,29 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/markdown
+{
+	"name": "Adoc Editing",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {			
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"hanifmifta.adocs",
+				"MITRE-Health.vscode-language-fsh",
+				"mohsen1.prettify-json",
+				"DotJoshJohnson.xml",
+				"asciidoctor.asciidoctor-vscode"
+			]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/gh-cli:1": {}
+	}
+}
