@@ -20,7 +20,7 @@ image:api_mvo_gueltigkeit.png[width=100%]
 == Datenmodell der Mehrfachverordnung
 Eine Mehrfachverordnung besteht aus 2 bis max. 4 unabhängigen Teilverordnungen. Jede Teilverordnung ist ein (zahn)ärztlich signiertes E-Rezept gemäß der link:https://simplifier.net/erezept[KBV-Festlegungen^] für einen Verordnungsdatensatz.
 
-TIP: Beispieldatensätze finden sich im Unterverzeichnis link:../samples/MVO_KBV_1.0.2_.zip[samples/MVO_KBV_1.0.2_.zip]
+TIP: Beispieldatensätze finden sich im Beispielrepository link:https://github.com/gematik/eRezept-Examples/tree/main/End-to-End-Examples/4_01.07.2023/PZN_Mehrfachverordnung[Mehrfachverordnungen im Beispielrepository]
 
 Die folgenden Felder sind dabei charakteristisch für die Teilverordnungen einer Mehrfachverordnung
 
@@ -32,6 +32,14 @@ Wenn im Verordnungsdatensatz das Flag MedicationRequest.extension:Mehrfachverord
 ----
 MedicationRequest.extension:Mehrfachverordnung.extension:Kennzeichen = true
 ----
+
+=== Identifier der Mehrfachverordnung ("ID")
+Das PVS muss bei Erstellung einer Mehrfachverordnung einen einzigen Identifier erstellen, der bei allen Teilverordnungen unter
+[source,json]
+----
+MedicationRequest.extension:Mehrfachverordnung.extension:ID.value[x]:valueIdentifier.value
+----
+eingetragen wird. Nach link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[Technischer Anlage zur elektronischen Arzneimittelverordnung] muss dieser Value einer UUID gemäß RFC4122 Version 5 mit den zugehörigen Separatoren entsprechen (urn:uuid:<XXXXXXXX-XXXX-XXXXXXXX-XXXXXXXXXXXX>).
 
 === Nummer des Rezepts der Mehrfachverordnung ("Zähler")
 [source,json]
