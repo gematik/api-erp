@@ -1483,12 +1483,12 @@ NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Qua
 
 
 *Response*
-[source,xml]
-----
 HTTP/1.1 200 OK
 Content-Length: 3906
 Content-Type: application/fhir+xml;charset=utf-8
 
+[source,xml]
+----
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
     <meta>
@@ -1528,7 +1528,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                 </type>
                 <date value="2021-11-26T09:51:36.483+00:00" />
                 <author>
-                    <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+                    <reference value="urn:uuid:65ea903d-b3ea-4b5e-acbd-3e8c2c695542" />
                 </author>
                 <title value="Quittung" />
                 <event>
@@ -1539,14 +1539,14 @@ Content-Type: application/fhir+xml;charset=utf-8
                 </event>
                 <section>
                     <entry>
-                        <reference value="Binary/PrescriptionDigest-160.123.456.789.123.58"/>
+                        <reference value="urn:uuid:073ef818-3d18-4cf0-a5b7-9321ec838f94"/>
                     </entry>
                 </section>
             </Composition>
         </resource>
     </entry>
     <entry>
-        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
+        <fullUrl value="urn:uuid:65ea903d-b3ea-4b5e-acbd-3e8c2c695542" />
         <resource>
             <Device>
                 <id value="1" />
@@ -1570,12 +1570,11 @@ Content-Type: application/fhir+xml;charset=utf-8
         </resource>
     </entry>
     <entry>
-        <fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/PrescriptionDigest" />
+        <fullUrl value="urn:uuid:073ef818-3d18-4cf0-a5b7-9321ec838f94" />
         <resource>
             <Binary>
-                <id value="PrescriptionDigest-160.123.456.789.123.58"/>
+                <id value="073ef818-3d18-4cf0-a5b7-9321ec838f94"/>
                 <meta>
-                    <versionId value="1"/>
                     <profile value="http://hl7.org/fhir/StructureDefinition/Binary|4.0.1"/>
                 </meta>
                 <contentType value="application/octet-stream"/>
@@ -1593,7 +1592,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1" />
         </who>
         <sigFormat value="application/pkcs7-mime" />
-        <data value="QXVmZ3J1bmQgZGVyIENvcm9uYS1TaXR1YXRpb24ga29ubnRlIGhpZXIga3VyemZyaXN0aWcga2VpbiBCZWlzcGllbCBpbiBkZXIgTGFib3J1bWdlYnVuZyBkZXIgZ2VtYXRpayBlcnN0ZWxsdCB3ZWRlbi4gRGllc2VzIHdpcmQgbmFjaGdlcmVpY2h0LgoKSW5oYWx0bGljaCB1bmQgc3RydWt0dXJlbGwgaXN0IGRpZSBTZXJ2ZXJzaWduYXR1ciBkZXIgUXVpdHR1bmcgZWluZSBFbnZlbG9waW5nIENBZEVTLVNpZ25hdHVyLCBkaWUgZGVuIHNpZ25pZXJ0ZW4gRGF0ZW5zYXR6IGFuYWxvZyB6dXIgS29ubmVrdG9yLVNpZ25hdHVyIGlubmVyaGFsYiBkZXMgQVNOMS5Db250YWluZXJzIHRyYW5zcG9ydGllcnQu" />
+        <data value="QXVmZ3J1bmQgZGVyIENvcm9uYS..." />
     </signature>
 </Bundle>
 ----
