@@ -308,7 +308,7 @@ NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5
 === Zeitgesteuerte Verarbeitung
 Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
 
-Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Danach sollte er nach jedem 40. Aufruf für 1000 ms warten.
+Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Während der Verarbeitung muss nach jedem 40. Aufruf der $close-Operation eine Wartezeit von 1000ms abgewartet werden.
 
 Hinweis: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
 
