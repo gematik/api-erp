@@ -190,7 +190,7 @@ Die Signatur erfolgt über das Primärsystem mit einem Aufruf der Signaturschnit
 
 Beim Aufbau der SMTP-Verbindung ist es erforderlich, Kartenverwaltungsinformationen zur SMC-B mitzuliefern, die zum Integritätsschutz der Nachricht verwendet werden sollen. Dazu müssen MandantId, ClientsystemId und WorkplaceId, der Kartensitzung der erforderlichen SMC-B, über den SMTP-Benutzernamen dem Clientmodul mitgeteilt werden. Weitere Informationen zur SMTP-Kommunikation finden Sie hier: https://github.com/gematik/api-kim/blob/main/docs/Primaersystem.adoc#43-nachrichten-versenden +
 
-Eine beispielhafte verschlüsselte KIM-Nachricht kann hier eingesehen werden: https://github.com/gematik/api-kim/tree/main/samples +
+Eine beispielhafte verschlüsselte KIM-Nachricht kann hier eingesehen werden: https://github.com/gematik/api-kim/tree/main/samples
 
 ==== KIM-Nachricht empfangen
 Das Clientmodul des Empfängers erhält die KIM-Nachricht und entschlüsselt diese, sofern die dafür erforderliche Smartcard/HSM im System registriert und freigeschaltet ist. Damit wird sichergestellt, dass der Zugriff auf die Nachrichten nur durch autorisierte Personen erfolgt. Die Kommunikation zwischen dem Primärsystem und dem KIM-Clientmodul erfolgt mittels des POP3-Standards. Das Primärsystem übergibt dem Clientmodul alle zum Nachrichtenempfang erforderlichen Informationen. Das Primärsystem muss sich zur POP3-Authentifizierung gegenüber dem KIM-Dienst ausweisen können. Hierfür wird im Primärsystem ein POP3-Benutzername und Passwort persistiert. +
@@ -224,6 +224,18 @@ NOTE: Aus Gründen der Lesbarkeit wurde der angehängte Therapieplan stark mit `
 [source,text]
 ----
 include::../resources/examples/kim/emailPlainFreieKommunikation.txt[]
+----
+NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
+
+NOTE: Für die Zuweisung eines E-Rezeptes an die Apotheke muss die `X-KIM-Dienstkennung` gesetzt sein.
+
+==== Antwort zur freien Kommunikation für bspw. Rückfragen der Apotheke
+
+Um auf KIM-Nachrichten zu Antworten ist nach Standardprotokoll der Header "In-Reply-To" zu verwenden. Folgendes Beispiel ist eine Antwortnachricht auf "Nachricht zur freien Kommunikation"
+
+[source,text]
+----
+include::../resources/examples/kim/emailPlainFreieKommunikation_reply.txt[]
 ----
 NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
