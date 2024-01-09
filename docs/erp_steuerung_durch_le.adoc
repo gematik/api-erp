@@ -315,11 +315,14 @@ Voraussetzung für die Verwendung des KIM-Dienstes ist, das alle beteiligten Par
 
 ==== KIM-Nachricht generieren und Empfänger ermitteln
 Im ersten Schritt wird eine Nachricht im Primärsystem erstellt. Der verordnende Leistungserbringer verfasst einen Nachrichtentext und kann wählen, ob eine Zustellbestätigung erfolgen soll. Das E-Rezept Token wird automatisch in die Nachricht eingefügt. +
+
 Die Nachricht kann nur an Empfänger versendet werden, für die ein Eintrag im Verzeichnisdienst (inklusive KIM Adresse) der TI vorhanden ist.
 
 Der KIM-Header "To" muss mit einer Email-Adresse aus dem Verzeichnisdienst befüllt werden. Das Primärsystem kann hierzu eine Abfrage der Empfänger-Adressen durchführen und agiert dabei als LDAP-Client gegenüber dem LDAP-Server (Verzeichnisdienst). Der Konnektor dient dabei als LDAP-Proxy.
 
-Der KIM-Header "KIM-Encounter-Id" dient dazu, Nachrichten zu gruppieren, insbesondere im Zusammenhang mit einem Behandlungskontext. Diese ID sollte zu Beginn einer Nachrichtenkonversation festgelegt und bei der Beantwortung von empfangenen Nachrichten beibehalten werden. Weitere Informationen finden Sie in der Dokumentation unter dem folgenden Link link:https://github.com/gematik/api-kim/blob/develop/docs/Primaersystem.adoc#43-nachrichten-versenden[API-KIM: Nachrichten Versenden].
+Wenn auf eine Nachricht geantwortet wird ist der Header "In-Reply-To" zu setzen, damit ein Nachrichtenverlauf abgebildet werden kann.
+
+Weitere Informationen finden Sie in der Dokumentation unter dem folgenden Link link:https://github.com/gematik/api-kim/blob/develop/docs/Primaersystem.adoc#43-nachrichten-versenden[API-KIM: Nachrichten Versenden].
 
 ==== KIM-Nachricht versenden
 Der Versand von KIM-Nachrichten erfolgt über das Clientmodul, das die Nachricht für jeden Empfänger zuerst signiert und anschließend verschlüsselt. Die KIM-Nachricht wird als "message/rfc822"-MIME Einheit erzeugt und in eine "multipart/mixed"-MIME-Nachricht verpackt. Die Message-IDs der Nachrichten dürfen keine datenschutzrelevanten Informationen - wie z. B. FQDNs - enthalten. Die E-Mail-Nachricht muss anschließend über das Clientmodul versendet werden.
