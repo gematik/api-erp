@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html><head><title>Mapping: epa-medication-request</title>
+<link rel='stylesheet' type='text/css' href='./style.css'>
+<link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
+<script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+<script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
+</head><body>
+<style>
+#resultsTable tbody tr:nth-child(1) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(2) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(3) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(4) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(5) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(6) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(7) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(8) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(9) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(10) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(11) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(12) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(13) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(14) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(15) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(16) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(17) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(18) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(19) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(20) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(21) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(22) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(23) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(24) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(25) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(26) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(27) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(28) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(29) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(30) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(31) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(32) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(33) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(34) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(35) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(36) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(37) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(38) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(39) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(40) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(41) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(42) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(43) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(44) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(45) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(46) { background-color: #FFFAE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(47) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(48) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(49) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(50) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(51) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(52) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(53) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(54) { background-color: #FFBDAD !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(55) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(56) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(57) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(58) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(59) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(60) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(61) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(62) { background-color: #B3F5FF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(63) { background-color: #B3F5FF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(64) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(65) { background-color: #B3F5FF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(66) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(67) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(68) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(69) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(70) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(71) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(72) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(73) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(74) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(75) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(76) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(77) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(78) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(79) { background-color: #B3F5FF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(80) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(81) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(82) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(83) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(84) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(85) { background-color: #B3F5FF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(86) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(87) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(88) { background-color: #E3FCEF !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(89) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(90) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(91) { background-color: #FFEBE6 !important; color: #000000 !important; }
+#resultsTable tbody tr:nth-child(92) { background-color: #FFEBE6 !important; color: #000000 !important; }
+</style>
+<h2>Mapping: KBV_PR_ERP_Prescription in epa-medication-request</h2>
+<table id='resultsTable' class='display' style='width:100%'>
+<thead><tr><th>Property</th><th>KBV_PR_ERP_Prescription</th><th>ePA</th><th>Remarks</th></tr></thead>
+<tbody>
+<tr><td>MedicationRequest.authoredOn</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.basedOn</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.category</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.contained</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.courseOfTherapyType</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.detectedIssue</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.dispenseInterval</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.expectedSupplyDuration</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.initialFill</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.initialFill.duration</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.initialFill.quantity</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.numberOfRepeatsAllowed</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.performer</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.quantity</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.quantity.code</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.quantity.system</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.quantity.unit</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.quantity.value</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dispenseRequest.validityPeriod</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.doNotPerform</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.additionalInstruction</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.asNeeded[x]</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.doseAndRate</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.doseAndRate.dose[x]</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.doseAndRate.rate[x]</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.doseAndRate.type</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.extension:Dosierungskennzeichen<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.maxDosePerAdministration</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.maxDosePerLifetime</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.maxDosePerPeriod</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.method</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.patientInstruction</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.route</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.sequence</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.site</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.text</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.dosageInstruction.timing</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.encounter</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.eventHistory</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.extension:BVG<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.extension:Mehrfachverordnung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.extension:Notdienstgebuehr<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.extension:Unfallinformationen<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.extension:Zuzahlungsstatus<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment)</a></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
+<tr><td>MedicationRequest.groupIdentifier</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.identifier</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.identifier:rxPrescriptionProcessIdentifier</td><td></td><td>X</td><td>Dieser Identifier setzt sich aus der Task-ID und dem MedicationRequest.authoredOn zusammen. Er wird durch den Medication Service vergeben.</td></tr>
+<tr><td>MedicationRequest.implicitRules</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.instantiatesCanonical</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.instantiatesUri</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.insurance</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.insurance.reference</td><td>X</td><td></td><td>Wird beim Mapping ignoriert</td></tr>
+<tr><td>MedicationRequest.intent</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.language</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.medication[x]</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.medication[x].display</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.medication[x].identifier</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.medication[x].reference</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.medication[x].type</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.medication[x]:medicationReference</td><td>X</td><td></td><td>Die Referenz der KBV-Medikation wird durch eine Referenz auf eine EPA-Medikation ersetzt.</td></tr>
+<tr><td>MedicationRequest.medication[x]:medicationReference.reference</td><td>X</td><td></td><td>Die Referenz ergibt sich aus der neu erzeugten EPA-Medikation.</td></tr>
+<tr><td>MedicationRequest.meta</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.meta.profile</td><td>X</td><td></td><td>Wird fix auf '<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</a>' gesetzt</td></tr>
+<tr><td>MedicationRequest.note</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.note.author[x]</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.note.text</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.note.time</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.performer</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.performerType</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.priorPrescription</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.priority</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.reasonCode</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.reasonReference</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.recorder</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.reported[x]</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.requester</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.requester.reference</td><td>X</td><td></td><td>Wird entfernt, später durch MedicationService selbst gesetzt</td></tr>
+<tr><td>MedicationRequest.status</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.statusReason</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.subject</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.subject.display</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.subject.identifier</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.subject.reference</td><td>X</td><td>X</td><td>Wird entfernt, später durch MedicationService selbst gesetzt</td></tr>
+<tr><td>MedicationRequest.subject.type</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.substitution</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.substitution.allowed[x]</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
+<tr><td>MedicationRequest.substitution.allowed[x]:allowedBoolean</td><td>X</td><td></td><td>Einschränkung wird nicht übernommen</td></tr>
+<tr><td>MedicationRequest.substitution.reason</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.supportingInformation</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
+<tr><td>MedicationRequest.text</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr></tbody>
+</table>
+<script>
+$(document).ready(function() {
+    $('#resultsTable').DataTable({
+        'pageLength': 25,
+        'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 150, 'All']]
+    });
+});
+</script>
+</body></html>
