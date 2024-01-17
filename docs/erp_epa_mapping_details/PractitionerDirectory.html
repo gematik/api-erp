@@ -5,204 +5,490 @@
 <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
 </head><body>
-<style>
-#resultsTable tbody tr:nth-child(1) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(2) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(3) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(4) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(5) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(6) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(7) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(8) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(9) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(10) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(11) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(12) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(13) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(14) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(15) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(16) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(17) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(18) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(19) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(20) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(21) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(22) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(23) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(24) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(25) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(26) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(27) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(28) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(29) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(30) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(31) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(32) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(33) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(34) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(35) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(36) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(37) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(38) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(39) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(40) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(41) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(42) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(43) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(44) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(45) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(46) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(47) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(48) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(49) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(50) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(51) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(52) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(53) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(54) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(55) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(56) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(57) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(58) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(59) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(60) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(61) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(62) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(63) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(64) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(65) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(66) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(67) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(68) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(69) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(70) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(71) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(72) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(73) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(74) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(75) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(76) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(77) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(78) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(79) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(80) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(81) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(82) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(83) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(84) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(85) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(86) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(87) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(88) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(89) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(90) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(91) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(92) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(93) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(94) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(95) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(96) { background-color: #FFEBE6 !important; color: #000000 !important; }
-</style>
 <h2>Mapping: KBV_PR_FOR_Practitioner in PractitionerDirectory</h2>
 <table id='resultsTable' class='display' style='width:100%'>
 <thead><tr><th>Property</th><th>KBV_PR_FOR_Practitioner</th><th>ePA</th><th>Remarks</th></tr></thead>
 <tbody>
-<tr><td>Practitioner.active</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.address</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.birthDate</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.communication</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.contained</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.gender</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.identifier</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.system</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.system übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.type</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.type übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.type.coding</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.type.coding übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.type.coding.code</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.type.coding.code übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.type.coding.system</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.type.coding.system übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.use</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.use übernommen</td></tr>
-<tr><td>Practitioner.identifier:ANR.value</td><td>X</td><td></td><td>Wird in Practitioner.identifier:LANR.value übernommen</td></tr>
-<tr><td>Practitioner.identifier:LANR</td><td></td><td>X</td><td>Wird in Practitioner.identifier:ANR übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.system</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.system übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.type</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.type übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.type.coding</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.type.coding übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.type.coding.code</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.type.coding.code übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.type.coding.system</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.type.coding.system übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.use</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.use übernommen</td></tr>
-<tr><td>Practitioner.identifier:Telematik-ID.value</td><td>X</td><td></td><td>Wird in Practitioner.identifier:TelematikID.value übernommen</td></tr>
-<tr><td>Practitioner.identifier:TelematikID</td><td></td><td>X</td><td>Wird in Practitioner.identifier:Telematik-ID übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.system</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.type</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.type.coding</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.type.coding.code</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.type.coding.system</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.use</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.identifier:ZANR.value</td><td>X</td><td></td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.implicitRules</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.language</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.meta.lastUpdated</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.profile</td><td>X</td><td>X</td><td>Wird fix auf '<a href="https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory" target="_blank">https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory</a>' gesetzt</td></tr>
-<tr><td>Practitioner.meta.security</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.source</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin.code</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin.display</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin.system</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin.userSelected</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.tag:Origin.version</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.meta.versionId</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.name</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.name.family</td><td></td><td>X</td><td>Wert wird von Practitioner.name:name.family übernommen</td></tr>
-<tr><td>Practitioner.name.given</td><td></td><td>X</td><td>Wert wird von Practitioner.name:name.given übernommen</td></tr>
-<tr><td>Practitioner.name.period</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.name.prefix</td><td></td><td>X</td><td>Wert wird von Practitioner.name:name.prefix übernommen</td></tr>
-<tr><td>Practitioner.name.suffix</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.name.text</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.name.use</td><td></td><td>X</td><td>Wert wird von Practitioner.name:name.use übernommen</td></tr>
-<tr><td>Practitioner.name:name</td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.family</td><td>X</td><td></td><td>Wert wird in Practitioner.name.family übernommen</td></tr>
-<tr><td>Practitioner.name:name.family.extension:nachname<br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-name)" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-name)</a></td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.family.extension:namenszusatz<br>(<a href="http://fhir.de/StructureDefinition/humanname-namenszusatz)" target="_blank">http://fhir.de/StructureDefinition/humanname-namenszusatz)</a></td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.family.extension:vorsatzwort<br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix)" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-prefix)</a></td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.family.value</td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.given</td><td>X</td><td></td><td>Wert wird in Practitioner.name.given übernommen</td></tr>
-<tr><td>Practitioner.name:name.prefix</td><td>X</td><td></td><td>Wert wird in Practitioner.name.prefix übernommen</td></tr>
-<tr><td>Practitioner.name:name.prefix.extension:prefix-qualifier<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier)" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier)</a></td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.prefix.value</td><td>X</td><td></td><td>Wert wird nicht übernommen</td></tr>
-<tr><td>Practitioner.name:name.use</td><td>X</td><td></td><td>Wert wird in Practitioner.name.use übernommen</td></tr>
-<tr><td>Practitioner.photo</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.qualification</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.qualification.code</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.qualification.identifier</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.qualification.issuer</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.qualification.period</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Practitioner.qualification:ASV-Fachgruppennummer</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:ASV-Fachgruppennummer.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.system</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung.code.coding</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung.code.coding.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung.code.coding.system</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Berufsbezeichnung.code.text</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Typ</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Typ.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Typ.code.coding</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Typ.code.coding.code</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.qualification:Typ.code.coding.system</td><td>X</td><td></td><td>Extension und Values werden nicht übernommen</td></tr>
-<tr><td>Practitioner.telecom</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.telecom.period</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.telecom.rank</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.telecom.system</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.telecom.use</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.telecom.value</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Practitioner.text</td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr></tbody>
+<tr class="row-not-use">
+    <td>Practitioner.active</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.address</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.birthDate</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.communication</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.contained</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.gender</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.system</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.type</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.type übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.type.coding</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.type.coding übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.type.coding.code</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.type.coding.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.type.coding.system</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.type.coding.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.use</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.use übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ANR.value</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:LANR.value übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:LANR</td>
+    <td></td><td>X</td>
+    <td>Wird in Practitioner.identifier:ANR übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.system</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.type</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.type übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.type.coding</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.type.coding übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.type.coding.code</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.type.coding.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.type.coding.system</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.type.coding.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.use</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.use übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:Telematik-ID.value</td>
+    <td>X</td><td></td>
+    <td>Wird in Practitioner.identifier:TelematikID.value übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:TelematikID</td>
+    <td></td><td>X</td>
+    <td>Wird in Practitioner.identifier:Telematik-ID übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.system</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.type</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.type.coding</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.type.coding.code</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.type.coding.system</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.use</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.identifier:ZANR.value</td>
+    <td>X</td><td></td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.implicitRules</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.language</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.meta</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.lastUpdated</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.meta.profile</td>
+    <td>X</td><td>X</td>
+    <td>Wird fix auf '<a href="https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory" target="_blank">https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory</a>' gesetzt</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.security</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.source</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin.code</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin.display</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin.system</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin.userSelected</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.tag:Origin.version</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.meta.versionId</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.name</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name.family</td>
+    <td></td><td>X</td>
+    <td>Wert wird von Practitioner.name:name.family übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name.given</td>
+    <td></td><td>X</td>
+    <td>Wert wird von Practitioner.name:name.given übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name.period</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name.prefix</td>
+    <td></td><td>X</td>
+    <td>Wert wird von Practitioner.name:name.prefix übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name.suffix</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name.text</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name.use</td>
+    <td></td><td>X</td>
+    <td>Wert wird von Practitioner.name:name.use übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name</td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name:name.family</td>
+    <td>X</td><td></td>
+    <td>Wert wird in Practitioner.name.family übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.family.extension:nachname<br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-name)" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-name)</a></td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.family.extension:namenszusatz<br>(<a href="http://fhir.de/StructureDefinition/humanname-namenszusatz)" target="_blank">http://fhir.de/StructureDefinition/humanname-namenszusatz)</a></td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.family.extension:vorsatzwort<br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix)" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-prefix)</a></td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.family.value</td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name:name.given</td>
+    <td>X</td><td></td>
+    <td>Wert wird in Practitioner.name.given übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name:name.prefix</td>
+    <td>X</td><td></td>
+    <td>Wert wird in Practitioner.name.prefix übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.prefix.extension:prefix-qualifier<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier)" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier)</a></td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.name:name.prefix.value</td>
+    <td>X</td><td></td>
+    <td>Wert wird nicht übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Practitioner.name:name.use</td>
+    <td>X</td><td></td>
+    <td>Wert wird in Practitioner.name.use übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.photo</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.qualification</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.qualification.code</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.qualification.identifier</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.qualification.issuer</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Practitioner.qualification.period</td>
+    <td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:ASV-Fachgruppennummer</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:ASV-Fachgruppennummer.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.system</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung.code.coding</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung.code.coding.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung.code.coding.system</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Berufsbezeichnung.code.text</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Typ</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Typ.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Typ.code.coding</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Typ.code.coding.code</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.qualification:Typ.code.coding.system</td>
+    <td>X</td><td></td>
+    <td>Extension und Values werden nicht übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom.period</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom.rank</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom.system</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom.use</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.telecom.value</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Practitioner.text</td>
+    <td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr></tbody>
 </table>
 <script>
 $(document).ready(function() {

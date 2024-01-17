@@ -5,312 +5,760 @@
 <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
 <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
 </head><body>
-<style>
-#resultsTable tbody tr:nth-child(1) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(2) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(3) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(4) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(5) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(6) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(7) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(8) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(9) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(10) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(11) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(12) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(13) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(14) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(15) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(16) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(17) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(18) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(19) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(20) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(21) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(22) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(23) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(24) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(25) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(26) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(27) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(28) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(29) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(30) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(31) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(32) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(33) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(34) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(35) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(36) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(37) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(38) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(39) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(40) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(41) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(42) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(43) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(44) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(45) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(46) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(47) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(48) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(49) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(50) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(51) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(52) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(53) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(54) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(55) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(56) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(57) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(58) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(59) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(60) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(61) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(62) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(63) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(64) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(65) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(66) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(67) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(68) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(69) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(70) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(71) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(72) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(73) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(74) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(75) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(76) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(77) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(78) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(79) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(80) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(81) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(82) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(83) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(84) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(85) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(86) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(87) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(88) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(89) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(90) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(91) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(92) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(93) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(94) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(95) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(96) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(97) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(98) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(99) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(100) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(101) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(102) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(103) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(104) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(105) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(106) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(107) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(108) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(109) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(110) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(111) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(112) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(113) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(114) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(115) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(116) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(117) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(118) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(119) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(120) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(121) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(122) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(123) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(124) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(125) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(126) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(127) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(128) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(129) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(130) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(131) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(132) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(133) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(134) { background-color: #FFFAE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(135) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(136) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(137) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(138) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(139) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(140) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(141) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(142) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(143) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(144) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(145) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(146) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(147) { background-color: #E3FCEF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(148) { background-color: #B3F5FF !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(149) { background-color: #FFEBE6 !important; color: #000000 !important; }
-#resultsTable tbody tr:nth-child(150) { background-color: #FFEBE6 !important; color: #000000 !important; }
-</style>
 <h2>Mapping: KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient, KBV_PR_ERP_Medication_PZN in epa-medication</h2>
 <table id='resultsTable' class='display' style='width:100%'>
 <thead><tr><th>Property</th><th>KBV_PR_ERP_Medication_Compounding</th><th>KBV_PR_ERP_Medication_FreeText</th><th>KBV_PR_ERP_Medication_Ingredient</th><th>KBV_PR_ERP_Medication_PZN</th><th>ePA</th><th>Remarks</th></tr></thead>
 <tbody>
-<tr><td>Medication.amount</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.denominator</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.denominator.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.amount.denominator.comparator</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.amount.denominator.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.amount.denominator.unit</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.amount.denominator.value</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.code</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.comparator</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.amount.numerator.extension:Gesamtmenge<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)</a></td><td>X</td><td></td><td></td><td></td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.extension:Packungsgroesse<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)</a></td><td></td><td></td><td>X</td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.system</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.unit</td><td>X</td><td></td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.amount.numerator.value</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.batch</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.batch.expirationDate</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.batch.lotNumber</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code.coding</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code.coding:ASK</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ASK.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ASK.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ASK.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ASK.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ASK.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:ATC-DE.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:PZN</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.code.coding:pznCode übernommen</td></tr>
-<tr><td>Medication.code.coding:PZN.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.code.coding:pznCode.code übernommen</td></tr>
-<tr><td>Medication.code.coding:PZN.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:PZN.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.code.coding:pznCode.system übernommen</td></tr>
-<tr><td>Medication.code.coding:PZN.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:PZN.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:WG14.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:pznCode</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.code.coding:PZN übernommen</td></tr>
-<tr><td>Medication.code.coding:pznCode.code</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.code.coding:PZN.code übernommen</td></tr>
-<tr><td>Medication.code.coding:pznCode.system</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.code.coding:PZN.system übernommen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode</td><td>X</td><td>X</td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode.code</td><td>X</td><td>X</td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode.system</td><td>X</td><td>X</td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.coding:verordnungskategorieCode.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.code.text</td><td>X</td><td>X</td><td></td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.contained</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.extension:Arzneimittelkategorie<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category)</a></td><td>X</td><td>X</td><td>X</td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.extension:Herstellungsanweisung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction)</a></td><td>X</td><td></td><td></td><td></td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.extension:Impfstoff<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine)</a></td><td>X</td><td>X</td><td>X</td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.extension:Kategorie<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0)</a></td><td>X</td><td></td><td></td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.extension:Normgroesse<br>(<a href="http://fhir.de/StructureDefinition/normgroesse)" target="_blank">http://fhir.de/StructureDefinition/normgroesse)</a></td><td></td><td></td><td>X</td><td>X</td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.extension:RxPrescriptionProcessIdentifier<br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension)" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension)</a></td><td></td><td></td><td></td><td></td><td>X</td><td>Dieser Identifier setzt sich aus der Task-ID und dem MedicationRequest.authoredOn zusammen. Er wird durch den Medication Service vergeben.</td></tr>
-<tr><td>Medication.extension:Verpackung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging)</a></td><td>X</td><td></td><td></td><td></td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.form</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.form.coding</td><td></td><td></td><td></td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.form.coding:EDQM</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:EDQM.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:EDQM.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:EDQM.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:EDQM.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:EDQM.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird in Medication.form.coding:kbvDarreichungsform übernommen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird in Medication.form.coding:kbvDarreichungsform.code übernommen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird in Medication.form.coding:kbvDarreichungsform.display übernommen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird in Medication.form.coding:kbvDarreichungsform.system übernommen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:KBVDarreichungsform.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.form.coding:kbvDarreichungsform</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.form.coding:KBVDarreichungsform übernommen</td></tr>
-<tr><td>Medication.form.coding:kbvDarreichungsform.code</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.form.coding:KBVDarreichungsform.code übernommen</td></tr>
-<tr><td>Medication.form.coding:kbvDarreichungsform.display</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.form.coding:KBVDarreichungsform.display übernommen</td></tr>
-<tr><td>Medication.form.coding:kbvDarreichungsform.system</td><td></td><td></td><td></td><td>X</td><td></td><td>Wert wird in Medication.form.coding:KBVDarreichungsform.system übernommen</td></tr>
-<tr><td>Medication.form.text</td><td>X</td><td>X</td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.identifier</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.identifier:ePAMedicationUniqueIdentifier</td><td></td><td></td><td></td><td></td><td>X</td><td>Dieser Identifier wird vom Medication Service vergeben</td></tr>
-<tr><td>Medication.implicitRules</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.extension:Darreichungsform<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form)</a></td><td>X</td><td></td><td></td><td></td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.ingredient.isActive</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.userSelected</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.version</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode</td><td></td><td></td><td>X</td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code</td><td></td><td></td><td>X</td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system</td><td></td><td></td><td>X</td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode</td><td>X</td><td></td><td></td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code</td><td>X</td><td></td><td></td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system</td><td>X</td><td></td><td></td><td></td><td></td><td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemCodeableConcept.text</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemReference</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemReference.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemReference.identifier</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemReference.reference</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.item[x]:itemReference.type</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator.code</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator.comparator</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator.system</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator.unit</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength.denominator.value</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.extension:MengeFreitext<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount)</a></td><td>X</td><td></td><td></td><td></td><td></td><td>Extension und Values werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator.code</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator.comparator</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator.system</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator.unit</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.ingredient.strength.numerator.value</td><td>X</td><td></td><td>X</td><td></td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.language</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.manufacturer</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.manufacturer.display</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.manufacturer.identifier</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.manufacturer.reference</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.manufacturer.type</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.meta</td><td>X</td><td>X</td><td>X</td><td>X</td><td>X</td><td>Eigenschaft und Wert werden übernommen</td></tr>
-<tr><td>Medication.meta.profile</td><td>X</td><td>X</td><td>X</td><td>X</td><td></td><td>Wird fix auf '<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</a>' gesetzt</td></tr>
-<tr><td>Medication.status</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr>
-<tr><td>Medication.text</td><td></td><td></td><td></td><td></td><td>X</td><td>Bleibt vorerst leer, da keine Quellinformationen</td></tr></tbody>
+<tr class="row-use">
+    <td>Medication.amount</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.denominator</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.denominator.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.denominator.comparator</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.denominator.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.denominator.unit</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.denominator.value</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.numerator</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.numerator.code</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.numerator.comparator</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.amount.numerator.extension:Gesamtmenge<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)</a></td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.amount.numerator.extension:Packungsgroesse<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize)</a></td>
+    <td></td><td></td><td>X</td><td>X</td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.numerator.system</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.amount.numerator.unit</td>
+    <td>X</td><td></td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.amount.numerator.value</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.batch</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.batch.expirationDate</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.batch.lotNumber</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ASK.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:ATC-DE.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:PZN</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.code.coding:pznCode übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:PZN.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.code.coding:pznCode.code übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:PZN.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:PZN.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.code.coding:pznCode.system übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:PZN.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:PZN.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:WG14.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:pznCode</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.code.coding:PZN übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:pznCode.code</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.code.coding:PZN.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:pznCode.system</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.code.coding:PZN.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:verordnungskategorieCode</td>
+    <td>X</td><td>X</td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:verordnungskategorieCode.code</td>
+    <td>X</td><td>X</td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:verordnungskategorieCode.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.coding:verordnungskategorieCode.system</td>
+    <td>X</td><td>X</td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:verordnungskategorieCode.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.code.coding:verordnungskategorieCode.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.code.text</td>
+    <td>X</td><td>X</td><td></td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.contained</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Arzneimittelkategorie<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category)</a></td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Herstellungsanweisung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction)</a></td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Impfstoff<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine)</a></td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Kategorie<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0)</a></td>
+    <td>X</td><td></td><td></td><td>X</td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Normgroesse<br>(<a href="http://fhir.de/StructureDefinition/normgroesse)" target="_blank">http://fhir.de/StructureDefinition/normgroesse)</a></td>
+    <td></td><td></td><td>X</td><td>X</td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.extension:RxPrescriptionProcessIdentifier<br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension)" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension)</a></td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Dieser Identifier setzt sich aus der Task-ID und dem MedicationRequest.authoredOn zusammen. Er wird durch den Medication Service vergeben.</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.extension:Verpackung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging)</a></td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding</td>
+    <td></td><td></td><td></td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:EDQM.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:KBVDarreichungsform</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird in Medication.form.coding:kbvDarreichungsform übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:KBVDarreichungsform.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird in Medication.form.coding:kbvDarreichungsform.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:KBVDarreichungsform.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird in Medication.form.coding:kbvDarreichungsform.display übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:KBVDarreichungsform.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird in Medication.form.coding:kbvDarreichungsform.system übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:KBVDarreichungsform.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.form.coding:KBVDarreichungsform.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:kbvDarreichungsform</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.form.coding:KBVDarreichungsform übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:kbvDarreichungsform.code</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.form.coding:KBVDarreichungsform.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:kbvDarreichungsform.display</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.form.coding:KBVDarreichungsform.display übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.coding:kbvDarreichungsform.system</td>
+    <td></td><td></td><td></td><td>X</td><td></td>
+    <td>Wert wird in Medication.form.coding:KBVDarreichungsform.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.form.text</td>
+    <td>X</td><td>X</td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.identifier</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.identifier:ePAMedicationUniqueIdentifier</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Dieser Identifier wird vom Medication Service vergeben</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.implicitRules</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.ingredient.extension:Darreichungsform<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form)</a></td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.isActive</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ATC-DE.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Wert wird aus Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.userSelected</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:WG14.version</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode</td>
+    <td></td><td></td><td>X</td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code</td>
+    <td></td><td></td><td>X</td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system</td>
+    <td></td><td></td><td>X</td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode</td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code</td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system</td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Wert wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.item[x]:itemCodeableConcept.text</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemReference</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemReference.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemReference.identifier</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemReference.reference</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.item[x]:itemReference.type</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.denominator</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.strength.denominator.code</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.strength.denominator.comparator</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.strength.denominator.system</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.strength.denominator.unit</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.denominator.value</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-extension">
+    <td>Medication.ingredient.strength.extension:MengeFreitext<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount)" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount)</a></td>
+    <td>X</td><td></td><td></td><td></td><td></td>
+    <td>Extension und Values werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.numerator</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.numerator.code</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.ingredient.strength.numerator.comparator</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.numerator.system</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.numerator.unit</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.ingredient.strength.numerator.value</td>
+    <td>X</td><td></td><td>X</td><td></td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.language</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.manufacturer</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.manufacturer.display</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.manufacturer.identifier</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.manufacturer.reference</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.manufacturer.type</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-use">
+    <td>Medication.meta</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td>X</td>
+    <td>Eigenschaft und Wert werden übernommen</td>
+</tr>
+<tr class="row-manual">
+    <td>Medication.meta.profile</td>
+    <td>X</td><td>X</td><td>X</td><td>X</td><td></td>
+    <td>Wird fix auf '<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</a>' gesetzt</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.status</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr>
+<tr class="row-not-use">
+    <td>Medication.text</td>
+    <td></td><td></td><td></td><td></td><td>X</td>
+    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+</tr></tbody>
 </table>
 <script>
 $(document).ready(function() {
