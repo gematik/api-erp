@@ -315,11 +315,14 @@ Voraussetzung für die Verwendung des KIM-Dienstes ist, das alle beteiligten Par
 
 ==== KIM-Nachricht generieren und Empfänger ermitteln
 Im ersten Schritt wird eine Nachricht im Primärsystem erstellt. Der verordnende Leistungserbringer verfasst einen Nachrichtentext und kann wählen, ob eine Zustellbestätigung erfolgen soll. Das E-Rezept Token wird automatisch in die Nachricht eingefügt. +
+
 Die Nachricht kann nur an Empfänger versendet werden, für die ein Eintrag im Verzeichnisdienst (inklusive KIM Adresse) der TI vorhanden ist.
 
 Der KIM-Header "To" muss mit einer Email-Adresse aus dem Verzeichnisdienst befüllt werden. Das Primärsystem kann hierzu eine Abfrage der Empfänger-Adressen durchführen und agiert dabei als LDAP-Client gegenüber dem LDAP-Server (Verzeichnisdienst). Der Konnektor dient dabei als LDAP-Proxy.
 
-Der KIM-Header "KIM-Encounter-Id" dient dazu, Nachrichten zu gruppieren, insbesondere im Zusammenhang mit einem Behandlungskontext. Diese ID sollte zu Beginn einer Nachrichtenkonversation festgelegt und bei der Beantwortung von empfangenen Nachrichten beibehalten werden. Weitere Informationen finden Sie in der Dokumentation unter dem folgenden Link link:https://github.com/gematik/api-kim/blob/develop/docs/Primaersystem.adoc#43-nachrichten-versenden[API-KIM: Nachrichten Versenden].
+Wenn auf eine Nachricht geantwortet wird ist der Header "In-Reply-To" zu setzen, damit ein Nachrichtenverlauf abgebildet werden kann.
+
+Weitere Informationen finden Sie in der Dokumentation unter dem folgenden Link link:https://github.com/gematik/api-kim/blob/develop/docs/Primaersystem.adoc#43-nachrichten-versenden[API-KIM: Nachrichten Versenden].
 
 ==== KIM-Nachricht versenden
 Der Versand von KIM-Nachrichten erfolgt über das Clientmodul, das die Nachricht für jeden Empfänger zuerst signiert und anschließend verschlüsselt. Die KIM-Nachricht wird als "message/rfc822"-MIME Einheit erzeugt und in eine "multipart/mixed"-MIME-Nachricht verpackt. Die Message-IDs der Nachrichten dürfen keine datenschutzrelevanten Informationen - wie z. B. FQDNs - enthalten. Die E-Mail-Nachricht muss anschließend über das Clientmodul versendet werden.
@@ -327,7 +330,7 @@ Die Signatur erfolgt über das Primärsystem mit einem Aufruf der Signaturschnit
 
 Beim Aufbau der SMTP-Verbindung ist es erforderlich, Kartenverwaltungsinformationen zur SMC-B mitzuliefern, die zum Integritätsschutz der Nachricht verwendet werden sollen. Dazu müssen MandantId, ClientsystemId und WorkplaceId, der Kartensitzung der erforderlichen SMC-B, über den SMTP-Benutzernamen dem Clientmodul mitgeteilt werden. Weitere Informationen zur SMTP-Kommunikation finden Sie hier: https://github.com/gematik/api-kim/blob/main/docs/Primaersystem.adoc#43-nachrichten-versenden +
 
-Eine beispielhafte verschlüsselte KIM-Nachricht kann hier eingesehen werden: https://github.com/gematik/api-kim/tree/main/samples +
+Eine beispielhafte verschlüsselte KIM-Nachricht kann hier eingesehen werden: https://github.com/gematik/api-kim/tree/main/samples
 
 ==== KIM-Nachricht empfangen
 Das Clientmodul des Empfängers erhält die KIM-Nachricht und entschlüsselt diese, sofern die dafür erforderliche Smartcard/HSM im System registriert und freigeschaltet ist. Damit wird sichergestellt, dass der Zugriff auf die Nachrichten nur durch autorisierte Personen erfolgt. Die Kommunikation zwischen dem Primärsystem und dem KIM-Clientmodul erfolgt mittels des POP3-Standards. Das Primärsystem übergibt dem Clientmodul alle zum Nachrichtenempfang erforderlichen Informationen. Das Primärsystem muss sich zur POP3-Authentifizierung gegenüber dem KIM-Dienst ausweisen können. Hierfür wird im Primärsystem ein POP3-Benutzername und Passwort persistiert. +
@@ -376,16 +379,6 @@ Content-Type: text/plain;charset=UTF-8
 
 Task/169.774.328.939.869.74/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 --boundarymultipartseparator42
-Content-Type: application/pdf; name="therapieplan.pdf"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=therapieplan.pdf
-
-JVBERi0xLjQKJcDIzNINCjEgMCBvYmoKPDwKL1RpdGxlI
-[...]
- GQzZDMEUxQzRGRUI0NjFCQ0NGOUYzPjw0RDM4MkJGRDRB
- RkM2QzBFMUM0RkVCNDYxQkNDRjlGMz5dCj4+CnN0YXJ0e
- HJlZgoyMDE0CiUlRU9GCg==
- --boundarymultipartseparator42--
 ----
 NOTE: `Subject:` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
@@ -417,6 +410,38 @@ TextTextTextTextTextTextTextTextText
 
 Mit den besten Gruessen
 Apotheke 123
+----
+NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
+
+NOTE: Für die Zuweisung eines E-Rezeptes an die Apotheke muss die `X-KIM-Dienstkennung` gesetzt sein.
+
+==== Antwort zur freien Kommunikation für bspw. Rückfragen der Apotheke
+
+Um auf KIM-Nachrichten zu Antworten ist nach Standardprotokoll der Header "In-Reply-To" zu verwenden. Folgendes Beispiel ist eine Antwortnachricht auf "Nachricht zur freien Kommunikation"
+
+[source,text]
+----
+Beispiel einer KIM-Message für die freie Kommunikation:
+Date: Mon, 21 Jun 2021 11:12:13 +0100
+From: ArztABC@xyz.kim.telematik
+To: Apotheke123@abc.kim.telematik
+Subject: E-Rezept Kommunikation
+X-KIM-Dienstkennung: eRezept;Kommunikation;V1.0
+Disposition-Notification-To: ArztABC@xyz.kim.telematik
+Return-Path: <ArztABC@xyz.kim.telematik>
+Message-ID: <th4ts4n0th3rm3ss4tsch@xyz.kim.telematik>
+In-Reply-To: <th1s1s43me55ag12a@xyz.kim.telematik>
+MIME-Version: 1.0
+Content-Type: text/plain;charset=UTF-8
+
+Sehr geehrte Apotheke
+
+TextTextTextTextTextTextTextTextText
+TextTextTextTextTextTextTextTextText
+TextTextTextTextTextTextTextTextText
+
+Mit den besten Gruessen
+Arzt ABC
 ----
 NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
