@@ -117,6 +117,8 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 [Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
 
+[Hier geht es zu den Anwedungsfällen für die Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)
+
 ### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
