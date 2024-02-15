@@ -34,12 +34,13 @@ AuditEvent: https://simplifier.net/erezept-workflow/gem_erp_pr_auditevent
 Als Versicherter möchte ich all meine E-Rezepte einsehen.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Task-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+Es wird empfohlen beim Abruf der Tasks den Zeitstempel der letzten Abfrage zu übergeben, um nur die Tasks abzurufen, die sich seit der letzten Abfrage geändert haben. Dieser Zeitstempel wird als URL-Parameter `?lastmodified=ge<Zeitstempel der letzten Anfrage>` übergeben.
 
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Task
+|URI        |https://erp.app.ti-dienste.de/Task?modified=ge2020-01-01T12:23:00Z
 |Method     |GET
 |HTTP Header |
 ----
@@ -49,6 +50,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
+|URL Parameter    | status, authored-on, modified
 |Payload    | -
 |===
 
@@ -245,6 +247,7 @@ NOTE: Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Toke
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
+NOTE: Dieser Aufruf kann nur für Verordnungen deren `Task.status >= ready` ist erfolgen.
 
 |Payload    | -
 |===
