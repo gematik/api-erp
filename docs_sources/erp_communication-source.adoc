@@ -245,14 +245,20 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
 
+NOTE: Der Aufruf ist aus Performance Gründen nicht für die regelmäßige Abfrage von Nachrichten vorgesehen. Es soll nur nach neuen Nachrichten geprüft werden, wenn der Nutzer aktiv eine Aktion ausführt, die eine solche Prüfung erfordert oder in der App ein "refresh" der Daten durchgeführt wird.
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?recipient=<kvnr>&received=NULL +
 
 In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=NULL`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+
+Es wird empfohlen, die KVNR des Versicherten als "recipient" zu übergeben, damit nur die Nachrichten angezeigt werden, die an den Versicherten adressiert sind. Andernfalls würden ebenso die an die Apotheke versendeten Nachrichten abgerufen werden, wenn diese ihre Nachrichten noch nicht abgeholt hat.
+
 ¦Method     ¦GET
+¦URL Parameter     ¦sent, received, sender, recipient
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -306,13 +312,14 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=lt2020-04-30&_sort=sent +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?recipient=3-2-APO-TestApotheke&sent=lt2020-04-30&_sort=sent +
 
 . Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke gerichtet sind. Andernfalls würden ebenso die von der Apotheke versendeten Nachrichten abgerufen werden.
 . Im konkreten Beispiel soll nach Nachrichten gesucht werden, die älter als 30. April 2020 sind (`?sent=lt2020-04-30`). +
 Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
+|URL Parameter     |sent, received, sender, recipient
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
