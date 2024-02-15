@@ -996,7 +996,7 @@ Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN
 
 Die Rückgabe erfolgt als `MedicationDispense` einer MedicationDispense.
 
-NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte MedicationDispense zurückgegeben. Um alle MedicationDispenses zu einem Task zu erhalten, muss die Suche über den Aufruf `GET /MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>` erfolgen.
+NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte MedicationDispense zurückgegeben. Um alle MedicationDispenses zu einem Task zu erhalten, muss die Suche über den Aufruf `GET /MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>` erfolgen (s. Anwendungsfall "Mehrere Abgabeinformationen zu einem E-Rezept abrufen").
 
 *Request*
 [cols="h,a"]
@@ -1548,11 +1548,20 @@ Als Versicherter möchte ich Einsicht in das Zugriffsprotokoll meiner Daten im E
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/AuditEvent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die AuditEvent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
 Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit einem zusätzlichen Suchparameter in der Anfrage-URL sortiert werden kann. `https://erp.app.ti-dienste.de/AuditEvent?_sort=-date` sortiert die Protokolleinträge nach dem Protokollierungszeitpunkt `recorded` gemäß https://www.hl7.org/fhir/auditevent.html#search, das Minuszeichen in `-date` bewirkt die absteigende Sortierung (jüngster Eintrag zuerst).
 
+NOTE: Dieser Aufruf soll nicht regelmäßig im FdV ausgeführt werden, sondern nur, wenn der Versicherte Einsicht in das Protokoll nehmen möchte. Dies spart Ressourcen am E-Rezept-Fachdienst.
+
+NOTE: Die Angabe "total" wird vom E-Rezept-Fachdienst aus Gründen der Performance nicht unterstützt.
+
+NOTE: Der Fachdienst liefert Links für die Paginierung zurück, die gerne genutzt werden können. Dies erspart eine eigene Implementierung von _offset usw. Standardmäßig werden nur 50 Einträge zurückgegeben. Mittels _sort können die Einträge nach Datum sortiert werden.
+
+NOTE: Die Sprache muss in jedem Aufruf mittels "Accept-Language" Heder übergeben werden, um die Protokolleinträge in der bevorzugten Sprache des Versicherten zurückzugeben.
+
 *Request*
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/AuditEvent
 |Method     |GET
+|URL Parameter    | date, subtype, _sort, _offset, _count
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
