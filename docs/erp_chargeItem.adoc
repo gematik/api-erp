@@ -528,11 +528,14 @@ Als Versicherter möchte ich auf meine Abrechnungsinformationen zugreifen und di
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem`.
 
+NOTE: Wenn kein Consent vorliegt, ist der Aufruf auf diesen Endpunkt trotzdem möglich. Es wird dann eine leere Liste zurückgegeben, da ChargeItems nach Entzug des Consent gelöscht werden.
+
 *Request*
 [cols="h,a"]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem/
 |Method     |GET
+|URL Parameter | entered-date, _lastUpdated
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
