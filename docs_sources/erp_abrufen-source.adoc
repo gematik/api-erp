@@ -201,10 +201,10 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im h
 Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die dem Apotheker gegenüber der Krankenkasse als Quittung dient.
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
-=== Stapelverarbeitung
-Die Apotheken können bis zum Ende des nächsten Werkstages warten, bevor sie ein E-Rezept abschließen. Es besteht die Möglichkeit, dies automatisch als Stapelverarbeitung zwischen 18:00 und 22:00 Uhr durchzuführen. Um die betriebliche Stabilität zu gewährleisten darf die Stapelverarbeitung nur durchgeführt werden, wenn der Startzeitpunkt durch einen Algorithmus zufällig bestimmt wird.
+=== Zeitgesteuerte Verarbeitung
+Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
 
-Der Algorithmus sollte eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl entspricht den Sekunden nach 18:00 Uhr, zu denen die Stapelverarbeitung beginnen sollte.
+Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Während der Verarbeitung muss nach jedem 40. Aufruf der $close-Operation eine Wartezeit von 1000ms abgewartet werden.
 
 Hinweis: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
 
@@ -271,7 +271,8 @@ NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. i
 |===
 
 Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
-NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Quartals 2022 unterstützen.
+
+WARNING: Der E-Rezept-Fachdienst hat ein Datenlimit von 100kb pro Request. Falls eine Verordnung sehr viele Abgaben enthält ist darauf zu achten, dass nur ein Medication Objekt je Charge übermittelt wird, damit die Datenmenge nicht zu groß wird.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
@@ -287,6 +288,10 @@ include::../resources/examples/ti-dienste/task/request_taskCloseMultiple.xml[]
 
 
 *Response*
+HTTP/1.1 200 OK
+Content-Length: 3906
+Content-Type: application/fhir+xml;charset=utf-8
+
 [source,xml]
 ----
 include::../resources/examples/ti-dienste/task/response_taskClose.xml[]
