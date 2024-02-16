@@ -82,6 +82,8 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 [Hier geht es zur notwendigen Netzwerkkonfiguration für Primärsysteme](docs/ti_configuration.adoc)
 
+[Hier geht es zur Übersicht der Endpunkte für die Zertifikatsvalidierung für E-Rezept-FdVs](docs/certificate_check.adoc)
+
 [Hier gibt es eine Übersicht der in der API verwendeten http-Status- und Fehlercodes](docs/erp_statuscodes.adoc)
 
 [Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
