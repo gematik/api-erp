@@ -359,7 +359,6 @@ Content-Type: application/fhir+json;charset=utf-8
         "who": "https://erp.app.ti-dienste.de/signature/verification",
         "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ
         .
-        eyJyZXNvdXJjZVR5cGUiOiJCdW5kbGUiLCJpZCI6ImY4YzIyOThmLTdjMDAtNGE2OC1hZjI5LThhMjg2MmQ1NWQ0MyIsImlkZW50aWZpZXIiOnsic3lzdGVtIjoiaHR0cHM6Ly9nZW1hdGlrLmRlL1ZhbHVlU2V0L0VSWF9QUkVTQ 1JJUFRJT05fSUQiLCJ2YWx1ZSI6Ik0xNi4xMjMuNDU2Ljc4OS4xMjMuMTMifSwidHlwZSI6ImRvY3VtZW50IiwiZW50cnkiOlt7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWdsdWVja2xpY2gubG9jYWwvZmhpci 9Db21wb3NpdGlvbi9lZDUyYzFlMy1iNzAwLTQ0OTctYWUxOS1iMjM3NDRlMjk4NzYiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJDb21wb3NpdGlvbiJ9fSx7ImZ1bGxVcmwiOiJodHRwOi8vcHZzLnByYXhpcy10b3BwLWd sdWVja2xpY2gubG9jYWwvZmhpci9NZWRpY2F0aW9uUmVxdWVzdC9lOTMwY2RlZS05ZWI1LTRiNDQtODhiNS0yYTE4YjY5ZjNiOWEiLCJyZXNvdXJjZSI6eyJyZXNvdXJjZVR5cGUiOiJNZWRpY2F0aW9uUmVxdWVzdCJ9fV19
         .
         SSBhbSBhIHNpZ25hdHVyZSE="
       }
@@ -377,9 +376,9 @@ NOTE: Mit der Angabe ` "display":"Öffentliche Apotheke"` kann dem Versicherten 
 
 NOTE: Mit `"valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"` verweist der Task auf das signierte E-Rezept-Bundle im zurückgegebenen Bundle.
 
-NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Ein komplettes Beispiel kann hier eingesehen werden: https://simplifier.net/eRezept/0428d416-149e-48a4-977c-394887b3d85c/~json.
+NOTE: Aus Gründen der besseren Lesbarkeit ist das E-Rezept-Bundle hier nicht vollständig dargestellt. Ein komplettes Beispiel kann hier eingesehen werden: https://github.com/gematik/eRezept-Examples/blob/main/Test-Scenarios/2023-07-01/Versicherter/abrufen_des_e_rezepts_als_vertreter/012_Response_Bundle.json.
 
-NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil in ` "signature"` des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header.Payload.Signature` .
+NOTE: Bei der Rückgabe an den Versicherten wird der ärztliche Signaturanteil in ` "signature"` des E-Rezept-Bundles durch eine serverseitige Signatur in JWS-Format ersetzt. Aus Gründen der besseren Lesbarkeit mit separaten Zeilenumbrüchen zwischen den "."-separierten `Header."".Signature` .
 
 
 [cols="a,a"]
