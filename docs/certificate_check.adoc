@@ -23,9 +23,9 @@ Initial nach Installation muss das FdV die Zertifikate der gematik PKI abrufen u
 
 In der JSON Response sind folgende Einträge enthalten:
 
-"ee_certs": Liste der End-Entity-Zertifikate
-"ca_certs": Liste der CA-Zertifikate
-"add_root": Liste der Cross-Zertifikate (ACHTUNG: aktuell ist das nicht am E-Rezept-Fachdienst umgesetzt)
+* "ee_certs": Liste der End-Entity-Zertifikate
+* "ca_certs": Liste der CA-Zertifikate
+* "add_root": Liste der Cross-Zertifikate (ACHTUNG: aktuell ist das nicht am E-Rezept-Fachdienst umgesetzt)
 
 
 *Request*
@@ -91,7 +91,7 @@ Für die Zertifikatsprüfung ist es notwendig, dass das FdV die OCSP Responses f
 
 In der JSON Response sind folgende Einträge enthalten:
 
-"OCSP Responses": Liste der OCSP Responses der ee_certs aus dem Zertifikatsabruf
+* "OCSP Responses": Liste der OCSP Responses der ee_certs aus dem Zertifikatsabruf
 
 *Request*
 [cols="h,a"]
