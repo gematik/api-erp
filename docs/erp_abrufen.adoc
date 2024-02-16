@@ -1307,7 +1307,8 @@ NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. i
 |===
 
 Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
-NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Quartals 2022 unterstützen.
+
+WARNING: Der E-Rezept-Fachdienst hat ein Datenlimit von 100kb pro Request. Falls eine Verordnung sehr viele Abgaben enthält ist darauf zu achten, dass nur ein Medication Objekt je Charge übermittelt wird, damit die Datenmenge nicht zu groß wird.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
