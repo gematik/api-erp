@@ -13,6 +13,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
   - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
     - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
+    - [Anwendungsfälle für alle Clients](#anwendungsfälle-für-alle-clients)
     - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
     - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
     - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
@@ -81,9 +82,15 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 [Hier geht es zur notwendigen Netzwerkkonfiguration für Primärsysteme](docs/ti_configuration.adoc)
 
+[Hier geht es zur Übersicht der Endpunkte für die Zertifikatsvalidierung für E-Rezept-FdVs](docs/certificate_check.adoc)
+
 [Hier gibt es eine Übersicht der in der API verwendeten http-Status- und Fehlercodes](docs/erp_statuscodes.adoc)
 
 [Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
+
+### Anwendungsfälle für alle Clients
+
+[Hier geht es zu den Endpunten, die alle Clients bedienen können](docs/misc_api_endpoints.adoc)
 
 ### Anwendungsfälle E-Rezept in der Praxis
 

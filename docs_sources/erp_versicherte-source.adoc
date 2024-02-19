@@ -24,12 +24,13 @@ AuditEvent: https://simplifier.net/erezept-workflow/gem_erp_pr_auditevent
 Als Versicherter möchte ich all meine E-Rezepte einsehen.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Task`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die Task-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+Es wird empfohlen beim Abruf der Tasks den Zeitstempel der letzten Abfrage zu übergeben, um nur die Tasks abzurufen, die sich seit der letzten Abfrage geändert haben. Dieser Zeitstempel wird als URL-Parameter `?lastmodified=ge<Zeitstempel der letzten Anfrage>` übergeben.
 
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Task
+|URI        |https://erp.app.ti-dienste.de/Task?modified=ge2020-01-01T12:23:00Z
 |Method     |GET
 |HTTP Header |
 ----
@@ -39,6 +40,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
+|URL Parameter    | status, authored-on, modified
 |Payload    | -
 |===
 
@@ -100,6 +102,7 @@ NOTE: Als Vertreter (wenn im E-Rezept eine andere Versichertennummer als im Toke
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Task` zu setzen.
 
+NOTE: Dieser Aufruf kann nur für Verordnungen deren `Task.status >= ready` ist erfolgen.
 
 |Payload    | -
 |===
@@ -266,7 +269,7 @@ s|Code   s|Type Error
 Mit dem Suchergebnis kennt der Versicherte nun die Apotheken in seinem Umkreis. Eine Navigationsanwendung könnte ihm nun den kürzesten Weg zu einer der beiden Apotheken berechnen, unter folgendem Link stellen wir dar, wie der link:./erp_communication.adoc[Apotheke eine Nachricht geschickt werden kann].
 
 == Abgabeinformationen abrufen
-Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
+Als Versicherter möchte ich die Abgabeinformationen erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten und ggfs. in der Aufrufadresse angegebenen weiteren Suchparametern. Die Rückgabe erfolgt als Liste im `Bundle` eines oder mehrerer MedicationDispenses, welche den ggfs. angegebenen Suchparametern entsprechen.
 
@@ -274,11 +277,9 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01   +
-
-NOTE: In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/medicationdispense.html#search` angegeben werden. Im konkreten Beispiel soll nach Dispensierinformationen zu Medikamenten mit einem Abholdatum `whenhandedover` größer (`gt`) dem Datum `01.03.2020` gesucht werden.
-
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01
 |Method     |GET
+|URL Parameter | whenhandedover, whenprepared, performer
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -305,6 +306,122 @@ NOTE: Unter `"performer"` findet sich der Name und die Betriebsstättennummer Te
 
 NOTE: ` "whenHandedOver"` wurde als Filterkriterium verwendet, das Medikament wurde hier am 20.03.2020 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
 
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404 |Not found +
+[small]#Es wurde kein passender Verzeichniseintrag gefunden.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+== Abgabeinformationen zu einem E-Rezept abrufen
+Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense/<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten, den MedicationDispenses die dem Task zugeordnet sind und ggfs. in der Aufrufadresse angegebenen weiteren Suchparametern. 
+
+Die Rückgabe erfolgt als `MedicationDispense` einer MedicationDispense.
+
+NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte MedicationDispense zurückgegeben. Um alle MedicationDispenses zu einem Task zu erhalten, muss die Suche über den Aufruf `GET /MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>` erfolgen (s. Anwendungsfall "Mehrere Abgabeinformationen zu einem E-Rezept abrufen").
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense/160.880.966.157.248.22
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/medicationdispense/response_get-single-medicationdispense-by-id.json[]
+----
+NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
+
+NOTE: Unter `"performer"` findet sich der Name und die Betriebsstättennummer Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404 |Not found +
+[small]#Es wurde kein passender Verzeichniseintrag gefunden.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+== Mehrere Abgabeinformationen zu einem E-Rezept abrufen
+Als Versicherter möchte ich alle Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
+
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten, den MedicationDispenses die dem Task zugeordnet sind und ggfs. in der Aufrufadresse angegebenen weiteren Suchparametern. 
+
+Die Rückgabe erfolgt als `Bundle`, das ein oder mehrere MedicationDispenses enthält.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/medicationdispense/response_get-multiple-medication-dispense.json[]
+----
+NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
+
+NOTE: Unter `"performer"` findet sich der Name und die Betriebsstättennummer Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
 
 [cols="a,a"]
 [%autowidth]
@@ -387,11 +504,20 @@ Als Versicherter möchte ich Einsicht in das Zugriffsprotokoll meiner Daten im E
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/AuditEvent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die AuditEvent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
 Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit einem zusätzlichen Suchparameter in der Anfrage-URL sortiert werden kann. `https://erp.app.ti-dienste.de/AuditEvent?_sort=-date` sortiert die Protokolleinträge nach dem Protokollierungszeitpunkt `recorded` gemäß https://www.hl7.org/fhir/auditevent.html#search, das Minuszeichen in `-date` bewirkt die absteigende Sortierung (jüngster Eintrag zuerst).
 
+NOTE: Dieser Aufruf soll nicht regelmäßig im FdV ausgeführt werden, sondern nur, wenn der Versicherte Einsicht in das Protokoll nehmen möchte. Dies spart Ressourcen am E-Rezept-Fachdienst.
+
+NOTE: Die Angabe "total" wird vom E-Rezept-Fachdienst aus Gründen der Performance nicht unterstützt.
+
+NOTE: Der Fachdienst liefert Links für die Paginierung zurück, die gerne genutzt werden können. Dies erspart eine eigene Implementierung von _offset usw. Standardmäßig werden nur 50 Einträge zurückgegeben. Mittels _sort können die Einträge nach Datum sortiert werden.
+
+NOTE: Die Sprache muss in jedem Aufruf mittels "Accept-Language" Heder übergeben werden, um die Protokolleinträge in der bevorzugten Sprache des Versicherten zurückzugeben.
+
 *Request*
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/AuditEvent
 |Method     |GET
+|URL Parameter    | date, subtype, _sort, _offset, _count
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
