@@ -379,9 +379,11 @@ s|Code   s|Type Error
 
 == E-Rezept erneut abrufen
 
-Beim initialen Abrufen eines E-Rezepts erhält die Apotheke ein eindeutiges Secret, das für alle weiteren Schritte benötigt wird. Es besteht das Risiko, dass dieses Secret verloren geht. In diesem Fall kann das E-Rezept erneut abgerufen werden.
+Beim initialen Abrufen eines E-Rezepts erhält die Apotheke ein eindeutiges Secret, das für alle weiteren Schritte benötigt wird. Es besteht das Risiko, dass dieses Secret bei der Übertragung der Response des E-Rezept-Fachdienstes verloren geht. In diesem Fall kann das E-Rezept erneut abgerufen werden, damit die Apotheke in Besitz des Secrets kommt.
 
-Hierzu wird der Task mit den Informationen aus dem E-Rezept-Token erneut abgerufen und das Secret erneut übermittelt. Dieser Aufruf ist nur erfolgreich, wenn die gleiche Apotheke den Task erneut abruft, die das E-Rezept ursprünglich abgerufen hat.
+Hierzu wird der Task mit den Informationen aus dem E-Rezept-Token erneut abgerufen. Der E-Rezept-Fachdienst überträgt daraufhin den Task mit Secret und das QES Verordnungsbundle an die Apotheke.
+
+Dieser Aufruf ist nur erfolgreich, wenn die gleiche Apotheke den Task erneut abruft, die das E-Rezept ursprünglich abgerufen hat.
 
 *Request*
 [cols="h,a"]
@@ -410,7 +412,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
     <timestamp value="2024-02-26T05:42:19.086+00:00" />
     <link>
         <relation value="self" />
-        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.226.155.301.72" />
+        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58" />
     </link>
     <entry>
         <fullUrl
@@ -454,7 +456,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 <for>
                     <identifier>
                         <system value="http://fhir.de/sid/gkv/kvid-10" />
-                        <value value="X110501499" />
+                        <value value="X123456789" />
                     </identifier>
                 </for>
                 <authoredOn value="2020-03-02T08:25:05+00:00"/>
@@ -483,7 +485,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         </coding>
                     </type>
                     <valueReference>
-                        <reference value="a025db7a-0d00-0000-0001-000000000000" />
+                        <reference value="281a985c-f25b-4aae-91a6-41ad744080b0" />
                     </valueReference>
                 </input>
             </Task>
