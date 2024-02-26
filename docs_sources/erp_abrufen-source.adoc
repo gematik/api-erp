@@ -140,6 +140,72 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
+== E-Rezept erneut abrufen
+
+Beim initialen Abrufen eines E-Rezepts erhält die Apotheke ein eindeutiges Secret, das für alle weiteren Schritte benötigt wird. Es besteht das Risiko, dass dieses Secret verloren geht. In diesem Fall kann das E-Rezept erneut abgerufen werden. 
+
+Hierzu wird der Task mit den Informationen aus dem E-Rezept-Token erneut abgerufen und das Secret erneut übermittelt. Dieser Aufruf ist nur erfolgreich, wenn die gleiche Apotheke den Task erneut abruft, die das E-Rezept ursprünglich abgerufen hat.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|Method     |GET
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|===
+
+
+*Response*
+[source,xml]
+----
+include::../resources/examples/ti-dienste/task/request_recovery_secret.xml[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept hat nicht den Status, dass es durch die Apotheke abgerufen werden kann.# +
+[small]#Im OperationOutcome werden weitere Informationen gegeben:# +
+[small]#"Task has invalid status completed"# +
+[small]#"Task has invalid status in-progress"# +
+[small]#"Task has invalid status draft"#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|412 |Precondition Failed +
+[small]#Die angeforderte Ressource wurde nicht von der autorisierten Organisation abgerufen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
 == Qualifizierte Signatur des E-Rezepts prüfen
 Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst der Task des Workflows und der qualifiziert signierte Verordnungsdatensatz vor. Die Rechtmäßigkeit der elektronischen Verordnung wird mittels Prüfung der QES durch den Konnektor verifiziert. Der E-Rezept-Fachdienst prüft die Signatur beim Einstellen des E-Rezepts. Die Apotheke kann sich auf diese Prüfung verlassen, hat aber auch die Möglichkeit die Signatur selbst zu prüfen. Für die Prüfung wird die soeben heruntergeladene PKCS#7-Datei in Base64-codierter Form an die SOAP-Schnittstelle der Signaturprüfung des Konnektors als http-POST-Operation geschickt.
 
