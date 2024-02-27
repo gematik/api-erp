@@ -18,7 +18,7 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-Die Apotheke übermittelt den Prüfnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+Die Apotheke übermittelt den Prüfungsnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
@@ -245,11 +245,18 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
 Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab.
 
+=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3) und der Angabe von `kvnr`
+
+Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
+
+Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
+
+
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
 
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
