@@ -119,9 +119,9 @@ Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E
 
 === Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3) und der Angabe von `kvnr`
 
-Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Anfragen Prüfungsnachweise (pnw) mit dem Fehlercode "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der den Fehlercode 3 enthält.
+Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
 
-Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter kann und kann unabhängig davon angegeben werden, ob ein Fehlercode 3 im pnw vorhanden ist oder nicht. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Fehlercode 3 im pnw übermittelt werden.
+Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
 
 
 *Request*
