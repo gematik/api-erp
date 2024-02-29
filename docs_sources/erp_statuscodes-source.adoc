@@ -110,7 +110,7 @@ h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails h|Verhalten im Fehlerfa
                                      Ein Retry ist nicht zulässig.
                                      |506            |Variant Also Negotiates |
                                      Client-Failover angeraten: Ja
-                                     
+
                                      Ein Retry nur mit Client-Failover (Max. 10 Wiederholungen)
                                      |507            |Insufficient Storage |
                                      Client-Failover angeraten: Ja
@@ -177,6 +177,11 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 |GET /metadata                |200            |FHIR-CapabilityStatement erfolgreich gelesen
 |POST /Subscription           |200            |Notifications-Kanal erfolgreich aufgebaut
 
+3+h|Warnungen
+
+|POST /Task/<id>/$activate |252            |Die Anfrage hat eine ungültige Arztnummer (LANR oder ZANR): Die übergebene Arztnummer entspricht nicht den Prüfziffer-Validierungsregeln. +
+                              +
+                              *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.*
 3+h|Fehlerfälle
 
 .6+|GET /Task                 |400            |Ungültiger http-Request
