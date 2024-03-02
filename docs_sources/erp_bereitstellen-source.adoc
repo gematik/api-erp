@@ -269,6 +269,9 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 |Code   |Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
+|252  | Warning +
+[small]#Die Anfrage hat eine ungültige Arztnummer (LANR oder ZANR): Die übergebene Arztnummer entspricht nicht den Prüfziffer-Validierungsregeln. +
+Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.#
 |Code   |Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#

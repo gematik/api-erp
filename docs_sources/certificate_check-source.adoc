@@ -1,0 +1,121 @@
+= E-Rezept API-Dokumentation image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+
+Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
+
+Es wird davon ausgegangen, dass ein Root Zertifikat aus der gematik PKI in den Truststore des FdV eingetragen ist (s. link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ROOT-CA]).
+
+Die aktuelle Spezifikation sieht vor, dass GEM.RCA3 als Zertifikat im FdV hinterlegt, bzw. gepinnt ist.
+
+== Anwendungsfall Abruf von Zertifikaten
+
+Initial nach Installation muss das FdV die Zertifikate der gematik PKI abrufen und prüfen. Dazu wird die API `GET /CertList` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an Zertifikaten, die nach gemSpec_Krypt in den Truststore des FdV eingetragen werden müssen.
+
+In der JSON Response sind folgende Einträge enthalten:
+
+* "ee_certs": Liste der End-Entity-Zertifikate
+* "ca_certs": Liste der CA-Zertifikate
+* "add_root": Liste der Cross-Zertifikate (ACHTUNG: aktuell ist das nicht am E-Rezept-Fachdienst umgesetzt)
+
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/CertList
+|Method     |GET
+|URL Parameter    | -
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/cert/response_certList.json[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+== Anwendungsfall Abruf von OCSP Responses
+
+Für die Zertifikatsprüfung ist es notwendig, dass das FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSP` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an OCSP Responses, die nach gemSpec_Krypt vom FdV verwendet werden müssen, um die Zertifikate zu prüfen.
+
+In der JSON Response sind folgende Einträge enthalten:
+
+* "OCSP Responses": Liste der OCSP Responses der ee_certs aus dem Zertifikatsabruf
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/OCSPList
+|Method     |GET
+|URL Parameter    | -
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/cert/response_ocspList.json[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

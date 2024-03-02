@@ -1,0 +1,255 @@
+= E-Rezept Antworten des Fachdienstes im Übergangszeitraum 2023 image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+
+Auf dieser Seite werden generische Endpunkte des E-Rezept-Fachdienst beschrieben. Die Endpunkte sind in der Regel für alle Anbieter gleich und werden in der Regel nicht individuell konfiguriert.
+
+== Anwendungsfall CapabilityStatement des E-Rezept-Fachdienst abrufen
+
+Der CapabilityStatement-Endpunkt gibt Auskunft über die Fähigkeiten des E-Rezept-Fachdienstes. Er ist ein wichtiger Bestandteil der FHIR-Implementierung und wird von Clients genutzt, um die Fähigkeiten des Servers zu erkennen und zu nutzen.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        | https://erp.zentral.erp.splitdns.ti-dienste.de/metadata
+|Method     |GET
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE:  Die Base64-Darstellung des ACCESS_TOKEN im `Authorization`-Header ist stark gekürzt.
+|===
+
+
+*Response*
+[source,xml]
+----
+<?xml version="1.0" encoding="utf-8"?>
+<CapabilityStatement xmlns="http://hl7.org/fhir">
+    <name value="Gem_erxCapabilityStatement" />
+    <title value="E-Rezept Workflow CapabilityStatement" />
+    <status value="draft" />
+    <date value="2024-02-03T12:01:02.000+00:00" />
+    <kind value="instance" />
+    <software>
+        <name value="DEIBM-ERP-FD" />
+        <version value="1.13.0" />
+        <releaseDate value="2024-02-03T12:01:02.000+00:00" />
+    </software>
+    <implementation>
+        <description value="E-Rezept Fachdienst Server" />
+    </implementation>
+    <fhirVersion value="4.0.1" />
+    <format value="xml" />
+    <format value="json" />
+    <rest>
+        <mode value="server" />
+        <resource>
+            <type value="Task" />
+            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2" />
+            <interaction>
+                <code value="create" />
+            </interaction>
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <searchParam>
+                <name value="status" />
+                <type value="token" />
+            </searchParam>
+            <searchParam>
+                <name value="authored-on" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="modified" />
+                <type value="date" />
+            </searchParam>
+            <operation>
+                <name value="create" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/CreateOperationDefinition" />
+            </operation>
+            <operation>
+                <name value="activate" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/ActivateOperationDefinition" />
+            </operation>
+            <operation>
+                <name value="accept" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/AcceptOperationDefinition" />
+            </operation>
+            <operation>
+                <name value="reject" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/RejectOperationDefinition" />
+            </operation>
+            <operation>
+                <name value="close" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/CloseOperationDefinition" />
+            </operation>
+            <operation>
+                <name value="abort" />
+                <definition
+                    value="https://gematik.de/fhir/erp/OperationDefinition/AbortOperationDefinition" />
+            </operation>
+        </resource>
+        <resource>
+            <type value="Communication" />
+            <profile value="http://hl7.org/fhir/StructureDefinition/Communication|4.0.1" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Representative|1.2" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Communication_ChargChangeReq|1.0" />
+            <supportedProfile
+                value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Communication_ChargChangeReply|1.0" />
+            <interaction>
+                <code value="create" />
+            </interaction>
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <interaction>
+                <code value="delete" />
+            </interaction>
+            <searchParam>
+                <name value="sent" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="received" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="sender" />
+                <type value="string" />
+            </searchParam>
+            <searchParam>
+                <name value="recipient" />
+                <type value="string" />
+            </searchParam>
+        </resource>
+        <resource>
+            <type value="MedicationDispense" />
+            <profile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2" />
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <searchParam>
+                <name value="whenhandedover" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="whenprepared" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="performer" />
+                <type value="string" />
+            </searchParam>
+        </resource>
+        <resource>
+            <type value="AuditEvent" />
+            <profile
+                value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.2" />
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <searchParam>
+                <name value="date" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="subtype" />
+                <type value="token" />
+            </searchParam>
+        </resource>
+        <resource>
+            <type value="Device" />
+            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.2" />
+            <interaction>
+                <code value="read" />
+            </interaction>
+        </resource>
+        <resource>
+            <type value="ChargeItem" />
+            <profile
+                value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0" />
+            <interaction>
+                <code value="create" />
+            </interaction>
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <interaction>
+                <code value="delete" />
+            </interaction>
+            <searchParam>
+                <name value="entered-date" />
+                <type value="date" />
+            </searchParam>
+            <searchParam>
+                <name value="_lastUpdated" />
+                <type value="date" />
+            </searchParam>
+        </resource>
+        <resource>
+            <type value="Consent" />
+            <profile
+                value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0" />
+            <interaction>
+                <code value="create" />
+            </interaction>
+            <interaction>
+                <code value="read" />
+            </interaction>
+            <interaction>
+                <code value="delete" />
+            </interaction>
+        </resource>
+    </rest>
+</CapabilityStatement>
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
