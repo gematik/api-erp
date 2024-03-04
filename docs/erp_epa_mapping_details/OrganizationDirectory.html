@@ -1,491 +1,600 @@
 <!DOCTYPE html>
-<html><head><title>Mapping: OrganizationDirectory</title>
-<link rel='stylesheet' type='text/css' href='./style.css'>
-<link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
-<script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
-<script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
-</head><body>
-<h2>Mapping: KBV_PR_FOR_Organization in OrganizationDirectory</h2>
-<table id='resultsTable' class='display' style='width:100%'>
-<thead><tr><th>Property</th><th>KBV_PR_FOR_Organization</th><th>OrganizationDirectory</th><th>Remarks</th></tr></thead>
-<tbody>
-<tr class="row-not-use">
-    <td>Organization.active</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.address</td>
-    <td>X</td><td>X</td>
-    <td>Eigenschaft und Wert werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.city</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.country</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.line</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.line.extension:Adresszusatz<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-additionalLocator" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-additionalLocator</a>)</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.line.extension:Hausnummer<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber</a>)</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.line.extension:Strasse<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName</a>)</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.line.value</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.postalCode</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.address:Strassenanschrift.type</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.alias</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contact</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contact.address</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contact.name</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contact.purpose</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contact.telecom</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.contained</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.endpoint</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier</td>
-    <td>X</td><td>X</td>
-    <td>Eigenschaft und Wert werden übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:BSNR</td>
-    <td></td><td>X</td>
-    <td>Wird aus Organization.identifier:Betriebsstaettennummer übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.type</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.type übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.type.coding</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.type.coding übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.type.coding.code</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.type.coding.code übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.type.coding.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.type.coding.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.use</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.use übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Betriebsstaettennummer.value</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:BSNR.value übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:IKNR</td>
-    <td></td><td>X</td>
-    <td>Wird aus Organization.identifier:Institutionskennzeichen übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.type</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.type übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.type.coding</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.type.coding übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.type.coding.code</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.type.coding.code übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.type.coding.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.type.coding.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.use</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.use übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Institutionskennzeichen.value</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:IKNR.value übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.type</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.type übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.type.coding übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding.code</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.type.coding.code übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.type.coding.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.use</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.use übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZV-Abrechnungsnummer.value</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:KZVA.value übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:KZVA</td>
-    <td></td><td>X</td>
-    <td>Wird aus Organization.identifier:KZV-Abrechnungsnummer übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.system</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.type</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.type.coding</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.type.coding.code</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.type.coding.system</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.use</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.identifier:Standortnummer.value</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.type</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.type übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.type.coding</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.type.coding übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.type.coding.code</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.type.coding.code übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.type.coding.system</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.type.coding.system übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.use</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.use übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:Telematik-ID.value</td>
-    <td>X</td><td></td>
-    <td>Wird in Organization.identifier:TelematikID.value übernommen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.identifier:TelematikID</td>
-    <td></td><td>X</td>
-    <td>Wird aus Organization.identifier:Telematik-ID übernommen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.implicitRules</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.language</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.meta</td>
-    <td>X</td><td>X</td>
-    <td>Eigenschaft und Wert werden übernommen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.lastUpdated</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-manual">
-    <td>Organization.meta.profile</td>
-    <td>X</td><td>X</td>
-    <td>Wird fix auf '<a href="http://fhir.de/StructureDefinition/identifier-telematik-id" target="_blank">http://fhir.de/StructureDefinition/identifier-telematik-id</a>' gesetzt</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.security</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.source</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin.code</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin.display</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin.system</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin.userSelected</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.tag:Origin.version</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.meta.versionId</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.name</td>
-    <td>X</td><td>X</td>
-    <td>Eigenschaft und Wert werden übernommen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.partOf</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-use">
-    <td>Organization.telecom</td>
-    <td>X</td><td>X</td>
-    <td>Eigenschaft und Wert werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:eMail</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:eMail.system</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:eMail.value</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:fax</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:fax.system</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:fax.value</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:telefon</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:telefon.system</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-extension">
-    <td>Organization.telecom:telefon.value</td>
-    <td>X</td><td></td>
-    <td>Extension und Values werden übernommen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.text</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr>
-<tr class="row-not-use">
-    <td>Organization.type</td>
-    <td></td><td>X</td>
-    <td>Bleibt vorerst leer, da keine Quellinformationen</td>
-</tr></tbody>
-</table>
-<script>
-$(document).ready(function() {
-    $('#resultsTable').DataTable({
-        'pageLength': 25,
-        'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 150, 'All']]
-    });
-});
-</script>
-</body></html>
+<html>
+
+<head>
+    <title>Mapping: OrganizationDirectory</title>
+    <link rel='stylesheet' type='text/css' href='./style.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+    <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
+</head>
+
+<body>
+    <h2>Mapping: KBV_PR_FOR_Organization in OrganizationDirectory</h2>
+    <table id='resultsTable' class='display' style='width:100%'>
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>KBV_PR_FOR_Organization</th>
+                <th>OrganizationDirectory</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="row-not-use">
+                <td>Organization.active</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.address</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Eigenschaft und Wert werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.city</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.country</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.line</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.line.extension:Adresszusatz<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-additionalLocator" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-additionalLocator</a>)</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.line.extension:Hausnummer<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber</a>)</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.line.extension:Strasse<br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName</a>)</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.line.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.postalCode</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.address:Strassenanschrift.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.alias</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contact</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contact.address</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contact.name</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contact.purpose</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contact.telecom</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.contained</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.endpoint</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Eigenschaft und Wert werden übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:BSNR</td>
+                <td></td>
+                <td>X</td>
+                <td>Wird aus Organization.identifier:Betriebsstaettennummer übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.type übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.type.coding</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.type.coding übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.type.coding.code</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.type.coding.code übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.type.coding.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.type.coding.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.use</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.use übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Betriebsstaettennummer.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:BSNR.value übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:IKNR</td>
+                <td></td>
+                <td>X</td>
+                <td>Wird aus Organization.identifier:Institutionskennzeichen übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.type übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.type.coding</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.type.coding übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.type.coding.code</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.type.coding.code übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.type.coding.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.type.coding.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.use</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.use übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Institutionskennzeichen.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:IKNR.value übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.type übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.type.coding übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding.code</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.type.coding.code übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.type.coding.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.type.coding.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.use</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.use übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZV-Abrechnungsnummer.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:KZVA.value übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:KZVA</td>
+                <td></td>
+                <td>X</td>
+                <td>Wird aus Organization.identifier:KZV-Abrechnungsnummer übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.type.coding</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.type.coding.code</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.type.coding.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.use</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.identifier:Standortnummer.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.type</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.type übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.type.coding</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.type.coding übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.type.coding.code</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.type.coding.code übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.type.coding.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.type.coding.system übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.use</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.use übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:Telematik-ID.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Wird in Organization.identifier:TelematikID.value übernommen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.identifier:TelematikID</td>
+                <td></td>
+                <td>X</td>
+                <td>Wird aus Organization.identifier:Telematik-ID übernommen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.implicitRules</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.language</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.meta</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Eigenschaft und Wert werden übernommen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.lastUpdated</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-manual">
+                <td>Organization.meta.profile</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Wird fix auf '<a href="http://fhir.de/StructureDefinition/identifier-telematik-id" target="_blank">http://fhir.de/StructureDefinition/identifier-telematik-id</a>' gesetzt</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.security</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.source</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin.code</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin.display</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin.system</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin.userSelected</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.tag:Origin.version</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.meta.versionId</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.name</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Eigenschaft und Wert werden übernommen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.partOf</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-use">
+                <td>Organization.telecom</td>
+                <td>X</td>
+                <td>X</td>
+                <td>Eigenschaft und Wert werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:eMail</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:eMail.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:eMail.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:fax</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:fax.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:fax.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:telefon</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:telefon.system</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-extension">
+                <td>Organization.telecom:telefon.value</td>
+                <td>X</td>
+                <td></td>
+                <td>Extension und Values werden übernommen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.text</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            <tr class="row-not-use">
+                <td>Organization.type</td>
+                <td></td>
+                <td>X</td>
+                <td>Bleibt vorerst leer, da keine Quellinformationen</td>
+            </tr>
+            </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                'pageLength': 25,
+                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 150, 'All']]
+            });
+        });
+    </script>
+</body>
+
+</html>
