@@ -189,11 +189,11 @@
                 <td>X</td>
                 <td>Bleibt vorerst leer, da keine Quellinformationen</td>
             </tr>
-            <tr class="row-extension">
+            <tr class="row-not-use">
                 <td>MedicationRequest.dosageInstruction.extension:Dosierungskennzeichen<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag</a>)</td>
                 <td>X</td>
                 <td></td>
-                <td>Extension und Values werden übernommen</td>
+                <td>Wird nicht übernommen</td>
             </tr>
             <tr class="row-not-use">
                 <td>MedicationRequest.dosageInstruction.maxDosePerAdministration</td>
@@ -267,11 +267,11 @@
                 <td>X</td>
                 <td>Bleibt vorerst leer, da keine Quellinformationen</td>
             </tr>
-            <tr class="row-extension">
+            <tr class="row-not-use">
                 <td>MedicationRequest.extension:BVG<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG</a>)</td>
                 <td>X</td>
                 <td></td>
-                <td>Extension und Values werden übernommen</td>
+                <td>Wird nicht übernommen</td>
             </tr>
             <tr class="row-extension">
                 <td>MedicationRequest.extension:Mehrfachverordnung<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription</a>)</td>
@@ -279,23 +279,23 @@
                 <td></td>
                 <td>Extension und Values werden übernommen</td>
             </tr>
-            <tr class="row-extension">
+            <tr class="row-not-use">
                 <td>MedicationRequest.extension:Notdienstgebuehr<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee</a>)</td>
                 <td>X</td>
                 <td></td>
-                <td>Extension und Values werden übernommen</td>
+                <td>Wird nicht übernommen</td>
             </tr>
-            <tr class="row-extension">
+            <tr class="row-not-use">
                 <td>MedicationRequest.extension:Unfallinformationen<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident</a>)</td>
                 <td>X</td>
                 <td></td>
-                <td>Extension und Values werden übernommen</td>
+                <td>Wird nicht übernommen</td>
             </tr>
-            <tr class="row-extension">
+            <tr class="row-not-use">
                 <td>MedicationRequest.extension:Zuzahlungsstatus<br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment</a>)</td>
                 <td>X</td>
                 <td></td>
-                <td>Extension und Values werden übernommen</td>
+                <td>Wird nicht übernommen</td>
             </tr>
             <tr class="row-not-use">
                 <td>MedicationRequest.groupIdentifier</td>
@@ -345,11 +345,11 @@
                 <td></td>
                 <td>Wird beim Mapping ignoriert</td>
             </tr>
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>MedicationRequest.intent</td>
                 <td>X</td>
                 <td>X</td>
-                <td>Eigenschaft und Wert werden übernommen</td>
+                <td>Wird fix auf 'filler-order' gesetzt</td>
             </tr>
             <tr class="row-not-use">
                 <td>MedicationRequest.language</td>
@@ -405,11 +405,11 @@
                 <td>X</td>
                 <td>Eigenschaft und Wert werden übernommen</td>
             </tr>
-            <tr class="row-manual">
+            <tr class="row-not-use">
                 <td>MedicationRequest.meta.profile</td>
                 <td>X</td>
                 <td></td>
-                <td>Wird fix auf '<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</a>' gesetzt</td>
+                <td>Wird nicht übernommen</td>
             </tr>
             <tr class="row-use">
                 <td>MedicationRequest.note</td>
