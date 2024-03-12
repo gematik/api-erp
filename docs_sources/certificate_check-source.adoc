@@ -134,4 +134,116 @@ NOTE: Dieser Anwendungsfall wird voraussichtlich Ende Juni 2024 im E-Rezept-Fach
 
 === Abruf von Zertifikaten
 
+==== Vertrauensanker des FdV
+
+Nach Anforderungslage muss ein E-Rezept-FdV einen Vertrauensanker der gematik PKI vorinstalliert in einer App-Instanz bereitstellen. Der Vertrauensanker ist ein Root-Zertifikat, dass aus dem link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ECC ROOT-CA] bezogen werden kann.
+
+Das ausgewählte Root Zertifikat muss mindestens fünf Jahre gültig sein und als Basis für die Prüfung von TI-Zertifikaten verwendet werden.
+
+==== Abruf von CA- und Cross Zertifikaten
+
+Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates` abgerufen. 
+
+Der E-Rezept-Fachdienst liefert alle gültigen CA-Zertifikate der gematik PKI zurück.
+Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore hinterlegt ist (SubjectCN des Root Zertifikats), damit der E-Rezept-Fachdienst die passenden Cross-Zertifikate zurückliefern kann.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
+|Method     |GET
+|URL Parameter    | currentRoot
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/cert/response_pkicertificates.json[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
 === Abruf von OCSP Responses
+
+Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet. 
+
+Der URL-Parameter `issuer-cn` ist der Common Name des austellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Das Format der Seriennummer ist hexadezimal mit Doppelpunkt getrennt.
+
+Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Response für das angefragte Zertifikat nach RFC 6960.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
+|Method     |GET
+|URL Parameter    | issuer-cn, serial-nr
+|HTTP Header | 
+----
+X-api-key: 1234567890
+content-type: application/ocsp-response
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/ocsp-response
+
+Eine Beispielhafte OCSP-Response ist unter folgendem Link zu finden:
+link::../resources/examples/ti-dienste/cert/response_ocspResponse.der[OCSP Response]
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
