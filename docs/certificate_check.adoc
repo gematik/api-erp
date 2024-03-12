@@ -168,7 +168,7 @@ Das ausgewählte Root Zertifikat muss mindestens fünf Jahre gültig sein und al
 
 ==== Abruf von CA- und Cross Zertifikaten
 
-Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates` abgerufen.
+Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates?currentRoot` abgerufen.
 
 Der E-Rezept-Fachdienst liefert alle gültigen CA-Zertifikate der gematik PKI zurück.
 Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore hinterlegt ist (SubjectCN des Root Zertifikats), damit der E-Rezept-Fachdienst die passenden Cross-Zertifikate zurückliefern kann.
@@ -268,6 +268,7 @@ HTTP/1.1 200 OK
 Content-Type: application/ocsp-response
 
 Eine Beispielhafte OCSP-Response ist unter folgendem Link zu finden:
+
 link::../resources/examples/ti-dienste/cert/response_ocspResponse.der[OCSP Response]
 
 [cols="a,a"]
