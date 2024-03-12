@@ -13,11 +13,16 @@
 
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
+NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
+Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt.
+
+toc::[]
+
+== Anwendungsfall Abruf von Zertifikaten mittels `GET /CertList`
+
 Es wird davon ausgegangen, dass ein Root Zertifikat aus der gematik PKI in den Truststore des FdV eingetragen ist (s. link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ROOT-CA]).
 
 Die aktuelle Spezifikation sieht vor, dass GEM.RCA3 als Zertifikat im FdV hinterlegt, bzw. gepinnt ist.
-
-== Anwendungsfall Abruf von Zertifikaten
 
 Initial nach Installation muss das FdV die Zertifikate der gematik PKI abrufen und prüfen. Dazu wird die API `GET /CertList` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an Zertifikaten, die nach gemSpec_Krypt in den Truststore des FdV eingetragen werden müssen.
 
@@ -145,3 +150,8 @@ s|Code   s|Type Error
 |500  |Server Errors +
 [small]#Unerwarteter Serverfehler#
 |===
+
+
+== Anwendungsfall Abruf von Zertifikaten mittels `GET /PKICertificates`
+
+NOTE: Dieser Anwendungsfall wird voraussichtlich Ende Juni 2024 im E-Rezept-Fachdienst bereitstehen.
