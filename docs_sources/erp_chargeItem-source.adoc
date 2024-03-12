@@ -27,6 +27,62 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
 
 ==  Anwendungsfall PKV-Abrechnungsinformationen durch den abgebenden Leistungserbringer bereitstellen
+
+=== Signieren des PKV-Abgabedatensatzes via SMC-B
+
+Der abgebende Leistungserbringer signiert den PKV-Abgabedatensatz mit seiner SMC-B. Die Signatur wird in der ChargeItem-Ressource als Enveloping-CAdES-Signatur in Base64-Codierung hinterlegt.
+
+Im Primärsystem liegt ein PKV-Abgabedatensatz vor. Dieser Abgabedatensatz in XML-Darstellung muss nun digital unterschrieben (nonQES oder QES) werden. Das Primärsystem nutzt dafür die Schnittstelle des Konnektors und dieser den Heilberufsausweis des abgebenden Apothekers oder die SMC-B der Leistungserbringerinstitution.
+
+NOTE: Bei der Verwendung des Signaturformats CAdES-Enveloping ist eine Kanonisierung nicht erforderlich, da die signierten Daten "innerhalb" der Signatur transportiert werden.
+
+TIP: Der Konnektor wählt standardmäßig ein passendes kryptografisches Verfahren, es kann jedoch mit dem Parameter `crypt` in SignDocument auch gemäß der Spezifikation in gemSpec_Kon#TAB_KON_862-01 [ab Schemaversion 7.5] konkret gewählt werden (z.B. ECC, falls das Verhalten der verschiedenen Algorithmen ausprobiert werden soll).
+
+Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Im folgenden Beispiel wird die Signatur mit einer SMC-B durchgeführt.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://192.168.x.y/Konnektorservice
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: text/xml; charset=UTF-8
+Content-Length: 1234
+SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.5#SignDocument"
+----
+|Payload    |
+[source,xml]
+----
+include::../resources/examples/konnektorservice/request_SignDocument_Abgabedaten.xml[]
+----
+
+|===
+
+IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender Bedeutung. Die in der Signatur eingebettete OCSP-Response vereinfacht die Signaturprüfung im weiteren Prozess und in der späteren Abrechnung.
+
+*Response*
+[source,xml]
+----
+include::../resources/examples/konnektorservice/response_SignDocument_Abgabedaten.xml[]
+----
+NOTE: Das Ergebnis der erfolgreichen Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
+
+[cols="a,a"]
+[%autowidth]
+|===
+|Code   |Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
+|Code   |Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+
+=== Bereitstellen der PKV-Abrechnungsinformationen am E-Rezept-Fachdienst
+
 Als Apotheker möchte ich dem Versicherten seine Abrechnungsinformationen bereitstellen. Die Abrechnungsinformationen werden über die FHIR-Ressource "ChargeItem" abgebildet. Das ChargeItem enthält Referenzen auf die dazugehörenden Datensätze (als Bundle abgebildet), Verordnungsdatensatz, Abgabedatensatz und die Quittung.
 Der Abgabedatensatz wird als Contained-Objekt in dem ChargeItem mitgegeben. Der E-Rezept-Fachdienst extrahiert dieses Binary, speichert es gesondert ab und erstellt eine Referenz in der ChargeItem-Resource.
 Das Attribut "ChargeItem.Code" ist nach dem FHIR-Standard ein Pflichtfeld, wird aber in diesem Kontext fachlich nicht benötigt. Deshalb wird hier ein Platzhalter-Codesystem angewendet.
