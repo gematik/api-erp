@@ -60,7 +60,7 @@ include::../resources/examples/konnektorservice/request_SignDocument_Abgabedaten
 
 |===
 
-IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender Bedeutung. Die in der Signatur eingebettete OCSP-Response vereinfacht die Signaturprüfung im weiteren Prozess und in der späteren Abrechnung.
+IMPORTANT: Der Parameter `IncludeRevocationInfo` darf nur bei einer QES-Signatur auf `true` gesetzt werden. Für nonQES-Signaturen ist der Wert auf `false` zu setzen.
 
 *Response*
 [source,xml]
