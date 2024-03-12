@@ -18,7 +18,9 @@ Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber 
 
 toc::[]
 
-== Anwendungsfall Abruf von Zertifikaten mittels `GET /CertList`
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /CertList`
+
+=== Abruf von Zertifikaten
 
 Es wird davon ausgegangen, dass ein Root Zertifikat aus der gematik PKI in den Truststore des FdV eingetragen ist (s. link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ROOT-CA]).
 
@@ -90,7 +92,7 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
-== Anwendungsfall Abruf von OCSP Responses
+=== Abruf von OCSP Responses
 
 Für die Zertifikatsprüfung ist es notwendig, dass das FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSP` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an OCSP Responses, die nach gemSpec_Krypt vom FdV verwendet werden müssen, um die Zertifikate zu prüfen.
 
@@ -152,6 +154,10 @@ s|Code   s|Type Error
 |===
 
 
-== Anwendungsfall Abruf von Zertifikaten mittels `GET /PKICertificates`
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /PKICertificates`
 
 NOTE: Dieser Anwendungsfall wird voraussichtlich Ende Juni 2024 im E-Rezept-Fachdienst bereitstehen.
+
+=== Abruf von Zertifikaten
+
+=== Abruf von OCSP Responses
