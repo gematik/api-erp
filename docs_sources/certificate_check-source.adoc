@@ -4,11 +4,13 @@ include::./config-source.adoc[]
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
 NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
-Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt.
+Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst deprecated und durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt. Zu einem späteren Zeitpunkt wird der Endpunkt entfernt.
 
 toc::[]
 
 == Anwendungsfall Validieren von Zertifikaten mittels `GET /CertList`
+
+WARNING: Dieser Anwendungsfall wird deprecated und nur bis voraussichtlich Mitte 2025 unterstützt. Ab voraussichtlich Ende Juni 2024 kann der Anwendungsfall unter Verwendung von `GET /PKICertificates` umgesetzt werden.
 
 === Abruf von Zertifikaten
 
@@ -142,7 +144,7 @@ Das ausgewählte Root Zertifikat muss mindestens fünf Jahre gültig sein und al
 
 ==== Abruf von CA- und Cross Zertifikaten
 
-Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates?currentRoot` abgerufen. 
+Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates?currentRoot=<root.SubjectCN>` abgerufen.
 
 Der E-Rezept-Fachdienst liefert alle gültigen CA-Zertifikate der gematik PKI zurück.
 Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore hinterlegt ist (SubjectCN des Root Zertifikats), damit der E-Rezept-Fachdienst die passenden Cross-Zertifikate zurückliefern kann.
@@ -199,7 +201,7 @@ s|Code   s|Type Error
 
 Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet. 
 
-Der URL-Parameter `issuer-cn` ist der Common Name des austellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Das Format der Seriennummer ist hexadezimal mit Doppelpunkt getrennt.
+Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird als Hexadezimal der Form `[A-Fa-f0-9]` angegeben.
 
 Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Response für das angefragte Zertifikat nach RFC 6960.
 
