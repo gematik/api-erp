@@ -123,6 +123,13 @@ Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apothek
 
 Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
 
+.Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
+[%collapsible]
+====
+Im Folgenden ist das Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst dargestellt.
+
+image:puml_pn3_decision_tree.png[width=100%]
+====
 
 *Request*
 [cols="h,a"]
@@ -189,7 +196,6 @@ s|Code   s|Type Error
 [small]#Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.#
 |500  |Server Errors +
 [small]#Unerwarteter Serverfehler#
-|===
 
 Im OperationOutcome übermittelte Fehlermeldungen:
 
