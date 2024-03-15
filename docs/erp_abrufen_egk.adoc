@@ -251,6 +251,13 @@ Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apothek
 
 Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
 
+.Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
+[%collapsible]
+====
+Im Folgenden ist das Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst dargestellt.
+
+image:puml_pn3_decision_tree.png[width=100%]
+====
 
 *Request*
 [cols="h,a"]
@@ -398,14 +405,40 @@ NOTE: Je Rezept müssen die Task-ID `<id value="160.000.036.967.704.52" />` und 
  `<value value="eb6002c60dffdfb742002bf44f9f72326de3dddfe2271ab64a21a6cb0f168bbf" />` ausgelesen und für den Folgeaufruf der
  `POST /Task/160.000.036.967.704.52/$accept?ac=eb6002c60dffdfb742002bf44f9f72326de3dddfe2271ab64a21a6cb0f168bbf`-Operation zusammengesetzt werden, siehe link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^].
 
+
 [cols="a,a"]
 [%autowidth]
 |===
 s|Code   s|Type Success
 |200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+|202  | Accepted +
+[small]#Die Anfrage wurde erfolgreich angenommen.#
 s|Code   s|Type Error
-|403 a|Forbidden +
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|454 | +
+[small]#Die Anfrage wird abgebrochen, da die Voraussetzungen zur Erfüllung nicht gegeben sind. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.#
+|455 | +
+[small]#Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
 
 Im OperationOutcome übermittelte Fehlermeldungen:
 
