@@ -3,11 +3,20 @@ include::./config-source.adoc[]
 
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
+NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
+Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst deprecated und durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt. Zu einem späteren Zeitpunkt wird der Endpunkt entfernt.
+
+toc::[]
+
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /CertList`
+
+WARNING: Dieser Anwendungsfall wird deprecated und nur bis voraussichtlich Mitte 2025 unterstützt. Ab voraussichtlich Ende Juni 2024 kann der Anwendungsfall unter Verwendung von `GET /PKICertificates` umgesetzt werden.
+
+=== Abruf von Zertifikaten
+
 Es wird davon ausgegangen, dass ein Root Zertifikat aus der gematik PKI in den Truststore des FdV eingetragen ist (s. link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ROOT-CA]).
 
 Die aktuelle Spezifikation sieht vor, dass GEM.RCA3 als Zertifikat im FdV hinterlegt, bzw. gepinnt ist.
-
-== Anwendungsfall Abruf von Zertifikaten
 
 Initial nach Installation muss das FdV die Zertifikate der gematik PKI abrufen und prüfen. Dazu wird die API `GET /CertList` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an Zertifikaten, die nach gemSpec_Krypt in den Truststore des FdV eingetragen werden müssen.
 
@@ -65,7 +74,7 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
-== Anwendungsfall Abruf von OCSP Responses
+=== Abruf von OCSP Responses
 
 Für die Zertifikatsprüfung ist es notwendig, dass das FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSP` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an OCSP Responses, die nach gemSpec_Krypt vom FdV verwendet werden müssen, um die Zertifikate zu prüfen.
 
@@ -112,6 +121,132 @@ s|Code   s|Type Error
 [small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /PKICertificates`
+
+NOTE: Dieser Anwendungsfall wird voraussichtlich Ende Juni 2024 im E-Rezept-Fachdienst bereitstehen.
+
+=== Abruf von Zertifikaten
+
+==== Vertrauensanker des FdV
+
+Nach Anforderungslage muss ein E-Rezept-FdV einen Vertrauensanker der gematik PKI vorinstalliert in einer App-Instanz bereitstellen. Der Vertrauensanker ist ein Root-Zertifikat, dass aus dem link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ECC ROOT-CA] bezogen werden kann.
+
+Das ausgewählte Root Zertifikat muss mindestens fünf Jahre gültig sein und als Basis für die Prüfung von TI-Zertifikaten verwendet werden.
+
+==== Abruf von CA- und Cross Zertifikaten
+
+Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates?currentRoot=<root.SubjectCN>` abgerufen.
+
+Der E-Rezept-Fachdienst liefert alle gültigen CA-Zertifikate der gematik PKI zurück.
+Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore hinterlegt ist (SubjectCN des Root Zertifikats), damit der E-Rezept-Fachdienst die passenden Cross-Zertifikate zurückliefern kann.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
+|Method     |GET
+|URL Parameter    | currentRoot
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+include::../resources/examples/ti-dienste/cert/response_pkicertificates.json[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not Found +
+[small]#Das Root Zertifikat, welches übergeben wurde, konnte nicht ermittelt werden.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+=== Abruf von OCSP Responses
+
+Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet. 
+
+Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird als Hexadezimal der Form `[A-Fa-f0-9]` angegeben.
+
+Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Response für das angefragte Zertifikat nach RFC 6960.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
+|Method     |GET
+|URL Parameter    | issuer-cn, serial-nr
+|HTTP Header | 
+----
+X-api-key: 1234567890
+content-type: application/ocsp-response
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/ocsp-response
+
+Eine Beispielhafte OCSP-Response ist unter folgendem Link zu finden:
+
+link:../resources/examples/ti-dienste/cert/response_ocspResponse.der[OCSP Response]
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not Found +
+[small]#Das Zertifikat für das der OCSP-Reqeust mit der Kombination aus issuer-cn und serial-nr erstellt werden soll, konnte nicht ermittelt werden.#
 |405 |Method Not Allowed +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 |429 |Too Many Requests +
