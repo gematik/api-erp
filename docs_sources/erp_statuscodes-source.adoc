@@ -85,12 +85,12 @@ h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails h|Verhalten im Fehlerfa
  |429	           |Zu viele Anfragen pro Zeiteinheit durch Nutzer | Client-Failover angeraten: Ja
 
  Ein Retry ist stündlich zulässig. (Max 10 Wiederholungen)
- |454            |+ Die Anfrage wird abgebrochen, da die Voraussetzungen zur Erfüllung nicht gegeben sind. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.| Client-Failover angeraten: Ja
+ |454            |+ Die Anfrage wird abgebrochen, da die Voraussetzungen zur Erfüllung nicht gegeben sind. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.| Client-Failover angeraten: Nein
 
- Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
- |455            |+ Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.| Client-Failover angeraten: Ja
+ Ein Retry ist nicht zulässig.
+ |455            |+ Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.| Client-Failover angeraten: Nein
 
- Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
+ Ein Retry ist nicht zulässig.
 |500	           |Internal Server Error | Client-Failover angeraten: Ja
 
  Ein Retry gemäß Exponential Backoff ist zulässig. (Max 10 Wiederholungen)
