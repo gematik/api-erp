@@ -147,7 +147,8 @@ h|Mögliche http Status Codes  h|Bedeutung/Fehlerdetails h|Verhalten im Fehlerfa
 |===
 h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 3+h|Erfolgsfälle
-|GET /Task                    |200            |Tasks konnten erfolgreich gelesen werden
+.2+|GET /Task                 |200            |Tasks konnten erfolgreich gelesen werden
+                              |202            |Tasks konnten erfolgreich gelesen werden. Die Anfrage enthielt einen Prüfungsnachweis mit dem Ergebnis "3". Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt Prüfungsnachweise, die das Ergebnis "3" enthalten.
 |GET /Task/<id>               |200            |Task konnte erfolgreich gelesen werden
 |POST /Task/$create           |201            |Task konnte für den angeforderten FlowType erfolgreich initialisiert werden
 .2+|POST /Task/<id>/$activate |200            |Task konnte mit der bereitgestellten Verordnung aktiviert werden
@@ -184,12 +185,14 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
                               *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.*
 3+h|Fehlerfälle
 
-.6+|GET /Task                 |400            |Ungültiger http-Request
+.8+|GET /Task                 |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            |Unzulässige fachliche Rolle
                               |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
                               |408            |Timeout
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |454            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" übermittelt wurde. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
+                              |455            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" aber kein URL-Parameter kvnr übermittelt wurde.
 .8+|GET /Task/<id>            |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            |Unzulässige fachliche Rolle
