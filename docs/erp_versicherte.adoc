@@ -230,6 +230,13 @@ Der Zugriff auf ein einzelnes E-Rezept ist durch den Versicherten mit Nachweis s
 
 Der Aufruf erfolgt als http-`GET`-Operation auf eine konkrete Ressource `/Task/<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der Aufruf kann auch durch einen Vertreter des Versicherten erfolgen, hierbei wird lediglich die Rolle `Versicherter` im ACCESS_TOKEN geprüft. Um die Berechtigung für den Zugriff auf einen Task mit einer fremden KVNR nachzuweisen, muss der Zugreifende den richtigen AccessCode im http-Request-Header `X-AccessCode` übergeben. Die Rückgabe eines Tasks erfolgt immer zusammen mit dem entsprechenden, signierten E-Rezept-Datensatz zu diesem Task, welcher die Verordnungsinformationen des E-Rezepts enthält.
 
+=== Hinweis zu wiederholenden Abfragen für die E-Rezepte.
+Die durch den Verordnenden signierten Daten der Verordnung ändern sich nach dem Einstellen (Activate Operation) nicht mehr. Dies betrifft insbesondere die Statuswechsel des E-Rezepts. Die Informationen müssen nicht widerholt heruntergeladen werden, wenn sie bereits in der App für die Anzeige vorliegen.
+
+Beim Statusübergang zu "cancelled" werden die Informationen zum E-Rezept ausser dem Status des Task gelöscht. Somit liefert der E-Rezept-Fachdienst keine Details. **Ein GET /Task/<task_id> für E-Rezepte mit dem Status "cancelled" sind nicht zulässig**.
+
+Beim Statusübergang zu "closed" stehen die MedicationDispense Informationen zur Verfügung und können abgefragt werden.
+
 *Request*
 [cols="h,a"]
 [%autowidth]
