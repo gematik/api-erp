@@ -294,7 +294,7 @@ IMPORTANT: Die Gültigkeitsprüfung von ECC-Zertifikaten unterstützt der Konnek
 [[anchor-sign-challenge]]
 ==== Signatur mit SMC-B erzeugen (external_authenticate)
 Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
-Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `dd775a30757431a62bbe12301898511f5d9d5145a58dbd5d6cbae2481b36993f` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=`).
+Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `94238882b24aaade41950ecee5a8ab14c4196ed4c5d9d2dfa344fdfd63a27262` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `lCOIgrJKqt5BlQ7O5airFMQZbtTF2dLfo0T9/WOicmI=`, siehe link:https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')&input=OTQyMzg4ODJiMjRhYWFkZTQxOTUwZWNlZTVhOGFiMTRjNDE5NmVkNGM1ZDlkMmRmYTM0NGZkZmQ2M2EyNzI2Mg[CyberChef-Beispiel]).
 
 [cols="h,a"]
 [%autowidth]
@@ -320,7 +320,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
                 <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
             </ns2:Context>
             <ns0:BinaryString>
-                <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">3XdaMHV0MaYrvhIwGJhRH12dUUWljb1dbLriSBs2mT8=</ns7:Base64Data>
+                <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">lCOIgrJKqt5BlQ7O5airFMQZbtTF2dLfo0T9/WOicmI=</ns7:Base64Data>
             </ns0:BinaryString>
         </ns0:ExternalAuthenticate>
     </soap-env:Body>
