@@ -5,7 +5,6 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
 ## Inhaltsverzeichnis
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
-  - [Versionsübergang 30.06.2023 -\> 01.07.2023](#versionsübergang-30062023---01072023)
   - [FHIR-Releases](#fhir-releases)
   - [Implementierungsunterstützung](#implementierungsunterstützung)
     - [FHIR-Beispiele](#fhir-beispiele)
@@ -20,7 +19,6 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
     - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
       - [PKV Versicherte](#pkv-versicherte)
     - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
-  - [Bekannte Fehler im Fachdienst](#bekannte-fehler-im-fachdienst)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -37,9 +35,6 @@ Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur
 eRezept-Beispiele](https://github.com/DAV-ABDA/eRezept-Beispiele/tree/v1.0.0) zur Verfügung.
 
 In den nachfolgend verlinkten Abschnitten zeigen wir, wie sich verordnende Ärzte/Zahnärzte und Versicherte [mit der der TI verbinden](docs/authentisieren.adoc). Wir zeigen detailliert den Ablauf der [Erstellung eines E-Rezepts](docs/erp_bereitstellen.adoc) in der verordnenden Praxis und [wie Apotheker auf den Fachdienst zugreifen](docs/erp_abrufen.adoc), um ein E-Rezept zu beliefern. Für Versicherte stellen wir dar, wie die [Einsicht in die vorhandenen E-Rezepte](docs/erp_versicherte.adoc) und [Abgabeinformationen eingelöster Rezepte](docs/erp_versicherte.adoc) erfolgt, wie die [Kommunikation mit der Apotheke](docs/erp_communication.adoc) ablaufen kann und wie der Versicherte [Einsicht in das Zugriffsprotokoll](docs/erp_versicherte.adoc) auf alle seine E-Rezepte nehmen kann. Schließlich zeigen wir, wie der [Ablauf der Rezept-Einlösung](docs/erp_versicherte.adoc) für Versicherte mit dem E-Rezept funktioniert.
-
-## Versionsübergang 30.06.2023 -> 01.07.2023
-Wichtige Informationen zum Verhalten des Fachdienstes während der Übergangszeit und danach finden sich [auf dieser Seite](docs/erp_versionsuebergang.adoc)
 
 ## FHIR-Releases
 
@@ -129,10 +124,6 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 ### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
-
-## Bekannte Fehler im Fachdienst
-* Referenzen in einigen responses des Fachdienstes sind noch nicht FHIR konform (bsp: Task.input oder erneutes Abrufen der Quittung). Da dies ein breaking change ist, wird dies in einer späteren Version behoben
-* Bis zum Release der Version 1.12, die für Dezember 2023 geplant ist, werden die Schlüsseltabellen 'NORMGROESSE' und 'DARREICHUNGSFORM' nicht validiert. Diese werden in den [Medication Profilen](https://simplifier.net/erezept/~resources?category=Profile&corebasetype=Medication&sortBy=RankScore_desc) der KBV verwendet. Der Issue kann in [ERPFIND-533](https://service.gematik.de/browse/ERPFIND-533) verfolgt werden.
 
 ## Lizenzbedingungen
 
