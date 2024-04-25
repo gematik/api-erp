@@ -81,6 +81,56 @@ NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand de
 
 |===
 
+== 2024.11.01
+Es erfolgt ein Update der Abgabedaten des DAV und den Abrechnungsdaten von GKV-SV
+
+NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 01.11.2024.
+
+[cols="h,a,40%,a,a,a"]
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
+
+|DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0-rc[Package 1.4.0-rc Profile 1.4^] a|
+
+* increase version of CodeSystems or ValueSets only when changed
+* Cleanup differential definitions
+* DAV-PR-Base-Apotheke -> Organization.address.country -> binding -> extensible to required
+* Extension-DAV-EX-ERP-Zusatzattribute
+** Extension.extension:ZusatzattributGruppeFuerGenehmigung.extension:DokumentationFreitext.valueString
+**** set maxLength 20
+* Add constraints
+** Extension-DAV-EX-ERP-Zusatzattribute
+** "PR-DatumMitZeit" on ZusatzattributAbgabeNoctu.extension:DatumUhrzeit
+** Profile-DAV-PR-Base-Abrechnungszeilen
+** "PR-SEQUENCE"
+** "PR-NOCTU" on lineItem
+** Profile-DAV-PR-Base-ZusatzdatenEinheit
+** "PR-SEQUENCE"
+** Profile-DAV-PR-Base-ZusatzdatenHerstellung
+** "PR-DatumMitZeit" on whenPrepared
+
+|01.05.2024 |01.11.2024 |-
+
+|DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0-rc2[Package 1.4.0-rc2 Profile 1.4^] a|
+
+* Cleanup differential definitions
+* Edit definition DAV_PR_ERP_Abgabeinformationen - extension:Vertragskennzeichen
+* DAV-CS-ERP-ZusatzdatenEinheitFaktorkennzeichen (increase version - v1.4)
+** Delete 56
+* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.0-rc"
+
+|01.05.2024 |01.11.2024 |-
+
+|GKV-SV de.gkvsv.eRezeptAbrechnungsdaten |link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.4.0-rc[Package 1.4.0-rc Profile 1.4^] a|
+
+* GKVSV_PR_TA7_Rechnung_Bundle
+** Constraint "dname-1" hinzugefügt. Dieser prüft, ob der eigene Dateiname in der TA7_Rechnung_List enthalten ist
+** bundle.type auf "document" gesetzt
+
+|01.05.2024 |01.11.2024 |-
+
+|===
+
 == 2023.07.01
 Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und Korrekturen, die sich aus Abstimmungen am runden FHIR-Tisch aller E-Rezept-Beteiligten Organisationen, der Technischen Kommission zur Abrechnungsstrecke und diversen Fehler- und Verbesserungstickets ergeben haben.
 
