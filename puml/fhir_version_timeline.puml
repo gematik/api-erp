@@ -33,9 +33,9 @@ footer Zuletzt verändert am %date("dd.MM.yyyy")
 
 concise "de.gkvsv.eRezeptAbrechnungsdaten" as GKV <<gkvcolor>>
 concise "kbv.ita.erp" as KBV <<kbvcolor>>
-concise "de.gematik.erezept-workflow.r4" as gematik <<gematikcolor>>
 concise "de.abda.eRezeptAbgabedaten" as DAV <<davcolor>>
 concise "de.abda.eRezeptAbgabedatenPKV" as PKV <<davcolor>>
+concise "de.gematik.erezept-workflow.r4" as gematik <<gematikcolor>>
 concise "de.gematik.erezept-patientenrechnung.r4" as gematikpkv <<gematikcolor>>
 
 
@@ -43,35 +43,31 @@ concise "de.gematik.erezept-patientenrechnung.r4" as gematikpkv <<gematikcolor>>
 scale 2592000 as 50 pixels
 hide time-axis
 
-@2023/01/01
-GKV is 1.2
-KBV is 1.0.2
-DAV is 1.2
-gematik is 1.1.1
-
-@2023/07/01
-note bottom of KBV : 01.07.2023\npackage 1.0.2/1.1.1
-note bottom of GKV : 01.07.2023\npackage 1.3.0
-note bottom of PKV : 01.07.2023\npackage 1.2.0
-note top of gematik : 01.07.2023\nBeginn Übergangsphase:\nCommunication 1.1.1 / 1.2\nWF160/169: KBV 1.0.2/1.1.0\nWF200/209: KBV 1.1.0
-note bottom of gematik : 01.07.2023\npackage 1.2.2
-note bottom of gematikpkv : 01.07.2023\npackage 1.0.1
-note bottom of DAV : 01.07.2023\npackage 1.3.1
-KBV is "1.0.2/1.1.0"
-gematik is 1.2
-gematikpkv is 1.0
-DAV is 1.3
-PKV is 1.2
+@2024/07/01
 GKV is 1.3
-
-@2024/01/01
-note bottom of KBV : 01.01.2024\npackage 1.1.2
-note top of gematik : 01.01.2024\nEnde Übergangsphase
-note bottom of DAV : 01.01.2024\npackage 1.3.2
 KBV is 1.1.0
 DAV is 1.3
+gematik is 1.2
+gematikpkv is 1.0
+PKV is 1.2
 
-@2024/03/01
+
+@2024/11/01
+GKV is 1.4
+note bottom of GKV : 01.11.2024\npackage 1.4.0
+DAV is 1.4
+note bottom of DAV : 01.11.2024\npackage 1.4.0
+PKV is 1.3
+note bottom of PKV : 01.11.2024\npackage 1.3.0
+
+@2025/01/15
+gematik is 1.3
+note bottom of gematik : 15.01.2025\npackage 1.3.0
+gematikpkv is 1.0
+note bottom of gematikpkv : 15.01.2025\npackage 1.0.3
+
+
+@2025/03/15
 
 legend
 Die Profilversion ist in den Zeitstreifen die Packageversion in den Notizen festgehalten
