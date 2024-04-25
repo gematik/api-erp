@@ -100,8 +100,6 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 [Hier geht es zu der vorabveröffentlichten und unvollständigen Liste der PKV-Institutionskennzeichen](docs/pkv_ik_numbers.adoc)
 
-[Hier geht es zu den Voraussetzung für die Verwendung des E-Rezeptes für Privatversicherte](docs/pkv_voraussetzungen.adoc)
-
 ### Besonderheiten der Mehrfachverordnung (MVO)
 
 [Hier geht es zu den Besonderheiten der Mehrfachverordnung (MVO)](docs/erp_versicherte_mvo.adoc)
