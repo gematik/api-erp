@@ -40,16 +40,20 @@ IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versions�
 TIP: Hinweise zur aktuellen FHIR-Konfiguration des E-Rezept-Fachdienstes in der Referenzumgebung RU finden Sie auf link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[E-Rezept@RU^]
 
 == Übersicht Timeline
-IMPORTANT: Die Dauer der Übergangsphase für das Profil kbv.ita.erp wurde auf 6 Monate festgelegt. Nähere Details zum Versionsübergang finden sich link:erp_versionsuebergang.adoc[auf dieser Seite].
 
 image:puml_fhir_version_timeline.png[width=100%]
 
 ---
 TIP: Im Folgenden sind die Releases inkl. Auszügen der bereitgestellten Releasenotes der Prozessbeteiligten aufgeführt, die jeweils für ein E-Rezept zusammen gültig sind.
 
-== 2024.10.01
-Ein Update der Workflow Profile, wonach insbesondere das Feature "Zeitnahe Dokumentation der Abgabe" durch die FHIR-Profile verfügbar gemacht wird.
-NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 01.11.2024.
+== 2025.01.15
+Es erfolgt ein Update von de.gematik.erezept-workflow.r4, was folgende inhaltliche Änderungen beinhaltet:
+* Vorbereitungen für die Verordnung von DiGA
+* Feature Zeitnahe Bereitstellung der Abgabedaten
+
+Das Package de.gematik.erezept-patientenrechnung.r4 wird ebenfalls aktualisiert, um die neue Abhängigkeit von de.gematik.erezept-workflow.r4 zu berücksichtigen.
+
+NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 15.01.2025.
 
 [cols="h,a,40%,a,a,a"]
 |===
@@ -58,15 +62,72 @@ NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand de
 |gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.0-rc2[Package 1.3.0-rc2 Profile 1.3^] a|
 
 * Neue meta.profile Strings (**Breaking Change**)
-* Hinzufügen von Task.extension:lastMedicationDispense
 * $close Operation kann optional eine MedicationDispense als Eingangsparameter haben
 * .sender von 1..1 zu 0..1, da beim Einstellen einer Communication der FD den Sender setzt
 * neue $dispense Operation (für Zeitnahe Dokumentation der Abgabe)
-* MedicationDispense.whenHandedOver und .whenPrepared müssen dem Format YYYY-MM-DD entsprechen
+* MedicationDispense.whenHandedOver und müssen dem Format YYYY-MM-DD entsprechen
 * Allgemeine Verbesserungen der Beschreibungen
+* Neuer Workflow Type (162) für DiGA-Verordnungen
+* Anpassungen der MedicationDispense für DiGA-Verordnungen
 * Slicing discriminator angepasst im QuittungsBundle #profile zu #type
 
-|01.04.2024 |01.11.2024 |-
+|01.07.2024 |15.01.2025 |-
+
+|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] a|
+
+* Anpassen der Abhängigkeiten zum Workflow Package
+
+|01.07.2024 |15.01.2025 |-
+
+|===
+
+== 2024.11.01
+Es erfolgt ein Update der Abgabedaten des DAV und den Abrechnungsdaten von GKV-SV
+
+NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 01.11.2024.
+
+[cols="h,a,40%,a,a,a"]
+|===
+|        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
+
+|DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0-rc[Package 1.4.0-rc Profile 1.4^] a|
+
+* increase version of CodeSystems or ValueSets only when changed
+* Cleanup differential definitions
+* DAV-PR-Base-Apotheke -> Organization.address.country -> binding -> extensible to required
+* Extension-DAV-EX-ERP-Zusatzattribute
+** Extension.extension:ZusatzattributGruppeFuerGenehmigung.extension:DokumentationFreitext.valueString
+**** set maxLength 20
+* Add constraints
+** Extension-DAV-EX-ERP-Zusatzattribute
+** "PR-DatumMitZeit" on ZusatzattributAbgabeNoctu.extension:DatumUhrzeit
+** Profile-DAV-PR-Base-Abrechnungszeilen
+** "PR-SEQUENCE"
+** "PR-NOCTU" on lineItem
+** Profile-DAV-PR-Base-ZusatzdatenEinheit
+** "PR-SEQUENCE"
+** Profile-DAV-PR-Base-ZusatzdatenHerstellung
+** "PR-DatumMitZeit" on whenPrepared
+
+|01.05.2024 |01.11.2024 |-
+
+|DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0-rc2[Package 1.4.0-rc2 Profile 1.4^] a|
+
+* Cleanup differential definitions
+* Edit definition DAV_PR_ERP_Abgabeinformationen - extension:Vertragskennzeichen
+* DAV-CS-ERP-ZusatzdatenEinheitFaktorkennzeichen (increase version - v1.4)
+** Delete 56
+* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.0-rc"
+
+|01.05.2024 |01.11.2024 |-
+
+|GKV-SV de.gkvsv.eRezeptAbrechnungsdaten |link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.4.0-rc[Package 1.4.0-rc Profile 1.4^] a|
+
+* GKVSV_PR_TA7_Rechnung_Bundle
+** Constraint "dname-1" hinzugefügt. Dieser prüft, ob der eigene Dateiname in der TA7_Rechnung_List enthalten ist
+** bundle.type auf "document" gesetzt
+
+|01.05.2024 |01.11.2024 |-
 
 |===
 
