@@ -43,38 +43,31 @@ Es erfolgt ein Update von de.gematik.erezept-workflow.r4, was folgende inhaltlic
 
 Das Package de.gematik.erezept-patientenrechnung.r4 wird ebenfalls aktualisiert, um die neue Abhängigkeit von de.gematik.erezept-workflow.r4 zu berücksichtigen.
 
-NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 15.01.2025.
+NOTE: Die Profile befinden sich noch in Erarbeitung und das Gültigkeitsdatum wird noch festgelegt. Nach aktuellem Stand ist es der 15.01.2025.
 
 [cols="h,a,40%,a,a,a"]
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.0-rc2[Package 1.3.0-rc2 Profile 1.3^] a|
+|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0[TBD: Package 1.4.0 Profile 1.4^] a|
 
-* Neue meta.profile Strings (**Breaking Change**)
-* $close Operation kann optional eine MedicationDispense als Eingangsparameter haben
-* .sender von 1..1 zu 0..1, da beim Einstellen einer Communication der FD den Sender setzt
-* neue $dispense Operation (für Zeitnahe Dokumentation der Abgabe)
-* MedicationDispense.whenHandedOver und müssen dem Format YYYY-MM-DD entsprechen
-* Allgemeine Verbesserungen der Beschreibungen
-* Neuer Workflow Type (162) für DiGA-Verordnungen
-* Anpassungen der MedicationDispense für DiGA-Verordnungen
-* Slicing discriminator angepasst im QuittungsBundle #profile zu #type
+Geplante Features:
 
-|01.07.2024 |15.01.2025 |-
+* Verordnung von DiGAs
+* Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+
+|Geplant: 01.07.2024 | Geplant: 15.01.2025 |-
 
 |gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] a|
 
 * Anpassen der Abhängigkeiten zum Workflow Package
 
-|01.07.2024 |15.01.2025 |-
+|01.05.2024 |01.11.2024 |-
 
 |===
 
 == 2024.11.01
-Es erfolgt ein Update der Abgabedaten des DAV und den Abrechnungsdaten von GKV-SV
-
-NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand der 01.11.2024.
+Es erfolgt ein Update der Abgabedaten des DAV, den Abrechnungsdaten von GKV-SV und der Workflow-Profile.
 
 [cols="h,a,40%,a,a,a"]
 |===
@@ -116,6 +109,24 @@ NOTE: Das Gültigkeitsdatum wird noch festgelegt und ist nach aktuellem Stand de
 * GKVSV_PR_TA7_Rechnung_Bundle
 ** Constraint "dname-1" hinzugefügt. Dieser prüft, ob der eigene Dateiname in der TA7_Rechnung_List enthalten ist
 ** bundle.type auf "document" gesetzt
+
+|01.05.2024 |01.11.2024 |-
+
+|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.0[Package 1.3.0 Profile 1.3^] a|
+
+Bereitstellung des Features "Zeitnahe Dokumentation der Abgabe"
+
+* $close Operation kann optional eine MedicationDispense als Eingangsparameter haben
+* .sender von 1..1 zu 0..1, da beim Einstellen einer Communication der FD den Sender setzt
+* neue $dispense Operation (für Zeitnahe Dokumentation der Abgabe)
+* MedicationDispense.whenHandedOver müssen dem Format YYYY-MM-DD entsprechen
+* Allgemeine Verbesserungen der Beschreibungen
+
+|01.05.2024 |01.11.2024 |-
+
+|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] a|
+
+* Anpassen der Abhängigkeiten zum Workflow Package
 
 |01.05.2024 |01.11.2024 |-
 
