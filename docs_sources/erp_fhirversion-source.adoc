@@ -45,6 +45,13 @@ Das Package de.gematik.erezept-patientenrechnung.r4 wird ebenfalls aktualisiert,
 
 NOTE: Die Profile befinden sich noch in Erarbeitung und das Gültigkeitsdatum wird noch festgelegt. Nach aktuellem Stand ist es der 15.01.2025.
 
+=== Änderungen der E-Rezept Profile für das Feature eML für AVS und Fdv Zusammenfassung
+
+* *AVS*: Ab dem 15. Januar 2025 werden neu eingeführte MedicationDispense-Profile und die darin enthaltenen Medications bei den Operationen $dispense und $close an den ERezept-Fachdienst übermittelt.
+* *FdV*: Ab demselben Datum werden diese neuen Profile zusätzlich zu den bisherigen vom E-Rezept-Fachdienst weiter an das FdV übergeben. Es ist sicherzustellen, dass diese Profile von der aktuell im Einsatz befindlichen Version des FdV korrekt gelesen und verarbeitet werden können.
+* *PVS und AVS*: Die neu eingeführten Profile können (nach Umschreiben der meta. profile Information) vom PS für die direkte Übertragung von Medikationsinformationen in die ePA genutzt werden.
+* *Allgemeine Information*: Die neuen MedicationDispense und Medication sind Ableitungen der bestehenden ePA-Profile. Sie gewährleisten, dass detaillierte Abgabeinformationen für die FdVs verfügbar gemacht werden.
+
 [cols="h,a,40%,a,a,a"]
 |===
 |        |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
