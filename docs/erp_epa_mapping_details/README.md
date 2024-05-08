@@ -1,12 +1,12 @@
-# KBV and ePA Medication Profile Comparison
+# E-Rezept zu ePA Profile Mapping Tabellen
 
-## Overview
-This document provides a summary of the differences between the KBV E-Rezept profiles and the ePA Medication profile, as identified by the compare.py script. Additionally, a remark field is generated and adjusted to give advice for the mapping process.
+## Erläuterung
+Die folgednen Tabellen geben eine detaillierte Auskunft über das Mapping der aus dem E-Rezept Kontext verwendeten Ressourcen zu den im Medication Service der ePA verwendeten Ressourcen.
 
 
-## Hosted Results
-The results of the comparison can be viewed directly through these hosted links:
-- [KBV_PR_FOR_Organization in OrganizationDirectory](https://gematik.github.io/api-erp/erp_epa_mapping_details/OrganizationDirectory.html)
-- [KBV_PR_FOR_Practitioner in PractitionerDirectory](https://gematik.github.io/api-erp/erp_epa_mapping_details/PractitionerDirectory.html)
-- [KBV_PR_ERP_Prescription in EPAMedicationRequest](https://gematik.github.io/api-erp/erp_epa_mapping_details/EPAMedicationRequest.html)
-- [KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient, KBV_PR_ERP_Medication_PZN in EPAMedication](https://gematik.github.io/api-erp/erp_epa_mapping_details/EPAMedication.html)
+## Mapping Tabellen
+- [Mapping: KBV_PR_FOR_Organization|1.1.0 in OrganizationDirectory](https://gematik.github.io/api-erp/erp_epa_mapping_details/OrganizationDirectory.html)
+- [Mapping: KBV_PR_FOR_Practitioner|1.1.0 in PractitionerDirectory](https://gematik.github.io/api-erp/erp_epa_mapping_details/PractitionerDirectory.html)
+- [Mapping: KBV_PR_ERP_Prescription|1.1.0 in EPAMedicationRequest](https://gematik.github.io/api-erp/erp_epa_mapping_details/EPAMedicationRequest.html)
+- [Mapping: KBV_PR_ERP_Medication_Compounding|1.1.0, KBV_PR_ERP_Medication_FreeText|1.1.0, KBV_PR_ERP_Medication_Ingredient|1.1.0, KBV_PR_ERP_Medication_PZN|1.1.0 in EPAMedication](https://gematik.github.io/api-erp/erp_epa_mapping_details/EPAMedication.html)
+- [Mapping: GEM_ERP_PR_MedicationDispense|1.2 in EPAMedicationDispense](https://gematik.github.io/api-erp/erp_epa_mapping_details/EPAMedicationDispense.html)
