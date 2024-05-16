@@ -13,6 +13,8 @@
 
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
+NOTE: Nach Abstimmungen sind E-Rezept-FdV nach A_21218-* dazu verpflichtet ein PKI-Root Zertifikat zu pinnen. Damit muss das TLS Zertifikat nicht zusätzlich gepinnt werden. Certificate Transparency wird für das TLS Zertifikat als ausreichender Sicherheitsmechanismus bewertet, wenn ein Root Zertifikat der gematik PKI in der Anwendung gepinnt ist. Damit ist sichergestellt, dass Gesundheitsdaten des Anwenders gesichert sind. Dadurch können Clients flexibel auf einen Wechsel des TLS-Zertifikats vom E-Rezept-Fachdienst reagieren.
+
 NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
 Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst deprecated und durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt. Zu einem späteren Zeitpunkt wird der Endpunkt entfernt.
 
