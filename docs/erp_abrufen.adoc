@@ -880,7 +880,7 @@ s|Code   s|Type Error
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |===
 
-== E-Rezept-Abgabe
+== E-Rezept Abgabe zeitnah dokumentieren
 Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Sie haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstags zu warten, bevor sie den Workflow abschließen. Sie haben aber auch die Möglichkeit, bereits die Dispensierinformationen dem Versicherten bereitzustellen, ohne eine signierte Quittung zu erstellen. Dann sind die Dispensierinformationen für den Versicherten im Task verfügbar.
 
 Der optionale Aufruf erfolgt als HTTP-POST-Operation mit der FHIR-Operation $dispense. Im HTTP-Request-Header muss das während der Authentifizierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=… muss das beim Abrufen des E-Rezepts im Task generierte Secret für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben. Im HTTP-ResponseBody gibt der Fachdienst wieder die Informationen über das ausgegebene Medikament zurück.
