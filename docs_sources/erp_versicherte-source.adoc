@@ -58,7 +58,9 @@ NOTE: Der Prozesstyp referenziert die Workflow-Definition, in diesem Fall den Pr
 
 NOTE:  Mit der Angabe `"display":"Öffentliche Apotheke"` kann dem Versicherten ein Hinweis angezeigt werden, wo er das E-Rezept einlösen kann (bspw. Apotheke oder Sanitätshaus).
 
-NOTE: Wenn ein Task den Status "in-progress" hat und das Feld Task.extension:lastMedicationDispense ausgefüllt ist, müssen dem Task auch Abgabeinformationen zur Verfügung stehen. Der Status des E-Rezepts könnte dann als "Abgegeben" dargestellt werden. Bis der Task nicht abgeschlossen ist, können diese gelöscht oder geändert werden. Dabei wird das Feld lastMedicationDispense aktualisiert. Nach Abschluss des Workflows wird der Status auf "complete" gesetzt, und eine Änderung der Abgabeinformationen ist nicht mehr möglich.
+NOTE: Wenn ein Task sich im Status "in-progress" befindet und das Feld Task.extension:lastMedicationDispense befüllt ist, stehen dem Task auch Abgabeinformationen zur Verfügung und beschreibt den Zeitpunkt, an dem der Versicherte sein Arzneimittel übergeben bekommen hat. Der Status des E-Rezepts könnte dann als "Abgegeben" dargestellt werden. 
+Bis der Task nicht abgeschlossen ist, können die Abgabeinformationen gelöscht oder geändert werden. Dabei wird das Feld lastMedicationDispense aktualisiert.
+Wenn das AVS den Workflow mittels der $close-Operation abschließt, wird der Status auf "complete" gesetzt, und eine Änderung der Abgabeinformationen ist nicht mehr möglich.
 
 [cols="a,a"]
 [%autowidth]
