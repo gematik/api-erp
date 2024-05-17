@@ -264,7 +264,7 @@ s|Code   s|Type Error
 |===
 
 == E-Rezept Abgabe zeitnah dokumentieren
-Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Der Workflow kann aufgrund vertraglicher Vereinbarungen erst zum Ende des nächsten Werktags abgeschlossen werden. Damit der Versicherte vorher darüber informiert werden kann, dass eine Abgabe erfolgte können die Dispensierinformationen vor Abschluss des Workflows übermittelt werden. Der Apotheke erhält hierbei keine Quittung und der Status des Tasks verändert sich nicht 
+Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Für den Apotheker ist es möglich, aufgrund vertraglicher Vereinbarungen, erst zum Ende des nächsten Werktages den Workflow für das E-Rezept abzuschließen (E-Rezept Abgabe vollziehen). Damit der Versicherte vorher darüber informiert werden kann, dass eine Abgabe erfolgte, können die Dispensierinformationen vor Abschluss des Workflows übermittelt werden. Der Apotheke erhält hierbei keine Quittung und der Status des Tasks verändert sich nicht.
 
 NOTE: Dadurch, dass die $dispense-Operation den Status des Tasks nicht beeinflusst ist die Verwendung dieses Endpunktes optional. 
 
@@ -295,7 +295,7 @@ include::../resources/examples/ti-dienste/task/request_taskClose.xml[]
 ----
 NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
 
-NOTE: Die Zeitangabe in `<whenHandedOver value>` bezieht sich auf die Übergabe des Medikaments, wann wurde es dem Überbringer des E-Rezepts ausgehändigt.
+NOTE: Die Zeitangabe in `<whenHandedOver value>` bezieht sich auf die Übergabe des Medikaments, wann es dem Überbringer des E-Rezepts ausgehändigt wurde.
 
 NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
 
@@ -320,10 +320,6 @@ include::../resources/examples/ti-dienste/task/request_taskCloseMultiple.xml[]
 ----
 include::../resources/examples/ti-dienste/task/response_taskDispense.xml[]
 ----
-NOTE: Das Startdatum in `<period><start value="*"/></period>` entspricht dem Abrufdatum des E-Rezepts durch die Apotheke (Statuswechsel des Task: ready -> in-progress)
-
-NOTE: Unter `<Binary><data value="*"/></Binary>` wird der base64-codierte Hashwert, über den die QES des Verordnungsdatensatzes erstellt wurde eingebettet.
-
 
 
 [cols="a,a"]
