@@ -38,6 +38,7 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 |extension:flowType |gibt den Typ des Rezeptes an
 |extension:expiryDate |Verfallsdatum
 |extension:acceptDate |Datum bis zu welchem die Krankenkasse spätestens die Kosten übernimmt
+|extension:lastMedicationDispense |Zeitpunkt der letzten Aktualisierung der Abgabeinformationen
 2+s|MedicationDispense
 |identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
 |status |Status des E-Rezepts
@@ -260,6 +261,96 @@ s|Code   s|Type Success
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|===
+
+== E-Rezept Abgabe zeitnah dokumentieren
+Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Für den Apotheker ist es möglich, aufgrund vertraglicher Vereinbarungen, erst zum Ende des nächsten Werktages den Workflow für das E-Rezept abzuschließen (E-Rezept Abgabe vollziehen). Damit der Versicherte vorher darüber informiert werden kann, dass eine Abgabe erfolgte, können die Dispensierinformationen vor Abschluss des Workflows übermittelt werden. Der Apotheke erhält hierbei keine Quittung und der Status des Tasks verändert sich nicht.
+
+NOTE: Dadurch, dass die $dispense-Operation den Status des Tasks nicht beeinflusst ist die Verwendung dieses Endpunktes optional. 
+
+Der Aufruf erfolgt als HTTP-POST-Operation mit der FHIR-Operation $dispense. Im HTTP-Request-Header muss das während der Authentifizierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=… muss das beim Abrufen des E-Rezepts im Task generierte Secret für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben. Im HTTP-ResponseBody gibt der Fachdienst wieder die Informationen über das ausgegebene Medikament zurück.  
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$dispense?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheker aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
+
+¦Payload    ¦
+[source,xml]
+----
+include::../resources/examples/ti-dienste/task/request_taskClose.xml[]
+----
+NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
+
+NOTE: Die Zeitangabe in `<whenHandedOver value>` bezieht sich auf die Übergabe des Medikaments, wann es dem Überbringer des E-Rezepts ausgehändigt wurde.
+
+NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
+
+|===
+
+Es können auch mehrere MedicationDispenses für eine $dispense-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
+
+.Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,xml]
+----
+include::../resources/examples/ti-dienste/task/request_taskCloseMultiple.xml[]
+----
+
+====
+
+*Response*
+[source,xml]
+----
+include::../resources/examples/ti-dienste/task/response_taskDispense.xml[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+|201  | OK +
+[small]#Neues Objekt wurde erfolgreich angelegt, in der Rückgabe ist das Objekt enthalten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
 |===
 
 == E-Rezept-Abgabe vollziehen
