@@ -270,6 +270,8 @@ NOTE: Dadurch, dass die $dispense-Operation den Status des Tasks nicht beeinflus
 
 Der Aufruf erfolgt als HTTP-POST-Operation mit der FHIR-Operation $dispense. Im HTTP-Request-Header muss das während der Authentifizierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=… muss das beim Abrufen des E-Rezepts im Task generierte Secret für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben. Im HTTP-ResponseBody gibt der Fachdienst wieder die Informationen über das ausgegebene Medikament zurück.  
 
+NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
@@ -358,7 +360,10 @@ Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Med
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben.
 Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die dem Apotheker gegenüber der Krankenkasse als Quittung dient.
+
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
+
+NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
 === Zeitgesteuerte Verarbeitung
 Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
