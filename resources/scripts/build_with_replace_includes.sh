@@ -60,7 +60,7 @@ fi
 for filename in $(find ../../docs_sources -name '*.adoc'); do
     newFileName=${filename//-source/}
     newFileName=${newFileName//_sources/}
-    asciidoctor-reducer $filename -o $newFileName
+    asciidoctor-reducer $filename -o $newFileName -a allow-uri-read
 done
 
 # Echo that the process is finished
