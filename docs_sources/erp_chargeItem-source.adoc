@@ -55,7 +55,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.5#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::../resources/examples/konnektorservice/request_SignDocument_Abgabedaten.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/01_request_SignDocument_Abgabedaten.xml[]
 ----
 
 |===
@@ -65,7 +65,7 @@ IMPORTANT: Der Parameter `IncludeRevocationInfo` darf nur bei einer QES-Signatur
 *Response*
 [source,xml]
 ----
-include::../resources/examples/konnektorservice/response_SignDocument_Abgabedaten.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/02_response_SignDocument_Abgabedaten.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -110,7 +110,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,xml]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/01_POST_ChargeItem_Request.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/03_POST_ChargeItem_Request.xml[]
 ----
 NOTE: Der PKV-Abgabesatz in Binary.data ist aus Platzgründen stark gekürzt.
 
@@ -134,7 +134,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/02_POST_ChargeItem_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/04_POST_ChargeItem_Response.xml[]
 ----
 |===
 
@@ -199,7 +199,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload ¦
 [source,xml]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/03_GET_ChargeItem_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/05_GET_ChargeItem_Response.xml[]
 ----
 NOTE: Aus Gründen der besseren Lesbarkeit ist das PKV-Abgabdedatenbundle hier nicht vollständig dargestellt und wurde mit `...` abgekürzt. Es kann aber vollständig unter https://simplifier.net/erezept-patientenrechnung/~resources?category=Example&exampletype=Bundle eingesehen werden.
 
@@ -257,7 +257,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,xml]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/04_PUT_ChargeItem_Request.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/06_PUT_ChargeItem_Request.xml[]
 ----
 NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabedatensatz ein.
 |===
@@ -270,7 +270,7 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 ¦Payload ¦
 [source,xml]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/05_PUT_ChargeItem_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/07_PUT_ChargeItem_Response.xml[]
 ----
 
 |===
@@ -335,7 +335,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload ¦
 [source,json]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/06_GET_ChargeItems_Response.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/08_GET_ChargeItems_Response.json[]
 ----
 
 NOTE: Die angegebenen Referenzen werden in diesem Request nicht mitgeliefert. Im folgenden Request der das Chargeitem nach der Id abfragt sind diese Informationen dagegen enthalten.
@@ -372,7 +372,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload ¦
 [source,json]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/07_GET_ChargeItem_Response.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/09_GET_ChargeItem_Response.json[]
 ----
 
 NOTE: Das `signature` Element enthält die Signatur des Bundles über alle enthaltenen Objekte als Enveloping-CAdES-Signatur in Base64-Codierung.
@@ -428,7 +428,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload    ¦
 [source,json]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/08_PATCH_ChargeItem_Request.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/10_PATCH_ChargeItem_Request.json[]
 ----
 NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 
@@ -444,7 +444,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
 ¦Payload ¦
 [source,json]
 ----
-include::../resources/examples/prescriptionserver/abrechnungsdaten/09_PATCH_ChargeItem_Response.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_chargeItem/11_PATCH_ChargeItem_Response.json[]
 ----
 
 |===
