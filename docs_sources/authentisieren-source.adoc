@@ -5,8 +5,10 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Te
 
 toc::[]
 
-== Endpunkte des E-Rezept Fachdienstes 
+== Endpunkte des E-Rezept Fachdienstes
 Für den Verbindungsaufbau mit dem E-Rezept Fachdienst stehen verschiedene Endpunkte zur verfügung, je nach Entwicklungsumgebung. Angegeben werden jeweils der Endpunkt für den Fachdienst und den IDP:
+
+=== Endpunkte aus der TI
 
 *PU*
 
@@ -27,20 +29,22 @@ NOTE: Für die Entwicklung in der RU-DEV ist der Scope in der Anfrage-URL umzust
 
 Die jeweiligen Konfigurationen können sich je nach Entwicklungsstand unterscheiden. Aktuelle Informationen zu den jeweiligen Umgebungen finden Sie https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[hier].
 
-=== Endpunkte des E-Rezept Fachdienstes der FdVs
-Für den Verbindungsaufbau aus dem Internet mit dem E-Rezept-Fachdienst stehen diese Endpunkte zur Verfügung:
+=== Endpunkte aus dem Internet
 
 *PU*
 
-* erp.app.ti-dienste.de/
+* erp.app.ti-dienste.de
+* idp.app.ti-dienste.de
 
 *RU*
 
-* erp-ref.app.ti-dienste.de/
+* erp-ref.app.ti-dienste.de
+* idp-ref.app.ti-dienste.de
 
 *RU-DEV*
 
-* erp-dev.app.ti-dienste.de/
+* erp-dev.app.ti-dienste.de
+* idp-ref.app.ti-dienste.de
 
 == Http-Header in Requests an Dienste der Telematikinfrastruktur
 Zur Steuerung der Funktionsaufrufe, für Sicherheitsprüfungen und die Protokollierung sind verpflichtende http-Header in allen http-Requests an den IDP-Dienst und den E-Rezept-Fachdienst erforderlich. Da mit dem VAU-Transport ein "innerer" und ein "äußerer" http-Request an den E-Rezept-Fachdienst gesendet werden, ist auf das korrekte Setzen innen und außen zu achten. Die folgende Tabelle listet die notwendigen http-Header auf.
