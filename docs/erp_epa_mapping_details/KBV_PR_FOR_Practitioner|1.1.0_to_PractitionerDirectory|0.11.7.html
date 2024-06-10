@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mapping: KBV_PR_FOR_Practitioner|1.1.0 in PractitionerDirectory|0.11.7</title>
+    <link rel='stylesheet' type='text/css' href='./style.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+    <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
+</head>
+
+<body>
+    <h2>Mapping: KBV_PR_FOR_Practitioner|1.1.0 in PractitionerDirectory|0.11.7</h2>
+    
+    <div style="display: flex; justify-content: space-between;">
+        <div style="flex: 1;">
+            
+            <p>Source Profile: 
+            <a href="https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720095" target="_blank">KBV_PR_FOR_Practitioner|1.1.0</a></p>
+            
+            
+            <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.fhir.directory/0.11.7/files/2445144" target="_blank">PractitionerDirectory|0.11.7</a></p>
+            <p>Version: 0.91, Status: draft</p>
+            <p>Last updated on: 2024-06-10 21:57:33</p>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+            <div>
+                <h3>Color Legend:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li><span style="background-color: #DCF6E9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> No action needed for this mapping</li>
+                    <li><span style="background-color: #FFEBE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information will be removed or left empty in this mapping</li>
+                    <li><span style="background-color: #FFFAE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Special action required for this mapping</li>
+                    <li><span style="background-color: #ACF0F9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Caution reference!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <table id='resultsTable' class='display' style='width:100%'>
+        <thead>
+            <tr>
+                <th rowspan="2">Property</th>
+                
+                <th style="text-align: center;">Source Profile</th>
+                
+                <th style="text-align: center;">Target Profile</th>
+                
+                <th rowspan="2">Remarks</th>
+                
+            </tr>
+            <tr>
+                
+                <th style="text-align: center;">KBV_PR_FOR_Practitioner|1.1.0</th>
+                
+                <th style="text-align: center;">PractitionerDirectory|0.11.7</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.active
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.address
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.birthDate
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.communication
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.contained
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.gender
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.system übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.type
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.type übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.type.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.type.coding übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.type.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.type.coding.code übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.type.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.type.coding.system übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.use
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.use übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ANR.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:LANR.value übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:LANR
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.identifier:ANR übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.system übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.type
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.type übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.type.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.type.coding übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.type.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.type.coding.code übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.type.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.type.coding.system übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.use
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.use übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:Telematik-ID.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.identifier:TelematikID.value übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:TelematikID
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.identifier:Telematik-ID übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.type
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.type.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.type.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.type.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.use
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.identifier:ZANR.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.implicitRules
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.language
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.meta
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.lastUpdated
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.profile
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.security
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.source
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.tag:Origin.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.meta.versionId
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name.family
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.name:name.family übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name.given
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.name:name.given übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name.period
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name.prefix
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.name:name.prefix übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name.suffix
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name.text
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name.use
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Wird aus Practitioner.name:name.use übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name:name.family
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.name.family übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.family.extension:nachname
+                    <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-name" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-name</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.family.extension:namenszusatz
+                    <br>(<a href="http://fhir.de/StructureDefinition/humanname-namenszusatz" target="_blank">http://fhir.de/StructureDefinition/humanname-namenszusatz</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.family.extension:vorsatzwort
+                    <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-prefix</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.family.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name:name.given
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.name.given übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name:name.prefix
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.name.prefix übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.prefix.extension:prefix-qualifier
+                    <br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.name:name.prefix.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Practitioner.name:name.use
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Wird in Practitioner.name.use übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.photo
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification.identifier
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification.issuer
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification.period
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:ASV-Fachgruppennummer
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:ASV-Fachgruppennummer.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:ASV-Fachgruppennummer.code.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung.code.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung.code.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung.code.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Berufsbezeichnung.code.text
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Typ
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Typ.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Typ.code.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Typ.code.coding.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.qualification:Typ.code.coding.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom.period
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom.rank
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom.use
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.telecom.value
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Practitioner.text
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                
+            </tr>
+            
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                'pageLength': 25,
+                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 150, 'All']]
+            });
+        });
+    </script>
+</body>
+
+</html>
