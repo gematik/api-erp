@@ -14,6 +14,7 @@ Während der Übergangszeit wird der E-Rezept-Fachdienst auch folgendes Mapping 
 
 Immer nach der Übergangszeit wird der E-Rezept-Fachdienst folgendes Mapping ausführen:
 - [Mapping: GEM_ERP_PR_MedicationDispense\|1.4.0-rc1 -> EPAMedicationDispense\|1.0.2-rc1](https://gematik.github.io/api-erp/erp_epa_mapping_details/GEM_ERP_PR_MedicationDispense%7C1.4.0-rc1_to_EPAMedicationDispense%7C1.0.2-rc1.html)
+- [Mapping: GEM_ERP_PR_Medication\|1.4.0-rc1 -> EPAMedication\|1.0.2-rc1](https://gematik.github.io/api-erp/erp_epa_mapping_details/GEM_ERP_PR_Medication%7C1.4.0-rc1_to_EPAMedication%7C1.0.2-rc1.html)
 
 ## Mapping-Tabellen zur Unterstützung der Implementierungen im AVS
 
