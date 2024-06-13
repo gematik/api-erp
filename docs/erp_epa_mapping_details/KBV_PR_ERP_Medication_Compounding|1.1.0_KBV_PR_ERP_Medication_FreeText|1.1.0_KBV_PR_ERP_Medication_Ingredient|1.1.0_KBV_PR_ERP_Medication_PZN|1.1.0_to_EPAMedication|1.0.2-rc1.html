@@ -30,17 +30,16 @@
             
             
             <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.epa.medication/1.0.2-rc1/files/2447596" target="_blank">EPAMedication|1.0.2-rc1</a></p>
-            <p>Version: 0.91, Status: draft</p>
-            <p>Last updated on: 2024-06-10 21:57:33</p>
+            <p>Version: 0.92, Status: draft</p>
+            <p>Last updated on: 2024-06-13 13:17:11</p>
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
             <div>
                 <h3>Color Legend:</h3>
                 <ul style="list-style: none; padding: 0;">
-                    <li><span style="background-color: #DCF6E9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> No action needed for this mapping</li>
-                    <li><span style="background-color: #FFEBE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information will be removed or left empty in this mapping</li>
-                    <li><span style="background-color: #FFFAE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Special action required for this mapping</li>
-                    <li><span style="background-color: #ACF0F9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Caution reference!</li>
+                    <li><span style="background-color: #DCF6E9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information present in the source will be retained in the target mapping</li>
+                    <li><span style="background-color: #FFEBE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information will be removed or left empty in the target mapping</li>
+                    <li><span style="background-color: #FFFAE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Special action is required for this mapping</li>
                 </ul>
             </div>
         </div>
@@ -89,7 +88,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -109,7 +108,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -129,7 +128,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -149,7 +148,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -169,7 +168,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -189,7 +188,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -209,7 +208,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -229,7 +228,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -249,7 +248,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -269,11 +268,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.amount.numerator.extension:Gesamtmenge
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize</a>)
                 </td>
@@ -289,11 +288,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.amount.numerator.extension:totalQuantity übernommen</td>
+                <td>Mapped to 'Medication.amount.numerator.extension:totalQuantity'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.amount.numerator.extension:Packungsgroesse
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize</a>)
                 </td>
@@ -309,11 +308,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.amount.numerator.extension:packagingSize übernommen</td>
+                <td>Mapped to 'Medication.amount.numerator.extension:packagingSize'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.amount.numerator.extension:packagingSize
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension</a>)
                 </td>
@@ -329,11 +328,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.amount.numerator.extension:Packungsgroesse übernommen</td>
+                <td>Mapped from 'Medication.amount.numerator.extension:Packungsgroesse'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.amount.numerator.extension:totalQuantity
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension</a>)
                 </td>
@@ -349,7 +348,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.amount.numerator.extension:Gesamtmenge übernommen</td>
+                <td>Mapped from 'Medication.amount.numerator.extension:Gesamtmenge'</td>
                 
             </tr>
             
@@ -369,7 +368,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -389,7 +388,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -409,7 +408,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -429,7 +428,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -449,7 +448,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -469,7 +468,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -489,7 +488,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -509,7 +508,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -529,7 +528,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -549,7 +548,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -569,7 +568,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -589,7 +588,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -609,7 +608,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -629,7 +628,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -649,7 +648,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -669,7 +668,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -689,7 +688,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -709,7 +708,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -729,7 +728,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -749,7 +748,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -769,7 +768,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -789,7 +788,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -809,7 +808,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -829,7 +828,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -849,7 +848,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -869,11 +868,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.code.coding:pznCode
                     
                 </td>
@@ -889,11 +888,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.code.coding:PZN übernommen</td>
+                <td>Mapped to 'Medication.code.coding:PZN'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.code.coding:pznCode.code
                     
                 </td>
@@ -909,11 +908,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.code.coding:PZN.code übernommen</td>
+                <td>Mapped to 'Medication.code.coding:PZN.code'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.code.coding:pznCode.system
                     
                 </td>
@@ -929,7 +928,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.code.coding:PZN.system übernommen</td>
+                <td>Mapped to 'Medication.code.coding:PZN.system'</td>
                 
             </tr>
             
@@ -949,7 +948,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -969,7 +968,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -989,7 +988,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1009,7 +1008,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1029,7 +1028,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1049,7 +1048,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1069,7 +1068,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1089,7 +1088,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1109,7 +1108,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1129,7 +1128,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1149,7 +1148,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1169,7 +1168,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1189,7 +1188,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1209,7 +1208,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1229,7 +1228,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1249,7 +1248,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -1269,11 +1268,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:Arzneimittelkategorie
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category</a>)
                 </td>
@@ -1289,11 +1288,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.extension:drugCategory übernommen</td>
+                <td>Mapped to 'Medication.extension:drugCategory'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:Herstellungsanweisung
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction</a>)
                 </td>
@@ -1309,11 +1308,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.extension:manufacturingInstructions übernommen</td>
+                <td>Mapped to 'Medication.extension:manufacturingInstructions'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:Impfstoff
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine</a>)
                 </td>
@@ -1329,7 +1328,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.extension:isVaccine übernommen</td>
+                <td>Mapped to 'Medication.extension:isVaccine'</td>
                 
             </tr>
             
@@ -1349,11 +1348,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:Normgroesse
                     <br>(<a href="http://fhir.de/StructureDefinition/normgroesse" target="_blank">http://fhir.de/StructureDefinition/normgroesse</a>)
                 </td>
@@ -1369,11 +1368,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.extension:normSizeCode übernommen</td>
+                <td>Mapped to 'Medication.extension:normSizeCode'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:Verpackung
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging</a>)
                 </td>
@@ -1389,11 +1388,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.extension:packaging übernommen</td>
+                <td>Mapped to 'Medication.extension:packaging'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:drugCategory
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension</a>)
                 </td>
@@ -1409,11 +1408,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.extension:Arzneimittelkategorie übernommen</td>
+                <td>Mapped from 'Medication.extension:Arzneimittelkategorie'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:isVaccine
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension</a>)
                 </td>
@@ -1429,11 +1428,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.extension:Impfstoff übernommen</td>
+                <td>Mapped from 'Medication.extension:Impfstoff'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:manufacturingInstructions
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-manufacturing-instructions-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-manufacturing-instructions-extension</a>)
                 </td>
@@ -1449,11 +1448,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.extension:Herstellungsanweisung übernommen</td>
+                <td>Mapped from 'Medication.extension:Herstellungsanweisung'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.extension:normSizeCode
                     <br>(<a href="http://fhir.de/StructureDefinition/normgroesse" target="_blank">http://fhir.de/StructureDefinition/normgroesse</a>)
                 </td>
@@ -1469,7 +1468,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.extension:Normgroesse übernommen</td>
+                <td>Mapped from 'Medication.extension:Normgroesse'</td>
                 
             </tr>
             
@@ -1489,7 +1488,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1509,7 +1508,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1529,7 +1528,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -1549,7 +1548,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -1569,7 +1568,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1589,7 +1588,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1609,7 +1608,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1629,7 +1628,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1649,7 +1648,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1669,11 +1668,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform
                     
                 </td>
@@ -1689,11 +1688,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform.code
                     
                 </td>
@@ -1709,11 +1708,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform.code übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.code'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform.display
                     
                 </td>
@@ -1729,11 +1728,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform.display übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.display'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform.system
                     
                 </td>
@@ -1749,11 +1748,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform.system übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.system'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform.userSelected
                     
                 </td>
@@ -1769,11 +1768,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform.userSelected übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.userSelected'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.form.coding:kbvDarreichungsform.version
                     
                 </td>
@@ -1789,7 +1788,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird in Medication.form.coding:KBVDarreichungsform.version übernommen</td>
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.version'</td>
                 
             </tr>
             
@@ -1809,7 +1808,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1829,7 +1828,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1849,7 +1848,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1869,7 +1868,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1889,7 +1888,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1909,7 +1908,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1929,7 +1928,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -1949,7 +1948,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1969,7 +1968,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1989,7 +1988,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2009,7 +2008,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2029,11 +2028,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.extension:Darreichungsform
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form</a>)
                 </td>
@@ -2049,11 +2048,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.extension:darreichungsform übernommen</td>
+                <td>Mapped to 'Medication.ingredient.extension:darreichungsform'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.extension:darreichungsform
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-darreichungsform-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-darreichungsform-extension</a>)
                 </td>
@@ -2069,7 +2068,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.ingredient.extension:Darreichungsform übernommen</td>
+                <td>Mapped from 'Medication.ingredient.extension:Darreichungsform'</td>
                 
             </tr>
             
@@ -2089,7 +2088,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2109,7 +2108,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2129,7 +2128,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2149,7 +2148,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2169,7 +2168,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2189,7 +2188,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2209,7 +2208,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2229,7 +2228,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2249,7 +2248,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2269,11 +2268,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode
                     
                 </td>
@@ -2289,11 +2288,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code
                     
                 </td>
@@ -2309,11 +2308,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system
                     
                 </td>
@@ -2329,7 +2328,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system'</td>
                 
             </tr>
             
@@ -2349,7 +2348,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2369,7 +2368,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2389,7 +2388,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2409,7 +2408,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2429,7 +2428,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2449,7 +2448,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2469,7 +2468,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2489,7 +2488,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2509,7 +2508,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2529,7 +2528,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2549,7 +2548,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2569,11 +2568,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode
                     
                 </td>
@@ -2589,11 +2588,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code
                     
                 </td>
@@ -2609,11 +2608,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system
                     
                 </td>
@@ -2629,7 +2628,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system übernommen</td>
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system'</td>
                 
             </tr>
             
@@ -2649,7 +2648,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2669,7 +2668,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2689,7 +2688,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2709,7 +2708,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2729,7 +2728,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2749,7 +2748,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2769,7 +2768,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2789,7 +2788,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2809,7 +2808,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2829,7 +2828,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2849,7 +2848,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2869,7 +2868,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2889,7 +2888,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2909,7 +2908,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2929,7 +2928,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2949,7 +2948,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -2969,7 +2968,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -2989,7 +2988,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3009,7 +3008,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3029,7 +3028,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3049,11 +3048,11 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.strength.extension:MengeFreitext
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount</a>)
                 </td>
@@ -3069,11 +3068,11 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Wird in Medication.ingredient.strength.extension:amountText übernommen</td>
+                <td>Mapped to 'Medication.ingredient.strength.extension:amountText'</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Medication.ingredient.strength.extension:amountText
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-amount-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-amount-extension</a>)
                 </td>
@@ -3089,7 +3088,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Wird aus Medication.ingredient.strength.extension:MengeFreitext übernommen</td>
+                <td>Mapped from 'Medication.ingredient.strength.extension:MengeFreitext'</td>
                 
             </tr>
             
@@ -3109,7 +3108,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3129,7 +3128,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3149,7 +3148,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3169,7 +3168,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3189,7 +3188,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3209,7 +3208,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3229,7 +3228,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3249,7 +3248,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3269,7 +3268,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3289,7 +3288,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3309,7 +3308,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3329,7 +3328,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3349,7 +3348,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -3369,7 +3368,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3389,7 +3388,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Eigenschaft und Wert(e) werden NICHT übernommen</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -3409,7 +3408,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3429,7 +3428,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3449,7 +3448,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3469,7 +3468,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3489,7 +3488,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3509,7 +3508,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Bleibt vorerst leer, da keine Quellinformationen vorhanden sind</td>
+                <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -3518,8 +3517,8 @@
     <script>
         $(document).ready(function () {
             $('#resultsTable').DataTable({
-                'pageLength': 25,
-                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 150, 'All']]
+                'pageLength': -1,
+                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, 'All']]
             });
         });
     </script>
