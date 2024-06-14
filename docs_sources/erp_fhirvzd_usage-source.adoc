@@ -3,9 +3,18 @@ include::./config-source.adoc[]
 
 Zielgruppe: image:{FdV}[]
 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen im Kontext der Apothekensuche im Frontend des Versicherten (FdV) des E-Rezept
+Hier dokumentiert die gematik die Nutzung der Schnittstellen im Kontext der Apothekensuche im Frontend des Versicherten (FdV) des E-Rezept. 
 
 toc::[]
 
-[Work in Progress]
-Diese Dokumentation ist noch nicht vollständig und wird nach der Definition der FHIR Profile des VZD ergänzt.
+Hier sind die Links zu den notwendigen Informationen auf die link:https://github.com/gematik/api-vzd[VZD-API Seite]:
+
+link:https://github.com/gematik/api-vzd/blob/main/docs/FHIR_VZD_HOWTO_Search.adoc[Wie der Search Endpunkt des FHIR VZD funktioniert.]
+
+link:https://github.com/gematik/api-vzd/blob/main/docs/FHIR_VZD_HOWTO_Data.adoc[Wie das Datenmodell verwendet wird.]
+
+link:https://github.com/gematik/api-vzd/blob/main/docs/FHIR_VZD_HOWTO_Data.adoc#41-erezept[Wie das Datenmodell in Bezug auf eRezept verwendet wird.]
+
+link:https://github.com/gematik/api-vzd/blob/main/samples/FHIRseach/Search_HealthcareService_telematikID.adoc[Ein Bespiel, um HealthcareService bei TelematikID zu finden.]
+
+NOTE: Im FHIR VZD gibt es Apothekeneinträge, die nicht für die Zuweisung von E-Rezepten verwendet werden sollen und aus der Ergebnismenge herausfiltern werden müssen. Nur die mit den Spezialisierung (HealthcareService.specialty) 10 (Handverkauf), 30 (Botendienst) oder 40 (Versand) sind zulässig. 
