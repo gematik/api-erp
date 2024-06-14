@@ -21,20 +21,25 @@ toc::[]
 == Endpunkte des E-Rezept Fachdienstes
 Für den Verbindungsaufbau mit dem E-Rezept Fachdienst stehen verschiedene Endpunkte zur verfügung, je nach Entwicklungsumgebung. Angegeben werden jeweils der Endpunkt für den Fachdienst und den IDP:
 
-*PU*
+[cols="1,1,1"]
+|===
+|E-Rezept-Fachdienst Umgebung|aus der TI für Primärsysteme |aus dem Internet für E-Rezept-FdVs
 
-* erp.zentral.erp.splitdns.ti-dienste.de
-* idp.zentral.idp.splitdns.ti-dienste.de
+.2+|*PU*
+|erp.zentral.erp.splitdns.ti-dienste.de
+|erp.app.ti-dienste.de
 
-*RU*
+|idp.zentral.idp.splitdns.ti-dienste.de|idp.app.ti-dienste.de
 
-* erp-ref.zentral.erp.splitdns.ti-dienste.de
-* idp-ref.zentral.idp.splitdns.ti-dienste.de
+.2+|*RU*|erp-ref.zentral.erp.splitdns.ti-dienste.de|erp-ref.app.ti-dienste.de
 
-*RU-DEV*
+|idp-ref.zentral.idp.splitdns.ti-dienste.de|idp-ref.app.ti-dienste.de
 
-* erp-dev.zentral.erp.splitdns.ti-dienste.de
-* idp-ref.zentral.idp.splitdns.ti-dienste.de
+.2+|*RU-DEV*|erp-dev.zentral.erp.splitdns.ti-dienste.de|erp-dev.app.ti-dienste.de
+
+|idp-ref.zentral.idp.splitdns.ti-dienste.de|idp-ref.app.ti-dienste.de
+
+|===
 
 NOTE: Für die Entwicklung in der RU-DEV ist der Scope in der Anfrage-URL umzustellen. Als Parameter der Anfrage ist statt `&scope=e-rezept+openid` ist `&scope=e-rezept-dev+openid` anzugeben. Siehe Schritt 37 im link:https://gematik.github.io/ref-idp-server/tokenFlowPs.html[Rbelflow für Primärsysteme^].
 

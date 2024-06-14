@@ -50,7 +50,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,json]
 ----
-include::../resources/examples/ti-dienste/communication/request_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/01_request_PostPatientToPharmacy.json[]
 ----
 NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
 
@@ -67,7 +67,7 @@ HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::../resources/examples/ti-dienste/communication/response_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/02_response_PostPatientToPharmacy.json[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
 
@@ -125,7 +125,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/communication/request_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/03_request_PostPharmacyToPatient.xml[]
 ----
 NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
@@ -143,7 +143,7 @@ Location:
 
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/communication/response_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/04_response_PostPharmacyToPatient.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
@@ -199,7 +199,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::../resources/examples/ti-dienste/communication/request_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/05_request_RezeptZuweisen.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -212,7 +212,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::../resources/examples/ti-dienste/communication/response_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/06_response_RezeptZuweisen.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
@@ -278,7 +278,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::../resources/examples/ti-dienste/communication/response_GetMessages.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/07_response_GetMessages.json[]
 ----
 NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 
@@ -341,7 +341,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/communication/response_GetAllMessages.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/08_response_GetAllMessages.xml[]
 
 ----
 NOTE: `<total value="391"/>` gibt Auskunft über die Anzahl der Ergebnis-Einträge.

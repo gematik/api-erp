@@ -32,7 +32,7 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |Request|
 [source,xml]
 ----
-include::../resources/examples/vau/request_PostSubscriptionPseudo.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
@@ -45,7 +45,7 @@ Andere Parameter werden aktuell nicht unterstützt.
 *Response*
 [source,xml]
 ----
-include::../resources/examples/vau/response_PostSubscriptionPseudo.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: In ` <id value="df694c098c2fb373524150461cfd9d23"/>` ist eine eindeutige ID (Pseudonym der Telematik-ID) hinterlegt
@@ -153,7 +153,7 @@ Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine n
 == Beispielhafte Implementierung für Primärsysteme
 [source,c++]
 ----
-include::../resources/examples/vau/ping_Subscription.cpp[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_notification_avs/03_ping_Subscription.cpp[]
 ----
 
 == => Wichtige Hinweise <=
