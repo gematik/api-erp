@@ -49,6 +49,7 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Berechtigt für ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -438,6 +439,7 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Berechtigt für ¦image:{AVS}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -557,6 +559,7 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Berechtigt für ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -685,6 +688,7 @@ In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/co
 Es wird empfohlen, die KVNR des Versicherten als "recipient" zu übergeben, damit nur die Nachrichten angezeigt werden, die an den Versicherten adressiert sind. Andernfalls würden ebenso die an die Apotheke versendeten Nachrichten abgerufen werden, wenn diese ihre Nachrichten noch nicht abgeholt hat.
 
 ¦Method     ¦GET
+¦Berechtigt für ¦image:{AVS}[] image:{FdV}[]
 ¦URL Parameter     ¦sent, received, sender, recipient
 ¦HTTP Header ¦
 ----
@@ -823,6 +827,7 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
+|Berechtigt für |image:{AVS}[]
 |URL Parameter     |sent, received, sender, recipient
 |HTTP Header |
 ----
@@ -1007,6 +1012,7 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
 |Method     |DELETE
+|Berechtigt für |image:{AVS}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
