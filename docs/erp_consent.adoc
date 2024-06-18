@@ -14,9 +14,9 @@
 :PVS: https://img.shields.io/badge/PVS-red
 :FdV: https://img.shields.io/badge/FdV-green
 
-Zielgruppe: image:{FdV}[]
-
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die Einwilligung zur elektronischen Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte.
+
+Zielgruppe: image:{FdV}[]
 
 toc::[]
 
@@ -49,7 +49,7 @@ Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/Consent`. Im Au
 |===
 |URI        |https://prescriptionserver.telematik/Consent
 |Method     |POST
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -212,7 +212,7 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Consent`. Im Auf
 |===
 |URI        |https://prescriptionserver.telematik/Consent
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -330,7 +330,7 @@ Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/Consent`. Im 
 |===
 |URI        |https://prescriptionserver.telematik/Consent?category=CHARGCONS
 |Method     |DELETE
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

@@ -1,14 +1,14 @@
 = E-Rezept API-Dokumentation image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Zielgruppe: image:{FdV}[]
-
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
 NOTE: Nach Abstimmungen sind E-Rezept-FdV nach A_21218-* dazu verpflichtet ein PKI-Root Zertifikat zu pinnen. Damit muss das TLS Zertifikat nicht zusätzlich gepinnt werden. Certificate Transparency wird für das TLS Zertifikat als ausreichender Sicherheitsmechanismus bewertet, wenn ein Root Zertifikat der gematik PKI in der Anwendung gepinnt ist. Damit ist sichergestellt, dass Gesundheitsdaten des Anwenders gesichert sind. Dadurch können Clients flexibel auf einen Wechsel des TLS-Zertifikats vom E-Rezept-Fachdienst reagieren.
 
 NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
 Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst deprecated und durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt. Zu einem späteren Zeitpunkt wird der Endpunkt entfernt.
+
+Zielgruppe: image:{FdV}[]
 
 toc::[]
 
@@ -36,7 +36,7 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/CertList
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -92,7 +92,7 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPList
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -160,7 +160,7 @@ Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore h
 |===
 |URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter    | currentRoot
 |HTTP Header |
 ----
@@ -219,7 +219,7 @@ Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Resp
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter    | issuer-cn, serial-nr
 |HTTP Header | 
 ----

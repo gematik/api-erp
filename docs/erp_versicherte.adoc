@@ -14,9 +14,9 @@
 :PVS: https://img.shields.io/badge/PVS-red
 :FdV: https://img.shields.io/badge/FdV-green
 
-Zielgruppe: image:{FdV}[]
-
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
+
+Zielgruppe: image:{FdV}[]
 
 toc::[]
 
@@ -47,7 +47,7 @@ Es wird empfohlen beim Abruf der Tasks den Zeitstempel der letzten Abfrage zu ü
 |===
 |URI        |https://erp.app.ti-dienste.de/Task?modified=ge2020-01-01T12:23:00Z
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -317,7 +317,7 @@ Beim Statusübergang zu "closed" stehen die MedicationDispense Informationen zur
 |===
 |URI        |https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -545,7 +545,7 @@ Der Aufruf erfolgt als http-`GET`-Operation am Apothekenverzeichnis der Telemati
 |===
 |URI        |https://apovzd.app.ti-dienste.de/api/Location?name=Adler
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |Request|
 ----
 GET /api/Location?name=Adler HTTP/1.1
@@ -881,7 +881,7 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 |===
 |URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter | whenhandedover, whenprepared, performer
 |HTTP Header |
 ----
@@ -1084,7 +1084,7 @@ NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte
 |===
 |URI        |https://erp.app.ti-dienste.de/MedicationDispense/160.880.966.157.248.22
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -1260,7 +1260,7 @@ Die Rückgabe erfolgt als `Bundle`, das ein oder mehrere MedicationDispenses ent
 |===
 |URI        |https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId\|160.880.966.157.248.22
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -1580,7 +1580,7 @@ Der Aufruf erfolgt als http-`POST`-Operation auf eine konkrete Ressource `/Task/
 |===
 |URI        |https://erp.app.ti-dienste.de/Task/160.880.966.157.248.22/$abort
 |Method     |POST
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -1644,7 +1644,7 @@ NOTE: Die Sprache muss in jedem Aufruf mittels "Accept-Language" Heder übergebe
 |===
 |URI        |https://erp.app.ti-dienste.de/AuditEvent
 |Method     |GET
-|Berechtigt für |image:{FdV}[]
+|Target |image:{FdV}[]
 |URL Parameter    | date, subtype, _sort, _offset, _count
 |HTTP Header |
 ----
