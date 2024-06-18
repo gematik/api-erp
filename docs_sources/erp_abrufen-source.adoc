@@ -83,7 +83,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/01_response_taskAccept.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/01_response_taskAccept.xml[]
 ----
 
 Wenn ein E-Rezept vom Workflow-type 200/209 abgerufen wird, liefert der E-Rezept-Fachdienst einen Consent zurück, wenn der Versicherte die Einwilligung über die Bereitstellung der Abrechnungsinformationen im Frontend des Versicherten erteilt hat.
@@ -95,7 +95,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/02_response_taskAcceptWithConsent.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/02_response_taskAcceptWithConsent.xml[]
 ----
 
 ====
@@ -169,7 +169,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/03_request_recovery_secret.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/03_request_recovery_secret.xml[]
 ----
 
 
@@ -227,7 +227,7 @@ Content-Length: 1234
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/04_request_VerifySignatureTask.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/04_request_VerifySignatureTask.xml[]
 ----
 
 NOTE: Das Element `<m2:Base64Signature></m2:Base64Signature>`enthält das Signaturelement inkl. des signierten E-Rezept-Datensatzes (CAdES-enveloping) als PKCS#7-Datei in Base64-Codierung
@@ -248,7 +248,7 @@ HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/05_response_VerifySignatureTask.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/05_response_VerifySignatureTask.xml[]
 ----
 NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Signatur aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:../samples/qes/signed[Beispiele].
 
@@ -293,7 +293,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/06_request_taskClose.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/06_request_taskClose.xml[]
 ----
 NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
 
@@ -312,7 +312,7 @@ Es können auch mehrere MedicationDispenses für eine $dispense-Operation überg
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
 ----
 
 ====
@@ -320,7 +320,7 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Exa
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/08_response_taskDispense.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/08_response_taskDispense.xml[]
 ----
 
 
@@ -419,7 +419,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/06_request_taskClose.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/06_request_taskClose.xml[]
 ----
 
 NOTE: Mit der Übergabe der MedicationDispense signalisiert der Apotheker den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen über das abgegebene Medikament.
@@ -441,7 +441,7 @@ WARNING: Der E-Rezept-Fachdienst hat ein Datenlimit von 100kb pro Request. Falls
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
 ----
 
 ====
@@ -454,7 +454,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/09_response_taskClose.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/09_response_taskClose.xml[]
 ----
 NOTE: Im Ergebnis der Operation wird ein signiertes Bundle als Nachweis des ordnungsgemäßen Durchlaufs des E-Rezept-Workflows zurückgegeben.
 
@@ -649,7 +649,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen/10_response_taskGet.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/10_response_taskGet.xml[]
 ----
 In `<resource><Bundle/></resource>` wird die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
 
