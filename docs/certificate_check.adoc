@@ -49,7 +49,7 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/CertList
 |Method     |GET
-|Target |image:{FdV}[]
+|Requester |image:{FdV}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -115,7 +115,7 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPList
 |Method     |GET
-|Target |image:{FdV}[]
+|Requester |image:{FdV}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -189,7 +189,7 @@ Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore h
 |===
 |URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
 |Method     |GET
-|Target |image:{FdV}[]
+|Requester |image:{FdV}[]
 |URL Parameter    | currentRoot
 |HTTP Header |
 ----
@@ -265,7 +265,7 @@ Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Resp
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
 |Method     |GET
-|Target |image:{FdV}[]
+|Requester |image:{FdV}[]
 |URL Parameter    | issuer-cn, serial-nr
 |HTTP Header |
 ----
