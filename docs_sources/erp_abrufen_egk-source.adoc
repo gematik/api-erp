@@ -30,6 +30,7 @@ Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden,
 |URI        |https://konnektor.konlan/EventService
 |Method     |POST
 |Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -65,6 +66,7 @@ Für den VSD-Abruf wird die ReadVSD-Operation des Konnektors mittels folgendem A
 |URI        |https://konnektor.konlan/VSDService
 |Method     |POST
 |Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -145,6 +147,7 @@ CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor de
 
 |Method     |GET
 |Requester |image:{AVS}[]
+|Responder | E-Rezept-Fachdienst
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
