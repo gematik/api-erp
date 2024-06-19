@@ -1,7 +1,7 @@
 = E-Rezept FHIR Veränderungen für 20250115 image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-TODO: Introduction
+Ab 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als auch eML Teil des Packages sind, müssen einige Veränderungen vorgenommen werden. Diese Seite bietet eine Zusammenfassung der Veränderungen für die verschiedenen Hersteller.
 
 toc::[]
 
@@ -13,18 +13,20 @@ Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe 
 
 == PVS
 === Verordnung von DiGAs 
+Tasks für Digitale Gesundheitsanwendungen werden mit dem FlowType 162 erstellt.
 
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+FRAGE: Werden die PVS Systeme auch das neue GEM_ERP_PR_Medication Profil benutzen?
 
 == AVS
 === Communication
 Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld.
 
-=== Zeitnähe Abgabe
+=== Zeitnahe Dokumentation der Abgabe
 Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
 === Verordnung von DiGAs
-Nicht relevant für die Apotheke
+Nicht relevant für die Apotheke.
 
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die Operationen $dispense und $close. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden. 
@@ -33,7 +35,7 @@ Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN).
 
 == FdV
-=== Zeitnähe Abgabe
+=== Zeitnahe Dokumentation der Abgabe
 Die link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task-Ressource] erhält zwei zusätzliche Felder:
 - Task.extension:lastMedicationDispense
 - Task.input:MedicationDispense
