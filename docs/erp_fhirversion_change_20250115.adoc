@@ -16,9 +16,11 @@ Ab 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als
 toc::[]
 
 == Übersicht
-TODO: Add transition Diagram
+TODO: Add transition Diagram? Oder reicht eine Tabelle
 
 == Allgemein
+Meta.Profile hochziehen und auf 1.4 ändern. Das betrifft alle Ressourcen.
+
 Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
 
 == PVS
@@ -26,13 +28,15 @@ Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe 
 Tasks für Digitale Gesundheitsanwendungen werden mit dem FlowType 162 erstellt.
 
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
-FRAGE: Werden die PVS Systeme auch das neue GEM_ERP_PR_Medication Profil benutzen?
+Nicht relevant.
 
 == AVS
 === Communication
 Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld.
 
 === Zeitnahe Dokumentation der Abgabe
+Keine FHIR-Änderungen auf der Apothekenseite, aber es gibt den neuen #dispense Endpunkt.
+
 Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
 === Verordnung von DiGAs
@@ -42,7 +46,7 @@ Nicht relevant für die Apotheke.
 Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die Operationen $dispense und $close. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
 Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.identifier kann jetzt mehrere Werte haben.
-- MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN).
+- MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird.
 
 == FdV
 === Zeitnahe Dokumentation der Abgabe
