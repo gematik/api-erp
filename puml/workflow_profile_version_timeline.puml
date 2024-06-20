@@ -1,0 +1,66 @@
+@startuml
+<style>
+timingDiagram {
+  .12color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #c30059
+  }
+  .13color{
+    FontColor #000e52
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #00ff64
+  }
+  .14color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #f00000
+  }
+  .15color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #b10f21
+  }
+}
+</style>
+title Zeitleiste der Versionsübergänge des Workflow-Profile
+
+concise "Version 1.2" as V120 <<12color>>
+concise "Version 1.3" as V130 <<13color>>
+concise "Version 1.4" as V140 <<14color>>
+concise "Version 1.5" as V150 <<15color>>
+
+'60 days is scaled to 100 pixels
+scale 5184000 as 100 pixels
+hide time-axis
+
+V120 is 1.2
+
+@2024/05/01
+
+@2024/11/01
+V130 is 1.3
+V150 -> V130 : \n2024/11/01
+
+@2025/01/15
+V120 is "Nur FdV"
+V140 is 1.4
+V150 -> V120 : \n2025/01/15
+
+@2025/03/31
+V120 is {hidden}
+V150 -> V120 : 2025/03/31
+
+@2025/04/15
+V130 is {hidden}
+V150 -> V130 : 2025/04/15
+
+@2025/07/15
+V150 is 1.5
+V150 -> V140 : 2025/07/15
+note top of V150 : Vorläufig 
+@enduml
