@@ -15,47 +15,58 @@ Ab 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als
 
 toc::[]
 
-== Übersicht
+== Versionsübergabegänge
 image:puml_workflow_profile_version_timeline.png[]
 
-== Allgemein
+|===
+h|Version  h|Gültig ab  h|Gültig bis
+|Profile 1.2| - | 2025/03/31
+|Profile 1.3| 2024/11/01 | 2025/04/15
+|Profile 1.4| 2025/01/15 | -
+|Profile 1.5 (Vorläufig)| 2025/07/15 | -
+|===
+
+NOTE: Zwischen dem 15.01.2025 und dem 31.03.2025 ist Profil 1.2 nur für die FdVs verfügbar.
+
+== Änderungen
+=== Allgemein
 Meta.Profile hochziehen und auf 1.4 ändern. Das betrifft alle Ressourcen.
 
 Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
 
-== PVS
-=== Verordnung von DiGAs
+=== PVS
+==== Verordnung von DiGAs
 Tasks für Digitale Gesundheitsanwendungen werden mit dem FlowType 162 erstellt.
 
-=== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+==== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Nicht relevant.
 
-== AVS
-=== Communication
+=== AVS
+==== Communication
 Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld.
 
-=== Zeitnahe Dokumentation der Abgabe
+==== Zeitnahe Dokumentation der Abgabe
 Keine FHIR-Änderungen auf der Apothekenseite, aber es gibt den neuen #dispense Endpunkt.
 
 Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
-=== Verordnung von DiGAs
+==== Verordnung von DiGAs
 Nicht relevant für die Apotheke.
 
-=== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+==== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die Operationen $dispense und $close. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
 Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.identifier kann jetzt mehrere Werte haben.
 - MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird.
 
-== FdV
-=== Zeitnahe Dokumentation der Abgabe
+=== FdV
+==== Zeitnahe Dokumentation der Abgabe
 Die link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task-Ressource] erhält zwei zusätzliche Felder:
 - Task.extension:lastMedicationDispense
 - Task.input:MedicationDispense
 Diese Felder werden nur befüllt, wenn Dispensierinformationen bereits bereitgestellt wurden, und können sich ändern, bis die Task-Ressource den Status "completed" erhält.
 
-=== Verordnung von DiGAs
+==== Verordnung von DiGAs
 Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension:flowType und ist ein Pflichtfeld. Diese Ressource wird auch im link:https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-ein-e-rezept-verbindlich-einer-apotheke-zuweisen[Anwendungsfall verwendet, wenn ein E-Rezept verbindlich an eine Apotheke zugeweisen wird].
 
 Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt: link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]. Wichtig zu wissen ist:
@@ -63,7 +74,7 @@ Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt: link:ht
 - MedicationDispense.extension:redeemCode und deepLink kommen hinzu.
 - MedicationDispense.medication ist nicht mehr nur eine Referenz und sieht anders aus.
 
-=== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+==== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die Operationen $dispense und $close. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
 Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.identifier kann jetzt mehrere Werte haben.
