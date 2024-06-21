@@ -10,6 +10,9 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-blue
+:PVS: https://img.shields.io/badge/PVS-red
+:FdV: https://img.shields.io/badge/FdV-green
 
 Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden.
 
