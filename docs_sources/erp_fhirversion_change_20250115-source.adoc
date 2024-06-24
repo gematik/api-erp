@@ -26,7 +26,7 @@ NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
 [cols="a,a,a,a"]
 [%autowidth]
 |===
-h|Endpunkt  h|Call h|Betrifft ab  h|Änderungen
+h|Endpunkt  h|Call h|Betrifft h|Änderungen
 |Allgemein| - | image:{PVS}[] image:{AVS}[] image:{FdV}[] | Meta.Profile hochziehen und auf 1.4 ändern.
 |Communication| - | image:{AVS}[] image:{FdV}[] | Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
 .3+|Task|$create | image:{PVS}[] | workflowType unterstützt FlowType 162
@@ -56,6 +56,29 @@ Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe 
 === PVS
 ==== Verordnung von DiGAs 
 Tasks für Digitale Gesundheitsanwendungen werden mit dem FlowType 162 erstellt.
+Das CodeSystem link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447794[CS_OrganizationType] hat einen neuen Code, der beim Erstellen einer Task (Task.performerType:Coding) verwendet werden sollte. 
+Nämlich:
+|===
+h|Code h|Display
+|urn:oid:1.2.276.0.76.4.59|Kostenträger
+|===
+
+[cols="a,a,a"]
+[%autowidth]
+|===
+h|Endpunkt  h|Call h|Änderungen
+|Task|$create | workflowType unterstützt FlowType 162. +
+performerType unterstützt OrganizationType Kostenträger.
+|===
+
+[cols="a,a"]
+[%autowidth]
+|===
+h|Endpunkt |Task 
+h|Call |$create
+h|Änderungen | workflowType unterstützt FlowType 162. +
+performerType unterstützt OrganizationType Kostenträger.
+|===
 
 ==== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Nicht relevant.
@@ -67,6 +90,8 @@ Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc
 ==== Zeitnahe Dokumentation der Abgabe
 Keine FHIR-Änderungen auf der Apothekenseite, aber es gibt den neuen $dispense Endpunkt.
 
+$close kann auch ohne MedicationDispense abgeschlossen werden, wenn zuvor ein MedicationDispense über $dispense erfolgt ist.
+
 Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
 ==== Verordnung von DiGAs
@@ -77,6 +102,8 @@ Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die 
 Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.identifier kann jetzt mehrere Werte haben. 
 - MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird.
+
+Die zwei neuen Profile erben von den MedicationDispense- und Medication-Profilen des ePA und sind daher wichtig für das Mapping zum ePA.
 
 === FdV
 ==== Zeitnahe Dokumentation der Abgabe
@@ -97,3 +124,5 @@ Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft die 
 Die folgenden Veränderungen sind wichtig:
 - MedicationDispense.identifier kann jetzt mehrere Werte haben. 
 - MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN).
+
+Die zwei neuen Profile erben von den MedicationDispense- und Medication-Profilen des ePA und sind daher wichtig für das Mapping zum ePA.
