@@ -1,9 +1,9 @@
 = E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte) image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
-
 Zielgruppe: image:{AVS}[]
+
+Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
 
 toc::[]
 
@@ -146,8 +146,8 @@ image:puml_pn3_decision_tree.png[width=100%]
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
 |Method     |GET
-|Requester |image:{AVS}[]
-|Responder | E-Rezept-Fachdienst
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

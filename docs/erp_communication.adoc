@@ -10,13 +10,14 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
-:AVS: https://img.shields.io/badge/AVS-blue
-:PVS: https://img.shields.io/badge/PVS-red
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS-C30059
 :FdV: https://img.shields.io/badge/FdV-green
-
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
+:eRp: https://img.shields.io/badge/eRp-blue
 
 Zielgruppe: image:{AVS}[] image:{FdV}[]
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
 
 toc::[]
 
@@ -49,8 +50,8 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
-¦Requester ¦image:{FdV}[] (Auch verfügbar für image:{AVS}[])
-¦Responder ¦ E-Rezept-Fachdienst
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -440,8 +441,8 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
 ¦Method     ¦POST
-¦Requester ¦image:{AVS}[] (Auch verfügbar für image:{FdV}[])
-¦Responder ¦ E-Rezept-Fachdienst
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -562,7 +563,7 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
 ¦Requester ¦image:{FdV}[]
-¦Responder ¦ E-Rezept-Fachdienst
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -692,7 +693,7 @@ Es wird empfohlen, die KVNR des Versicherten als "recipient" zu übergeben, dami
 
 ¦Method     ¦GET
 ¦Requester ¦image:{AVS}[] image:{FdV}[]
-¦Responder ¦ E-Rezept-Fachdienst
+¦Responder ¦image:{eRp}[]
 ¦URL Parameter     ¦sent, received, sender, recipient
 ¦HTTP Header ¦
 ----
@@ -832,7 +833,7 @@ Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sen
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
 |Requester |image:{AVS}[]
-|Responder | E-Rezept-Fachdienst
+|Responder |image:{eRp}[]
 |URL Parameter     |sent, received, sender, recipient
 |HTTP Header |
 ----
@@ -1018,7 +1019,7 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
 |Method     |DELETE
 |Requester |image:{AVS}[]
-|Responder | E-Rezept-Fachdienst
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
