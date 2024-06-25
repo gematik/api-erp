@@ -20,6 +20,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
       - [PKV Versicherte](#pkv-versicherte)
     - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
     - [Tabelle für Zielgruppe pro Seite](#tabelle-für-zielgruppe-pro-seite)
+    - [Tabelle für Seiten pro Zielgruppe](#tabelle-für-seiten-pro-zielgruppe)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -154,6 +155,63 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|![](https://img.shields.io/badge/FdV-green)|
+
+### Tabelle für Seiten pro Zielgruppe
+|Apotheker ![](https://img.shields.io/badge/AVS-E30615)|
+|---------------|
+|[Anwendungsfälle für Apotheker](docs/erp_abrufen.adoc)|
+|[Anwendungsfälle für Apotheker (Einlösung mit Gesundheitskarte)](docs/erp_abrufen_egk.adoc)|
+|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|
+|[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|
+|[PKV-Abrechnungsinformationen](docs/erp_chargeItem.adoc)|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|
+|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|
+
+|Ärzte/Zahnärzte ![](https://img.shields.io/badge/PVS-C30059)|
+|---------------|
+|[Anwendungsfälle für Ärzte/Zahnärzte](docs/erp_bereitstellen.adoc)|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|
+|[Liste der PKV-Institutionskennzeichennummern](docs/pkv_ik_numbers.adoc)|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|
+|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|
+
+|Versicherte ![](https://img.shields.io/badge/FdV-green)|
+|---------------|
+|[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|
+|[Benachrichtigungsdienst](docs/erp_notification.adoc)|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|
+|[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|
+|[Mehrfachverordnungen für Versicherte](docs/erp_versicherte_mvo.adoc)|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|
+|[PKV-Abrechnungsinformationen](docs/erp_chargeItem.adoc)|
+|[PKV-Einwilligung](docs/erp_consent.adoc)|
+|[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|
+|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|
+|[Zertifikatsprüfung](docs/certificate_check.adoc)|
 
 ## Lizenzbedingungen
 
