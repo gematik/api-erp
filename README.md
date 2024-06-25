@@ -23,6 +23,11 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
     - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
     - [Tabelle für Zielgruppe pro Seite](#tabelle-für-zielgruppe-pro-seite)
     - [Tabelle für Seiten pro Zielgruppe](#tabelle-für-seiten-pro-zielgruppe)
+    - [Anwendungsfälle Zugang zur TI](#anwendungsfälle-zugang-zur-ti)
+    - [Anwendungsfälle Bedienung von E-Rezepten](#anwendungsfälle-bedienung-von-e-rezepten)
+    - [Besondere Anwendungsfälle](#besondere-anwendungsfälle)
+    - [Anwendungsfälle PKV](#anwendungsfälle-pkv)
+    - [Allgemein](#allgemein)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -214,6 +219,51 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|
+
+### Anwendungsfälle Zugang zur TI
+|Dokumentation| Zielgruppe |
+|-----|------------|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS]|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS]
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS]|
+
+### Anwendungsfälle Bedienung von E-Rezepten
+|Dokumentation| Zielgruppe |
+|-----|------------|
+|[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![][FdV]|
+|[Belieferung von E-Rezepten](docs/erp_abrufen.adoc)|![][AVS]|
+|[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
+|[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
+
+### Besondere Anwendungsfälle
+|Dokumentation| Zielgruppe |
+|-----|------------|
+|[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
+|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS]|
+|[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|![][AVS] ![][FdV]|
+|[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV]|
+|[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
+|[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
+
+### Anwendungsfälle PKV
+|Dokumentation| Zielgruppe |
+|-----|------------|
+|[Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![][AVS] ![][FdV]|
+|[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
+|[Liste der PKV-Institutionskennzeichennummern](docs/pkv_ik_numbers.adoc)|![][PVS]|
+
+### Allgemein
+|Dokumentation| Zielgruppe |
+|-----|------------|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ## Lizenzbedingungen
 
