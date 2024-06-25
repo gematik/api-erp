@@ -97,7 +97,7 @@ h|Endpunkt  h|Call h|Betrifft h|Änderungen
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Betrifft: image:{AVS}[] image:{FdV}[]
 
-* Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft sowohl die Operationen $dispense und $close für die Apotheke als auch die MedicationDispense Endpunkt für die Versicherte. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
+Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft sowohl die Operationen $dispense und $close für die Apotheke als auch die MedicationDispense Endpunkt für die Versicherte. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden. +
 Die folgenden Veränderungen sind wichtig:
     - MedicationDispense.identifier kann jetzt mehrere Werte haben.
     - MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird.
