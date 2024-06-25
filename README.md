@@ -19,6 +19,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
     - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
       - [PKV Versicherte](#pkv-versicherte)
     - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
+    - [Tabelle für Zielgruppe pro Seite](#tabelle-für-zielgruppe-pro-seite)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -124,6 +125,35 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 ### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
 
 [Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
+
+### Tabelle für Zielgruppe pro Seite
+|Seite| Zielgruppe |
+|-----|------------|
+|[Anwendungsfälle für Apotheker](docs/erp_abrufen.adoc)|![](https://img.shields.io/badge/AVS-E30615)|
+|[Anwendungsfälle für Apotheker (Einlösung mit Gesundheitskarte)](docs/erp_abrufen_egk.adoc)|![](https://img.shields.io/badge/AVS-E30615)|
+|[Anwendungsfälle für Ärzte/Zahnärzte](docs/erp_bereitstellen.adoc)|![](https://img.shields.io/badge/PVS-C30059)|
+|[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![](https://img.shields.io/badge/FdV-green)|
+|[Benachrichtigungsdienst](docs/erp_notification.adoc)|![](https://img.shields.io/badge/FdV-green)|
+|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![](https://img.shields.io/badge/AVS-E30615)|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615)|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Liste der PKV-Institutionskennzeichennummern](docs/pkv_ik_numbers.adoc)|![](https://img.shields.io/badge/PVS-C30059)|
+|[Mehrfachverordnungen für Versicherte](docs/erp_versicherte_mvo.adoc)|![](https://img.shields.io/badge/FdV-green)|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[PKV-Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[PKV-Einwilligung](docs/erp_consent.adoc)|![](https://img.shields.io/badge/FdV-green)
+|[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![](https://img.shields.io/badge/FdV-green)|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615)
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615)|
+|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![](https://img.shields.io/badge/PVS-C30059) ![](https://img.shields.io/badge/AVS-E30615) ![](https://img.shields.io/badge/FdV-green)|
+|[Zertifikatsprüfung](docs/certificate_check.adoc)|![](https://img.shields.io/badge/FdV-green)|
 
 ## Lizenzbedingungen
 
