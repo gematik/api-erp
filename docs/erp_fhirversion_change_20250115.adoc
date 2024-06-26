@@ -14,6 +14,7 @@
 :PVS: https://img.shields.io/badge/PVS-C30059
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
 
 Ab 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als auch eML Teil des Packages sind, müssen einige Veränderungen vorgenommen werden. Diese Seite bietet eine Zusammenfassung der Veränderungen für die verschiedenen Hersteller.
 
@@ -43,7 +44,7 @@ Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 * Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
 
 === Verordnung von DiGAs
-Betrifft: image:{PVS}[] image:{FdV}[]
+Betrifft: image:{PVS}[] image:{FdV}[] image:{KTR}[]
 
 * Tasks für Digitale Gesundheitsanwendungen werden mit dem FlowType 162 erstellt.
 * Das CodeSystem link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447794[CS_OrganizationType] hat einen neuen Code, der beim Erstellen einer Task (Task.performerType:Coding) verwendet werden sollte.
