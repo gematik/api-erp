@@ -47,11 +47,11 @@ h|Code h|Display
 [cols="a,a,a,a"]
 [%autowidth]
 |===
-h|Endpunkt  h|Call h|Betrifft h|Änderungen
-|Task|$create |image:{PVS}[] | * workflowType unterstützt FlowType 162. +
+h|Endpunkt  h|Betrifft h|Änderungen
+|Task|image:{PVS}[] | * workflowType unterstützt FlowType 162. +
 * performerType unterstützt OrganizationType Kostenträger.
-|Communication| - | image:{FdV}[] | Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
-|MedicationDispense| - | image:{FdV}[] | Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt: link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA].
+|Communication| image:{FdV}[] | Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
+|MedicationDispense| image:{FdV}[] | Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt: link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA].
 |===
 
 === Communication
@@ -60,8 +60,8 @@ Betrifft: image:{AVS}[] image:{FdV}[]
 * Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension:flowType und ist ein Pflichtfeld. Diese Ressource wird auch im link:https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-ein-e-rezept-verbindlich-einer-apotheke-zuweisen[Anwendungsfall verwendet, wenn ein E-Rezept verbindlich an eine Apotheke zugeweisen wird].
 
 |===
-h|Endpunkt  h|Call h|Betrifft h|Änderungen
-|Communication| - | image:{AVS}[] image:{FdV}[] | Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
+h|Endpunkt h|Betrifft h|Änderungen
+|Communication| image:{AVS}[] image:{FdV}[] | Das link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
 |===
 
 === Zeitnahe Dokumentation der Abgabe
@@ -76,8 +76,8 @@ Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/d
 Dieses Feld wird nur ausgefüllt, wenn Dispensierinformationen bereits bereitgestellt wurden, und kann sich ändern, bis die Task-Ressource den Status "completed" erreicht.
 
 |===
-h|Endpunkt  h|Call h|Betrifft h|Änderungen
-|Task| $dispense + $close | image:{FdV}[] | Die link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task-Ressource] erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense 
+h|Endpunkt  h|Betrifft h|Änderungen
+|Task| image:{FdV}[] | Die link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task-Ressource] erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense 
 |===
 
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
@@ -95,9 +95,8 @@ Die zwei neuen Profile erben von den MedicationDispense- und Medication-Profilen
 [cols="a,a,a,a"]
 [%autowidth]
 |===
-h|Endpunkt  h|Call h|Betrifft h|Änderungen
-|Task| $dispense + 
-$close | image:{AVS}[] .2+| Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. +
+h|Endpunkt  h|Betrifft h|Änderungen
+|Task| image:{AVS}[] .2+| Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. +
  Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
 |MedicationDispense| - | image:{FdV}[] |
 |===
