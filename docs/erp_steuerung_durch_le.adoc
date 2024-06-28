@@ -136,10 +136,15 @@ NOTE: Der Wert `<code value="urn:oid:1.2.276.0.76.4.54" />` entspricht dem inten
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Abbruch statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Abbruch anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -282,10 +287,15 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Abbruch statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Abbruch anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
