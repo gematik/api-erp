@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für die PKV-Abrechnungsinformationen image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[] image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die elektronische Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte.
 
 toc::[]
@@ -46,6 +48,8 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Im folge
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -96,6 +100,8 @@ Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/ChargeItem`. Im
 Mit dem Parameter `task=...` wird die Zuordnung zum Task des eingelösten Rezepts hergestellt. +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 ¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -187,6 +193,8 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/ChargeItem/'Pres
 |===
 |URI        |https://prescriptionserver.telematik/ChargeItem/200.000.001.944.091.20?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -251,6 +259,8 @@ Der Aufruf erfolgt als http-`PUT`-Operation auf die Ressource `/ChargeItem/'Pres
 |===
 ¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.000.001.944.091.20?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ¦Method     ¦PUT
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -326,6 +336,8 @@ NOTE: Wenn kein Consent vorliegt, ist der Aufruf auf diesen Endpunkt trotzdem m�
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/ChargeItem/
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |URL Parameter | entered-date, _lastUpdated
 |HTTP Header |
 ----
@@ -364,6 +376,8 @@ Rückgabewert ist ein Bundle, welches das ChargeItem, den Verordnungsdatensatz, 
 |===
 |URI        |https://prescriptionserver.telematik/ChargeItem/200.000.001.944.091.20
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -428,6 +442,8 @@ Der Aufruf erfolgt als http-`PATCH`-Operation auf die Ressource `/ChargeItem`.
 |===
 ¦URI        ¦https://prescriptionserver.telematik/ChargeItem/200.000.001.944.091.20
 ¦Method     ¦PATCH
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -492,6 +508,8 @@ Der Aufruf erfolgt als http-`DELETE`-Operation auf die Ressource `/ChargeItem`. 
 |===
 |URI        |https://prescriptionserver.telematik/ChargeItem/200.000.001.944.091.20
 |Method     |DELETE
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

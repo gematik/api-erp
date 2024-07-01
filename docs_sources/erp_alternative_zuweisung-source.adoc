@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Einlösen ohne Anmeldung am E-Rezept-Fachdienst im E-Rezept-FdV image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[] image:{FdV}[]
+
 toc::[]
 
 == Beschreibung des Features
@@ -62,6 +64,8 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle.
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
