@@ -1,4 +1,4 @@
-= E-Rezept FHIR Veränderungen für 20250115 image:gematik_logo.png[width=150, float="right"]
+= E-Rezept FHIR Veränderungen für 15.01.2025 image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
 Ab 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als auch eML Teil des Packages sind, müssen einige Veränderungen vorgenommen werden. Diese Seite bietet eine Zusammenfassung der Veränderungen für die verschiedenen Hersteller.
@@ -14,14 +14,32 @@ image:puml_workflow_profile_version_timeline.png[]
 h|Version  h|Gültig ab  h|Gültig bis
 |Profile 1.2| - | 15.07.2025
 |Profile 1.3| 01.11.2024 | 15.07.2025
-|Profile 1.4| 15.01.2025 | - 
+|Profile 1.4| 15.01.2025 | tbd 
 |Profile 1.5 (Vorläufig)| 15.07.2025 | -
 |===
 
 NOTE: Zwischen dem 15.04.2025 und dem 15.07.2025 sind Profile 1.2 und 1.3 nur für die FdVs verfügbar.
+
 NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
 
 == Änderungen
+=== Übersicht
+[cols="a,a,a"]
+[%autowidth]
+|===
+h|Feature h|Ressource h|Änderungen
+.2+|<<Allgemein>>| Alle | Meta.Profile hochziehen und auf 1.4 ändern.
+| Diverse | Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
+|<<Communication>>| link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] | Enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
+.2+|<<Verordnung von DiGAs>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|* workflowType unterstützt FlowType 162. +
+* performerType unterstützt OrganizationType Kostenträger.
+|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]|Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt.
+|<<Zeitnahe Dokumentation der Abgabe>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|Erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense
+|<<Bereitstellung der Profile für die elektronische Medikationsliste (eML)>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[GEM_ERP_PR_MedicationDispense]|[disc]
+* MedicationDispense.identifier kann jetzt mehrere Werte haben. 
+* MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird. 
+|===
+
 === Allgemein
 Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
@@ -97,21 +115,4 @@ Die zwei neuen Profile erben von den MedicationDispense- und Medication-Profilen
 h|Ressource  h|Betrifft h|Änderungen
 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[GEM_ERP_PR_MedicationDispense]|image:{AVS}[] image:{FdV}[] | Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. +
  Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
-|===
-
-=== Übersicht
-[cols="a,a,a"]
-[%autowidth]
-|===
-h|Feature h|Ressource h|Änderungen
-.2+|Allgemein| Alle | Meta.Profile hochziehen und auf 1.4 ändern.
-| Diverse | Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
-|Communication| link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] | Enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
-.2+|Verordnung von DiGAs|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|* workflowType unterstützt FlowType 162. +
-* performerType unterstützt OrganizationType Kostenträger.
-|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]|Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt.
-|Zeitnahe Dokumentation der Abgabe|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|Erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense
-|Bereitstellung der Profile für die elektronische Medikationsliste (eML)|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[GEM_ERP_PR_MedicationDispense]|[disc]
-* MedicationDispense.identifier kann jetzt mehrere Werte haben. 
-* MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird. 
 |===
