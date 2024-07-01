@@ -183,6 +183,19 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 |POST /Task/<id>/$activate |252            |Die Anfrage hat eine ungültige Arztnummer (LANR oder ZANR): Die übergebene Arztnummer entspricht nicht den Prüfziffer-Validierungsregeln. +
                               +
                               *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.*
+.2+|POST /Task/$create +
+POST /Task/<id>/$activate + 
+POST /Task/<id>/$dispense +
+POST /Task/<id>/$close +
+POST /ChargeItem +
+PUT /ChargeItem +
+POST /Communication +
+POST /Consent                 |253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                              +
+                              *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Abbruch statt zu einer Warnung führt.*
+                              |254            |Die fullUrl einer FHIR-Ressource entspricht nicht der von FHIR vorgegebenen Regex zur Bildung von fullUrls. +
+                              +
+                              *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Abbruch anstatt einem Warning führt.*
 3+h|Fehlerfälle
 
 .8+|GET /Task                 |400            |Ungültiger http-Request
