@@ -1,0 +1,44 @@
+= E-Rezept FHIR Veränderungen für TT.MM.JJJJ image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+IMPORTANT: Diese Seite ist nur ein Template für zukünftige Releases! Die Informationen zu den Versionsübergängen werden nicht aktualisiert.
+
+Ab dem TT.MM.JJJJ ist das gematik Workflow Package 1.X gültig. Diese Seite bietet eine Zusammenfassung der Veränderungen in einem Format, das zeigt, was die verschiedenen Hersteller tun müssen, um ein bestimmtes Feature FHIR-mäßig umzusetzen. Alle Breaking Changes sind ebenfalls aufgelistet.
+
+toc::[]
+
+== Versionsübergabegänge
+Ab dem TT.MM.JJJJ kann der E-Rezept-Fachdienst mehrere aktive Profile haben. Das bedeutet, dass Übergangszeiten mit mehr als zwei aktiven Profilen möglich sind. Unten sind sowohl ein Diagramm als auch eine Tabelle zu sehen, die zeigen, wann welches Profil aktiv ist und bis wann.
+
+image:puml_workflow_profile_version_timeline.png[]
+
+|===
+h|Version  h|Gültig ab  h|Gültig bis
+|Profile 1.2| - | 15.07.2025
+|Profile 1.3| 01.11.2024 | 15.07.2025
+|Profile 1.4| 15.01.2025 | tbd 
+|Profile 1.5 (Vorläufig)| 15.07.2025 | -
+|===
+
+NOTE: Aufgrund der Updatezyklen von Apps im Feld können die FdVs die Profilversionen 1.2 und 1.3 im Zeitraum vom 15.04.2025 bis zum 15.07.2025 weiterhin nutzen. Ab dem 15.07.2025 ist auch für die FdVs die Verwendung der Versionen 1.2 und 1.3 nicht mehr möglich.
+
+NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
+
+== Änderungen
+=== Übersicht
+[cols="a,a,a,a"]
+[%autowidth]
+|===
+h|Betrifft h|Feature h|Ressource h|Änderungen
+| image:{PVS}[] image:{AVS}[] image:{FdV}[] |<<Allgemein>>| Alle | Anpassen der Versionsangabe in meta.profile von '\|1.Y' zu '\|1.X'.
+|===
+
+=== Allgemein
+Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+
+* Anpassen der Versionsangabe in meta.profile von '|1.Y' zu '|1.X'. Das betrifft alle Ressourcen.
