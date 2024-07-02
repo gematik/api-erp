@@ -369,7 +369,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 NOTE: Im Ergebnis ist die Telematik-ID des Kostenträgers '8-01-0000000232' unter Organization.identifier mit identifier.type == 'PRN' enthalten.
 
-=== 3. Zuweisen der DiGA Verordnung an den Kostenträger
+==== 3. Zuweisen der DiGA Verordnung an den Kostenträger
 
 Für die Zuweisung einer Verordnung wird, wie auch im Arzneimittelkontext das Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] verwendet und der Anwendungsfall analog zu xref:../docs/erp_communication.adoc#"Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"["Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"] durchgeführt.
 
@@ -656,7 +656,7 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
-=== E-Rezept der DiGA bearbeiten und Abschließen
+=== E-Rezept der DiGA bearbeiten und abschließen
 Nach bearbeiten des E-Rezeptes im Clientsystems des Kostenträgers erfolgt die Bereitstellung des Freischaltcodes des Versichten in den Abgabeinformationen des E-Rezeptes.
 Der Kostenträger erstellt eine Instanz des Profils link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA] und stellt die Abgabeinformationen inklusive des Freischaltcodes via der $close-Operation bereit.
 
