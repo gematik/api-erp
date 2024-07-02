@@ -153,8 +153,56 @@ Folgender Ablauf ist für die Bestimmung vorgesehen:
 1. Ermitteln der IKNR des Kostenträgers des Versicherten
 2. Anfrage an den FHIR Verzeichnisdienst der TI zur Ermittlung der Telematik-ID des Kostenträgers
 3. Die Telematik-ID liegt vor und kann zur Zuweisung der Verordnung genutzt werden
-//TODO
-=== Zuweisen der DiGA Verordnung an den Kostenträger
+
+==== 1. Ermitteln der IKNR des Kostenträgers des Versicherten
+
+Das E-Rezept-FdV ermittelt das IKNR des Versicherten aus den Authentifizierungsverfahren.
+
+Im ACCESS_TOKEN des Versicherten ist die IKNR des Versicherten enthalten. Dies gilt für die Authentifizierung via zentralem IDP Dienst der TI, sowie über den Sektoralen IDP.
+
+Die IKNR ist in beiden Fällen im claim `organizationIK` enthalten
+
+==== 2. Anfrage an den FHIR Verzeichnisdienst der TI zur Ermittlung der Telematik-ID des Kostenträgers
+
+Der FHIR-Verzeichnisdienst der TI stellt die Organisationen und deren HealthCareServices bereit. 
+Als Entwicklungsunterstüztung kann der link:https://github.com/gematik/api-vzd/blob/gemILF_VZD_FHIR_Directory/1.2.0/docs/FHIR_VZD_HOWTO_Search.adoc[Implementation Guide für die Suche] und die link:https://simplifier.net/VZD-FHIR-Directory[FHIR-Profile des FHIR-VZD] eingesehen werden.
+
+Um die Telematik-ID des Kostenträgers zu ermitteln ist die folgende Suchoperation durchzuführen:
+
+* Abfrage der Ressource "HealthcareService"HealthcareServices, deren Organisation aktiv sind
+* HealthcareServices, deren Organisation den Typ-oid "1.2.276.0.76.4.59" haben
+* HealthcareServices, deren Organisation einen Identifier vom Typ "IKNR" haben
+* HealthcareServices, deren Organisation eine IKNR mit IKNR aus dem ACCESS_TOKEN enthält
+* HealthcareServices, deren Organisation einen Identifier vom Typ "Telematik-ID" haben
+* Einbeziehen der Organisation in das Rückgabeergebnis
+
+Das Ergebnis liefert genau eine Organisation und HealthCare Ressource.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://fhir-directory.vzd.ti-dienste.de/search/HealthcareService?organization.active=true&organization.type=1.2.276.0.76.4.59&organization.identifier=http://fhir.de/StructureDefinition/identifier-iknr%7C107815761&organization.identifier=https://gematik.de/fhir/sid/telematik-id%7C&_include=HealthcareService:organization
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+Authorization: Bearer eyJhbGciOiJCUDI1NlIxIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL2ZoaXItZGlyZWN0b3J5LXJlZi52emQudGktZGllbnN0ZS5kZS90aW0tYXV0aGVudGljYXRlIiwiYXVkIjoiaHR0cHM6Ly9maGlyLWRpcmVjdG9yeS1yZWYudnpkLnRpLWRpZW5zdGUuZGUvc2VhcmNoIiwiZXhwIjoxNzE0NzU2OTMwLCJpYXQiOjE3MTQ2NzA1MzB9.P88pE2mjEfWe8s0V9ia9Cj2su0eQbCJS_8moso5ZgxZV_MkAyr2QXuvbRzgdCq--HZkmVV9u8CP37isxy1FaXw
+----
+|===
+
+*Response*
+HTTP/1.1 200 OK
+Content-Length: 3906
+Content-Type: application/fhir+xml;charset=utf-8
+
+[source,xml]
+----
+include::../resources/temp/diga/response_fhir_vzd.json[]
+----
+
+NOTE: Im Ergebnis ist die Telematik-ID des Kostenträgers '8-01-0000000232' unter Organization.identifier mit identifier.type == 'PRN' enthalten.
+
+=== 3. Zuweisen der DiGA Verordnung an den Kostenträger
 
 Für die Zuweisung einer Verordnung wird, wie auch im Arzneimittelkontext das Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] verwendet und der Anwendungsfall analog zu xref:../docs/erp_communication.adoc#"Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"["Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"] durchgeführt.
 
@@ -173,12 +221,23 @@ include::../resources/temp/diga/communication_zuweisung_diga.json[]
 ----
 
 === Freischaltcode einsehen
-//TODO
+
+Zum Einsehen des Freischaltcodes ruft das E-Rezept-FdV die Abgabedaten analog zum Arzneimittelkontext ab. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#"Abgabeinformationen abrufen"["Abgabeinformationen abrufen"].
+
+Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode enthalten:
+
+[source,json]
+----
+include::../resources/temp/diga/medication_dispense_diga.json[]
+----
 
 == Anwendungsfälle DiGA für Kostenträger
 
 === Empfangen von Zuweisungen
-//TODO
+
+Der Empfang von Zuweisungen erfolgt via Abrufen von Communications am E-Rezept-Fachdienst. Dies erfolgt analog zu abgebenden LEI. Dabei kann ein xref:../docs/erp_notification_avs.adoc["Subscription Service"] genutzt werden, um über neue Zuweisungen informiert zu werden. Alternativ ist auch ein manuelles xref:../docs/erp_communication.adoc#"Anwendungsfall Alle Nachrichten vom E-Rezept-Fachdienst abrufen"["Abfragen der Communications"] möglich.
+
+Der E-Rezept-Token, welcher die Task-ID und den AccessCode enthält ist in der Communication unter .basedOn.reference enthalten.
 
 === E-Rezept der DiGA Verordnung abrufen
 Ein Kostenträger hat vom Versicherten mittels Zuweisung die Informationen `https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea` für den Abruf eines E-Rezepts vom E-Rezept-Fachdienst erhalten.

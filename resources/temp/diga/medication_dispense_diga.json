@@ -1,0 +1,46 @@
+{
+	"resourceType": "MedicationDispense",
+	"id": "23dddf62-881c-4db9-8a96-22be7d58f7bd",
+	"meta": {
+		"profile": [
+			"https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"
+		]
+	},
+	"extension": [
+		{
+			"url": "https://gematik.de/fhir/erp/StructureDefinition/GEM-ERP-EX-RedeemCode",
+			"valueString": "DE12345678901234"
+		}
+	],
+	"identifier": [
+		{
+			"system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+			"value": "162.123.456.789.123.58"
+		}
+	],
+	"status": "completed",
+	"medicationReference": {
+		"identifier": {
+			"system": "https://fhir.bfarm.de/Identifier/DigaVeId",
+			"value": "12345678"
+		},
+		"display": "Gematico Diabetestherapie"
+	},
+	"subject": {
+		"identifier": {
+			"system": "http://fhir.de/sid/gkv/kvid-10",
+			"value": "X123456789"
+		}
+	},
+	"performer": [
+		{
+			"actor": {
+				"identifier": {
+					"system": "https://gematik.de/fhir/sid/telematik-id",
+					"value": "8-SMC-B-Testkarte-883110000095957"
+				}
+			}
+		}
+	],
+	"whenHandedOver": "2024-04-03"
+}
