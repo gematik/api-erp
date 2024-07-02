@@ -19,6 +19,7 @@ toc::[]
 
 Ab dem 15.01.2025 verfügt der E-Rezept-Fachdienst über eine Anbindung an das ePA Aktensystem und überträgt Verordnungs- und Abgabedaten, damit diese in der elektronischen Medikationsliste bereitstehen. Der E-Rezept-Fachdienst überträgt hierbei Daten an das Aktensystem in den ePA Profilen link:https://simplifier.net/epa-medication[EPAMedication].
 Da auch in Zukunft die Primärsysteme mit der ePA in diesen Profilen kommunizieren, wurden folgende Workflow-Profile von denen der ePA abgeleitet:
+
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_medication[GEM_ERP_PR_Medication]
 
@@ -26,7 +27,8 @@ Instanzen, die zu diesen Profilen konform sind, sind damit auch für die Kommuni
 
 == Erzeugen des Abgabedatensatzes
 
-Die API für die $close-Operation am E-Rezept-Fachdienst wird verändert. Bisher wurde das MedicationDispense Objekt direkt übergeben. Ab dem 15.01.2025 wird bei Verwendung der neuen Profile gefordert, dass die Informationen in einem Parameters Objekt übergeben werden:
+Die API für die $close-Operation am E-Rezept-Fachdienst wird verändert. Diese Änderung geschieht in Vorausschau auf die Abgabe von OTCs gegenüber dem ePA-Aktensystem, was die gleiche Struktur erfordern wird.
+Bisher wurde das MedicationDispense Objekt direkt übergeben. Ab dem 15.01.2025 wird bei Verwendung der neuen Profile gefordert, dass die Informationen in einem Parameters Objekt übergeben werden:
 
 image:parameters-schematics.png[width=50%]
 
@@ -339,7 +341,7 @@ image:parameters-schematics-multiple.png[width=50%]
 ----
 ====
 
-Diese Änderung geschieht in Vorausschau auf die Abgabe von OTCs gegenüber dem ePA-Aktensystem, was die gleiche Struktur erfordern wird.
+
 
 === Erzeugen von Freitext-, PZN- und Wirkstoff-Medications
 
