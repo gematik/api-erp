@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="ExampleCloseInputParameters"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_CloseOperation_Input|1.4"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.033.491.280.78"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <identifier>
+                                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                                <value value="3-SMC-B-Testkarte-883110000095957"/>
+                            </identifier>
+                        </actor>
+                    </performer>
+                    <whenPrepared value="2024-04-03"/>
+                    <whenHandedOver value="2024-04-03"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20 St."/>
+                            </extension>
+                            <value value="20"/>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+</Parameters>
