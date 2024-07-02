@@ -43,17 +43,28 @@ NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
 [%autowidth]
 |===
 h|Betrifft h|Feature h|Ressource h|Änderungen
+
+// Row 1 - Allgemein
 .2+| image:{PVS}[] image:{AVS}[] image:{FdV}[] .2+|<<Allgemein>>| Alle | Anpassen der Versionsangabe in meta.profile von '\|1.3' zu '\|1.4'.
-| Diverse | Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10
-.3+| image:{PVS}[] image:{FdV}[] image:{KTR}[] .3+|<<Verordnung von DiGAs>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|* workflowType unterstützt FlowType 162. +
-* performerType unterstützt OrganizationType Kostenträger.
-|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]|Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt.
-|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] | Enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. +
-image:{AVS}[] Nur zur Info
-| image:{AVS}[] image:{FdV}[] |<<Zeitnahe Dokumentation der Abgabe>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]|Erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense
-| image:{AVS}[] image:{FdV}[] |<<Bereitstellung der Profile für die elektronische Medikationsliste (eML)>>|link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[GEM_ERP_PR_MedicationDispense]|[disc]
-* MedicationDispense.identifier kann jetzt mehrere Werte haben.
-* MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird.
+| Identifier | Der PKV- und GKV-Identifier wurde in den deutschen Basisprofilen mit folgendem .system vereinheitlicht: *\http://fhir.de/sid/gkv/kvid-10*
+
+// Row 2 - DiGA
+.3+| image:{PVS}[] image:{FdV}[] image:{KTR}[]
+ .3+|<<Verordnung von DiGAs>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task]|
+* Neuer FlowType 162. +
+* Neuer OrganizationType "Kostenträger".
+
+|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA]
+|Neues Profil für die Dispensierung von DiGA Verordnungen.
+
+|link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq]
+| Verpflichtende Angabe des FlowType unter extension:flowType. +
+image:{AVS}[](informativ)
+
+// Row 3 - eML
+| image:{AVS}[] image:{FdV}[] |<<Bereitstellung der Profile für die elektronische Medikationsliste (eML)>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]|[disc]
+* Neue MedicationDispense und Medication Profile
+* Veränderte API für $dispense und $close
 |===
 
 === Allgemein
@@ -77,13 +88,13 @@ Weitere Informationen zu diesem Feature können in der link:https://gemspec.gema
 
 * Verarbeitung des neuen FlowType 162 in der Task-Ressource.
 * Erstellen von DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
-* Verarbeiten eines des PerformerTypes "Kostenträger" mit "urn:oid:1.2.276.0.76.4.59" aus dem CodeSystem link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447794[CS_OrganizationType] in der Task Ressource.
+* Verarbeiten eines des PerformerTypes "Kostenträger" mit "urn:oid:1.2.276.0.76.4.59" aus dem CodeSystem link:https://simplifier.net/erezept-workflow/gem-erp-cs-organizationtype[CS_OrganizationType] in der Task Ressource.
 
 ==== Änderungen für Kostenträger (KTR)
 
 * Verarbeitung des neuen FlowType 162 in der Task-Ressource.
 * Verarbeitung der DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
-* Erzeugen einer Abgabe für DiGA-Verordnungen mit dem neuen Profil link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]. Für die Abgabe ist folgendes zu beachten:
+* Erzeugen einer Abgabe für DiGA-Verordnungen mit dem neuen Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA]. Für die Abgabe ist folgendes zu beachten:
 ** Der Freischaltcode ist in der Extension MedicationDispense.extension:redeemCode zu hinterlegen
 ** In MedicationDispense.medication sind die Informationen zur DiGA-Verordnungseinheit zu hinterlegen
 ** Angabe von MedicationDispense.substitution ist verboten
@@ -92,7 +103,7 @@ Weitere Informationen zu diesem Feature können in der link:https://gemspec.gema
 
 * Verarbeitung des neuen FlowType 162 in der Task-Ressource.
 * Verarbeitung der DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
-* Das Profil für die Zuweisung einer Verordnung link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq] enthält jetzt verpflichtend den FlowType unter extension:flowType.
+* Das Profil für die Zuweisung einer Verordnung link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] enthält jetzt verpflichtend den FlowType unter extension:flowType.
 
 NOTE: image:{AVS}[] AVS müssen die Angabe des FlowType nicht auswerten.
 
