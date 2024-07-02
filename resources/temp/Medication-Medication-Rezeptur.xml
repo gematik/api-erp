@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Medication xmlns="http://hl7.org/fhir">
+    <id value="Medication-Rezeptur"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
+    </meta>
+    <contained>
+        <Medication>
+            <id value="MedicationHydrocortison"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+                    <code value="781405001"/>
+                    <display value="Medicinal product package (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                    <code value="03424249"/>
+                    <display value="Hydrocortison 1% Creme"/>
+                </coding>
+            </code>
+            <batch>
+                <lotNumber value="56498416854"/>
+            </batch>
+        </Medication>
+    </contained>
+    <contained>
+        <Medication>
+            <id value="MedicationDexpanthenol"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+                    <code value="781405001"/>
+                    <display value="Medicinal product package (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                    <code value="16667195"/>
+                    <display value="Dexpanthenol 5% Creme"/>
+                </coding>
+            </code>
+            <batch>
+                <lotNumber value="0132456"/>
+            </batch>
+        </Medication>
+    </contained>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
+        <valueCoding>
+            <system value="https://gematik.de/fhir/dev-epa-medication/CodeSystem/epa-drug-category-cs"/>
+            <code value="00"/>
+        </valueCoding>
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+        <valueCoding>
+            <system value="http://snomed.info/sct"/>
+            <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+            <code value="1208954007"/>
+            <display value="Extemporaneous preparation (product)"/>
+        </valueCoding>
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+        <valueBoolean value="false"/>
+    </extension>
+    <code>
+        <text value="Hydrocortison-Dexpanthenol-Salbe"/>
+    </code>
+    <form>
+        <coding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+            <code value="SAL"/>
+        </coding>
+    </form>
+    <amount>
+        <numerator>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                <valueString value="100 ml"/>
+            </extension>
+            <value value="20"/>
+            <unit value="ml"/>
+        </numerator>
+        <denominator>
+            <value value="1"/>
+        </denominator>
+    </amount>
+    <ingredient>
+        <itemReference>
+            <reference value="#MedicationHydrocortison"/>
+        </itemReference>
+        <isActive value="true"/>
+        <strength>
+            <numerator>
+                <value value="50"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </numerator>
+            <denominator>
+                <value value="100"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </denominator>
+        </strength>
+    </ingredient>
+    <ingredient>
+        <itemReference>
+            <reference value="#MedicationDexpanthenol"/>
+        </itemReference>
+        <isActive value="true"/>
+        <strength>
+            <numerator>
+                <value value="50"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </numerator>
+            <denominator>
+                <value value="100"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </denominator>
+        </strength>
+    </ingredient>
+</Medication>
