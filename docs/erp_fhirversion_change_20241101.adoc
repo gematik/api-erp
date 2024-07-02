@@ -44,6 +44,9 @@ NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
 |===
 h|Betrifft h|Feature h|Ressource h|Änderungen
 | image:{PVS}[] image:{AVS}[] image:{FdV}[] |<<Allgemein>>| Alle | Anpassen der Versionsangabe in meta.profile von '\|1.2' zu '\|1.3'.
+| image:{AVS}[] |<<Allgemein>>|link:https://simplifier.net/erezept-workflow/GEM_ERP_PR_MedicationDispense[MedicationDispense]|MedicationDispense.whenHandedOver muss das Format YYYY-MM-DD haben.
+| image:{AVS}[] image:{FdV}[] |<<Allgemein>>|link:https://simplifier.net/erezept-workflow/GEM_ERP_PR_Communication_DispReq[GEM_ERP_PR_Communication_DispReq] +
+link:https://simplifier.net/erezept-workflow/GEM_ERP_PR_Communication_InfoReq[GEM_ERP_PR_Communication_InfoReq] | Communication.sender ist kein Pflichtfeld mehr
 | image:{AVS}[] image:{FdV}[] |<<Zeitnahe Dokumentation der Abgabe>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task]|Erhält ein zusätzliches Feld: Task.extension:lastMedicationDispense
 |===
 
@@ -51,6 +54,8 @@ h|Betrifft h|Feature h|Ressource h|Änderungen
 Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 * Anpassen der Versionsangabe in meta.profile von '|1.2' zu '|1.3'. Das betrifft alle Ressourcen.
+* image:{AVS}[] MedicationDispense.whenHandedOver muss das Format YYYY-MM-DD haben.
+* image:{AVS}[] image:{FdV}[] .sender ist kein Pflichtfeld beim Erstellen einer Communication.
 
 === Zeitnahe Dokumentation der Abgabe
 Betrifft: image:{AVS}[] image:{FdV}[]
@@ -62,3 +67,4 @@ Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/d
 * Die link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task-Ressource] erhält ein zusätzliches Feld:
 - Task.extension:lastMedicationDispense
 Dieses Feld wird nur ausgefüllt, wenn Dispensierinformationen bereits bereitgestellt wurden, und kann sich ändern, bis die Task-Ressource den Status "completed" erreicht.
+* Die FdVs können die Dispensierinformationen herunterladen, wenn dieses Feld befüllt ist, mit dem Hinweis, dass es sich verändern könnte. Wenn sich das Datum verändert hat, haben sich auch die Dispensierinformationen verändert.
