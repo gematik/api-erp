@@ -45,7 +45,10 @@ image:{AVS}[] Nur zur Info
 Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 * Anpassen der Versionsangabe in meta.profile von '|1.3' zu '|1.4'. Das betrifft alle Ressourcen.
-* Der PKV- und GKV-Identifier für die verschiedenen Objekte haben jetzt dasselbe System, nämlich: http://fhir.de/sid/gkv/kvid-10. Das bedeutet, dass alle Instanzen von http://fhir.de/sid/pkv/kvid-10 durch http://fhir.de/sid/gkv/kvid-10 ersetzt werden müssen.
+* Durch Anheben der Version der deutschen Basisprofile auf 1.5.0 ergeben sich Änderungen für die Angabe des Identifiers eines Versicherten. 
+** Es wird nicht mehr zwischen PKV- und GKV-Identifier unterschieden. Für alle Versicherten wird der Identifier `http://fhir.de/sid/gkv/kvid-10` verwendet.
+** Primärsysteme müssen weiterhin die PKV- und GKV-Identifier der Basisversion 1.3.2 aus der Verordnung unterstützen und in Workflow Profilen die neuen Identifier verwenden.
+** Das bedeutet, dass in Instanzen der Workflow Profile für PKV Versicherte statt http://fhir.de/sid/*pkv*/kvid-10 http://fhir.de/sid/*gkv*/kvid-10 angegeben werden muss.
 
 === Verordnung von DiGAs 
 Betrifft: image:{PVS}[] image:{FdV}[] image:{KTR}[] + 
@@ -53,7 +56,7 @@ Informativ: image:{AVS}[]
 
 Dieses Feature ermöglicht es über den E-Rezept-Fachdienst DiGA-Verordnungen einzustellen und abzurufen. Verordnungen dieser Art werden mit einem neuen FlowType 162 erstellt und von den Kostenträgern (KTR, Krankenkassen) abgerufen und eingelöst.
 
-Weitere Informationen zu diesem Feature können in der link:https://gemspec.gematik.de/prereleases/Draft_eRp_DiGA/[Vorabveröffentlichung des Feature Dokuments] eingesehen werden. Zur Umsetzung des Features sind folgende Schritte notwendig:
+Weitere Informationen zu diesem Feature können in der link:https://gemspec.gematik.de/prereleases/Draft_eRp_DiGA/[Vorabveröffentlichung des Feature Dokuments DiGA] eingesehen werden. Zur Umsetzung des Features sind folgende Schritte notwendig:
 
 ==== Änderungen für verordnende Primärsysteme (PVS)
 
@@ -78,35 +81,22 @@ Weitere Informationen zu diesem Feature können in der link:https://gemspec.gema
 
 NOTE: image:{AVS}[] AVS müssen die Angabe des FlowType nicht auswerten.
 
-[cols="a,a,a"]
-[%autowidth]
-|===
-h|Betrifft h|Ressource  h|Änderungen
-| image:{PVS}[] |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447790[Task]| * workflowType unterstützt FlowType 162. +
-* performerType unterstützt OrganizationType Kostenträger. 
-| image:{FdV}[] |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447786[GEM_ERP_PR_MedicationDispense_DiGA]| Ein neues Profil wird für die Dispensierung eines DiGA-Rezept erstellt.
-| image:{FdV}[] |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447777[GEM_ERP_PR_Communication_DispReq]| Enthält jetzt den FlowType unter extension.flowType und ist ein Pflichtfeld. 
-|===
-
 === Bereitstellung der Profile für die elektronische Medikationsliste (eML)
 Betrifft: image:{AVS}[] image:{FdV}[]
 
+Zum Start von "ePA für Alle" ist der E-Rezept-Fachdienst an das ePA Aktensystem angebunden und überträgt Verordnungs- und Dispensierdaten an das ePA Aktensystem, damit es in der elekronischen Medikationsliste (eML) zur Anzeige gebracht werden kann.
+Aufgrund dessen werden ab der Profilversion 1.4 die Profile link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense] und link:https://simplifier.net/erezept-workflow/gem_erp_pr_medication[GEM_ERP_PR_Medication] angepasst. Diese Profile sind von den ePA Profilen abgeleitet und sind damit auch für die Kommunikation mit der ePA geeignet und kompatibel.
 
+Darüber hinaus ändert sich auch die API für die Endpunkte $dispense und $close und wird in ein neues Datenformat überführt, was in Zukunft auch mit der Abgabe von OTCs gegenüber dem ePA Aktensystem kompatibel ist.
 
+Vertiefte Informationen zu den Änderungen der API für AVS finden sich auf der Seite link:../docs/erp-eml-epa-notes.adoc[Hinweise für die Belieferung von E-Rezepten]. Diese sind auch für die FdVs relavant, da die Datenstrukturen der neuen Profile im FdV zur Anzeige gebracht werden müssen.
+Das gesamte Feature kann als Vorabversion hier eingesehen werden: link:https://gemspec.gematik.de/prereleases/Draft_eRp_ePA_1_2_0/[Vorabveröffentlichung des Feature Dokuments eRp_ePA]
 
-Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. Dies betrifft sowohl die Operationen $dispense und $close für die Apotheke als auch die MedicationDispense Endpunkt für die FdVs. Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden. 
+==== Änderungen für abgebende Primärsysteme (AVS)
 
-Die folgenden Veränderungen sind wichtig: 
-[disc]
-* MedicationDispense.identifier kann jetzt mehrere Werte haben. 
-* MedicationDispense.medication[x] verwendet jetzt link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447784[GEM_ERP_PR_Medication] anstelle eines der vier KBV-Profile (KBV_PR_ERP_Medication_Compounding, KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient oder KBV_PR_ERP_Medication_PZN). Es muss umgebaut werden, bevor es an MedicationDispense angehängt wird. 
- 
-Die zwei neuen Profile erben von den MedicationDispense- und Medication-Profilen des ePA und sind daher wichtig für das Mapping zum ePA.
+* Implementieren neuer MedicationDispense und Medication Profile
+* Änderung der Datenstruktur der Abgabe von Medikamenten für die Endpunkte $dispense und $close
 
-[cols="a,a,a"]
-[%autowidth]
-|===
-h|Betrifft h|Ressource  h|Änderungen
-| image:{AVS}[] image:{FdV}[] |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[GEM_ERP_PR_MedicationDispense]| Das GEM_ERP_PR_MedicationDispense Profil hat sich verändert. +
- Die neue Version ist link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1/files/2447785[hier] zu finden.
-|===
+==== Änderungen für Frontend der Versicherten (FdV)
+
+* Verarbeiten neuer MedicationDispense und Medication Profile
