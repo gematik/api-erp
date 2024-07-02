@@ -1,0 +1,575 @@
+= E-Rezept API-Dokumentation für das Feature DiGA image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Primärsysteme, Kostenträger und Frontends der Versicherten für die Bearbeitung von DiGA-Verordnungen.
+
+toc::[]
+
+== Beschreibung Anwendungsfall DiGA Verordnung beliefern
+
+Mit diesem UseCase stellt ein verordnendes Primärsystem eine DiGA-Verordnung analog zum bisherigen Verfahren für Arzneimittel aus und stellt eine QES-signierte Verordnung im E-Rezept Fachdienst ein.
+Das E-Rezept-FdV ermittelt die Telematik-ID des Kostenträgers des Versicherten und weist die Verordnung dem Kostenträger zu. Damit werden Task-ID und AccessCode dem Kostenträger zur Bearbeitung bereitgestellt.
+Mit der Bekanntmachung der Task-ID und des AccessCodes durch den Versicherten mittels Kommunikationsnachricht liegen im Clientsystem des Kostenträgers alle notwendigen Parameter für den Abruf der Verordnung vor.
+Ist der Task inkl. des DiGA-Verordnungsdatensatzes heruntergeladen, kann das Clientsystem des Kostenträgers die Signatur des Datensatzes überprüfen.
+Ist die DiGA-Verordnung gültig signiert und die DiGA bereitgestellt, erfolgt der Abschluss der Transaktion mit dem Bereitstellen eines Abgabedatensatzes inklusive Freischaltcode der DiGA für den Versicherten.
+Der E-Rezept-Fachdienst erzeugt daraufhin eine Signatur als Quittung für den Kostenträger und beendet den Workflow.
+
+image:api_diga.png[width=100%]
+
+== Profilierung
+Für diesen Anwendungsfall werden die FHIR-Resourcen link:http://hl7.org/fhir/R4/task.html[Task] und link:https://www.hl7.org/fhir/medicationdispense.html[MedicationDispense] profiliert.
+
+Die Profile können als JSON oder XML hier eingesehen werden:
+
+* link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[GEM_ERP_PR_Task] bzw. * link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA]
+
+Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profilierung der Ressourcen werden in der folgenden Tabelle kurz zusammengefasst:
+|===
+|*Name* |*Beschreibung*
+2+s|GEM_ERP_PR_Task
+|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
+|identifier:AccessCode |vom E-Rezept-Fachdienst generierter Berechtigungs-Code
+|identifier:Secret |vom E-Rezept-Fachdienst generierter Berechtigungs-Code
+|status |Status des E-Rezepts
+|intent |Intension des Tasks. Fixer Wert="order"
+|for |Krankenversichertennummer
+|authoredOn |Erstellungszeitpunkt des Tasks
+|lastModified |letzte Änderung am Task
+|performerType |Institution, in der das Rezept eingelöst werden soll
+|input |Verweis auf die für den Patienten und den Leistungserbringer gedachten Bundle
+|output |Verweis auf das Quittungs-Bundle
+|extension:flowType |gibt den Typ des Rezeptes an
+|extension:expiryDate |Verfallsdatum, 90 Tage nach Ausstellung der Verordnung
+|extension:acceptDate |Verfallsdatum, 90 Tage nach Ausstellung der Verordnung
+|extension:lastMedicationDispense |Zeitpunkt der letzten Aktualisierung der Abgabeinformationen
+
+2+s|GEM_ERP_PR_MedicationDispense_DiGA
+|identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
+|status |Status des E-Rezepts
+|medicationReference |Angaben zur DiGA
+|medicationReference.identifier.value |Eindeutiger Code der Verordnungseinheit
+|medicationReference.display |Name der Verordnungseinheit
+|subject:identifier |Krankenversichertennummer
+|performer |Telematik-ID des Kostenträgers, die das E-Rezept beliefert hat
+|whenHandedOver |Datum der Übergabe bzw. Herausgabe an den Versicherten
+|===
+
+== Anwendungsfälle DiGA für Primärsysteme verordnender LEI
+
+=== E-Rezept einer DiGA erstellen
+Analog zum Anwendungsfall xref:../docs/erp_bereitstellen.adoc#"E-Rezept erstellen"["E-Rezept erstellen"] muss das Primärsystem der Verordnenden LEI die Task-ID für eine DiGA Verordnung vom E-Rezept-Fachdienst abfragen.
+
+Hierfür wird eine Abfrage für einen neuen Task mit WorkflowType '162' erstellt.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|Payload    |
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+  <parameter>
+    <name value="workflowType"/>
+    <valueCoding>
+      <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+      <code value="162"/>
+    </valueCoding>
+  </parameter>
+</Parameters>
+----
+
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml; charset=UTF-8
+
+<Task xmlns="http://hl7.org/fhir">
+  <id value="162.123.456.789.123.58"/>
+  <meta>
+      <versionId value="1"/>
+      <lastUpdated value="2025-03-02T08:26:21.594+00:00"/>
+      <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
+  </meta>
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+      <valueCodeableConcept>
+          <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+              <code value="162" />
+              <display value="Muster 16 (Digitale Gesundheitsanwendungen)" />
+          </coding>
+      </valueCodeableConcept>
+  </extension>
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+      <valueDateTime value="2025-06-02" />
+  </extension>
+  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+      <valueDateTime value="2025-06-02" />
+  </extension>
+  <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+      <value value="162.123.456.789.123.58"/>
+  </identifier>
+  <identifier>
+      <use value="official"/>
+      <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+      <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+  </identifier>
+  <status value="draft"/>
+  <intent value="order"/>
+  <authoredOn value="2025-03-02T08:25:05+00:00"/>
+  <lastModified value="2025-03-02T08:25:05+00:00"/>
+  <performerType>
+      <coding>
+          <system value="urn:ietf:rfc:3986"/>
+          <code value="urn:oid:1.2.276.0.76.4.59"/>
+          <display value="Kostenträger"/>
+      </coding>
+      <text value="Kostenträger"/>
+  </performerType>
+</Task>
+----
+
+NOTE: Der Wert `urn:oid:1.2.276.0.76.4.59` entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll (Kostenträger für Workflow `162`).
+
+[cols="a,a"]
+[%autowidth]
+|===
+|Code   |Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+|Code   |Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+=== E-Rezept einer DiGA bereitstellen
+Nach Bereitstellung des Tasks für die DiGA-Verordnung muss das Primärsystem der Verordnenden LEI den Verordnungsdatensatz für die DiGA bereitstellen. Hierfür sind die link:https://simplifier.net/evdga[Profile der KBV für die DiGA Verordnung] zu verwenden.
+
+Der Datensatz ist analog zum Arzneimittelkontext zu signieren und dann via POST am E-Rezept-Fachdienst einzustellen.
+
+Ein Beispielhafter Aufruf kann auf der Seite xref:../docs/erp_bereitstellen.adoc#"E-Rezept vervollständigen und Task aktivieren"["E-Rezept vervollständigen und Task aktivieren"] eingesehen werden.
+
+== Anwendungsfälle DiGA für Frontend des Versicherten
+
+=== Abrufen der DiGA Verordnung
+
+Wie im Kontext der Arzneimittelverordnung kann der Versicherte die DiGA-Verordnung abrufen. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#"Alle E-Rezepte ansehen"["Alle E-Rezepte ansehen"] und xref:../docs/erp_versicherte.adoc#"Ein einzelnes E-Rezept abrufen und in der Apotheke einlösen"["Ein einzelnes E-Rezept abrufen"].
+
+Folgende Quellen dienen zur Unterstützung der Interpretation des Datensatzes:
+
+* link:https://simplifier.net/evdga[FHIR-Profile Verordnung von DiGA (KBV)]
+* link:https://update.kbv.de/ita-update/DigitaleMuster/eVDGA/KBV_ITA_VGEX_Technische_Anlage_EVDGA.pdf[Technische Anlage zur Verordnung digitaler Gesundheitsanwendungen]
+
+=== Ermitteln der Telematik-ID des Kostenträgers des Versicherten
+
+Der Versicherte muss die Telematik-ID des Kostenträgers ermitteln, um die Verordnung dem Kostenträger zuweisen zu können.
+
+Folgender Ablauf ist für die Bestimmung vorgesehen:
+
+1. Ermitteln der IKNR des Kostenträgers des Versicherten
+2. Anfrage an den FHIR Verzeichnisdienst der TI zur Ermittlung der Telematik-ID des Kostenträgers
+3. Die Telematik-ID liegt vor und kann zur Zuweisung der Verordnung genutzt werden
+//TODO
+=== Zuweisen der DiGA Verordnung an den Kostenträger
+
+Für die Zuweisung einer Verordnung wird, wie auch im Arzneimittelkontext das Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] verwendet und der Anwendungsfall analog zu xref:../docs/erp_communication.adoc#"Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"["Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"] durchgeführt.
+
+Für diesen Anwendungsfall gibt es Abweichungen vom Arzneimittelprozess, die das E-Rezept-FdV beachten muss:
+
+* Es ist verpflichtend der WorkflowType anzugeben. Für DiGA Verordnungen ist das der Wert '162'
+* Wenn der Wert '162' angegeben ist, muss keine JSON-Payload unter .payload.contentString bereitgestellt werden
+
+Es wird nur der E-Rezept-Token bereitgestellt, der es dem Kostenträger ermöglicht, die Verordnung abzurufen.
+
+Ein Beispiel einer Zuweisung an einen Kostenträger:
+
+[source,json]
+----
+{
+  "resourceType": "Communication",
+  "id": "2be1c6ac-5d10-47f6-84ee-8318b2c22c76",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"
+    ],
+    "tag": [
+      {
+        "display": "Communication message sent by patient to pharmacy to request the dispensation of medicine by providing the AccessCode"
+      }
+    ]
+  },
+  "status": "unknown",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+      "valueCoding": {
+        "code": "162",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+        "display": "Muster 16 (Digitale Gesundheitsanwendungen)"
+      }
+    }
+  ],
+  "recipient": [
+    {
+      "identifier": {
+        "system": "https://gematik.de/fhir/sid/telematik-id",
+        "value": "8-SMC-B-Testkarte-883110000123465"
+      }
+    }
+  ],
+  "basedOn": [
+    {
+      "reference": "Task/162.000.033.491.280.78/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
+  "sender": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "X234567890"
+    }
+  },
+  "sent": "2020-04-29T13:44:30.128+02:00"
+}
+----
+
+=== Freischaltcode einsehen
+//TODO
+
+== Anwendungsfälle DiGA für Kostenträger
+
+=== Empfangen von Zuweisungen
+//TODO
+
+=== E-Rezept der DiGA Verordnung abrufen
+Ein Kostenträger hat vom Versicherten mittels Zuweisung die Informationen `https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea` für den Abruf eines E-Rezepts vom E-Rezept-Fachdienst erhalten.
+
+Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$accept`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?ac=...` muss der beim Erzeugen des Tasks generierte `AccessCode` für die Berechtigungsprüfung übergeben werden.
+Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signierte E-Rezept als E-Rezept-Datensatz zurückgegeben, wobei im Task das `secret` als zusätzliches Geheimnis in einem Task.identifier generiert wird, das in allen folgenden Zugriffen durch den Apotheker mitgeteilt werden muss.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: k` und `X-erp-resource: Task` zu setzen.
+
+|===
+
+*Response*
+[source,xml]
+----
+<Bundle xmlns="http://hl7.org/fhir">
+  <id value="d5e04846-e753-4a91-ab60-9e4c6fb4b533" />
+  <type value="collection" />
+  <timestamp value="2025-03-03T08:26:21.594+00:00" />
+  <link>
+    <relation value="self" />
+    <url
+      value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept/" />
+  </link>
+  <entry>
+    <fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58" />
+    <resource>
+      <Task xmlns="http://hl7.org/fhir">
+        <id value="162.123.456.789.123.58" />
+        <meta>
+          <versionId value="1" />
+          <lastUpdated value="2025-03-03T08:26:21.594+00:00" />
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4" />
+        </meta>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+          <valueCodeableConcept>
+            <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+              <code value="162" />
+              <display value="Muster 16 (Digitale Gesundheitsanwendungen)" />
+            </coding>
+          </valueCodeableConcept>
+        </extension>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+          <valueDateTime value="2025-06-02" />
+        </extension>
+        <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+          <valueDateTime value="2025-06-02" />
+        </extension>
+        <identifier>
+          <use value="official" />
+          <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
+          <value value="162.123.456.789.123.58" />
+        </identifier>
+        <identifier>
+          <use value="official" />
+          <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
+          <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />
+        </identifier>
+        <identifier>
+          <use value="official"/>
+          <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_Secret"/>
+          <value value="90bcf075768d582571ede9f241a8365bf8d12a19c6e353940ae070cb34f5fb7c"/>
+       </identifier>
+        <status value="draft" />
+        <intent value="order" />
+        <authoredOn value="2025-03-02T08:25:05+00:00" />
+        <lastModified value="2025-03-02T08:25:05+00:00" />
+        <performerType>
+          <coding>
+            <system value="urn:ietf:rfc:3986" />
+            <code value="urn:oid:1.2.276.0.76.4.59" />
+            <display value="Kostenträger" />
+          </coding>
+          <text value="Kostenträger" />
+        </performerType>
+        <for>
+          <identifier>
+             <system value="http://fhir.de/sid/gkv/kvid-10"/>
+             <value value="X123456789"/>
+          </identifier>
+       </for>
+        <owner>
+          <identifier>
+            <system value="https://gematik.de/fhir/sid/telematik-id" />
+            <value value="8-SMC-B-Testkarte-883110000116873" />
+          </identifier>
+        </owner>
+        <input>
+          <type>
+            <coding>
+              <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
+              <code value="1" />
+            </coding>
+          </type>
+          <valueReference>
+            <reference value="a061507a-0d00-0000-0001-000000000000" />
+          </valueReference>
+        </input>
+      </Task>
+    </resource>
+  </entry>
+  <entry>
+    <fullUrl value="urn:uuid:a061507a-0d00-0000-0001-000000000000" />
+    <resource>
+      <Binary xmlns="http://hl7.org/fhir">
+        <meta>
+          <versionId value="1" />
+          <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Binary|1.2" />
+        </meta>
+        <contentType value="application/pkcs7-mime" />
+        <data value="MII1GwYJKoZIhvcNAQ..." />
+      </Binary>
+    </resource>
+  </entry>
+</Bundle>
+----
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept hat nicht den Status, dass es durch die Apotheke abgerufen werden kann.# +
+[small]#Im OperationOutcome werden weitere Informationen gegeben:# +
+[small]#"Task has invalid status completed"# +
+[small]#"Task has invalid status in-progress"# +
+[small]#"Task has invalid status draft"#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+=== E-Rezept der DiGA bearbeiten und Abschließen
+Nach bearbeiten des E-Rezeptes im Clientsystems des Kostenträgers erfolgt die Bereitstellung des Freischaltcodes des Versichten in den Abgabeinformationen des E-Rezeptes.
+Der Kostenträger erstellt eine Instanz des Profils link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA] und stellt die Abgabeinformationen inklusive des Freischaltcodes via der $close-Operation bereit.
+
+Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über die DiGA, für die ein Freischaltcode bereitgestellt wurde, an den E-Rezept-Fachdienst übergeben.
+Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die bestätigt, dass der Workflow erfolgreich abgeschlossen wurde.
+
+In dem Falle, dass die Bearbeitung des E-Rezeptes ergibt, dass die Bereitstellung eines Freischaltcodes abgelehnt wird, kann der Workflow via $close abgeschlossen werden, ohne dass ein Freischaltcode bereitgestellt wird. In diesem Fall muss in MedicationDispense.note eine Begründung für die Ablehnung hinterlegt werden.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigter Kostenträger, der das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Kostenträger aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: k` und `X-erp-resource: Task` zu setzen.
+
+¦Payload    ¦
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<MedicationDispense xmlns="http://hl7.org/fhir">
+    <id value="23dddf62-881c-4db9-8a96-22be7d58f7bd"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"/>
+    </meta>
+    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM-ERP-EX-RedeemCode">
+        <valueString value="DE12345678901234"/>
+    </extension>
+    <identifier>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+        <value value="162.123.456.789.123.58"/>
+    </identifier>
+    <status value="completed"/>
+    <medicationReference>
+        <identifier>
+            <system value="https://fhir.bfarm.de/Identifier/DigaVeId"/>
+            <value value="12345678"/>
+        </identifier>
+        <display value="Gematico Diabetestherapie"/>
+    </medicationReference>
+    <subject>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </subject>
+    <performer>
+        <actor>
+            <identifier>
+                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                <value value="8-SMC-B-Testkarte-883110000095957"/>
+            </identifier>
+        </actor>
+    </performer>
+    <whenHandedOver value="2024-04-03"/>
+</MedicationDispense>
+----
+
+NOTE: Mit der Übergabe der MedicationDispense signalisiert der Kostenträger den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen zur DiGA und den Freischaltcode.
+
+NOTE: Die Zeitangabe in `<whenHandedOver value` bezieht sich auf die Bereitstellung des Freischaltcodes für den Versicherten.
+
+NOTE: Eine Mehrfachabgabe und Substitutionen der DiGA sind nicht möglich.
+
+|===
+
+=== E-Rezept einer DiGA Verordnung zurückweisen
+Ein Kostenträger hat im vorherigen Schritt ein E-Rezept abgerufen und fachlich geprüft. Er kommt zu dem Schluss, das E-Rezept nicht zu beliefern und möchte nun das E-Rezept zurückweisen, damit der Versicherte das E-Rezept ggfs. bei einem anderen Kostenträger einlösen kann.
+
+Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigter Kostenträger, der das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
+|Method     |POST
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8;
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheker aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: k` und `X-erp-resource: Task` zu setzen.
+
+|===
+
+*Response*
+[source,xml]
+----
+HTTP/1.1 204 No Content
+----
+NOTE: Im Ergebnis der $reject-Operation wird der referenzierte Task auf den aktiven Status `ready` zurückgesetzt und das Secret gelöscht. Dementsprechend werden keine Daten an den aufrufenden Client zurückgegeben.
+
+NOTE: Ein Löschen des E-Rezeptes seitens des Kostenträgers ist nicht möglich.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
