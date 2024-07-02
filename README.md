@@ -6,11 +6,11 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
   - [FHIR-Releases](#fhir-releases)
+    - [Zukunftige FHIR-Releases](#zukunftige-fhir-releases)
   - [Implementierungsunterstützung](#implementierungsunterstützung)
     - [FHIR-Beispiele](#fhir-beispiele)
     - [Konvertierung von FHIR XML und JSON](#konvertierung-von-fhir-xml-und-json)
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
-  - [Aktuelle wichtige Seiten](#aktuelle-wichtige-seiten)
   - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
     - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
     - [Anwendungsfälle für alle Clients](#anwendungsfälle-für-alle-clients)
@@ -48,6 +48,13 @@ Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc).
 
 Wie Vergleiche zwischen FHIR Profilen (z.B. nach Versionsübergängen) vorgenommen werden können und den Verweis auf die Artefakte zum aktuellen Versionsübergang finden sich [auf dieser Seite](docs/erp_fhirversion_changes.adoc).
 
+### Zukunftige FHIR-Releases
+Diese Seiten erklären, was für die bevorstehenden zukünftigen FHIR-Releases zu erwarten ist:
+
+[E-Rezept FHIR Veränderungen für 01.11.2024](docs/erp_fhirversion_change_20241101.adoc)
+
+[E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
+
 ## Implementierungsunterstützung
 
 ### FHIR-Beispiele
@@ -69,11 +76,6 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 ## Umfang der Anwendung E-Rezept
 [Hier geht es zur Übersicht der Produkte, die über das E-Rezept verordnet werden können](docs/erp_implemented_features.adoc)
-
-## Aktuelle wichtige Seiten
-[E-Rezept FHIR Veränderungen für 01.11.2024](docs/erp_fhirversion_change_20241101.adoc)
-
-[E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
 
 ## Anwendungsfälle im E-Rezept
 
