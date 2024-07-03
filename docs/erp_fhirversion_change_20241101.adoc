@@ -37,10 +37,10 @@ h|Version  h|Gültig ab  h|Gültig bis
 
 NOTE: Aufgrund der Updatezyklen von Apps im Feld können die FdVs die Profilversionen 1.2 und 1.3 im Zeitraum vom 15.04.2025 bis zum 15.07.2025 weiterhin nutzen. Ab dem 15.07.2025 ist auch für die FdVs die Verwendung der Versionen 1.2 und 1.3 nicht mehr möglich.
 
-NOTE: Ab dem 15.07.2025 ist Profil 1.4 nur für die FdVs verfügbar.
+NOTE: Ab dem 15.07.2025 ist nur Profil 1.4 für die FdVs verfügbar.
 
 == Änderungen
-Die Änderungen und Neuigkeiten sind hier aufgelistet, zuerst als Übersichtstabelle und danach im Detail. Sie sind auf Feature-Ebene aufgeteilt und es wird angegeben, welche Hersteller von den spezifischen Änderungen betroffen sind. Jedes Feature ist dann auch für die betroffenen Hersteller aufgeteilt. Das bedeutet, dass ein Hersteller den genauen Abschnitt finden kann, der beschreibt, was für ein bestimmtes Feature zu tun ist.
+Im Folgenden finden sich die Änderungen des gematik Workflow Package 1.3 in Form einer Übersichtstabelle und detaillierten Beschreibungen, aufgeteilt nach Features und betroffenen Clientsystemen.
 
 === Übersicht
 [cols="a,a,a,a"]
@@ -66,7 +66,7 @@ Betrifft: image:{AVS}[] image:{FdV}[]
 
 * Keine FHIR-Änderungen auf der Apothekenseite, aber es gibt den neuen $dispense Endpunkt.
 * $close kann auch ohne MedicationDispense abgeschlossen werden, wenn zuvor ein MedicationDispense über $dispense erfolgt ist.
-Weitere Informationen sind xref:../docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
+Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
 * Die link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task-Ressource] erhält ein zusätzliches Feld:
 - Task.extension:lastMedicationDispense
