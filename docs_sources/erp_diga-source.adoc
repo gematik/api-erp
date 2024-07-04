@@ -98,7 +98,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
-include::../resources/temp/diga/task_162_create.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/01_task_162_create.xml[]
 ----
 
 NOTE: Der Wert `urn:oid:1.2.276.0.76.4.59` entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll (Kostenträger für Workflow `162`).
@@ -197,7 +197,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::../resources/temp/diga/response_fhir_vzd.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/02_response_fhir_vzd.json[]
 ----
 
 NOTE: Im Ergebnis ist die Telematik-ID des Kostenträgers '8-01-0000000232' unter Organization.identifier mit identifier.type == 'PRN' enthalten.
@@ -217,7 +217,7 @@ Ein Beispiel einer Zuweisung an einen Kostenträger:
 
 [source,json]
 ----
-include::../resources/temp/diga/communication_zuweisung_diga.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/03_communication_zuweisung_diga.json[]
 ----
 
 === Freischaltcode einsehen
@@ -228,7 +228,7 @@ Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode
 
 [source,json]
 ----
-include::../resources/temp/diga/medication_dispense_diga.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/04_medication_dispense_diga.json[]
 ----
 
 == Anwendungsfälle DiGA für Kostenträger
@@ -264,7 +264,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::../resources/temp/diga/response_accept.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/05_response_accept.xml[]
 ----
 
 [cols="a,a"]
@@ -328,7 +328,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::../resources/temp/diga/medication_dispense_diga.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_diga/06_medication_dispense_diga.xml[]
 ----
 
 NOTE: Mit der Übergabe der MedicationDispense signalisiert der Kostenträger den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen zur DiGA und den Freischaltcode.
