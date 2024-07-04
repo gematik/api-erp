@@ -1,5 +1,5 @@
 # E-Rezept API-Dokumentation <img src="images/gematik_logo.png" alt="gematik logo" width="150" style="float: right"/>
-[PVS]: https://img.shields.io/badge/PVS-C30059
+[PVS]: https://img.shields.io/badge/PVS/KIS-C30059
 [AVS]: https://img.shields.io/badge/AVS-E30615
 [FdV]: https://img.shields.io/badge/FdV-green
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
