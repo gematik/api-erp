@@ -77,7 +77,6 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[Umfang der Anwendung E-Rezept](docs/erp_implemented_features.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ### Anwendungsfälle Zugang zur TI
 |Dokumentation<img width="430" height="1">| Zielgruppe |
