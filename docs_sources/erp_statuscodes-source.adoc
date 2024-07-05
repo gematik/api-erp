@@ -20,14 +20,14 @@ Im Folgenden ein Beispiel ein OperationOutcome eines Validierungsfehlers, der vo
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_statuscodes/01_example_operationOutcome_validation.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_statuscodes/01_example_operationOutcome_validation.xml[]
 ----
 
 Dies ist ein Beispiel für eine OperationOutcome, in der ein Abruf nicht erlaubt ist, da sich der Task in einem entsprechenden Status befindet. Siehe Fehlercode 409 aus link:./erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen].
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_statuscodes/02_example_operationOutcome_status.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_statuscodes/02_example_operationOutcome_status.xml[]
 ----
 
 == Status Codes am Endpunkt /VAU
@@ -185,6 +185,19 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 |POST /Task/<id>/$activate |252            |Die Anfrage hat eine ungültige Arztnummer (LANR oder ZANR): Die übergebene Arztnummer entspricht nicht den Prüfziffer-Validierungsregeln. +
                               +
                               *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.*
+.2+|POST /Task/$create +
+POST /Task/<id>/$activate + 
+POST /Task/<id>/$dispense +
+POST /Task/<id>/$close +
+POST /ChargeItem +
+PUT /ChargeItem +
+POST /Communication +
+POST /Consent                 |253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                              +
+                              *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Abbruch statt zu einer Warnung führt.*
+                              |254            |Die fullUrl einer FHIR-Ressource entspricht nicht der von FHIR vorgegebenen Regex zur Bildung von fullUrls. +
+                              +
+                              *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Abbruch anstatt einem Warning führt.*
 3+h|Fehlerfälle
 
 .8+|GET /Task                 |400            |Ungültiger http-Request

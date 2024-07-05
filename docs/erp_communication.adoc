@@ -71,7 +71,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
   "resourceType": "Communication",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
     ]
   },
   "contained": [
@@ -242,7 +242,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
     ]
   },
   "contained": [
@@ -409,6 +409,11 @@ NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCE
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -458,7 +463,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 <Communication xmlns="http://hl7.org/fhir">
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
     </meta>
     <basedOn>
         <reference value="Task/160.123.456.789.123.58"/>
@@ -496,7 +501,7 @@ Location:
     <meta>
         <versionId value="1"/>
         <lastUpdated value="2020-03-12T18:01:10+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
     </meta>
     <basedOn>
         <reference value="Task/160.123.456.789.123.58" />
@@ -531,6 +536,11 @@ NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACC
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
@@ -580,7 +590,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "resourceType": "Communication",
   "meta": {
     "profile":  [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.3"
     ]
   },
   "basedOn":  [{
@@ -616,7 +626,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.3"
     ]
   },
   "sent": "2020-03-12T18:01:10+00:00",
@@ -657,6 +667,11 @@ NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text überge
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -737,7 +752,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "versionId": "1",
           "lastUpdated": "2020-03-12T18:15:10+00:00",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3"
           ]
         },
         "status": "unknown",
@@ -879,7 +894,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                     <versionId value="1"/>
                     <lastUpdated value="2020-04-12T18:01:10+00:00"/>
                     <source value="#H8gavJ2v535x6V3f"/>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3" />
                 </meta>
                 <contained>
                     <Medication>

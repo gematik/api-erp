@@ -434,7 +434,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 <id value="160.123.456.789.123.58" />
                 <meta>
                     <profile
-                        value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2" />
+                        value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3" />
                 </meta>
                 <extension
                     url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
@@ -511,7 +511,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 <meta>
                     <versionId value="1" />
                     <profile
-                        value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Binary|1.2" />
+                        value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Binary|1.3" />
                 </meta>
                 <contentType value="application/pkcs7-mime" />
                 <data
@@ -1303,6 +1303,11 @@ s|Code   s|Type Success
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
 |201  | OK +
 [small]#Neues Objekt wurde erfolgreich angelegt, in der Rückgabe ist das Objekt enthalten.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -1807,6 +1812,11 @@ NOTE: Das Element `<signature>*</signature>` enthält die Signatur des Quittungs
 s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -1999,7 +2009,7 @@ HTTP/1.1 200 OK
                     <versionId value="2"/>
                     <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
                     <source value="#AsYR9plLkvONJAiv"/>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"/>
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
                     <valueCodeableConcept>
@@ -2072,7 +2082,7 @@ HTTP/1.1 200 OK
             <Bundle xmlns="http://hl7.org/fhir">
                 <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.3" />
                     <tag>
                         <display value="ePrescription receipt" />
                     </tag>
@@ -2088,7 +2098,7 @@ HTTP/1.1 200 OK
                     <resource>
                         <Composition>
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.2" />
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.3" />
                             </meta>
                             <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
                                 <valueIdentifier>
@@ -2123,7 +2133,7 @@ HTTP/1.1 200 OK
                         <Device>
                             <id value="1" />
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.2" />
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.3" />
                             </meta>
                             <status value="active" />
                             <serialNumber value="R4.0.0.287342834" />
