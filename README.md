@@ -1,5 +1,7 @@
 # E-Rezept API-Dokumentation <img src="images/gematik_logo.png" alt="gematik logo" width="150" style="float: right"/>
-
+[PVS]: https://img.shields.io/badge/PVS/KIS-C30059
+[AVS]: https://img.shields.io/badge/AVS-E30615
+[FdV]: https://img.shields.io/badge/FdV-green
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
 ## Inhaltsverzeichnis
@@ -11,14 +13,11 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
     - [Konvertierung von FHIR XML und JSON](#konvertierung-von-fhir-xml-und-json)
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
   - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
-    - [Zugang zu Diensten der Telematikinfrastruktur](#zugang-zu-diensten-der-telematikinfrastruktur)
-    - [Anwendungsfälle für alle Clients](#anwendungsfälle-für-alle-clients)
-    - [Anwendungsfälle E-Rezept in der Praxis](#anwendungsfälle-e-rezept-in-der-praxis)
-    - [Besonderheiten der Mehrfachverordnung (MVO)](#besonderheiten-der-mehrfachverordnung-mvo)
-    - [Anwendungsfälle E-Rezept in der Apotheke](#anwendungsfälle-e-rezept-in-der-apotheke)
-    - [Anwendungsfälle für Versicherte](#anwendungsfälle-für-versicherte)
-      - [PKV Versicherte](#pkv-versicherte)
-    - [Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken](#anwendungsfälle-für-den-nachrichtenaustausch-zwischen-versicherten-und-apotheken)
+    - [Allgemein](#allgemein)
+    - [Anwendungsfälle Zugang zur TI](#anwendungsfälle-zugang-zur-ti)
+    - [Anwendungsfälle Bedienung von E-Rezepten](#anwendungsfälle-bedienung-von-e-rezepten)
+    - [Besondere Anwendungsfälle](#besondere-anwendungsfälle)
+    - [Anwendungsfälle PKV](#anwendungsfälle-pkv)
   - [Lizenzbedingungen](#lizenzbedingungen)
 
 
@@ -70,60 +69,49 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 [Hier geht es zur Übersicht der Produkte, die über das E-Rezept verordnet werden können](docs/erp_implemented_features.adoc)
 
 ## Anwendungsfälle im E-Rezept
+### Allgemein
+|Dokumentation<img width="430" height="1">| Zielgruppe |
+|-----|------------|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
-### Zugang zu Diensten der Telematikinfrastruktur
+### Anwendungsfälle Zugang zur TI
+|Dokumentation<img width="430" height="1">| Zielgruppe |
+|-----|------------|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS]|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS]
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS]|
 
-[Hier geht es zur Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)
+### Anwendungsfälle Bedienung von E-Rezepten
+|Dokumentation<img width="430" height="1">| Zielgruppe |
+|-----|------------|
+|[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![][FdV]|
+|[Belieferung von E-Rezepten](docs/erp_abrufen.adoc)|![][AVS]|
+|[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
+|[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
+|[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
-[Hier geht es zur notwendigen Netzwerkkonfiguration für Primärsysteme](docs/ti_configuration.adoc)
+### Besondere Anwendungsfälle
+|Dokumentation<img width="430" height="1">| Zielgruppe |
+|-----|------------|
+|[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
+|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS]|
+|[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|![][AVS] ![][FdV]|
+|[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV]|
+|[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
+|[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
 
-[Hier geht es zur Übersicht der Endpunkte für die Zertifikatsvalidierung für E-Rezept-FdVs](docs/certificate_check.adoc)
-
-[Hier gibt es eine Übersicht der in der API verwendeten http-Status- und Fehlercodes](docs/erp_statuscodes.adoc)
-
-[Hinweise und Festlegungen zu Health-Checks und Verfügbarkeits-Probes](docs/erp_ps_probing.adoc)
-
-### Anwendungsfälle für alle Clients
-
-[Hier geht es zu den Endpunten, die alle Clients bedienen können](docs/misc_api_endpoints.adoc)
-
-### Anwendungsfälle E-Rezept in der Praxis
-
-[Hier geht es zu den Anwendungsfällen in der (Zahn-)Arztpraxis zur Verordnung von E-Rezepten](docs/erp_bereitstellen.adoc)
-
-[Hier geht es zu den Anwendungsfällen für die direkte Zuweisung eines E-Rezeptes an eine Apotheke](docs/erp_steuerung_durch_le.adoc)
-
-[Hier geht es zu der vorabveröffentlichten und unvollständigen Liste der PKV-Institutionskennzeichen](docs/pkv_ik_numbers.adoc)
-
-### Besonderheiten der Mehrfachverordnung (MVO)
-
-[Hier geht es zu den Besonderheiten der Mehrfachverordnung (MVO)](docs/erp_versicherte_mvo.adoc)
-
-### Anwendungsfälle E-Rezept in der Apotheke
-
-[Hier geht es zu den Anwendungsfällen in der Apotheke, wie ein E-Rezept bedient wird](docs/erp_abrufen.adoc)
-
-[+++NEU+++ Hier ist der Anwendungsfall zum Abruf der E-Rezepte mittels Gesundheitskarte (eGK) beschrieben](docs/erp_abrufen_egk.adoc)
-
-[Hier ist der Anwendungsfall zur Alternativen Zuweisung an die Apotheke beschrieben](docs/erp_alternative_zuweisung.adoc)
-
-[Hier folgt die Beschreibung der Benachrichtigungsschnittstelle für Apothekensysteme](docs/erp_notification_avs.adoc)
-
-### Anwendungsfälle für Versicherte
-
-[Hier geht es zu den Anwendungsfällen für Versicherte, um ihre E-Rezepte zu verwalten und einzulösen](docs/erp_versicherte.adoc)
-
-[Hier geht es zu den Anwendungsfällen für die Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)
-
-#### PKV Versicherte
-
-[Hier geht es zu den Anwendungsfällen für die elektronische Verwaltung der Abrechnungsinformationen](docs/erp_chargeItem.adoc)
-
-[Hier geht es zu den Anwendungsfällen für das Verwalten der Einwilligung](docs/erp_consent.adoc)
-
-### Anwendungsfälle für den Nachrichtenaustausch zwischen Versicherten und Apotheken
-
-[Hier geht es zu den Anwendungsfällen für den Nachrichtenaustausch zwischen Versicherten und Apotheken](docs/erp_communication.adoc)
+### Anwendungsfälle PKV
+|Dokumentation<img width="430" height="1">| Zielgruppe |
+|-----|------------|
+|[Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![][AVS] ![][FdV]|
+|[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
+|[Liste der PKV-Institutionskennzeichennummern](docs/pkv_ik_numbers.adoc)|![][PVS]|
 
 ## Lizenzbedingungen
 

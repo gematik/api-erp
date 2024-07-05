@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers.
 
@@ -79,6 +86,8 @@ Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signiert
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |POST
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -392,6 +401,8 @@ Dieser Aufruf ist nur erfolgreich, wenn die gleiche Apotheke den Task erneut abr
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |GET
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -557,6 +568,8 @@ Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst 
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -896,6 +909,8 @@ NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst be
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$dispense?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 ¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -1366,6 +1381,8 @@ anfangsZeit.addSeconds(offset)
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 ¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -1836,6 +1853,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im 
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8;
@@ -1895,6 +1914,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -1955,6 +1976,8 @@ Als Apotheker kann es erforderlich sein, die Quittung für ein beliefertes E-Rez
 
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept verarbeitet hat(te), muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

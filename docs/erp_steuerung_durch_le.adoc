@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
 
@@ -53,6 +60,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -175,6 +184,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.004.839.514.95/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -469,6 +480,8 @@ Der E-Rezept-Fachdienst identifiziert die E-Rezepte auf Basis der Versicherten-I
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Benachrichtigungen für Apotheken image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[]
+
 Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
 
 toc::[]
@@ -27,6 +29,8 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |===
 |URI        |/Subscription
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 [source,xml]
 ----
@@ -77,6 +81,8 @@ Nach der Registrierung der Subscription wird eine WebSocket-Verbindung zum eigen
 |===
 |URI        |subscription
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 ----
 GET /subscription HTTP/1.1

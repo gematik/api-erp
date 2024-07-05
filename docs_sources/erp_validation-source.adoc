@@ -1,6 +1,8 @@
 = E-Rezept FHIR-Validierung in Titus image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+
 Titus unterstützt die Validierung von FHIR-Ressourcen. Jeder eingehende Request wird vor seiner Weiterleitung an den Fachdienst vom HAPI-FHIR-Validator (mehr Infos unter https://confluence.hl7.org/display/FHIR/Using+the+FHIR+Validator) geprüft. Sollte die Validierung einen Fehler (ERROR-Meldung) aufweisen, so wird ein OperationOutcome erzeugt und als HTTP-Nachricht mit Status 400 an den Sender zurückgegeben. Die Validierung kann mit der CLI-Variante des HAPI-FHIR-Validator und den im Folgenden aufgelisteten Profil-Bundles nachvollzogen werden.
 
 .Downloadpfade

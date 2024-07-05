@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation zur Verwendung des Features "Workflow-Steuerung durch Leistungserbringer" image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
 
 Für diesen Workflow wird das gleiche Datenmodell, wie für Workflow 160 genutzt. Ebenso wird das gleiche Datenmodell für den Verordnungsdatensatz der KBV verwendet. Es werden lediglich je ein neuer Flowtype für GKV `169` und PKV `209` zur Erkennung des abweichenden Prozessablaufs und zur Nutzung in der Berechnung der Rezept-ID eingeführt.
@@ -43,6 +45,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -118,6 +122,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.004.839.514.95/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -266,6 +272,8 @@ Der E-Rezept-Fachdienst identifiziert die E-Rezepte auf Basis der Versicherten-I
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

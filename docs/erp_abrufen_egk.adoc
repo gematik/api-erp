@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[]
 
 Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
 
@@ -37,6 +44,8 @@ Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden,
 |===
 |URI        |https://konnektor.konlan/EventService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -142,6 +151,8 @@ Für den VSD-Abruf wird die ReadVSD-Operation des Konnektors mittels folgendem A
 |===
 |URI        |https://konnektor.konlan/VSDService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -268,6 +279,8 @@ image:puml_pn3_decision_tree.png[width=100%]
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
 |Method     |GET
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

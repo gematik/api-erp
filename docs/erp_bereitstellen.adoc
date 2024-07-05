@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{PVS}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer.
 
@@ -71,6 +78,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -682,6 +691,8 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -1113,6 +1124,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -1270,6 +1283,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
