@@ -58,7 +58,11 @@ image:{AVS}[](informativ)
 // Row 3 - eML
 | image:{AVS}[] image:{FdV}[] |<<Bereitstellung der Profile für die elektronische Medikationsliste (eML)>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]|[disc]
 * Neue MedicationDispense und Medication Profile
+** AVS: Erzeugen und Einstellen der neuen Profile
+** FdV: Anzeige der neuen Profile
 * Veränderte API für $dispense und $close
+** AVS: Beliefern in neuem Datenformat
+** FdV: Erhalt der MedicationDispenses in neuem Format
 |===
 
 === Allgemein
@@ -122,3 +126,4 @@ Das gesamte Feature kann als Vorabversion hier eingesehen werden: link:https://g
 ==== Änderungen für Frontend der Versicherten (FdV)
 
 * Verarbeiten neuer MedicationDispense und Medication Profile
+* In der Abfrage zu GET /MedicationDispense sind ab dem 15.01.2025 die neuen Profile zu erwarten. Ein Aufruf liefert dann neue und alte Profile in einem Request.
