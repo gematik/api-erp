@@ -17,12 +17,14 @@ toc::[]
 
 == Beschreibung Anwendungsfall DiGA Verordnung beliefern
 
-Mit diesem UseCase stellt ein verordnendes Primärsystem eine DiGA-Verordnung analog zum bisherigen Verfahren für Arzneimittel aus und stellt eine QES-signierte Verordnung im E-Rezept Fachdienst ein.
-Das E-Rezept-FdV ermittelt die Telematik-ID des Kostenträgers des Versicherten und weist die Verordnung dem Kostenträger zu. Damit werden Task-ID und AccessCode dem Kostenträger zur Bearbeitung bereitgestellt.
+Mit diesem UseCase stellt ein verordnendes Primärsystem eine DiGA-Verordnung aus und stellt eine QES-signierte Verordnung im E-Rezept Fachdienst ein.
+Der Versicherte kann die Verordnung abrufen und muss sie dann aktiv seiner Krankenkasse, zum Erhalt eines Freischaltcodes, zuweisen.
+Das E-Rezept-FdV lädt das E-Rezept vom E-Rezept-Fachdienst herunter, ermittelt die Telematik-ID des Kostenträgers des Versicherten und weist die Verordnung dem Kostenträger zu. Damit werden Task-ID und AccessCode dem Kostenträger zur Bearbeitung bereitgestellt.
 Mit der Bekanntmachung der Task-ID und des AccessCodes durch den Versicherten mittels Kommunikationsnachricht liegen im Clientsystem des Kostenträgers alle notwendigen Parameter für den Abruf der Verordnung vor.
 Ist der Task inkl. des DiGA-Verordnungsdatensatzes heruntergeladen, kann das Clientsystem des Kostenträgers die Signatur des Datensatzes überprüfen.
 Ist die DiGA-Verordnung gültig signiert und die DiGA bereitgestellt, erfolgt der Abschluss der Transaktion mit dem Bereitstellen eines Abgabedatensatzes inklusive Freischaltcode der DiGA für den Versicherten.
 Der E-Rezept-Fachdienst erzeugt daraufhin eine Signatur als Quittung für den Kostenträger und beendet den Workflow.
+Falls kein Freischaltcode erzeugt werden konnte, erhält der Versicherte über die Abgabeinformationen eine entsprechende Begründung.
 
 image:api_diga.png[width=100%]
 
@@ -50,7 +52,6 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 |output |Verweis auf das Quittungs-Bundle
 |extension:flowType |gibt den Typ des Rezeptes an
 |extension:expiryDate |Verfallsdatum, 90 Tage nach Ausstellung der Verordnung
-|extension:acceptDate |Verfallsdatum, 90 Tage nach Ausstellung der Verordnung
 |extension:lastMedicationDispense |Zeitpunkt der letzten Aktualisierung der Abgabeinformationen
 
 2+s|GEM_ERP_PR_MedicationDispense_DiGA
@@ -124,12 +125,6 @@ Content-Type: application/fhir+xml; charset=UTF-8
           </coding>
       </valueCodeableConcept>
   </extension>
-  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-      <valueDateTime value="2025-06-02" />
-  </extension>
-  <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-      <valueDateTime value="2025-06-02" />
-  </extension>
   <identifier>
       <use value="official"/>
       <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -183,7 +178,7 @@ NOTE: Der Wert `urn:oid:1.2.276.0.76.4.59` entspricht dem intendierten Instituti
 === E-Rezept einer DiGA bereitstellen
 Nach Bereitstellung des Tasks für die DiGA-Verordnung muss das Primärsystem der Verordnenden LEI den Verordnungsdatensatz für die DiGA bereitstellen. Hierfür sind die link:https://simplifier.net/evdga[Profile der KBV für die DiGA Verordnung] zu verwenden.
 
-Der Datensatz ist analog zum Arzneimittelkontext zu signieren und dann via POST am E-Rezept-Fachdienst einzustellen.
+Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und dann via POST am E-Rezept-Fachdienst einzustellen.
 
 Ein Beispielhafter Aufruf kann auf der Seite xref:../docs/erp_bereitstellen.adoc#"E-Rezept vervollständigen und Task aktivieren"["E-Rezept vervollständigen und Task aktivieren"] eingesehen werden.
 
