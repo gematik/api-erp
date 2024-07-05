@@ -340,18 +340,18 @@ s|Code   s|Type Error
 == Abgabeinformationen zu einem E-Rezept abrufen
 Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
 
-Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense/<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense?identifier=<system-prescription-id>|<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten, den MedicationDispenses die dem Task zugeordnet sind und ggfs. in der Aufrufadresse angegebenen weiteren Suchparametern. 
 
-Die Rückgabe erfolgt als `MedicationDispense` einer MedicationDispense.
+Die Rückgabe erfolgt als `Bundle`, dass eines oder mehrere MedicationDispenses enthält.
 
-NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte MedicationDispense zurückgegeben. Um alle MedicationDispenses zu einem Task zu erhalten, muss die Suche über den Aufruf `GET /MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>` erfolgen (s. Anwendungsfall "Mehrere Abgabeinformationen zu einem E-Rezept abrufen").
+WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht ab dem 15.01.2025 nicht mehr zur Verfügung. Der Abruf von Abgabeinformationen zu einem E-Rezept erfolgt ab dem 15.01.2025 über den Endpunkt `GET /MedicationDispense?identifier=<system-prescription-id>|<task_id>`
 
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/MedicationDispense/160.880.966.157.248.22
+|URI        |https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
 |Method     |GET
 |HTTP Header |
 ----
@@ -371,7 +371,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_versicherte/05_response_get-single-medicationdispense-by-id.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/05_response_get-single-medicationdispense-by-id.json[]
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
 
