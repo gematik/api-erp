@@ -348,12 +348,12 @@ Die Rückgabe erfolgt als `Bundle`, dass eines oder mehrere MedicationDispenses 
 WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht ab dem 15.01.2025 nicht mehr zur Verfügung. Der Abruf von Abgabeinformationen zu einem E-Rezept erfolgt ab dem 15.01.2025 über den Endpunkt `GET /MedicationDispense?identifier=<system-prescription-id>|<task_id>`
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
-|Method     |GET
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
+¦Method     ¦GET
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
@@ -361,7 +361,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
 
-|Payload    | -
+¦Payload    ¦ -
 |===
 
 
