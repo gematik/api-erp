@@ -52,7 +52,7 @@ h|Betrifft h|Feature h|Ressource h|Änderungen
 .3+| image:{PVS}[] image:{AVS}[] image:{FdV}[] .3+|<<Allgemein>>
 | Alle | Anpassen der Versionsangabe in meta.profile von '\|1.3' zu '\|1.4'.
 | Identifier | Der PKV- und GKV-Identifier wurde in den deutschen Basisprofilen mit folgendem .system vereinheitlicht: *\http://fhir.de/sid/gkv/kvid-10*
-| $accept-Bundle | Korrektur der Referenz auf die Verordnung. Hinzufügen des Ressourcetypes in der Referenz
+| $accept-Bundle und GET /Task/<id> | Korrektur der Referenz auf die Verordnung. Hinzufügen des Ressourcetypes in der Referenz
 
 // Row 2 - DiGA
 .3+| image:{PVS}[] image:{FdV}[] image:{KTR}[]
@@ -85,7 +85,7 @@ Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 ** Es wird nicht mehr zwischen PKV- und GKV-Identifier unterschieden. Für alle Versicherten wird der Identifier `http://fhir.de/sid/gkv/kvid-10` verwendet.
 ** Primärsysteme müssen weiterhin die PKV- und GKV-Identifier der Basisversion 1.3.2 aus der Verordnung unterstützen und in Workflow Profilen die neuen Identifier verwenden.
 ** Das bedeutet, dass in Instanzen der Workflow Profile für PKV Versicherte statt http://fhir.de/sid/*pkv*/kvid-10 http://fhir.de/sid/*gkv*/kvid-10 angegeben werden muss.
-* Im $accept-Bundle wird die Referenz auf die Verordnung korrigiert. In der Referenz des Tasks auf die Verordnung wird der RessourcenTyp mit angegeben.
+* Für GET /Task/<id> und $accept-Operation wird die Referenz auf die Verordnung korrigiert. In der Referenz des Tasks auf die Verordnung wird der RessourcenTyp mit angegeben.
 ** Dient der Anpassung an FHIR-Konformität
 ** Änderung von <reference value="c8aafd1f..."/> zu  <reference value="Binary/c8aafd1f-..."/>
 ** Siehe xref:../docs/erp_abrufen#E-Rezept abrufen"".adoc[E-Rezept abrufen]
