@@ -89,13 +89,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 |===
 
-
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
 *Response*
 [source,xml]
 ----
-HTTP/1.1 200 OK
-Content-Type: application/fhir+xml;charset=utf-8
-
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="dffbfd6a-5712-4798-bdc8-07201eb77ab8"/>
     <meta>
@@ -172,7 +170,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                         </coding>
                     </type>
                     <valueReference>
-                        <reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/>
+                        <reference value="Binary/281a985c-f25b-4aae-91a6-41ad744080b0"/>
                     </valueReference>
                 </input>
             </Task>
@@ -274,7 +272,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                         </coding>
                     </type>
                     <valueReference>
-                        <reference value="c89c8312-0000-0000-0001-000000000000"/>
+                        <reference value="Binary/c89c8312-0000-0000-0001-000000000000"/>
                     </valueReference>
                 </input>
             </Task>
