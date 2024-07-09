@@ -130,12 +130,6 @@ Content-Type: application/fhir+xml; charset=UTF-8
             </coding>
         </valueCodeableConcept>
     </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDateTime value="2020-06-02" />
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDateTime value="2020-04-01" />
-    </extension>
     <identifier>
         <use value="official"/>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -1239,6 +1233,8 @@ NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur
 NOTE: Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles unter `<reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/>`, der Abruf erfolgt immer über den Task.
 
 NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an der Stelle `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>` referenziert wird.
+
+NOTE: Für den Fall, dass der E-Rezept-Fachdienst keine Response zurückgibt, sollte der Aufruf wiederholt werden. Das ist ein bekannter Fehler, und der bekannte Workaround besteht darin, den Aufruf zu wiederholen. Wenn dann eine Response mit dem Status 200 zurückkommt, war der zweite Versuch erfolgreich. Wenn ein OperationOutcome mit dem Fehler "Task not in status draft but in status ready" und dem Status 403 zurückkommt, war der erste Versuch bereits erfolgreich.
 
 
 [cols="a,a"]
