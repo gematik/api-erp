@@ -25,7 +25,7 @@ Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projek
 ** Festlegungen zu Verordnungen werden von der KBV im Dokument Technische Anlage zur elektronischen Arzneimittelverordnung (E16A)
 link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^] getroffen.
 * *DAV* Definition des Abgabedatensatzes GKV ("eAbgabedaten") https://simplifier.net/erezeptabgabedaten
-** Festlegungen zum eAbgabedatensatz werden im Anhang 2 Kapitel 5 (link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20230324.pdf[FHIR-Version zu Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]) getroffen.
+** Festlegungen zum eAbgabedatensatz werden im Anhang 2 Kapitel 5 (link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20240625.pdf[FHIR-Version zu Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]) getroffen.
 * *GKV* Definition des Abrechnungsdatensatzes für GKV ("TA7 Abrechnungsdaten") https://simplifier.net/eRezeptAbrechnungsdaten
 ** Festlegungen zum eAbrechnungsdatensatz werden im Anhang 2 Kapitel 6 (link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20230324.pdf[FHIR-Version zu Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]) getroffen.
 * *PKV* Definition des Abrechnungsdatensatzes für PKV https://simplifier.net/erezeptabgabedatenpkv
@@ -121,7 +121,17 @@ Es erfolgt ein Update der Abgabedaten des DAV, den Abrechnungsdaten von GKV-SV u
 |===
 | |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0[Package 1.4.0 Profile 1.4^] a|
+|DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.1[Package 1.4.1 Profile 1.4^] a|
+
+v1.4.1
+
+* Add constraint
+** "EX-Datum" on Extension-DAV-EX-ERP-Zusatzattribute - ZusatzattributGruppeFuerGenehmigung.extension:Datum
+* Add ZusatzattributGruppe 16 (Teilmengenabgabe)
+** DAV-CS-ERP-ZusatzattributGruppe
+** DAV_EX_ERP_Zusatzattribute
+
+v1.4
 
 * increase version of CodeSystems or ValueSets only when changed
 * Cleanup differential definitions
@@ -142,13 +152,20 @@ Es erfolgt ein Update der Abgabedaten des DAV, den Abrechnungsdaten von GKV-SV u
 
 |16.05.2024 |01.11.2024 |-
 
-|DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.0[Package 1.4.0 Profile 1.4^] a|
+|DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.4.1[Package 1.4.1 Profile 1.4^] a|
+
+v1.4.1
+
+* Add Rezeptänderung 13 & 14 (Lieferengpass, Dringlichkeitsliste)
+* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.1"
+
+v1.4
 
 * Cleanup differential definitions
 * Edit definition DAV_PR_ERP_Abgabeinformationen - extension:Vertragskennzeichen
 * DAV-CS-ERP-ZusatzdatenEinheitFaktorkennzeichen (increase version - v1.4)
 ** Delete 56
-* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.0-rc"
+* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.0"
 
 |16.05.2024 |01.11.2024 |-
 
@@ -307,7 +324,7 @@ v1.3.0
 15.03.2023 (v1.3.1)
 
 21.12.2022 (v1.3.0)
-  |01.07.2023 |-
+  |01.07.2023 |15.04.2025
 |GKV de.gkvsv.eRezeptAbrechnungsdaten    |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.3.0[Package 1.3.0 Profile 1.3^] a|
  * Change slicing discriminator (GKVSV_PR_TA7_Rechnung_Bundle) from "type:profile path:resource" to "type:value path:resource.meta.profile
  * Set GKVSV_PR_Binary (TA7) meta.profile + Version
