@@ -274,6 +274,7 @@ POST /Consent                 |253            |Die ID einer Ressource und die I
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            a|* Ungültiger AccessCode
                                     * Unzulässige fachliche Rolle
+                                    * Ungültiger Status des E-Rezept-Tasks
                               |404            |E-Rezept-Task wurde nicht gefunden
                               |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
                               |408            |Timeout
