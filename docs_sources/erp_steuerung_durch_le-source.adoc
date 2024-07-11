@@ -68,6 +68,9 @@ Der Parameter `<code value="169"/>` steuert den Typ des dem Task zugrunde liegen
 *Response*
 [source,xml]
 ----
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml; charset=UTF-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/02_response_taskCreate169.xml[]
 ----
 
@@ -145,6 +148,9 @@ NOTE: Bei ` <data value="*" />` handelt es sich um die base64-codierte Repräsen
 *Response*
 [source,xml]
 ----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/04_response_taskActivate169.xml[]
 ----
 NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter `<value value="X123456789"` hinterlegt.
@@ -288,6 +294,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,json]
 ----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/08_response_taskGet169Versicherter.json[]
 ----
 NOTE: Der Prozesstyp in `"url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"` referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
