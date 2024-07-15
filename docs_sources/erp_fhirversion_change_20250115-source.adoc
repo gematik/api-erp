@@ -1,0 +1,126 @@
+= E-Rezept FHIR Veränderungen für 15.01.2025 image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Ab dem 15.01.2025 ist das gematik Workflow Package 1.4.0 gültig. Da sowohl DiGA als auch eML Teil des Packages sind, müssen einige Veränderungen vorgenommen werden. Es gibt sowohl Veränderungen an manchen FHIR-Objekten, neue FHIR-Objekte, als auch Änderungen an den #dispense- und $close-Endpunkten. Diese Seite bietet eine Zusammenfassung der Veränderungen in einem Format, das zeigt, was die verschiedenen Hersteller tun müssen, um ein bestimmtes Feature FHIR-mäßig umzusetzen. Alle Breaking Changes sind ebenfalls aufgelistet.
+
+toc::[]
+
+== Versionsübergabegänge
+Ab dem 01.11.2024 kann der E-Rezept-Fachdienst mehrere aktive Profile haben. Das bedeutet, dass Übergangszeiten mit mehr als zwei aktiven Profilen möglich sind. Vom 15.01.2025 bis 15.07.2025 sind die drei Profile 1.2, 1.3 und 1.4 gleichzeitig aktiv. In dieser Zeit wird besonders auf das meta.profile der Ressourcen geachtet, um festzustellen, gegen welche Profile validiert werden sollte. 
+
+Unten sind sowohl ein Diagramm als auch eine Tabelle zu sehen, die zeigen, wann welches Profil aktiv ist und bis wann.
+
+image:workflow_profile_transition_timeline.png[]
+
+NOTE: Aufgrund der Updatezyklen von Apps im Feld können die FdVs die Profilversionen 1.2 und 1.3 im Zeitraum vom 15.04.2025 bis zum 15.07.2025 weiterhin nutzen. Ab dem 15.07.2025 ist auch für die FdVs die Verwendung der Versionen 1.2 und 1.3 nicht mehr möglich.
+
+NOTE: Ab dem 15.07.2025 ist nur Profil 1.4 für die FdVs verfügbar.
+
+NOTE: Wegen der MVO-Rezepte müssen die FdVs und AVS die alten Profile länger unterstützen, selbst wenn diese nicht mehr verfügbar sind.
+
+== Änderungen
+Im Folgenden finden sich die Änderungen des gematik Workflow Package 1.4 in Form einer Übersichtstabelle und detaillierten Beschreibungen, aufgeteilt nach Features und betroffenen Clientsystemen.
+
+=== Übersicht
+[cols="a,a,a,a"]
+[%autowidth]
+|===
+h|Betrifft h|Feature h|Ressource h|Änderungen
+
+// Row 1 - Allgemein
+.2+| image:{PVS}[] image:{AVS}[] image:{FdV}[] .2+|<<Allgemein>>
+| Alle | Anpassen der Versionsangabe in meta.profile von '\|1.3' zu '\|1.4'.
+| Identifier | Der PKV- und GKV-Identifier wurde in den deutschen Basisprofilen mit folgendem .system vereinheitlicht: *\http://fhir.de/sid/gkv/kvid-10*
+
+// Row 2 - DiGA
+.3+| image:{PVS}[] image:{FdV}[] image:{KTR}[]
+ .3+|<<Verordnung von DiGAs>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task]|
+* Neuer FlowType 162. +
+* Neuer OrganizationType "Kostenträger".
+
+|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA]
+|Neues Profil für die Dispensierung von DiGA Verordnungen.
+
+|link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] 
+| Verpflichtende Angabe des FlowType unter extension:flowType. +
+image:{AVS}[](informativ)
+
+// Row 3 - eML
+| image:{AVS}[] image:{FdV}[] |<<Übermittlung von E-Rezept Daten in die ePA>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]|[disc]
+* Neue MedicationDispense und Medication Profile
+** AVS: Erzeugen und Einstellen der neuen Profile
+** FdV: Anzeige der neuen Profile
+* Veränderte API für $dispense und $close
+** AVS: Beliefern in neuem Datenformat
+** FdV: Erhalt der MedicationDispenses in neuem Format
+|===
+
+=== Allgemein
+Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+
+* Anpassen der Versionsangabe in meta.profile von '|1.3' zu '|1.4'. Das betrifft alle Ressourcen.
+* Durch Anheben der Version der deutschen Basisprofile auf 1.5.0 ergeben sich Änderungen für die Angabe des Identifiers eines Versicherten. 
+** Es wird nicht mehr zwischen PKV- und GKV-Identifier unterschieden. Für alle Versicherten wird der Identifier `http://fhir.de/sid/gkv/kvid-10` verwendet.
+** Primärsysteme müssen weiterhin die PKV- und GKV-Identifier der Basisversion 1.3.2 aus der Verordnung unterstützen und in Workflow Profilen die neuen Identifier verwenden.
+** Das bedeutet, dass in Instanzen der Workflow Profile für PKV Versicherte statt http://fhir.de/sid/*pkv*/kvid-10 http://fhir.de/sid/*gkv*/kvid-10 angegeben werden muss.
+
+=== Verordnung von DiGAs 
+Betrifft: image:{PVS}[] image:{FdV}[] image:{KTR}[] + 
+Informativ: image:{AVS}[]
+
+Dieses Feature ermöglicht es über den E-Rezept-Fachdienst DiGA-Verordnungen einzustellen und abzurufen. Verordnungen dieser Art werden mit einem neuen FlowType 162 erstellt und von den Kostenträgern (KTR, Krankenkassen) abgerufen und eingelöst.
+
+Weitere Informationen zu diesem Feature können in der link:https://gemspec.gematik.de/prereleases/Draft_eRp_DiGA/[Vorabveröffentlichung des Feature Dokuments DiGA] eingesehen werden. Die xref:../docs/erp_diga.adoc[API Beschreibung zum Feature DiGA] bietet Entwicklungsunterstützung für PVS, E-Rezept-FdV und Clientsystem Kostenträger.
+
+Zur Umsetzung des Features sind folgende Schritte notwendig:
+
+==== Änderungen für verordnende Primärsysteme (PVS)
+
+* Verarbeitung des neuen FlowType 162 in der Task-Ressource.
+* Erstellen von DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
+* Verarbeiten eines des PerformerTypes "Kostenträger" mit "urn:oid:1.2.276.0.76.4.59" aus dem CodeSystem link:https://simplifier.net/erezept-workflow/gem-erp-cs-organizationtype[CS_OrganizationType] in der Task Ressource.
+
+==== Änderungen für Kostenträger (KTR)
+
+* Verarbeitung des neuen FlowType 162 in der Task-Ressource.
+* Verarbeitung der DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
+* Erzeugen einer Abgabe für DiGA-Verordnungen mit dem neuen Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense_diga[GEM_ERP_PR_MedicationDispense_DiGA]. Für die Abgabe ist folgendes zu beachten:
+** Der Freischaltcode ist in der Extension MedicationDispense.extension:redeemCode zu hinterlegen
+** In MedicationDispense.medication sind die Informationen zur DiGA-Verordnungseinheit zu hinterlegen
+** Angabe von MedicationDispense.substitution ist verboten
+
+==== Änderungen für Frontend der Versicherten (FdV)
+
+* Verarbeitung des neuen FlowType 162 in der Task-Ressource.
+* Verarbeitung der DiGA-Verordnungen mit den Profilen zur link:https://simplifier.net/evdga["Verordnung von digitalen Gesundheitsanwendungen" (DiGA)].
+* Das Profil für die Zuweisung einer Verordnung link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] enthält jetzt verpflichtend den FlowType unter extension:flowType.
+
+NOTE: image:{AVS}[] AVS müssen die Angabe des FlowType nicht auswerten.
+
+=== Übermittlung von E-Rezept Daten in die ePA
+Betrifft: image:{AVS}[] image:{FdV}[]
+
+Zum Start von "ePA für Alle" ist der E-Rezept-Fachdienst an das ePA Aktensystem angebunden und überträgt Verordnungs- und Dispensierdaten an das ePA Aktensystem, damit es in der elekronischen Medikationsliste (eML) zur Anzeige gebracht werden kann.
+Aufgrund dessen werden ab der Profilversion 1.4 die Profile link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense] und link:https://simplifier.net/erezept-workflow/gem_erp_pr_medication[GEM_ERP_PR_Medication] angepasst. Diese Profile sind von den ePA Profilen abgeleitet und sind damit auch für die Kommunikation mit der ePA geeignet und kompatibel.
+
+Darüber hinaus ändert sich auch die API für die Endpunkte $dispense und $close und wird in ein neues Datenformat überführt, was in Zukunft auch mit der Abgabe von OTCs gegenüber dem ePA Aktensystem kompatibel ist.
+
+Vertiefte Informationen zu den Änderungen der API für AVS finden sich auf der Seite link:../docs/erp_eml-epa-notes.adoc[Hinweise für das Feature "Übermittlung von E-Rezept Daten in die ePA"]. Diese sind auch für die FdVs relavant, da die Datenstrukturen der neuen Profile im FdV zur Anzeige gebracht werden müssen.
+Das gesamte Feature kann als Vorabversion hier eingesehen werden: link:https://gemspec.gematik.de/prereleases/Draft_eRp_ePA_1_2_0/[Vorabveröffentlichung des Feature Dokuments eRp_ePA]
+
+NOTE: Verordnungen und Dispensierungen, die mit den Workflow-Profilen 1.2 und 1.3 erstellt werden, werden ebenfalls in die ePA übertragen.
+
+==== Änderungen für abgebende Primärsysteme (AVS)
+
+* Implementieren neuer MedicationDispense und Medication Profile
+* Änderung der Datenstruktur der Abgabe von Medikamenten für die Endpunkte $dispense und $close
+
+==== Änderungen für Frontend der Versicherten (FdV)
+
+* Verarbeiten neuer MedicationDispense und Medication Profile
+* In der Abfrage zu GET /MedicationDispense sind ab dem 15.01.2025 die neuen Profile zu erwarten. Ein Aufruf liefert dann neue und alte Profile in einem Request.

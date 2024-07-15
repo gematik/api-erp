@@ -98,7 +98,8 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 |===
 
-
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
 *Response*
 [source,xml]
 ----
@@ -1341,39 +1342,6 @@ NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5
 
 NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
-=== Zeitgesteuerte Verarbeitung
-Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
-
-Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Während der Verarbeitung muss nach jedem 40. Aufruf der $close-Operation eine Wartezeit von 1000ms abgewartet werden.
-
-Hinweis: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
-
-.Beispielhafter Algorithmus zur Bestimmung eines zufälligen Zeitpunktes zwischen 18:00 und 22:00 Uhr (Klicken zum Ausklappen)
-[%collapsible]
-
-====
-
-[source,code]
-----
-// Generiere einen zufälligen Offset zwischen 0 und 14.400 Sekunden, um die Zeit zwischen 18:00 und 22:00 zu repräsentieren
-int vonWert = 0
-int bisWert = 14400
-int offset = random(vonWert, bisWert)
-
-// Erhalte das aktuelle Datum und die aktuelle Uhrzeit
-DateTime anfangsZeit= new DateTime()
-
-// Setze die Uhrzeit auf 18:00 Uhr
-anfangsZeit.setTime(18, 00)
-
-// Füge den zufälligen Offset zur Startzeit hinzu
-anfangsZeit.addSeconds(offset)
-
-// Die Variable 'anfangsZeit' enthält jetzt DateTime mit der angepassten Anfangszeit
-----
-
-====
-
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
@@ -1840,6 +1808,38 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
+=== Zeitgesteuerte Verarbeitung
+Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
+
+Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Während der Verarbeitung muss nach jedem 40. Aufruf der $close-Operation eine Wartezeit von 1000ms abgewartet werden.
+
+Hinweis: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
+
+.Beispielhafter Algorithmus zur Bestimmung eines zufälligen Zeitpunktes zwischen 18:00 und 22:00 Uhr (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,code]
+----
+// Generiere einen zufälligen Offset zwischen 0 und 14.400 Sekunden, um die Zeit zwischen 18:00 und 22:00 zu repräsentieren
+int vonWert = 0
+int bisWert = 14400
+int offset = random(vonWert, bisWert)
+
+// Erhalte das aktuelle Datum und die aktuelle Uhrzeit
+DateTime anfangsZeit= new DateTime()
+
+// Setze die Uhrzeit auf 18:00 Uhr
+anfangsZeit.setTime(18, 00)
+
+// Füge den zufälligen Offset zur Startzeit hinzu
+anfangsZeit.addSeconds(offset)
+
+// Die Variable 'anfangsZeit' enthält jetzt DateTime mit der angepassten Anfangszeit
+----
+
+====
 
 == E-Rezept zurückweisen
 Ein Apotheker hat im vorherigen Schritt ein E-Rezept abgerufen und fachlich geprüft. Er kommt zu dem Schluss, das E-Rezept nicht zu beliefern und möchte nun das E-Rezept zurückweisen, damit der Versicherte das E-Rezept ggfs. in einer anderen Apotheke einlösen kann.

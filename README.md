@@ -8,6 +8,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
   - [FHIR-Releases](#fhir-releases)
+    - [Zukunftige FHIR-Releases](#zukunftige-fhir-releases)
   - [Implementierungsunterstützung](#implementierungsunterstützung)
     - [FHIR-Beispiele](#fhir-beispiele)
     - [Konvertierung von FHIR XML und JSON](#konvertierung-von-fhir-xml-und-json)
@@ -45,6 +46,13 @@ Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validat
 Details dazu finden sich [auf der folgenden Seite](docs/erp_validation.adoc).
 
 Wie Vergleiche zwischen FHIR Profilen (z.B. nach Versionsübergängen) vorgenommen werden können und den Verweis auf die Artefakte zum aktuellen Versionsübergang finden sich [auf dieser Seite](docs/erp_fhirversion_changes.adoc).
+
+### Zukunftige FHIR-Releases
+Diese Seiten erklären, was für die bevorstehenden zukünftigen FHIR-Releases zu erwarten ist:
+
+[E-Rezept FHIR Veränderungen für 01.11.2024](docs/erp_fhirversion_change_20241101.adoc)
+
+[E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
 
 ## Implementierungsunterstützung
 

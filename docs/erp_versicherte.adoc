@@ -1077,19 +1077,19 @@ s|Code   s|Type Error
 == Abgabeinformationen zu einem E-Rezept abrufen
 Als Versicherter möchte ich die Abgabeinformationen aus der Apotheke zu meinem belieferten E-Rezept erhalten, um mir darüber einen digitalen Beipackzettel herunterzuladen und weitere Anwendungshinweise für mein Medikament zu erhalten.
 
-Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense/<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
+Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispense?identifier=<system-prescription-id>|<task_id>`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten, den MedicationDispenses die dem Task zugeordnet sind und ggfs. in der Aufrufadresse angegebenen weiteren Suchparametern.
 
-Die Rückgabe erfolgt als `MedicationDispense` einer MedicationDispense.
+Die Rückgabe erfolgt als `Bundle`, dass eines oder mehrere MedicationDispenses enthält.
 
-NOTE: Wenn mehrere MedicationDispenses zu einem Task existieren, wird der letzte MedicationDispense zurückgegeben. Um alle MedicationDispenses zu einem Task zu erhalten, muss die Suche über den Aufruf `GET /MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>` erfolgen (s. Anwendungsfall "Mehrere Abgabeinformationen zu einem E-Rezept abrufen").
+WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht ab dem 15.01.2025 nicht mehr zur Verfügung. Der Abruf von Abgabeinformationen zu einem E-Rezept erfolgt ab dem 15.01.2025 über den Endpunkt `GET /MedicationDispense?identifier=<system-prescription-id>|<task_id>`
 
 *Request*
-[cols="h,a"]
+[cols="h,a",separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/MedicationDispense/160.880.966.157.248.22
-|Method     |GET
+¦URI        ¦https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
+¦Method     ¦GET
 |Requester |image:{FdV}[]
 |Responder |image:{eRp}[]
 |HTTP Header |
@@ -1100,7 +1100,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: MedicationDispense` zu setzen.
 
-|Payload    | -
+¦Payload    ¦ -
 |===
 
 
@@ -1111,123 +1111,144 @@ Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 {
-    "resourceType": "MedicationDispense",
-    "meta": {
-        "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
-        ]
-    },
-    "contained": [
+    "id": "7f68987f-4e18-405e-9159-8fb603b71da7",
+    "type": "searchset",
+    "timestamp": "2024-02-15T06:01:44.119+00:00",
+    "resourceType": "Bundle",
+    "total": 0,
+    "link": [
         {
-            "resourceType": "Medication",
-            "id": "b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-            "meta": {
-                "profile": [
-                    "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-                ]
-            },
-            "extension": [
-                {
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-                    "valueCodeableConcept": {
-                        "coding": [
-                            {
-                                "system": "http://snomed.info/sct",
-                                "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                                "code": "763158003",
-                                "display": "Medicinal product (product)"
-                            }
-                        ]
-                    }
+            "relation": "self",
+            "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=200.000.002.097.952.60"
+        }
+    ],
+    "entry": [
+        {
+            "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.002.097.952.60",
+            "resource": {
+                "resourceType": "MedicationDispense",
+                "meta": {
+                    "profile": [
+                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
+                    ]
                 },
-                {
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-                    "valueCoding": {
-                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-                        "code": "00"
-                    }
-                },
-                {
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-                    "valueBoolean": false
-                },
-                {
-                    "url": "http://fhir.de/StructureDefinition/normgroesse",
-                    "valueCode": "N1"
-                }
-            ],
-            "code": {
-                "coding": [
+                "contained": [
                     {
-                        "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                        "code": "03879429"
+                        "resourceType": "Medication",
+                        "id": "b4c2bba5-23bd-4be3-b58f-a70621edd84f",
+                        "meta": {
+                            "profile": [
+                                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
+                            ]
+                        },
+                        "extension": [
+                            {
+                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://snomed.info/sct",
+                                            "version": "http://snomed.info/sct/900000000000207008/version/20220331",
+                                            "code": "763158003",
+                                            "display": "Medicinal product (product)"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
+                                "valueCoding": {
+                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
+                                    "code": "00"
+                                }
+                            },
+                            {
+                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
+                                "valueBoolean": false
+                            },
+                            {
+                                "url": "http://fhir.de/StructureDefinition/normgroesse",
+                                "valueCode": "N1"
+                            }
+                        ],
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                                    "code": "03879429"
+                                }
+                            ],
+                            "text": "Beloc-ZokÂ® mite 47,5 mg, 30 Retardtabletten N1"
+                        },
+                        "form": {
+                            "coding": [
+                                {
+                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                                    "code": "RET"
+                                }
+                            ]
+                        },
+                        "amount": {
+                            "numerator": {
+                                "extension": [
+                                    {
+                                        "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
+                                        "valueString": "30"
+                                    }
+                                ],
+                                "unit": "StÃ¼ck"
+                            },
+                            "denominator": {
+                                "value": 1
+                            }
+                        }
                     }
                 ],
-                "text": "Beloc-ZokÂ® mite 47,5 mg, 30 Retardtabletten N1"
-            },
-            "form": {
-                "coding": [
+                "identifier": [
                     {
-                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                        "code": "RET"
+                        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+                        "value": "200.000.002.097.951.63"
                     }
-                ]
-            },
-            "amount": {
-                "numerator": {
-                    "extension": [
-                        {
-                            "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-                            "valueString": "30"
-                        }
-                    ],
-                    "unit": "StÃ¼ck"
+                ],
+                "status": "completed",
+                "medicationReference": {
+                    "reference": "#b4c2bba5-23bd-4be3-b58f-a70621edd84f",
+                    "display": "Sumatriptan-1a Pharma 100 mg Tabletten"
                 },
-                "denominator": {
-                    "value": 1
-                }
+                "subject": {
+                    "identifier": {
+                        "system": "http://fhir.de/sid/gkv/kvid-10",
+                        "value": "X110501499"
+                    }
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "identifier": {
+                                "system": "https://gematik.de/fhir/sid/telematik-id",
+                                "value": "3-2-APO-XanthippeVeilchenblau01"
+                            }
+                        }
+                    }
+                ],
+                "quantity": {
+                    "value": 1,
+                    "system": "http://unitsofmeasure.org",
+                    "code": "{Package}"
+                },
+                "whenHandedOver": "2024-02-15",
+                "dosageInstruction": [
+                    {
+                        "text": "1-0-1-0"
+                    }
+                ],
+                "id": "200.000.002.097.951.63"
+            },
+            "search": {
+                "mode": "match"
             }
         }
-    ],
-    "identifier": [
-        {
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "200.000.002.097.951.63"
-        }
-    ],
-    "status": "completed",
-    "medicationReference": {
-        "reference": "#b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-        "display": "Sumatriptan-1a Pharma 100 mg Tabletten"
-    },
-    "subject": {
-        "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X110501499"
-        }
-    },
-    "performer": [
-        {
-            "actor": {
-                "identifier": {
-                    "system": "https://gematik.de/fhir/sid/telematik-id",
-                    "value": "3-2-APO-XanthippeVeilchenblau01"
-                }
-            }
-        }
-    ],
-    "quantity": {
-        "value": 1,
-        "system": "http://unitsofmeasure.org",
-        "code": "{Package}"
-    },
-    "whenHandedOver": "2024-02-15",
-    "dosageInstruction": [
-        {
-            "text": "1-0-1-0"
-        }
-    ],
-    "id": "200.000.002.097.951.63"
+    ]
 }
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
