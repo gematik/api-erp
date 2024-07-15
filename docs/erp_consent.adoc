@@ -47,27 +47,27 @@ Als Versicherter möchte ich eine Einwilligung zur elektronischen Speicherung me
 Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/Consent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/Consent
-|Method     |POST
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/Consent
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 {
     "resourceType": "Consent",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
         ]
     },
     "status": "active",
@@ -105,7 +105,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "value": "X234567890"
         }
     },
-    "dateTime": "2021-06-01T07:13:00+05:00",
+    "dateTime": "2023-08-01T07:13:00+05:00",
     "policyRule": {
         "coding":  [
             {
@@ -130,7 +130,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "0dcc5d4c-bf24-4c06-b02e-be5bc24587e2",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
         ]
     },
     "status": "active",
@@ -168,7 +168,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "X234567890"
         }
     },
-    "dateTime": "2021-06-01T07:13:00+05:00",
+    "dateTime": "2023-08-01T07:13:00+05:00",
     "policyRule": {
         "coding":  [
             {
@@ -243,7 +243,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "a14623ad-0b89-4d8e-9719-87e07e3af560",
   "type": "searchset",
-  "timestamp": "2023-02-15T15:19:19.394+00:00",
+  "timestamp": "2023-08-01T07:15:00+00:00",
   "total": 0,
   "entry": [
     {
@@ -253,7 +253,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "CHARGCONS-X234567890",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
           ]
         },
         "status": "active",
@@ -291,7 +291,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "X234567890"
           }
         },
-        "dateTime": "2021-06-01T07:13:00+05:00",
+        "dateTime": "2023-08-01T07:13:00+00:00",
         "policyRule": {
           "coding": [
             {

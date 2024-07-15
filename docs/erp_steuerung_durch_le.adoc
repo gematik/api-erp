@@ -94,9 +94,6 @@ Der Parameter `<code value="169"/>` steuert den Typ des dem Task zugrunde liegen
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
-HTTP/1.1 201 Created
-Content-Type: application/fhir+xml; charset=UTF-8
-
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95"/>
     <meta>
@@ -128,7 +125,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <authoredOn value="2022-03-18T15:26:00+00:00" />
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
             <code value="urn:oid:1.2.276.0.76.4.54" />
             <display value="Öffentliche Apotheke" />
         </coding>
@@ -223,9 +220,6 @@ NOTE: Bei ` <data value="*" />` handelt es sich um die base64-codierte Repräsen
 HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 
-HTTP/1.1 200 OK
-Content-Type: application/fhir+xml;charset=utf-8
-
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95" />
     <meta>
@@ -264,7 +258,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     <lastModified value="2022-03-18T15:27:00+00:00" />
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
             <code value="urn:oid:1.2.276.0.76.4.54" />
             <display value="Öffentliche Apotheke" />
         </coding>
