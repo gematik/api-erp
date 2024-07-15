@@ -56,11 +56,11 @@ Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 === Zeitnahe Dokumentation der Abgabe
 Betrifft: image:{AVS}[] image:{FdV}[]
 
-* Keine FHIR-Änderungen auf der Apothekenseite, aber es gibt den neuen $dispense Endpunkt.
-* $close kann auch ohne MedicationDispense abgeschlossen werden, wenn zuvor ein MedicationDispense über $dispense erfolgt ist.
+* Bereitstellung der neuen $dispense-Operation am E-Rezept-Fachdienst
+* $close kann ohne Übergabe einer MedicationDispense abgeschlossen werden, wenn via $dispense ein Abgabedatensatz bereitgestellt wurde.
 Weitere Informationen sind link:https://github.com/gematik/api-erp/blob/master/docs/erp_abrufen.adoc#e-rezept-abgabe-zeitnah-dokumentieren[hier] zu finden.
 
 * Die link:https://simplifier.net/erezept-workflow/gem_erp_pr_task[Task-Ressource] erhält ein zusätzliches Feld:
 - Task.extension:lastMedicationDispense
-Dieses Feld wird nur ausgefüllt, wenn Dispensierinformationen bereits bereitgestellt wurden, und kann sich ändern, bis die Task-Ressource den Status "completed" erreicht.
-* Die FdVs können die Dispensierinformationen herunterladen, wenn dieses Feld befüllt ist, mit dem Hinweis, dass es sich verändern könnte. Wenn sich das Datum verändert hat, haben sich auch die Dispensierinformationen verändert.
+Dieses Feld wird vom E-Rezept-Fachdienst für jeden Aufruf von $dispense und $close mit aktuellem Zeitstempel gesetzt.
+* Sobald der Zeitpunkt der letzten Abgabe vorhanden ist, können die Abgabeinformationen am E-Rezept-Fachdienst heruntergeladen werden. Bei Aktualisierung des Zeitstempels wurden neue Abgabeinformationen bereitgestellt.
