@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Benachrichtigungsdienst.
 
@@ -26,6 +33,8 @@ Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Aut
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/notifications/opt-in
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -74,6 +83,8 @@ Der Aufruf erfolgt als http-`GET`-Operation. Im Aufruf muss das während der Aut
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de//notifications/opt-out
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

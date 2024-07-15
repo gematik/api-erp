@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte) image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[]
+
 Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
 
 toc::[]
@@ -27,6 +29,8 @@ Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden,
 |===
 |URI        |https://konnektor.konlan/EventService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -35,7 +39,7 @@ SOAPAction: "http://ws.gematik.de/conn/EventService/v7.2#GetCards"
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen_egk/01_GetCards.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen_egk/01_GetCards.xml[]
 ----
 
 NOTE: `<CARDCMN:CtId>Terminal1</CARDCMN:CtId>` hier wird das Kartenterminal am jeweiligen Handverkaufstisch benannt, wie es in der Mandanten- und Arbeitsplatzkonfiguration im Konnektor und AVS konfiguriert ist.
@@ -45,7 +49,7 @@ NOTE: `<CARDCMN:CtId>Terminal1</CARDCMN:CtId>` hier wird das Kartenterminal am j
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen_egk/02_GetCards_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen_egk/02_GetCards_Response.xml[]
 ----
 
 NOTE: Mit dem gemeldeten `<CONN:CardHandle>a5567061-f3b0-436b-b702-fbb5026aa168</CONN:CardHandle>` wird die eGK zum Auslesen der Versichertenstammdaten adressiert.
@@ -61,6 +65,8 @@ Für den VSD-Abruf wird die ReadVSD-Operation des Konnektors mittels folgendem A
 |===
 |URI        |https://konnektor.konlan/VSDService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -69,7 +75,7 @@ SOAPAction: "http://ws.gematik.de/conn/vsds/VSDService/v6.0#ReadVSD"
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen_egk/03_ReadVSD.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen_egk/03_ReadVSD.xml[]
 ----
 
 NOTE: Das `<ns6:EhcHandle>` benennt die Gesundheitskarte, von welcher die VSD gelesen werden sollen.
@@ -82,7 +88,7 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen_egk/04_ReadVSD_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen_egk/04_ReadVSD_Response.xml[]
 ----
 
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
@@ -140,6 +146,8 @@ image:puml_pn3_decision_tree.png[width=100%]
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
 |Method     |GET
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -151,7 +159,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_abrufen_egk/05_Response_Task.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen_egk/05_Response_Task.xml[]
 ----
 
 NOTE: Alle gelieferten Tasks haben den Status `<status value="ready" />` und können im Folgenden durch die Apotheke einzeln abgerufen und beliefert werden.

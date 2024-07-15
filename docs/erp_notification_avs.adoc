@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[]
 
 Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
 
@@ -37,6 +44,8 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |===
 |URI        |/Subscription
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 [source,xml]
 ----
@@ -116,6 +125,8 @@ Nach der Registrierung der Subscription wird eine WebSocket-Verbindung zum eigen
 |===
 |URI        |subscription
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 ----
 GET /subscription HTTP/1.1

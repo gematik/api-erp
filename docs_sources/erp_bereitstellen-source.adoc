@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Ärzte/Zahnärzte image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer.
 
 toc::[]
@@ -61,6 +63,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -94,7 +98,7 @@ NOTE: Der  Parameter `<code value="*"/>` steuert den Typ des dem Task zugrunde l
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_bereitstellen/01_response_taskCreate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/01_response_taskCreate.xml[]
 ----
 
 NOTE: Der unter dem Identifier `GEM_ERP_NS_PrescriptionId` hinterlegte `<identifier><value value="*"/></identifier>` stellt die 10 Jahre lang eineindeutige Rezept-ID dar.
@@ -147,7 +151,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_bereitstellen/02_Prescription_bundle.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/02_Prescription_bundle.xml[]
 ----
 ====
 
@@ -171,6 +175,8 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -180,7 +186,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_bereitstellen/03_request_SignDocument.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/03_request_SignDocument.xml[]
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der QES als CMS-Signatur (CAdES).
 
@@ -198,7 +204,7 @@ IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender B
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_bereitstellen/04_response_SignDocument.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/04_response_SignDocument.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -227,6 +233,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -258,13 +266,15 @@ NOTE: Bei dem Wert in `<Binary><data value="*"/></Binary>` handelt es sich um di
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_bereitstellen/05_response_taskActivate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/05_response_taskActivate.xml[]
 ----
 NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter dem `value` von `<system value="http://fhir.de/sid/gkv/kvid-10"/>` hinterlegt.
 
 NOTE: Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der Signatur für den Abruf durch einen berechtigten, abgebenden Leistungserbringer zur Verfügung. Der Verweis erfolgt über die ID des Bundles unter `<reference value="281a985c-f25b-4aae-91a6-41ad744080b0"/>`, der Abruf erfolgt immer über den Task.
 
 NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an der Stelle `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>` referenziert wird.
+
+NOTE: Für den Fall, dass das Clientsystem beim Aufruf der Operation keinen Response erhält, soll der Aufruf wiederholt werden. Wenn im Response ein Fehler 403 mit dem OperationOutcome "Task not in status draft but in status ready" zurückkommt, war der erste Versuch bereits erfolgreich. Wenn eine Response mit dem Status 200 zurückkommt, war der zweite Versuch erfolgreich.
 
 
 [cols="a,a"]
@@ -309,6 +319,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

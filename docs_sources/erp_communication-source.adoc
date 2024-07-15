@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Nachrichtenaustausch image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[] image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
 
 toc::[]
@@ -34,6 +36,8 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -48,7 +52,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/01_request_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/01_request_PostPatientToPharmacy.json[]
 ----
 NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
 
@@ -65,7 +69,7 @@ HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/02_response_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/02_response_PostPatientToPharmacy.json[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
 
@@ -78,6 +82,11 @@ NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCE
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -111,6 +120,8 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -123,7 +134,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/03_request_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/03_request_PostPharmacyToPatient.xml[]
 ----
 NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
@@ -141,7 +152,7 @@ Location:
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/04_response_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/04_response_PostPharmacyToPatient.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
@@ -154,6 +165,11 @@ NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACC
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
@@ -186,6 +202,8 @@ NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt 
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -197,7 +215,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/05_request_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/05_request_RezeptZuweisen.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -210,7 +228,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/06_response_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/06_response_RezeptZuweisen.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
@@ -222,6 +240,11 @@ NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text überge
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -258,6 +281,8 @@ In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/co
 Es wird empfohlen, die KVNR des Versicherten als "recipient" zu übergeben, damit nur die Nachrichten angezeigt werden, die an den Versicherten adressiert sind. Andernfalls würden ebenso die an die Apotheke versendeten Nachrichten abgerufen werden, wenn diese ihre Nachrichten noch nicht abgeholt hat.
 
 ¦Method     ¦GET
+¦Requester ¦image:{AVS}[] image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦URL Parameter     ¦sent, received, sender, recipient
 ¦HTTP Header ¦
 ----
@@ -276,7 +301,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/07_response_GetMessages.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/07_response_GetMessages.json[]
 ----
 NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 
@@ -319,6 +344,8 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |URL Parameter     |sent, received, sender, recipient
 |HTTP Header |
 ----
@@ -339,7 +366,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_communication/08_response_GetAllMessages.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/08_response_GetAllMessages.xml[]
 
 ----
 NOTE: `<total value="391"/>` gibt Auskunft über die Anzahl der Ergebnis-Einträge.
@@ -378,6 +405,8 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
 |Method     |DELETE
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

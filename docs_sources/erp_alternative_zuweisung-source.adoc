@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Einlösen ohne Anmeldung am E-Rezept-Fachdienst im E-Rezept-FdV image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[] image:{FdV}[]
+
 toc::[]
 
 == Beschreibung des Features
@@ -62,6 +64,8 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle.
 |===
 |URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -71,7 +75,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/01_sign_avs_request.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/01_sign_avs_request.xml[]
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der nonQES als CMS-Signatur (CAdES).
 
@@ -85,7 +89,7 @@ NOTE: In `<ns5:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign">` erfolgt d
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/02_sign_avs_response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/02_sign_avs_response.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen nonQES wird Base64-codiert in `<ns7:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -159,7 +163,7 @@ Das APOVZD stellt jedes Zertifikat in einer eigenen FHIR-Binary-Ressource bereit
 Beispiel eines solchen Binaries:
 [[apovzd-cert-binary]]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/03_certificate_in_apovzd.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/03_certificate_in_apovzd.json[]
 ----
 
 Das Synchronisieren vom Upload-Container in das APOVZD erfolgt täglich zwischen 0 und 6 Uhr. Spätestens ab 6 Uhr ist die Änderung für das E-Rezept-FdV verfügbar.
@@ -177,7 +181,7 @@ Dem E-Rezept-FdV werden über das APOVZD die URLs innerhalb der LocationRessourc
 
 Beispiel:
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/04_url_in_apovzd.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/04_url_in_apovzd.json[]
 ----
 
 Um aus dem E-Rezept-FdV nach Apotheken zu filtern, die dieses Feature unterstützen, wird ein zusätzlicher Type DELEGATOR aus dem Codesystem http://terminology.hl7.org/CodeSystem/v3-RoleCode eingeführt.
@@ -213,7 +217,7 @@ Als Versicherter möchte ich mein Rezept an die Apotheke meiner Wahl übermittel
 Der folgende Datensatz wird erstellt:
 
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
 ----
 
 === Verschlüsselung des Datensatzes
@@ -239,7 +243,7 @@ Diese ASN.1-Struktur muss Base64-DER codiert im Aufruf der Verschlüsselungsoper
 Das folgende beispielhafte Kommando verschlüsselt einen Datensatz für ein ENC-Zertifikat inkl. Einbettung der unsafe-Attribute (kotlin-Code).
 
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/06_example_encryption.java[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/06_example_encryption.java[]
 ----
 
 Der erhaltene CMS-Datensatz enthält unter der genannten OID die Entschlüsselungsinformationen für den Empfänger:
@@ -259,13 +263,13 @@ Wenn das FdV eine mit dem Zertifikat der SMB-C verschlüsselte Nachricht an den 
 === Entschlüsselung der Nachricht
 Der übermittelte CMS-Datensatz enthält die notwendigen Informationen zur Lokalisierung der für die Entschlüsselung zu nutzende SMC-B. Der Datensatz kann mit der Operation `DecryptDocument` des Konnektors entschlüsselt werden.
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/07_decrypt_request.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/07_decrypt_request.xml[]
 ----
 
 Der entschlüsselte Datensatz enthält folgende Informationen:
 
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
 ----
 
 NOTE: "transactionID" beinhaltet die von der E-Rezept-App erzeuge UUID zur eindeutigen Identifikation der Transaktion.

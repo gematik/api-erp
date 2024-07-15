@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{FdV}[]
 
 Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
 
@@ -44,6 +51,8 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/CertList
 |Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -109,6 +118,8 @@ In der JSON Response sind folgende Einträge enthalten:
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPList
 |Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
 |URL Parameter    | -
 |HTTP Header |
 ----
@@ -182,6 +193,8 @@ Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore h
 |===
 |URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
 |Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
 |URL Parameter    | currentRoot
 |HTTP Header |
 ----
@@ -257,6 +270,8 @@ Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Resp
 |===
 |URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
 |Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
 |URL Parameter    | issuer-cn, serial-nr
 |HTTP Header |
 ----
@@ -275,7 +290,7 @@ Content-Type: application/ocsp-response
 
 Eine Beispielhafte OCSP-Response ist unter folgendem Link zu finden:
 
-link:https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/certificate_check/04_response_ocspResponse.der[OCSP Response]
+link:https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/certificate_check/04_response_ocspResponse.der[OCSP Response]
 
 [cols="a,a"]
 [%autowidth]

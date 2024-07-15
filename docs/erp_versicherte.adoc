@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
 
@@ -42,6 +49,8 @@ Es wird empfohlen beim Abruf der Tasks den Zeitstempel der letzten Abfrage zu ü
 |===
 |URI        |https://erp.app.ti-dienste.de/Task?modified=ge2020-01-01T12:23:00Z
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -311,6 +320,8 @@ Beim Statusübergang zu "closed" stehen die MedicationDispense Informationen zur
 |===
 |URI        |https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -355,7 +366,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "lastUpdated": "2020-02-18T10:05:05.038+00:00",
           "source": "#AsYR9plLkvONJAiv",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
           ]
         },
         "identifier": [
@@ -538,6 +549,8 @@ Der Aufruf erfolgt als http-`GET`-Operation am Apothekenverzeichnis der Telemati
 |===
 |URI        |https://apovzd.app.ti-dienste.de/api/Location?name=Adler
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder | APOVZD
 |Request|
 ----
 GET /api/Location?name=Adler HTTP/1.1
@@ -873,6 +886,8 @@ Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/MedicationDispen
 |===
 |URI        |https://erp.app.ti-dienste.de/MedicationDispense?whenhandedover=gt2020-03-01
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |URL Parameter | whenhandedover, whenprepared, performer
 |HTTP Header |
 ----
@@ -925,7 +940,7 @@ Content-Type: application/fhir+json;charset=utf-8
         },
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
           ]
         },
         "contained": [
@@ -1075,7 +1090,9 @@ WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht a
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
 ¦Method     ¦GET
-¦HTTP Header ¦
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
@@ -1271,6 +1288,8 @@ Die Rückgabe erfolgt als `Bundle`, das ein oder mehrere MedicationDispenses ent
 |===
 |URI        |https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId\|160.880.966.157.248.22
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -1303,7 +1322,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 "id": "200.000.002.097.952.60",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2"
+                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
                     ],
                     "tag": [
                         {
@@ -1428,7 +1447,7 @@ Content-Type: application/fhir+json;charset=utf-8
                 "id": "200.000.002.097.952.60-1",
                 "meta": {
                     "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2"
+                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
                     ],
                     "tag": [
                         {
@@ -1590,6 +1609,8 @@ Der Aufruf erfolgt als http-`POST`-Operation auf eine konkrete Ressource `/Task/
 |===
 |URI        |https://erp.app.ti-dienste.de/Task/160.880.966.157.248.22/$abort
 |Method     |POST
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -1653,6 +1674,8 @@ NOTE: Die Sprache muss in jedem Aufruf mittels "Accept-Language" Heder übergebe
 |===
 |URI        |https://erp.app.ti-dienste.de/AuditEvent
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |URL Parameter    | date, subtype, _sort, _offset, _count
 |HTTP Header |
 ----
@@ -1698,7 +1721,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "lastUpdated": "2020-02-27T08:04:27.434+00:00",
         "source": "#IkMt252YovlsJTAE",
         "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.2"
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
         ]
       },
       "text": {
@@ -1765,7 +1788,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "lastUpdated": "2020-02-27T09:04:27.434+00:00",
         "source": "#IkMt252YovlsJTAE",
         "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.2"
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
         ]
       },
       "text": {
@@ -1832,7 +1855,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "lastUpdated": "2020-02-27T10:04:27.434+00:00",
         "source": "#IkMt252YovlsJTAE",
         "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.2"
+          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
         ]
       },
       "text": {

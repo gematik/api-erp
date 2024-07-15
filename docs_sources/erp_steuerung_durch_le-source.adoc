@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation zur Verwendung des Features "Workflow-Steuerung durch Leistungserbringer" image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
 
 Für diesen Workflow wird das gleiche Datenmodell, wie für Workflow 160 genutzt. Ebenso wird das gleiche Datenmodell für den Verordnungsdatensatz der KBV verwendet. Es werden lediglich je ein neuer Flowtype für GKV `169` und PKV `209` zur Erkennung des abweichenden Prozessablaufs und zur Nutzung in der Berechnung der Rezept-ID eingeführt.
@@ -43,6 +45,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -55,7 +59,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/01_request_taskCreate169.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/01_request_taskCreate169.xml[]
 ----
 Der Parameter `<code value="169"/>` steuert den Typ des dem Task zugrunde liegenden Workflows. In diesem Fall obliegt die Einlösehoheit (als Zuweisung an eine bestimmte Apotheke) beim Verordnenden Leistungserbringer.
 
@@ -64,7 +68,7 @@ Der Parameter `<code value="169"/>` steuert den Typ des dem Task zugrunde liegen
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/02_response_taskCreate169.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/02_response_taskCreate169.xml[]
 ----
 
 NOTE: An der Stelle `<code value="169" />` hat der E-Rezept-Fachdienst den Übergabeparameter zur Konfiguration des des Workflows übernommen.
@@ -79,10 +83,15 @@ NOTE: Der Wert `<code value="urn:oid:1.2.276.0.76.4.54" />` entspricht dem inten
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -113,6 +122,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.004.839.514.95/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -125,7 +136,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/03_request_taskActivate169.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/03_request_taskActivate169.xml[]
 ----
 NOTE: Bei ` <data value="*" />` handelt es sich um die base64-codierte Repräsentation der enveloping-Signatur mit dem enthaltenen E-Rezept-Bundle. Der codierte base64-String ist hier aus Gründen der Lesbarkeit nicht vollständig dargestellt. Das vollständige Beispiel findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7`
 
@@ -134,7 +145,7 @@ NOTE: Bei ` <data value="*" />` handelt es sich um die base64-codierte Repräsen
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/04_response_taskActivate169.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/04_response_taskActivate169.xml[]
 ----
 NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter `<value value="X123456789"` hinterlegt.
 
@@ -145,10 +156,15 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -214,7 +230,7 @@ Eine Nachricht dient der direkten Zuweisung eines E-Rezeptes an eine Apotheke. D
 
 [source,text]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/05_emailPlainZuweisungInDerApotheke.txt[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/05_emailPlainZuweisungInDerApotheke.txt[]
 ----
 NOTE: `Subject:` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
@@ -226,7 +242,7 @@ NOTE: Aus Gründen der Lesbarkeit wurde der angehängte Therapieplan stark mit `
 
 [source,text]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/06_emailPlainFreieKommunikation.txt[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/06_emailPlainFreieKommunikation.txt[]
 ----
 NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
@@ -238,7 +254,7 @@ Um auf KIM-Nachrichten zu Antworten ist nach Standardprotokoll der Header "In-Re
 
 [source,text]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/07_emailPlainFreieKommunikation_reply.txt[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/07_emailPlainFreieKommunikation_reply.txt[]
 ----
 NOTE: `Subject` enthält den wählbaren Titel der Nachricht. Es dürfen keine personenbezogenen oder medizinischen Informationen enthalten sein. +
 
@@ -256,6 +272,8 @@ Der E-Rezept-Fachdienst identifiziert die E-Rezepte auf Basis der Versicherten-I
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -270,7 +288,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2023-07-01/erp_steuerung_durch_le/08_response_taskGet169Versicherter.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_steuerung_durch_le/08_response_taskGet169Versicherter.json[]
 ----
 NOTE: Der Prozesstyp in `"url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"` referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.
 
