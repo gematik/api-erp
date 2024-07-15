@@ -61,7 +61,7 @@ h|Betrifft h|Feature h|Ressource h|Änderungen
 image:{AVS}[](informativ)
 
 // Row 3 - eML
-| image:{AVS}[] image:{FdV}[] |<<Bereitstellung der Profile für die elektronische Medikationsliste (eML)>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]|[disc]
+| image:{AVS}[] image:{FdV}[] |<<Übermittlung von E-Rezept Daten in die ePA>>|link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]|[disc]
 * Neue MedicationDispense und Medication Profile
 ** AVS: Erzeugen und Einstellen der neuen Profile
 ** FdV: Anzeige der neuen Profile
@@ -112,7 +112,7 @@ Zur Umsetzung des Features sind folgende Schritte notwendig:
 
 NOTE: image:{AVS}[] AVS müssen die Angabe des FlowType nicht auswerten.
 
-=== Bereitstellung der Profile für die elektronische Medikationsliste (eML)
+=== Übermittlung von E-Rezept Daten in die ePA
 Betrifft: image:{AVS}[] image:{FdV}[]
 
 Zum Start von "ePA für Alle" ist der E-Rezept-Fachdienst an das ePA Aktensystem angebunden und überträgt Verordnungs- und Dispensierdaten an das ePA Aktensystem, damit es in der elekronischen Medikationsliste (eML) zur Anzeige gebracht werden kann.
@@ -120,7 +120,7 @@ Aufgrund dessen werden ab der Profilversion 1.4 die Profile link:https://simplif
 
 Darüber hinaus ändert sich auch die API für die Endpunkte $dispense und $close und wird in ein neues Datenformat überführt, was in Zukunft auch mit der Abgabe von OTCs gegenüber dem ePA Aktensystem kompatibel ist.
 
-Vertiefte Informationen zu den Änderungen der API für AVS finden sich auf der Seite link:../docs/erp_eml-epa-notes.adoc[Hinweise für die Belieferung von E-Rezepten]. Diese sind auch für die FdVs relavant, da die Datenstrukturen der neuen Profile im FdV zur Anzeige gebracht werden müssen.
+Vertiefte Informationen zu den Änderungen der API für AVS finden sich auf der Seite link:../docs/erp_eml-epa-notes.adoc[Hinweise für das Feature "Übermittlung von E-Rezept Daten in die ePA"]. Diese sind auch für die FdVs relavant, da die Datenstrukturen der neuen Profile im FdV zur Anzeige gebracht werden müssen.
 Das gesamte Feature kann als Vorabversion hier eingesehen werden: link:https://gemspec.gematik.de/prereleases/Draft_eRp_ePA_1_2_0/[Vorabveröffentlichung des Feature Dokuments eRp_ePA]
 
 NOTE: Verordnungen und Dispensierungen, die mit den Workflow-Profilen 1.2 und 1.3 erstellt werden, werden ebenfalls in die ePA übertragen.
