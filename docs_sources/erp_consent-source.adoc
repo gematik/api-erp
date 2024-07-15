@@ -32,20 +32,20 @@ Als Versicherter möchte ich eine Einwilligung zur elektronischen Speicherung me
 Der Aufruf erfolgt als http-`POST`-Operation auf die Ressource `/Consent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 |===
-|URI        |https://prescriptionserver.telematik/Consent
-|Method     |POST
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://prescriptionserver.telematik/Consent
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
 NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-|Payload    |
+¦Payload    ¦
 [source,json]
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_consent/01_request_PostConsent.json[]
@@ -56,6 +56,9 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Exa
 *Response*
 [source,json]
 ----
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_consent/02_response_PostConsent.json[]
 ----
 
@@ -115,6 +118,9 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 *Response*
 [source,json]
 ----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_consent/03_response_GetConsent.json[]
 ----
 

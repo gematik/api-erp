@@ -266,6 +266,9 @@ NOTE: Bei dem Wert in `<Binary><data value="*"/></Binary>` handelt es sich um di
 *Response*
 [source,xml]
 ----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/05_response_taskActivate.xml[]
 ----
 NOTE: Der E-Rezept-Fachdienst prüft die Gültigkeit der qualifizierten Signatur des übergebenen FHIR-Bundles. Bei Gültigkeit wird der Task aktiviert und die Zuordnung des Task zum Patienten auf Basis der KVNR im Task unter dem `value` von `<system value="http://fhir.de/sid/gkv/kvid-10"/>` hinterlegt.

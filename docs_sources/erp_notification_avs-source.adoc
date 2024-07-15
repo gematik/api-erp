@@ -34,6 +34,14 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |Request|
 [source,xml]
 ----
+POST /Subscription HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+User-Agent: Avs/1.0 AvSoft/GEMAvwepokrpxnwiorlc
+Cache-Control: no-cache
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+xml; charset=UTF-8
+Accept: application/fhir+xml; charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
 ----
 
@@ -47,6 +55,10 @@ Andere Parameter werden aktuell nicht unterstützt.
 *Response*
 [source,xml]
 ----
+HTTP/1.1 200 OK
+Content-Length: 510
+Content-Type: application/fhir+xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
 ----
 
