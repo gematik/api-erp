@@ -44,7 +44,7 @@ Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-Rezept Kontext auf.
 
 ### Allgemein
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV]|
@@ -53,7 +53,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ### Anwendungsfälle Zugang zur TI
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS]|
@@ -61,7 +61,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS]|
 
 ### Anwendungsfälle Bedienung von E-Rezepten
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![][FdV]|
 |[Belieferung von E-Rezepten](docs/erp_abrufen.adoc)|![][AVS]|
@@ -70,7 +70,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ### Besondere Anwendungsfälle
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
 |[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS]|
@@ -81,7 +81,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![][AVS] ![][FdV]|
 |[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
