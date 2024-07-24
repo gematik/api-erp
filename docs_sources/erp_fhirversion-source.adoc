@@ -76,13 +76,19 @@ link:./erp_fhirversion_change_20250115.adoc[Weitere Details sind hier zu finden.
 |===
 | |*Versionsnummer* |*Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
 
-|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0-rc1[Pre-release Package 1.4.0-rc1 Profile 1.4^] a|
+|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.4.0[Package 1.4.0 Profile 1.4^] a|
 
-Prerelease ePA/eML und DiGA
+Profile für die Features DiGA und eML
+
+Allgemeine Änderungen
+* Anheben der Abhängigkeit "de.basisprofil.r4" auf 1.5.0
+* Vollständige Abbildung der OperationDefinitions
+* Hinzufügen von Beispielen
 
 Änderungen für ePA/eML
 * MedicationDispense basiert auf ePA-MedicationDispense
 * Einführung einer Workflow Medication basierend auf ePA-Medication
+* Änderung der API für $close und $dispense (s. OperationDefinitions und dazugehörige Parametersprofile)
 
 Änderungen für DiGA
 * Einführen einer DiGA-MedicationDispense zur Abgabe eines Freischaltcodes für DiGAs
@@ -91,7 +97,7 @@ Prerelease ePA/eML und DiGA
 * Neuer Organisationstyp_oid für Kostenträger
 * Änderungen Communication_DispReq zur Zuweisung von DiGAS an Kostenträger
 
-|Geplant: 01.07.2024 | Geplant: 15.01.2025 |-
+|15.07.2024 | 15.01.2025 |-
 
 |gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] a|
 
