@@ -2,6 +2,11 @@
 [PVS]: https://img.shields.io/badge/PVS/KIS-C30059
 [AVS]: https://img.shields.io/badge/AVS-E30615
 [FdV]: https://img.shields.io/badge/FdV-green
+<style>
+    table {
+        width: 100%;
+    }
+</style>
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
 ## Inhaltsverzeichnis
@@ -78,7 +83,7 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 
 ## Anwendungsfälle im E-Rezept
 ### Allgemein
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation| Zielgruppe |
 |-----|------------|
 |[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV]|
@@ -87,15 +92,16 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ### Anwendungsfälle Zugang zur TI
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation| Zielgruppe |
 |-----|------------|
 |[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS]|
 |[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS]
 |[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS]|
 
+
 ### Anwendungsfälle Bedienung von E-Rezepten
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation| Zielgruppe |
 |-----|------------|
 |[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![][FdV]|
 |[Belieferung von E-Rezepten](docs/erp_abrufen.adoc)|![][AVS]|
@@ -104,7 +110,7 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
 
 ### Besondere Anwendungsfälle
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation| Zielgruppe |
 |-----|------------|
 |[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
 |[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS]|
@@ -115,7 +121,7 @@ Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON z
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
-|Dokumentation<img width="430" height="1">| Zielgruppe |
+|Dokumentation| Zielgruppe |
 |-----|------------|
 |[Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![][AVS] ![][FdV]|
 |[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
