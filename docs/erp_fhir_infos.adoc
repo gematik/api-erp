@@ -1,0 +1,87 @@
+= E-Rezept FHIR im E-Rezept image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Hier dokumentiert die gematik allgemeine Hinweise zur Implementierungsunterstützung, sowie Besonderheiten zur Nutzung von FHIR.
+
+toc::[]
+
+== FHIR-Profile im E-Rezept Kontext
+Folgende FHIR-Profile sind im E-Rezept-Kontext relevant und werden von den verschiedenen Beteiligten definiert:
+
+[cols="a,a"]
+[%autowidth]
+|===
+| Beteiligter | FHIR-Projekt
+| KBV | https://simplifier.net/erezept[E-Rezept-Verordnung]
+| KBV | https://simplifier.net/evdga[DiGA-Verordnung]
+| DAV | https://simplifier.net/erezeptabgabedaten[Abgabedaten]
+| DAV | https://simplifier.net/erezeptabgabedatenpkv[AbgabedatenPKV]
+| GKV | https://simplifier.net/eRezeptAbrechnungsdaten[Abrechnungsdaten]
+| gematik | https://simplifier.net/erezept-workflow[Workflow Profile]
+|===
+
+== FHIR-Releases
+link:../docs/erp_fhirversion.adoc[Auf dieser Seite veröffentlichen die E-Rezept-Beteiligten {KBV, DAV, GKV, PKV und gematik} gemeinsam ihre FHIR-Release-Festlegungen.]
+
+Die Veröffentlichung an dieser Stelle erfolgt übergangsweise, bis ein gemeinsames Repository 'oberhalb' der API-Beschreibung gefunden ist.
+
+== Titus-Testportal
+Das Titus-Testportal wird in den Anwendungsfällen zum E-Rezept um einen Validator erweitert. Zukünftig werden *alle* Requests vor der Weiterverarbeitung online validiert.
+Details dazu finden sich link:../docs/erp_validation.adoc[auf der folgenden Seite].
+
+== Allgemeine Implementierungshinweise
+
+Für die QES-Erstellung durch den Konnektor liegen im Unterordner link:../samples/qes[samples/qes] SOAP-Request/Responses zu den https://simplifier.net/packages/kbv.ita.erp/1.0.1/~files[Verordnungsbeispielen] der KBV bereit. Spezialfälle (z.B. abgelaufene Zertifikate wegen Kartenwechsel o.ä.) stellen wir im Unterordner link:../samples/qes-cases[samples/qes-cases] bereit. Da die signierten Dokumente nicht verändert werden dürfen sind die Beispiele noch in Profilversionen, die nicht mehr im Produktivbetrieb des Fachdienstes unterstützt werden.
+
+Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur über Quittung bis zu den Abrechnungsdaten stehen im https://github.com/gematik/eRezept-Examples[Examples-Repo] zur Verfügung.
+
+
+== Tools und Hinweise zu FHIR
+
+=== Verlgeich von FHIR-Profilen
+Wie Vergleiche zwischen FHIR Profilen (z.B. nach Versionsübergängen) vorgenommen werden können und den Verweis auf die Artefakte zum aktuellen Versionsübergang finden sich link:../docs/erp_fhirversion_changes.adoc[auf dieser Seite].
+
+=== E-Rezept FHIR-Beispiele
+Für die Implementierung des E-Rezeptes stehen Beispiele im FHIR-Format zur Verfügung.
+
+Im https://github.com/gematik/eRezept-Examples[gemeinsamen Beispiel-Repository] der Gesellschafter sind sowohl Einzelbeispiele von Profilen, wie auch Beispiele von Ende zu Ende Szenarien dokumentiert.
+
+Wir wünschen uns an dieser Stelle auch ein reges Mitwirken der Industrie bei der Erstellung dieser Beispiele. Über Pull-Requests und andere Formen der Kollaboration freuen wir uns.
+
+=== Konvertierung von FHIR XML und JSON
+Der FHIR Standard unterstützt für den Datenaustausch mehrere Formate. Die beiden vom E-Rezept Fachdienst unterstützten Formate sind XML (Content-Type: application/fhir+xml) und JSON (Content-Type: application/fhir+json). Der Fachdienst unterstützt an jedem Endpunkt beide Formate. Mit den Gesellschaftern wurde abgestimmt, dass bei der Kommunikation und Beschreibung der Endpunkte, die Primärsysteme betreffen, das Format XML genutzt wird. Das heißt, dass die Beispiele in der API und im https://github.com/gematik/eRezept-Examples[eRezept-Examples Repository], die die Primärsysteme betreffen in XML dargestellt werden.
+Der Datenaustausch zwischen dem Fachdienst und dem Frontend des Versicherten (FdV) dagegen geschieht im JSON-Format.
+
+Folgende Tools können genutzt werden, um FHIR-Dokumente zwischen XML und JSON zu konvertieren:
+* https://fhir-formats.github.io/[Webseite zum Konvertieren]
+* https://marketplace.visualstudio.com/items?itemName=Yannick-Lagger.vscode-fhir-tools[FHIR tools VS Code Extension]
+* https://www.npmjs.com/package/fhir[FHIR.js npm Package]
+* https://hapifhir.io/hapi-fhir/docs/model/parsers.html[Beschreibung zur Umwandlung mit HAPI (Java)]
+
+=== Referenzen in Bundles und Parameters Objekten
+
+FHIR sieht vor, dass Objekte in Bundles und Paramters Objekten referenziert werden können. Dabei wird die Referenz als URL angegeben. Die URL kann entweder absolut oder relativ sein.
+
+Folgende Best Practice sollte beachtet werden:
+
+* In Bundles sollte die Referenz als absolute url angegeben werden.
+** Bsp: `<reference value="urn:uuid:e3fd4ae7-fa81-414f-b12d-864cdad41de8" />`
+** Der E-Rezept-Fachdienst akzeptiert derzeit sowohl relative als auch absolute Referenzierung. Es wird jedoch empfohlen, absolute Referenzen zu verwenden.
+* In Parameters Objekten sollte relative Referenzierung genutzt werden.
+** Bsp: `<reference value="Medication/e3fd4ae7-fa81-414f-b12d-864cdad41de8" />`
+** Der E-Rezept-Fachdienst prüft nicht, welche Referenzierung genutzt wird, jedoch sind relative Referenzen durch den FHIR-Standard vorgegeben
