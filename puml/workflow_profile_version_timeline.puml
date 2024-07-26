@@ -1,0 +1,72 @@
+@startuml
+<style>
+timingDiagram {
+  .12color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #c30059
+  }
+  .13color{
+    FontColor #000e52
+    Fontsize 16
+    FontStyle bold
+    Backgroundcolor #00ff64
+  }
+  .14color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #f00000
+  }
+  .15color{
+    FontColor #ffffff
+    Fontsize 16
+    FontStyle bold
+    BackgroundColor #b10f21
+  }
+  arrow{
+    Fontsize 14
+  }
+}
+</style>
+title Zeitleiste der Versionsübergänge des Workflow-Profile
+footer Zuletzt verändert am %date("dd.MM.yyyy")
+
+concise "\n" as V120 <<12color>>
+concise "\n" as V130 <<13color>>
+concise "\n" as V140 <<14color>>
+concise "\n" as V150 <<15color>>
+
+'60 days is scaled to 120 pixels
+scale 5184000 as 120 pixels
+hide time-axis
+
+V120 is "Profile 1.2"
+
+@2024/07/01
+
+@2024/11/01
+V130 is "Profile 1.3"
+note bottom of V130 : 01.11.2024:\n1.3.1 aktiv
+
+@2025/01/15
+V140 is "Profile 1.4"
+note bottom of V140 : 15.01.2025:\n1.4.0 aktiv
+
+@2025/04/15
+V120 is "Nur FdV"
+note bottom of V120 : 15.04.2025:\nStarte nur FdV \nÜbergangszeit
+V130 is "Nur FdV"
+note bottom of V130 : 15.04.2025:\nStarte nur FdV\nÜbergangszeit
+
+@2025/07/15
+V120 is {hidden}
+note bottom of V120 : 15.07.2025:\nEnde FdV\nÜbergangszeit
+V130 is {hidden}
+note bottom of V130 : 15.07.2025:\nEnde FdV\nÜbergangszeit
+V140 is "Nur FdV"
+note bottom of V140 : 15.07.2025:\nStarte nur FdV\nÜbergangszeit
+V150 is "Profile 1.5"
+note bottom of V150 : 15.07.2025\n(Vorläufig)
+@enduml

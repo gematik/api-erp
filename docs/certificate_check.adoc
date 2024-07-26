@@ -1,0 +1,316 @@
+= E-Rezept API-Dokumentation image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{FdV}[]
+
+Auf dieser Seite wird die API für E-Rezept-FdVs beschrieben, wonach diese eine Zertifikatsprüfung für gematik PKI Zertifikate durchführen müssen.
+
+NOTE: Nach Abstimmungen sind E-Rezept-FdV nach A_21218-* dazu verpflichtet ein PKI-Root Zertifikat zu pinnen. Damit muss das TLS Zertifikat nicht zusätzlich gepinnt werden. Certificate Transparency wird für das TLS Zertifikat als ausreichender Sicherheitsmechanismus bewertet, wenn ein Root Zertifikat der gematik PKI in der Anwendung gepinnt ist. Damit ist sichergestellt, dass Gesundheitsdaten des Anwenders gesichert sind. Dadurch können Clients flexibel auf einen Wechsel des TLS-Zertifikats vom E-Rezept-Fachdienst reagieren.
+
+NOTE: Es ist wichtig zu beachten, dass es zwei verschiedene Arten gibt, die PKI Zertifikate vom E-Rezept-Fachdienst zu beziehen.
+Der Bezug von Zertifikaten über `GET /CertList` ist aktuell gültig, wird aber in einem zukünftigen Release des E-Rezept-Fachdienst deprecated und durch den Abruf von Zertifikaten mittels `GET /PKICertificates` ersetzt. Zu einem späteren Zeitpunkt wird der Endpunkt entfernt.
+
+toc::[]
+
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /CertList`
+
+WARNING: Dieser Anwendungsfall wird deprecated und nur bis voraussichtlich Mitte 2025 unterstützt. Ab voraussichtlich Ende Juni 2024 kann der Anwendungsfall unter Verwendung von `GET /PKICertificates` umgesetzt werden.
+
+=== Abruf von Zertifikaten
+
+Es wird davon ausgegangen, dass ein Root Zertifikat aus der gematik PKI in den Truststore des FdV eingetragen ist (s. link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ROOT-CA]).
+
+Die aktuelle Spezifikation sieht vor, dass GEM.RCA3 als Zertifikat im FdV hinterlegt, bzw. gepinnt ist.
+
+Initial nach Installation muss das FdV die Zertifikate der gematik PKI abrufen und prüfen. Dazu wird die API `GET /CertList` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an Zertifikaten, die nach gemSpec_Krypt in den Truststore des FdV eingetragen werden müssen.
+
+In der JSON Response sind folgende Einträge enthalten:
+
+* "ee_certs": Liste der End-Entity-Zertifikate
+* "ca_certs": Liste der CA-Zertifikate
+* "add_root": Liste der Cross-Zertifikate (ACHTUNG: aktuell ist das nicht am E-Rezept-Fachdienst umgesetzt)
+
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/CertList
+|Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
+|URL Parameter    | -
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+{
+    "ca_certs": [
+        "MIICuTCCAmCgAwIBAgIBIjAKBggqhkjOPQQDAjCBgTELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxNDAyBgNVBAsMK1plbnRyYWxlIFJvb3QtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxGzAZBgNVBAMMEkdFTS5SQ0EzIFRFU1QtT05MWTAeFw0xODA2MjAwOTQ5NTlaFw0yNjA2MTgwOTQ5NThaMIGEMQswCQYDVQQGEwJERTEfMB0GA1UECgwWZ2VtYXRpayBHbWJIIE5PVC1WQUxJRDEyMDAGA1UECwwpS29tcG9uZW50ZW4tQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxIDAeBgNVBAMMF0dFTS5LT01QLUNBMjggVEVTVC1PTkxZMFowFAYHKoZIzj0CAQYJKyQDAwIIAQEHA0IABFuRbiWZxMO8y+FvvQAPuAC+1NbkMRMTEyuFj9REDzkCYwFezS+WwbsCmsXgcDRnkDZ0lqFpQR0eS+T+/6etrtijgcIwgb8wHQYDVR0OBBYEFABqOJDzma4hj1La7sGMboCtYSLJMB8GA1UdIwQYMBaAFAeQMy11U15/+Mg3v37JJldo3zjSMEIGCCsGAQUFBwEBBDYwNDAyBggrBgEFBQcwAYYmaHR0cDovL29jc3Aucm9vdC1jYS50aS1kaWVuc3RlLmRlL29jc3AwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAQYwFQYDVR0gBA4wDDAKBggqghQATASBIzAKBggqhkjOPQQDAgNHADBEAiBlbZRIayrzTk21ghnuni8u3trfhqwoNOHHRYpEMTTpLQIgdjiy1cKJSwLfRQ2RKI1NrI7ogEk/PQvw7c3iGbFVGMY="
+    ],
+    "add_roots": [],
+    "ee_certs": [
+        "MIIDAzCCAqmgAwIBAgICJGQwCgYIKoZIzj0EAwIwgYQxCzAJBgNVBAYTAkRFMR8wHQYDVQQKDBZnZW1hdGlrIEdtYkggTk9ULVZBTElEMTIwMAYDVQQLDClLb21wb25lbnRlbi1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLktPTVAtQ0EyOCBURVNULU9OTFkwHhcNMjEwNjAyMTQzNDIwWhcNMjYwNjAxMTQzNDE5WjBgMQswCQYDVQQGEwJERTEiMCAGA1UECgwZSUJNIFRFU1QtT05MWSAtIE5PVC1WQUxJRDEXMBUGA1UEBRMOMDg3NDctVFVFTkMwMDIxFDASBgNVBAMMC2VyZXplcHQtdmF1MFowFAYHKoZIzj0CAQYJKyQDAwIIAQEHA0IABHDBv8a30jresYlldF9SID3T9YfKoZ7KSdoeqojRfNRDAXf4B6f3wMov1rNk+Mll9I2Cj+JY5FzICU2q1APtKuyjggErMIIBJzAdBgNVHQ4EFgQU30hPeqdh/lP/yqE/38++gSgMzMswHwYDVR0jBBgwFoAUAGo4kPOZriGPUtruwYxugK1hIskwTwYIKwYBBQUHAQEEQzBBMD8GCCsGAQUFBzABhjNodHRwOi8vb2NzcDItdGVzdHJlZi5rb21wLWNhLnRlbGVtYXRpay10ZXN0L29jc3AvZWMwDgYDVR0PAQH/BAQDAgMIMCEGA1UdIAQaMBgwCgYIKoIUAEwEgSMwCgYIKoIUAEwEgUowDAYDVR0TAQH/BAIwADBTBgUrJAgDAwRKMEgwRjBEMEIwQDAyDDBFLVJlemVwdCB2ZXJ0cmF1ZW5zd8O8cmRpZ2UgQXVzZsO8aHJ1bmdzdW1nZWJ1bmcwCgYIKoIUAEwEggIwCgYIKoZIzj0EAwIDSAAwRQIhAJd3Y/mAenNWdA0CLO2b6uT/8N68kx76sZiW8Psf6DxKAiAJkgWX1UBQgy1me3+/tpmA4owd9gsbrmiV5hyw3Cl5vQ==",
+        "MIIC+TCCAqCgAwIBAgICG30wCgYIKoZIzj0EAwIwgYQxCzAJBgNVBAYTAkRFMR8wHQYDVQQKDBZnZW1hdGlrIEdtYkggTk9ULVZBTElEMTIwMAYDVQQLDClLb21wb25lbnRlbi1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLktPTVAtQ0EyOCBURVNULU9OTFkwHhcNMjEwNTA2MTUyODUwWhcNMjYwNTA1MTUyODQ5WjB9MQswCQYDVQQGEwJBVDEoMCYGA1UECgwfUklTRSBHbWJIIFRFU1QtT05MWSAtIE5PVC1WQUxJRDEpMCcGA1UEBRMgNDEzNTItVjAxSTAwMDFUMjAyMTA1MDYxNDQ1MzIzMDMxGTAXBgNVBAMMEG1haW4udHUuaWRwLnJpc2UwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAERZ0bQ3l/oCEpJW+vmqMo9a6xR8uzXrY29qMVVTF+DjIcGqWAOCTAIEuBt3GzkPME0ePhvKyWkHG6mt01aONXnaOCAQUwggEBMB0GA1UdDgQWBBSuwBjcDBPsi/SzHYFWGgqnE7CfRDAfBgNVHSMEGDAWgBQAajiQ85muIY9S2u7BjG6ArWEiyTBPBggrBgEFBQcBAQRDMEEwPwYIKwYBBQUHMAGGM2h0dHA6Ly9vY3NwMi10ZXN0cmVmLmtvbXAtY2EudGVsZW1hdGlrLXRlc3Qvb2NzcC9lYzAOBgNVHQ8BAf8EBAMCB4AwIQYDVR0gBBowGDAKBggqghQATASBIzAKBggqghQATASBSzAMBgNVHRMBAf8EAjAAMC0GBSskCAMDBCQwIjAgMB4wHDAaMAwMCklEUC1EaWVuc3QwCgYIKoIUAEwEggQwCgYIKoZIzj0EAwIDRwAwRAIgNCU4gHDgt5ZlCwOqHIdN4Sv8NKHxzpV1QuCH95mzkGsCIB10IM6GmyhP/I5/wh16HKqp75Vsu2StPB1yvBRb6gWu",
+        "MIIC+TCCAqCgAwIBAgICG3swCgYIKoZIzj0EAwIwgYQxCzAJBgNVBAYTAkRFMR8wHQYDVQQKDBZnZW1hdGlrIEdtYkggTk9ULVZBTElEMTIwMAYDVQQLDClLb21wb25lbnRlbi1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLktPTVAtQ0EyOCBURVNULU9OTFkwHhcNMjEwNTA2MTUyODA0WhcNMjYwNTA1MTUyODAzWjB9MQswCQYDVQQGEwJBVDEoMCYGA1UECgwfUklTRSBHbWJIIFRFU1QtT05MWSAtIE5PVC1WQUxJRDEpMCcGA1UEBRMgMjk4NTAtVjAxSTAwMDFUMjAyMTA1MDYxNDQ1MzIzODkxGTAXBgNVBAMMEGRpc2MudHUuaWRwLnJpc2UwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAENlq1L/vMzAag8Qh7TDqa1xGvlqEbPXoK4x8BUvcfB01Bobu4H/HK+x6zpJGh2i5tPv9SOslAD5cxeChnB98fgaOCAQUwggEBMB0GA1UdDgQWBBTU2dZi/UYH85LjZrh0yk1dHMURkDAfBgNVHSMEGDAWgBQAajiQ85muIY9S2u7BjG6ArWEiyTBPBggrBgEFBQcBAQRDMEEwPwYIKwYBBQUHMAGGM2h0dHA6Ly9vY3NwMi10ZXN0cmVmLmtvbXAtY2EudGVsZW1hdGlrLXRlc3Qvb2NzcC9lYzAOBgNVHQ8BAf8EBAMCB4AwIQYDVR0gBBowGDAKBggqghQATASBIzAKBggqghQATASBSzAMBgNVHRMBAf8EAjAAMC0GBSskCAMDBCQwIjAgMB4wHDAaMAwMCklEUC1EaWVuc3QwCgYIKoIUAEwEggQwCgYIKoZIzj0EAwIDRwAwRAIgfDpwVRpe8ZtN1oK8f2Irf+vR20jQ/WTB7YkccOojAy0CIDbDfICJxy0QpnXXPzfIQ3L3PNBUVOMKkGUGuC9XiBVg"
+    ]
+}
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+=== Abruf von OCSP Responses
+
+Für die Zertifikatsprüfung ist es notwendig, dass das FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSP` verwendet. Diese liefert eine vom E-Rezept-Fachdienst erstellte Liste an OCSP Responses, die nach gemSpec_Krypt vom FdV verwendet werden müssen, um die Zertifikate zu prüfen.
+
+In der JSON Response sind folgende Einträge enthalten:
+
+* "OCSP Responses": Liste der OCSP Responses der ee_certs aus dem Zertifikatsabruf
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/OCSPList
+|Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
+|URL Parameter    | -
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+{
+    "OCSP Responses": [
+        "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"
+    ]
+}
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+== Anwendungsfall Validieren von Zertifikaten mittels `GET /PKICertificates`
+
+NOTE: Dieser Anwendungsfall wird voraussichtlich Ende Juni 2024 im E-Rezept-Fachdienst bereitstehen.
+
+=== Abruf von Zertifikaten
+
+==== Vertrauensanker des FdV
+
+Nach Anforderungslage muss ein E-Rezept-FdV einen Vertrauensanker der gematik PKI vorinstalliert in einer App-Instanz bereitstellen. Der Vertrauensanker ist ein Root-Zertifikat, dass aus dem link:https://download.tsl.ti-dienste.de/ECC/ROOT-CA/[Verzeichnis ECC ROOT-CA] bezogen werden kann.
+
+Das ausgewählte Root Zertifikat muss mindestens fünf Jahre gültig sein und als Basis für die Prüfung von TI-Zertifikaten verwendet werden.
+
+==== Abruf von CA- und Cross Zertifikaten
+
+Um EE-Zertifikate der TI zu validieren, sind neben dem Root Zertifikat noch die CA- und Cross-Zertifikate notwendig. Diese werden über die API `GET /PKICertificates?currentRoot=<root.SubjectCN>` abgerufen.
+
+Der E-Rezept-Fachdienst liefert alle gültigen CA-Zertifikate der gematik PKI zurück.
+Das E-Rezept-FdV muss außerdem angeben, welches Root Zertifikat im Truststore hinterlegt ist (SubjectCN des Root Zertifikats), damit der E-Rezept-Fachdienst die passenden Cross-Zertifikate zurückliefern kann.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/PKICertificates?currentRoot=GEM.RCA3
+|Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
+|URL Parameter    | currentRoot
+|HTTP Header |
+----
+X-api-key: 1234567890
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+
+[source,json]
+----
+{
+    "ca_certs": [
+        "MIIEGjCCAwKgAwIBAgIBCTANBgkqhkiG9w0BAQsFADBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBMjAeFw0xODAzMTYxMjIzMDdaFw0yNjAzMTQxMjIzMDZaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCoGcPUJ6nMehq9o9lc+Y4zZEnL74Q9xsXSMyM4h4KRAREGtppkYmQ+64x3fi3e7SS6pPkMKYsNZGxeL6WwkmYVuOdJCcP6xSOEcITRMTQAKG4J0i8b+qlMGH329wzto3SWQVyL0Df22UndpnqXnM2eCn233naJwpPPWHImHe73xhL9AWbzt4Sio95SX48gf9MDrlvnacK9wfchoWAO42NGF/MWUdrrlloejA//jMca4awpjuZgs+dtbxXhLD3U6Yqbm6k68bm4q2kZLlvtRWGTsu2RwQSB+xGh/hOg9fUBi7G9bOmRZKeWaBAWYkdoKwxSmH/MmAPFRJZ68iZux2GhAgMBAAGjgcIwgb8wHQYDVR0OBBYEFP21uRd5vbhrHilXIj3CubOJgc9NMB8GA1UdIwQYMBaAFOxcGOATtENsCYzf+jw8W35LcIRGMEIGCCsGAQUFBwEBBDYwNDAyBggrBgEFBQcwAYYmaHR0cDovL29jc3Aucm9vdC1jYS50aS1kaWVuc3RlLmRlL29jc3AwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAQYwFQYDVR0gBA4wDDAKBggqghQATASBIzANBgkqhkiG9w0BAQsFAAOCAQEAR5izJQOlGTH6Q50vYeqkQ8hibqzlqO4ktpEpfWzFqnLI78SNGhHu3bK3d6CQSKDYf9iYFUTEtLsMt49bVv1kLS53XLVTzP1Qbo5t47rTI6NdiOpDFAydEE8fyq0MYfPx6FroyhNXRZyrF9vuZfzZcjmAjo8xw9gaWhappLKbui6KZ17L7tG6qaKe1JrU2D7sBT7cy2h8qcuzlpyvHWZiozOEAgeHVZnajVOtiwqkjzazauok0RIM7Qdx4r/Q5nKi8VL2ejyPRayONGrN6makoX10XfeLptUlyEJ16j+UiwK3JtL5VVX0KR9dL9Ym6pnuQrAAdaMqybNjKpzPm5NMLg==",
+        "MIIEGjCCAwKgAwIBAgIBFjANBgkqhkiG9w0BAQsFADBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBMjAeFw0yMTAzMDMxMDQzMDZaFw0yNjEyMDcwODQxNTZaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCunOiYLAG2qQ64hRh/6csWp4l1WqfIBPl7EF52v560RXYB+xIA1iaMUq9VV7q+7bYP1gZDwr3vZyX+XL6K5je1iL4Sl1GvXI09AGogSiKeym1NmXC35AM2c1H0PzUGatVqiAF8SnEf8IgH5PQP+yudleDz3+5WqY+AarN2YLG4inGgWVKQ8kJA+LsL3ohtcnQbkJAvKKZDSJXx/4lh//t50TW7pLodRDdwjd0N7IWz5xbZOFePv8Ihx5xFpJ4gXiQq7O4LBIsnmieb5RGjYGHYctLk2dyfErRhlB46tT7p6597oLf0vlddx1++CEIXWWudWcYo+mWbJlPruG3GcHEPAgMBAAGjgcIwgb8wHQYDVR0OBBYEFJVUmz+9xDy0eMiRjP1oV4pkpDCXMB8GA1UdIwQYMBaAFOxcGOATtENsCYzf+jw8W35LcIRGMEIGCCsGAQUFBwEBBDYwNDAyBggrBgEFBQcwAYYmaHR0cDovL29jc3Aucm9vdC1jYS50aS1kaWVuc3RlLmRlL29jc3AwEgYDVR0TAQH/BAgwBgEB/wIBADAOBgNVHQ8BAf8EBAMCAQYwFQYDVR0gBA4wDDAKBggqghQATASBIzANBgkqhkiG9w0BAQsFAAOCAQEAe+JwpiwO+8tBw5EMEvQGceqbke9s5HzSSTJpXYaVO2GSIpFt37k9aDoyvGbttxY1pdznrWkfw9vPKaMuY0NQVYJ+EE2Es73q7Z6H2/pjNkdd7Dz0TSTw0BV+lHf5tHutT0MzA72LnJsW26ki/j+rHuxy3XHw6wpKC6cQtNSuZusmvLyLo1XUVuzxnyX4FaRV7nCXliK7zp8wvQiY7ycg1qYpamRXsVreVeqfZqCj3ynuMAFa0BkPi/hEPTHJvJ+g3c9a/FX4vrJ/wyRAi6KU/Yiv0RVREF162yGlu4J5A6BVTJfKsiKaLeNGQSeG9bj7AFyRnsguTPG79GqjjrFVBQ==",
+        "MIICjjCCAjWgAwIBAgIBBDAKBggqhkjOPQQDAjBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBMzAeFw0xODA5MTMwOTI2MzJaFw0yNjA5MTEwOTI2MzFaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTQwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAEMHrNkr8kZc7CekPUKEfFdr8olMKYCjf/swYznknkizF0WIqk/kKYAMT/nXFngy+vag+k1uCGJetwC2jOVfLS5KOBwjCBvzAdBgNVHQ4EFgQUAlXi2yHPtCsdra3YHvxEYf7jtbAwHwYDVR0jBBgwFoAU38O+db4l6xMyMC6nUIUInzcQ0OgwQgYIKwYBBQUHAQEENjA0MDIGCCsGAQUFBzABhiZodHRwOi8vb2NzcC5yb290LWNhLnRpLWRpZW5zdGUuZGUvb2NzcDASBgNVHRMBAf8ECDAGAQH/AgEAMA4GA1UdDwEB/wQEAwIBBjAVBgNVHSAEDjAMMAoGCCqCFABMBIEjMAoGCCqGSM49BAMCA0cAMEQCIDwsX6M1FxEFgqyhaTwfcue6UW/zchsfp88n3mQynKaWAiBa7PCgqmlUGk+kkC0qiOkHqTNAhjkI4XdTaMvdeBR4Rg==",
+        "MIICwTCCAmagAwIBAgIBDzAKBggqhkjOPQQDAjBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBNDAeFw0yMTA3MjIxMTAyNTRaFw0yOTA3MjAxMTAyNTNaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTYwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAEU0sqwelht29DQfUO0jWkm33wC/SYu6IhbmhFU92l+KJGGEOmfgh+2SD7FXjC/2FI8jsD4QCV8OIg8Mz8Cq0zeaOB8zCB8DAdBgNVHQ4EFgQUMNLhNq9sV/Kxg5Xatjime7oxdMowHwYDVR0jBBgwFoAUgGFwGRw47eJr5KEuqyI+dcmU/n0wQgYIKwYBBQUHAQEENjA0MDIGCCsGAQUFBzABhiZodHRwOi8vb2NzcC5yb290LWNhLnRpLWRpZW5zdGUuZGUvb2NzcDAOBgNVHQ8BAf8EBAMCAQYwRgYDVR0gBD8wPTA7BggqghQATASBIzAvMC0GCCsGAQUFBwIBFiFodHRwOi8vd3d3LmdlbWF0aWsuZGUvZ28vcG9saWNpZXMwEgYDVR0TAQH/BAgwBgEB/wIBADAKBggqhkjOPQQDAgNJADBGAiEAoPMSKaLS7hMt86ZGuVZVm4eP2+WzVr/Ci7lycUmJtUICIQCbV7GmvYv17Hn1TyJV4NwUiDyEnnLt4f6GJg3Ge2aLrQ==",
+        "MIIESzCCAzOgAwIBAgIBDzANBgkqhkiG9w0BAQsFADBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBNjAeFw0yMTEyMDIwODM1MjVaFw0yOTExMzAwODM1MjRaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD6SHESEtP/nbeKjfZV4p7bxJbcvBqxwnVa+5DknHKYAuayhaEGeMM3scRLpMLhlwnKC0x9uKZiuuDQxrjfWulIBn49IBX2Lp4rEF8L7YPshKHAcsCX0CGJMO3HGfNAHt0/Q313INB8F6mrKPD1OrmSGdtE96XzdFFkp/qyd24maYv8V67gdvl7rb17HDrMh1vHZhyzTLULm01z6sXli8CRS9LOTgY5RYSwZdHWh0jyMjORGWYDjPT7AQB/ynS9BIXcGCduXS3NLCPAgMUUHprhihQ8IJlf0s64GCV7otLggT0nv6qk1y3v4seBnvKfbHMLYn3CSDAG9PFxQgWuXYdXAgMBAAGjgfMwgfAwHQYDVR0OBBYEFASz9BYwRTt7kUrzfPCJ5QlOklGUMB8GA1UdIwQYMBaAFBhExNpmkzrvTzsqCWXk/iiQHlURMEIGCCsGAQUFBwEBBDYwNDAyBggrBgEFBQcwAYYmaHR0cDovL29jc3Aucm9vdC1jYS50aS1kaWVuc3RlLmRlL29jc3AwDgYDVR0PAQH/BAQDAgEGMEYGA1UdIAQ/MD0wOwYIKoIUAEwEgSMwLzAtBggrBgEFBQcCARYhaHR0cDovL3d3dy5nZW1hdGlrLmRlL2dvL3BvbGljaWVzMBIGA1UdEwEB/wQIMAYBAf8CAQAwDQYJKoZIhvcNAQELBQADggEBAC2JoOStUZx4xLsCY5SH+5ijNndZ7aihg4zy0woMWF58eWjwSg1PjMbJWKkbuyYlj5UaDB4Iemb+KaDeuPEmSBl0+WSVHMlzt5fc0kz7nJFcQu9eKucAeHvkN2l/p6QRcOlwvBIxlhSRe+ukzmK4J18kWkGD6nDRzN5zq6Sc3Qmr01UJBO6s6+GLRw9j0ZddOIsLeR6RZf8e94jpUQShYS13LSE4C72uo+z8Vq6LN7eAoMfMwA8czQt/fr6YOhQqTSev0nZB6LSBCLypGmxZt2Wg2vxVGt3jb4w7Z8NzCEEGI/THKql+5a4AWMXlCONDqrd1rfFu6s0/MS4If0FX9lg=",
+        "MIICvjCCAmWgAwIBAgIBBTAKBggqhkjOPQQDAjBtMQswCQYDVQQGEwJERTEVMBMGA1UECgwMZ2VtYXRpayBHbWJIMTQwMgYDVQQLDCtaZW50cmFsZSBSb290LUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMREwDwYDVQQDDAhHRU0uUkNBNzAeFw0yMzA3MTgxMTM3MjlaFw0zMTA3MTYxMTM3MjhaMG8xCzAJBgNVBAYTAkRFMRUwEwYDVQQKDAxnZW1hdGlrIEdtYkgxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBUZWxlbWF0aWtpbmZyYXN0cnVrdHVyMRUwEwYDVQQDDAxHRU0uS09NUC1DQTgwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQ+hw3/6kMN8rV5YsJuAMxT0nPTpeBCg8FC5i5vNGR3JSNk92GJuEJLTcNflU1I8AF3/iWE+a6HaYoK1EhKQALfo4HzMIHwMB0GA1UdDgQWBBT4buDJgny6hHcPBsNaofxUKYn/QDAfBgNVHSMEGDAWgBQTEHgeiHfbjeWr6C0A4DL47fUhVTBCBggrBgEFBQcBAQQ2MDQwMgYIKwYBBQUHMAGGJmh0dHA6Ly9vY3NwLnJvb3QtY2EudGktZGllbnN0ZS5kZS9vY3NwMA4GA1UdDwEB/wQEAwIBBjBGBgNVHSAEPzA9MDsGCCqCFABMBIEjMC8wLQYIKwYBBQUHAgEWIWh0dHA6Ly93d3cuZ2VtYXRpay5kZS9nby9wb2xpY2llczASBgNVHRMBAf8ECDAGAQH/AgEAMAoGCCqGSM49BAMCA0cAMEQCICHJMFsD6CYyOi8gHPVbMKwloOI1IoJ4/rNliMY+r2cIAiAlAx6wf7G1UrCLB65DriN5CA1/Frj4NoPF6Fg1swEUZQ=="
+    ],
+    "add_roots": [
+        "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"
+    ]
+}
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not Found +
+[small]#Das Root Zertifikat, welches übergeben wurde, konnte nicht ermittelt werden.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+=== Abruf von OCSP Responses
+
+Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet.
+
+Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird als Hexadezimal der Form `[A-Fa-f0-9]` angegeben.
+
+Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Response für das angefragte Zertifikat nach RFC 6960.
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://erp.app.ti-dienste.de/OCSPResponse?issuer-cn=GEM.KOMP-CA4&serial-nr=24:64
+|Method     |GET
+|Requester | image:{FdV}[]
+|Responder | image:{eRp}[]
+|URL Parameter    | issuer-cn, serial-nr
+|HTTP Header |
+----
+X-api-key: 1234567890
+content-type: application/ocsp-response
+----
+NOTE: Der zu verwendende API-Key wird von der gematik über einen organisatorischen Prozess bereitgestellt.
+
+|Payload    | -
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/ocsp-response
+
+Eine Beispielhafte OCSP-Response ist unter folgendem Link zu finden:
+
+link:https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/certificate_check/04_response_ocspResponse.der[OCSP Response]
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not Found +
+[small]#Das Zertifikat für das der OCSP-Reqeust mit der Kombination aus issuer-cn und serial-nr erstellt werden soll, konnte nicht ermittelt werden.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===

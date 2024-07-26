@@ -10,12 +10,34 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachrichtenaustausch zwischen Versicherten und Apotheken zum E-Rezept.
 
 toc::[]
 
 WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
+
+*Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
+
+1. C0-Steuercodes:
+* Bereich: U+0000 bis U+001F
+* Beispiel: Null-Byte (U+0000), Start of Header (U+0001), Line Feed (U+000A), Tabulator (U+0009), usw.
+
+2. C1-Steuercodes:
+* Bereich: U+0080 bis U+009F
+* Beispiel: Start of Sentence (U+0082), End of Text (U+0003), Escape (U+001B), usw.
+
+3. Andere non-printable Zeichen:
+* Null-Byte (U+0000)
+* Byte Order Mark (BOM): U+FEFF
+* Replace Character (U+FFFD)
 
 ==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
 Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
@@ -29,6 +51,8 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -47,7 +71,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
   "resourceType": "Communication",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
     ]
   },
   "contained": [
@@ -218,7 +242,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
     ]
   },
   "contained": [
@@ -385,6 +409,11 @@ NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCE
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -410,12 +439,16 @@ Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherte
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -430,7 +463,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ----
 <Communication xmlns="http://hl7.org/fhir">
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
     </meta>
     <basedOn>
         <reference value="Task/160.123.456.789.123.58"/>
@@ -468,7 +501,7 @@ Location:
     <meta>
         <versionId value="1"/>
         <lastUpdated value="2020-03-12T18:01:10+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
     </meta>
     <basedOn>
         <reference value="Task/160.123.456.789.123.58" />
@@ -503,6 +536,11 @@ NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACC
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
@@ -527,12 +565,16 @@ Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Communication
 ¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+json; charset=UTF-8
@@ -548,7 +590,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "resourceType": "Communication",
   "meta": {
     "profile":  [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.3"
     ]
   },
   "basedOn":  [{
@@ -584,7 +626,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "versionId": "1",
     "lastUpdated": "2020-03-12T18:01:10+00:00",
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.2"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.3"
     ]
   },
   "sent": "2020-03-12T18:01:10+00:00",
@@ -625,6 +667,11 @@ NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text überge
 s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -648,14 +695,22 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
 
+NOTE: Der Aufruf ist aus Performance Gründen nicht für die regelmäßige Abfrage von Nachrichten vorgesehen. Es soll nur nach neuen Nachrichten geprüft werden, wenn der Nutzer aktiv eine Aktion ausführt, die eine solche Prüfung erfordert oder in der App ein "refresh" der Daten durchgeführt wird.
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL +
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?recipient=<kvnr>&received=NULL +
 
 In der Aufruf-Adresse können Suchparameter gemäß `https://www.hl7.org/fhir/communication.html#search` angegeben werden. Im konkreten Beispiel soll nach Nachrichten gesucht werden, in denen kein received-Datum (`?received=NULL`) zur Kennzeichnung des erstmaligen Nachrichtenabrufs enthalten ist. Weitere Suchparameter können das Abrufdatum (z.B `received=gt2020-03-01`, Abgerufen nach dem 01.03.2020) oder eine Sortierung nach dem Sendedatum (`_sort=-sent`, Absteigende Sortierung) sein. Mehrere Suchparameter werden über das `&`-Zeichen miteinander kombiniert.
+
+Es wird empfohlen, die KVNR des Versicherten als "recipient" zu übergeben, damit nur die Nachrichten angezeigt werden, die an den Versicherten adressiert sind. Andernfalls würden ebenso die an die Apotheke versendeten Nachrichten abgerufen werden, wenn diese ihre Nachrichten noch nicht abgeholt hat.
+
 ¦Method     ¦GET
+¦Requester ¦image:{AVS}[] image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦URL Parameter     ¦sent, received, sender, recipient
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -697,9 +752,12 @@ Content-Type: application/fhir+json;charset=utf-8
           "versionId": "1",
           "lastUpdated": "2020-03-12T18:15:10+00:00",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3"
           ]
         },
+        "basedOn" : [ {
+        "reference" : "Task/160.000.226.119.741.52"
+      } ],
         "status": "unknown",
         "sent": "2020-03-12T18:01:10+00:00",
         "recipient": [
@@ -786,13 +844,16 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?sent=lt2020-04-30&_sort=sent +
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?recipient=3-2-APO-TestApotheke&sent=lt2020-04-30&_sort=sent +
 
 . Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke gerichtet sind. Andernfalls würden ebenso die von der Apotheke versendeten Nachrichten abgerufen werden.
 . Im konkreten Beispiel soll nach Nachrichten gesucht werden, die älter als 30. April 2020 sind (`?sent=lt2020-04-30`). +
 Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
+|URL Parameter     |sent, received, sender, recipient
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -836,7 +897,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                     <versionId value="1"/>
                     <lastUpdated value="2020-04-12T18:01:10+00:00"/>
                     <source value="#H8gavJ2v535x6V3f"/>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.2" />
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3" />
                 </meta>
                 <contained>
                     <Medication>
@@ -976,6 +1037,8 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/79cc4c08-0e7b-4e52-acee-6ec7519ce67f +
 |Method     |DELETE
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

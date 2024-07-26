@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Benachrichtigungen für Apotheken image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[]
+
 Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
 
 toc::[]
@@ -27,10 +29,20 @@ Zunächst muss für die Apotheke als authentisierter Client (gültiges AccessTok
 |===
 |URI        |/Subscription
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 [source,xml]
 ----
-include::../resources/examples/vau/request_PostSubscriptionPseudo.xml[]
+POST /Subscription HTTP/1.1
+Host: erp.zentral.erp.splitdns.ti-dienste.de
+User-Agent: Avs/1.0 AvSoft/GEMAvwepokrpxnwiorlc
+Cache-Control: no-cache
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Content-Type: application/fhir+xml; charset=UTF-8
+Accept: application/fhir+xml; charset=utf-8
+
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
@@ -43,7 +55,11 @@ Andere Parameter werden aktuell nicht unterstützt.
 *Response*
 [source,xml]
 ----
-include::../resources/examples/vau/response_PostSubscriptionPseudo.xml[]
+HTTP/1.1 200 OK
+Content-Length: 510
+Content-Type: application/fhir+xml;charset=utf-8
+
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: In ` <id value="df694c098c2fb373524150461cfd9d23"/>` ist eine eindeutige ID (Pseudonym der Telematik-ID) hinterlegt
@@ -77,6 +93,8 @@ Nach der Registrierung der Subscription wird eine WebSocket-Verbindung zum eigen
 |===
 |URI        |subscription
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |Request|
 ----
 GET /subscription HTTP/1.1
@@ -151,7 +169,7 @@ Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine n
 == Beispielhafte Implementierung für Primärsysteme
 [source,c++]
 ----
-include::../resources/examples/vau/ping_Subscription.cpp[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_notification_avs/03_ping_Subscription.cpp[]
 ----
 
 == => Wichtige Hinweise <=

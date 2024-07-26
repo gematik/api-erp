@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{PVS}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Leistungserbringer.
 
@@ -55,7 +62,11 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 In den folgenden Kapiteln wird erläutert, wann und wie die Befüllung dieser Attribute erfolgt.
 
 == E-Rezept erstellen
-Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der KBV-Profilierung des E-Rezepts (siehe https://simplifier.net/erezept). Für die Bereitstellung an den Versicherten wird auf dem E-Rezept-Fachdienst ein Task erstellt, dessen Identifier als Rezept-ID in das FHIR-Bundle eingebettet wird. Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
+Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hierfür erstellt das Primärsystem ein FHIR-Bundle gemäß der KBV-Profilierung des E-Rezepts (siehe https://simplifier.net/erezept). Für die Bereitstellung an den Versicherten wird auf dem E-Rezept-Fachdienst ein Task erstellt, dessen Identifier als Rezept-ID in das FHIR-Bundle eingebettet wird.
+
+NOTE: Voraussetzung für die Verwendung des E-Rezeptes für Privatversicherte ist die sichere digitale Übermittlung von Versichertenstammdaten an verordnende Leistungserbringer. Der "Online Check-in" ist das definierte digitale Verfahren, um verordnenden Leistungserbringern die Krankenversichertennummer und weitere Versichertenstammdaten einmalig (und nach Änderungen) zur Nutzung von TI-Anwendungen bereitzustellen. Die Implementierung des Verfahren ist daher erforderlich, um auch Funktionen für Privatversicherte und Workflows 200 und 209 bereitzustellen. Für die Beschreibung des Verfahrens siehe link:https://simplifier.net/guide/implementierungsleitfaden-vsdm-ersatzbescheinigung?version=current[Implementierungsleitfaden - Online Check-In]
+
+Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein. +
 Gültige Werte für den Flowytype sind "160" für "Muster 16 (Apothekenpflichtige Arzneimittel)" und "200" für "PKV (Apothekenpflichtige Arzneimittel)". Das Rezept für private Versicherte wird mit dem Flowtype "200" ("PKV (Apothekenpflichtige Arzneimittel)") gestartet. Zulässige Flowtype-Werte können dem Flowtype-CodeSystem (https://simplifier.net/erezept-workflow/flowtype) entnommen werden. Der angegebene Flowtype wird in die Task Ressource unter Task.extension.flowType übernommen und bestimmt den Rezept-Typ. +
@@ -67,6 +78,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -105,23 +118,15 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <meta>
         <versionId value="1"/>
         <lastUpdated value="2020-03-02T08:26:21.594+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
         <source value="#AsYR9plLkvONJAiv"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"/>        
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-        <valueCodeableConcept>
-            <coding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-                <code value="160" />
-                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-            </coding>
-        </valueCodeableConcept>
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDateTime value="2020-06-02" />
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDateTime value="2020-04-01" />
+        <valueCoding>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+            <code value="160" />
+            <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+        </valueCoding>
     </extension>
     <identifier>
         <use value="official"/>
@@ -139,7 +144,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <lastModified value="2020-03-02T08:25:05+00:00"/>
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986"/>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
             <code value="urn:oid:1.2.276.0.76.4.54"/>
             <display value="Öffentliche Apotheke"/>
         </coding>
@@ -676,8 +681,10 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle. Für die
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://192.168.x.y/Konnektorservice
+|URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -1109,6 +1116,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -1149,22 +1158,20 @@ Content-Type: application/fhir+xml;charset=utf-8
         <versionId value="2"/>
         <lastUpdated value="2020-02-18T10:05:05.038+00:00"/>
         <source value="#AsYR9plLkvONJAiv"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-        <valueCodeableConcept>
-            <coding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-                <code value="160" />
-                <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-            </coding>
-        </valueCodeableConcept>
+        <valueCoding>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
+            <code value="160" />
+            <display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
+        </valueCoding>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDateTime value="2020-06-02" />
+        <valueDate value="2020-06-02" />
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDateTime value="2020-04-01" />
+        <valueDate value="2020-04-01" />
     </extension>
     <identifier>
         <use value="official"/>
@@ -1176,18 +1183,19 @@ Content-Type: application/fhir+xml;charset=utf-8
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
         <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
     </identifier>
-    <identifier>
-        <use value="official"/>
-        <system value="http://fhir.de/sid/gkv/kvid-10"/>
-        <value value="X123456789"/>
-    </identifier>
     <status value="ready"/>
     <intent value="order"/>
+    <for>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </for>
     <authoredOn value="2020-03-02T08:25:05+00:00"/>
     <lastModified value="2020-03-02T08:45:05+00:00"/>
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986"/>
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
             <code value="urn:oid:1.2.276.0.76.4.54"/>
             <display value="Öffentliche Apotheke"/>
         </coding>
@@ -1223,6 +1231,8 @@ NOTE: Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der 
 
 NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an der Stelle `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>` referenziert wird.
 
+NOTE: Für den Fall, dass das Clientsystem beim Aufruf der Operation keinen Response erhält, soll der Aufruf wiederholt werden. Wenn im Response ein Fehler 403 mit dem OperationOutcome "Task not in status draft but in status ready" zurückkommt, war der erste Versuch bereits erfolgreich. Wenn eine Response mit dem Status 200 zurückkommt, war der zweite Versuch erfolgreich.
+
 
 [cols="a,a"]
 [%autowidth]
@@ -1230,6 +1240,9 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 |Code   |Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
+|252  | Warning +
+[small]#Die Anfrage hat eine ungültige Arztnummer (LANR oder ZANR): Die übergebene Arztnummer entspricht nicht den Prüfziffer-Validierungsregeln. +
+Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt, die fehlerhafte Prüfziffernvalidierung zu einem Abbruch anstatt einem Warning führt.#
 |Code   |Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
@@ -1263,6 +1276,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J

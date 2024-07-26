@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation TI-Konfiguration image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[] image:{AVS}[]
+
 Hier gibt die gematik eine Hilfestellung zur Konfiguration des lokalen Netzwerkes der Leistungserbringerumgebung.
 Damit können Primärsysteme die Dienste der Telematikinfrastruktur über das Netzwerkrouting erreichen und
 die Namensauflösung (DNS) der TI verwenden, um zu den TI-Adressen z.B. `https://erp.zentral.erp.splitdns.ti-dienste.de` die IP-Adressen der Fachdienst zu erfahren.
@@ -131,6 +133,28 @@ Name:    erp.zentral.erp.splitdns.ti-dienste.de
 Addresses:  100.102.28.10
           100.102.29.10
 ....
+
+== Konfiguration der TI Zertifikatsstämme (CA)
+
+Um in der Kommunikation mit dem Konnektor Zertifikate erfolgreich validieren zu können ist es wichtig sicher zu stellen, dass `konnektor.konlan` auf die IP des Konnektors auflöst.
+
+Zusätzlich müssen die entprechenden CAs der genutzten Umgebung auf dem System installiert sein/als vertrauenswürdig angesehen werden. Die entsprechenden Zertifikate sind hier erhältlich:
+
+* PU: https://download.tsl.ti-dienste.de
+* RU: https://download-ref.tsl.ti-dienste.de/
+* TU: https://download-test.tsl.ti-dienste.de/
+
+Hier werden aktuell folgende Zertifikate benötigt:
+
+RSA:
+
+* `ROOT-CA` -> `GEM.RCA6_TEST-ONLY.der`
+* `SUB-CA` -> `GEM.KOMP-CA54_TEST-ONLY.der`
+
+ECC:
+
+* `ROOT-CA` -> `GEM.RCA4_TEST-ONLY.der`
+* `SUB-CA` -> `GEM.KOMP-CA50_TEST-ONLY.der`
 
 == Fehlerbehandlung Konnektor
 

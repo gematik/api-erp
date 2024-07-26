@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 Auf dieser Seite finden sie eine Übersicht der Produkte und Verordnungen, die über das E-Rezept verordnet werden können.
 
@@ -44,11 +51,11 @@ Problemstellung bei diesen Verordnungen (Rückmeldung von Apothekerin): _Es geht
 //
 |Verordnungen nach §27a SGB V | :heavy_check_mark: | :heavy_check_mark: | Entsprechendes Kennzeichen im FHIR Profil (KBV_PR_ERP_Prescription.extension:Zuzahlungsstatus) kann gesetzt werden. Wert "2" aus link:https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086[KBV_CS_FOR_StatusCoPayment]
 //
-|Betäubungsmittel |:x: | :x: | Fertigarzneimittel und z.B. auch cannabishaltige Arzneimittel (voraussichtlich Bereitstellung in PU Ende 2024)
+|Betäubungsmittel |:x: | :x: | Fertigarzneimittel und z.B. auch cannabishaltige Arzneimittel (voraussichtliche Bereitstellung in 2025)
 //
 |Rezepte für Dosierautomaten |:x: | :x: | Keine bundeseinheitliche Regelung derzeit. Im Kontext BTM Rezept ist dies mit BfArM noch zu besprechen und zu klären bzw. von den Vertragspartnern (LAV und Kassen) in den vertraglichen Regelungen zu berücksichtigen.
 //
-|T-Rezepte (Kennzeichnung) |:x: | :x: | z.B. Arzneimittel mit den Wirkstoffen Lenalidomid, Pomalidomid und Thalidomid  (voraussichtliche Bereitstellung in PU nicht vor Ende 2024)
+|T-Rezepte (Kennzeichnung) |:x: | :x: | z.B. Arzneimittel mit den Wirkstoffen Lenalidomid, Pomalidomid und Thalidomid  (voraussichtliche Bereitstellung in 2025)
 4+| [.underline]#Sonderfälle unter apothekenpflichtigen Arzneimittel nach SGBV §31 Abs. 1 Satz 1 verschreibungspflichtige Arzneimittel zu Lasten der GKV verordnet#
 //
 .2+|Blutprodukte
@@ -71,7 +78,7 @@ s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten
 |grünes Rezept |:information_source: optional | :information_source: freiwillig a|
 * Freiwilligkeit nach BMV-Ä.
 * Empfehlungen für nicht verschreibungspflichtige AM können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
-* Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
+* Der Ausdruck für ein Wunscharzneimittel kann dem Versicherten zum Einreichen bei der Krankenkasse mitgegeben werden. Zusätzlich hilft den Patienten der Kassenzettel aus der Apotheke. (Siehe link:https://service.gematik.de/browse/ERPFIND-121[ERPFIND-121^])
 * Es werden ein separater Workflow und Datenmodell in einer späteren Ausbaustufe eingeführt für das grüne Rezept.
 //
 4+|
@@ -82,37 +89,37 @@ s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GK
 //
 |blaues Rezept |:heavy_check_mark: | :bulb: wird geduldet a|
 * Privatrezept für GKV Versicherte und verschreibungspflichtige Arzneimittel können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
-* Die Festlegung für einen Ausdruck in der Apotheke erfolgt in Q1 2023. Übergangsweise hilft den Patienten Kassenzettel aus der Apotheke.
+* Der Ausdruck für ein Wunscharzneimittel kann dem Versicherten zum Einreichen bei der Krankenkasse mitgegeben werden. Zusätzlich hilft den Patienten der Kassenzettel aus der Apotheke. (Siehe link:https://service.gematik.de/browse/ERPFIND-121[ERPFIND-121^])
 * Ausnahme: T-Rezepte und Betäubungsmittel bedingen eigenes Rezeptformular
 //
 4+|
 //
-|Apothekenpflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden nach anfänglichen Tests in Q4/2023 in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|Apothekenpflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
 //
-|verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden nach anfänglichen Tests in Q4/2023 in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
 //
-|[.underline]#nicht# verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden nach anfänglichen Tests in Q4/2023 in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|[.underline]#nicht# verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
 //
 4+s|Verbandmittel, Harn- und Blutteststreifen nach § 31 Abs. 1 Satz 1 SGB V
 //
 |Verordnung von sonstigen nach §31 SGB V einbezogenen Produkten (Verbandmittel und (Harn- und Blut-Teststreifen) [Geltungsarzneimittel] |:x: | :x: a|
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
-* kommt voraussichtlich nach 2025
+* kommt voraussichtlich nach 2026
 //
 4+s| Medizinprodukte nach § 31 Abs. 1 Satz 2 SGB V
 |Medizinprodukte nach § 31 Abs. 1 Satz 2 SGB V|:x: | :x: a|
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
 * *Spezialfall*: Macrogol welches aus der Arzneimitteldatenbank als Medizinprodukt übernommen wird im Verordnungsvorgang kann derzeit nicht auf einem E-Rezept verschrieben werden.
-* kommt voraussichtlich nach 2025
+* kommt voraussichtlich nach 2026
 
 4+s|Bilanzierte Diäten zur enteralen Ernährung nach § 31 Abs. 5 SGB V
 |Enterale Ernährung |:x: | :x: a|
 * Bei enteraler Ernährung nach § 31 Abs. 5 SGB V handelt es sich nicht um apothekenpflichtige Arzneimittel, sondern um bilanzierte Diäten. Somit können auch Leistungserbringer, die nicht Apotheken sind, diese nach Präqualifizierung abgeben.
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
-* kommt voraussichtlich nach 2025
+* kommt voraussichtlich nach 2026
 //
 4+s| Sprechstundenbedarf
 |Sprechstundenbedarf (Kennzeichnung) |:x: | :x: | 	In Ausbaustufe geplant (kein gesetzlicher Auftrag, daher keine Planung)
@@ -121,25 +128,25 @@ s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GK
 |Stationsbedarf |:x: | :x: | Nicht geplant
 //
 4+s| Hilfsmittel nach § 33 SGB V
-|Hilfsmittel |:x: | :x: | In Ausbaustufe geplant (voraussichtlich nach 2025)
+|Hilfsmittel |:x: | :x: | In Ausbaustufe geplant (voraussichtlich nach 2026)
 //
 4+s| Heilmittel
-|Heilmittel |:x: | :x: | In Ausbaustufe geplant für: Physiotherapie, Ergotherapie, SSSST, Podologie, Ernährungstherapie (voraussichtlich nach 2025)
+|Heilmittel |:x: | :x: | In Ausbaustufe geplant für: Physiotherapie, Ergotherapie, SSSST, Podologie, Ernährungstherapie (voraussichtlich nach 2026)
 //
 4+s| DIGA
-|Digitale Gesundheitsanwendungen (DiGA) nach §33a SGB V  |:x: | :x: | In Ausbaustufe geplant (voraussichtlich nach 2025)
+|Digitale Gesundheitsanwendungen (DiGA) nach §33a SGB V  |:x: | :x: | In Ausbaustufe geplant (voraussichtliche Bereitstellung in 2025)
 //
 4+s| Soziotherapien nach SGB V §37a
-||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2025)
+||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2026)
 //
 4+s| Häusliche Krankenpflege  nach SGB V §37b
-||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2024)
+||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich in 2025)
 //
 4+s| Außerklinische Intensivpflege nach SGB V §37c
-|Außerklinische Intensivpflege |:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2025)
+|Außerklinische Intensivpflege |:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2026)
 //
 4+s| Krankentransport / Taxifahrten SGB V §60
-|Krankentransport / Taxifahrten |:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2025)
+|Krankentransport / Taxifahrten |:x: | :x: | In keiner Ausbaustufe bislang geplant
 //
 
 |===
@@ -180,9 +187,7 @@ Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023)
 //
 |Esketamin zur intranasalen Anwendung |:heavy_check_mark: |  | Verordnung über E-Rezept mit Abgabe an Arzt (Direktzuweisung)
 //
-|Rezepte für "Wunscharzneimittel" → Sonderformen |:heavy_check_mark: |  | Der Versicherte erhält in der Apotheke einen Ausdruck zum Einreichen bei der Krankenkasse. §15 Abs. 2 Rahmenvertrag §129 SGBV
-
-(Stand 01.09.2022) Eine Überarbeitung des Ausdrucks in der Apotheke wird demnächst vereinbart.
+|Rezepte für "Wunscharzneimittel" → Sonderformen |:heavy_check_mark: |  | Der Versicherte erhält in der Apotheke einen Ausdruck zum Einreichen bei der Krankenkasse gemäß §15 Abs. 2 Rahmenvertrag §129 SGBV
 
 |===
 
@@ -204,9 +209,9 @@ Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023)
 //
 |(gesetzlich Versicherte) Selbstzahler  | :heavy_check_mark: | Nur für Selbstzahler die im Besitz einer KVNr sind (Pflichtfeld).
 //
-|Private Krankenversicherungen |:heavy_check_mark: | Noch nicht in PU verfügbar, Vorarbeiten laufen (abhängig von digitaler Identität) (derzeitige Planung Mitte 2023)
+|Private Krankenversicherungen |:heavy_check_mark: | In PU verfügbar (abhängig von digitaler Identität)
 //
-|Beihilfe |:heavy_check_mark: | siehe Status für "Private Krankenversicherung" (derzeitige Planung Mitte 2023)
+|Beihilfe |:heavy_check_mark: | siehe Status für "Private Krankenversicherung"
 //
 |Sonstige Kostenträger (Heilfürsorge, Postbeamtenkrankenkasse) |:x: | Die jeweiligen Kostenträger der Heilfürsorge, also Bund bzw. Länder, sind für die Umsetzung der TI-Anbindung und Anwendungsnutzung verantwortlich. Verpflichtende Termine gibt es nicht.
 

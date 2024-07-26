@@ -1,6 +1,8 @@
 = E-Rezept API Dokumentation für Versicherte - Mehrfachverordnungen image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
 
 Mehrfachverordnungen sollen die Versorgung mit Arzneimittel für chronisch Kranke erleichtern.
@@ -77,10 +79,8 @@ NOTE: Eine Teilverordnung kann zu Lastern der GKV abgerechnet werden, wenn es in
 
 NOTE: Eine Reihenfolge der Abgabe der einzelnen Teilverordnungen einer MVO ist bei Abgabe nicht zu beachten.
 
-WARNING: Patienten haben zu jeder Zeit die Möglichkeit, alle Teilverordnungen einer Mehrfachverordnung über die E-Rezept-App einzusehen und die Einlöseinformationen als Datamatrix oder Zuweisung an Apotheken zu teilen (und bei Bedarf zu löschen).
+NOTE: Patienten haben zu jeder Zeit die Möglichkeit, alle Teilverordnungen einer Mehrfachverordnung über die E-Rezept-App einzusehen (und bei Bedarf zu löschen).
 
 WARNING: Apotheken sind VOR dem Gültigkeitsbeginn `valuePeriod.start` nicht berechtigt, eine Teilverordnung herunterzuladen.
-
-WARNING: Durch einen Bug im Fachdienst wird derzeit das Ende der Gültigkeitsdauer bei $accept nicht überprüft. Dadurch kann es sein, dass eine MVO vom Fachdienst zurückgegeben wird, die nicht mehr gültig ist. Dies muss im AVS geprüft werden.
 
 WARNING: Die Angabe der Gültigkeit muss im Format "yyyy-mm-dd" angegeben werden.

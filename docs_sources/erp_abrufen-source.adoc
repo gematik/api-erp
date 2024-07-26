@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für Apotheker image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{AVS}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht des abgebenden Leistungserbringers.
 
 toc::[]
@@ -38,6 +40,7 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 |extension:flowType |gibt den Typ des Rezeptes an
 |extension:expiryDate |Verfallsdatum
 |extension:acceptDate |Datum bis zu welchem die Krankenkasse spätestens die Kosten übernimmt
+|extension:lastMedicationDispense |Zeitpunkt der letzten Aktualisierung der Abgabeinformationen
 2+s|MedicationDispense
 |identifier:PrescriptionID |Rezept-ID; eindeutig für jedes Rezept
 |status |Status des E-Rezepts
@@ -68,6 +71,8 @@ Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signiert
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |POST
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -78,11 +83,15 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 
 |===
 
-
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
 *Response*
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/task/response_taskAccept.xml[]
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/01_response_taskAccept.xml[]
 ----
 
 Wenn ein E-Rezept vom Workflow-type 200/209 abgerufen wird, liefert der E-Rezept-Fachdienst einen Consent zurück, wenn der Versicherte die Einwilligung über die Bereitstellung der Abrechnungsinformationen im Frontend des Versicherten erteilt hat.
@@ -94,7 +103,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/task/response_taskAcceptWithConsent.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/02_response_taskAcceptWithConsent.xml[]
 ----
 
 ====
@@ -140,6 +149,76 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
+== E-Rezept erneut abrufen
+
+Beim initialen Abrufen eines E-Rezepts erhält die Apotheke ein eindeutiges Secret, das für alle weiteren Schritte benötigt wird. Es besteht das Risiko, dass dieses Secret bei der Übertragung der Response des E-Rezept-Fachdienstes verloren geht. In diesem Fall kann das E-Rezept erneut abgerufen werden, damit die Apotheke in Besitz des Secrets kommt. 
+
+Hierzu wird der Task mit den Informationen aus dem E-Rezept-Token erneut abgerufen. Der E-Rezept-Fachdienst überträgt daraufhin den Task mit Secret und das QES Verordnungsbundle an die Apotheke.
+
+Dieser Aufruf ist nur erfolgreich, wenn die gleiche Apotheke den Task erneut abruft, die das E-Rezept ursprünglich abgerufen hat.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+|Method     |GET
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
+|HTTP Header |
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+|===
+
+
+*Response*
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/03_request_recovery_secret.xml[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept hat nicht den Status, dass es durch die Apotheke abgerufen werden kann.# +
+[small]#Im OperationOutcome werden weitere Informationen gegeben:# +
+[small]#"Task has invalid status completed"# +
+[small]#"Task has invalid status in-progress"# +
+[small]#"Task has invalid status draft"#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|412 |Precondition Failed +
+[small]#Die angeforderte Ressource wurde nicht von der autorisierten Organisation abgerufen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
 == Qualifizierte Signatur des E-Rezepts prüfen
 Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst der Task des Workflows und der qualifiziert signierte Verordnungsdatensatz vor. Die Rechtmäßigkeit der elektronischen Verordnung wird mittels Prüfung der QES durch den Konnektor verifiziert. Der E-Rezept-Fachdienst prüft die Signatur beim Einstellen des E-Rezepts. Die Apotheke kann sich auf diese Prüfung verlassen, hat aber auch die Möglichkeit die Signatur selbst zu prüfen. Für die Prüfung wird die soeben heruntergeladene PKCS#7-Datei in Base64-codierter Form an die SOAP-Schnittstelle der Signaturprüfung des Konnektors als http-POST-Operation geschickt.
 
@@ -147,8 +226,10 @@ Im Apothekenverwaltungssystem liegen nach dem Abruf aus dem E-Rezept-Fachdienst 
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://192.168.x.y/Konnektorservice
+|URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -158,7 +239,7 @@ Content-Length: 1234
 |Payload    |
 [source,xml]
 ----
-include::../resources/examples/konnektorservice/request_VerifySignatureTask.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/04_request_VerifySignatureTask.xml[]
 ----
 
 NOTE: Das Element `<m2:Base64Signature></m2:Base64Signature>`enthält das Signaturelement inkl. des signierten E-Rezept-Datensatzes (CAdES-enveloping) als PKCS#7-Datei in Base64-Codierung
@@ -179,7 +260,7 @@ HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 [source,xml]
 ----
-include::../resources/examples/konnektorservice/response_VerifySignatureTask.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/05_response_VerifySignatureTask.xml[]
 ----
 NOTE: Hier dargestellt ist die QES-Signaturvalidierung einer Koco-Box der durch einen Secunet-Konnektor erzeugten Signatur aus `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3_V_KOCOC_kocobox_3.6.0_2.3.24_resp.xml`. Weitere Beispiele finden sich im Unterordner der link:../samples/qes/signed[Beispiele].
 
@@ -194,17 +275,231 @@ s|Code   s|Type Error
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |===
 
+== E-Rezept Abgabe zeitnah dokumentieren
+Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Für den Apotheker ist es möglich, aufgrund vertraglicher Vereinbarungen, erst zum Ende des nächsten Werktages den Workflow für das E-Rezept abzuschließen (E-Rezept Abgabe vollziehen). Damit der Versicherte vorher darüber informiert werden kann, dass eine Abgabe erfolgte, können die Dispensierinformationen vor Abschluss des Workflows übermittelt werden. Der Apotheke erhält hierbei keine Quittung und der Status des Tasks verändert sich nicht.
+
+NOTE: Dadurch, dass die $dispense-Operation den Status des Tasks nicht beeinflusst ist die Verwendung dieses Endpunktes optional. 
+
+Der Aufruf erfolgt als HTTP-POST-Operation mit der FHIR-Operation $dispense. Im HTTP-Request-Header muss das während der Authentifizierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter ?secret=… muss das beim Abrufen des E-Rezepts im Task generierte Secret für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben. Im HTTP-ResponseBody gibt der Fachdienst wieder die Informationen über das ausgegebene Medikament zurück.  
+
+NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$dispense?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheker aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
+
+¦Payload    ¦
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/06_request_taskClose.xml[]
+----
+NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
+
+NOTE: Die Zeitangabe in `<whenHandedOver value>` bezieht sich auf die Übergabe des Medikaments, wann es dem Überbringer des E-Rezepts ausgehändigt wurde.
+
+NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
+
+|===
+
+Es können auch mehrere MedicationDispenses für eine $dispense-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
+
+.Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
+----
+
+====
+
+*Response*
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/08_response_taskDispense.xml[]
+----
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+|201  | OK +
+[small]#Neues Objekt wurde erfolgreich angelegt, in der Rückgabe ist das Objekt enthalten.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
 == E-Rezept-Abgabe vollziehen
 Ein Apotheker hat ein E-Rezept abgerufen und beliefert den Patienten mit dem Medikament. Beim Abschließen des Workflows muss der Rezept-Typ beachtet werden. Dieser wird durch das Element Task.extension.flowType bestimmt. Zum Abschluss des Worflows stellt der Apotheker dem Versicherten Informationen über das abgegebene Medikament bereit und erhält als Ergebnis eine signierte Quittung, die er in seinen Abrechnungsprozessen gegenüber dem Apothekenrechenzentrum bzw. der Krankenkasse als Nachweis des ordnungsgemäßen Abschlusses der Transaktion verwenden kann. Ist für das Element Task.extension.flowType.code "value=200" gesetzt, so handelt es sich hierbei um ein Rezept für eine privat versicherte Person. Hierbei muss der Apotheker dem Versicherten eine ausgedruckte Quittung übergeben, damit der Versicherte das Medikament gegenüber seiner Kostenstelle eigenständig abrechenen kann.
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$close`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?secret=...` muss das beim Abrufen des E-Rezepts im Task generierte `Secret` für die Berechtigungsprüfung übergeben werden. Zusätzlich werden Informationen über das ausgegebene Medikament an den Fachdienst übergeben.
 Im http-ResponseBody wird die serverseitig über den Task und das E-Rezept-Bundle erzeugte Signatur als `Quittungs-Bundle`-Ressource zurückgegeben, die dem Apotheker gegenüber der Krankenkasse als Quittung dient.
+
 NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5 nicht geprüft werden.
 
-=== Stapelverarbeitung
-Die Apotheken können bis zum Ende des nächsten Werkstages warten, bevor sie ein E-Rezept abschließen. Es besteht die Möglichkeit, dies automatisch als Stapelverarbeitung zwischen 18:00 und 22:00 Uhr durchzuführen. Um die betriebliche Stabilität zu gewährleisten darf die Stapelverarbeitung nur durchgeführt werden, wenn der Startzeitpunkt durch einen Algorithmus zufällig bestimmt wird.
+NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
-Der Algorithmus sollte eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl entspricht den Sekunden nach 18:00 Uhr, zu denen die Stapelverarbeitung beginnen sollte.
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
+Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
+¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheker aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
+
+NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
+
+¦Payload    ¦
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/06_request_taskClose.xml[]
+----
+
+NOTE: Mit der Übergabe der MedicationDispense signalisiert der Apotheker den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen über das abgegebene Medikament.
+
+NOTE: Die Zeitangabe in `<whenHandedOver value` bezieht sich auf die Übergabe des Medikaments, wann wurde es dem Überbringer des E-Rezepts ausgehändigt.
+
+NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
+
+|===
+
+Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
+
+WARNING: Der E-Rezept-Fachdienst hat ein Datenlimit von 100kb pro Request. Falls eine Verordnung sehr viele Abgaben enthält ist darauf zu achten, dass nur ein Medication Objekt je Charge übermittelt wird, damit die Datenmenge nicht zu groß wird.
+
+.Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/07_request_taskCloseMultiple.xml[]
+----
+
+====
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Length: 3906
+Content-Type: application/fhir+xml;charset=utf-8
+
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/09_response_taskClose.xml[]
+----
+NOTE: Im Ergebnis der Operation wird ein signiertes Bundle als Nachweis des ordnungsgemäßen Durchlaufs des E-Rezept-Workflows zurückgegeben.
+
+NOTE:  Das signierte Quittungs-Bundle enthält unter `<identifier><value/>`</identifier>` die Rezept-ID für eine eindeutige Zuordnung aller Artefakte des durchlaufenen Workflows
+
+NOTE: An der Stelle `<Composition><valueIdentifier/></Composition>` ist die Telematik-ID als Quittungsempfänger bzw. begünstigte Institution eingetragen, welche die Dispensierung des E-Rezepts vollzogen hat.
+
+NOTE: Das Startdatum in `<period><start value="*"/></period>` entspricht dem Abrufdatum des E-Rezepts durch die Apotheke (Statuswechsel des Task: ready -> in-progress)
+
+NOTE: Signaturzeitpunkt der Quittung in <period><end value="*"/></period>, entspricht dem Statuswechsel des Task in-progress -> completed
+
+NOTE: Das unter `<fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/*`/>` eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
+
+NOTE: Unter `<Binary><data value="*"/></Binary>` wird der base64-codierte Hashwert, über den die QES des Verordnungsdatensatzes erstellt wurde eingebettet.
+
+NOTE: Das Element `<signature>*</signature>` enthält die Signatur des Quittungs-Bundles über alle enthaltenen Objekte als Enveloping CAdES-Signatur in Base64-Codierung.
+
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+=== Zeitgesteuerte Verarbeitung
+Apotheken haben die Möglichkeit, mit dem Abschluss eines E-Rezepts bis zum Ende des nächsten Werkstages zu warten. Dies kann automatisch in einem festgelegten Zeitfenster zwischen 18:00 und 22:00 Uhr als zeitgesteuerte Verarbeitung erfolgen. Um die betriebliche Stabilität zu sichern, sollte der Beginn dieser Verarbeitung durch einen Algorithmus zufällig festgelegt werden.
+
+Der Algorithmus wird hierbei eine zufällige Zahl zwischen 0 und 14.400 generieren. Diese Zahl stellt die Sekundenanzahl nach 18:00 Uhr dar, zu welcher die zeitgesteuerte Verarbeitung starten soll. Während der Verarbeitung muss nach jedem 40. Aufruf der $close-Operation eine Wartezeit von 1000ms abgewartet werden.
 
 Hinweis: Bitte verwenden Sie den kryptografischen Zufallsgenerator des Betriebssystems (zum Beispiel in link:https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator?view=net-8.0[.Net]).
 
@@ -234,111 +529,6 @@ anfangsZeit.addSeconds(offset)
 
 ====
 
-*Request*
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
-Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
-¦Method     ¦POST
-¦HTTP Header ¦
-----
-Content-Type: application/fhir+xml; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Apotheker aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
-
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
-
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
-
-¦Payload    ¦
-[source,xml]
-----
-include::../resources/examples/ti-dienste/task/request_taskClose.xml[]
-----
-
-NOTE: Ab dem 01.07.2023 werden Profile in denen die Version in meta.profile nicht vorhanden ist abgewiesen. Daher ist diese entsprechend immer anzugeben. Bsp: https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense**|1.2**
-
-NOTE: Mit der Übergabe der MedicationDispense signalisiert der Apotheker den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen über das abgegebene Medikament.
-
-NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
-
-NOTE: Die Zeitangabe in `<whenHandedOver value` bezieht sich auf die Übergabe des Medikaments, wann wurde es dem Überbringer des E-Rezepts ausgehändigt.
-
-NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
-
-|===
-
-Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
-NOTE: Der Fachdienst wird diese Funktion vorraussichtlich ab ende des ersten Quartals 2022 unterstützen.
-
-.Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
-[%collapsible]
-
-====
-
-[source,xml]
-----
-include::../resources/examples/ti-dienste/task/request_taskCloseMultiple.xml[]
-----
-
-====
-
-
-*Response*
-[source,xml]
-----
-include::../resources/examples/ti-dienste/task/response_taskClose.xml[]
-----
-NOTE: Im Ergebnis der Operation wird ein signiertes Bundle als Nachweis des ordnungsgemäßen Durchlaufs des E-Rezept-Workflows zurückgegeben.
-
-NOTE:  Das signierte Quittungs-Bundle enthält unter `<identifier><value/>`</identifier>` die Rezept-ID für eine eindeutige Zuordnung aller Artefakte des durchlaufenen Workflows
-
-NOTE: An der Stelle `<Composition><valueIdentifier/></Composition>` ist die Telematik-ID als Quittungsempfänger bzw. begünstigte Institution eingetragen, welche die Dispensierung des E-Rezepts vollzogen hat.
-
-NOTE: Das Startdatum in `<period><start value="*"/></period>` entspricht dem Abrufdatum des E-Rezepts durch die Apotheke (Statuswechsel des Task: ready -> in-progress)
-
-NOTE: Signaturzeitpunkt der Quittung in <period><end value="*"/></period>, entspricht dem Statuswechsel des Task in-progress -> completed
-
-NOTE: Das unter `<fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/*`/>` eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
-
-NOTE: Unter `<Binary><data value="*"/></Binary>` wird der base64-codierte Hashwert, über den die QES des Verordnungsdatensatzes erstellt wurde eingebettet.
-
-NOTE: Das Element `<signature>*</signature>` enthält die Signatur des Quittungs-Bundles über alle enthaltenen Objekte als Enveloping CAdES-Signatur in Base64-Codierung.
-
-
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
-|401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
-|403  |Forbidden +
-[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
-|404  |Not found +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
-|405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
-|408 |Request Timeout +
-[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
-|409 |Conflict +
-[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
-|410 |Gone +
-[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
-|429 |Too Many Requests +
-[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
-|500  |Server Errors +
-[small]#Unerwarteter Serverfehler#
-|===
-
-
 == E-Rezept zurückweisen
 Ein Apotheker hat im vorherigen Schritt ein E-Rezept abgerufen und fachlich geprüft. Er kommt zu dem Schluss, das E-Rezept nicht zu beliefern und möchte nun das E-Rezept zurückweisen, damit der Versicherte das E-Rezept ggfs. in einer anderen Apotheke einlösen kann.
 
@@ -351,6 +541,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im 
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8;
@@ -410,6 +602,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$abort`. Im h
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58/$abort?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -470,6 +664,8 @@ Als Apotheker kann es erforderlich sein, die Quittung für ein beliefertes E-Rez
 
 Zum Nachweis als berechtigte Apotheke, die das E-Rezept verarbeitet hat(te), muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |GET
+|Requester |image:{AVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -484,7 +680,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::../resources/examples/ti-dienste/task/response_taskGet.xml[]
+HTTP/1.1 200 OK
+
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_abrufen/10_response_taskGet.xml[]
 ----
 In `<resource><Bundle/></resource>` wird die Quittung wird als Objekt zusammen mit dem Task zurückgegeben
 

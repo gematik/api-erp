@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[] image:{FdV}[]
 
 toc::[]
 
@@ -70,8 +77,10 @@ Der Aufruf erfolgt als http-POST-Operation auf eine SOAP-Schnittstelle.
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://192.168.x.y/Konnektorservice
+|URI        |https://konnektor.konlan/Konnektorservice
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8

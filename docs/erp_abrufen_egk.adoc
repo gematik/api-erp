@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{AVS}[]
 
 Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
 
@@ -18,7 +25,7 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-Die Apotheke übermittelt den Prüfnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+Die Apotheke übermittelt den Prüfungsnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
@@ -35,8 +42,10 @@ Um den VSD-Abruf am Konnektor tätigen zu können, muss die eGK bestimmt werden,
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://192.168.x.y/EventService
+|URI        |https://konnektor.konlan/EventService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -140,8 +149,10 @@ Für den VSD-Abruf wird die ReadVSD-Operation des Konnektors mittels folgendem A
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://192.168.x.y/VSDService
+|URI        |https://konnektor.konlan/VSDService
 |Method     |POST
+|Requester |image:{AVS}[]
+|Responder | Konnektor
 |HTTP Header |
 ----
 Content-Type: text/xml; charset=UTF-8
@@ -245,15 +256,31 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
 Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab.
 
+=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3) und der Angabe von `kvnr`
+
+Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
+
+Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
+
+.Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
+[%collapsible]
+====
+Im Folgenden ist das Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst dargestellt.
+
+image:puml_pn3_decision_tree.png[width=100%]
+====
+
 *Request*
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
 
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
 |Method     |GET
+|Requester | image:{AVS}[]
+|Responder | image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -391,14 +418,40 @@ NOTE: Je Rezept müssen die Task-ID `<id value="160.000.036.967.704.52" />` und 
  `<value value="eb6002c60dffdfb742002bf44f9f72326de3dddfe2271ab64a21a6cb0f168bbf" />` ausgelesen und für den Folgeaufruf der
  `POST /Task/160.000.036.967.704.52/$accept?ac=eb6002c60dffdfb742002bf44f9f72326de3dddfe2271ab64a21a6cb0f168bbf`-Operation zusammengesetzt werden, siehe link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^].
 
+
 [cols="a,a"]
 [%autowidth]
 |===
 s|Code   s|Type Success
 |200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält die angefragten Daten.#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
+|202  | Accepted +
+[small]#Die Anfrage wurde erfolgreich angenommen.#
 s|Code   s|Type Error
-|403 a|Forbidden +
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|404  |Not found +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|409 |Conflict +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt. Das E-Rezept befindet sich bereits in Belieferung#
+|410 |Gone +
+[small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|454 | +
+[small]#Die Anfrage wird abgebrochen, da die Voraussetzungen zur Erfüllung nicht gegeben sind. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.#
+|455 | +
+[small]#Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
 
 Im OperationOutcome übermittelte Fehlermeldungen:
 

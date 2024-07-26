@@ -10,6 +10,13 @@
 :toc: macro
 :toclevels: 3
 :toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
 
@@ -53,6 +60,8 @@ Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -88,7 +97,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -116,7 +125,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <authoredOn value="2022-03-18T15:26:00+00:00" />
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
             <code value="urn:oid:1.2.276.0.76.4.54" />
             <display value="Öffentliche Apotheke" />
         </coding>
@@ -136,10 +145,15 @@ NOTE: Der Wert `<code value="urn:oid:1.2.276.0.76.4.54" />` entspricht dem inten
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -170,6 +184,8 @@ Der E-Rezept-Fachdienst aktualisiert bei gültiger QES den Task und erzeugt eine
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.004.839.514.95/$activate
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -207,7 +223,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="169.000.004.839.514.95" />
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2" />
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3" />
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -242,7 +258,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     <lastModified value="2022-03-18T15:27:00+00:00" />
     <performerType>
         <coding>
-            <system value="urn:ietf:rfc:3986" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
             <code value="urn:oid:1.2.276.0.76.4.54" />
             <display value="Öffentliche Apotheke" />
         </coding>
@@ -282,10 +298,15 @@ NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. ser
 
 [cols="a,a"]
 |===
-|Code   |Type Success
+s|Code   s|Type Success
 |200  | OK +
 [small]#Die Anfrage wurde erfolgreich bearbeitet und das Ergebnis der Anfrage wird in der Antwort übertragen.#
-|Code   |Type Error
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
@@ -459,6 +480,8 @@ Der E-Rezept-Fachdienst identifiziert die E-Rezepte auf Basis der Versicherten-I
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task
 |Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
@@ -496,7 +519,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "169.774.328.939.869.74",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
         ],
         "tag":  [
             {
@@ -572,7 +595,7 @@ Content-Type: application/fhir+json;charset=utf-8
     "id": "169.000.033.491.280.78",
     "meta": {
         "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.2"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
         ]
     },
     "intent": "order",
