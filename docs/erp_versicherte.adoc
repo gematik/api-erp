@@ -1082,7 +1082,7 @@ Der Fachdienst filtert die MedicationDispense-Einträge nach der im ACCESS_TOKEN
 
 Die Rückgabe erfolgt als `Bundle`, dass eines oder mehrere MedicationDispenses enthält.
 
-WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht ab dem 15.01.2025 nicht mehr zur Verfügung. Der Abruf von Abgabeinformationen zu einem E-Rezept erfolgt ab dem 15.01.2025 über den Endpunkt `GET /MedicationDispense?identifier=<system-prescription-id>|<task_id>`
+WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht ab dem 15.04.2025 nicht mehr zur Verfügung. Der Abruf von Abgabeinformationen zu einem E-Rezept erfolgt ab dem 15.04.2025 ausschließlich über den Endpunkt `GET /MedicationDispense?identifier=<system-prescription-id>|<task_id>` und wird aktuell schon unterstützt.
 
 *Request*
 [cols="h,a",separator=¦]
