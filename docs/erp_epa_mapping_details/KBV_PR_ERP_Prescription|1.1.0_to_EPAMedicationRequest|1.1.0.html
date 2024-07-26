@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Mapping: KBV_PR_ERP_Prescription|1.1.0 in EPAMedicationRequest|1.0.2-rc1</title>
+    <title>Mapping: KBV_PR_ERP_Prescription|1.1.0 in EPAMedicationRequest|1.1.0-rc1</title>
     <link rel='stylesheet' type='text/css' href='./style.css'>
     <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h2>Mapping: KBV_PR_ERP_Prescription|1.1.0 in EPAMedicationRequest|1.0.2-rc1</h2>
+    <h2>Mapping: KBV_PR_ERP_Prescription|1.1.0 in EPAMedicationRequest|1.1.0-rc1</h2>
     
     <div style="display: flex; justify-content: space-between;">
         <div style="flex: 1;">
@@ -19,9 +19,9 @@
             <a href="https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212819" target="_blank">KBV_PR_ERP_Prescription|1.1.0</a></p>
             
             
-            <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.epa.medication/1.0.2-rc1/files/2447599" target="_blank">EPAMedicationRequest|1.0.2-rc1</a></p>
-            <p>Version: 0.92, Status: draft</p>
-            <p>Last updated on: 2024-06-13 13:17:12</p>
+            <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.epa.medication/1.1.0-rc1/files/2465069" target="_blank">EPAMedicationRequest|1.1.0-rc1</a></p>
+            <p>Version: 1.0, Status: active</p>
+            <p>Last updated on: 2024-07-26 16:20:50</p>
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
             <div>
@@ -51,7 +51,7 @@
                 
                 <th style="text-align: center;">KBV_PR_ERP_Prescription|1.1.0</th>
                 
-                <th style="text-align: center;">EPAMedicationRequest|1.0.2-rc1</th>
+                <th style="text-align: center;">EPAMedicationRequest|1.1.0-rc1</th>
             </tr>
         </thead>
         <tbody>
@@ -644,7 +644,7 @@
                 
             </tr>
             
-            <tr class="row-extension">
+            <tr class="row-manual">
                 <td>MedicationRequest.extension:Mehrfachverordnung
                     <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription</a>)
                 </td>
@@ -654,7 +654,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Extension and value(s) will be retained</td>
+                <td>Mapped from 'MedicationRequest.extension:multiplePrescription'</td>
                 
             </tr>
             
@@ -715,6 +715,20 @@
             </tr>
             
             <tr class="row-not-use">
+                <td>MedicationRequest.extension:medicationRequestLinkedStatement
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-request-linked-statement-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-request-linked-statement-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
                 <td>MedicationRequest.extension:multiplePrescription
                     <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/multiple-prescription-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/multiple-prescription-extension</a>)
                 </td>
@@ -724,7 +738,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                <td>Mapped to 'MedicationRequest.extension:Mehrfachverordnung'</td>
                 
             </tr>
             
@@ -1214,7 +1228,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Set by the Medication Service</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1284,7 +1298,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                <td>Set by the Medication Service</td>
                 
             </tr>
             
@@ -1298,7 +1312,7 @@
                 <td style="text-align: center;">X</td>
                 
                 
-                <td>Set by the Medication Service</td>
+                <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1344,7 +1358,7 @@
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-use">
                 <td>MedicationRequest.substitution.allowed[x]:allowedBoolean
                     
                 </td>
@@ -1354,7 +1368,7 @@
                 <td style="text-align: center;"></td>
                 
                 
-                <td>Einschränkung wird nicht übernommen</td>
+                <td>Property and value(s) will be retained</td>
                 
             </tr>
             
