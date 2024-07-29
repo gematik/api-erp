@@ -1,0 +1,3228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mapping: KBV_PR_ERP_Medication_Compounding|1.1.0, KBV_PR_ERP_Medication_FreeText|1.1.0, KBV_PR_ERP_Medication_Ingredient|1.1.0, KBV_PR_ERP_Medication_PZN|1.1.0 in EPAMedication|1.1.0-rc1</title>
+    <link rel='stylesheet' type='text/css' href='./style.css'>
+    <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+    <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
+</head>
+
+<body>
+    <h2>Mapping: KBV_PR_ERP_Medication_Compounding|1.1.0, KBV_PR_ERP_Medication_FreeText|1.1.0, KBV_PR_ERP_Medication_Ingredient|1.1.0, KBV_PR_ERP_Medication_PZN|1.1.0 in EPAMedication|1.1.0-rc1</h2>
+    
+    <div style="display: flex; justify-content: space-between;">
+        <div style="flex: 1;">
+            
+            <p>Source Profiles:</p>
+            <ul>
+                
+                <li><a href="https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212814" target="_blank">KBV_PR_ERP_Medication_Compounding|1.1.0</a></li>
+                
+                <li><a href="https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212815" target="_blank">KBV_PR_ERP_Medication_FreeText|1.1.0</a></li>
+                
+                <li><a href="https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212816" target="_blank">KBV_PR_ERP_Medication_Ingredient|1.1.0</a></li>
+                
+                <li><a href="https://simplifier.net/packages/kbv.ita.erp/1.1.2/files/2212817" target="_blank">KBV_PR_ERP_Medication_PZN|1.1.0</a></li>
+                
+            </ul>
+            
+            
+            <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.epa.medication/1.1.0-rc1/files/2465055" target="_blank">EPAMedication|1.1.0-rc1</a></p>
+            <p>Version: 1.0, Status: active</p>
+            <p>Last updated on: 2024-07-26 16:20:50</p>
+        </div>
+        <div style="flex: 1; display: flex; justify-content: flex-end;">
+            <div>
+                <h3>Color Legend:</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li><span style="background-color: #DCF6E9;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information present in the source will be retained in the target mapping</li>
+                    <li><span style="background-color: #FFEBE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Information will be removed or left empty in the target mapping</li>
+                    <li><span style="background-color: #FFFAE6;">&nbsp;&nbsp;&nbsp;&nbsp;</span> Special action is required for this mapping</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <table id='resultsTable' class='display' style='width:100%'>
+        <thead>
+            <tr>
+                <th rowspan="2">Property</th>
+                
+                <th colspan="4" style="text-align: center;">Source Profiles</th>
+                
+                <th style="text-align: center;">Target Profile</th>
+                
+                <th rowspan="2">Remarks</th>
+                
+            </tr>
+            <tr>
+                
+                <th style="text-align: center;">KBV_PR_ERP_Medication_Compounding|1.1.0</th>
+                
+                <th style="text-align: center;">KBV_PR_ERP_Medication_FreeText|1.1.0</th>
+                
+                <th style="text-align: center;">KBV_PR_ERP_Medication_Ingredient|1.1.0</th>
+                
+                <th style="text-align: center;">KBV_PR_ERP_Medication_PZN|1.1.0</th>
+                
+                <th style="text-align: center;">EPAMedication|1.1.0-rc1</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            <tr class="row-use">
+                <td>Medication.amount
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.denominator
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.denominator.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.denominator.comparator
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.denominator.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.denominator.unit
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.denominator.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.numerator
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.numerator.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.numerator.comparator
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.amount.numerator.extension:Gesamtmenge
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.amount.numerator.extension:totalQuantity'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.amount.numerator.extension:Packungsgroesse
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.amount.numerator.extension:packagingSize'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.amount.numerator.extension:packagingSize
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.amount.numerator.extension:Packungsgroesse'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.amount.numerator.extension:totalQuantity
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.amount.numerator.extension:Gesamtmenge'</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.numerator.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.amount.numerator.unit
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.amount.numerator.value
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.batch
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.batch.expirationDate
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.batch.lotNumber
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.code.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:ask.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:atc-de.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:pzn.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.code.coding:pznCode
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.code.coding:PZN'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.code.coding:pznCode.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.code.coding:PZN.code'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.code.coding:pznCode.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.code.coding:PZN.system'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:snomed.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:verordnungskategorieCode
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Property and value(s) will NOT be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:verordnungskategorieCode.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Property and value(s) will NOT be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.code.coding:verordnungskategorieCode.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Property and value(s) will NOT be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.code.text
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.contained
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:Arzneimittelkategorie
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.extension:drugCategory'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:Herstellungsanweisung
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_CompoundingInstruction</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.extension:manufacturingInstructions'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:Impfstoff
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.extension:isVaccine'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.extension:Kategorie
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type|1.3.0</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Property and value(s) will NOT be retained</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:Normgroesse
+                    <br>(<a href="http://fhir.de/StructureDefinition/normgroesse" target="_blank">http://fhir.de/StructureDefinition/normgroesse</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.extension:normSizeCode'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:Verpackung
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Packaging</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.extension:packaging'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:drugCategory
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.extension:Arzneimittelkategorie'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.extension:epaDispensationIdentifier
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/dispensation-identifier-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/dispensation-identifier-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:isVaccine
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.extension:Impfstoff'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:manufacturingInstructions
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-manufacturing-instructions-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-manufacturing-instructions-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.extension:Herstellungsanweisung'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:normSizeCode
+                    <br>(<a href="http://fhir.de/StructureDefinition/normgroesse" target="_blank">http://fhir.de/StructureDefinition/normgroesse</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.extension:Normgroesse'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.extension:packaging
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-formulation-packaging-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-formulation-packaging-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.extension:Verpackung'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.extension:rxPrescriptionProcessIdentifier
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/rx-prescription-process-identifier-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.extension:type
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-type-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-type-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.form
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.form.coding
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:edqm.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.code'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.display'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.system'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.userSelected'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.form.coding:kbvDarreichungsform.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped to 'Medication.form.coding:KBVDarreichungsform.version'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.form.coding:snomed.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.form.text
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.identifier
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.identifier:EPAMedicationUniqueIdentifier
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.identifier:RxOriginatorProcessIdentifier
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.implicitRules
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.extension:Darreichungsform
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Form</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.extension:darreichungsform'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.extension:darreichungsform
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-darreichungsform-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-darreichungsform-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.ingredient.extension:Darreichungsform'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.isActive
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.item[x]
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:ask.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.code'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:askCode.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:ASK.system'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:atc-de.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.code'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:pznCode.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.item[x]:itemCodeableConcept.coding:PZN.system'</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed.userSelected
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.coding:snomed.version
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.item[x]:itemCodeableConcept.text
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.item[x]:itemReference
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.strength
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.strength.denominator
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.strength.denominator.code
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.strength.denominator.comparator
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.strength.denominator.system
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.strength.denominator.unit
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.strength.denominator.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.strength.extension:MengeFreitext
+                    <br>(<a href="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount" target="_blank">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Ingredient_Amount</a>)
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                
+                <td>Mapped to 'Medication.ingredient.strength.extension:amountText'</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.strength.extension:amountText
+                    <br>(<a href="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-amount-extension" target="_blank">https://gematik.de/fhir/epa-medication/StructureDefinition/medication-ingredient-amount-extension</a>)
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Mapped from 'Medication.ingredient.strength.extension:MengeFreitext'</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.strength.numerator
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.strength.numerator.code
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>If Property and value exists, it will be retained. If it is missing please add a new extension with the following content:
+"extension": [
+  {
+    "url": "<a href="http://hl7.org/fhir/StructureDefinition/data-absent-reason" target="_blank">http://hl7.org/fhir/StructureDefinition/data-absent-reason</a>",
+    "valueCode": "unknown"
+  }
+]
+</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.ingredient.strength.numerator.comparator
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.strength.numerator.system
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>If Property and value exists, it will be retained. If it is missing please add a new extension with the following content:
+"extension": [
+  {
+    "url": "<a href="http://hl7.org/fhir/StructureDefinition/data-absent-reason" target="_blank">http://hl7.org/fhir/StructureDefinition/data-absent-reason</a>",
+    "valueCode": "unknown"
+  }
+]
+</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.ingredient.strength.numerator.unit
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-manual">
+                <td>Medication.ingredient.strength.numerator.value
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>If Property and value exists, it will be retained. If it is missing please add a new extension with the following content:
+"extension": [
+  {
+    "url": "<a href="http://hl7.org/fhir/StructureDefinition/data-absent-reason" target="_blank">http://hl7.org/fhir/StructureDefinition/data-absent-reason</a>",
+    "valueCode": "unknown"
+  }
+]
+</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.language
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.manufacturer
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.manufacturer.display
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.manufacturer.identifier
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.manufacturer.reference
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.manufacturer.type
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-use">
+                <td>Medication.meta
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.lastUpdated
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.profile
+                    
+                </td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Property and value(s) will NOT be retained</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.security
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.source
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.tag
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.meta.versionId
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.status
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+            <tr class="row-not-use">
+                <td>Medication.text
+                    
+                </td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;"></td>
+                
+                <td style="text-align: center;">X</td>
+                
+                
+                <td>Will remain empty for now, as no source information is available</td>
+                
+            </tr>
+            
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $('#resultsTable').DataTable({
+                'pageLength': -1,
+                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, 'All']]
+            });
+        });
+    </script>
+</body>
+
+</html>
