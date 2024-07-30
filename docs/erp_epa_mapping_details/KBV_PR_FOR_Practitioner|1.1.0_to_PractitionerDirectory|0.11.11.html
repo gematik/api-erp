@@ -5,6 +5,7 @@
     <title>Mapping: KBV_PR_FOR_Practitioner|1.1.0 in PractitionerDirectory|0.11.11</title>
     <link rel='stylesheet' type='text/css' href='./style.css'>
     <link rel='stylesheet' type='text/css' href='https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'>
     <script type='text/javascript' src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
     <script type='text/javascript' src='https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js'></script>
 </head>
@@ -20,8 +21,8 @@
             
             
             <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.fhir.directory/0.11.11/files/2522116" target="_blank">PractitionerDirectory|0.11.11</a></p>
-            <p>Version: 1.0, Status: active</p>
-            <p>Last updated on: 2024-07-26 16:20:50</p>
+            <p>Version: 1.1, Status: active</p>
+            <p>Last updated on: 2024-07-30 21:27:43</p>
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
             <div>
@@ -43,8 +44,9 @@
                 <th style="text-align: center;">Source Profile</th>
                 
                 <th style="text-align: center;">Target Profile</th>
+                <th rowspan="2" class="warning-column">Warning</th>
                 
-                <th rowspan="2">Remarks</th>
+                    <th rowspan="2">Remarks</th>
                 
             </tr>
             <tr>
@@ -61,12 +63,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -75,12 +86,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -89,12 +109,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -103,12 +132,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -117,12 +155,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -131,26 +178,52 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
-            <tr class="row-use">
+            <tr class="row-manual">
                 <td>Practitioner.identifier
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..2
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The minimum cardinality of one of the source profiles is less than the minimum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Muss mindestens die TelematikID des Arztes enthalten, die auch im Signaturzertifikat der QES angegeben ist.</td>
                 
             </tr>
             
@@ -159,12 +232,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR'</td>
                 
             </tr>
             
@@ -173,12 +255,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.system'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.system'</td>
                 
             </tr>
             
@@ -187,12 +278,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.type'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.type'</td>
                 
             </tr>
             
@@ -201,12 +301,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.type.coding'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.type.coding'</td>
                 
             </tr>
             
@@ -215,12 +324,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.type.coding.code'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.type.coding.code'</td>
                 
             </tr>
             
@@ -229,12 +347,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.type.coding.system'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.type.coding.system'</td>
                 
             </tr>
             
@@ -243,12 +370,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.use'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.use'</td>
                 
             </tr>
             
@@ -257,12 +393,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:LANR.value'</td>
+                    <td>Mapped to 'Practitioner.identifier:LANR.value'</td>
                 
             </tr>
             
@@ -271,12 +416,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.identifier:ANR'</td>
+                    <td>Mapped from 'Practitioner.identifier:ANR'</td>
                 
             </tr>
             
@@ -285,12 +439,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID'</td>
                 
             </tr>
             
@@ -299,12 +462,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.system'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.system'</td>
                 
             </tr>
             
@@ -313,12 +485,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.type'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.type'</td>
                 
             </tr>
             
@@ -327,12 +508,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding'</td>
                 
             </tr>
             
@@ -341,12 +531,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding.code'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding.code'</td>
                 
             </tr>
             
@@ -355,12 +554,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding.system'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.type.coding.system'</td>
                 
             </tr>
             
@@ -369,12 +577,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.use'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.use'</td>
                 
             </tr>
             
@@ -383,12 +600,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.identifier:TelematikID.value'</td>
+                    <td>Mapped to 'Practitioner.identifier:TelematikID.value'</td>
                 
             </tr>
             
@@ -397,12 +623,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.identifier:Telematik-ID'</td>
+                    <td>Mapped from 'Practitioner.identifier:Telematik-ID'</td>
                 
             </tr>
             
@@ -411,12 +646,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -425,12 +671,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -439,12 +694,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -453,12 +717,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -467,12 +740,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -481,12 +763,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -495,12 +786,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -509,12 +809,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -523,12 +832,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -537,12 +855,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -551,12 +878,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -565,12 +903,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -579,12 +926,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -593,12 +951,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -607,12 +974,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -621,12 +997,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -635,12 +1020,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -649,12 +1043,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -663,12 +1066,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -677,12 +1089,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -691,12 +1112,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -705,12 +1135,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -719,12 +1158,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -733,12 +1181,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will be retained</td>
+                    <td>Property and value(s) will be retained</td>
                 
             </tr>
             
@@ -747,12 +1206,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.name:name.family'</td>
+                    <td>Mapped from 'Practitioner.name:name.family'</td>
                 
             </tr>
             
@@ -761,12 +1229,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.name:name.given'</td>
+                    <td>Mapped from 'Practitioner.name:name.given'</td>
                 
             </tr>
             
@@ -775,12 +1252,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -789,12 +1275,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.name:name.prefix'</td>
+                    <td>Mapped from 'Practitioner.name:name.prefix'</td>
                 
             </tr>
             
@@ -803,12 +1298,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -817,12 +1321,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -831,12 +1344,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped from 'Practitioner.name:name.use'</td>
+                    <td>Mapped from 'Practitioner.name:name.use'</td>
                 
             </tr>
             
@@ -845,12 +1367,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -859,12 +1396,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.name.family'</td>
+                    <td>Mapped to 'Practitioner.name.family'</td>
                 
             </tr>
             
@@ -873,12 +1419,27 @@
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-name" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-name</a>)
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -887,12 +1448,27 @@
                     <br>(<a href="http://fhir.de/StructureDefinition/humanname-namenszusatz" target="_blank">http://fhir.de/StructureDefinition/humanname-namenszusatz</a>)
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -901,12 +1477,27 @@
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-prefix</a>)
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -915,12 +1506,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -929,12 +1535,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.name.given'</td>
+                    <td>Mapped to 'Practitioner.name.given'</td>
                 
             </tr>
             
@@ -943,12 +1558,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.name.prefix'</td>
+                    <td>Mapped to 'Practitioner.name.prefix'</td>
                 
             </tr>
             
@@ -957,12 +1581,27 @@
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier</a>)
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -971,12 +1610,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -985,12 +1639,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Mapped to 'Practitioner.name.use'</td>
+                    <td>Mapped to 'Practitioner.name.use'</td>
                 
             </tr>
             
@@ -999,12 +1662,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1013,12 +1685,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        2..3
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1027,12 +1710,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1041,12 +1735,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1055,12 +1760,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1069,12 +1785,23 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1083,12 +1810,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1097,12 +1839,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1111,12 +1868,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1125,12 +1897,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1139,12 +1926,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1153,12 +1955,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1167,12 +1984,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1181,12 +2013,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1195,12 +2042,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1209,12 +2071,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1223,12 +2100,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1237,12 +2129,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1251,12 +2158,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1265,12 +2187,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1279,12 +2216,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1293,12 +2245,27 @@
                     
                 </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        1..1
+                    
+                </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
+                </td>
                 
-                <td>Property and value(s) will NOT be retained</td>
+                    <td>Property and value(s) will NOT be retained</td>
                 
             </tr>
             
@@ -1307,12 +2274,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..*
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1321,12 +2297,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1335,12 +2320,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1349,12 +2343,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1363,12 +2366,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1377,12 +2389,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1391,12 +2412,21 @@
                     
                 </td>
                 
-                <td style="text-align: center;"></td>
+                <td style="text-align: center;">
+                    
+                </td>
                 
-                <td style="text-align: center;">X</td>
+                <td style="text-align: center;">
+                    
+                        0..1
+                    
+                </td>
                 
+                <td class="warning-column">
+                    
+                </td>
                 
-                <td>Will remain empty for now, as no source information is available</td>
+                    <td>Will remain empty for now, as no source information is available</td>
                 
             </tr>
             
@@ -1404,9 +2434,25 @@
     </table>
     <script>
         $(document).ready(function () {
+            var warningsVisible = false;
+            var numberOfWarnings = 24;
+            
             $('#resultsTable').DataTable({
                 'pageLength': -1,
-                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, 'All']]
+                'lengthMenu': [[10, 25, 50, 100, 500, -1], [10, 25, 50, 100, 500, 'All']],
+                'dom': '<"top"f>rt<"bottom"ilp><"clear">',
+                'initComplete': function() {
+                    var buttonHtml = '<button id="toggleWarnings"><i class="fas fa-exclamation-triangle"></i> show warnings (' + numberOfWarnings + ')</button>';
+                    $('#resultsTable_filter').prepend(buttonHtml);
+                    
+                    $('.warning-column').hide(); // Hide warnings by default
+                    
+                    $('#toggleWarnings').click(function () {
+                        $('.warning-column').toggle();
+                        warningsVisible = !warningsVisible;
+                        $(this).html('<i class="fas fa-exclamation-triangle"></i> ' + (warningsVisible ? 'hide warnings (' + numberOfWarnings + ')' : 'show warnings (' + numberOfWarnings + ')'));
+                    });
+                }
             });
         });
     </script>
