@@ -1659,13 +1659,15 @@ s|Code   s|Type Error
 Als Versicherter möchte ich Einsicht in das Zugriffsprotokoll meiner Daten im E-Rezept-Fachdienst nehmen, um Zugriffe nachvollziehen zu können und eine unberechtigte Einsicht in meine Daten zu prüfen.
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/AuditEvent`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden, der Fachdienst filtert die AuditEvent-Einträge nach der im ACCESS_TOKEN enthaltenen KVNR des Versicherten.
+
 Der E-Rezept-Fachdienst liefert eine Liste von Protokolleinträgen, die mit einem zusätzlichen Suchparameter in der Anfrage-URL sortiert werden kann. `https://erp.app.ti-dienste.de/AuditEvent?_sort=-date` sortiert die Protokolleinträge nach dem Protokollierungszeitpunkt `recorded` gemäß https://www.hl7.org/fhir/auditevent.html#search, das Minuszeichen in `-date` bewirkt die absteigende Sortierung (jüngster Eintrag zuerst).
+
+Der Fachdienst liefert Links für die Paginierung zurück, die gerne genutzt werden können. Dies erspart eine eigene Implementierung von _offset usw. Standardmäßig werden nur 50 Einträge zurückgegeben. Mittels _sort können die Einträge nach Datum sortiert werden.
+Das Abfragepattern soll so gestaltet sein, dass über den Link, der unter "next" zurückgegeben wird, die nächsten abgerufen werden können. Dort wird statt der URL-Parameter _offset und _count ein URL-Parameter _id verwendet, der die id des letzten Eintrags der vorherigen Seite enthält (Ssp.: _id=gt9ce81651-9e8b-4e11-ac6c-29934730fe4f).
 
 NOTE: Dieser Aufruf soll nicht regelmäßig im FdV ausgeführt werden, sondern nur, wenn der Versicherte Einsicht in das Protokoll nehmen möchte. Dies spart Ressourcen am E-Rezept-Fachdienst.
 
-NOTE: Die Angabe "total" wird vom E-Rezept-Fachdienst aus Gründen der Performance nicht unterstützt.
-
-NOTE: Der Fachdienst liefert Links für die Paginierung zurück, die gerne genutzt werden können. Dies erspart eine eigene Implementierung von _offset usw. Standardmäßig werden nur 50 Einträge zurückgegeben. Mittels _sort können die Einträge nach Datum sortiert werden.
+NOTE: Die Angabe "total" wird vom E-Rezept-Fachdienst aus Gründen der Performance nicht unterstützt. Die Anzahl der zurückgegebenen Einträge ist nach Möglichkeit immer 50.
 
 NOTE: Die Sprache muss in jedem Aufruf mittels "Accept-Language" Heder übergeben werden, um die Protokolleinträge in der bevorzugten Sprache des Versicherten zurückzugeben.
 
@@ -1705,11 +1707,16 @@ Content-Type: application/fhir+json;charset=utf-8
   },
   "type": "searchset",
   "link": [ {
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/AuditEvent"
-  }, {
+    "relation": "first",
+    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date&_count=50"
+  },
+  {
     "relation": "next",
-    "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20"
+    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date&_count=50&_id=gt01eb8522-5695-1830-0000-000000000000"
+  },
+  {
+    "relation": "self",
+    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date"
   } ],
   "entry": [ {
     "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862",
