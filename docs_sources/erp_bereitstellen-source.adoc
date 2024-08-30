@@ -204,6 +204,9 @@ IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender B
 *Response*
 [source,xml]
 ----
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_bereitstellen/04_response_SignDocument.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.

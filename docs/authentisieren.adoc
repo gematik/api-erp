@@ -180,6 +180,9 @@ NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat 
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset=utf-8
+
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
         <ns3:ReadCardCertificateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
@@ -559,6 +562,10 @@ Nach dem erfolgreichen Abschluss der Bearbeitung des Requests durch die VAU des 
 Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstellung der verschlüsselten Antwort. Die innere HTTP-Response des fachlichen Ergebnisses aus der VAU kann dabei einen abweichenden HTTP-Statuscode beinhalten, wenn aufgrund der Daten oder Verarbeitung innerhalb der VAU Fehlerzustände eintreten oder ungültige Daten übergeben wurden. Sei `001111101111100110001001001111010110010010111110101100100011110...` die verschlüsselte Response zum obigen Beispiel. Die Entschlüsselung mit dem für den Request generierten Antwortschlüssel `16bac90134c635e4ec85fae0e4885d9f`mittels AES-GCM liefert die innere HTTP-Response der VAU als leerzeichengetrennte Zeichenkette:
 [source,json]
 ----
+1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
+
 1 b69f01734f34376ddcdbdbe9af18a06f HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
