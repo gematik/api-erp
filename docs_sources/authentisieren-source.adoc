@@ -193,6 +193,7 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/04_response_VerifyCertificate.xml[]
 ----
 NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
@@ -235,6 +236,7 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
+
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/06_response_ExternalAuthenticate.xml[]
 ----
 
