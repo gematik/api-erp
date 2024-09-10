@@ -281,6 +281,7 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
+
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
     <SOAP-ENV:Header/>
     <SOAP-ENV:Body>
@@ -354,6 +355,7 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 ----
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
+
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
         <ns4:ExternalAuthenticateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
