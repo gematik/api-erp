@@ -21,8 +21,8 @@
             
             
             <p>Target Profile: <a href="https://simplifier.net/packages/de.gematik.fhir.directory/0.11.11/files/2522116" target="_blank">PractitionerDirectory|0.11.11</a></p>
-            <p>Version: 1.1, Status: active</p>
-            <p>Last updated on: 2024-07-30 21:27:43</p>
+            <p>Version: 1.2, Status: active</p>
+            <p>Last updated on: 2024-09-13 11:15:12</p>
         </div>
         <div style="flex: 1; display: flex; justify-content: flex-end;">
             <div>
@@ -1316,7 +1316,7 @@
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-manual">
                 <td>Practitioner.name.text
                     
                 </td>
@@ -1335,7 +1335,7 @@
                     
                 </td>
                 
-                    <td>Will remain empty for now, as no source information is available</td>
+                    <td>Property is concatinated from values of {prefix-qualifier} {name.prefix} {name.given} {vorsatzwort} {nachname} {namenszusatz}</td>
                 
             </tr>
             
@@ -1414,7 +1414,7 @@
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-manual">
                 <td>Practitioner.name:name.family.extension:nachname
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-name" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-name</a>)
                 </td>
@@ -1439,11 +1439,11 @@
                     
                 </td>
                 
-                    <td>Property and value(s) will NOT be retained</td>
+                    <td>Property will be used in Practitioner.name.text</td>
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-manual">
                 <td>Practitioner.name:name.family.extension:namenszusatz
                     <br>(<a href="http://fhir.de/StructureDefinition/humanname-namenszusatz" target="_blank">http://fhir.de/StructureDefinition/humanname-namenszusatz</a>)
                 </td>
@@ -1468,11 +1468,11 @@
                     
                 </td>
                 
-                    <td>Property and value(s) will NOT be retained</td>
+                    <td>Property will be used in Practitioner.name.text</td>
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-manual">
                 <td>Practitioner.name:name.family.extension:vorsatzwort
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/humanname-own-prefix" target="_blank">http://hl7.org/fhir/StructureDefinition/humanname-own-prefix</a>)
                 </td>
@@ -1497,7 +1497,7 @@
                     
                 </td>
                 
-                    <td>Property and value(s) will NOT be retained</td>
+                    <td>Property will be used in Practitioner.name.text</td>
                 
             </tr>
             
@@ -1547,9 +1547,15 @@
                 
                 <td class="warning-column">
                     
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
                 </td>
                 
-                    <td>Mapped to 'Practitioner.name.given'</td>
+                    <td>Property will be used in Practitioner.name.text and mapped to Practitioner.name.given</td>
                 
             </tr>
             
@@ -1570,13 +1576,19 @@
                 
                 <td class="warning-column">
                     
+                    <ul>
+                        
+                        <li>The maximum cardinality of one of the source profiles exceeds the maximum cardinality of the target profile</li>
+                        
+                    </ul>
+                    
                 </td>
                 
-                    <td>Mapped to 'Practitioner.name.prefix'</td>
+                    <td>Property will be used in Practitioner.name.text and mapped to Practitioner.name.prefix</td>
                 
             </tr>
             
-            <tr class="row-not-use">
+            <tr class="row-manual">
                 <td>Practitioner.name:name.prefix.extension:prefix-qualifier
                     <br>(<a href="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier" target="_blank">http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier</a>)
                 </td>
@@ -1601,7 +1613,7 @@
                     
                 </td>
                 
-                    <td>Property and value(s) will NOT be retained</td>
+                    <td>Property will be used in Practitioner.name.text</td>
                 
             </tr>
             
@@ -2435,7 +2447,7 @@
     <script>
         $(document).ready(function () {
             var warningsVisible = false;
-            var numberOfWarnings = 24;
+            var numberOfWarnings = 26;
             
             $('#resultsTable').DataTable({
                 'pageLength': -1,
