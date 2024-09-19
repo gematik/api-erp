@@ -1763,11 +1763,13 @@ NOTE: Das Startdatum in `<period><start value="*"/></period>` entspricht dem Abr
 
 NOTE: Signaturzeitpunkt der Quittung in <period><end value="*"/></period>, entspricht dem Statuswechsel des Task in-progress -> completed
 
-NOTE: Das unter `<fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/*`/>` eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
+NOTE: Das als Device-Ressource eingebettete Device identifiziert den E-Rezept-Fachdienst als Aussteller der Quittung.
 
 NOTE: Unter `<Binary><data value="*"/></Binary>` wird der base64-codierte Hashwert, über den die QES des Verordnungsdatensatzes erstellt wurde eingebettet.
 
 NOTE: Das Element `<signature>*</signature>` enthält die Signatur des Quittungs-Bundles über alle enthaltenen Objekte als Enveloping CAdES-Signatur in Base64-Codierung.
+
+NOTE: Die entries im Bundle werden durchgängig mit absoluter urn:uuid in der fullUrl angegeben.
 
 
 
