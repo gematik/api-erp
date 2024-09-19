@@ -39,528 +39,8 @@ WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifiziere
 * Byte Order Mark (BOM): U+FEFF
 * Replace Character (U+FFFD)
 
-==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
-Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
-
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
-Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
-
-*Request*
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/Communication
-¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Content-Type: application/fhir+json; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
-
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
-
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|*1.2*")
-
-¦Payload    ¦
-[source,json]
-----
-{
-  "resourceType": "Communication",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
-    ]
-  },
-  "contained": [
-    {
-      "resourceType": "Medication",
-      "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
-      "meta": {
-        "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-        ]
-      },
-      "extension": [
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-          "valueCodeableConcept": {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                "display": "Medicinal product (product)",
-                "code": "763158003"
-              }
-            ]
-          }
-        },
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-          "valueCoding": {
-            "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-            "code": "00"
-          }
-        },
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-          "valueBoolean": false
-        },
-        {
-          "url": "http://fhir.de/StructureDefinition/normgroesse",
-          "valueCode": "N1"
-        }
-      ],
-      "code": {
-        "coding": [
-          {
-            "system": "http://fhir.de/CodeSystem/ifa/pzn",
-            "code": "06313728"
-          }
-        ],
-        "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
-      },
-      "form": {
-        "coding": [
-          {
-            "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-            "code": "TAB"
-          }
-        ]
-      },
-      "amount": {
-        "numerator": {
-          "unit": "TAB",
-          "system": "http://unitsofmeasure.org",
-          "code": "{tbl}",
-          "extension": [
-            {
-              "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-              "valueString": "10"
-            }
-          ]
-        },
-        "denominator": {
-          "value": 1
-        }
-      }
-    }
-  ],
-  "basedOn": [
-    {
-      "reference": "Task/160.123.456.789.123.58"
-    }
-  ],
-  "status": "unknown",
-  "about": [
-    {
-      "reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"
-    }
-  ],
-  "recipient": [
-    {
-      "identifier": {
-        "system": "https://gematik.de/fhir/sid/telematik-id",
-        "value": "3-1.54.10123404"
-      }
-    }
-  ],
-  "payload": [
-    {
-      "extension": [
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
-          "valueIdentifier": {
-            "system": "http://fhir.de/sid/arge-ik/iknr",
-            "value": "104212059"
-          }
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
-          "extension": [
-            {
-              "url": "onPremise",
-              "valueBoolean": true
-            },
-            {
-              "url": "delivery",
-              "valueBoolean": true
-            },
-            {
-              "url": "shipment",
-              "valueBoolean": false
-            }
-          ]
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType",
-          "valueBoolean": true
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-          "valueCoding": {
-            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-            "code": "160",
-            "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-          }
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
-          "valueQuantity": {
-            "system": "http://unitsofmeasure.org",
-            "code": "{Package}",
-            "value": 1
-          }
-        }
-      ],
-      "contentString": "Hallo, ich wollte gern fragen, ob das Medikament bei Ihnen vorraetig ist."
-    }
-  ]
-}
-----
-NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
-
-NOTE: Das angefragte Medikament ist der Medication-Eintrag des verordneten E-Rezept-Datensatzes unter `"reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"` und wird 1:1 übernommen, dieser enthält die wesentlichen Anfrageinformationen für die Apotheke
-
-NOTE:  Als Empfänger-Adresse wird die Telematik-ID der Apotheke wie in `"value": "3-1.54.10123404"` angegeben, wie sie über die Suche im Verzeichnisdienst gefunden wurde.
-
-NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-Elemente angegeben werden, hier ein Beispiel für bevorzugte Belieferungsoptionen, die Kasse des anfragenden Versicherten, den Rezept-Typ `Flowtype` und einen Freitext.
-|===
-
-
-*Response*
-HTTP/1.1 201 Created
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-{
-  "resourceType": "Communication",
-  "id": "66f2fd42-773b-465c-bd2c-9fbefbd2e6f4",
-  "meta": {
-    "versionId": "1",
-    "lastUpdated": "2020-03-12T18:01:10+00:00",
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|1.3"
-    ]
-  },
-  "contained": [
-    {
-      "resourceType": "Medication",
-      "id": "5fe6e06c-8725-46d5-aecd-e65e041ca3de",
-      "meta": {
-        "profile": [
-          "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-        ]
-      },
-      "extension": [
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-          "valueCodeableConcept": {
-            "coding": [
-              {
-                "system": "http://snomed.info/sct",
-                "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                "display": "Medicinal product (product)",
-                "code": "763158003"
-              }
-            ]
-          }
-        },
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-          "valueCoding": {
-            "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-            "code": "00"
-          }
-        },
-        {
-          "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-          "valueBoolean": false
-        },
-        {
-          "url": "http://fhir.de/StructureDefinition/normgroesse",
-          "valueCode": "N1"
-        }
-      ],
-      "code": {
-        "coding": [
-          {
-            "system": "http://fhir.de/CodeSystem/ifa/pzn",
-            "code": "06313728"
-          }
-        ],
-        "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
-      },
-      "form": {
-        "coding": [
-          {
-            "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-            "code": "TAB"
-          }
-        ]
-      },
-      "amount": {
-        "numerator": {
-          "unit": "TAB",
-          "system": "http://unitsofmeasure.org",
-          "code": "{tbl}",
-          "extension": [
-            {
-              "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-              "valueString": "10"
-            }
-          ]
-        },
-        "denominator": {
-          "value": 1
-        }
-      }
-    }
-  ],
-  "basedOn": [
-    {
-      "reference": "Task/160.123.456.789.123.58"
-    }
-  ],
-  "status": "unknown",
-  "sent": "2020-03-12T18:01:10+00:00",
-  "about": [
-    {
-      "reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"
-    }
-  ],
-  "recipient": [
-    {
-      "identifier": {
-        "system": "https://gematik.de/fhir/sid/telematik-id",
-        "value": "3-1.54.10123404"
-      }
-    }
-  ],
-  "sender": {
-    "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "X234567890"
-    }
-  },
-  "payload": [
-    {
-      "extension": [
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_InsuranceProvider",
-          "valueIdentifier": {
-            "system": "http://fhir.de/sid/arge-ik/iknr",
-            "value": "104212059"
-          }
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SupplyOptionsType",
-          "extension": [
-            {
-              "url": "onPremise",
-              "valueBoolean": true
-            },
-            {
-              "url": "delivery",
-              "valueBoolean": true
-            },
-            {
-              "url": "shipment",
-              "valueBoolean": false
-            }
-          ]
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_SubstitutionAllowedType",
-          "valueBoolean": true
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-          "valueCoding": {
-            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-            "code": "160",
-            "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-          }
-        },
-        {
-          "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PackageQuantity",
-          "valueQuantity": {
-            "system": "http://unitsofmeasure.org",
-            "code": "{Package}",
-            "value": 1
-          }
-        }
-      ],
-      "contentString": "Hallo, ich wollte gern fragen, ob das Medikament bei Ihnen vorraetig ist."
-    }
-  ]
-}
-----
-NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
-
-NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN im `"value": "X234567890"` des ` "identifier"` übernommen, in diesem Fall die KVNR des Versicherten als Absender der Anfrage.
-
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|201  | Created +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Warning
-|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
-|254            |Format der fullUrl ist ungültig. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
-|401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
-|403  |Forbidden +
-[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
-|405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
-|408 |Request Timeout +
-[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
-|429 |Too Many Requests +
-[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
-|500  |Server Errors +
-[small]#Unerwarteter Serverfehler#
-|===
-
-
-==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
-Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
-Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
-
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
-Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
-
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
-
-*Request*
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
-¦Method     ¦POST
-¦Requester ¦image:{AVS}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Content-Type: application/fhir+xml; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
-
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
-
-¦Payload    ¦
-[source,xml]
-----
-<Communication xmlns="http://hl7.org/fhir">
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
-    </meta>
-    <basedOn>
-        <reference value="Task/160.123.456.789.123.58"/>
-    </basedOn>
-    <status value="unknown" />
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="X234567890" />
-        </identifier>
-    </recipient>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;info_text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickUpCodeHR&quot;: &quot;12341234&quot;, &quot;pickUpCodeDMC&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;}" />
-    </payload>
-</Communication>
-----
-NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
-
-NOTE: In der Extension .payload.extension:OfferedSupplyOptions kann das AVS die zur Verfügung gestellten Optionen zur Belieferung angeben. Im JSON unter "supplyOptionsType" wird die ausgewählte Belieferungsart angegeben.
-
-NOTE: Die Extension .payload.extension:AvailabilityStatus kann genutzt werden, um anzugeben, wann eine Belieferung möglich ist. Die möglichen Werte sind in https://simplifier.net/erezept-workflow/gem-erp-cs-availabilitystatus definiert.
-|===
-
-
-*Response*
-HTTP/1.1 201 Created
-Content-Type: application/fhir+xml;charset=utf-8
-Location:
-  https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
-
-[source,xml]
-----
-<Communication xmlns="http://hl7.org/fhir">
-    <id value="8f9bb3ea-3480-45ea-bb0b-ffd33c57e4af"/>
-    <meta>
-        <versionId value="1"/>
-        <lastUpdated value="2020-03-12T18:01:10+00:00"/>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
-    </meta>
-    <basedOn>
-        <reference value="Task/160.123.456.789.123.58" />
-    </basedOn>
-    <status value="unknown" />
-    <sent value="2020-03-12T18:01:10+00:00" />
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="X234567890" />
-        </identifier>
-    </recipient>
-    <sender>
-        <identifier>
-            <system value="https://gematik.de/fhir/sid/telematik-id" />
-            <value value="606358757" />
-        </identifier>
-    </sender>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1,&quot;supplyOptionsType&quot;: &quot;onPremise&quot;,&quot;info_text&quot;: &quot;Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten.&quot;,&quot;url&quot;: &quot;https://sonnenschein-apotheke.de&quot;}" />
-    </payload>
-</Communication>
-----
-NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
-
-NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
-
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|201  | Created +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Warning
-|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
-|254            |Format der fullUrl ist ungültig. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
-[small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
-|401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
-|403  |Forbidden +
-[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
-|405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
-|408 |Request Timeout +
-[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
-|429 |Too Many Requests +
-[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
-|500  |Server Errors +
-[small]#Unerwarteter Serverfehler#
-|===
-
 ==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
-Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann.
+Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen zur Belieferung angeben.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
@@ -675,6 +155,133 @@ s|Code   s|Type Warning
 s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
+Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
+Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
+Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
+¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
+
+¦Payload    ¦
+[source,xml]
+----
+<Communication xmlns="http://hl7.org/fhir">
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
+    </meta>
+    <basedOn>
+        <reference value="Task/160.123.456.789.123.58"/>
+    </basedOn>
+    <status value="unknown" />
+    <recipient>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10" />
+            <value value="X234567890" />
+        </identifier>
+    </recipient>
+    <payload>
+        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;info_text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickUpCodeHR&quot;: &quot;12341234&quot;, &quot;pickUpCodeDMC&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;}" />
+    </payload>
+</Communication>
+----
+NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
+
+NOTE: In der Extension .payload.extension:OfferedSupplyOptions kann das AVS die zur Verfügung gestellten Optionen zur Belieferung angeben. Im JSON unter "supplyOptionsType" wird die ausgewählte Belieferungsart angegeben.
+
+NOTE: Die Extension .payload.extension:AvailabilityStatus kann genutzt werden, um anzugeben, wann eine Belieferung möglich ist. Die möglichen Werte sind in https://simplifier.net/erezept-workflow/gem-erp-cs-availabilitystatus definiert.
+|===
+
+
+*Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+Location:
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
+
+[source,xml]
+----
+<Communication xmlns="http://hl7.org/fhir">
+    <id value="8f9bb3ea-3480-45ea-bb0b-ffd33c57e4af"/>
+    <meta>
+        <versionId value="1"/>
+        <lastUpdated value="2020-03-12T18:01:10+00:00"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.3" />
+    </meta>
+    <basedOn>
+        <reference value="Task/160.123.456.789.123.58" />
+    </basedOn>
+    <status value="unknown" />
+    <sent value="2020-03-12T18:01:10+00:00" />
+    <recipient>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10" />
+            <value value="X234567890" />
+        </identifier>
+    </recipient>
+    <sender>
+        <identifier>
+            <system value="https://gematik.de/fhir/sid/telematik-id" />
+            <value value="606358757" />
+        </identifier>
+    </sender>
+    <payload>
+        <contentString value="{&quot;version&quot;: 1,&quot;supplyOptionsType&quot;: &quot;onPremise&quot;,&quot;info_text&quot;: &quot;Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten.&quot;,&quot;url&quot;: &quot;https://sonnenschein-apotheke.de&quot;}" />
+    </payload>
+</Communication>
+----
+NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
+
+NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
+[small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
 |401  |Unauthorized +
 [small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
