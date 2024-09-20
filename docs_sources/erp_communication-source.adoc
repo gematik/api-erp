@@ -24,11 +24,13 @@ WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifiziere
 * Byte Order Mark (BOM): U+FEFF
 * Replace Character (U+FFFD)
 
-==  Anwendungsfall Nachricht als Versicherter an eine Apotheke schicken
-Als Versicherter möchte ich der Apotheke eine Nachricht schicken, um zu fragen, ob sie mein E-Rezept beliefern kann. Über eine Verzeichnissuche habe ich die gewünschte Apotheke gefunden, meine App kennt deren Telematik-ID, an die die folgende Nachricht adressiert wird.
+==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
+Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen zur Belieferung angeben.
 
-Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
-Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
+Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
+Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
 
 *Request*
 [cols="h,a", separator=¦]
@@ -43,38 +45,30 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 Content-Type: application/fhir+json; charset=UTF-8
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
-
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_InfoReq|*1.2*")
 
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/01_request_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/05_request_RezeptZuweisen.json[]
 ----
-NOTE: Unter `"code": "06313728"` findet sich die Pharmazentralnummer (PZN) des angefragten Medikaments.
+NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
-NOTE: Das angefragte Medikament ist der Medication-Eintrag des verordneten E-Rezept-Datensatzes unter `"reference": "#5fe6e06c-8725-46d5-aecd-e65e041ca3de"` und wird 1:1 übernommen, dieser enthält die wesentlichen Anfrageinformationen für die Apotheke
-
-NOTE:  Als Empfänger-Adresse wird die Telematik-ID der Apotheke wie in `"value": "3-1.54.10123404"` angegeben, wie sie über die Suche im Verzeichnisdienst gefunden wurde.
-
-NOTE:  In einer Communication-Nachricht können unter `payload` mehrere Payload-Elemente angegeben werden, hier ein Beispiel für bevorzugte Belieferungsoptionen, die Kasse des anfragenden Versicherten, den Rezept-Typ `Flowtype` und einen Freitext.
+NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
 |===
-
 
 *Response*
 HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
+
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/02_response_PostPatientToPharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/06_response_RezeptZuweisen.json[]
 ----
-NOTE: Der Server übernimmt beim Absenden der Nachricht in `"sent": "2020-03-12T18:01:10+00:00"` den Sendezeitpunkt in die Communication-Ressource.
+WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
-NOTE: Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN im `"value": "X234567890"` des ` "identifier"` übernommen, in diesem Fall die KVNR des Versicherten als Absender der Anfrage.
-
+NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
 
 [cols="a,a"]
 [%autowidth]
@@ -103,7 +97,6 @@ s|Code   s|Type Error
 |500  |Server Errors +
 [small]#Unerwarteter Serverfehler#
 |===
-
 
 ==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
 Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
@@ -174,80 +167,6 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
 [small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
-|401  |Unauthorized +
-[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
-|403  |Forbidden +
-[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
-|405 |Method Not Allowed +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
-|408 |Request Timeout +
-[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
-|429 |Too Many Requests +
-[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
-|500  |Server Errors +
-[small]#Unerwarteter Serverfehler#
-|===
-
-==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
-Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann.
-
-Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
-Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
-
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
-
-*Request*
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/Communication
-¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Content-Type: application/fhir+json; charset=UTF-8
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
-
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
-
-¦Payload    ¦
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/05_request_RezeptZuweisen.json[]
-----
-NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.123.456.789.123.58/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
-
-NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
-|===
-
-*Response*
-HTTP/1.1 201 Created
-Content-Type: application/fhir+json;charset=utf-8
-
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_communication/06_response_RezeptZuweisen.json[]
-----
-WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
-
-NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|201  | Created +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
-s|Code   s|Type Warning
-|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
-|254            |Format der fullUrl ist ungültig. +
-                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
 [small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
