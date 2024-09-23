@@ -712,3 +712,14 @@ Ab Profilversion 1.4 übergibt das AVS diese Informationen getrennt in einem Par
 Schematisch kann das so dargestellt werden:
 
 image:fdv-bundle.png[width=70%]
+
+=== Beispiele für den Aufruf GET /MedicationDispense
+
+Folgende Beispielhafte Responses für den Aufruf GET /MedicationDispense können genutzt werden, um die neuen Profile zu testen:
+
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SimpleMedicationDispenseBundle.json[Bundle mit einer MedicationDispense 1.4 mit einfacher Medication	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-KomplexMedicationDispenseBundle.json[Bundle mit MedicationDispense 1.4 mit komplexer Medication (Rezeptur)	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-MultipleMedicationDispenseBundle.json[Bundle mit mehreren MedicationDispense 1.4 und einfacher Medication	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SearchSetMultipleMedicationDispenseBundle.json[Bundle mit 2x MedicationDispense 1.4, MedicationDispense 1.3 und MedicationDispense 1.2	]
+
+NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "match" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.
