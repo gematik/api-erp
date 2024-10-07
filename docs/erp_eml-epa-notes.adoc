@@ -360,7 +360,7 @@ NOTE: Zur Veranschaulichung der Daten kann der link:https://bfarm-referenzdatenb
 
 Die Darstellung von Rezepturen und Kombipackungen in der ePA unterscheidet sich zum Profil KBV_PR_ERP_Medication_Compounding.
 
-In KBV_PR_ERP_Medication_Compounding sind alle Bestandteile einer Rezeptur in _einer_ Medication als PZN Codes unter .ingredient aufgelistet. Dies bietet Vorteile für die Datensparsamkeit und reduziert die Komplexität der Daten.
+In KBV_PR_ERP_Medication_Compounding sind die Bestandteile einer Rezeptur in _einer_ Medication als PZN Codes unter .ingredient aufgelistet. Dies bietet Vorteile für die Datensparsamkeit und reduziert die Komplexität der Daten.
 
 Für die Abgabe von Rezepturen hat das technisch u.A. den Nachteil, dass nicht für jeden PZN-Bestandteil der Rezeptur eine Angabe zur Chargeninformation angegeben werden kann.
 
@@ -385,9 +385,9 @@ Die ePA bietet folgende Profile mit Besonderheiten:
 
 ==== Rezepturen
 
-Für Rezepturen wird genau eine EPA Medication erzeugt. Diese Medication enthält unter .extension:type den Wert "Extemporaneous preparation (product)". Damit ist diese Medication als Rezeptur gekennzeichnet.
+Für Rezepturen wird eine übergeordnete EPA Medication erzeugt. Diese Medication enthält unter .extension:type den Wert "Extemporaneous preparation (product)". Damit ist diese Medication als Rezeptur gekennzeichnet.
 
-Für jeden Bestandteil der Rezeptur wird  eine EPA Medication Ingredient erzeugt und als .contained hinzugefügt. Die EPA Medication Ingredient Objekte können keine weiteren Medications enthalten, sondern nur die Angaben zu einem Bestandteil einer Rezeptur.
+Für die einzelnen Bestandteile der Rezeptur wird eine EPA Medication Ingredient erzeugt und als .contained hinzugefügt. Die EPA Medication Ingredient Objekte können keine weiteren Medications enthalten, sondern nur die Angaben zu einem Bestandteil einer Rezeptur.
 
 Schematisch stellt sich eine Rezeptur wie folgt dar:
 
@@ -712,3 +712,14 @@ Ab Profilversion 1.4 übergibt das AVS diese Informationen getrennt in einem Par
 Schematisch kann das so dargestellt werden:
 
 image:fdv-bundle.png[width=70%]
+
+=== Beispiele für den Aufruf GET /MedicationDispense
+
+Folgende Beispielhafte Responses für den Aufruf GET /MedicationDispense können genutzt werden, um die neuen Profile zu testen:
+
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SimpleMedicationDispenseBundle.json[Bundle mit einer MedicationDispense 1.4 mit einfacher Medication	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-KomplexMedicationDispenseBundle.json[Bundle mit MedicationDispense 1.4 mit komplexer Medication (Rezeptur)	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-MultipleMedicationDispenseBundle.json[Bundle mit mehreren MedicationDispense 1.4 und einfacher Medication	]
+* link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SearchSetMultipleMedicationDispenseBundle.json[Bundle mit 2x MedicationDispense 1.4, MedicationDispense 1.3 und MedicationDispense 1.2	]
+
+NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "match" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.

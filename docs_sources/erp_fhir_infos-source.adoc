@@ -35,6 +35,21 @@ Für die QES-Erstellung durch den Konnektor liegen im Unterordner link:../sample
 
 Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur über Quittung bis zu den Abrechnungsdaten stehen im https://github.com/gematik/eRezept-Examples[Examples-Repo] zur Verfügung.
 
+=== Referenzierung von FHIR-Objekten in Bundles
+Der FHIR-Standard definiert wie Ressourcen in einem Bundle referenziert werden sollen. Siehe hierzu link:https://hl7.org/fhir/R4/references.html[Referezen] und link:http://hl7.org/fhir/R4/bundle.html[Bundles].
+
+Bei Verwendung von relativer Referenzierung in Bundles muss darauf geachtet werden, dass die id der fullUrl der Ressource mit der id der Ressource übereinstimmt.
+
+Beispielsweise ist folgende Konstellation ungültig, da der hintere Teil der fullUrl nicht mit der Ressourcen-ID übereinstimmt (b54dd6cad655 ≠ 000000000000):
+
+[source,xml]
+----
+<fullUrl value="http://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" />
+        <resource>
+            <Practitioner xmlns="http://hl7.org/fhir">
+                <id value="bc329f24-3d65-4286-bf06-000000000000" />
+----
+
 
 == Tools und Hinweise zu FHIR
 
