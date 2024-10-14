@@ -50,94 +50,94 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
 <?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="ExampleCloseInputParameters"/>
-  <meta>
-    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_CloseOperation_Input|1.4"/>
-  </meta>
-  <parameter>
-    <name value="rxDispensation"/>
-    <part>
-      <name value="medicationDispense"/>
-      <resource>
-        <MedicationDispense>
-          <id value="Example-MedicationDispense"/>
-          <meta>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
-          </meta>
-          <identifier>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-            <value value="160.000.033.491.280.78"/>
-          </identifier>
-          <status value="completed"/>
-          <medicationReference>
-            <reference value="SumatripanMedication"/>
-          </medicationReference>
-          <subject>
-            <identifier>
-              <system value="http://fhir.de/sid/gkv/kvid-10"/>
-              <value value="X123456789"/>
-            </identifier>
-          </subject>
-          <performer>
-            <actor>
-              <identifier>
-                <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                <value value="3-SMC-B-Testkarte-883110000095957"/>
-              </identifier>
-            </actor>
-          </performer>
-          <whenPrepared value="2024-04-03"/>
-          <whenHandedOver value="2024-04-03"/>
-        </MedicationDispense>
-      </resource>
-    </part>
-    <part>
-      <name value="medication"/>
-      <resource>
-        <Medication>
-          <id value="SumatripanMedication"/>
-          <meta>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_CloseOperation_Input|1.4"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.033.491.280.78"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <identifier>
+                                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                                <value value="3-SMC-B-Testkarte-883110000095957"/>
+                            </identifier>
+                        </actor>
+                    </performer>
+                    <whenPrepared value="2024-04-03"/>
+                    <whenHandedOver value="2024-04-03"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
                         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
-          </meta>
-          <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
-            <valueCoding>
-              <code value="00"/>
-            </valueCoding>
-          </extension>
-          <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
-            <valueBoolean value="false"/>
-          </extension>
-          <extension url="http://fhir.de/StructureDefinition/normgroesse">
-            <valueCode value="N1"/>
-          </extension>
-          <code>
-            <coding>
-              <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-              <code value="06313728"/>
-            </coding>
-            <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
-          </code>
-          <form>
-            <coding>
-              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
-              <code value="TAB"/>
-            </coding>
-          </form>
-          <amount>
-            <numerator>
-              <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                <valueString value="20 St."/>
-              </extension>
-              <value value="20"/>
-              <unit value="St"/>
-            </numerator>
-            <denominator>
-              <value value="1"/>
-            </denominator>
-          </amount>
-        </Medication>
-      </resource>
-    </part>
-  </parameter>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20 St."/>
+                            </extension>
+                            <value value="20"/>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
 </Parameters>
 ----
 ====
@@ -155,193 +155,193 @@ image:parameters-schematics-multiple.png[width=50%]
 <?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="ExampleDispenseInputParametersMultipleMedicationDispenses"/>
-  <meta>
-    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_DispenseOperation_Input|1.4"/>
-  </meta>
-  <parameter>
-    <name value="rxDispensation"/>
-    <part>
-      <name value="medicationDispense"/>
-      <resource>
-        <MedicationDispense>
-          <id value="Example-MedicationDispense"/>
-          <meta>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
-          </meta>
-          <identifier>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-            <value value="160.000.033.491.280.78"/>
-          </identifier>
-          <status value="completed"/>
-          <medicationReference>
-            <reference value="SumatripanMedication"/>
-          </medicationReference>
-          <subject>
-            <identifier>
-              <system value="http://fhir.de/sid/gkv/kvid-10"/>
-              <value value="X123456789"/>
-            </identifier>
-          </subject>
-          <performer>
-            <actor>
-              <identifier>
-                <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                <value value="3-SMC-B-Testkarte-883110000095957"/>
-              </identifier>
-            </actor>
-          </performer>
-          <whenPrepared value="2024-04-03"/>
-          <whenHandedOver value="2024-04-03"/>
-        </MedicationDispense>
-      </resource>
-    </part>
-    <part>
-      <name value="medication"/>
-      <resource>
-        <Medication>
-          <id value="SumatripanMedication"/>
-          <meta>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
-          </meta>
-          <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
-            <valueCoding>
-              <code value="00"/>
-            </valueCoding>
-          </extension>
-          <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
-            <valueBoolean value="false"/>
-          </extension>
-          <extension url="http://fhir.de/StructureDefinition/normgroesse">
-            <valueCode value="N1"/>
-          </extension>
-          <code>
-            <coding>
-              <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-              <code value="06313728"/>
-            </coding>
-            <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
-          </code>
-          <form>
-            <coding>
-              <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
-              <code value="TAB"/>
-            </coding>
-          </form>
-          <amount>
-            <numerator>
-              <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                <valueString value="20 St."/>
-              </extension>
-              <value value="20"/>
-              <unit value="St"/>
-            </numerator>
-            <denominator>
-              <value value="1"/>
-            </denominator>
-          </amount>
-        </Medication>
-      </resource>
-    </part>
-  </parameter>
-  <parameter>
-    <name value="rxDispensation"/>
-    <part>
-      <name value="medicationDispense"/>
-      <resource>
-        <MedicationDispense>
-          <id value="Example-MedicationDispense-2"/>
-          <meta>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
-          </meta>
-          <identifier>
-            <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-            <value value="160.153.303.257.459"/>
-          </identifier>
-          <status value="completed"/>
-          <medicationReference>
-            <reference value="Medication-Without-Strength-Code"/>
-          </medicationReference>
-          <subject>
-            <identifier>
-              <system value="http://fhir.de/sid/gkv/kvid-10"/>
-              <value value="X123456789"/>
-            </identifier>
-          </subject>
-          <performer>
-            <actor>
-              <identifier>
-                <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                <value value="3-SMC-B-Testkarte-883110000095957"/>
-              </identifier>
-            </actor>
-          </performer>
-          <whenPrepared value="2024-04-03"/>
-          <whenHandedOver value="2024-04-03"/>
-        </MedicationDispense>
-      </resource>
-    </part>
-    <part>
-      <name value="medication"/>
-      <resource>
-        <Medication>
-          <id value="Medication-Without-Strength-Code"/>
-          <meta>
-            <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
-          </meta>
-          <code>
-            <text value="Infusion bestehend aus 85mg Doxorubicin aufgeloest zur Verabreichung in 250ml 5-%iger (50 mg/ml) Glucose-Infusionsloesung"/>
-          </code>
-          <form>
-            <coding>
-              <system value="http://standardterms.edqm.eu"/>
-              <code value="11210000"/>
-              <display value="Solution for infusion"/>
-            </coding>
-          </form>
-          <ingredient>
-            <itemCodeableConcept>
-              <coding>
-                <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
-                <code value="L01DB01"/>
-                <display value="Doxorubicin"/>
-              </coding>
-            </itemCodeableConcept>
-            <isActive value="true"/>
-            <strength>
-              <numerator>
-                <value value="85"/>
-                <unit value="mg"/>
-                <system>
-                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                    <valueCode value="unknown"/>
-                  </extension>
-                </system>
-                <code>
-                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                    <valueCode value="unknown"/>
-                  </extension>
-                </code>
-              </numerator>
-              <denominator>
-                <value value="250"/>
-                <unit value="Milliliter"/>
-                <system>
-                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                    <valueCode value="unknown"/>
-                  </extension>
-                </system>
-                <code>
-                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                    <valueCode value="unknown"/>
-                  </extension>
-                </code>
-              </denominator>
-            </strength>
-          </ingredient>
-        </Medication>
-      </resource>
-    </part>
-  </parameter>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_DispenseOperation_Input|1.4"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.033.491.280.78"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <identifier>
+                                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                                <value value="3-SMC-B-Testkarte-883110000095957"/>
+                            </identifier>
+                        </actor>
+                    </performer>
+                    <whenPrepared value="2024-04-03"/>
+                    <whenHandedOver value="2024-04-03"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20 St."/>
+                            </extension>
+                            <value value="20"/>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense-2"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.153.303.257.459"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="Medication-Without-Strength-Code"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <identifier>
+                                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                                <value value="3-SMC-B-Testkarte-883110000095957"/>
+                            </identifier>
+                        </actor>
+                    </performer>
+                    <whenPrepared value="2024-04-03"/>
+                    <whenHandedOver value="2024-04-03"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="Medication-Without-Strength-Code"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
+                    </meta>
+                    <code>
+                        <text value="Infusion bestehend aus 85mg Doxorubicin aufgeloest zur Verabreichung in 250ml 5-%iger (50 mg/ml) Glucose-Infusionsloesung"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="http://standardterms.edqm.eu"/>
+                            <code value="11210000"/>
+                            <display value="Solution for infusion"/>
+                        </coding>
+                    </form>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <coding>
+                                <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
+                                <code value="L01DB01"/>
+                                <display value="Doxorubicin"/>
+                            </coding>
+                        </itemCodeableConcept>
+                        <isActive value="true"/>
+                        <strength>
+                            <numerator>
+                                <value value="85"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="250"/>
+                                <unit value="Milliliter"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
 </Parameters>
 ----
 ====
@@ -402,135 +402,135 @@ image:medication-rezeptur-schematics.png[width=50%]
 <?xml version="1.0" encoding="UTF-8"?>
 <Medication xmlns="http://hl7.org/fhir">
     <id value="Medication-Rezeptur"/>
-  <meta>
+    <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
-  </meta>
-  <contained>
-    <Medication>
-      <id value="MedicationHydrocortison"/>
-      <meta>
-        <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
-      </meta>
-      <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+    </meta>
+    <contained>
+        <Medication>
+            <id value="MedicationHydrocortison"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+                    <code value="781405001"/>
+                    <display value="Medicinal product package (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                    <code value="03424249"/>
+                    <display value="Hydrocortison 1% Creme"/>
+                </coding>
+            </code>
+            <batch>
+                <lotNumber value="56498416854"/>
+            </batch>
+        </Medication>
+    </contained>
+    <contained>
+        <Medication>
+            <id value="MedicationDexpanthenol"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+                    <code value="781405001"/>
+                    <display value="Medicinal product package (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                    <code value="16667195"/>
+                    <display value="Dexpanthenol 5% Creme"/>
+                </coding>
+            </code>
+            <batch>
+                <lotNumber value="0132456"/>
+            </batch>
+        </Medication>
+    </contained>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
         <valueCoding>
-          <system value="http://snomed.info/sct"/>
-          <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
-          <code value="781405001"/>
-          <display value="Medicinal product package (product)"/>
+            <system value="https://gematik.de/fhir/dev-epa-medication/CodeSystem/epa-drug-category-cs"/>
+            <code value="00"/>
         </valueCoding>
-      </extension>
-      <code>
-        <coding>
-          <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-          <code value="03424249"/>
-          <display value="Hydrocortison 1% Creme"/>
-        </coding>
-      </code>
-      <batch>
-        <lotNumber value="56498416854"/>
-      </batch>
-    </Medication>
-  </contained>
-  <contained>
-    <Medication>
-      <id value="MedicationDexpanthenol"/>
-      <meta>
-        <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pzn-ingredient"/>
-      </meta>
-      <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
         <valueCoding>
-          <system value="http://snomed.info/sct"/>
-          <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
-          <code value="781405001"/>
-          <display value="Medicinal product package (product)"/>
+            <system value="http://snomed.info/sct"/>
+            <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
+            <code value="1208954007"/>
+            <display value="Extemporaneous preparation (product)"/>
         </valueCoding>
-      </extension>
-      <code>
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+        <valueBoolean value="false"/>
+    </extension>
+    <code>
+        <text value="Hydrocortison-Dexpanthenol-Salbe"/>
+    </code>
+    <form>
         <coding>
-          <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-          <code value="16667195"/>
-          <display value="Dexpanthenol 5% Creme"/>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+            <code value="SAL"/>
         </coding>
-      </code>
-      <batch>
-        <lotNumber value="0132456"/>
-      </batch>
-    </Medication>
-  </contained>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
-    <valueCoding>
-      <system value="https://gematik.de/fhir/dev-epa-medication/CodeSystem/epa-drug-category-cs"/>
-      <code value="00"/>
-    </valueCoding>
-  </extension>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
-    <valueCoding>
-      <system value="http://snomed.info/sct"/>
-      <version value="http://snomed.info/sct/900000000000207008/version/20240201"/>
-      <code value="1208954007"/>
-      <display value="Extemporaneous preparation (product)"/>
-    </valueCoding>
-  </extension>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
-    <valueBoolean value="false"/>
-  </extension>
-  <code>
-    <text value="Hydrocortison-Dexpanthenol-Salbe"/>
-  </code>
-  <form>
-    <coding>
-      <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
-      <code value="SAL"/>
-    </coding>
-  </form>
-  <amount>
-    <numerator>
-      <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-        <valueString value="100 ml"/>
-      </extension>
-      <value value="20"/>
-      <unit value="ml"/>
-    </numerator>
-    <denominator>
-      <value value="1"/>
-    </denominator>
-  </amount>
-  <ingredient>
-    <itemReference>
-      <reference value="#MedicationHydrocortison"/>
-    </itemReference>
-    <isActive value="true"/>
-    <strength>
-      <numerator>
-        <value value="50"/>
-        <system value="http://unitsofmeasure.org"/>
-        <code value="g"/>
-      </numerator>
-      <denominator>
-        <value value="100"/>
-        <system value="http://unitsofmeasure.org"/>
-        <code value="g"/>
-      </denominator>
-    </strength>
-  </ingredient>
-  <ingredient>
-    <itemReference>
-      <reference value="#MedicationDexpanthenol"/>
-    </itemReference>
-    <isActive value="true"/>
-    <strength>
-      <numerator>
-        <value value="50"/>
-        <system value="http://unitsofmeasure.org"/>
-        <code value="g"/>
-      </numerator>
-      <denominator>
-        <value value="100"/>
-        <system value="http://unitsofmeasure.org"/>
-        <code value="g"/>
-      </denominator>
-    </strength>
-  </ingredient>
+    </form>
+    <amount>
+        <numerator>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                <valueString value="100 ml"/>
+            </extension>
+            <value value="20"/>
+            <unit value="ml"/>
+        </numerator>
+        <denominator>
+            <value value="1"/>
+        </denominator>
+    </amount>
+    <ingredient>
+        <itemReference>
+            <reference value="#MedicationHydrocortison"/>
+        </itemReference>
+        <isActive value="true"/>
+        <strength>
+            <numerator>
+                <value value="50"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </numerator>
+            <denominator>
+                <value value="100"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </denominator>
+        </strength>
+    </ingredient>
+    <ingredient>
+        <itemReference>
+            <reference value="#MedicationDexpanthenol"/>
+        </itemReference>
+        <isActive value="true"/>
+        <strength>
+            <numerator>
+                <value value="50"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </numerator>
+            <denominator>
+                <value value="100"/>
+                <system value="http://unitsofmeasure.org"/>
+                <code value="g"/>
+            </denominator>
+        </strength>
+    </ingredient>
 </Medication>
 ----
 ====
@@ -548,146 +548,146 @@ Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredi
 <?xml version="1.0" encoding="UTF-8"?>
 <Medication xmlns="http://hl7.org/fhir">
     <id value="Medication-Kombipackung"/>
-  <meta>
+    <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
-  </meta>
-  <contained>
-    <Medication>
-      <id value="Augentropfen"/>
-      <meta>
-        <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pharmaceutical-product"/>
-      </meta>
-      <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
-        <valueCoding>
-          <system value="http://snomed.info/sct"/>
-          <code value="373873005"/>
-          <display value="Pharmaceutical / biologic product (product)"/>
-        </valueCoding>
-      </extension>
-      <code>
-        <coding>
-          <system value="http://fhir.de/CodeSystem/abdata/Komponentennummer"/>
-          <code value="01746517-1"/>
-          <display value="Augentropfen"/>
-        </coding>
-      </code>
-      <ingredient>
-        <itemCodeableConcept>
-          <coding>
-            <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
-            <code value="R01AC01"/>
-            <display value="Natriumcromoglicat"/>
-          </coding>
-        </itemCodeableConcept>
-        <strength>
-          <numerator>
-            <value value="20"/>
-            <unit value="mg"/>
-            <system value="http://unitsofmeasure.org"/>
-            <code value="mg"/>
-          </numerator>
-          <denominator>
-            <value value="1"/>
-            <unit value="ml"/>
-            <system value="http://unitsofmeasure.org"/>
-            <code value="ml"/>
-          </denominator>
-        </strength>
-      </ingredient>
-      <batch>
-        <lotNumber value="0132456"/>
-      </batch>
-    </Medication>
-  </contained>
-  <contained>
-    <Medication>
-      <id value="NasenSpray"/>
-      <meta>
-        <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pharmaceutical-product"/>
-      </meta>
-      <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
-        <valueCoding>
-          <system value="http://snomed.info/sct"/>
-          <code value="373873005"/>
-          <display value="Pharmaceutical / biologic product (product)"/>
-        </valueCoding>
-      </extension>
-      <code>
-        <coding>
-          <system value="http://fhir.de/CodeSystem/abdata/Komponentennummer"/>
-          <code value="01746517-2"/>
+    </meta>
+    <contained>
+        <Medication>
+            <id value="Augentropfen"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pharmaceutical-product"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <code value="373873005"/>
+                    <display value="Pharmaceutical / biologic product (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/abdata/Komponentennummer"/>
+                    <code value="01746517-1"/>
+                    <display value="Augentropfen"/>
+                </coding>
+            </code>
+            <ingredient>
+                <itemCodeableConcept>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
+                        <code value="R01AC01"/>
+                        <display value="Natriumcromoglicat"/>
+                    </coding>
+                </itemCodeableConcept>
+                <strength>
+                    <numerator>
+                        <value value="20"/>
+                        <unit value="mg"/>
+                        <system value="http://unitsofmeasure.org"/>
+                        <code value="mg"/>
+                    </numerator>
+                    <denominator>
+                        <value value="1"/>
+                        <unit value="ml"/>
+                        <system value="http://unitsofmeasure.org"/>
+                        <code value="ml"/>
+                    </denominator>
+                </strength>
+            </ingredient>
+            <batch>
+                <lotNumber value="0132456"/>
+            </batch>
+        </Medication>
+    </contained>
+    <contained>
+        <Medication>
+            <id value="NasenSpray"/>
+            <meta>
+                <profile value="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-pharmaceutical-product"/>
+            </meta>
+            <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+                <valueCoding>
+                    <system value="http://snomed.info/sct"/>
+                    <code value="373873005"/>
+                    <display value="Pharmaceutical / biologic product (product)"/>
+                </valueCoding>
+            </extension>
+            <code>
+                <coding>
+                    <system value="http://fhir.de/CodeSystem/abdata/Komponentennummer"/>
+                    <code value="01746517-2"/>
                     <display value="Nasenspray, Lösung"/>
-        </coding>
-      </code>
-      <ingredient>
-        <itemCodeableConcept>
-          <coding>
-            <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
-            <code value="R01AC01"/>
-            <display value="Natriumcromoglicat"/>
-          </coding>
-        </itemCodeableConcept>
-        <strength>
-          <numerator>
-            <value value="2.8"/>
-            <unit value="mg"/>
-            <system value="http://unitsofmeasure.org"/>
-            <code value="mg"/>
-          </numerator>
-          <denominator>
-            <value value="1"/>
+                </coding>
+            </code>
+            <ingredient>
+                <itemCodeableConcept>
+                    <coding>
+                        <system value="http://fhir.de/CodeSystem/bfarm/atc"/>
+                        <code value="R01AC01"/>
+                        <display value="Natriumcromoglicat"/>
+                    </coding>
+                </itemCodeableConcept>
+                <strength>
+                    <numerator>
+                        <value value="2.8"/>
+                        <unit value="mg"/>
+                        <system value="http://unitsofmeasure.org"/>
+                        <code value="mg"/>
+                    </numerator>
+                    <denominator>
+                        <value value="1"/>
                         <unit value="Sprühstoß"/>
-            <system value="http://unitsofmeasure.org"/>
-            <code value="1"/>
-          </denominator>
-        </strength>
-      </ingredient>
-      <batch>
-        <lotNumber value="56498416854"/>
-      </batch>
-    </Medication>
-  </contained>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
-    <valueCoding>
-      <system value="http://snomed.info/sct"/>
-      <code value="781405001"/>
-      <display value="Medicinal product package"/>
-    </valueCoding>
-  </extension>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
-    <valueBoolean value="false"/>
-  </extension>
-  <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
-    <valueCoding>
-      <code value="00"/>
+                        <system value="http://unitsofmeasure.org"/>
+                        <code value="1"/>
+                    </denominator>
+                </strength>
+            </ingredient>
+            <batch>
+                <lotNumber value="56498416854"/>
+            </batch>
+        </Medication>
+    </contained>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/epa-medication-type-extension">
+        <valueCoding>
+            <system value="http://snomed.info/sct"/>
+            <code value="781405001"/>
+            <display value="Medicinal product package"/>
+        </valueCoding>
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/medication-id-vaccine-extension">
+        <valueBoolean value="false"/>
+    </extension>
+    <extension url="https://gematik.de/fhir/dev-epa-medication/StructureDefinition/drug-category-extension">
+        <valueCoding>
+            <code value="00"/>
             <display value="Arzneimittel oder in die Arzneimittelversorgung nach § 31 SGB V einbezogenes Produkt"/>
-    </valueCoding>
-  </extension>
-  <code>
-    <coding>
-      <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-      <code value="1746517"/>
-      <display value="CROMO-RATIOPHARM Kombipackung"/>
-    </coding>
-  </code>
-  <status value="active"/>
-  <form>
-    <coding>
-      <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
-      <code value="KPG"/>
-    </coding>
-    <text value="Kombipackung"/>
-  </form>
-  <ingredient>
-    <itemReference>
-      <reference value="#NasenSpray"/>
-    </itemReference>
-  </ingredient>
-  <ingredient>
-    <itemReference>
-      <reference value="#Augentropfen"/>
-    </itemReference>
-  </ingredient>
+        </valueCoding>
+    </extension>
+    <code>
+        <coding>
+            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+            <code value="1746517"/>
+            <display value="CROMO-RATIOPHARM Kombipackung"/>
+        </coding>
+    </code>
+    <status value="active"/>
+    <form>
+        <coding>
+            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+            <code value="KPG"/>
+        </coding>
+        <text value="Kombipackung"/>
+    </form>
+    <ingredient>
+        <itemReference>
+            <reference value="#NasenSpray"/>
+        </itemReference>
+    </ingredient>
+    <ingredient>
+        <itemReference>
+            <reference value="#Augentropfen"/>
+        </itemReference>
+    </ingredient>
 </Medication>
 ----
 ====
