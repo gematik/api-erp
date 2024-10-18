@@ -110,6 +110,10 @@ Das gesamte Feature kann als Vorabversion hier eingesehen werden: link:https://g
 
 NOTE: Verordnungen und Dispensierungen, die mit den Workflow-Profilen 1.2 und 1.3 erstellt werden, werden ebenfalls in die ePA übertragen.
 
+NOTE: Der ePA MedicationService weist Anfragen zur Übermittlung von Abgabedaten des E-Rezept-Fachdienstes ab, wenn kein Verordnungsdatensatz zur Task-ID existiert. 
+In der Startphase wird der E-Rezept-Fachdienst in dem Fall versuchen die Verordnung erneut zu übermitteln. 
+Da für diesen Aufruf Daten im E-Rezept-Fachdienst gespeichert werden müssen, die aktuell nicht gespeichert sind, funktioniert dies nur für Verordnungen, die nach dem Deployment der Version 1.16.0 (PU: 17.12.) eingestellt wurden.
+
 ==== Änderungen für abgebende Primärsysteme (AVS)
 
 * Implementieren neuer MedicationDispense und Medication Profile
