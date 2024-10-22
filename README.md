@@ -2,6 +2,7 @@
 [PVS]: https://img.shields.io/badge/PVS/KIS-C30059
 [AVS]: https://img.shields.io/badge/AVS-E30615
 [FdV]: https://img.shields.io/badge/FdV-green
+[KTR]: https://img.shields.io/badge/KTR-AE8E1C
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
@@ -68,6 +69,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
 |[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Bedienen von DiGA-Verordnungen](docs/erp_diga.adoc)|![][PVS] ![][KTR] ![][FdV]|
 
 ### Besondere Anwendungsfälle
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
