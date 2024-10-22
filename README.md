@@ -69,7 +69,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
 |[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[Bedienung von E-Rezepten digitaler Gesundheitsanwendungen (DiGA)](docs/erp_diga.adoc)|![][PVS] ![][AVS] ![][KTR] ![][FdV]|
+|[Bedienen von DiGA-Verordnungen](docs/erp_diga.adoc)|![][PVS] ![][KTR] ![][FdV]|
 
 ### Besondere Anwendungsfälle
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
