@@ -145,75 +145,32 @@ Es erfolgt ein Update der Abgabedaten des DAV, den Abrechnungsdaten von GKV-SV u
 
 |DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.1[Package 1.4.1 Profile 1.4^] a|
 
-v1.4.1
-
-* Add constraint
-** "EX-Datum" on Extension-DAV-EX-ERP-Zusatzattribute - ZusatzattributGruppeFuerGenehmigung.extension:Datum
-* Add ZusatzattributGruppe 16 (Teilmengenabgabe)
-** DAV-CS-ERP-ZusatzattributGruppe
-** DAV_EX_ERP_Zusatzattribute
-
-v1.4
-
-* increase version of CodeSystems or ValueSets only when changed
-* Cleanup differential definitions
-* DAV-PR-Base-Apotheke -> Organization.address.country -> binding -> extensible to required
-* Extension-DAV-EX-ERP-Zusatzattribute
-** Extension.extension:ZusatzattributGruppeFuerGenehmigung.extension:DokumentationFreitext.valueString
-**** set maxLength 20
-* Add constraints
-** Extension-DAV-EX-ERP-Zusatzattribute
-** "PR-DatumMitZeit" on ZusatzattributAbgabeNoctu.extension:DatumUhrzeit
-** Profile-DAV-PR-Base-Abrechnungszeilen
-** "PR-SEQUENCE"
-** "PR-NOCTU" on lineItem
-** Profile-DAV-PR-Base-ZusatzdatenEinheit
-** "PR-SEQUENCE"
-** Profile-DAV-PR-Base-ZusatzdatenHerstellung
-** "PR-DatumMitZeit" on whenPrepared
+link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.1[Release Notes]
 
 |16.05.2024 |01.11.2024 |-
 
 |DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.4.1[Package 1.4.1 Profile 1.4^] a|
 
-v1.4.1
+link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.4.1[Release Notes]
 
-* Add Rezeptänderung 13 & 14 (Lieferengpass, Dringlichkeitsliste)
-* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.1"
-
-v1.4
-
-* Cleanup differential definitions
-* Edit definition DAV_PR_ERP_Abgabeinformationen - extension:Vertragskennzeichen
-* DAV-CS-ERP-ZusatzdatenEinheitFaktorkennzeichen (increase version - v1.4)
-** Delete 56
-* siehe Änderungen (Dependencies) on "de.abda.erezeptabgabedatenbasis 1.4.0"
 
 |16.05.2024 |01.11.2024 |-
 
 |GKV-SV de.gkvsv.eRezeptAbrechnungsdaten |link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.4.0[Package 1.4.0 Profile 1.4^] a|
 
-* GKVSV_PR_TA7_Rechnung_Bundle
-** Constraint "dname-1" hinzugefügt. Dieser prüft, ob der eigene Dateiname in der TA7_Rechnung_List enthalten ist
-** bundle.type auf "document" gesetzt
+link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.4.0[Release Notes]
 
 |01.05.2024 |ab Abrechnungsmonat 11/2024 |-
 
 |gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.1[Package 1.3.1 Profile 1.3^] a|
 
-Bereitstellung des Features "Zeitnahe Dokumentation der Abgabe"
-
-* $close Operation kann optional eine MedicationDispense als Eingangsparameter haben
-* .sender von 1..1 zu 0..1, da beim Einstellen einer Communication der FD den Sender setzt
-* neue $dispense Operation (für Zeitnahe Dokumentation der Abgabe)
-* MedicationDispense.whenHandedOver müssen dem Format YYYY-MM-DD entsprechen
-* Allgemeine Verbesserungen der Beschreibungen
+link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.1[Release Notes]
 
 |21.05.2024 |01.11.2024 |15.04.2025
 
 |gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] a|
 
-* Anpassen der Abhängigkeiten zum Workflow Package
+link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Release Notes]
 
 |01.05.2024 |01.11.2024 |15.04.2025
 
