@@ -261,7 +261,7 @@ s|Code   s|Type Error
 
 Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet.
 
-Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird als Hexadezimal der Form `[A-Fa-f0-9]` angegeben.
+Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird wie im Zertifikat als positive Integer angegeben.
 
 Als Antwort liefert der E-Rezept-Fachdienst eine frische oder gecachte OCSP Response für das angefragte Zertifikat nach RFC 6960.
 
