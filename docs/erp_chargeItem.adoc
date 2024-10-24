@@ -173,8 +173,8 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
-    <id value="200.000.001.944.091.20"/>
-    <meta id="ChargeItem-erp-chargeItem-03-POST-ChargeItem-Request">
+    <id value="200.000.000.000.000.01"/>
+    <meta>
         <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <contained>
@@ -237,8 +237,8 @@ Content-Type: application/fhir+xml;charset=utf-8
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
-    <id value="200.000.001.944.091.20-1"/>
-    <meta id="ChargeItem-erp-chargeItem-04-POST-ChargeItem-Response">
+    <id value="200.000.000.000.000.01"/>
+    <meta>
         <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <identifier>
@@ -352,12 +352,12 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-chargeItem-05-GET-ChargeItem-Response"/>
     <type value="collection"/>
-    <timestamp value="2023-11-21T08:18:58.929+00:00"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
     <entry>
         <fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/ChargeItem/200.000.001.944.091.20"/>
         <resource>
             <ChargeItem>
-                <id value="200.000.001.944.091.20"/>
+                <id value="200.000.000.000.000.01"/>
                 <meta>
                     <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
                 </meta>
@@ -1131,7 +1131,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                 </chargeItemCodeableConcept>
                                 <priceComponent>
                                     <extension url="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-MwStSatz">
-                                        <valueDecimal value="19"/>
+                                        <valueDecimal value="19.00"/>
                                     </extension>
                                     <extension url="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-KostenVersicherter">
                                         <extension url="Kategorie">
@@ -1144,7 +1144,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                         </extension>
                                         <extension url="Kostenbetrag">
                                             <valueMoney>
-                                                <value value="0"/>
+                                                <value value="0.00"/>
                                                 <currency value="EUR"/>
                                             </valueMoney>
                                         </extension>
@@ -1160,7 +1160,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                             <totalGross>
                                 <extension url="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-Gesamtzuzahlung">
                                     <valueMoney>
-                                        <value value="0"/>
+                                        <value value="0.00"/>
                                         <currency value="EUR"/>
                                     </valueMoney>
                                 </extension>
@@ -1234,8 +1234,8 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
-    <id value="200.000.001.944.091.20-2"/>
-    <meta id="ChargeItem-erp-chargeItem-06-PUT-ChargeItem-Request">
+    <id value="200.000.000.000.000.01"/>
+    <meta>
         <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <contained>
@@ -1295,8 +1295,8 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 [source,xml]
 ----
 <ChargeItem xmlns="http://hl7.org/fhir">
-    <id value="200.000.001.944.091.20-3"/>
-    <meta id="ChargeItem-erp-chargeItem-07-PUT-ChargeItem-Response">
+    <id value="200.000.000.000.000.01"/>
+    <meta>
         <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <identifier>
@@ -1410,9 +1410,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 {
   "resourceType": "Bundle",
   "id": "erp-chargeItem-08-GET-ChargeItems-response",
-  "meta": {
-    "lastUpdated": "2023-09-02T11:38:42.557+00:00"
-  },
   "type": "searchset",
   "total": 2,
   "entry": [
@@ -1420,7 +1417,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/200.000.000.000.000.01",
       "resource": {
         "resourceType": "ChargeItem",
-        "id": "200.000.000.000.000.01-01",
+        "id": "000.000.01",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
@@ -1605,7 +1602,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/ChargeItem/200.000.000.000.000.01",
       "resource": {
         "resourceType": "ChargeItem",
-        "id": "200.000.000.000.000.01-1",
+        "id": "000.000.01",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
@@ -1616,10 +1613,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
             "value": "200.000.000.000.000.01"
-          },
-          {
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-            "value": "555bjf73jr8d9si2ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
         "enterer": {
@@ -1634,11 +1627,11 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "reference": "urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"
           },
           {
-            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
+            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "reference": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"
           },
           {
-            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
+            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
             "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
           }
         ],
@@ -2812,12 +2805,11 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
 ----
 {
   "resourceType": "ChargeItem",
-  "id": "200.000.000.000.000.01",
+  "id": "000.000.01",
   "meta": {
     "profile": [
       "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
-    ],
-    "id": "ChargeItem-erp-chargeItem-11-PATCH-ChargeItem-Response"
+    ]
   },
   "status": "billable",
   "identifier": [

@@ -119,7 +119,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
 
 <Task xmlns="http://hl7.org/fhir">
     <id value="160.000.000.000.000.01"/>
-    <meta id="Task-erp-bereitstellen-01-response-taskCreate">
+    <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
@@ -128,12 +128,6 @@ Content-Type: application/fhir+xml; charset=UTF-8
             <code value="160"/>
             <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
         </valueCoding>
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2025-02-12"/>
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2025-04-15"/>
     </extension>
     <identifier>
         <use value="official"/>
@@ -147,12 +141,6 @@ Content-Type: application/fhir+xml; charset=UTF-8
     </identifier>
     <status value="draft"/>
     <intent value="order"/>
-    <for>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </for>
     <authoredOn value="2025-01-15T15:29:00+00:00"/>
     <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
@@ -1176,8 +1164,8 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 
 <Task xmlns="http://hl7.org/fhir">
-    <id value="160.000.000.000.000.01-01"/>
-    <meta id="Task-erp-bereitstellen-05-response-taskActivate">
+    <id value="160.000.000.000.000.01"/>
+    <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
