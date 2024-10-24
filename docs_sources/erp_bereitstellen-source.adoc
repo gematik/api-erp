@@ -197,11 +197,27 @@ NOTE: In `<m:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign">` erfolgt die
 
 NOTE: Das Flag `<m:IncludeRevocationInfo>true</m:IncludeRevocationInfo>` weist den Konnektor an, die OCSP-Statusprüfung des Signaturzertifikats in den Signaturcontainer mit einzubetten. Dadurch kann die spätere Signaturprüfung ohne erneute Statusabfrage erfolgen.
 
+|Response    a|
+
+.Response Body
+[%collapsible]
+====
+
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_bereitstellen/03_request_SignDocument.xml[]
+----
+
+link:https://github.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_bereitstellen/03_request_SignDocument.xml[Link zum Beispiel]
+
+====
+
 |===
 
 IMPORTANT: Der Parameter `IncludeRevocationInfo = true` ist von herausragender Bedeutung. Die in der Signatur eingebettete OCSP-Response vereinfacht die Signaturprüfung im weiteren Prozess und in der späteren Abrechnung.
 
 *Response*
+
 [source,xml]
 ----
 HTTP/1.1 200 OK
@@ -209,6 +225,8 @@ Content-Type: text/xml;charset=utf-8
 
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_bereitstellen/04_response_SignDocument.xml[]
 ----
+
+
 NOTE: Das Ergebnis der erfolgreichen qualifizierten Signatur wird Base64-codiert in `<ns5:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
 NOTE: Der Inhalt der base64-codierten Signatur findet sich im Unterordner der link:../samples/qes/signed[Beispiele] in der Datei `4fe2013d-ae94-441a-a1b1-78236ae65680_S_SECUN_secu_kon_4.8.2_4.1.3.p7` und kann mit einem ASN.1-Viewer eingesehen werden.
