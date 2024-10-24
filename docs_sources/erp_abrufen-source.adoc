@@ -317,7 +317,7 @@ NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. i
 
 |===
 
-Es können auch mehrere MedicationDispenses für eine $dispense-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
+Es können auch mehrere MedicationDispenses für eine $dispense-Operation übergeben werden.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
@@ -332,20 +332,14 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API
 ====
 
 *Response*
-[source,xml]
-----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen/08_response_taskDispense.xml[]
-----
 
 
 [cols="a,a"]
 [%autowidth]
 |===
 s|Code   s|Type Success
-|200  | OK +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das "Location"-Header-Feld enthält die Adresse der erstellten Ressource.#
-|201  | OK +
-[small]#Neues Objekt wurde erfolgreich angelegt, in der Rückgabe ist das Objekt enthalten.#
+|204  | No Content +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Abgabeinformationen wurden erfolgreich im Fachdienst eingestellt#
 s|Code   s|Type Warning
 |253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
                 [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#

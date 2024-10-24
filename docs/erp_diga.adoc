@@ -422,12 +422,11 @@ Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode
 ----
 {
   "resourceType": "MedicationDispense",
-  "id": "162.000.000.000.000.01-5",
+  "id": "erp-diga-04-medication-dispense-diga",
   "meta": {
     "profile": [
       "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"
-    ],
-    "id": "MedicationDispense-erp-diga-04-medication-dispense-diga"
+    ]
   },
   "identifier": [
     {
@@ -652,7 +651,42 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-Unresolved directive in erp_diga-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/feature/api-examples-wf-1.4.2/API-Examples/2025-01-15/erp_diga/06_medication_dispense_diga.xml[]
+<MedicationDispense xmlns="http://hl7.org/fhir">
+    <id value="erp-diga-06-medication-dispense-diga"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"/>
+    </meta>
+    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_RedeemCode">
+        <valueString value="DE12345678901234"/>
+    </extension>
+    <identifier>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+        <value value="162.000.000.000.000.01"/>
+    </identifier>
+    <status value="completed"/>
+    <medicationReference>
+        <identifier>
+            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+            <value value="12345678"/>
+        </identifier>
+        <display value="Gematico Diabetestherapie"/>
+    </medicationReference>
+    <subject>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </subject>
+    <performer>
+        <actor>
+            <identifier>
+                <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                <value value="8-SMC-B-Testkarte-883110000116873"/>
+            </identifier>
+        </actor>
+    </performer>
+    <whenHandedOver value="2024-04-03"/>
+</MedicationDispense>
 ----
 
 NOTE: Mit der Übergabe der MedicationDispense signalisiert der Kostenträger den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen zur DiGA und den Freischaltcode.
