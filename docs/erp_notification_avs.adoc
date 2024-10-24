@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: feature/api-examples-wf-1.4.2
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{AVS}[]
 
 Auf dieser Seite dokumentiert die gematik die Schnittstellen des E-Rezept-Fachdienstes für Apotheken, über welche sie sich für Benachrichtigungen bei neuen Communications, registrieren können.
@@ -58,8 +62,9 @@ Content-Type: application/fhir+xml; charset=UTF-8
 Accept: application/fhir+xml; charset=utf-8
 
 <Subscription xmlns="http://hl7.org/fhir">
+    <id value="erp-notification-avs-01-request-PostSubscriptionPseudo"/>
     <status value="requested"/>
-    <reason value="Communication notifications" />
+    <reason value="Communication notifications"/>
     <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
     <channel>
         <type value="websocket"/>
@@ -81,11 +86,11 @@ HTTP/1.1 200 OK
 Content-Length: 510
 Content-Type: application/fhir+xml;charset=utf-8
 
-<Subscription>
-    <id value="df694c098c2fb373524150461cfd9d23"/>
+<Subscription xmlns="http://hl7.org/fhir">
+    <id value="erp-notification-avs-02-response-PostSubscriptionPseudo"/>
     <status value="active"/>
     <end value="2022-01-01T00:00:00Z"/>
-    <reason value="Communication notifications" />
+    <reason value="Communication notifications"/>
     <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
     <channel>
         <type value="websocket"/>

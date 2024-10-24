@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: feature/api-examples-wf-1.4.2
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten, die ihre E-Rezepte verwalten und einlösen möchten.
@@ -71,7 +75,7 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 {
   "resourceType": "Bundle",
-  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "id": "erp-versicherte-01-response-taskGetAll",
   "meta": {
     "lastUpdated": "2020-03-01T07:02:37.836+00:00"
   },
@@ -84,92 +88,80 @@ Content-Type: application/fhir+json;charset=utf-8
   ],
   "entry": [
     {
-      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01",
       "resource": {
         "resourceType": "Task",
-        "id": "160.123.456.789.123.58",
+        "id": "160.000.000.000.000.01",
         "meta": {
-          "versionId": "2",
-          "lastUpdated": "2020-02-18T10:05:05.038+00:00",
-          "source": "#AsYR9plLkvONJAiv",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
           ]
         },
+        "intent": "order",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "160",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-02-12"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
+          }
+        ],
         "identifier": [
           {
             "use": "official",
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.123.456.789.123.58"
+            "value": "160.000.000.000.000.01"
           },
           {
-            "use": "official",
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "intent": "order",
-        "status": "ready",
-        "extension": [
-          {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-            "valueCoding": {
-              "code": "160",
-              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-            }
-          },
-          {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2020-06-02"
-          },
-          {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2020-04-01"
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
           }
-        ],
-        "authoredOn": "2020-03-02T08:25:05+00:00",
-        "lastModified": "2020-03-02T08:45:05+00:00",
+        },
+        "status": "ready",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
         "performerType": [
-           {
-             "coding": [
-               {
-                 "code": "urn:oid:1.2.276.0.76.4.54",
-                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                 "display": "Öffentliche Apotheke"
-               }
-             ]
-           }
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
         ]
       }
     },
     {
-      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.78",
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.02",
       "resource": {
         "resourceType": "Task",
-        "id": "160.123.456.789.123.78",
+        "id": "160.000.000.000.000.02",
         "meta": {
-          "versionId": "2",
-          "lastUpdated": "2020-02-18T10:06:05.038+00:00",
-          "source": "#AsYR9plLkvONJAiv",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
           ]
         },
-        "identifier": [
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.123.456.789.123.78"
-          },
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-            "value": "777bea0e13cc9c42ceec14aec3ddee8402643dc2c6c699db115f58fe423607ea"
-          }
-        ],
         "intent": "order",
-        "status": "ready",
         "extension": [
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -180,56 +172,60 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2020-06-02"
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-02-12"
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2020-04-01"
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
           }
         ],
-        "authoredOn": "2020-03-02T08:25:05+00:00",
-        "lastModified": "2020-03-02T08:45:05+00:00",
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.02"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "status": "ready",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
         "performerType": [
-           {
-             "coding": [
-               {
-                 "code": "urn:oid:1.2.276.0.76.4.54",
-                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                 "display": "Öffentliche Apotheke"
-               }
-             ]
-           }
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
         ]
       }
     },
     {
-      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.61",
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.03",
       "resource": {
         "resourceType": "Task",
-        "id": "160.123.456.789.123.61",
+        "id": "160.000.000.000.000.03",
         "meta": {
-          "versionId": "2",
-          "lastUpdated": "2020-02-18T10:05:05.038+00:00",
-          "source": "#AsYR9plLkvONJAiv",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
           ]
         },
-        "identifier": [
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.123.456.789.123.61"
-          },
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607bl"
-          }
-        ],
         "intent": "order",
-        "status": "in-progress",
         "extension": [
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -240,30 +236,46 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2020-06-02"
-          },
-          {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2020-04-01"
+            "valueDate": "2025-02-12"
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_LastMedicationDispense",
-            "valueInstant": "2020-04-01T16:37:17+01:00"
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
           }
         ],
-        "authoredOn": "2020-03-02T08:25:05+00:00",
-        "lastModified": "2020-03-02T08:45:05+00:00",
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.03"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "status": "ready",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
         "performerType": [
-           {
-             "coding": [
-               {
-                 "code": "urn:oid:1.2.276.0.76.4.54",
-                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                 "display": "Öffentliche Apotheke"
-               }
-             ]
-           }
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
         ]
       }
     }
@@ -346,43 +358,29 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 {
   "resourceType": "Bundle",
-  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "id": "erp-versicherte-02-response-taskGetSingle",
   "meta": {
     "lastUpdated": "2020-03-01T07:02:37.836+00:00"
   },
   "type": "collection",
-  "total": 2,
-  "link": [{
-    "relation": "self",
-    "url": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58"
-  }],
-  "entry": [{
-    "fullUrl": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-    "resource": {
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01",
+      "resource": {
         "resourceType": "Task",
-        "id": "160.123.456.789.123.58",
+        "id": "160.000.000.000.000.01",
         "meta": {
-          "versionId": "2",
-          "lastUpdated": "2020-02-18T10:05:05.038+00:00",
-          "source": "#AsYR9plLkvONJAiv",
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
           ]
         },
-        "identifier": [
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.123.456.789.123.58"
-          },
-          {
-            "use": "official",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-          }
-        ],
         "intent": "order",
-        "status": "ready",
         "extension": [
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -393,63 +391,700 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2020-06-02"
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-02-12"
           },
           {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2020-04-01"
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
           }
         ],
-        "authoredOn": "2020-03-02T08:25:05+00:00",
-        "lastModified": "2020-03-02T08:45:05+00:00",
-        "performerType": [
-           {
-             "coding": [
-               {
-                 "code": "urn:oid:1.2.276.0.76.4.54",
-                 "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                 "display": "Öffentliche Apotheke"
-               }
-             ]
-           }
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
         ],
-        "input": [{
-        "type": {
-          "coding": [{
-            "system":"https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-            "code":"2"
-          }]
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
         },
-        "valueString": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
-      }]
+        "status": "ready",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
+        ],
+        "input": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "2",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
+            },
+            "valueReference": {
+              "reference": "Bundle/414ca393-dde3-4082-9a3b-3752e629e4aa"
+            }
+          }
+        ]
       }
-  },{
-    "resource": {
+    },
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/Bundle/414ca393-dde3-4082-9a3b-3752e629e4aa",
+      "resource": {
         "resourceType": "Bundle",
         "id": "414ca393-dde3-4082-9a3b-3752e629e4aa",
         "meta": {
-          "lastUpdated": "2022-05-20T08:30:00Z",
           "profile": [
             "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"
-          ]
+          ],
+          "lastUpdated": "2025-01-15T15:29:00.434+00:00"
         },
+        "type": "document",
         "identifier": {
           "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-          "value": "200.086.824.605.539.20"
+          "value": "160.000.000.000.000.01"
         },
-        [...],
-      "signature": {
-        "type": {
-          "system": "http://hl7.org/fhir/ValueSet/signature-type",
-          "code": "1.2.840.10065.1.12.1.1"
-        },
-        "when": "2020-03-20T07:31:34.328+00:00",
-        "who": "https://erp.app.ti-dienste.de/signature/verification",
-        "data": "eyJ0eXAiOiJKV1MiLCJhbGciOiJFUzI1NiIsIng1dSI6Imh0dHBzOi8vcHJlc2NyaXB0aW9uc2VydmVyLnRlbGVtYXRpay9zaWduYXR1cmUvY2VydGlmaWNhdGUifQ..SSBhbSBhIHNpZ25hdHVyZSE="
+        "timestamp": "2025-01-15T15:29:00.434+00:00",
+        "entry": [
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c",
+            "resource": {
+              "resourceType": "Composition",
+              "id": "b0e22b86-e7e9-46c1-80fe-e6e24442d77c",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"
+                ]
+              },
+              "status": "final",
+              "title": "elektronische Arzneimittelverordnung",
+              "author": [
+                {
+                  "type": "Practitioner",
+                  "reference": "Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"
+                },
+                {
+                  "identifier": {
+                    "system": "https://fhir.kbv.de/NamingSystem/KBV_NS_FOR_Pruefnummer",
+                    "value": "Y/400/1910/36/346"
+                  },
+                  "type": "Device"
+                }
+              ],
+              "type": {
+                "coding": [
+                  {
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FORMULAR_ART",
+                    "code": "e16A"
+                  }
+                ]
+              },
+              "extension": [
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis",
+                  "valueCoding": {
+                    "code": "00",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"
+                  }
+                }
+              ],
+              "attester": [
+                {
+                  "mode": "legal",
+                  "party": {
+                    "reference": "Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"
+                  }
+                }
+              ],
+              "section": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type",
+                        "code": "Prescription"
+                      }
+                    ]
+                  },
+                  "entry": [
+                    {
+                      "reference": "MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561"
+                    }
+                  ]
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type",
+                        "code": "Coverage"
+                      }
+                    ]
+                  },
+                  "entry": [
+                    {
+                      "reference": "Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"
+                    }
+                  ]
+                }
+              ],
+              "subject": {
+                "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"
+              },
+              "date": "2023-07-03T11:30:02Z",
+              "custodian": {
+                "reference": "Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"
+              }
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561",
+            "resource": {
+              "resourceType": "MedicationRequest",
+              "id": "f58f4403-7a3a-4a12-bb15-b2fa25b02561",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0"
+                ]
+              },
+              "status": "active",
+              "intent": "order",
+              "extension": [
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee",
+                  "valueBoolean": false
+                },
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG",
+                  "valueBoolean": false
+                },
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription",
+                  "extension": [
+                    {
+                      "url": "Kennzeichen",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "Nummerierung",
+                      "valueRatio": {
+                        "numerator": {
+                          "value": 2
+                        },
+                        "denominator": {
+                          "value": 4
+                        }
+                      }
+                    },
+                    {
+                      "url": "Zeitraum",
+                      "valuePeriod": {
+                        "start": "2023-07-02",
+                        "end": "2023-09-30"
+                      }
+                    },
+                    {
+                      "valueIdentifier": {
+                        "system": "urn:ietf:rfc:3986",
+                        "value": "urn:uuid:24e2e10d-e962-4d1c-be4f-8760e690a5f0"
+                      },
+                      "url": "ID"
+                    }
+                  ]
+                },
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment",
+                  "valueCoding": {
+                    "code": "0",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_StatusCoPayment"
+                  }
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "Unfallkennzeichen",
+                      "valueCoding": {
+                        "code": "1",
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Ursache_Type"
+                      }
+                    },
+                    {
+                      "url": "Unfalltag",
+                      "valueDate": "2023-07-01"
+                    }
+                  ],
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident"
+                }
+              ],
+              "dispenseRequest": {
+                "quantity": {
+                  "system": "http://unitsofmeasure.org",
+                  "code": "{Package}",
+                  "value": 2
+                }
+              },
+              "dosageInstruction": [
+                {
+                  "extension": [
+                    {
+                      "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag",
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ],
+              "medicationReference": {
+                "reference": "Medication/e3a4efa7-84fc-465b-b14c-720195097783"
+              },
+              "subject": {
+                "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"
+              },
+              "authoredOn": "2023-07-02",
+              "requester": {
+                "reference": "Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"
+              },
+              "insurance": [
+                {
+                  "reference": "Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"
+                }
+              ],
+              "note": [
+                {
+                  "text": "Dummy-Hinweis für die Apotheke"
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Medication/e3a4efa7-84fc-465b-b14c-720195097783",
+            "resource": {
+              "resourceType": "Medication",
+              "id": "e3a4efa7-84fc-465b-b14c-720195097783",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.1.0"
+                ]
+              },
+              "extension": [
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
+                  "valueCoding": {
+                    "code": "00",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category"
+                  }
+                },
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
+                  "valueBoolean": false
+                }
+              ],
+              "code": {
+                "coding": [
+                  {
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Type",
+                    "code": "wirkstoff"
+                  }
+                ]
+              },
+              "ingredient": [
+                {
+                  "strength": {
+                    "denominator": {
+                      "value": 1
+                    },
+                    "numerator": {
+                      "value": 800,
+                      "unit": "mg"
+                    }
+                  },
+                  "itemCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "Dummy-ASK",
+                        "system": "http://fhir.de/CodeSystem/ask"
+                      }
+                    ],
+                    "text": "Ibuprofen"
+                  }
+                }
+              ],
+              "amount": {
+                "numerator": {
+                  "extension": [
+                    {
+                      "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
+                      "valueString": "2x20"
+                    }
+                  ],
+                  "unit": "Stk"
+                },
+                "denominator": {
+                  "value": 1
+                }
+              },
+              "form": {
+                "text": "Tabletten"
+              }
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-Pat-GKV",
+            "resource": {
+              "resourceType": "Patient",
+              "id": "9774f67f-a238-4daf-b4e6-Pat-GKV",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"
+                ]
+              },
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
+                        "code": "GKV"
+                      }
+                    ]
+                  },
+                  "system": "http://fhir.de/sid/gkv/kvid-10",
+                  "value": "X234567890"
+                }
+              ],
+              "name": [
+                {
+                  "use": "official",
+                  "family": "Ludger Königsstein",
+                  "_family": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-name",
+                        "valueString": "Königsstein"
+                      }
+                    ]
+                  },
+                  "given": [
+                    "Ludger"
+                  ]
+                }
+              ],
+              "address": [
+                {
+                  "type": "both",
+                  "line": [
+                    "Musterstr. 1"
+                  ],
+                  "_line": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                          "valueString": "1"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName",
+                          "valueString": "Musterstr."
+                        }
+                      ]
+                    }
+                  ],
+                  "city": "Berlin",
+                  "postalCode": "10623"
+                }
+              ],
+              "birthDate": "1935-06-22"
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3",
+            "resource": {
+              "resourceType": "Practitioner",
+              "id": "20597e0e-cb2a-45b3-95f0-dc3dbdb617c3",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"
+                ]
+              },
+              "name": [
+                {
+                  "use": "official",
+                  "prefix": [
+                    "Dr. med."
+                  ],
+                  "_prefix": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier",
+                          "valueCode": "AC"
+                        }
+                      ]
+                    }
+                  ],
+                  "family": "Topp-Glücklich",
+                  "_family": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-name",
+                        "valueString": "Topp-Glücklich"
+                      }
+                    ]
+                  },
+                  "given": [
+                    "Hans"
+                  ]
+                }
+              ],
+              "qualification": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type",
+                        "code": "00"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung",
+                        "code": "Berufsbezeichnung"
+                      }
+                    ],
+                    "text": "FA Biochemie"
+                  }
+                }
+              ],
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "LANR"
+                      }
+                    ]
+                  },
+                  "system": "https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR",
+                  "value": "838382202"
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c",
+            "resource": {
+              "resourceType": "Practitioner",
+              "id": "d8463daf-258e-4cad-a86a-6fd42fac161c",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"
+                ]
+              },
+              "name": [
+                {
+                  "use": "official",
+                  "family": "Meier",
+                  "_family": {
+                    "extension": [
+                      {
+                        "url": "http://hl7.org/fhir/StructureDefinition/humanname-own-name",
+                        "valueString": "Meier"
+                      }
+                    ]
+                  },
+                  "given": [
+                    "Jörgen"
+                  ]
+                }
+              ],
+              "qualification": [
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type",
+                        "code": "03"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "code": {
+                    "coding": [
+                      {
+                        "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung",
+                        "code": "Berufsbezeichnung"
+                      }
+                    ],
+                    "text": "FA Onkologie"
+                  }
+                }
+              ],
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "LANR"
+                      }
+                    ]
+                  },
+                  "system": "https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR",
+                  "value": "838382210"
+                }
+              ]
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b",
+            "resource": {
+              "resourceType": "Organization",
+              "id": "cf042e44-086a-4d51-9c77-172f9a972e3b",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"
+                ]
+              },
+              "telecom": [
+                {
+                  "system": "phone",
+                  "value": "0301234567"
+                }
+              ],
+              "address": [
+                {
+                  "type": "both",
+                  "line": [
+                    "Musterstr. 2"
+                  ],
+                  "_line": [
+                    {
+                      "extension": [
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                          "valueString": "2"
+                        },
+                        {
+                          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName",
+                          "valueString": "Musterstr."
+                        }
+                      ]
+                    }
+                  ],
+                  "city": "Berlin",
+                  "postalCode": "10623"
+                }
+              ],
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                        "code": "BSNR"
+                      }
+                    ]
+                  },
+                  "system": "https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR",
+                  "value": "031234567"
+                }
+              ],
+              "name": "Hausarztpraxis Dr. Topp-Glücklich"
+            }
+          },
+          {
+            "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV",
+            "resource": {
+              "resourceType": "Coverage",
+              "id": "1b1ffb6e-eb05-43d7-87eb-Cov-GKV",
+              "meta": {
+                "profile": [
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"
+                ]
+              },
+              "status": "active",
+              "payor": [
+                {
+                  "identifier": {
+                    "system": "http://fhir.de/sid/arge-ik/iknr",
+                    "value": "104212059"
+                  },
+                  "display": "AOK Rheinland/Hamburg"
+                }
+              ],
+              "extension": [
+                {
+                  "url": "http://fhir.de/StructureDefinition/gkv/besondere-personengruppe",
+                  "valueCoding": {
+                    "code": "00",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE"
+                  }
+                },
+                {
+                  "url": "http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen",
+                  "valueCoding": {
+                    "code": "00",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP"
+                  }
+                },
+                {
+                  "url": "http://fhir.de/StructureDefinition/gkv/wop",
+                  "valueCoding": {
+                    "code": "03",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ITA_WOP"
+                  }
+                },
+                {
+                  "url": "http://fhir.de/StructureDefinition/gkv/versichertenart",
+                  "valueCoding": {
+                    "code": "1",
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_VERSICHERTENSTATUS"
+                  }
+                }
+              ],
+              "type": {
+                "coding": [
+                  {
+                    "code": "GKV",
+                    "system": "http://fhir.de/CodeSystem/versicherungsart-de-basis"
+                  }
+                ]
+              },
+              "beneficiary": {
+                "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"
+              }
+            }
+          }
+        ]
       }
     }
-  }]
+  ]
 }
 ----
 NOTE: Mit dem AccessCode in `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"` wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt.
@@ -578,11 +1213,11 @@ Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 {
-  "id": "2b50e07d-ace1-4f83-ae8f-e2845e291cc3",
+  "resourceType": "Bundle",
+  "id": "erp-versicherte-03-response-GetLocation",
   "meta": {
     "lastUpdated": "2021-11-23T10:33:52.590809+02:00"
   },
-  "resourceType": "Bundle",
   "type": "searchset",
   "total": 2,
   "link": [
@@ -594,8 +1229,8 @@ Content-Type: application/fhir+json;charset=utf-8
   "entry": [
     {
       "resource": {
-        "id": "5a403761-3a18-4ae9-bca8-9ed8abada08a",
         "resourceType": "Location",
+        "id": "5a403761-3a18-4ae9-bca8-9ed8abada08a",
         "address": {
           "use": "work",
           "type": "physical",
@@ -636,8 +1271,8 @@ Content-Type: application/fhir+json;charset=utf-8
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "PHARM",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "display": "pharmacy"
               }
             ]
@@ -645,8 +1280,8 @@ Content-Type: application/fhir+json;charset=utf-8
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "MOBL",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "display": "Mobile Services"
               }
             ]
@@ -659,11 +1294,11 @@ Content-Type: application/fhir+json;charset=utf-8
     },
     {
       "resource": {
+        "resourceType": "Location",
         "id": "354d16fa-ceff-4a18-b1b7-c583ee211cea",
         "meta": {
           "lastUpdated": "2021-10-12T11:54:29+02:00"
         },
-        "resourceType": "Location",
         "contained": [
           {
             "id": "8fe0eea1-6379-41ce-bb51-efd33f02e853",
@@ -691,8 +1326,8 @@ Content-Type: application/fhir+json;charset=utf-8
               {
                 "coding": [
                   {
-                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
                     "code": "498",
+                    "system": "http://terminology.hl7.org/CodeSystem/service-type",
                     "display": "Mobile Services"
                   }
                 ]
@@ -823,8 +1458,8 @@ Content-Type: application/fhir+json;charset=utf-8
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "PHARM",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "display": "pharmacy"
               }
             ]
@@ -832,8 +1467,8 @@ Content-Type: application/fhir+json;charset=utf-8
           {
             "coding": [
               {
-                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "code": "OUTPHARM",
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
                 "display": "outpatient pharmacy"
               }
             ]
@@ -909,7 +1544,7 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 {
   "resourceType": "Bundle",
-  "id": "187dc298-c2b8-40f5-8938-c6c4078660ed",
+  "id": "erp-versicherte-04-response-getDispense",
   "meta": {
     "lastUpdated": "2020-04-07T08:05:42.225+00:00"
   },
@@ -923,93 +1558,35 @@ Content-Type: application/fhir+json;charset=utf-8
   ],
   "entry": [
     {
-      "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/1093629",
+      "fullUrl": "https://erp.app.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
       "resource": {
-        "status": "completed",
-        "id": "1093629",
-        "identifier": [
-          {
-            "value": "160.123.456.789.123.58",
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"
-          }
-        ],
         "resourceType": "MedicationDispense",
-        "medicationReference": {
-          "display": "Sumatriptan-1a Pharma 100 mg Tabletten",
-          "reference": "#med0314"
-        },
+        "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"
           ]
         },
-        "contained": [
+        "identifier": [
           {
-            "meta": {
-              "profile": [
-                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-              ]
-            },
-            "id": "med0314",
-            "code": {
-              "coding": [
-                {
-                  "code": "06313728",
-                  "system": "http://fhir.de/CodeSystem/ifa/pzn"
-                }
-              ],
-              "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
-            },
-            "extension": [
-              {
-                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-                "valueCodeableConcept": {
-                  "coding": [
-                    {
-                      "display": "Medicinal product (product)",
-                      "system": "http://snomed.info/sct",
-                      "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                      "code": "763158003"
-                    }
-                  ]
-                }
-              },
-              {
-                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-                "valueCoding": {
-                  "code": "00",
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category"
-                }
-              },
-              {
-                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-                "valueBoolean": false
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
               }
-            ],
-            "resourceType": "Medication",
-            "amount": {
-              "denominator": {
-                "value": 1
-              },
-              "numerator": {
-                "unit": "Tabletten",
-                "extension": [
-                  {
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-                    "valueString": "10"
-                  }
-                ],
-                "system": "http://unitsofmeasure.org",
-                "code": "{tbl}"
-              }
-            },
-            "form": {
-              "coding": [
-                {
-                  "code": "TAB",
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"
-                }
-              ]
             }
           }
         ],
@@ -1018,31 +1595,81 @@ Content-Type: application/fhir+json;charset=utf-8
             "text": "1-0-1-0"
           }
         ],
-        "performer": [
-          {
-            "actor": {
-              "identifier": {
-                "value": "3-SMC-B-Testkarte-883110000129070",
-                "system": "https://gematik.de/fhir/sid/telematik-id"
-              }
-            }
-          }
-        ],
         "whenHandedOver": "2020-03-20",
         "quantity": {
-          "system": "http://unitsofmeasure.org",
           "value": 1,
-          "code": "{Package}"
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
         },
-        "subject": {
-          "identifier": {
-            "value": "X123456789",
-            "system": "http://fhir.de/sid/gkv/kvid-10"
-          }
+        "medicationReference": {
+          "reference": "Medication/d51b39ab-dad0-4a14-8072-ed87534af585"
         }
       },
       "search": {
         "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/Medication/d51b39ab-dad0-4a14-8072-ed87534af585",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "d51b39ab-dad0-4a14-8072-ed87534af585",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20 St."
+              }
+            ],
+            "value": 20,
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
       }
     }
   ]
@@ -1111,144 +1738,134 @@ Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 {
-    "id": "7f68987f-4e18-405e-9159-8fb603b71da7",
-    "type": "searchset",
-    "timestamp": "2024-02-15T06:01:44.119+00:00",
-    "resourceType": "Bundle",
-    "total": 0,
-    "link": [
-        {
-            "relation": "self",
-            "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=200.000.002.097.952.60"
-        }
-    ],
-    "entry": [
-        {
-            "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.002.097.952.60",
-            "resource": {
-                "resourceType": "MedicationDispense",
-                "meta": {
-                    "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
-                    ]
-                },
-                "contained": [
-                    {
-                        "resourceType": "Medication",
-                        "id": "b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                        "meta": {
-                            "profile": [
-                                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-                            ]
-                        },
-                        "extension": [
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-                                "valueCodeableConcept": {
-                                    "coding": [
-                                        {
-                                            "system": "http://snomed.info/sct",
-                                            "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                                            "code": "763158003",
-                                            "display": "Medicinal product (product)"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-                                "valueCoding": {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-                                    "code": "00"
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-                                "valueBoolean": false
-                            },
-                            {
-                                "url": "http://fhir.de/StructureDefinition/normgroesse",
-                                "valueCode": "N1"
-                            }
-                        ],
-                        "code": {
-                            "coding": [
-                                {
-                                    "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                                    "code": "03879429"
-                                }
-                            ],
-                            "text": "Beloc-ZokÂ® mite 47,5 mg, 30 Retardtabletten N1"
-                        },
-                        "form": {
-                            "coding": [
-                                {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                                    "code": "RET"
-                                }
-                            ]
-                        },
-                        "amount": {
-                            "numerator": {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-                                        "valueString": "30"
-                                    }
-                                ],
-                                "unit": "StÃ¼ck"
-                            },
-                            "denominator": {
-                                "value": 1
-                            }
-                        }
-                    }
-                ],
-                "identifier": [
-                    {
-                        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-                        "value": "200.000.002.097.951.63"
-                    }
-                ],
-                "status": "completed",
-                "medicationReference": {
-                    "reference": "#b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                    "display": "Sumatriptan-1a Pharma 100 mg Tabletten"
-                },
-                "subject": {
-                    "identifier": {
-                        "system": "http://fhir.de/sid/gkv/kvid-10",
-                        "value": "X110501499"
-                    }
-                },
-                "performer": [
-                    {
-                        "actor": {
-                            "identifier": {
-                                "system": "https://gematik.de/fhir/sid/telematik-id",
-                                "value": "3-2-APO-XanthippeVeilchenblau01"
-                            }
-                        }
-                    }
-                ],
-                "quantity": {
-                    "value": 1,
-                    "system": "http://unitsofmeasure.org",
-                    "code": "{Package}"
-                },
-                "whenHandedOver": "2024-02-15",
-                "dosageInstruction": [
-                    {
-                        "text": "1-0-1-0"
-                    }
-                ],
-                "id": "200.000.002.097.951.63"
-            },
-            "search": {
-                "mode": "match"
+  "resourceType": "Bundle",
+  "id": "erp-versicherte-05-response-get-single-medicationdispense-by-id",
+  "type": "searchset",
+  "timestamp": "2024-02-15T06:01:44.119+00:00",
+  "total": 0,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=200.000.000.000.000.01"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.000.000.000.01",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "200.000.000.000.000.01",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "200.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
             }
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "1-0-1-0"
+          }
+        ],
+        "whenHandedOver": "2020-03-20",
+        "quantity": {
+          "value": 1,
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
+        },
+        "medicationReference": {
+          "reference": "Medication/a6635059-bb82-4cdc-90dc-907bc83be523"
         }
-    ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/a6635059-bb82-4cdc-90dc-907bc83be523",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "a6635059-bb82-4cdc-90dc-907bc83be523",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20 St."
+              }
+            ],
+            "value": 20,
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
 }
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
@@ -1311,269 +1928,234 @@ Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
 {
-    "id": "7f68987f-4e18-405e-9159-8fb603b71da7",
-    "type": "searchset",
-    "timestamp": "2024-02-15T06:01:44.119+00:00",
-    "resourceType": "Bundle",
-    "total": 0,
-    "entry": [
-        {
-            "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.002.097.952.60",
-            "resource": {
-                "resourceType": "MedicationDispense",
-                "id": "200.000.002.097.952.60",
-                "meta": {
-                    "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
-                    ],
-                    "tag": [
-                        {
-                            "display": "Beispiel MedicationDispense PKV PZN Bsp 7 1/2"
-                        }
-                    ]
-                },
-                "contained": [
-                    {
-                        "resourceType": "Medication",
-                        "id": "b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                        "meta": {
-                            "profile": [
-                                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-                            ]
-                        },
-                        "extension": [
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-                                "valueCodeableConcept": {
-                                    "coding": [
-                                        {
-                                            "system": "http://snomed.info/sct",
-                                            "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                                            "code": "763158003",
-                                            "display": "Medicinal product (product)"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-                                "valueCoding": {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-                                    "code": "00"
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-                                "valueBoolean": false
-                            },
-                            {
-                                "url": "http://fhir.de/StructureDefinition/normgroesse",
-                                "valueCode": "N1"
-                            }
-                        ],
-                        "code": {
-                            "coding": [
-                                {
-                                    "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                                    "code": "03879429"
-                                }
-                            ],
-                            "text": "Beloc-ZokÂ® mite 47,5 mg, 30 Retardtabletten N1"
-                        },
-                        "form": {
-                            "coding": [
-                                {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                                    "code": "RET"
-                                }
-                            ]
-                        },
-                        "amount": {
-                            "numerator": {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-                                        "valueString": "30"
-                                    }
-                                ],
-                                "unit": "StÃ¼ck"
-                            },
-                            "denominator": {
-                                "value": 1
-                            }
-                        }
-                    }
-                ],
-                "identifier": [
-                    {
-                        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-                        "value": "200.000.002.097.952.60"
-                    }
-                ],
-                "status": "completed",
-                "medicationReference": {
-                    "reference": "#b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                    "display": "Amoxicillin/Clavulansäure Heumann 875mg/125mg 10St"
-                },
-                "subject": {
-                    "identifier": {
-                        "system": "http://fhir.de/sid/pkv/kvid-10",
-                        "value": "X110501499"
-                    }
-                },
-                "performer": [
-                    {
-                        "actor": {
-                            "identifier": {
-                                "system": "https://gematik.de/fhir/sid/telematik-id",
-                                "value": "3-2-APO-XanthippeVeilchenblau01"
-                            }
-                        }
-                    }
-                ],
-                "whenHandedOver": "2024-02-15",
-                "dosageInstruction": [
-                    {
-                        "text": "1 Tablette noch in der Nacht, dann für 7 Tage jeweils 1 Tablette morgens und 1 Tablette abends einnehmen"
-                    }
-                ]
-            },
-            "search": {
-                "mode": "match"
-            }
+  "resourceType": "Bundle",
+  "id": "erp-versicherte-06-response-get-multiple-medication-dispense",
+  "type": "searchset",
+  "timestamp": "2024-02-15T06:01:44.119+00:00",
+  "total": 2,
+  "entry": [
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.000.000.000.01-1",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "200.000.000.000.000.01-1",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"
+          ]
         },
-        {
-            "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.002.097.952.60-1",
-            "resource": {
-                "resourceType": "MedicationDispense",
-                "id": "200.000.002.097.952.60-1",
-                "meta": {
-                    "profile": [
-                        "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
-                    ],
-                    "tag": [
-                        {
-                            "display": "Beispiel MedicationDispense PKV PZN Bsp 7 2/2"
-                        }
-                    ]
-                },
-                "contained": [
-                    {
-                        "resourceType": "Medication",
-                        "id": "b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                        "meta": {
-                            "profile": [
-                                "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_PZN|1.1.0"
-                            ]
-                        },
-                        "extension": [
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_Base_Medication_Type",
-                                "valueCodeableConcept": {
-                                    "coding": [
-                                        {
-                                            "system": "http://snomed.info/sct",
-                                            "version": "http://snomed.info/sct/900000000000207008/version/20220331",
-                                            "code": "763158003",
-                                            "display": "Medicinal product (product)"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category",
-                                "valueCoding": {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category",
-                                    "code": "00"
-                                }
-                            },
-                            {
-                                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine",
-                                "valueBoolean": false
-                            },
-                            {
-                                "url": "http://fhir.de/StructureDefinition/normgroesse",
-                                "valueCode": "N1"
-                            }
-                        ],
-                        "code": {
-                            "coding": [
-                                {
-                                    "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                                    "code": "03879429"
-                                }
-                            ],
-                            "text": "Beloc-ZokÂ® mite 47,5 mg, 30 Retardtabletten N1"
-                        },
-                        "form": {
-                            "coding": [
-                                {
-                                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                                    "code": "RET"
-                                }
-                            ]
-                        },
-                        "amount": {
-                            "numerator": {
-                                "extension": [
-                                    {
-                                        "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize",
-                                        "valueString": "30"
-                                    }
-                                ],
-                                "unit": "StÃ¼ck"
-                            },
-                            "denominator": {
-                                "value": 1
-                            }
-                        }
-                    }
-                ],
-                "identifier": [
-                    {
-                        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-                        "value": "200.000.002.097.952.60"
-                    }
-                ],
-                "status": "completed",
-                "medicationReference": {
-                    "reference": "#b4c2bba5-23bd-4be3-b58f-a70621edd84f",
-                    "display": "Amoxicillin/Clavulansäure Heumann 875mg/125mg 10St"
-                },
-                "subject": {
-                    "identifier": {
-                        "system": "http://fhir.de/sid/pkv/kvid-10",
-                        "value": "X110501499"
-                    }
-                },
-                "performer": [
-                    {
-                        "actor": {
-                            "identifier": {
-                                "system": "https://gematik.de/fhir/sid/telematik-id",
-                                "value": "3-2-APO-XanthippeVeilchenblau01"
-                            }
-                        }
-                    }
-                ],
-                "whenHandedOver": "2024-02-15",
-                "dosageInstruction": [
-                    {
-                        "text": "1 Tablette noch in der Nacht, dann für 7 Tage jeweils 1 Tablette morgens und 1 Tablette abends einnehmen"
-                    }
-                ]
-            },
-            "search": {
-                "mode": "match"
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "200.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
             }
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "1-0-1-0"
+          }
+        ],
+        "whenHandedOver": "2020-03-20",
+        "quantity": {
+          "value": 1,
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
+        },
+        "medicationReference": {
+          "reference": "Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3"
         }
-    ],
-    "link": [
-        {
-            "relation": "self",
-            "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=200.000.002.097.952.60"
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20 St."
+              }
+            ],
+            "value": 20,
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB"
+            }
+          ]
         }
-    ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/200.000.000.000.000.01-2",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "200.000.000.000.000.01-2",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "200.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
+            }
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "1-0-1-0"
+          }
+        ],
+        "whenHandedOver": "2020-03-20",
+        "quantity": {
+          "value": 1,
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
+        },
+        "medicationReference": {
+          "reference": "Medication/32c2f072-38ba-4990-9d74-80938ccb05b6"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/32c2f072-38ba-4990-9d74-80938ccb05b6",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "32c2f072-38ba-4990-9d74-80938ccb05b6",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "14186244",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "FLUSARION EH50/250UG/60 PC"
+        },
+        "form": {
+          "coding": [
+            {
+              "code": "IHP",
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ],
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=200.000.000.000.000.01"
+    }
+  ]
 }
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
@@ -1703,225 +2285,236 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 {
   "resourceType": "Bundle",
-  "id": "12653b13-5fca-4e3b-860c-9558bdfef9a1",
+  "id": "erp-versicherte-07-response-getAuditEvent",
   "meta": {
     "lastUpdated": "2020-03-29T13:44:18.783+00:00"
   },
   "type": "searchset",
-  "link": [ {
-    "relation": "first",
-    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date&_count=50"
-  },
-  {
-    "relation": "next",
-    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date&_count=50&_id=gt01eb8522-5695-1830-0000-000000000000"
-  },
-  {
-    "relation": "self",
-    "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/AuditEvent?_sort=date"
-  } ],
-  "entry": [ {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862",
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "58862",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T08:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.app.ti-dienste.de/AuditEvent"
+    },
+    {
+      "relation": "next",
+      "url": "https://erp.app.ti-dienste.de/AuditEvent?_getpages=12653b13-5fca-4e3b-860c-9558bdfef9a1&_getpagesoffset=20&_count=20"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58862",
+      "resource": {
+        "resourceType": "AuditEvent",
+        "id": "58862",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.4"
+          ]
+        },
+        "type": {
+          "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+          "code": "rest"
+        },
+        "source": {
+          "site": "E-Rezept Fachdienst",
+          "observer": {
+            "reference": "Device/1234"
+          }
+        },
+        "subtype": [
+          {
+            "code": "create",
+            "system": "http://hl7.org/fhir/restful-interaction"
+          }
+        ],
+        "action": "C",
+        "recorded": "2025-01-15T15:29:00.434+00:00",
+        "outcome": "0",
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "humanuser",
+                  "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                  "display": "Human User"
+                }
+              ]
+            },
+            "who": {
+              "identifier": {
+                "value": "1-2-DOC-Testkarte-012423424",
+                "system": "https://gematik.de/fhir/sid/telematik-id"
+              }
+            },
+            "name": "Praxis Dr. Müller",
+            "requestor": false
+          }
+        ],
+        "entity": [
+          {
+            "what": {
+              "reference": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01",
+              "identifier": {
+                "use": "official",
+                "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+                "value": "160.000.000.000.000.01"
+              }
+            },
+            "name": "X123456789",
+            "description": "*160.000.000.000.000.01*"
+          }
         ]
       },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Praxis Dr. Müller, Bahnhofstr. 78 hat ein E-Rezept 160.123.456.789.123.58 eingestellt</div>"
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "create"
-      } ],
-      "action": "C",
-      "recorded": "2020-02-27T08:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "1-1.54.102323123404"
-          }
-        },
-        "name": "Praxis Dr. Müller",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/1234"
-        }
-      },
-      "entity": [ {
-        "what": {
-          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          }
-        },
-        "name": "X123456789",
-        "description": "*160.123.456.789.123.58*"
-      } ]
+      "search": {
+        "mode": "match"
+      }
     },
-    "search": {
-      "mode": "match"
-    }
-  }, {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58863",
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "58863",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T09:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/58863",
+      "resource": {
+        "resourceType": "AuditEvent",
+        "id": "58863",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.4"
+          ],
+          "versionId": "1",
+          "lastUpdated": "2020-02-27T09:04:27.434+00:00",
+          "source": "#IkMt252YovlsJTAE"
+        },
+        "type": {
+          "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+          "code": "rest"
+        },
+        "source": {
+          "site": "E-Rezept Fachdienst",
+          "observer": {
+            "reference": "Device/5678"
+          }
+        },
+        "subtype": [
+          {
+            "code": "read",
+            "system": "http://hl7.org/fhir/restful-interaction"
+          }
+        ],
+        "action": "R",
+        "recorded": "2025-01-15T15:29:00.434+00:00",
+        "outcome": "0",
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "humanuser",
+                  "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                  "display": "Human User"
+                }
+              ]
+            },
+            "who": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
+            },
+            "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
+            "requestor": false
+          }
+        ],
+        "entity": [
+          {
+            "what": {
+              "reference": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01",
+              "identifier": {
+                "use": "official",
+                "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+                "value": "160.000.000.000.000.01"
+              }
+            },
+            "name": "X123456789",
+            "description": "*160.000.000.000.000.01*"
+          }
         ]
       },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Max Mustermann hat ein E-Rezept 160.123.456.789.123.58 heruntergeladen</div>"
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "read"
-      } ],
-      "action": "R",
-      "recorded": "2020-02-27T09:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-1.54.10123404"
-          }
-        },
-        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/5678"
-        }
-      },
-      "entity": [ {
-        "what": {
-          "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          }
-        },
-        "name": "X123456789",
-         "description": "*160.123.456.789.123.58*"
-      } ]
+      "search": {
+        "mode": "match"
+      }
     },
-    "search": {
-      "mode": "match"
-    }
-  }, {
-    "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/620049",
-    "resource": {
-      "resourceType": "AuditEvent",
-      "id": "620049",
-      "meta": {
-        "versionId": "1",
-        "lastUpdated": "2020-02-27T10:04:27.434+00:00",
-        "source": "#IkMt252YovlsJTAE",
-        "profile": [
-          "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.3"
+    {
+      "fullUrl": "https://erp.app.ti-dienste.de/AuditEvent/620049",
+      "resource": {
+        "resourceType": "AuditEvent",
+        "id": "620049",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.4"
+          ],
+          "versionId": "1",
+          "lastUpdated": "2020-02-27T10:04:27.434+00:00",
+          "source": "#IkMt252YovlsJTAE"
+        },
+        "type": {
+          "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+          "code": "rest"
+        },
+        "source": {
+          "site": "E-Rezept Fachdienst",
+          "observer": {
+            "reference": "Device/1234"
+          }
+        },
+        "subtype": [
+          {
+            "code": "update",
+            "system": "http://hl7.org/fhir/restful-interaction"
+          }
+        ],
+        "action": "U",
+        "recorded": "2025-01-15T15:29:00.434+00:00",
+        "outcome": "0",
+        "agent": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "humanuser",
+                  "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
+                  "display": "Human User"
+                }
+              ]
+            },
+            "who": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
+            },
+            "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
+            "requestor": false
+          }
+        ],
+        "entity": [
+          {
+            "what": {
+              "reference": "https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01",
+              "identifier": {
+                "use": "official",
+                "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+                "value": "160.000.000.000.000.01"
+              }
+            },
+            "name": "X123456789",
+            "description": "*160.000.000.000.000.01*"
+          }
         ]
       },
-      "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Ihre Apotheke um die Ecke, Hauptstraße 1 hat ein E-Rezept 160.123.456.789.123.58 beliefert</div>"
-      },
-      "type": {
-        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
-        "code": "rest"
-      },
-      "subtype": [ {
-        "system": "http://hl7.org/fhir/restful-interaction",
-        "code": "update"
-      } ],
-      "action": "U",
-      "recorded": "2020-02-27T10:04:27.434+00:00",
-      "outcome": "0",
-      "agent": [ {
-        "type": {
-          "coding": [ {
-            "system": "http://terminology.hl7.org/CodeSystem/extra-security-role-type",
-            "code": "humanuser",
-            "display": "Human User"
-          } ]
-        },
-        "who": {
-          "identifier": {
-            "system": "https://gematik.de/fhir/sid/telematik-id",
-            "value": "3-1.54.10123404"
-          }
-        },
-        "name": "Ihre Apotheke um die Ecke, Hauptstraße 1",
-        "requestor": false
-      }],
-      "source": {
-        "site": "E-Rezept Fachdienst",
-        "observer": {
-          "reference": "Device/1234"
-        }
-      },
-      "entity": [ {
-        "what": {
-           "reference": "https://erp.app.ti-dienste.de/Task/160.123.456.789.123.58",
-          "identifier": {
-            "use":"official",
-            "system":"https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value":"160.123.456.789.123.58"
-          }
-        },
-        "name": "X123456789",
-        "description": "*160.123.456.789.123.58*"
-      } ]
-    },
-    "search": {
-      "mode": "match"
+      "search": {
+        "mode": "match"
+      }
     }
-  } ]
+  ]
 }
 ----
 NOTE: Beim Abrufen der Protokolleinträge erfolgt die Rückgabe als `Bundle`, in dem die Protokolleinträge mit Bezug zum authentifizierten Versicherten über dessen KVNR aufgelistet werden. In diesem vereinfachten Beispiel werden nur drei Einträge dargestellt.

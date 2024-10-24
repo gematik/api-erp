@@ -133,7 +133,7 @@ SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertifica
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/01_request_ReadCardCertificate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/01_request_ReadCardCertificate.xml[]
 ----
 NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
 |===
@@ -144,7 +144,7 @@ NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat 
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/02_response_ReadCardCertificate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/02_response_ReadCardCertificate.xml[]
 ----
 NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
@@ -183,7 +183,7 @@ IMPORTANT: Die Länge des Soap-Requests, muss entsprechend im Header mit der Eig
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/03_request_VerifyCertificate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/03_request_VerifyCertificate.xml[]
 ----
 NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certificate></m2:X509Certificate>` identifiziert.
 |===
@@ -194,7 +194,7 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/04_response_VerifyCertificate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/04_response_VerifyCertificate.xml[]
 ----
 NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
 
@@ -224,7 +224,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/05_request_ExternalAuthenticate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/05_request_ExternalAuthenticate.xml[]
 ----
 NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
 
@@ -237,7 +237,7 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/06_response_ExternalAuthenticate.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/06_response_ExternalAuthenticate.xml[]
 ----
 
 
@@ -422,7 +422,7 @@ Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstell
 Content-Type: application/fhir+json;charset=utf-8
 Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/authentisieren/07_response_InnerVau.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/authentisieren/07_response_InnerVau.json[]
 ----
 
 NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body

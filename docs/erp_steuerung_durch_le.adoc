@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: feature/api-examples-wf-1.4.2
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept Feature "Workflow-Steuerung durch Leistungserbringer". Hierbei handelt es sich um eine besondere Versorgungssituation, bei der ein E-Rezept direkt vom verordnenden Leistungserbringer an die abgebende Apotheke zugewiesen und übermittelt werden kann. Der wesentliche Unterschied gegenüber der bisherigen Prozessdefinition für den Workflowtype 160 (bzw. 200 für PKV) besteht in der Übergabe der Einlöseinformationen an die Apotheke durch den verordnenden Leistungserbringer.
@@ -75,6 +79,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-steuerung-durch-le-01-request-taskCreate169"/>
     <parameter>
         <name value="workflowType"/>
         <valueCoding>
@@ -95,40 +100,45 @@ HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
 <Task xmlns="http://hl7.org/fhir">
-    <id value="169.000.004.839.514.95"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"/>
+    <id value="169.000.000.000.000.01"/>
+    <meta id="Task-erp-steuerung-durch-le-02-response-taskCreate169">
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
-            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-            <code value="169" />
-            <display value="Muster 16 (Direkte Zuweisung)" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+            <code value="169"/>
+            <display value="Muster 16 (Direkte Zuweisung)"/>
         </valueCoding>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2022-06-30" />
+        <valueDate value="2025-02-12"/>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2022-06-30" />
+        <valueDate value="2025-04-15"/>
     </extension>
     <identifier>
-        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
-        <value value="169.000.004.839.514.95" />
+        <use value="official"/>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+        <value value="169.000.000.000.000.01"/>
     </identifier>
-    <identifier>
-        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
-        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />
-    </identifier>
-    <status value="draft" />
-    <intent value="order" />
-    <authoredOn value="2022-03-18T15:26:00+00:00" />
+    <status value="draft"/>
+    <intent value="order"/>
+    <for>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </for>
+    <authoredOn value="2025-01-15T15:29:00+00:00"/>
+    <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
         <coding>
-            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
-            <code value="urn:oid:1.2.276.0.76.4.54" />
-            <display value="Öffentliche Apotheke" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+            <code value="urn:oid:1.2.276.0.76.4.54"/>
+            <display value="Öffentliche Apotheke"/>
         </coding>
+        <text value="Öffentliche Apotheke"/>
     </performerType>
 </Task>
 ----
@@ -199,12 +209,13 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-steuerung-durch-le-03-request-taskActivate169"/>
     <parameter>
-        <name value="ePrescription" />
+        <name value="ePrescription"/>
         <resource>
             <Binary>
-                <contentType value="application/pkcs7-mime" />
-                <data value="MIJTfQYJKoZIhvcNAQcCoIJTbjCCU2oCAQUxDzANBglghkgBZQMEAg..." />
+                <contentType value="application/pkcs7-mime"/>
+                <data value="RGllcyBpc3QgZWluIEJlaXNwaWVs"/>
             </Binary>
         </resource>
     </parameter>
@@ -221,70 +232,66 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+xml;charset=utf-8
 
 <Task xmlns="http://hl7.org/fhir">
-    <id value="169.000.004.839.514.95" />
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3" />
+    <id value="169.000.000.000.000.01-01"/>
+    <meta id="Task-erp-steuerung-durch-le-04-response-taskActivate169">
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
-            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-            <code value="169" />
-            <display value="Muster 16 (Direkte Zuweisung)" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+            <code value="169"/>
+            <display value="Muster 16 (Direkte Zuweisung)"/>
         </valueCoding>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2022-06-30" />
+        <valueDate value="2025-02-12"/>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2022-06-30" />
+        <valueDate value="2025-04-15"/>
     </extension>
     <identifier>
-        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
-        <value value="169.000.004.839.514.95" />
+        <use value="official"/>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+        <value value="169.000.000.000.000.01"/>
     </identifier>
-    <identifier>
-        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
-        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea" />
-    </identifier>
-    <status value="ready" />
-    <intent value="order" />
+    <status value="ready"/>
+    <intent value="order"/>
     <for>
         <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10" />
-            <value value="X123456789" />
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
         </identifier>
     </for>
-    <authoredOn value="2022-03-18T15:26:00+00:00" />
-    <lastModified value="2022-03-18T15:27:00+00:00" />
+    <authoredOn value="2025-01-15T15:29:00+00:00"/>
+    <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
         <coding>
-            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
-            <code value="urn:oid:1.2.276.0.76.4.54" />
-            <display value="Öffentliche Apotheke" />
+            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+            <code value="urn:oid:1.2.276.0.76.4.54"/>
+            <display value="Öffentliche Apotheke"/>
         </coding>
+        <text value="Öffentliche Apotheke"/>
     </performerType>
     <input>
         <type>
             <coding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
-                <code value="1" />
-                <display value="Health Care Provider Prescription" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+                <code value="1"/>
             </coding>
         </type>
         <valueReference>
-            <reference value="281a985c-f25b-4aae-91a6-41ad744080b0" />
+            <reference value="Binary/281a985c-f25b-4aae-91a6-41ad744080b0"/>
         </valueReference>
     </input>
     <input>
         <type>
             <coding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType" />
-                <code value="2" />
-                <display value="Patient Confirmation" />
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
+                <code value="2"/>
             </coding>
         </type>
         <valueReference>
-            <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43" />
+            <reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>
         </valueReference>
     </input>
 </Task>
@@ -501,166 +508,187 @@ Content-Type: application/fhir+json;charset=utf-8
 
 {
   "resourceType": "Bundle",
-  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "id": "erp-steuerung-durch-le-08-response-taskGet169Versicherter",
   "meta": {
     "lastUpdated": "2020-03-01T07:02:37.836+00:00"
   },
   "type": "collection",
-  "total": 2,
-  "link": [{
-    "relation": "self",
-    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
-  }],
-  "entry": [{
-    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.774.328.939.869.74",
-    "resource": {
-
-    "resourceType": "Task",
-    "id": "169.774.328.939.869.74",
-    "meta": {
-        "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.000.000.000.01",
+      "resource": {
+        "resourceType": "Task",
+        "id": "169.000.000.000.000.01",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
+          ]
+        },
+        "intent": "order",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "169",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-02-12"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
+          }
         ],
-        "tag":  [
-            {
-                "display": "Task in READY state activated by (Z)PVS/KIS via $activate operation"
-            }]
-    },
-    "intent": "order",
-    "extension":  [{
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-            "valueCoding": {
-                "code": "169",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-                "display": "Muster 16 (Direkte Zuweisung)"
-            }},
-        {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2022-06-02"
-        },{
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2022-06-02"
-        }],
-    "identifier":  [
-        {
+        "identifier": [
+          {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "169.774.328.939.869.74"
-        }],
-    "status": "ready",
-    "authoredOn": "2022-03-18T15:26:00+00:00",
-    "performerType":  [
-        {
-            "coding":  [{
-                    "code": "urn:oid:1.2.276.0.76.4.54",
-                    "system": "urn:ietf:rfc:3986",
-                    "display": "Öffentliche Apotheke"
-                }]
-        }],
-    "for": {
-        "identifier": {
+            "value": "169.000.000.000.000.01"
+          }
+        ],
+        "for": {
+          "identifier": {
             "system": "http://fhir.de/sid/gkv/kvid-10",
             "value": "X123456789"
-        }},
-    "lastModified": "2022-03-18T15:27:00+00:00",
-    "input":  [
-        {
+          }
+        },
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "status": "ready",
+        "input": [
+          {
             "type": {
-                "coding":  [
-                    {
-                        "code": "1",
-                        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-                        "display": "Health Care Provider Prescription"
-                    }]
+              "coding": [
+                {
+                  "code": "1",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
             },
             "valueReference": {
-                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"
+              "reference": "1bd440bc-bee1-431a-9fb6-dab6041aefcc"
             }
-        },{
+          },
+          {
             "type": {
-                "coding":  [{
-                        "code": "2",
-                        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-                        "display": "Patient Confirmation"
-                    }]
+              "coding": [
+                {
+                  "code": "2",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
             },
             "valueReference": {
-                "reference": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
-            }}
-    ]}
-  },{
-
-    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.033.491.280.78",
-    "resource": {
-    "resourceType": "Task",
-    "id": "169.000.033.491.280.78",
-    "meta": {
-        "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3"
+              "reference": "222c9472-8bf3-4123-83fb-0560469df72f"
+            }
+          }
         ]
+      }
     },
-    "intent": "order",
-    "extension":  [{
+    {
+      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/169.000.000.000.000.02",
+      "resource": {
+        "resourceType": "Task",
+        "id": "169.000.000.000.000.02",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
+          ]
+        },
+        "intent": "order",
+        "extension": [
+          {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
             "valueCoding": {
-                "code": "169",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-                "display": "Muster 16 (Direkte Zuweisung)"
-            }},
-        {
+              "code": "169",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"
+            }
+          },
+          {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2022-06-03"
-        },{
+            "valueDate": "2025-02-12"
+          },
+          {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2022-06-03"
-        }],
-    "identifier":  [
-        {
+            "valueDate": "2025-04-15"
+          }
+        ],
+        "identifier": [
+          {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "169.000.033.491.280.78"
-        }],
-    "status": "ready",
-    "authoredOn": "2022-03-18T15:26:00+00:00",
-    "performerType":  [
-        {
-            "coding":  [{
-                    "code": "urn:oid:1.2.276.0.76.4.54",
-                    "system": "urn:ietf:rfc:3986",
-                    "display": "Öffentliche Apotheke"
-                }]
-        }],
-    "for": {
-        "identifier": {
+            "value": "169.000.000.000.000.02"
+          }
+        ],
+        "for": {
+          "identifier": {
             "system": "http://fhir.de/sid/gkv/kvid-10",
             "value": "X123456789"
-        }},
-    "lastModified": "2022-03-18T15:27:00+00:00",
-    "input":  [
-        {
+          }
+        },
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "status": "ready",
+        "input": [
+          {
             "type": {
-                "coding":  [
-                    {
-                        "code": "1",
-                        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-                        "display": "Health Care Provider Prescription"
-                    }]
+              "coding": [
+                {
+                  "code": "1",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
             },
             "valueReference": {
-                "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"
+              "reference": "Binary/20dc17fc-4bde-480b-86ea-b73b14b72da9"
             }
-        },{
+          },
+          {
             "type": {
-                "coding":  [{
-                        "code": "2",
-                        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-                        "display": "Patient Confirmation"
-                    }]
+              "coding": [
+                {
+                  "code": "2",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
             },
             "valueReference": {
-                "reference": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
+              "reference": "Bundle/a1117192-eb44-48a0-acaa-e9d4ff67a914"
             }
-        }
-    ]}
-  }]
+          }
+        ]
+      }
+    }
+  ]
 }
 ----
 NOTE: Der Prozesstyp in `"url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType"` referenziert die Workflow-Definition, in diesem Fall den Prozess für apothekenpflichtige Arzneimittel.

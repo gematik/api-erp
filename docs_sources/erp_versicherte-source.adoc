@@ -54,7 +54,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/01_response_taskGetAll.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/01_response_taskGetAll.json[]
 ----
 NOTE: Mit dem AccessCode `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"` wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt
 
@@ -130,7 +130,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/02_response_taskGetSingle.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/02_response_taskGetSingle.json[]
 ----
 NOTE: Mit dem AccessCode in `"value":"777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"` wird der Zugriff für Vertreter und Apotheker gesteuert, in dem der Versicherte diesen AccessCode z.B. als QR-Code weitergibt.
 
@@ -257,7 +257,7 @@ Content-Type: application/fhir+json;charset=utf-8
 ====
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/03_response_GetLocation.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/03_response_GetLocation.json[]
 ----
 NOTE: Die Suchanfrage nach `Adler`-Apotheken liefert genau zwei Treffer.
 
@@ -319,7 +319,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/04_response_getDispense.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/04_response_getDispense.json[]
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
 
@@ -383,7 +383,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/05_response_get-single-medicationdispense-by-id.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/05_response_get-single-medicationdispense-by-id.json[]
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
 
@@ -444,7 +444,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/06_response_get-multiple-medication-dispense.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/06_response_get-multiple-medication-dispense.json[]
 ----
 NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
 
@@ -571,7 +571,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/main/API-Examples/2024-11-01/erp_versicherte/07_response_getAuditEvent.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/07_response_getAuditEvent.json[]
 ----
 NOTE: Beim Abrufen der Protokolleinträge erfolgt die Rückgabe als `Bundle`, in dem die Protokolleinträge mit Bezug zum authentifizierten Versicherten über dessen KVNR aufgelistet werden. In diesem vereinfachten Beispiel werden nur drei Einträge dargestellt.
 
