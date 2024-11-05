@@ -77,7 +77,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-01-response-taskGetAll",
   "meta": {
-    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "collection",
   "link": [
@@ -360,7 +360,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-02-response-taskGetSingle",
   "meta": {
-    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "collection",
   "link": [
@@ -443,14 +443,14 @@ Content-Type: application/fhir+json;charset=utf-8
               ]
             },
             "valueReference": {
-              "reference": "Bundle/414ca393-dde3-4082-9a3b-3752e629e4aa"
+              "reference": "414ca393-dde3-4082-9a3b-3752e629e4aa"
             }
           }
         ]
       }
     },
     {
-      "fullUrl": "https://erp.app.ti-dienste.de/Bundle/414ca393-dde3-4082-9a3b-3752e629e4aa",
+      "fullUrl": "urn:uuid:414ca393-dde3-4082-9a3b-3752e629e4aa",
       "resource": {
         "resourceType": "Bundle",
         "id": "414ca393-dde3-4082-9a3b-3752e629e4aa",
@@ -552,7 +552,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "subject": {
                 "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"
               },
-              "date": "2023-07-03T11:30:02Z",
+              "date": "2025-01-15T15:29:00.434+00:00",
               "custodian": {
                 "reference": "Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"
               }
@@ -600,8 +600,8 @@ Content-Type: application/fhir+json;charset=utf-8
                     {
                       "url": "Zeitraum",
                       "valuePeriod": {
-                        "start": "2023-07-02",
-                        "end": "2023-09-30"
+                        "start": "2025-01-15",
+                        "end": "2025-02-14"
                       }
                     },
                     {
@@ -631,7 +631,7 @@ Content-Type: application/fhir+json;charset=utf-8
                     },
                     {
                       "url": "Unfalltag",
-                      "valueDate": "2023-07-01"
+                      "valueDate": "2025-01-15"
                     }
                   ],
                   "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident"
@@ -660,7 +660,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "subject": {
                 "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"
               },
-              "authoredOn": "2023-07-02",
+              "authoredOn": "2025-01-15",
               "requester": {
                 "reference": "Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"
               },
@@ -1216,7 +1216,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-03-response-GetLocation",
   "meta": {
-    "lastUpdated": "2021-11-23T10:33:52.590809+02:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "searchset",
   "total": 2,
@@ -1546,7 +1546,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-04-response-getDispense",
   "meta": {
-    "lastUpdated": "2020-04-07T08:05:42.225+00:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "searchset",
   "total": 1,
@@ -1595,7 +1595,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "text": "1-0-1-0"
           }
         ],
-        "whenHandedOver": "2020-03-20",
+        "whenHandedOver": "2025-01-15",
         "quantity": {
           "value": 1,
           "code": "{Package}",
@@ -1741,7 +1741,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-05-response-get-single-medicationdispense-by-id",
   "type": "searchset",
-  "timestamp": "2024-02-15T06:01:44.119+00:00",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
   "total": 0,
   "link": [
     {
@@ -1788,7 +1788,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "text": "1-0-1-0"
           }
         ],
-        "whenHandedOver": "2020-03-20",
+        "whenHandedOver": "2025-01-15",
         "quantity": {
           "value": 1,
           "code": "{Package}",
@@ -1931,7 +1931,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-06-response-get-multiple-medication-dispense",
   "type": "searchset",
-  "timestamp": "2024-02-15T06:01:44.119+00:00",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
   "total": 2,
   "entry": [
     {
@@ -1972,7 +1972,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "text": "1-0-1-0"
           }
         ],
-        "whenHandedOver": "2020-03-20",
+        "whenHandedOver": "2025-01-15",
         "quantity": {
           "value": 1,
           "code": "{Package}",
@@ -2087,7 +2087,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "text": "1-0-1-0"
           }
         ],
-        "whenHandedOver": "2020-03-20",
+        "whenHandedOver": "2025-01-15",
         "quantity": {
           "value": 1,
           "code": "{Package}",
@@ -2287,7 +2287,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-versicherte-07-response-getAuditEvent",
   "meta": {
-    "lastUpdated": "2020-03-29T13:44:18.783+00:00"
+    "lastUpdated": "2025-01-15T16:29:00.434+00:00"
   },
   "type": "searchset",
   "link": [
@@ -2380,7 +2380,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.4"
           ],
           "versionId": "1",
-          "lastUpdated": "2020-02-27T09:04:27.434+00:00",
+          "lastUpdated": "2025-01-15T15:29:00.434+00:00",
           "source": "#IkMt252YovlsJTAE"
         },
         "type": {
@@ -2452,7 +2452,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.4"
           ],
           "versionId": "1",
-          "lastUpdated": "2020-02-27T10:04:27.434+00:00",
+          "lastUpdated": "2025-01-15T15:29:00.434+00:00",
           "source": "#IkMt252YovlsJTAE"
         },
         "type": {

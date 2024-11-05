@@ -107,29 +107,22 @@ Content-Type: application/fhir+xml; charset=UTF-8
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-            <code value="169"/>
+            <code value="{flowType}"/>
             <display value="Muster 16 (Direkte Zuweisung)"/>
         </valueCoding>
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2025-02-12"/>
-    </extension>
-    <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2025-04-15"/>
     </extension>
     <identifier>
         <use value="official"/>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
         <value value="169.000.000.000.000.01"/>
     </identifier>
+    <identifier>
+        <use value="official"/>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+    </identifier>
     <status value="draft"/>
     <intent value="order"/>
-    <for>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </for>
     <authoredOn value="2025-01-15T15:29:00+00:00"/>
     <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
@@ -253,6 +246,11 @@ Content-Type: application/fhir+xml;charset=utf-8
         <use value="official"/>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
         <value value="169.000.000.000.000.01"/>
+    </identifier>
+    <identifier>
+        <use value="official"/>
+        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+        <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
     </identifier>
     <status value="ready"/>
     <intent value="order"/>

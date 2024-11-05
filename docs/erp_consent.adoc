@@ -240,6 +240,11 @@ Content-Type: application/fhir+json;charset=utf-8
       "resource": {
         "resourceType": "Consent",
         "id": "CHARGCONS-X234567890",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
+          ]
+        },
         "status": "active",
         "scope": {
           "coding": [

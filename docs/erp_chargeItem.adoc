@@ -1613,6 +1613,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
             "value": "200.000.000.000.000.01"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "value": "555bjf73jr8d9si2ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
         "enterer": {
@@ -1627,11 +1631,11 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "reference": "urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"
           },
           {
-            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
+            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
             "reference": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"
           },
           {
-            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
+            "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
             "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
           }
         ],
@@ -2617,7 +2621,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                     "url": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-Gesamtzuzahlung",
                     "valueMoney": {
                       "currency": "EUR",
-                      "value": 0.00
+                      "value": 0
                     }
                   }
                 ],
@@ -2631,7 +2635,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                       "extension": [
                         {
                           "url": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-MwStSatz",
-                          "valueDecimal": 19.00
+                          "valueDecimal": 19
                         },
                         {
                           "url": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-KostenVersicherter",
@@ -2651,7 +2655,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                               "url": "Kostenbetrag",
                               "valueMoney": {
                                 "currency": "EUR",
-                                "value": 0.00
+                                "value": 0
                               }
                             }
                           ]
