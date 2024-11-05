@@ -492,20 +492,16 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-communication-08-response-GetAllMessages"/>
     <type value="searchset"/>
-    <total value="391"/>
+    <total value="1"/>
     <link>
         <relation value="self"/>
-        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?_format=html%2Fxml&amp;_sort=sent&amp;sent=gt2020-04-01&amp;sent=lt2020-04-30"/>
-    </link>
-    <link>
-        <relation value="next"/>
-        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de?_getpages=48829c84-7ad7-4834-8362-2c2c109379b1&amp;_getpagesoffset=50&amp;_count=50&amp;_bundletype=searchset"/>
+        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?_sort=sent&amp;_count=50&amp;sent=gt2025-01-14"/>
     </link>
     <entry>
         <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/erp-communication-05-request-RezeptZuweisen"/>
         <resource>
             <Communication>
-                <id value="erp-communication-05-request-RezeptZuweisen"/>
+                <id value="erp-communication-08-request-RezeptZuweisen"/>
                 <meta>
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"/>
                 </meta>
@@ -520,12 +516,19 @@ Content-Type: application/fhir+xml;charset=utf-8
                     <reference value="Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
                 </basedOn>
                 <status value="unknown"/>
+                <sent value="2025-01-15T15:29:00.434+00:00"/>
                 <recipient>
                     <identifier>
                         <system value="https://gematik.de/fhir/sid/telematik-id"/>
                         <value value="3-2-APO-XanthippeVeilchenblau01"/>
                     </identifier>
                 </recipient>
+                <sender>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <value value="X123456789"/>
+                    </identifier>
+                </sender>
                 <payload>
                     <contentString value="{ &quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;name&quot;: &quot;Dr. Maximilian von Muster&quot;, &quot;address&quot;: [ &quot;wohnhaft bei Emilia Fischer&quot;, &quot;Bundesallee 312&quot;, &quot;123. OG&quot;, &quot;12345 Berlin&quot; ], &quot;phone&quot;: &quot;004916094858168&quot; }"/>
                 </payload>

@@ -114,6 +114,10 @@ Content-Type: application/fhir+xml;charset=utf-8
     <id value="erp-abrufen-01-response-taskAccept"/>
     <type value="collection"/>
     <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <link>
+        <relation value="self"/>
+        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$accept/"/>
+    </link>
     <entry>
         <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
         <resource>
@@ -1648,6 +1652,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <Binary>
                 <id value="073ef818-3d18-4cf0-a5b7-9321ec838f94"/>
                 <meta>
+                    <versionId value="1"/>
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.4"/>
                 </meta>
                 <contentType value="application/octet-stream"/>
@@ -1662,7 +1667,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         </type>
         <when value="2025-01-15T15:29:00.434+00:00"/>
         <who>
-            <reference value="Device/1"/>
+            <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"/>
         </who>
         <sigFormat value="application/pkcs7-mime"/>
         <data value="RGllcyBpc3QgZWluIEJlaXNwaWVs"/>
@@ -1911,10 +1916,12 @@ HTTP/1.1 200 OK
 
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-abrufen-10-response-taskGet"/>
-    <meta>
-        <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
-    </meta>
     <type value="collection"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <link>
+        <relation value="self"/>
+        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
+    </link>
     <entry>
         <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
         <resource>
@@ -1967,28 +1974,23 @@ HTTP/1.1 200 OK
                     </coding>
                     <text value="Öffentliche Apotheke"/>
                 </performerType>
+                <owner>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id"/>
+                        <value value="3-2-APO-XanthippeVeilchenblau01"/>
+                    </identifier>
+                </owner>
                 <input>
                     <type>
                         <coding>
                             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                            <code value="1"/>
+                            <code value="2"/>
                         </coding>
                     </type>
                     <valueReference>
-                        <reference value="Binary/281a985c-f25b-4aae-91a6-41ad744080b0"/>
+                        <reference value="a562d322-8b4f-449c-a88f-57ed2a8b96f7"/>
                     </valueReference>
                 </input>
-                <output>
-                    <type>
-                        <coding>
-                            <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"/>
-                            <code value="3"/>
-                        </coding>
-                    </type>
-                    <valueReference>
-                        <reference value="Bundle/a562d322-8b4f-449c-a88f-57ed2a8b96f7"/>
-                    </valueReference>
-                </output>
             </Task>
         </resource>
     </entry>
@@ -2081,6 +2083,7 @@ HTTP/1.1 200 OK
                         <Binary>
                             <id value="073ef818-3d18-4cf0-a5b7-9321ec838f94"/>
                             <meta>
+                                <versionId value="1"/>
                                 <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.4"/>
                             </meta>
                             <contentType value="application/octet-stream"/>
@@ -2095,7 +2098,7 @@ HTTP/1.1 200 OK
                     </type>
                     <when value="2025-01-15T15:29:00.434+00:00"/>
                     <who>
-                        <reference value="Device/1"/>
+                        <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"/>
                     </who>
                     <sigFormat value="application/pkcs7-mime"/>
                     <data value="RGllcyBpc3QgZWluIEJlaXNwaWVs"/>
