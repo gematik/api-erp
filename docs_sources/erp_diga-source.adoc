@@ -68,6 +68,8 @@ Hierfür wird eine Abfrage für einen neuen Task mit WorkflowType '162' erstellt
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/$create
 |Method     |POST
+|Requester |image:{PVS}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -185,6 +187,8 @@ Das Ergebnis liefert genau eine Organisation und HealthCare Ressource.
 |===
 ¦URI        ¦https://fhir-directory.vzd.ti-dienste.de/search/HealthcareService?organization.active=true&organization.type=1.2.276.0.76.4.59&organization.identifier=http://fhir.de/StructureDefinition/identifier-iknr%7C107815761&organization.identifier=https://gematik.de/fhir/sid/telematik-id%7C&_include=HealthcareService:organization
 ¦Method     ¦GET
+¦Requester ¦image:{FdV}[]
+¦Responder ¦FHIR-VZD
 ¦HTTP Header ¦
 ----
 Authorization: Bearer eyJhbGciOiJCUDI1NlIxIiwidHlwIjoiSldUIn0.eyJpc3MiOiJodHRwczovL2ZoaXItZGlyZWN0b3J5LXJlZi52emQudGktZGllbnN0ZS5kZS90aW0tYXV0aGVudGljYXRlIiwiYXVkIjoiaHR0cHM6Ly9maGlyLWRpcmVjdG9yeS1yZWYudnpkLnRpLWRpZW5zdGUuZGUvc2VhcmNoIiwiZXhwIjoxNzE0NzU2OTMwLCJpYXQiOjE3MTQ2NzA1MzB9.P88pE2mjEfWe8s0V9ia9Cj2su0eQbCJS_8moso5ZgxZV_MkAyr2QXuvbRzgdCq--HZkmVV9u8CP37isxy1FaXw
@@ -252,6 +256,8 @@ Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signiert
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 |Method     |POST
+|Requester |image:{KTR}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -317,6 +323,8 @@ In dem Falle, dass die Bearbeitung des E-Rezeptes ergibt, dass die Bereitstellun
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$close?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigter Kostenträger, der das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden.
 ¦Method     ¦POST
+¦Requester ¦image:{KTR}[]
+¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 Content-Type: application/fhir+xml; charset=UTF-8
@@ -352,6 +360,8 @@ Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$reject`. Im 
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$reject?secret=c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf  +
 Zum Nachweis als berechtigter Kostenträger, der das E-Rezept gerade in Bearbeitung hält, muss im URL-Parameter `secret` das beim Abrufen generierte Secret übergeben werden
 |Method     |POST
+|Requester |image:{KTR}[]
+|Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Content-Type: application/fhir+xml; charset=UTF-8;
