@@ -1239,7 +1239,7 @@ NOTE: Das signierte FHIR-Bundle wird als Ganzes gespeichert und steht inkl. der 
 
 NOTE: Für den Versicherten wird eine Kopie des Bundles im JSON-Format inkl. serverseitiger Signatur bereitgestellt, die an der Stelle `<reference value="f8c2298f-7c00-4a68-af29-8a2862d55d43"/>` referenziert wird.
 
-NOTE: Für den Fall, dass das Clientsystem beim Aufruf der Operation keinen Response erhält, soll der Aufruf wiederholt werden. Wenn im Response ein Fehler 403 mit dem OperationOutcome "Task not in status draft but in status ready" zurückkommt, war der erste Versuch bereits erfolgreich. Wenn eine Response mit dem Status 200 zurückkommt, war der zweite Versuch erfolgreich.
+NOTE: Für den Fall, dass das Clientsystem beim Aufruf der Operation keinen Response erhält, soll der Aufruf wiederholt werden. Wenn im Response des zweiten Aufrufs ein Fehler 403 mit dem OperationOutcome "Task not in status draft but in status ready" zurückkommt, wurde der erste Aufruf bereits erfolgreich durch den E-Rezept-Fachdienst verarbeitet. Wenn eine Response mit dem Status 200 zurückkommt, war der zweite Aufruf erfolgreich.
 
 
 [cols="a,a"]
