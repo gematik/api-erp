@@ -304,22 +304,18 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
-
 ¦Payload    ¦
 [source,xml]
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen/06_request_taskClose.xml[]
 ----
-NOTE: Sofern kein Austausch des verordneten Medikaments erfolgte, können die Medikations-Informationen aus dem E-Rezept übernommen werden, beim Austausch gegen ein anderes Medikament müssen hier die entsprechenden Informationen angepasst werden, ebenso etwaig abweichende Dosierinformationen.
-
 NOTE: Die Zeitangabe in `<whenHandedOver value>` bezieht sich auf die Übergabe des Medikaments, wann es dem Überbringer des E-Rezepts ausgehändigt wurde.
 
-NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
+NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt in Textform [morgens-mittags-abends-nachts] in boolescher Notation 1=ja, 0=nein
 
 |===
 
-Es können auch mehrere MedicationDispenses für eine $dispense-Operation übergeben werden.
+Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-Parameters Ressource genutzt. Darüber können auch mehrere Abgaben erfolgen. Hierzu werden weitere `rxDispensation`-Parameter angegeben.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
@@ -401,8 +397,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Task` zu setzen.
 
-NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bsp.: "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|*1.2*")
-
 ¦Payload    ¦
 [source,xml]
 ----
@@ -417,9 +411,7 @@ NOTE: Die Codierung der Einnahmehinweise in `<dosageInstruction>` erfolgt z.B. i
 
 |===
 
-Es können auch mehrere MedicationDispenses für eine $close-Operation übergeben werden. Die MedicationDispenses werden in einem "collection"-Bundle verschickt.
-
-WARNING: Der E-Rezept-Fachdienst hat ein Datenlimit von 100kb pro Request. Falls eine Verordnung sehr viele Abgaben enthält ist darauf zu achten, dass nur ein Medication Objekt je Charge übermittelt wird, damit die Datenmenge nicht zu groß wird.
+Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-Parameters Ressource genutzt. Darüber können auch mehrere Abgaben erfolgen. Hierzu werden weitere `rxDispensation`-Parameter angegeben.
 
 .Beispiel für eine mehrfache Abgabe (Klicken zum Ausklappen)
 [%collapsible]
