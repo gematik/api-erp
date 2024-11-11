@@ -122,20 +122,54 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -225,20 +259,54 @@ image:parameters-schematics-multiple.png[width=50%]
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>

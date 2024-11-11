@@ -936,7 +936,6 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                     <status value="completed"/>
                     <medicationReference>
                         <reference value="Medication/SumatripanMedication"/>
-                        <display value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
                     </medicationReference>
                     <subject>
                         <identifier>
@@ -948,7 +947,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-SMC-B-Testkarte-883110000129070"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>
@@ -994,20 +993,54 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -1062,7 +1095,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-15.2.1456789123.191"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>
@@ -1100,20 +1133,54 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -1130,7 +1197,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                        <value value="160.000.000.000.000.01"/>
+                        <value value="160.000.000.000.000.02"/>
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
@@ -1146,7 +1213,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-15.2.1456789123.191"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>
@@ -1288,7 +1355,6 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                     <status value="completed"/>
                     <medicationReference>
                         <reference value="Medication/SumatripanMedication"/>
-                        <display value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
                     </medicationReference>
                     <subject>
                         <identifier>
@@ -1300,7 +1366,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-SMC-B-Testkarte-883110000129070"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>
@@ -1346,20 +1412,54 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -1417,7 +1517,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-15.2.1456789123.191"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>
@@ -1455,20 +1555,54 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
                         <numerator>
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20 St."/>
+                                <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -1485,7 +1619,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                        <value value="160.000.000.000.000.01"/>
+                        <value value="160.000.000.000.000.02"/>
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
@@ -1501,7 +1635,7 @@ Für die Übertragung der Abgabeinformationen wird als Transportmedium die FHIR-
                         <actor>
                             <identifier>
                                 <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                                <value value="3-15.2.1456789123.191"/>
+                                <value value="3-2-APO-XanthippeVeilchenblau01"/>
                             </identifier>
                         </actor>
                     </performer>

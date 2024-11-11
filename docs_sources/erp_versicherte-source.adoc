@@ -321,11 +321,25 @@ Content-Type: application/fhir+json;charset=utf-8
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/04_response_getDispense.json[]
 ----
-NOTE: Der Task wird unter `"reference":"Task/160.880.966.157.248.22"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
+NOTE: Der Task wird unter `"identifier.value":"160.000.000.000.000.01"` des eingelösten E-Rezepts referenziert. Über den Link können weitere Informationen wie E-Rezept-Datensatz und ggfs. die Quittung abgerufen werden.
 
-NOTE: Unter `"performer"` findet sich der Name und die Betriebsstättennummer Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
+NOTE: Unter `"performer"` findet sich die Telematik-ID der Apotheke, bei der das E-Rezept eingelöst wurde.
 
-NOTE: ` "whenHandedOver"` wurde als Filterkriterium verwendet, das Medikament wurde hier am 20.03.2020 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
+NOTE: ` "whenHandedOver"` wurde als Filterkriterium verwendet, das Medikament wurde hier am 15.01.2025 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
+
+WARNING: Mit dem Übergang in die Profilversion 1.4 der Workflow Profile verändert sich die Struktur der MedicationDispenses. Unter Version <= 1.3 der Workflow Profile war die Medication in der MedicationDispense als .contained Resource enthalten. Ab Version 1.4 wird die Medication als separate Ressource im Bundle ausgewiesen. Im Folgenden ein Beispiel der Rückgabe von GET /MedicationDispense mit MedicationDispenses in Version 1.4, 1.3 und 1.2:
+
+.Beispiel-Response für MedicationDispenses mit mehreren Versionen (Klicken zum Ausklappen)
+[%collapsible]
+====
+HTTP/1.1 200 OK
+Content-Type: application/fhir+xml;charset=utf-8
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_versicherte/02_response_taskAcceptWithConsent.xml[]
+----
+
+====
 
 
 [cols="a,a"]
@@ -361,7 +375,7 @@ WARNING: Der Endpunkt `GET /MedicationDispense/<id>` wird deprecated und steht a
 [cols="h,a",separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.880.966.157.248.22
+¦URI        ¦https://erp.app.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.000.000.000.000.01®
 ¦Method     ¦GET
 |Requester |image:{FdV}[]
 |Responder |image:{eRp}[]
