@@ -894,7 +894,7 @@ Der Task ist um den Zeitstempel des Aufrufs des $dispense-Endpunktes ergänzt un
 NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
 NOTE: Nach Abstimmungen mit der AVS-Industrie, wurde vereinbart, dass zum Start der ePA 3.0 die Angabe von Dosierinformationen als Freitext unter MedicationDispense.dosageInstruction dann zu erfolgen hat, wenn die Dosierinformation von denen der Verordnung abweicht.
-**Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt!** Informationen dazu finden sich auf einer link:https://service.gematik.de/servicedesk/customer/kb/view/611625958[entsprechenden Informationsseite].
+**Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt!** Wichtige Hinweise zum Lesen der Informationen aus der eML finden sich auf einer link:https://service.gematik.de/servicedesk/customer/kb/view/611625958[entsprechenden Informationsseite].
 
 *Request*
 [cols="h,a", separator=¦]
@@ -1314,7 +1314,7 @@ NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst be
 NOTE: Wenn mit der $dispense-Operation die Abgabendaten bereits erstellt wurden, kann die $close-Operation ohne Request Body durchgeführt werden.
 
 NOTE: Nach Abstimmungen mit der AVS-Industrie, wurde vereinbart, dass zum Start der ePA 3.0 die Angabe von Dosierinformationen als Freitext unter MedicationDispense.dosageInstruction dann zu erfolgen hat, wenn die Dosierinformation von denen der Verordnung abweicht.
-**Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt!** Informationen dazu finden sich auf einer link:https://service.gematik.de/servicedesk/customer/kb/view/611625958[entsprechenden Informationsseite].
+**Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt!** Wichtige Hinweise zum Lesen der Informationen aus der eML finden sich auf einer link:https://service.gematik.de/servicedesk/customer/kb/view/611625958[entsprechenden Informationsseite].
 
 WARNING: Wenn die $close-Operation aufgerufen wird und kein Request Body vorhanden ist, und die Abgabendaten nicht vorher mit einer $dispense-Operation erstellt wurden, kommt eine Fehlermeldung mit HttpStatus 403 und einem OperationOutcome mit der Meldung "Abschluss des Workflows konnte nicht durchgeführt werden. Dispensierinformationen wurden nicht bereitgestellt." zurück.
 
