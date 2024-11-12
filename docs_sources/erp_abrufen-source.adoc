@@ -379,7 +379,8 @@ NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst be
 
 NOTE: Wenn mit der $dispense-Operation die Abgabendaten bereits erstellt wurden, kann die $close-Operation ohne Request Body durchgeführt werden.
 
-NOTE: Nach Abstimmungen mit der AVS-Industrie, wurde vereinbart, dass zum Start der ePA 3.0 die Angabe von Dosierinformationen als Freitext unter MedicationDispense.dosageInstruction dann zu erfolgen hat, wenn die Dosierinformation von denen der Verordnung abweicht.
+NOTE: Nach Abstimmungen mit der AVS-Industrie, wurde vereinbart, dass zum Start der ePA 3.0 die Angabe von Dosierinformationen als Freitext unter MedicationDispense.dosageInstruction dann zu erfolgen hat, wenn die Dosierinformation von denen der Verordnung abweicht. 
+**Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt!**
 
 WARNING: Wenn die $close-Operation aufgerufen wird und kein Request Body vorhanden ist, und die Abgabendaten nicht vorher mit einer $dispense-Operation erstellt wurden, kommt eine Fehlermeldung mit HttpStatus 403 und einem OperationOutcome mit der Meldung "Abschluss des Workflows konnte nicht durchgeführt werden. Dispensierinformationen wurden nicht bereitgestellt." zurück.
 
