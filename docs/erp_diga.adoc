@@ -566,6 +566,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 </performerType>
                 <owner>
                     <identifier>
+                        <system value="https://gematik.de/fhir/sid/telematik-id"/>
                         <value value="8-SMC-B-Testkarte-883110000116873"/>
                     </identifier>
                 </owner>
@@ -775,6 +776,130 @@ s|Code   s|Type Error
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |410 |Gone +
 [small]#Die angeforderte Ressource wird nicht länger bereitgestellt und wurde dauerhaft entfernt.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+==  Anwendungsfall Nachricht als Kostenträger an einen Versicherten schicken
+Als Kostenträger möchte ich dem Versicherten eine Nachricht über den Bearbeitungsstand oder die Gründe für eine Rückgabe des E-Rezeptes an den E-Rezept-Fachdienst schicken.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
+Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema]. Daher muss im Feld "supplyOptionsType" verpflichtend ein Wert angegeben werden. Als default sollte "delivery" gesetzt werden. FdV's SOLLEN diesen Wert ignorieren.
+
+WARNING: Nach Aufruf der $close und $reject Operation werden alle Communications zu einem Task gelöscht.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
+¦Method     ¦POST
+¦Requester ¦image:{KTR}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
+
+¦Payload    ¦
+[source,xml]
+----
+<Communication xmlns="http://hl7.org/fhir">
+    <id value="erp-diga-07-communication-to-patient"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
+    </meta>
+    <basedOn>
+        <reference value="Task/162.000.000.000.000.01"/>
+    </basedOn>
+    <status value="unknown"/>
+    <recipient>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </recipient>
+    <payload>
+        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;delivery&quot;, &quot;info_text&quot;: &quot;Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind.&quot;}"/>
+    </payload>
+</Communication>
+----
+NOTE: Die vom Kostenträger übermittelte Nachricht ist strukturiert in .payload.contentString unter "info_text" nach gemSpec_eRp_DM abgelegt.
+
+|===
+
+
+*Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+Location:
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
+
+[source,xml]
+----
+<Communication xmlns="http://hl7.org/fhir">
+    <id value="erp-diga-07-communication-to-patient-response"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
+    </meta>
+    <basedOn>
+        <reference value="Task/162.000.000.000.000.01"/>
+    </basedOn>
+    <status value="unknown"/>
+    <sent value="2025-01-15T15:29:00.434+00:00"/>
+    <recipient>
+        <identifier>
+            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <value value="X123456789"/>
+        </identifier>
+    </recipient>
+    <sender>
+        <identifier>
+            <system value="https://gematik.de/fhir/sid/telematik-id"/>
+            <value value="8-SMC-B-Testkarte-883110000116873"/>
+        </identifier>
+    </sender>
+    <payload>
+        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;delivery&quot;, &quot;info_text&quot;: &quot;Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind.&quot;}"/>
+    </payload>
+</Communication>
+----
+NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
+
+NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
+
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
+[small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 |429 |Too Many Requests +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
 |500  |Server Errors +
