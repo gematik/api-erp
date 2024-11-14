@@ -458,17 +458,16 @@ Content-Type: application/fhir+xml;charset=utf-8
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/07_communication_to_patient_response.xml[]
 ----
-NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
+NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in `Communication.sent`
 
-NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
-
+NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID des Kostenträgers in ` <sender>` als Absender der Nachricht.
 
 [cols="a,a"]
 [%autowidth]
 |===
 s|Code   s|Type Success
 |201  | Created +
-[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. #
 s|Code   s|Type Warning
 |253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
                 [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
