@@ -410,8 +410,8 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
-===  Anwendungsfall Nachricht als Kostenträger an einen Versicherten schicken
-Als Kostenträger möchte ich dem Versicherten eine Nachricht über den Bearbeitungsstand oder die Gründe für eine Rückgabe des E-Rezeptes an den E-Rezept-Fachdienst schicken.
+=== Nachricht als Kostenträger an einen Versicherten schicken
+Als Kostenträger möchte ich dem Versicherten eine Nachricht über den Bearbeitungsstand oder die Gründe für eine Rückgabe des E-Rezeptes senden.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
