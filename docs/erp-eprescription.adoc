@@ -1,0 +1,372 @@
+= E-Rezept API Dokumentation zum Einlösen von E-Rezepten im EU-Ausland image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
+Zielgruppe: image:{FdV}[]
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland
+
+toc::[]
+
+== Zustimmung für die Nutzung von E-Rezepten im EU-Ausland
+
+=== Zustimmung erteilen
+
+Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/Consent
+|Method     |POST
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+|URL Parameter    |
+|Payload    |
+[source,json]
+----
+{
+  "resourceType": "Consent",
+  "id": "f97a0772-c99f-4159-90c6-2a41c7d96779",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "assigner": {
+        "identifier": {
+          "system": "http://fhir.de/sid/arge-ik/iknr",
+          "value": "98765543"
+        }
+      },
+      "value": "X123456789"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "EUDISPCONS",
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+          "display": "Consent for redeeming e-prescriptions in EU countries"
+        }
+      ]
+    }
+  ],
+  "dateTime": "2025-10-01T12:03:23Z",
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  }
+}
+----
+
+|===
+
+*Response*
+[source,json]
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+----
+{
+  "resourceType": "Consent",
+  "id": "f97a0772-c99f-4159-90c6-2a41c7d96779",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "assigner": {
+        "identifier": {
+          "system": "http://fhir.de/sid/arge-ik/iknr",
+          "value": "98765543"
+        }
+      },
+      "value": "X123456789"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "EUDISPCONS",
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+          "display": "Consent for redeeming e-prescriptions in EU countries"
+        }
+      ]
+    }
+  ],
+  "dateTime": "2025-10-01T12:03:23Z",
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  }
+}
+----
+
+=== Zustimmung widerrufen
+
+Als Versicherter möchte ich meine Zustimmung widerrufen
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/Consent?category=EUDISPCONS
+|Method     |DELETE
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 204 No Content
+----
+
+
+== Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
+
+=== Erstellen des Zugriffscodes im E-Rezept-Fachdienst
+
+*Request*
+[cols="h,a"]
+[%autowidth]
+|===
+|URI        |https://erp.app.ti-dienste.de/$grant-eu-access-permission
+|Method     |POST
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+|URL Parameter    |
+|Payload    |
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "Example-EU-PermissionRequest",
+  "meta": {
+    "versionId": "1",
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "123456"
+      }
+    }
+  ]
+}
+----
+
+|===
+
+*Response*
+[source,json]
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+----
+{
+  "resourceType": "Parameters",
+  "id": "Example-EU-PermissionResponse",
+  "meta": {
+    "versionId": "1",
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "123456"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-10-01T13:12:32+02:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-10-01T12:12:32+02:00"
+    }
+  ]
+}
+----
+
+=== Abfragen des Zugriffscodes im E-Rezept-Fachdienst
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/$read-eu-access-permission
+|Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+
+{
+  "resourceType": "Parameters",
+  "id": "Example-EU-PermissionResponse",
+  "meta": {
+    "versionId": "1",
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "123456"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-10-01T13:12:32+02:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-10-01T12:12:32+02:00"
+    }
+  ]
+}
+----
+
+=== Löschen des Zugriffscodes im E-Rezept-Fachdienst
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/$revoke-eu-access-permission
+|Method     |DELETE
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+|Payload    |
+|===
+
+
+*Response*
+[source,json]
+----
+HTTP/1.1 204 No Content
+----
