@@ -38,6 +38,7 @@ Durchgängige Beispieldatensätze von der Verordnung und qualifizierter Signatur
 === Referenzierung von FHIR-Objekten in Bundles
 Der FHIR-Standard definiert wie Ressourcen in einem Bundle referenziert werden sollen. Siehe hierzu link:https://hl7.org/fhir/R4/references.html[Referezen] und link:http://hl7.org/fhir/R4/bundle.html[Bundles].
 
+==== Übereinstimmung von id und fullUrl
 Bei Verwendung von relativer Referenzierung in Bundles muss darauf geachtet werden, dass die id der fullUrl der Ressource mit der id der Ressource übereinstimmt.
 
 Beispielsweise ist folgende Konstellation ungültig, da der hintere Teil der fullUrl nicht mit der Ressourcen-ID übereinstimmt (b54dd6cad655 ≠ 000000000000):
@@ -49,6 +50,54 @@ Beispielsweise ist folgende Konstellation ungültig, da der hintere Teil der ful
             <Practitioner xmlns="http://hl7.org/fhir">
                 <id value="bc329f24-3d65-4286-bf06-000000000000" />
 ----
+
+==== Einheitliche Referenzierung in Bundles
+Zur Vermeidung von Fehlern bei der Referenzierung von Ressourcen in Bundles sollte eine einheitliche Referenzierung genutzt werden. Das bedeutet, dass absolute und relative Referenzierung nicht gemischt werden sollte. Zur Eindeutigkeit und besseren Lesbarkeit wird empfohlen, durchgehend absolute Referenzen zu verwenden.
+
+Folgendes Beispiel zeigt eine fehlerhafte Referenzierung:
+
+[source,xml]
+----
+<fullUrl value="urn:uuid:bc329f24-3d65-4286-bf06-b54dd6cad655" />
+   <resource>
+      <Composition>
+       ...
+       <section>
+         <reference value="Patient/123" /> <!-- relative Referenzierung, welche sich nicht auflösen lässt -->
+      </section>
+----
+
+Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
+
+==== Format von fullURLs
+fullURLs müssen entweder als URL-Schema oder als URN-Schema angegeben werden. Wenn das URL-Schema verwendet wird, muss dieses nach dem link:https://hl7.org/fhir/R4/references.html#regex[Regex für FHIR-URLs] aufgebaut sein. Folgende Hinweise sind zu beachten:
+
+* URLs haben das Format "http(s)://<domain>/<resourceType>/<id>".
+* URNs haben das Format "urn:uuid:<uuid>".
+
+Folgendes Beispiel zeigt eine **ungültige** URL-Referenz:
+
+[source,xml]
+----
+<fullUrl value="www.pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" /> <!-- ungültige URL, da das Schema fehlt -->
+<fullUrl value="urn:uuid:1" /> <!-- ungültige urn, da keine gültige UUID -->
+----
+
+==== Ressourcen ohne .id
+Ressourcen, die in Bundles enthalten sind, müssen eine .id besitzen. Dies ist notwendig, um die Ressourcen eindeutig referenzieren und identifizieren zu können. Daher müssen diese angegeben werden auch wenn das Datenmodell keine Kardinalität von 1..1 für das Feld .id vorsieht.
+
+Im folgenden Beispiel fehlt die .id in der Ressource:
+
+[source,xml]
+----
+<fullUrl value="http://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" />
+        <resource>
+            <Practitioner xmlns="http://hl7.org/fhir">
+                <name> <!-- fehlende .id -->
+                ...
+            </Practitioner>
+----
+
 
 
 == Tools und Hinweise zu FHIR
