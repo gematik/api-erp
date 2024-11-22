@@ -74,6 +74,35 @@ HTTP/1.1 204 No Content
 ----
 
 
+=== Zustimmung einsehen
+
+Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
+
+*Request*
+[cols="h,a"]
+|===
+|URI        |https://prescriptionserver.telematik/Consent
+|Method     |GET
+|Requester |image:{FdV}[]
+|Responder |image:{eRp}[]
+|HTTP Header |
+----
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
+----
+
+|Payload    |
+|===
+
+
+*Response*
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+[source,json]
+----
+include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Bundle-ExampleGetConsent.json[]
+----
+
 == Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
 
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst 
