@@ -14,32 +14,35 @@ toc::[]
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent
-|Method     |POST
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 
-|URL Parameter    |
-|Payload    |
+¦URL Parameter    ¦
+¦Payload    ¦
 
 [source,json]
 ----
+
 include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Consent-f97a0772-c99f-4159-90c6-2a41c7d96779.json[]
+
 ----
 
 |===
 
 *Response*
-[source,json]
+
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
+[source,json]
 ----
 include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Consent-f97a0772-c99f-4159-90c6-2a41c7d96779.json[]
 ----
@@ -100,9 +103,10 @@ include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/
 |===
 
 *Response*
-[source,json]
+
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
+[source,json]
 ----
 include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Parameters-Example-EU-PermissionResponse.json[]
 ----
@@ -128,11 +132,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 
 
 *Response*
-[source,json]
-----
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
-
+[source,json]
+----
 include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Parameters-Example-EU-PermissionResponse.json[]
 ----
 
