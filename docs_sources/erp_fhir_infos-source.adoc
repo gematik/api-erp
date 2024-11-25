@@ -51,6 +51,15 @@ Beispielsweise ist folgende Konstellation ungültig, da der hintere Teil der ful
                 <id value="bc329f24-3d65-4286-bf06-000000000000" />
 ----
 
+Hier das korrigierte Beispiel:
+[source,xml]
+----
+<fullUrl value="http://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" />
+        <resource>
+            <Practitioner xmlns="http://hl7.org/fhir">
+                <id value="bc329f24-3d65-4286-bf06-b54dd6cad655" />
+----
+
 ==== Einheitliche Referenzierung in Bundles
 Zur Vermeidung von Fehlern bei der Referenzierung von Ressourcen in Bundles sollte eine einheitliche Referenzierung genutzt werden. Das bedeutet, dass absolute und relative Referenzierung nicht gemischt werden sollte. Zur Eindeutigkeit und besseren Lesbarkeit wird empfohlen, durchgehend absolute Referenzen zu verwenden.
 
@@ -66,6 +75,33 @@ Folgendes Beispiel zeigt eine fehlerhafte Referenzierung:
          <reference value="Patient/123" /> <!-- relative Referenzierung, welche sich nicht auflösen lässt -->
       </section>
 ----
+
+Folgend ein korrigiertes Beispiel:
+
+[source,xml]
+----
+<fullUrl value="urn:uuid:bc329f24-3d65-4286-bf06-b54dd6cad655" />
+   <resource>
+      <Composition>
+       ...
+       <section>
+         <reference value="urn:uuid:63ad09fb-ef03-418d-855b-d561d0e2a8fc" /> <!-- ebenfalls eindeutige urn:uuid Referenzierung -->
+      </section>
+----
+
+Alternativ ein korrektes Beispiel für relative Referenzierung:
+
+[source,xml]
+----
+<fullUrl value="http://pvs.praxis.local/fhir/Practitioner/129ce0ed-b427-49c3-907c-14bc1438cbcf" />
+   <resource>
+      <Composition>
+       ...
+       <section>
+         <reference value="Patient/ec897375-8fce-4ebc-8059-80c851e4c8b2" /> <!-- fullURL ist als URL-Schema aufgebaut, relative Referenz kann aufgelöst werden -->
+      </section>
+----
+
 
 Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
 
@@ -83,6 +119,14 @@ Folgendes Beispiel zeigt eine **ungültige** URL-Referenz:
 <fullUrl value="urn:uuid:1" /> <!-- ungültige urn, da keine gültige UUID -->
 ----
 
+Gültige Referenzen:
+
+[source,xml]
+----
+<fullUrl value="https://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" /> <!-- Korrekte URL nach https://hl7.org/fhir/R4/references.html#regex -->
+<fullUrl value="urn:uuid:4b7e4c01-6ee6-43ee-b527-61a813efa6be" /> <!-- Korrekte UUID nach RFC4122 -->
+----
+
 ==== Ressourcen ohne .id
 Ressourcen, die in Bundles enthalten sind, müssen eine .id besitzen. Dies ist notwendig, um die Ressourcen eindeutig referenzieren und identifizieren zu können. Daher müssen diese angegeben werden auch wenn das Datenmodell keine Kardinalität von 1..1 für das Feld .id vorsieht.
 
@@ -98,6 +142,18 @@ Im folgenden Beispiel fehlt die .id in der Ressource:
             </Practitioner>
 ----
 
+Beispiel für korrekte Angabe der .id:
+
+[source,xml]
+----
+<fullUrl value="http://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" />
+        <resource>
+            <Practitioner xmlns="http://hl7.org/fhir">
+                <id value="bc329f24-3d65-4286-bf06-b54dd6cad655" />
+                <name>
+                ...
+            </Practitioner>
+----
 
 
 == Tools und Hinweise zu FHIR
