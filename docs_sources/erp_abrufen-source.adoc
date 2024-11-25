@@ -286,6 +286,8 @@ Der Task ist um den Zeitstempel des Aufrufs des $dispense-Endpunktes ergänzt un
 
 NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
+NOTE: Hinweise zur Erstellung der Abgabeinformationen ab Profilversion 1.4 finden sich auf der Seite xref:../docs/erp_abrufen_dispense.adoc[Angabe von Dosierinformationen].
+
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
@@ -376,6 +378,8 @@ NOTE: Zurzeit kann die Signatur	mit den Konnektor-Versionen PTV4, PTV4+ und PTV5
 NOTE: Die maximale Dateigröße für die Kommunikation am E-Rezept-Fachdienst beträgt derzeit 1MB. Dies meint den kompletten Request, daher muss der innere VAU-Request etwas kleiner als 1MB sein. Für Verordnungen, die mehrere Abgaben erfordern ist darauf zu achten, dass für mehrere Abgaben einer Charge nur eine MedicationDispense erstellt wird.
 
 NOTE: Wenn mit der $dispense-Operation die Abgabendaten bereits erstellt wurden, kann die $close-Operation ohne Request Body durchgeführt werden.
+
+NOTE: Hinweise zur Erstellung der Abgabeinformationen ab Profilversion 1.4 finden sich auf der Seite xref:../docs/erp_abrufen_dispense.adoc[Angabe von Dosierinformationen].
 
 WARNING: Wenn die $close-Operation aufgerufen wird und kein Request Body vorhanden ist, und die Abgabendaten nicht vorher mit einer $dispense-Operation erstellt wurden, kommt eine Fehlermeldung mit HttpStatus 403 und einem OperationOutcome mit der Meldung "Abschluss des Workflows konnte nicht durchgeführt werden. Dispensierinformationen wurden nicht bereitgestellt." zurück.
 
