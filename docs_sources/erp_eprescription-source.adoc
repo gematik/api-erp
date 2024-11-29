@@ -1,5 +1,8 @@
 = E-Rezept API Dokumentation zum Einlösen von E-Rezepten im EU-Ausland image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
+// TODO: Change
+:branch: eu-examples
+:date-folder: 2025-10-01-preview
 
 Zielgruppe: image:{FdV}[]
 
@@ -30,8 +33,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Consent-f97a0772-c99f-4159-90c6-2a41c7d96779.json[]
-
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent.json[]
 ----
 
 |===
@@ -42,12 +44,13 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Consent-f97a0772-c99f-4159-90c6-2a41c7d96779.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent_Response.json[]
+
 ----
 
 === Zustimmung widerrufen
 
-Als Versicherter möchte ich meine Zustimmung widerrufen
+Als Versicherter möchte ich meine Zustimmung widerrufen.
 
 *Request*
 [cols="h,a"]
@@ -59,9 +62,7 @@ Als Versicherter möchte ich meine Zustimmung widerrufen
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 |Payload    |
 |===
@@ -81,14 +82,13 @@ Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zus
 *Request*
 [cols="h,a"]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent
+|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
 |Method     |GET
 |Requester |image:{FdV}[]
 |Responder |image:{eRp}[]
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
 
 |Payload    |
@@ -100,7 +100,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Bundle-ExampleGetConsent.json[]
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/02_GET_Consent_Bundle.json[]
 ----
 
 == Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
@@ -124,7 +124,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |Payload    |
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Parameters-Example-EU-PermissionRequest.json[]
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/03_POST_AccessCode_EU_Request.json[]
 ----
 
 |===
@@ -135,7 +135,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Parameters-Example-EU-PermissionResponse.json[]
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json[]
 ----
 
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
@@ -150,9 +150,7 @@ include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 |Payload    |
 |===
@@ -163,7 +161,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/feature/workflow-1-5/Resources/fsh-generated/resources/Parameters-Example-EU-PermissionResponse.json[]
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json[]
 ----
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
@@ -178,16 +176,105 @@ include::https://raw.githubusercontent.com/gematik/fhir-profiles-erp/refs/heads/
 |HTTP Header |
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-X-AccessCode: 777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea
 ----
-NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter aus, im Token ist seine Versichertennummer enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
 |Payload    |
 |===
-
 
 *Response*
 [source,json]
 ----
 HTTP/1.1 204 No Content
+----
+
+== Interkation NCPeH mit E-Rezept-Fachdienst 
+
+=== Abfragen von E-Rezepten des E-Rezept-Fachdienst 
+
+Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E-Rezept-Fachdienst abrufen, damit ich diese in das Ausland weiterleiten kann.
+
+*Request*
+[cols="h,a", separator=¦]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Prescription
+¦Method     ¦GET
+¦Requester ¦image:{NCPeH}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header s¦
+----
+
+*Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+*X-ncpeh-requesttype*: <demographics | e-prescriptions-list | e-prescriptions-retrieval>
+*X-ncpeh-kvnr*: <Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.>
+*X-ncpeh-zugriffscode*: <Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.>
+*X-ncpeh-laendercode*: <Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.>
+*X-ncpeh-practitionerName*: <Vollständiger Name des HP (Human readable name).>
+*X-ncpeh-practitionerRole*: <Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.>
+*X-ncpeh-pointOfCare*: <Name des Krankenhauses oder der medizinischen Einrichtung.>
+*X-ncpeh-healthcare-facility-type*: <Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. >
+*_count*: <Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.>
+*id*: <Liste der Rezept-IDs, die abgefragt werden sollen. Für `e-prescriptions-retrieval` Use Case verwendet>
+
+----
+
+¦Payload    ¦
+
+|===
+
+
+*Response*
+
+.Beispiel für Bundle mit Verordnungen (Klicken zum Ausklappen)
+[%collapsible]
+====
+
+[source,xml]
+HTTP/1.1 200 OK
+Content-Type: application/fhir+json;charset=utf-8
+----
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/05_GET_Prescription_Bundle.xml[]
+----
+
+====
+
+=== Abgabeinformationen zu einem E-Rezept einstellen
+
+Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
+
+*Request*
+[cols="h,a", separator=¦]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Prescription
+¦Method     ¦GET
+¦Requester ¦image:{NCPeH}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header s¦
+----
+
+*Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+*X-ncpeh-kvnr*: <Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.>
+*X-ncpeh-zugriffscode*: <Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.>
+*X-ncpeh-laendercode*: <Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.>
+*X-ncpeh-practitionerName*: <Vollständiger Name des HP (Human readable name).>
+*X-ncpeh-practitionerRole*: <Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.>
+*X-ncpeh-pointOfCare*: <Name des Krankenhauses oder der medizinischen Einrichtung.>
+*X-ncpeh-healthcare-facility-type*: <Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke>
+*id*: <Die eindeutige ID der zu schließenden Task.>
+
+----
+
+¦Payload    ¦
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_EU_Close.xml[]
+
+----
+
+|===
+
+
+*Response*
+[source]
+----
+HTTP/1.1 200 OK
 ----
