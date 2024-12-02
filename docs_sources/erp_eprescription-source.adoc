@@ -200,22 +200,19 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 ¦Method     ¦GET
 ¦Requester ¦image:{NCPeH}[]
 ¦Responder ¦image:{eRp}[]
-¦HTTP Header s¦
-----
+¦HTTP Header¦
 
-*Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-*X-ncpeh-requesttype*: <demographics | e-prescriptions-list | e-prescriptions-retrieval>
-*X-ncpeh-kvnr*: <Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.>
-*X-ncpeh-zugriffscode*: <Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.>
-*X-ncpeh-laendercode*: <Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.>
-*X-ncpeh-practitionerName*: <Vollständiger Name des HP (Human readable name).>
-*X-ncpeh-practitionerRole*: <Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.>
-*X-ncpeh-pointOfCare*: <Name des Krankenhauses oder der medizinischen Einrichtung.>
-*X-ncpeh-healthcare-facility-type*: <Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. >
-*_count*: <Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.>
-*id*: <Liste der Rezept-IDs, die abgefragt werden sollen. Für `e-prescriptions-retrieval` Use Case verwendet>
-
-----
+* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+* *X-ncpeh-requesttype*: <demographics | e-prescriptions-list | e-prescriptions-retrieval>
+* *X-ncpeh-kvnr*: Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.
+* *X-ncpeh-zugriffscode*: Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.
+* *X-ncpeh-laendercode*: Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.
+* *X-ncpeh-practitionerName*: Vollständiger Name des HP (Human readable name).
+* *X-ncpeh-practitionerRole*: Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.
+* *X-ncpeh-pointOfCare*: Name des Krankenhauses oder der medizinischen Einrichtung.
+* *X-ncpeh-healthcare-facility-type*: Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke
+* *_count*: <Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.>
+* *id*: Die eindeutige ID der zu schließenden Task.
 
 ¦Payload    ¦
 
@@ -242,34 +239,30 @@ include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/f
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
 
 *Request*
+*Request*
 [cols="h,a", separator=¦]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Prescription
 ¦Method     ¦GET
-¦Requester ¦image:{NCPeH}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header s¦
-----
+¦Requester  ¦image:{NCPeH}[]
+¦Responder  ¦image:{eRp}[]
+¦HTTP Header¦
 
-*Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-*X-ncpeh-kvnr*: <Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.>
-*X-ncpeh-zugriffscode*: <Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.>
-*X-ncpeh-laendercode*: <Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.>
-*X-ncpeh-practitionerName*: <Vollständiger Name des HP (Human readable name).>
-*X-ncpeh-practitionerRole*: <Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.>
-*X-ncpeh-pointOfCare*: <Name des Krankenhauses oder der medizinischen Einrichtung.>
-*X-ncpeh-healthcare-facility-type*: <Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke>
-*id*: <Die eindeutige ID der zu schließenden Task.>
-
-----
+* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+* *X-ncpeh-kvnr*: Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.
+* *X-ncpeh-zugriffscode*: Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.
+* *X-ncpeh-laendercode*: Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.
+* *X-ncpeh-practitionerName*: Vollständiger Name des HP (Human readable name).
+* *X-ncpeh-practitionerRole*: Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.
+* *X-ncpeh-pointOfCare*: Name des Krankenhauses oder der medizinischen Einrichtung.
+* *X-ncpeh-healthcare-facility-type*: Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke
+* *id*: Die eindeutige ID der zu schließenden Task.
 
 ¦Payload    ¦
 [source,xml]
 ----
 include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_EU_Close.xml[]
-
 ----
-
 |===
 
 
