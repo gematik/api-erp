@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{AVS}[]
 
 Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
@@ -293,120 +297,120 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Bundle xmlns="http://hl7.org/fhir">
-	<id value="erp-abrufen-egk-05-Response-Task" />
-	<type value="searchset" />
-	<timestamp value="2023-05-16T07:03:18.844+00:00" />
-	<total value="2" />
-	<entry>
-		<fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.036.967.704.52" />
-		<resource>
-			<Task>
-				<id value="160.000.036.967.704.52" />
-				<meta>
-					<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3" />
-				</meta>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-					<valueCoding>
-						<system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-						<code value="160" />
-						<display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-					</valueCoding>
-				</extension>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-					<valueDate value="2023-07-11" />
-				</extension>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-					<valueDate value="2023-05-09" />
-				</extension>
-				<identifier>
-					<use value="official" />
-					<system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
-					<value value="160.000.036.967.704.52" />
-				</identifier>
-				<identifier>
-					<use value="official" />
-					<system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
-					<value value="eb6002c60dffdfb742002bf44f9f72326de3dddfe2271ab64a21a6cb0f168bbf" />
-				</identifier>
-				<status value="ready" />
-				<intent value="order" />
-				<for>
-					<identifier>
-						<system value="http://fhir.de/sid/gkv/kvid-10" />
-						<value value="T046142499" />
-					</identifier>
-				</for>
-				<authoredOn value="2023-04-11T09:10:16.519+00:00" />
-				<lastModified value="2023-04-11T09:10:18.926+00:00" />
-				<performerType>
-					<coding>
-						<system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
-						<code value="urn:oid:1.2.276.0.76.4.54" />
-						<display value="Öffentliche Apotheke" />
-					</coding>
-					<text value="Öffentliche Apotheke" />
-				</performerType>
-			</Task>
-		</resource>
-		<search>
-			<mode value="match" />
-		</search>
-	</entry>
-	<entry>
-		<fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.036.968.008.13" />
-		<resource>
-			<Task>
-				<id value="160.000.036.968.008.13" />
-				<meta>
-					<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.3" />
-				</meta>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-					<valueCoding>
-						<system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType" />
-						<code value="160" />
-						<display value="Muster 16 (Apothekenpflichtige Arzneimittel)" />
-					</valueCoding>
-				</extension>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-					<valueDate value="2023-07-12" />
-				</extension>
-				<extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-					<valueDate value="2023-05-10" />
-				</extension>
-				<identifier>
-					<use value="official" />
-					<system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId" />
-					<value value="160.000.036.968.008.13" />
-				</identifier>
-				<identifier>
-					<use value="official" />
-					<system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode" />
-					<value value="16ba6a9a4440fbf815351fe7080572ab3ae9acbba404efa259074a56dac21725" />
-				</identifier>
-				<status value="ready" />
-				<intent value="order" />
-				<for>
-					<identifier>
-						<system value="http://fhir.de/sid/gkv/kvid-10" />
-						<value value="T046142499" />
-					</identifier>
-				</for>
-				<authoredOn value="2023-04-12T06:42:30.913+00:00" />
-				<lastModified value="2023-04-12T06:42:33.275+00:00" />
-				<performerType>
-					<coding>
-						<system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType" />
-						<code value="urn:oid:1.2.276.0.76.4.54" />
-						<display value="Öffentliche Apotheke" />
-					</coding>
-					<text value="Öffentliche Apotheke" />
-				</performerType>
-			</Task>
-		</resource>
-		<search>
-			<mode value="match" />
-		</search>
-	</entry>
+    <id value="erp-abrufen-egk-05-Response-Task"/>
+    <type value="searchset"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <total value="2"/>
+    <entry>
+        <fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
+        <resource>
+            <Task>
+                <id value="160.000.000.000.000.01"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                    <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+                    </valueCoding>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                    <valueDate value="2025-02-12"/>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                    <valueDate value="2025-04-15"/>
+                </extension>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.01"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                </identifier>
+                <status value="ready"/>
+                <intent value="order"/>
+                <for>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <value value="X123456789"/>
+                    </identifier>
+                </for>
+                <authoredOn value="2025-01-15T15:29:00+00:00"/>
+                <lastModified value="2025-01-15T15:29:00.434+00:00"/>
+                <performerType>
+                    <coding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+                        <code value="urn:oid:1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                    <text value="Öffentliche Apotheke"/>
+                </performerType>
+            </Task>
+        </resource>
+        <search>
+            <mode value="match"/>
+        </search>
+    </entry>
+    <entry>
+        <fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.02"/>
+        <resource>
+            <Task>
+                <id value="160.000.000.000.000.02"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                    <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+                    </valueCoding>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                    <valueDate value="2025-02-12"/>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                    <valueDate value="2025-04-15"/>
+                </extension>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.02"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                </identifier>
+                <status value="ready"/>
+                <intent value="order"/>
+                <for>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <value value="X123456789"/>
+                    </identifier>
+                </for>
+                <authoredOn value="2025-01-15T15:29:00+00:00"/>
+                <lastModified value="2025-01-15T15:29:00.434+00:00"/>
+                <performerType>
+                    <coding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+                        <code value="urn:oid:1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                    <text value="Öffentliche Apotheke"/>
+                </performerType>
+            </Task>
+        </resource>
+        <search>
+            <mode value="match"/>
+        </search>
+    </entry>
 </Bundle>
 ----
 

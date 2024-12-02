@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept für die Einwilligung zur elektronischen Verarbeitung und Speicherung von Abrechnungsinformationen für PKV-Versicherte.
@@ -64,56 +68,49 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 [source,json]
 ----
 {
-    "resourceType": "Consent",
-    "meta": {
-        "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
-        ]
-    },
-    "status": "active",
-    "scope": {
-        "coding":  [
-            {
-                "code": "patient-privacy",
-                "system": "http://terminology.hl7.org/CodeSystem/consentscope",
-                "display": "Privacy Consent"
-            }
-        ]
-    },
-    "category":  [
+  "resourceType": "Consent",
+  "id": "erp-consent-01-request-PostConsent",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
+    ]
+  },
+  "status": "active",
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
         {
-            "coding":  [
-                {
-                    "code": "CHARGCONS",
-                    "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
-                    "display": "Saving electronic charge item."
-                }
-            ]
+          "code": "CHARGCONS",
+          "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+          "display": "Consent for saving electronic charge item"
         }
-    ],
-    "patient": {
-        "identifier": {
-            "type": {
-                "coding":  [
-                    {
-                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                        "code": "PKV"
-                    }
-                ]
-            },
-            "system": "http://fhir.de/sid/pkv/kvid-10",
-            "value": "X234567890"
-        }
-    },
-    "dateTime": "2023-08-01T07:13:00+05:00",
-    "policyRule": {
-        "coding":  [
-            {
-                "code": "OPTIN",
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-            }
-        ]
+      ]
     }
+  ],
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  },
+  "patient": {
+    "identifier": {
+      "value": "P987654321",
+      "system": "http://fhir.de/sid/pkv/kvid-10"
+    }
+  },
+  "dateTime": "2025-01-15T15:29:00+00:00"
 }
 ----
 |===
@@ -126,57 +123,49 @@ HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
 
 {
-    "resourceType": "Consent",
-    "id": "0dcc5d4c-bf24-4c06-b02e-be5bc24587e2",
-    "meta": {
-        "profile":  [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
-        ]
-    },
-    "status": "active",
-    "scope": {
-        "coding":  [
-            {
-                "code": "patient-privacy",
-                "system": "http://terminology.hl7.org/CodeSystem/consentscope",
-                "display": "Privacy Consent"
-            }
-        ]
-    },
-    "category":  [
+  "resourceType": "Consent",
+  "id": "erp-consent-02-response-PostConsent",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
+    ]
+  },
+  "status": "active",
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
         {
-            "coding":  [
-                {
-                    "code": "CHARGCONS",
-                    "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
-                    "display": "Saving electronic charge item."
-                }
-            ]
+          "code": "CHARGCONS",
+          "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+          "display": "Consent for saving electronic charge item"
         }
-    ],
-    "patient": {
-        "identifier": {
-            "type": {
-                "coding":  [
-                    {
-                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                        "code": "PKV"
-                    }
-                ]
-            },
-            "system": "http://fhir.de/sid/pkv/kvid-10",
-            "value": "X234567890"
-        }
-    },
-    "dateTime": "2023-08-01T07:13:00+05:00",
-    "policyRule": {
-        "coding":  [
-            {
-                "code": "OPTIN",
-                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-            }
-        ]
+      ]
     }
+  ],
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  },
+  "patient": {
+    "identifier": {
+      "value": "P987654321",
+      "system": "http://fhir.de/sid/pkv/kvid-10"
+    }
+  },
+  "dateTime": "2025-01-15T15:29:00+00:00"
 }
 ----
 
@@ -241,10 +230,10 @@ Content-Type: application/fhir+json;charset=utf-8
 
 {
   "resourceType": "Bundle",
-  "id": "a14623ad-0b89-4d8e-9719-87e07e3af560",
+  "id": "erp-consent-03-response-GetConsent",
   "type": "searchset",
-  "timestamp": "2023-08-01T07:15:00+00:00",
-  "total": 0,
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 1,
   "entry": [
     {
       "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/CHARGCONS-X234567890",
@@ -272,26 +261,11 @@ Content-Type: application/fhir+json;charset=utf-8
               {
                 "code": "CHARGCONS",
                 "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
-                "display": "Saving electronic charge item."
+                "display": "Consent for saving electronic charge item"
               }
             ]
           }
         ],
-        "patient": {
-          "identifier": {
-            "type": {
-              "coding": [
-                {
-                  "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                  "code": "PKV"
-                }
-              ]
-            },
-            "system": "http://fhir.de/sid/pkv/kvid-10",
-            "value": "X234567890"
-          }
-        },
-        "dateTime": "2023-08-01T07:13:00+00:00",
         "policyRule": {
           "coding": [
             {
@@ -299,7 +273,14 @@ Content-Type: application/fhir+json;charset=utf-8
               "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
             }
           ]
-        }
+        },
+        "patient": {
+          "identifier": {
+            "value": "P987654321",
+            "system": "http://fhir.de/sid/pkv/kvid-10"
+          }
+        },
+        "dateTime": "2025-01-15T15:29:00+00:00"
       }
     }
   ]

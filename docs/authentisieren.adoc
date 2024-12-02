@@ -16,6 +16,10 @@
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. Das betrifft zum einen die Authentifizierung als Nutzer oder Institution durch den Identity Provider (IDP) und zum anderen den verschlüsselten Datentransport auf Anwendungsebene (xref:anchor-vau-transport["VAU-Transport]").
@@ -567,84 +571,102 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
 
 {
   "resourceType": "Bundle",
-  "id": "f5ba6eaf-9052-42f6-ac4e-fadceed7293b",
+  "id": "authentisieren-07-response-InnerVau",
   "meta": {
-    "lastUpdated": "2020-03-01T07:02:37.836+00:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "searchset",
   "total": 2,
-  "link": [{
-    "relation": "self",
-    "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
-  }],
-  "entry": [{
-    "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.123.456.789.123.58",
-    "resource": {
-      "resourceType": "Task",
-      "id":"160.123.456.789.123.58",
-      "meta": {
-        "profile":  [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/Example-Task",
+      "resource": {
+        "resourceType": "Task",
+        "id": "Example-Task",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
+          ]
+        },
+        "intent": "order",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "160",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-02-12"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2025-04-15"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "status": "in-progress",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
+        ],
+        "input": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "1",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
+            },
+            "valueReference": {
+              "reference": "Binary/281a985c-f25b-4aae-91a6-41ad744080b0"
+            }
+          }
         ]
       },
-      "extension":  [{
-        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-        "valueCoding": {
-          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-          "code": "160",
-          "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-        }
-      }, {
-        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-        "valueDateTime": "2020-03-02T08:25:05+00:00"
-      }, {
-        "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-        "valueDateTime": "2020-05-02T08:25:05+00:00"
-      }],
-      "identifier":  [{
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-        "value": "160.123.456.789.123.58"
-      }, {
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
-        "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-      }, {
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_Secret",
-        "value": "c36ca26502892b371d252c99b496e31505ff449aca9bc69e231c58148f6233cf"
-      }],
-      "status": "in-progress",
-      "intent": "order",
-      "for": {
-        "identifier": {
-          "system": "http://fhir.de/sid/gkv/kvid-10",
-          "value": "X123456789"
-        }
-      },
-      "authoredOn": "2020-03-02T08:25:05+00:00",
-      "lastModified": "2020-03-02T08:45:05+00:00",
-      "performerType":  [{
-        "coding":  [{
-          "system": "urn:ietf:rfc:3986",
-          "code": "urn:oid:1.2.276.0.76.4.54",
-          "display": "Öffentliche Apotheke"
-        }]
-      }],
-      "input":  [{
-        "type": {
-          "coding":  [{
-            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
-            "code": "1",
-            "display": "Health Care Provider Prescription"
-          }]
-        },
-        "valueReference": {
-          "reference": "Bundle/KbvPrescriptionExample"
-        }
-      }]
-    },
-    "search": {
-      "mode": "match"
+      "search": {
+        "mode": "match"
+      }
     }
-  }]
+  ]
 }
 ----
 
