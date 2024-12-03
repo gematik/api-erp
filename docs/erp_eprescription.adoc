@@ -445,28 +445,82 @@ HTTP/1.1 204 No Content
 
 Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E-Rezept-Fachdienst abrufen, damit ich diese in das Ausland weiterleiten kann.
 
+link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_get_prescription_input[Link zum Vorgeschlagenen Profil]
+link:https://simplifier.net/test-display-project/parameters-exampleeugetprescription[Link zum Beispiel]
+
 *Request*
 [cols="h,a", separator=¦]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Prescription
-¦Method     ¦GET
+¦URI        ¦https://erp.app.ti-dienste.de/$get-prescription
+¦Method     ¦GET / POST ???
 ¦Requester ¦image:{NCPeH}[]
 ¦Responder ¦image:{eRp}[]
 ¦HTTP Header¦
 
 * *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-* *X-ncpeh-requesttype*: <demographics | e-prescriptions-list | e-prescriptions-retrieval>
-* *X-ncpeh-kvnr*: Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.
-* *X-ncpeh-zugriffscode*: Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.
-* *X-ncpeh-laendercode*: Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.
-* *X-ncpeh-practitionerName*: Vollständiger Name des HP (Human readable name).
-* *X-ncpeh-practitionerRole*: Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.
-* *X-ncpeh-pointOfCare*: Name des Krankenhauses oder der medizinischen Einrichtung.
-* *X-ncpeh-healthcare-facility-type*: Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke
 * *_count*: <Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.>
-* *id*: Die eindeutige ID der zu schließenden Task.
 
 ¦Payload    ¦
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="ExampleEUCloseInputParameters"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <code value="demographics"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="zugriffscode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="123456"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueString value="Doctor"/>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Super Pharmacia"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <code value="apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+</Parameters>
+----
 
 |===
 
@@ -1444,6 +1498,11 @@ Content-Type: application/fhir+json;charset=utf-8
 
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
 
+link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_closeoperation_input[Link zum Vorgeschlagenen Profil]
+link:https://simplifier.net/test-display-project/parameters-exampleeucloseinputparameters[Link zum Beispiel]
+
+NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüssig (z.B. practitionerName)
+
 *Request*
 [cols="h,a", separator=¦]
 |===
@@ -1454,20 +1513,13 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 ¦HTTP Header¦
 
 * *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-* *X-ncpeh-kvnr*: Der unveränderbare, 10-stellige Teil der KVNR des Versicherten.
-* *X-ncpeh-zugriffscode*: Ein 6-stelliger Zugriffscode, der dem LE-EU vom Versicherten mitgeteilt wurde.
-* *X-ncpeh-laendercode*: Ländercode des TLS-Zertifikats des NCPeH, 2-Byte ISO 3166-1 Alpha-2-Code.
-* *X-ncpeh-practitionerName*: Vollständiger Name des HP (Human readable name).
-* *X-ncpeh-practitionerRole*: Strukturelle Rolle des LE-EU in Form der deutschen Bezeichnung.
-* *X-ncpeh-pointOfCare*: Name des Krankenhauses oder der medizinischen Einrichtung.
-* *X-ncpeh-healthcare-facility-type*: Healthcare Facility Type gemäß eHealth DSI Code List in Form der deutschen Bezeichnung. Krankenhaus | Arztpraxis | Apotheke
-* *id*: Die eindeutige ID der zu schließenden Task.
 
 ¦Payload    ¦
 [source,xml]
 ----
+<?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="erp-eprescription-06-EU-Close"/>
+    <id value="ExampleEUCloseInputParameters"/>
     <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
     </meta>
@@ -1500,7 +1552,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                             <reference value="PractitionerRole/Example-EU-PractitionerRole"/>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-01-15"/>
+                    <whenHandedOver value="2025-10-01"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -1514,6 +1566,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
+                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
@@ -1534,7 +1587,6 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
-                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
@@ -1542,46 +1594,16 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
                                 <valueString value="20"/>
                             </extension>
+                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
-                    <ingredient>
-                        <itemCodeableConcept>
-                            <text value="Sumatriptan"/>
-                        </itemCodeableConcept>
-                        <strength>
-                            <numerator>
-                                <value value="100"/>
-                                <unit value="mg"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
-                            </numerator>
-                            <denominator>
-                                <value value="1"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
-                            </denominator>
-                        </strength>
-                    </ingredient>
+                    <batch>
+                        <lotNumber value="1234567890"/>
+                    </batch>
                 </Medication>
             </resource>
         </part>
@@ -1646,6 +1668,55 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                 </organization>
             </PractitionerRole>
         </resource>
+    </parameter>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <code value="demographics"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="zugriffscode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="123456"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueString value="Pharmacist"/>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Super Pharmacia"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <code value="apotheke"/>
+            </valueCoding>
+        </part>
     </parameter>
 </Parameters>
 ----
