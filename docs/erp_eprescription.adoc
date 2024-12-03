@@ -153,7 +153,6 @@ Content-Type: application/fhir+json;charset=utf-8
     ]
   }
 }
-
 ----
 
 === Zustimmung widerrufen
@@ -177,7 +176,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 
 *Response*
-[source,json]
+[source]
 ----
 HTTP/1.1 204 No Content
 ----
@@ -272,20 +271,21 @@ Content-Type: application/fhir+json;charset=utf-8
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst
 
 *Request*
-[cols="h,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/$grant-eu-access-permission
-|Method     |POST
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
 
-|URL Parameter    |
-|Payload    |
+¦URL Parameter    ¦
+¦Payload    ¦
+
 [source,json]
 ----
 {
@@ -434,7 +434,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |===
 
 *Response*
-[source,json]
+[source]
 ----
 HTTP/1.1 204 No Content
 ----
