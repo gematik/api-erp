@@ -122,6 +122,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 |URL Parameter    |
 |Payload    |
+
 [source,json]
 ----
 include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/03_POST_AccessCode_EU_Request.json[]
@@ -239,11 +240,10 @@ include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/f
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
 
 *Request*
-*Request*
 [cols="h,a", separator=¦]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Prescription
-¦Method     ¦GET
+¦URI        ¦https://erp.app.ti-dienste.de/Task/<id>/$eu-close
+¦Method     ¦POST
 ¦Requester  ¦image:{NCPeH}[]
 ¦Responder  ¦image:{eRp}[]
 ¦HTTP Header¦
