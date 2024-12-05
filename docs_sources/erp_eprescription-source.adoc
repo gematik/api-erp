@@ -187,7 +187,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 HTTP/1.1 204 No Content
 ----
 
-== Interkation NCPeH mit E-Rezept-Fachdienst 
+== Interaktion NCPeH mit E-Rezept-Fachdienst 
 
 === Abfragen von E-Rezepten des E-Rezept-Fachdienst 
 
@@ -208,6 +208,11 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 ¦Payload    ¦
+//TODO: Replace all verbatim blocks with include
+
+.Beispiel für RequestType demographics
+[%collapsible]
+====
 
 [source,xml]
 ----
@@ -223,7 +228,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
             <name value="requesttype"/>
             <valueCoding>
                 <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
-                <code value="e-prescriptions-list"/>
+                <code value="demographics"/>
             </valueCoding>
         </part>
         <part>
@@ -237,7 +242,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
             <name value="accessCode"/>
             <valueIdentifier>
                 <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="123456"/>
+                <value value="ABC123"/>
             </valueIdentifier>
         </part>
         <part>
@@ -274,6 +279,183 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
     </parameter>
 </Parameters>
 ----
+
+====
+
+.Beispiel für RequestType e-prescriptions-list
+[%collapsible]
+====
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="1752625d-00f1-4a31-9678-e4606c91fb1c"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <code value="e-prescriptions-list"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Sanches, Valerio"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Super Pharmacia de Sanches"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+</Parameters>
+----
+
+====
+
+.Beispiel für RequestType e-prescriptions-list
+[%collapsible]
+====
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="ExampleEUGETPrescriptionE-PRESCRIPTIONS-RETRIEVAL"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <code value="e-prescriptions-retrieval"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Super Pharmacia"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="prescription-ids"/>
+            <part>
+                <name value="prescription-id"/>
+                <valueIdentifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.01"/>
+                </valueIdentifier>
+            </part>
+            <part>
+                <name value="prescription-id"/>
+                <valueIdentifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.02"/>
+                </valueIdentifier>
+            </part>
+            <part>
+                <name value="prescription-id"/>
+                <valueIdentifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.03"/>
+                </valueIdentifier>
+            </part>
+            <part>
+                <name value="prescription-id"/>
+                <valueIdentifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.04"/>
+                </valueIdentifier>
+            </part>
+        </part>
+    </parameter>
+</Parameters>
+----
+
+====
 
 |===
 
@@ -420,7 +602,7 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
             <name value="accessCode"/>
             <valueIdentifier>
                 <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="123456"/>
+                <value value="ABC123"/>
             </valueIdentifier>
         </part>
         <part>
