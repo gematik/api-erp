@@ -308,7 +308,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
       "name": "accessCode",
       "valueIdentifier": {
         "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "123456"
+        "value": "ABC123"
       }
     }
   ]
@@ -343,7 +343,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "name": "accessCode",
       "valueIdentifier": {
         "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "123456"
+        "value": "ABC123"
       }
     },
     {
@@ -401,7 +401,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "name": "accessCode",
       "valueIdentifier": {
         "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "123456"
+        "value": "ABC123"
       }
     },
     {
@@ -445,8 +445,8 @@ HTTP/1.1 204 No Content
 
 Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E-Rezept-Fachdienst abrufen, damit ich diese in das Ausland weiterleiten kann.
 
-* link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_get_prescription_input[Link zum Vorgeschlagenen Profil]
-* link:https://simplifier.net/test-display-project/parameters-exampleeugetprescription[Link zum Beispiel]
+* link:https://simplifier.net/erezept-workflow/get-prescription-eu[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
 *Request*
 [cols="h,a", separator=¦]
@@ -460,7 +460,6 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 ¦Payload    ¦
-//TODO: Replace all verbatim blocks with include
 
 .Beispiel für RequestType demographics
 [%collapsible]
@@ -468,9 +467,8 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="1752625d-00f1-4a31-9678-e4606c91fb1c"/>
+    <id value="erp-eprescription-06-GET-Prescription-DEMOGRAPHICS"/>
     <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
     </meta>
@@ -506,7 +504,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="practitionerName"/>
-            <valueString value="Sanches, Valerio"/>
+            <valueString value="Pedro Sanches"/>
         </part>
         <part>
             <name value="practitionerRole"/>
@@ -518,7 +516,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia de Sanches"/>
+            <valueString value="Pharmacia de Santa Maria"/>
         </part>
         <part>
             <name value="healthcare-facility-type"/>
@@ -540,9 +538,8 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="1752625d-00f1-4a31-9678-e4606c91fb1c"/>
+    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
     <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
     </meta>
@@ -566,7 +563,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
             <name value="accessCode"/>
             <valueIdentifier>
                 <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
+                <value value="123456"/>
             </valueIdentifier>
         </part>
         <part>
@@ -578,7 +575,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="practitionerName"/>
-            <valueString value="Sanches, Valerio"/>
+            <valueString value="Pedro Sanches"/>
         </part>
         <part>
             <name value="practitionerRole"/>
@@ -590,7 +587,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia de Sanches"/>
+            <valueString value="Pharmacia de Santa Maria"/>
         </part>
         <part>
             <name value="healthcare-facility-type"/>
@@ -606,15 +603,14 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 
 ====
 
-.Beispiel für RequestType e-prescriptions-list
+.Beispiel für RequestType e-prescriptions-retrieval
 [%collapsible]
 ====
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="ExampleEUGETPrescriptionE-PRESCRIPTIONS-RETRIEVAL"/>
+    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-RETRIEVAL"/>
     <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
     </meta>
@@ -638,7 +634,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
             <name value="accessCode"/>
             <valueIdentifier>
                 <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
+                <value value="123456"/>
             </valueIdentifier>
         </part>
         <part>
@@ -650,7 +646,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="practitionerName"/>
-            <valueString value="Sanches"/>
+            <valueString value="Pedro Sanches"/>
         </part>
         <part>
             <name value="practitionerRole"/>
@@ -662,7 +658,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
         </part>
         <part>
             <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia"/>
+            <valueString value="Pharmacia de Santa Maria"/>
         </part>
         <part>
             <name value="healthcare-facility-type"/>
@@ -673,35 +669,32 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
             </valueCoding>
         </part>
         <part>
-            <name value="prescription-ids"/>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.01"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.02"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.03"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.04"/>
-                </valueIdentifier>
-            </part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.01"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.02"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.03"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.04"/>
+            </valueIdentifier>
         </part>
     </parameter>
 </Parameters>
@@ -1685,10 +1678,8 @@ Content-Type: application/fhir+json;charset=utf-8
 
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
 
-* link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_closeoperation_input[Link zum Vorgeschlagenen Profil]
-* link:https://simplifier.net/test-display-project/parameters-exampleeucloseinputparameters[Link zum Beispiel]
-
-NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüssig (z.B. practitionerName)
+* link:https://simplifier.net/erezept-workflow/eucloseoperation[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
 *Request*
 [cols="h,a", separator=¦]
@@ -1704,9 +1695,8 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
 ¦Payload    ¦
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="c4fc4dfb-110a-4a77-a052-713077b3f8c7"/>
+    <id value="erp-eprescription-07-EU-Close"/>
     <meta>
         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
     </meta>
@@ -1739,7 +1729,7 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
                             <reference value="PractitionerRole/Example-EU-PractitionerRole"/>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-10-01"/>
+                    <whenHandedOver value="2025-01-15"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -1753,7 +1743,6 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
-                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
@@ -1774,6 +1763,7 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
                         <coding>
                             <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
                             <code value="TAB"/>
+                            <display value="Tabletten"/>
                         </coding>
                     </form>
                     <amount>
@@ -1781,16 +1771,46 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
                             <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
                                 <valueString value="20"/>
                             </extension>
-                            <value value="20"/>
                             <unit value="St"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
                         </denominator>
                     </amount>
-                    <batch>
-                        <lotNumber value="1234567890"/>
-                    </batch>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
                 </Medication>
             </resource>
         </part>
@@ -1891,9 +1911,6 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
                         <display value="Pharmacists"/>
                     </coding>
                 </code>
-                <specialty>
-                    <text value="Onkology"/>
-                </specialty>
             </PractitionerRole>
         </resource>
     </parameter>

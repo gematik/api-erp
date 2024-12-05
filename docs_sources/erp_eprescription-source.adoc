@@ -193,8 +193,8 @@ HTTP/1.1 204 No Content
 
 Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E-Rezept-Fachdienst abrufen, damit ich diese in das Ausland weiterleiten kann.
 
-* link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_get_prescription_input[Link zum Vorgeschlagenen Profil]
-* link:https://simplifier.net/test-display-project/parameters-exampleeugetprescription[Link zum Beispiel]
+* link:https://simplifier.net/erezept-workflow/get-prescription-eu[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
 *Request*
 [cols="h,a", separator=¦]
@@ -208,7 +208,6 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 ¦Payload    ¦
-//TODO: Replace all verbatim blocks with include
 
 .Beispiel für RequestType demographics
 [%collapsible]
@@ -216,68 +215,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
-<Parameters xmlns="http://hl7.org/fhir">
-    <id value="1752625d-00f1-4a31-9678-e4606c91fb1c"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
-    </meta>
-    <parameter>
-        <name value="requestData"/>
-        <part>
-            <name value="requesttype"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
-                <code value="demographics"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="kvnr"/>
-            <valueIdentifier>
-                <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                <value value="X123456789"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="accessCode"/>
-            <valueIdentifier>
-                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="countryCode"/>
-            <valueCoding>
-                <system value="urn:iso:std:iso:3166"/>
-                <code value="BE"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="practitionerName"/>
-            <valueString value="Sanches, Valerio"/>
-        </part>
-        <part>
-            <name value="practitionerRole"/>
-            <valueCoding>
-                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
-                <code value="2262"/>
-                <display value="Pharmacists"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia de Sanches"/>
-        </part>
-        <part>
-            <name value="healthcare-facility-type"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
-                <code value="1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </valueCoding>
-        </part>
-    </parameter>
-</Parameters>
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml[]
 ----
 
 ====
@@ -288,171 +226,18 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
-<Parameters xmlns="http://hl7.org/fhir">
-    <id value="1752625d-00f1-4a31-9678-e4606c91fb1c"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
-    </meta>
-    <parameter>
-        <name value="requestData"/>
-        <part>
-            <name value="requesttype"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
-                <code value="e-prescriptions-list"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="kvnr"/>
-            <valueIdentifier>
-                <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                <value value="X123456789"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="accessCode"/>
-            <valueIdentifier>
-                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="countryCode"/>
-            <valueCoding>
-                <system value="urn:iso:std:iso:3166"/>
-                <code value="BE"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="practitionerName"/>
-            <valueString value="Sanches, Valerio"/>
-        </part>
-        <part>
-            <name value="practitionerRole"/>
-            <valueCoding>
-                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
-                <code value="2262"/>
-                <display value="Pharmacists"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia de Sanches"/>
-        </part>
-        <part>
-            <name value="healthcare-facility-type"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
-                <code value="1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </valueCoding>
-        </part>
-    </parameter>
-</Parameters>
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml[]
 ----
 
 ====
 
-.Beispiel für RequestType e-prescriptions-list
+.Beispiel für RequestType e-prescriptions-retrieval
 [%collapsible]
 ====
 
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
-<Parameters xmlns="http://hl7.org/fhir">
-    <id value="ExampleEUGETPrescriptionE-PRESCRIPTIONS-RETRIEVAL"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
-    </meta>
-    <parameter>
-        <name value="requestData"/>
-        <part>
-            <name value="requesttype"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
-                <code value="e-prescriptions-retrieval"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="kvnr"/>
-            <valueIdentifier>
-                <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                <value value="X123456789"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="accessCode"/>
-            <valueIdentifier>
-                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="countryCode"/>
-            <valueCoding>
-                <system value="urn:iso:std:iso:3166"/>
-                <code value="BE"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="practitionerName"/>
-            <valueString value="Sanches"/>
-        </part>
-        <part>
-            <name value="practitionerRole"/>
-            <valueCoding>
-                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
-                <code value="2262"/>
-                <display value="Pharmacists"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="pointOfCare"/>
-            <valueString value="Super Pharmacia"/>
-        </part>
-        <part>
-            <name value="healthcare-facility-type"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
-                <code value="1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="prescription-ids"/>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.01"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.02"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.03"/>
-                </valueIdentifier>
-            </part>
-            <part>
-                <name value="prescription-id"/>
-                <valueIdentifier>
-                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                    <value value="160.000.000.000.000.04"/>
-                </valueIdentifier>
-            </part>
-        </part>
-    </parameter>
-</Parameters>
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml[]
 ----
 
 ====
@@ -479,10 +264,8 @@ include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/f
 
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
 
-* link:https://simplifier.net/test-display-project/gem_erp_pr_par_eu_closeoperation_input[Link zum Vorgeschlagenen Profil]
-* link:https://simplifier.net/test-display-project/parameters-exampleeucloseinputparameters[Link zum Beispiel]
-
-NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüssig (z.B. practitionerName)
+* link:https://simplifier.net/erezept-workflow/eucloseoperation[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
 *Request*
 [cols="h,a", separator=¦]
@@ -498,200 +281,7 @@ NOTE: Durch die zusätzlichen Profile sind ggf. einige der Parameter überflüss
 ¦Payload    ¦
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
-<Parameters xmlns="http://hl7.org/fhir">
-    <id value="c4fc4dfb-110a-4a77-a052-713077b3f8c7"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
-    </meta>
-    <parameter>
-        <name value="rxDispensation"/>
-        <part>
-            <name value="medicationDispense"/>
-            <resource>
-                <MedicationDispense>
-                    <id value="Example-MedicationDispense-EU"/>
-                    <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_EU|1.5"/>
-                    </meta>
-                    <identifier>
-                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                        <value value="160.000.033.491.280.78"/>
-                    </identifier>
-                    <status value="completed"/>
-                    <medicationReference>
-                        <reference value="Medication/SumatripanMedication"/>
-                    </medicationReference>
-                    <subject>
-                        <identifier>
-                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                            <value value="X123456789"/>
-                        </identifier>
-                    </subject>
-                    <performer>
-                        <actor>
-                            <reference value="PractitionerRole/Example-EU-PractitionerRole"/>
-                        </actor>
-                    </performer>
-                    <whenHandedOver value="2025-10-01"/>
-                </MedicationDispense>
-            </resource>
-        </part>
-        <part>
-            <name value="medication"/>
-            <resource>
-                <Medication>
-                    <id value="SumatripanMedication"/>
-                    <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
-                    </meta>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
-                        <valueCoding>
-                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
-                            <code value="00"/>
-                        </valueCoding>
-                    </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
-                        <valueBoolean value="false"/>
-                    </extension>
-                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
-                        <valueCode value="N1"/>
-                    </extension>
-                    <code>
-                        <coding>
-                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
-                            <code value="06313728"/>
-                        </coding>
-                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
-                    </code>
-                    <form>
-                        <coding>
-                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
-                            <code value="TAB"/>
-                        </coding>
-                    </form>
-                    <amount>
-                        <numerator>
-                            <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
-                                <valueString value="20"/>
-                            </extension>
-                            <value value="20"/>
-                            <unit value="St"/>
-                        </numerator>
-                        <denominator>
-                            <value value="1"/>
-                        </denominator>
-                    </amount>
-                    <batch>
-                        <lotNumber value="1234567890"/>
-                    </batch>
-                </Medication>
-            </resource>
-        </part>
-    </parameter>
-    <parameter>
-        <name value="requestData"/>
-        <part>
-            <name value="kvnr"/>
-            <valueIdentifier>
-                <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                <value value="X123456789"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="accessCode"/>
-            <valueIdentifier>
-                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="ABC123"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="countryCode"/>
-            <valueCoding>
-                <system value="urn:iso:std:iso:3166"/>
-                <code value="BE"/>
-            </valueCoding>
-        </part>
-    </parameter>
-    <parameter>
-        <name value="practitionerData"/>
-        <resource>
-            <Practitioner>
-                <id value="Example-EU-Practitioner"/>
-                <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
-                </meta>
-                <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-303"/>
-                    <value value="1234567890"/>
-                </identifier>
-                <name>
-                    <family value="Sanches"/>
-                    <given value="Pedro"/>
-                </name>
-            </Practitioner>
-        </resource>
-    </parameter>
-    <parameter>
-        <name value="organizationData"/>
-        <resource>
-            <Organization>
-                <id value="Example-EU-Organization"/>
-                <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
-                </meta>
-                <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-285"/>
-                    <value value="1234567890"/>
-                </identifier>
-                <identifier>
-                    <system value="https://cda.ehdsi.com/facilityId"/>
-                    <value value="136ad69f"/>
-                </identifier>
-                <type>
-                    <coding>
-                        <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
-                        <code value="1.2.276.0.76.4.54"/>
-                        <display value="Öffentliche Apotheke"/>
-                    </coding>
-                </type>
-                <name value="Pharmacia de Santa Maria"/>
-                <address>
-                    <line value="Rua da Alegria, 123"/>
-                    <city value="Lisbon"/>
-                    <country value="Portugal"/>
-                </address>
-            </Organization>
-        </resource>
-    </parameter>
-    <parameter>
-        <name value="practitionerRoleData"/>
-        <resource>
-            <PractitionerRole>
-                <id value="Example-EU-PractitionerRole"/>
-                <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PractitionerRole_EU|1.5"/>
-                </meta>
-                <practitioner>
-                    <reference value="Practitioner/Example-EU-Practitioner"/>
-                </practitioner>
-                <organization>
-                    <reference value="Organization/Example-EU-Organization"/>
-                </organization>
-                <code>
-                    <coding>
-                        <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
-                        <code value="2262"/>
-                        <display value="Pharmacists"/>
-                    </coding>
-                </code>
-                <specialty>
-                    <text value="Onkology"/>
-                </specialty>
-            </PractitionerRole>
-        </resource>
-    </parameter>
-</Parameters>
+include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml[]
 ----
 |===
 
