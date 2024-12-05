@@ -88,7 +88,6 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
       ]
     }
   ],
-  "dateTime": "2025-01-15T15:29:00+00:00",
   "policyRule": {
     "coding": [
       {
@@ -1836,6 +1835,30 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
             <valueCoding>
                 <system value="urn:iso:std:iso:3166"/>
                 <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
             </valueCoding>
         </part>
     </parameter>
