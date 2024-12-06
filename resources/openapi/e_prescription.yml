@@ -22,9 +22,10 @@ paths:
     post:
       tags:
         - Consent Management
-        - internet
       summary: Zustimmung erteilen
       description: Einwilligung zum Einlösen im EU-Ausland erteilen.
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -36,6 +37,8 @@ paths:
           description: Bearer-Token zur Authentifizierung.
       requestBody:
         required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
         content:
           application/fhir+json:
             example:
@@ -49,6 +52,8 @@ paths:
               schema:
                 type: string
                 example: application/fhir+xml
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
           content:
             application/fhir+json:
               example:
@@ -76,9 +81,10 @@ paths:
     delete:
       tags:
         - Consent Management
-        - internet
       summary: Zustimmung widerrufen
       description: Widerruf der Zustimmung für das Einlösen im EU-Ausland.
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -113,9 +119,10 @@ paths:
     get:
       tags:
         - Consent Management
-        - internet
       summary: Zustimmung einsehen
       description: Übersicht über die erteilte(n) Zustimmung(en).
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -128,6 +135,8 @@ paths:
       responses:
         '200':
           description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
           content:
             application/fhir+json:
               example:
@@ -151,9 +160,10 @@ paths:
     post:
       tags:
         - Access Code Management
-        - internet
       summary: Zugriffscode erstellen
       description: Generiert einen Zugriffscode für das Einlösen eines E-Rezepts im EU-Ausland.
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -165,6 +175,8 @@ paths:
           description: Bearer-Token zur Authentifizierung.
       requestBody:
         required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
         content:
           application/fhir+json:
             example:
@@ -172,6 +184,8 @@ paths:
       responses:
         '200':
           description: Zugriffscode erfolgreich erstellt
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
           content:
             application/fhir+json:
               example:
@@ -195,9 +209,10 @@ paths:
     get:
       tags:
         - Access Code Management
-        - internet
       summary: Zugriffscode abfragen
       description: Liefert Informationen zu einem generierten Zugriffscode.
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -210,6 +225,8 @@ paths:
       responses:
         '200':
           description: Zugriffscode erfolgreich abgefragt
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
           content:
             application/fhir+json:
               example:
@@ -219,9 +236,10 @@ paths:
     delete:
       tags:
         - Access Code Management
-        - internet
       summary: Zugriffscode widerrufen
       description: Widerruft einen Zugriffscode für das Einlösen im EU-Ausland.
+      x-request-route:
+        - "Internet"
       x-allowed-requester:
         - "FdV"
       parameters:
@@ -271,6 +289,8 @@ paths:
           description: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.
       requestBody:
         required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input"
         content:
             application/xml:
               examples:
@@ -326,10 +346,12 @@ paths:
           description: ACCESS_TOKEN, ausgestellt vom IDP-Dienst für den NCPeH.
       requestBody:
         required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input"
         content:
-            application/xml:
-              example:
-                $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
+          application/xml:
+            example:
+              $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
       responses:
         '200':
           description: Erfolgreiche Übermittlung der Dispensierinformationen.

@@ -1,6 +1,14 @@
 import os
 import yaml
 
+def get_list(value):
+    if isinstance(value, list):
+        return value
+    elif value is not None:
+        return [value]
+    else:
+        return []
+
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -59,20 +67,24 @@ for filename in os.listdir(INPUT_FOLDER):
                 description = details.get('description', '')
                 parameters = details.get('parameters', [])
                 request_body = details.get('requestBody', {})
+                request_body_fhir_profile = get_list(request_body.get('x-fhir-profile'))
                 responses = details.get('responses', {})
                 tags = details.get('tags', [])
+                # Extract 'x-request-route'
+                request_routes = details.get('x-request-route', [])
+                request_routes = [route.lower() for route in request_routes]
 
-                # Select the appropriate server URL based on tags
-                if 'internet' in tags:
+                # Get the list of allowed requesters from 'x-allowed-requester' field
+                allowed_requesters = details.get('x-allowed-requester', [])
+
+                # Select the appropriate server URL based on 'x-request-route'
+                if 'internet' in request_routes:
                     host = server_url_internet
                 else:
                     host = server_url_default
 
                 # Construct the full URI
                 uri_formatted = f"{host}{uri}"
-
-                # Extract 'Requester' from 'x-allowed-requester' field, which is now an array
-                allowed_requesters = details.get('x-allowed-requester', [])
 
                 # Request Headers
                 request_headers = []
@@ -124,6 +136,7 @@ for filename in os.listdir(INPUT_FOLDER):
                 response_codes = []
                 responses_examples = {}  # Dictionary to hold response examples per status code
                 responses_headers = {}   # Dictionary to hold response headers per status code
+                response_fhir_profiles = {}  # Dictionary to hold x-fhir-profile per status code
                 for code, response in responses.items():
                     resp_description = response.get('description', '')
                     resp_type = ''
@@ -137,6 +150,9 @@ for filename in os.listdir(INPUT_FOLDER):
                     else:
                         resp_type = 'Unknown'
                     response_codes.append((code, resp_type, resp_description))
+
+                    # Extract x-fhir-profile
+                    response_fhir_profiles[code] = get_list(response.get('x-fhir-profile'))
 
                     # Extract response headers
                     headers = response.get('headers', {})
@@ -233,6 +249,11 @@ for filename in os.listdir(INPUT_FOLDER):
                             adoc_lines.append(f'include::{example_ref}[]')
                             adoc_lines.append('----')
                             adoc_lines.append('====')
+                            # Add FHIR-Profil line if present
+                            if request_body_fhir_profile:
+                                for url in request_body_fhir_profile:
+                                    name = url.rstrip('/').split('/')[-1]
+                                    adoc_lines.append(f"FHIR-Profil: link:{url}[{name}]")
                     else:
                         adoc_lines.append('No request body.')
 
@@ -290,6 +311,11 @@ for filename in os.listdir(INPUT_FOLDER):
                             adoc_lines.append(f'include::{example_ref}[]')
                             adoc_lines.append('----')
                             adoc_lines.append('====')
+                            # Add FHIR-Profil line if present
+                            if code in response_fhir_profiles and response_fhir_profiles[code]:
+                                for url in response_fhir_profiles[code]:
+                                    name = url.rstrip('/').split('/')[-1]
+                                    adoc_lines.append(f"FHIR-Profil: link:{url}[{name}]")
                     if not any_response_examples:
                         adoc_lines.append('No response body.')
 
