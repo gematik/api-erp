@@ -25,9 +25,10 @@
 :date-folder: 2025-10-01-preview
 :toclevels: 2
 
-Zielgruppe: image:{FdV}[]
+Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/e_prescription.yml[OpenAPI-Spezifikation für ePrescription]
 
 toc::[]
 
@@ -176,26 +177,40 @@ Authorization: <value> (required)
 Als Versicherter möchte ich meine Zustimmung widerrufen.
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
+¦Method     ¦DELETE
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: <value> (required)
 ----
-
-|Payload    |
+¦Query Parameters ¦
+----
+category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'.
+----
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-[source]
+
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-HTTP/1.1 204 No Content
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Zustimmung erfolgreich widerrufen#
+
+|===
 
 
 === Zustimmung einsehen
@@ -203,84 +218,39 @@ HTTP/1.1 204 No Content
 Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
+¦Method     ¦GET
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-
-|Payload    |
+¦Query Parameters ¦
+----
+category: Category of the Consent to be retrieved < EUDISPCONS | CHARGCONS >
+----
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
+
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-{
-  "resourceType": "Bundle",
-  "id": "erp-eprescription-02-GET-Consent-Bundle",
-  "type": "searchset",
-  "timestamp": "2025-01-15T15:29:00.434+00:00",
-  "total": 1,
-  "entry": [
-    {
-      "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
-      "resource": {
-        "resourceType": "Consent",
-        "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
-          ]
-        },
-        "status": "active",
-        "patient": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
-          }
-        },
-        "scope": {
-          "coding": [
-            {
-              "code": "patient-privacy",
-              "system": "http://terminology.hl7.org/CodeSystem/consentscope",
-              "display": "Privacy Consent"
-            }
-          ]
-        },
-        "category": [
-          {
-            "coding": [
-              {
-                "code": "EUDISPCONS",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
-                "display": "Consent for redeeming e-prescriptions in EU countries"
-              }
-            ]
-          }
-        ],
-        "dateTime": "2025-01-15T15:29:00+00:00",
-        "policyRule": {
-          "coding": [
-            {
-              "code": "OPTIN",
-              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
-            }
-          ]
-        }
-      }
-    }
-  ]
-}
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Erfolgreiche Rückgabe aller erteilten Zustimmungen#
+
+|===
 
 == Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
 
@@ -290,170 +260,101 @@ Content-Type: application/fhir+json;charset=utf-8
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$grant-eu-access-permission
 ¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: <value> (required)
 ----
-
-¦URL Parameter    ¦
 ¦Payload    ¦
-
-[source,json]
-----
-{
-  "resourceType": "Parameters",
-  "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request|1.5"
-    ]
-  },
-  "parameter": [
-    {
-      "name": "countryCode",
-      "valueCoding": {
-        "system": "urn:iso:std:iso:3166",
-        "code": "BE"
-      }
-    },
-    {
-      "name": "accessCode",
-      "valueIdentifier": {
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "ABC123"
-      }
-    }
-  ]
-}
-----
-
+No request body.
 |===
 
 ==== Response
 
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-{
-  "resourceType": "Parameters",
-  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
-    ]
-  },
-  "parameter": [
-    {
-      "name": "countryCode",
-      "valueCoding": {
-        "system": "urn:iso:std:iso:3166",
-        "code": "BE"
-      }
-    },
-    {
-      "name": "accessCode",
-      "valueIdentifier": {
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "ABC123"
-      }
-    },
-    {
-      "name": "validUntil",
-      "valueInstant": "2025-01-15T16:29:00.434+00:00"
-    },
-    {
-      "name": "createdAt",
-      "valueInstant": "2025-01-15T15:29:00.434+00:00"
-    }
-  ]
-}
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich erstellt#
+
+|===
 
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/$read-eu-access-permission
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$read-eu-access-permission
+¦Method     ¦GET
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: <value> (required)
 ----
-
-|Payload    |
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
+
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-{
-  "resourceType": "Parameters",
-  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
-    ]
-  },
-  "parameter": [
-    {
-      "name": "countryCode",
-      "valueCoding": {
-        "system": "urn:iso:std:iso:3166",
-        "code": "BE"
-      }
-    },
-    {
-      "name": "accessCode",
-      "valueIdentifier": {
-        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
-        "value": "ABC123"
-      }
-    },
-    {
-      "name": "validUntil",
-      "valueInstant": "2025-01-15T16:29:00.434+00:00"
-    },
-    {
-      "name": "createdAt",
-      "valueInstant": "2025-01-15T15:29:00.434+00:00"
-    }
-  ]
-}
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich abgefragt#
+
+|===
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/$revoke-eu-access-permission
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$revoke-eu-access-permission
+¦Method     ¦DELETE
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: <value> (required)
 ----
-
-|Payload    |
+¦Payload    ¦
+No request body.
 |===
 
 ==== Response
-[source]
+
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-HTTP/1.1 204 No Content
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Zugriffscode erfolgreich widerrufen#
+
+|===
 
 == Interaktion NCPeH mit E-Rezept-Fachdienst
 
@@ -1725,16 +1626,18 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 
 ==== Request
 [cols="h,a", separator=¦]
+[%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Task/<id>/$eu-close
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
 ¦Method     ¦POST
-¦Requester  ¦image:{NCPeH}[]
-¦Responder  ¦image:{eRp}[]
-¦HTTP Header¦
-
-* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-
+¦HTTP Header ¦
+----
+Authorization: <value> (required)
+----
 ¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
@@ -1982,35 +1885,44 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
     </parameter>
 </Parameters>
 ----
+====
 |===
-
 
 ==== Response
-[source]
-----
-HTTP/1.1 200 OK
-----
 
-[cols="a,a"]
+[cols="h,a", separator=¦]
 [%autowidth]
 |===
-s|Code   s|Type Success
-|200  | OK +
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
 [small]#Erfolgreiche Übermittlung der Dispensierinformationen.#
 
-s|Code   s|Type Error
-|400  | Bad Request  +
+¦400 ¦ Client Error +
 [small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
-|401  | Unauthorized +
+
+¦401 ¦ Client Error +
 [small]#Ungültige Authentifizierung.#
-|403  | Forbidden +
+
+¦403 ¦ Client Error +
 [small]#Keine Berechtigung des Clients.#
-|404  | Not Found +
+
+¦404 ¦ Client Error +
 [small]#Keine Ergebnisse gefunden.#
-|408  | Request Timeout +
+
+¦408 ¦ Client Error +
 [small]#Zeitüberschreitung der Anfrage.#
-|429  | Too Many Requests +
+
+¦429 ¦ Client Error +
 [small]#Zu viele Anfragen.#
-|500  | Server Errors +
+
+¦500 ¦ Server Error +
 [small]#Unerwarteter Serverfehler.#
+
 |===
