@@ -37,22 +37,23 @@ toc::[]
 
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
-==== Request
+=== Request
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
+¦Requester  ¦image:{FdV}[]
+¦Responder  ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: <value> (required)
 ----
-
-¦URL Parameter    ¦
 ¦Payload    ¦
-[source,json]
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
 ----
 {
   "resourceType": "Consent",
@@ -99,18 +100,26 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
   }
 }
 ----
-
+====
 |===
 
-==== Response
+=== Response
 
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
 ----
 {
   "resourceType": "Consent",
-  "id": "6bd784b8-6595-42ea-8201-c34354efa857",
+  "id": "erp-eprescription-01-POST-Consent",
   "meta": {
     "profile": [
       "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
@@ -143,7 +152,6 @@ Content-Type: application/fhir+json;charset=utf-8
       ]
     }
   ],
-  "dateTime": "2025-01-15T15:29:00+00:00",
   "policyRule": {
     "coding": [
       {
@@ -154,6 +162,14 @@ Content-Type: application/fhir+json;charset=utf-8
   }
 }
 ----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zustimmung erfolgreich erteilt#
+
+|===
 
 === Zustimmung widerrufen
 

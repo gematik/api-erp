@@ -17,36 +17,7 @@ toc::[]
 
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
-==== Request
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/Consent
-¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
-
-¦URL Parameter    ¦
-¦Payload    ¦
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent.json[]
-----
-
-|===
-
-==== Response
-
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent_Response.json[]
-----
+include::../resources/openapi-adoc/e_prescription/Consent_POST.adoc[]
 
 === Zustimmung widerrufen
 
