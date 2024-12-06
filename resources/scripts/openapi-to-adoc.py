@@ -41,123 +41,127 @@ for filename in os.listdir(INPUT_FOLDER):
         paths = data.get('paths', {})
         for path, methods in paths.items():
             for method, details in methods.items():
-                # Prepare data for the AsciiDoc file
+                # Prepare data for the AsciiDoc files
                 # Remove leading '/', replace slashes with underscores, and append method
                 path_formatted = path.lstrip('/').replace('/', '_').replace('{', '').replace('}', '')
                 http_method = method.upper()
-                endpoint_filename = f"{path_formatted}_{http_method}.adoc"
 
-                output_file = os.path.join(dir_path, endpoint_filename)
+                # Filenames for Request and Response
+                endpoint_filename_request = f"{path_formatted}_{http_method}_Request.adoc"
+                endpoint_filename_response = f"{path_formatted}_{http_method}_Response.adoc"
 
-                with open(output_file, 'w', encoding='utf-8') as adoc_file:
-                    # Extracting data
-                    uri = path
-                    summary = details.get('summary', '')
-                    description = details.get('description', '')
-                    parameters = details.get('parameters', [])
-                    request_body = details.get('requestBody', {})
-                    responses = details.get('responses', {})
-                    tags = details.get('tags', [])
+                output_file_request = os.path.join(dir_path, endpoint_filename_request)
+                output_file_response = os.path.join(dir_path, endpoint_filename_response)
 
-                    # Select the appropriate server URL based on tags
-                    if 'internet' in tags:
-                        host = server_url_internet
+                # Extracting data
+                uri = path
+                summary = details.get('summary', '')
+                description = details.get('description', '')
+                parameters = details.get('parameters', [])
+                request_body = details.get('requestBody', {})
+                responses = details.get('responses', {})
+                tags = details.get('tags', [])
+
+                # Select the appropriate server URL based on tags
+                if 'internet' in tags:
+                    host = server_url_internet
+                else:
+                    host = server_url_default
+
+                # Construct the full URI
+                uri_formatted = f"{host}{uri}"
+
+                # Extract 'Requester' from 'x-allowed-requester' field, which is now an array
+                allowed_requesters = details.get('x-allowed-requester', [])
+
+                # Request Headers
+                request_headers = []
+                for param in parameters:
+                    if param.get('in') == 'header':
+                        name = param.get('name', '')
+                        required = ' (required)' if param.get('required', False) else ''
+                        request_headers.append(f"{name}: <value>{required}")
+
+                # Query Parameters
+                query_parameters = []
+                for param in parameters:
+                    if param.get('in') == 'query':
+                        name = param.get('name', '')
+                        required = ' (required)' if param.get('required', False) else ''
+                        param_description = param.get('description', '')
+                        query_parameters.append(f"{name}: {param_description}{required}")
+
+                # Extract request body examples
+                request_body_examples = []
+                if 'content' in request_body:
+                    for mime_type, content_details in request_body['content'].items():
+                        if 'examples' in content_details:
+                            examples = content_details['examples']
+                            for example_name, example_details in examples.items():
+                                example_ref = example_details.get('$ref', '')
+                                request_body_examples.append((example_name, example_ref))
+                        elif 'example' in content_details:
+                            example = content_details['example']
+                            if isinstance(example, dict) and '$ref' in example:
+                                request_body_examples.append((None, example['$ref']))
+                            elif '$ref' in content_details:
+                                request_body_examples.append((None, content_details['$ref']))
+
+                # Response Headers (if any)
+                response_headers = ''  # This can be expanded if response headers are defined
+
+                # Process responses
+                response_codes = []
+                responses_examples = {}  # Dictionary to hold response examples per status code
+                for code, response in responses.items():
+                    resp_description = response.get('description', '')
+                    resp_type = ''
+                    # Determine type based on code
+                    if code.startswith('2'):
+                        resp_type = 'Success'
+                    elif code.startswith('4'):
+                        resp_type = 'Client Error'
+                    elif code.startswith('5'):
+                        resp_type = 'Server Error'
                     else:
-                        host = server_url_default
+                        resp_type = 'Unknown'
+                    response_codes.append((code, resp_type, resp_description))
 
-                    # Construct the full URI
-                    uri_formatted = f"{host}{uri}"
-
-                    # Extract 'Requester' and 'Responder' from custom fields
-                    requester = details.get('x-requester', None)
-                    responder = details.get('x-responder', None)
-
-                    # Request Headers
-                    request_headers = []
-                    for param in parameters:
-                        if param.get('in') == 'header':
-                            name = param.get('name', '')
-                            required = ' (required)' if param.get('required', False) else ''
-                            request_headers.append(f"{name}: <value>{required}")
-
-                    # Query Parameters
-                    query_parameters = []
-                    for param in parameters:
-                        if param.get('in') == 'query':
-                            name = param.get('name', '')
-                            required = ' (required)' if param.get('required', False) else ''
-                            param_description = param.get('description', '')
-                            query_parameters.append(f"{name}: {param_description}{required}")
-
-                    # Extract request body examples
-                    request_body_examples = []
-                    if 'content' in request_body:
-                        for mime_type, content_details in request_body['content'].items():
+                    # Extract response examples
+                    if 'content' in response:
+                        for mime_type, content_details in response['content'].items():
                             if 'examples' in content_details:
                                 examples = content_details['examples']
+                                examples_list = []
                                 for example_name, example_details in examples.items():
                                     example_ref = example_details.get('$ref', '')
-                                    request_body_examples.append((example_name, example_ref))
+                                    responses_examples.setdefault(code, []).append((example_name, example_ref))
                             elif 'example' in content_details:
                                 example = content_details['example']
                                 if isinstance(example, dict) and '$ref' in example:
-                                    request_body_examples.append((None, example['$ref']))
+                                    responses_examples.setdefault(code, []).append((None, example['$ref']))
                                 elif '$ref' in content_details:
-                                    request_body_examples.append((None, content_details['$ref']))
+                                    responses_examples.setdefault(code, []).append((None, content_details['$ref']))
 
-                    # Response Headers (if any)
-                    response_headers = ''  # This can be expanded if response headers are defined
-
-                    # Process responses
-                    response_codes = []
-                    responses_examples = {}  # Dictionary to hold response examples per status code
-                    for code, response in responses.items():
-                        resp_description = response.get('description', '')
-                        resp_type = ''
-                        # Determine type based on code
-                        if code.startswith('2'):
-                            resp_type = 'Success'
-                        elif code.startswith('4'):
-                            resp_type = 'Client Error'
-                        elif code.startswith('5'):
-                            resp_type = 'Server Error'
-                        else:
-                            resp_type = 'Unknown'
-                        response_codes.append((code, resp_type, resp_description))
-
-                        # Extract response examples
-                        if 'content' in response:
-                            for mime_type, content_details in response['content'].items():
-                                if 'examples' in content_details:
-                                    examples = content_details['examples']
-                                    examples_list = []
-                                    for example_name, example_details in examples.items():
-                                        example_ref = example_details.get('$ref', '')
-                                        examples_list.append((example_name, example_ref))
-                                    responses_examples[code] = examples_list
-                                elif 'example' in content_details:
-                                    example = content_details['example']
-                                    if isinstance(example, dict) and '$ref' in example:
-                                        responses_examples[code] = [(None, example['$ref'])]
-                                    elif '$ref' in content_details:
-                                        responses_examples[code] = [(None, content_details['$ref'])]
-
-                    # Initialize adoc_content
+                ### Generate Request File ###
+                with open(output_file_request, 'w', encoding='utf-8') as adoc_file:
                     adoc_lines = []
 
                     # Build the Request section
                     adoc_lines.append('==== Request')
-                    adoc_lines.append('[cols="h,a", separator=¦]')
+                    adoc_lines.append(f'[cols="h,a", width="100%", separator=¦]')
                     adoc_lines.append('[%autowidth]')
                     adoc_lines.append('|===')
                     adoc_lines.append(f'¦URI        ¦{uri_formatted}')
                     adoc_lines.append(f'¦Method     ¦{http_method}')
 
-                    # Include Requester and Responder if available
-                    if requester:
-                        adoc_lines.append(f'¦Requester  ¦image:{{{requester}}}[]')
-                    if responder:
-                        adoc_lines.append(f'¦Responder  ¦image:{{{responder}}}[]')
+                    # Include Requester images based on 'x-allowed-requester' array
+                    if allowed_requesters:
+                        images = ''.join([f'image:{{{requester}}}[] ' for requester in allowed_requesters])
+                        adoc_lines.append(f'¦Requester  ¦{images.strip()}')
+
+                    # Remove Responder row as per the requirement
+                    # (No action needed since we are not including it)
 
                     # Add HTTP Headers
                     adoc_lines.append('¦HTTP Header ¦')
@@ -184,7 +188,15 @@ for filename in os.listdir(INPUT_FOLDER):
                             adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
                             adoc_lines.append('[%collapsible]')
                             adoc_lines.append('====')
-                            adoc_lines.append('[source,xml]')
+                            # Determine the file extension and set the source language
+                            extension = os.path.splitext(example_ref)[1].lower()
+                            if extension == '.xml':
+                                source_lang = 'xml'
+                            elif extension == '.json':
+                                source_lang = 'json'
+                            else:
+                                source_lang = ''
+                            adoc_lines.append(f'[source,{source_lang}]')
                             adoc_lines.append('----')
                             adoc_lines.append(f'include::{example_ref}[]')
                             adoc_lines.append('----')
@@ -195,10 +207,18 @@ for filename in os.listdir(INPUT_FOLDER):
                     adoc_lines.append('|===')
                     adoc_lines.append('')
 
+                    # Write the adoc_lines to the file
+                    adoc_content = '\n'.join(adoc_lines)
+                    adoc_file.write(adoc_content)
+
+                ### Generate Response File ###
+                with open(output_file_response, 'w', encoding='utf-8') as adoc_file:
+                    adoc_lines = []
+
                     # Build the Response section
                     adoc_lines.append('==== Response')
                     adoc_lines.append('')
-                    adoc_lines.append('[cols="h,a", separator=¦]')
+                    adoc_lines.append(f'[cols="h,a", width="100%", separator=¦]')
                     adoc_lines.append('[%autowidth]')
                     adoc_lines.append('|===')
                     adoc_lines.append('¦HTTP Header ¦')
@@ -220,7 +240,15 @@ for filename in os.listdir(INPUT_FOLDER):
                             adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
                             adoc_lines.append('[%collapsible]')
                             adoc_lines.append('====')
-                            adoc_lines.append('[source,xml]')
+                            # Determine the file extension and set the source language
+                            extension = os.path.splitext(example_ref)[1].lower()
+                            if extension == '.xml':
+                                source_lang = 'xml'
+                            elif extension == '.json':
+                                source_lang = 'json'
+                            else:
+                                source_lang = ''
+                            adoc_lines.append(f'[source,{source_lang}]')
                             adoc_lines.append('----')
                             adoc_lines.append(f'include::{example_ref}[]')
                             adoc_lines.append('----')

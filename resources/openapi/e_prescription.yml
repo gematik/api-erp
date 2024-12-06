@@ -25,8 +25,9 @@ paths:
         - internet
       summary: Zustimmung erteilen
       description: Einwilligung zum Einlösen im EU-Ausland erteilen.
-      x-requester: FdV
-      x-responder: eRp
+      x-allowed-requester:
+        - "FdV"
+        - "AVS"
       parameters:
         - in: header
           name: Authorization
@@ -43,6 +44,12 @@ paths:
       responses:
         '200':
           description: Zustimmung erfolgreich erteilt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+xml
           content:
             application/fhir+json:
               example:

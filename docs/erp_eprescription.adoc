@@ -39,13 +39,12 @@ toc::[]
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦POST
-¦Requester  ¦image:{FdV}[]
-¦Responder  ¦image:{eRp}[]
+¦Requester  ¦image:{FdV}[] image:{AVS}[]
 ¦HTTP Header ¦
 ----
 Authorization: <value> (required)
@@ -54,7 +53,7 @@ Authorization: <value> (required)
 .Request Body (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,xml]
+[source,json]
 ----
 {
   "resourceType": "Consent",
@@ -103,10 +102,11 @@ Authorization: <value> (required)
 ----
 ====
 |===
+NOTE: Beim Request ist auf folgendes zu achten
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -116,7 +116,7 @@ Authorization: <value> (required)
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,xml]
+[source,json]
 ----
 {
   "resourceType": "Consent",
@@ -171,13 +171,14 @@ Authorization: <value> (required)
 [small]#Zustimmung erfolgreich erteilt#
 
 |===
+NOTE: Und das gilt für die Response
 
 === Zustimmung widerrufen
 
 Als Versicherter möchte ich meine Zustimmung widerrufen.
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
@@ -196,7 +197,7 @@ No request body.
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -218,7 +219,7 @@ No response body.
 Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
@@ -236,7 +237,7 @@ No request body.
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -257,7 +258,7 @@ No response body.
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$grant-eu-access-permission
@@ -272,7 +273,7 @@ No request body.
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -291,7 +292,7 @@ No response body.
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$read-eu-access-permission
@@ -306,7 +307,7 @@ No request body.
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -325,7 +326,7 @@ No response body.
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$revoke-eu-access-permission
@@ -340,7 +341,7 @@ No request body.
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -366,13 +367,11 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
 ¦Method     ¦POST
-¦Requester  ¦image:{NCPeH}[]
-¦Responder  ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
 AuthorizationHeader: <value> (required)
@@ -618,7 +617,7 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
@@ -1625,7 +1624,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
@@ -1890,7 +1889,7 @@ Authorization: <value> (required)
 
 ==== Response
 
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦HTTP Header ¦
