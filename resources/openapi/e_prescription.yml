@@ -269,8 +269,13 @@ paths:
         required: true
         content:
             application/xml:
-              example:
-                $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml'
+              examples:
+                demographics:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml'
+                prescriptions-retrieval:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml'
+                prescriptions-list:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml'
       responses:
         '200':
           description: Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.

@@ -89,23 +89,28 @@ for filename in os.listdir(INPUT_FOLDER):
                             param_description = param.get('description', '')
                             query_parameters.append(f"{name}: {param_description}{required}")
 
-                    # Request Body Reference
-                    request_body_ref = ''
+                    # Extract request body examples
+                    request_body_examples = []
                     if 'content' in request_body:
                         for mime_type, content_details in request_body['content'].items():
-                            example = content_details.get('example', {})
-                            if isinstance(example, dict) and '$ref' in example:
-                                request_body_ref = example['$ref']
-                                break
-                            elif '$ref' in content_details:
-                                request_body_ref = content_details['$ref']
-                                break
+                            if 'examples' in content_details:
+                                examples = content_details['examples']
+                                for example_name, example_details in examples.items():
+                                    example_ref = example_details.get('$ref', '')
+                                    request_body_examples.append((example_name, example_ref))
+                            elif 'example' in content_details:
+                                example = content_details['example']
+                                if isinstance(example, dict) and '$ref' in example:
+                                    request_body_examples.append((None, example['$ref']))
+                                elif '$ref' in content_details:
+                                    request_body_examples.append((None, content_details['$ref']))
 
                     # Response Headers (if any)
                     response_headers = ''  # This can be expanded if response headers are defined
 
                     # Process responses
                     response_codes = []
+                    responses_examples = {}  # Dictionary to hold response examples per status code
                     for code, response in responses.items():
                         resp_description = response.get('description', '')
                         resp_type = ''
@@ -120,17 +125,22 @@ for filename in os.listdir(INPUT_FOLDER):
                             resp_type = 'Unknown'
                         response_codes.append((code, resp_type, resp_description))
 
-                    # Response Body Reference (using 200 response as example)
-                    response_body_ref = ''
-                    if '200' in responses and 'content' in responses['200']:
-                        for mime_type, content_details in responses['200']['content'].items():
-                            example = content_details.get('example', {})
-                            if isinstance(example, dict) and '$ref' in example:
-                                response_body_ref = example['$ref']
-                                break
-                            elif '$ref' in content_details:
-                                response_body_ref = content_details['$ref']
-                                break
+                        # Extract response examples
+                        if 'content' in response:
+                            for mime_type, content_details in response['content'].items():
+                                if 'examples' in content_details:
+                                    examples = content_details['examples']
+                                    examples_list = []
+                                    for example_name, example_details in examples.items():
+                                        example_ref = example_details.get('$ref', '')
+                                        examples_list.append((example_name, example_ref))
+                                    responses_examples[code] = examples_list
+                                elif 'example' in content_details:
+                                    example = content_details['example']
+                                    if isinstance(example, dict) and '$ref' in example:
+                                        responses_examples[code] = [(None, example['$ref'])]
+                                    elif '$ref' in content_details:
+                                        responses_examples[code] = [(None, content_details['$ref'])]
 
                     # Initialize adoc_content
                     adoc_lines = []
@@ -166,20 +176,26 @@ for filename in os.listdir(INPUT_FOLDER):
                     # Add Payload
                     adoc_lines.append('¦Payload    ¦')
 
-                    if request_body_ref:
-                        adoc_lines.append('.Request Body (Klicken zum Ausklappen)')
-                        adoc_lines.append('[%collapsible]')
-                        adoc_lines.append('====')
-                        adoc_lines.append('[source,xml]')
-                        adoc_lines.append('----')
-                        adoc_lines.append(f'include::{request_body_ref}[]')
-                        adoc_lines.append('----')
-                        adoc_lines.append('====')
+                    if request_body_examples:
+                        for example_name, example_ref in request_body_examples:
+                            label = f"Request Body"
+                            if example_name:
+                                label += f" für {example_name}"
+                            adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+                            adoc_lines.append('[%collapsible]')
+                            adoc_lines.append('====')
+                            adoc_lines.append('[source,xml]')
+                            adoc_lines.append('----')
+                            adoc_lines.append(f'include::{example_ref}[]')
+                            adoc_lines.append('----')
+                            adoc_lines.append('====')
                     else:
                         adoc_lines.append('No request body.')
 
                     adoc_lines.append('|===')
                     adoc_lines.append('')
+
+                    # Build the Response section
                     adoc_lines.append('=== Response')
                     adoc_lines.append('')
                     adoc_lines.append('[cols="h,a", separator=¦]')
@@ -191,18 +207,25 @@ for filename in os.listdir(INPUT_FOLDER):
                     # adoc_lines.extend(response_headers)
                     adoc_lines.append('----')
 
-                    # Add Response Payload
+                    # Add Payload
                     adoc_lines.append('¦Payload    ¦')
-                    if response_body_ref:
-                        adoc_lines.append('.Response Body (Klicken zum Ausklappen)')
-                        adoc_lines.append('[%collapsible]')
-                        adoc_lines.append('====')
-                        adoc_lines.append('[source,xml]')
-                        adoc_lines.append('----')
-                        adoc_lines.append(f'include::{response_body_ref}[]')
-                        adoc_lines.append('----')
-                        adoc_lines.append('====')
-                    else:
+
+                    any_response_examples = False
+                    for code, examples_list in responses_examples.items():
+                        for example_name, example_ref in examples_list:
+                            any_response_examples = True
+                            label = f"Response Body ({code})"
+                            if example_name:
+                                label += f" für {example_name}"
+                            adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+                            adoc_lines.append('[%collapsible]')
+                            adoc_lines.append('====')
+                            adoc_lines.append('[source,xml]')
+                            adoc_lines.append('----')
+                            adoc_lines.append(f'include::{example_ref}[]')
+                            adoc_lines.append('----')
+                            adoc_lines.append('====')
+                    if not any_response_examples:
                         adoc_lines.append('No response body.')
 
                     adoc_lines.append('')
