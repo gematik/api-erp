@@ -51,7 +51,7 @@ paths:
               description: The media type of the response
               schema:
                 type: string
-                example: application/fhir+xml
+                example: application/fhir+json
           x-fhir-profile: 
             - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
           content:
@@ -135,6 +135,12 @@ paths:
       responses:
         '200':
           description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
           x-fhir-profile: 
             - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
           content:
@@ -184,6 +190,12 @@ paths:
       responses:
         '200':
           description: Zugriffscode erfolgreich erstellt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
           x-fhir-profile: 
             - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
           content:
@@ -225,6 +237,12 @@ paths:
       responses:
         '200':
           description: Zugriffscode erfolgreich abgefragt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
           x-fhir-profile: 
             - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
           content:
@@ -303,6 +321,12 @@ paths:
       responses:
         '200':
           description: Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+xml
           content:
             application/xml:
               example:
