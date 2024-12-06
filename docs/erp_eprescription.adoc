@@ -36,7 +36,7 @@ toc::[]
 
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
-*Request*
+==== Request
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
@@ -101,7 +101,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 |===
 
-*Response*
+==== Response
 
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
@@ -158,7 +158,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 Als Versicherter möchte ich meine Zustimmung widerrufen.
 
-*Request*
+==== Request
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
@@ -174,7 +174,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |===
 
 
-*Response*
+==== Response
 [source]
 ----
 HTTP/1.1 204 No Content
@@ -185,7 +185,7 @@ HTTP/1.1 204 No Content
 
 Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
 
-*Request*
+==== Request
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
@@ -201,7 +201,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |===
 
 
-*Response*
+==== Response
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
@@ -269,7 +269,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst
 
-*Request*
+==== Request
 [cols="h,a", separator=¦]
 [%autowidth]
 |===
@@ -316,7 +316,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 
 |===
 
-*Response*
+==== Response
 
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
@@ -359,7 +359,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
 
-*Request*
+==== Request
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/$read-eu-access-permission
@@ -375,7 +375,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |===
 
 
-*Response*
+==== Response
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
@@ -417,7 +417,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
 
-*Request*
+==== Request
 [cols="h,a"]
 |===
 |URI        |https://erp.app.ti-dienste.de/$revoke-eu-access-permission
@@ -432,7 +432,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 |Payload    |
 |===
 
-*Response*
+==== Response
 [source]
 ----
 HTTP/1.1 204 No Content
@@ -447,7 +447,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * link:https://simplifier.net/erezept-workflow/get-prescription-eu[OperationDefinition]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
-*Request*
+==== Request
 [cols="h,a", separator=¦]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/$get-eu-prescriptions?_count
@@ -704,7 +704,7 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 |===
 
 
-*Response*
+==== Response
 
 .Beispiel für Bundle mit Verordnungen (Klicken zum Ausklappen)
 [%collapsible]
@@ -1673,6 +1673,32 @@ Content-Type: application/fhir+json;charset=utf-8
 
 ====
 
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.#
+
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
+|401  | Unauthorized +
+[small]#Ungültige Authentifizierung.#
+|403  | Forbidden +
+[small]#Keine Berechtigung des Clients.#
+|404  | Not Found +
+[small]#Keine Ergebnisse gefunden.#
+|408  | Request Timeout +
+[small]#Zeitüberschreitung der Anfrage.#
+|429  | Too Many Requests +
+[small]#Zu viele Anfragen.#
+|500  | Server Errors +
+[small]#Unerwarteter Serverfehler.#
+|===
+
+
 === Abgabeinformationen zu einem E-Rezept einstellen
 
 Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
@@ -1680,7 +1706,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 * link:https://simplifier.net/erezept-workflow/eucloseoperation[OperationDefinition]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
-*Request*
+==== Request
 [cols="h,a", separator=¦]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Task/<id>/$eu-close
@@ -1942,8 +1968,32 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 |===
 
 
-*Response*
+==== Response
 [source]
 ----
 HTTP/1.1 200 OK
 ----
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|200  | OK +
+[small]#Erfolgreiche Übermittlung der Dispensierinformationen.#
+
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
+|401  | Unauthorized +
+[small]#Ungültige Authentifizierung.#
+|403  | Forbidden +
+[small]#Keine Berechtigung des Clients.#
+|404  | Not Found +
+[small]#Keine Ergebnisse gefunden.#
+|408  | Request Timeout +
+[small]#Zeitüberschreitung der Anfrage.#
+|429  | Too Many Requests +
+[small]#Zu viele Anfragen.#
+|500  | Server Errors +
+[small]#Unerwarteter Serverfehler.#
+|===
