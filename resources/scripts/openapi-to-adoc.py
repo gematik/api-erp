@@ -146,7 +146,7 @@ for filename in os.listdir(INPUT_FOLDER):
                     adoc_lines = []
 
                     # Build the Request section
-                    adoc_lines.append('=== Request')
+                    adoc_lines.append('==== Request')
                     adoc_lines.append('[cols="h,a", separator=¦]')
                     adoc_lines.append('[%autowidth]')
                     adoc_lines.append('|===')
@@ -196,7 +196,7 @@ for filename in os.listdir(INPUT_FOLDER):
                     adoc_lines.append('')
 
                     # Build the Response section
-                    adoc_lines.append('=== Response')
+                    adoc_lines.append('==== Response')
                     adoc_lines.append('')
                     adoc_lines.append('[cols="h,a", separator=¦]')
                     adoc_lines.append('[%autowidth]')
