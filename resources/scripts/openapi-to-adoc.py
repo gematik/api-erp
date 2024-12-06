@@ -79,8 +79,21 @@ for filename in os.listdir(INPUT_FOLDER):
                 for param in parameters:
                     if param.get('in') == 'header':
                         name = param.get('name', '')
-                        required = ' (required)' if param.get('required', False) else ''
-                        request_headers.append(f"{name}: <value>{required}")
+                        schema = param.get('schema', {})
+                        header_type = schema.get('type', '')
+                        required = param.get('required', False)
+                        required_str = 'required' if required else ''
+                        type_info = ''
+                        if header_type or required_str:
+                            type_info = f" ({header_type}"
+                            if required_str:
+                                type_info += f", {required_str}"
+                            type_info += ")"
+                        if name == 'Authorization':
+                            header_value = f"Authorization: Bearer <JWT>{type_info}"
+                        else:
+                            header_value = f"{name}: <value>{type_info}"
+                        request_headers.append(header_value)
 
                 # Query Parameters
                 query_parameters = []
@@ -107,12 +120,10 @@ for filename in os.listdir(INPUT_FOLDER):
                             elif '$ref' in content_details:
                                 request_body_examples.append((None, content_details['$ref']))
 
-                # Response Headers (if any)
-                response_headers = ''  # This can be expanded if response headers are defined
-
                 # Process responses
                 response_codes = []
                 responses_examples = {}  # Dictionary to hold response examples per status code
+                responses_headers = {}   # Dictionary to hold response headers per status code
                 for code, response in responses.items():
                     resp_description = response.get('description', '')
                     resp_type = ''
@@ -127,12 +138,36 @@ for filename in os.listdir(INPUT_FOLDER):
                         resp_type = 'Unknown'
                     response_codes.append((code, resp_type, resp_description))
 
+                    # Extract response headers
+                    headers = response.get('headers', {})
+                    header_list = []
+                    for header_name, header_info in headers.items():
+                        schema = header_info.get('schema', {})
+                        header_type = schema.get('type', '')
+                        example = schema.get('example', '')
+                        required = header_info.get('required', False)
+                        required_str = 'required' if required else ''
+                        type_info = ''
+                        if header_type or required_str:
+                            type_info = f" ({header_type}"
+                            if required_str:
+                                type_info += f", {required_str}"
+                            type_info += ")"
+                        if header_name == 'Authorization':
+                            header_value = f"Authorization: Bearer <JWT>{type_info}"
+                        else:
+                            if example:
+                                header_value = f"{header_name}: {example}{type_info}"
+                            else:
+                                header_value = f"{header_name}: <value>{type_info}"
+                        header_list.append(header_value)
+                    responses_headers[code] = header_list
+
                     # Extract response examples
                     if 'content' in response:
                         for mime_type, content_details in response['content'].items():
                             if 'examples' in content_details:
                                 examples = content_details['examples']
-                                examples_list = []
                                 for example_name, example_details in examples.items():
                                     example_ref = example_details.get('$ref', '')
                                     responses_examples.setdefault(code, []).append((example_name, example_ref))
@@ -148,7 +183,7 @@ for filename in os.listdir(INPUT_FOLDER):
                     adoc_lines = []
 
                     # Build the Request section
-                    adoc_lines.append('==== Request')
+                    adoc_lines.append('==== Request')  # Level 4 heading
                     adoc_lines.append(f'[cols="h,a", width="100%", separator=¦]')
                     adoc_lines.append('[%autowidth]')
                     adoc_lines.append('|===')
@@ -159,9 +194,6 @@ for filename in os.listdir(INPUT_FOLDER):
                     if allowed_requesters:
                         images = ''.join([f'image:{{{requester}}}[] ' for requester in allowed_requesters])
                         adoc_lines.append(f'¦Requester  ¦{images.strip()}')
-
-                    # Remove Responder row as per the requirement
-                    # (No action needed since we are not including it)
 
                     # Add HTTP Headers
                     adoc_lines.append('¦HTTP Header ¦')
@@ -216,15 +248,20 @@ for filename in os.listdir(INPUT_FOLDER):
                     adoc_lines = []
 
                     # Build the Response section
-                    adoc_lines.append('==== Response')
+                    adoc_lines.append('==== Response')  # Level 4 heading
                     adoc_lines.append('')
                     adoc_lines.append(f'[cols="h,a", width="100%", separator=¦]')
                     adoc_lines.append('[%autowidth]')
                     adoc_lines.append('|===')
+
+                    # Combine response headers across all status codes
+                    combined_response_headers = []
+                    for code, headers_list in responses_headers.items():
+                        combined_response_headers.extend(headers_list)
                     adoc_lines.append('¦HTTP Header ¦')
                     adoc_lines.append('----')
-                    # If you have response headers, include them here
-                    # adoc_lines.extend(response_headers)
+                    if combined_response_headers:
+                        adoc_lines.extend(combined_response_headers)
                     adoc_lines.append('----')
 
                     # Add Payload

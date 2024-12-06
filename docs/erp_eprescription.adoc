@@ -39,14 +39,15 @@ toc::[]
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
 ==== Request
-[cols="h,a", separator=¦, width=100%]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦POST
-¦Requester  ¦image:{FdV}[] image:{AVS}[]
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
 .Request Body (Klicken zum Ausklappen)
@@ -110,16 +111,17 @@ NOTE: Beim Request ist auf folgendes zu achten
 |===
 ¦HTTP Header ¦
 ----
+Content-Type: application/fhir+xml (string)
 ----
 ¦Payload    ¦
-.Response Body (200) (Klicken zum Ausklappen)
+.Response Body (201) (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,json]
 ----
 {
   "resourceType": "Consent",
-  "id": "erp-eprescription-01-POST-Consent",
+  "id": "6bd784b8-6595-42ea-8201-c34354efa857",
   "meta": {
     "profile": [
       "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
@@ -152,6 +154,7 @@ NOTE: Beim Request ist auf folgendes zu achten
       ]
     }
   ],
+  "dateTime": "2025-01-15T15:29:00+00:00",
   "policyRule": {
     "coding": [
       {
@@ -166,8 +169,38 @@ NOTE: Beim Request ist auf folgendes zu achten
 
 2+¦Response Codes
 
-¦200 ¦ Success +
+¦201 ¦ Success +
 [small]#Zustimmung erfolgreich erteilt#
+
+¦253 ¦ Success +
+[small]#Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.#
+
+¦254 ¦ Success +
+[small]#Format der fullUrl ist ungültig. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦408 ¦ Client Error +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+
+¦409 ¦ Client Error +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
 
 |===
 NOTE: Und das gilt für die Response
@@ -180,11 +213,12 @@ Als Versicherter möchte ich meine Zustimmung widerrufen.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Query Parameters ¦
 ----
@@ -208,7 +242,28 @@ No response body.
 2+¦Response Codes
 
 ¦204 ¦ Success +
-[small]#Zustimmung erfolgreich widerrufen#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
 
 |===
 
@@ -221,8 +276,9 @@ Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zus
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Consent
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 ----
@@ -243,12 +299,96 @@ No request body.
 ----
 ----
 ¦Payload    ¦
-No response body.
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Bundle",
+  "id": "erp-eprescription-02-GET-Consent-Bundle",
+  "type": "searchset",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
+      "resource": {
+        "resourceType": "Consent",
+        "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+          ]
+        },
+        "status": "active",
+        "patient": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "scope": {
+          "coding": [
+            {
+              "code": "patient-privacy",
+              "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+              "display": "Privacy Consent"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "EUDISPCONS",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+                "display": "Consent for redeeming e-prescriptions in EU countries"
+              }
+            ]
+          }
+        ],
+        "dateTime": "2025-01-15T15:29:00+00:00",
+        "policyRule": {
+          "coding": [
+            {
+              "code": "OPTIN",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+----
+====
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]#Erfolgreiche Rückgabe aller erteilten Zustimmungen#
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
 
 |===
 
@@ -260,14 +400,46 @@ No response body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$grant-eu-access-permission
+¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
 ¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
-No request body.
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    }
+  ]
+}
+----
+====
 |===
 
 ==== Response
@@ -279,12 +451,72 @@ No request body.
 ----
 ----
 ¦Payload    ¦
-No response body.
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+    }
+  ]
+}
+----
+====
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
 [small]#Zugriffscode erfolgreich erstellt#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
 
 |===
 
@@ -294,11 +526,12 @@ No response body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$read-eu-access-permission
+¦URI        ¦https://erp.app.ti-dienste.de/$read-eu-access-permission
 ¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
 No request body.
@@ -313,7 +546,46 @@ No request body.
 ----
 ----
 ¦Payload    ¦
-No response body.
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+    }
+  ]
+}
+----
+====
 
 2+¦Response Codes
 
@@ -328,11 +600,12 @@ No response body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$revoke-eu-access-permission
+¦URI        ¦https://erp.app.ti-dienste.de/$revoke-eu-access-permission
 ¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
 No request body.
@@ -352,7 +625,28 @@ No response body.
 2+¦Response Codes
 
 ¦204 ¦ Success +
-[small]#Zugriffscode erfolgreich widerrufen#
+[small]#Zugriffscode erfolgreich widerrufen.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
 
 |===
 
@@ -371,9 +665,10 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
 ¦Method     ¦POST
+¦Requester  ¦image:{NCPeH}[]
 ¦HTTP Header ¦
 ----
-AuthorizationHeader: <value> (required)
+AuthorizationHeader: <value> (string, required)
 ----
 ¦Query Parameters ¦
 ----
@@ -1628,9 +1923,10 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 |===
 ¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
 ¦Method     ¦POST
+¦Requester  ¦image:{NCPeH}[]
 ¦HTTP Header ¦
 ----
-Authorization: <value> (required)
+Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
 .Request Body (Klicken zum Ausklappen)
