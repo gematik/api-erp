@@ -5,7 +5,7 @@ servers:
   - url: https://https://erp.app.ti-dienste.de
     description: E-Rezept-Fachdienst Internet-Schnittstelle
 info:
-  title: E-Rezept-Fachdienst API für EU Prescriptions und "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
+  title: E-Rezept-Fachdienst API für EU Prescriptions und "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request"
   version: 1.1.0
   description: API Endpunkte zur Verwaltung von Einwilligung, Zugriffscodes und E-Rezepten über den E-Rezept-Fachdienst.
 
@@ -38,7 +38,7 @@ paths:
       requestBody:
         required: true
         x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent"
         content:
           application/fhir+json:
             example:
@@ -53,7 +53,7 @@ paths:
                 type: string
                 example: application/fhir+json
           x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent"
           content:
             application/fhir+json:
               example:
@@ -142,7 +142,7 @@ paths:
                 type: string
                 example: application/fhir+json
           x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent"
           content:
             application/fhir+json:
               example:
@@ -182,7 +182,7 @@ paths:
       requestBody:
         required: true
         x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request"
         content:
           application/fhir+json:
             example:
@@ -197,7 +197,7 @@ paths:
                 type: string
                 example: application/fhir+json
           x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response"
           content:
             application/fhir+json:
               example:
@@ -244,7 +244,7 @@ paths:
                 type: string
                 example: application/fhir+json
           x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response"
           content:
             application/fhir+json:
               example:
@@ -308,7 +308,7 @@ paths:
       requestBody:
         required: true
         x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input"
         content:
             application/xml:
               examples:
@@ -371,7 +371,7 @@ paths:
       requestBody:
         required: true
         x-fhir-profile: 
-            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input"
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input"
         content:
           application/xml:
             examples:
