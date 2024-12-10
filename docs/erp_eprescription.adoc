@@ -60,7 +60,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-01-POST-Consent",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
     ]
   },
   "status": "active",
@@ -84,7 +84,7 @@ Authorization: Bearer <JWT> (string, required)
       "coding": [
         {
           "code": "EUDISPCONS",
-          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+          "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
           "display": "Consent for redeeming e-prescriptions in EU countries"
         }
       ]
@@ -127,7 +127,7 @@ Content-Type: application/fhir+json (string)
   "id": "6bd784b8-6595-42ea-8201-c34354efa857",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
     ]
   },
   "status": "active",
@@ -151,7 +151,7 @@ Content-Type: application/fhir+json (string)
       "coding": [
         {
           "code": "EUDISPCONS",
-          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+          "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
           "display": "Consent for redeeming e-prescriptions in EU countries"
         }
       ]
@@ -325,7 +325,7 @@ Content-Type: application/fhir+json (string)
         "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
           ]
         },
         "status": "active",
@@ -349,7 +349,7 @@ Content-Type: application/fhir+json (string)
             "coding": [
               {
                 "code": "EUDISPCONS",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_ConsentType",
+                "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
                 "display": "Consent for redeeming e-prescriptions in EU countries"
               }
             ]
@@ -428,7 +428,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.5"
     ]
   },
   "parameter": [
@@ -475,7 +475,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
     ]
   },
   "parameter": [
@@ -574,7 +574,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
     ]
   },
   "parameter": [
@@ -704,14 +704,14 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-DEMOGRAPHICS"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
     </meta>
     <parameter>
         <name value="requestData"/>
         <part>
             <name value="requesttype"/>
             <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
                 <code value="demographics"/>
             </valueCoding>
         </part>
@@ -775,14 +775,14 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-RETRIEVAL"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
     </meta>
     <parameter>
         <name value="requestData"/>
         <part>
             <name value="requesttype"/>
             <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
                 <code value="e-prescriptions-retrieval"/>
             </valueCoding>
         </part>
@@ -874,14 +874,14 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
     </meta>
     <parameter>
         <name value="requestData"/>
         <part>
             <name value="requesttype"/>
             <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
                 <code value="e-prescriptions-list"/>
             </valueCoding>
         </part>
@@ -1968,7 +1968,7 @@ Authorization: Bearer <JWT> (string, required)
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -1978,7 +1978,7 @@ Authorization: Bearer <JWT> (string, required)
                 <MedicationDispense>
                     <id value="Example-MedicationDispense-EU"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_EU|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -2139,7 +2139,7 @@ Authorization: Bearer <JWT> (string, required)
             <Practitioner>
                 <id value="Example-EU-Practitioner"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2157,7 +2157,7 @@ Authorization: Bearer <JWT> (string, required)
             <Organization>
                 <id value="Example-EU-Organization"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2189,7 +2189,7 @@ Authorization: Bearer <JWT> (string, required)
             <PractitionerRole>
                 <id value="Example-EU-PractitionerRole"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PractitionerRole_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/Example-EU-Practitioner"/>
@@ -2221,7 +2221,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -2231,7 +2231,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
                 <MedicationDispense>
                     <id value="Example-MedicationDispense-EU"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_EU|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -2392,7 +2392,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
             <Practitioner>
                 <id value="Example-EU-Practitioner-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2410,7 +2410,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
             <Organization>
                 <id value="Example-EU-Organization-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2450,7 +2450,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
             <PractitionerRole>
                 <id value="Example-EU-PractitionerRole-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PractitionerRole_EU|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
