@@ -8,7 +8,7 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 :toc: macro
-:toclevels: 3
+:toclevels: 2
 :toc-title: Inhaltsverzeichnis
 :AVS: https://img.shields.io/badge/AVS-E30615
 :PVS: https://img.shields.io/badge/PVS/KIS-C30059
@@ -25,9 +25,10 @@
 :date-folder: 2025-10-01-preview
 :toclevels: 2
 
-Zielgruppe: image:{FdV}[]
+Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/e_prescription.yml[OpenAPI-Spezifikation für ePrescription]
 
 toc::[]
 
@@ -38,20 +39,20 @@ toc::[]
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/Consent
 ¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: Bearer <JWT> (string, required)
 ----
-
-¦URL Parameter    ¦
 ¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -99,13 +100,26 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
   }
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
+
 
 |===
+NOTE: Beim Request ist auf folgendes zu achten
 
 ==== Response
 
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (201) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -154,32 +168,110 @@ Content-Type: application/fhir+json;charset=utf-8
   }
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
+
+
+
+2+¦Response Codes
+
+¦201 ¦ Success +
+[small]#Zustimmung erfolgreich erteilt#
+
+¦253 ¦ Success +
+[small]#Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.#
+
+¦254 ¦ Success +
+[small]#Format der fullUrl ist ungültig. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦408 ¦ Client Error +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+
+¦409 ¦ Client Error +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+NOTE: Und das gilt für die Response
 
 === Zustimmung widerrufen
 
 Als Versicherter möchte ich meine Zustimmung widerrufen.
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: Bearer <JWT> (string, required)
 ----
-
-|Payload    |
+¦Query Parameters ¦
+----
+category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'.
+----
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-[source]
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-HTTP/1.1 204 No Content
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
 
 
 === Zustimmung einsehen
@@ -187,24 +279,36 @@ HTTP/1.1 204 No Content
 Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-
-|Payload    |
+¦Query Parameters ¦
+----
+category: Category of the Consent to be retrieved < EUDISPCONS | CHARGCONS >
+----
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -265,27 +369,58 @@ Content-Type: application/fhir+json;charset=utf-8
   ]
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
 
 == Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
 
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
 ¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
 ¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: Bearer <JWT> (string, required)
 ----
-
-¦URL Parameter    ¦
 ¦Payload    ¦
-
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -314,13 +449,25 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
   ]
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request[GEM_ERP_PR_PAR_EU_Access_Authorization_Request]
+
 
 |===
 
 ==== Response
 
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -357,28 +504,69 @@ Content-Type: application/fhir+json;charset=utf-8
   ]
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response[GEM_ERP_PR_PAR_EU_Access_Authorization_Response]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich erstellt#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
 
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/$read-eu-access-permission
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/$read-eu-access-permission
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: Bearer <JWT> (string, required)
 ----
-
-|Payload    |
+¦Payload    ¦
+No request body.
 |===
-
 
 ==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -415,29 +603,73 @@ Content-Type: application/fhir+json;charset=utf-8
   ]
 }
 ----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response[GEM_ERP_PR_PAR_EU_Access_Authorization_Response]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich abgefragt#
+
+|===
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
 
 ==== Request
-[cols="h,a"]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-|URI        |https://erp.app.ti-dienste.de/$revoke-eu-access-permission
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
+¦URI        ¦https://erp.app.ti-dienste.de/$revoke-eu-access-permission
+¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
 ----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+Authorization: Bearer <JWT> (string, required)
 ----
-
-|Payload    |
+¦Payload    ¦
+No request body.
 |===
 
 ==== Response
-[source]
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
 ----
-HTTP/1.1 204 No Content
 ----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Zugriffscode erfolgreich widerrufen.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
 
 == Interaktion NCPeH mit E-Rezept-Fachdienst
 
@@ -449,22 +681,24 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/$get-eu-prescriptions?_count
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
 ¦Method     ¦POST
-¦Requester ¦image:{NCPeH}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header¦
-
-* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-
+¦Requester  ¦image:{NCPeH}[]
+¦HTTP Header ¦
+----
+AuthorizationHeader: <value> (string, required)
+----
+¦Query Parameters ¦
+----
+_count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.
+----
 ¦Payload    ¦
-
-.Beispiel für RequestType demographics
+.Request Body für demographics (Klicken zum Ausklappen)
 [%collapsible]
 ====
-
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
@@ -529,84 +763,13 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
     </parameter>
 </Parameters>
 ----
-
 ====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
 
-.Beispiel für RequestType e-prescriptions-list
+
+.Request Body für prescriptions-retrieval (Klicken zum Ausklappen)
 [%collapsible]
 ====
-
-[source,xml]
-----
-<Parameters xmlns="http://hl7.org/fhir">
-    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
-    </meta>
-    <parameter>
-        <name value="requestData"/>
-        <part>
-            <name value="requesttype"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
-                <code value="e-prescriptions-list"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="kvnr"/>
-            <valueIdentifier>
-                <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                <value value="X123456789"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="accessCode"/>
-            <valueIdentifier>
-                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
-                <value value="123456"/>
-            </valueIdentifier>
-        </part>
-        <part>
-            <name value="countryCode"/>
-            <valueCoding>
-                <system value="urn:iso:std:iso:3166"/>
-                <code value="BE"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="practitionerName"/>
-            <valueString value="Pedro Sanches"/>
-        </part>
-        <part>
-            <name value="practitionerRole"/>
-            <valueCoding>
-                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
-                <code value="2262"/>
-                <display value="Pharmacists"/>
-            </valueCoding>
-        </part>
-        <part>
-            <name value="pointOfCare"/>
-            <valueString value="Pharmacia de Santa Maria"/>
-        </part>
-        <part>
-            <name value="healthcare-facility-type"/>
-            <valueCoding>
-                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
-                <code value="1.2.276.0.76.4.54"/>
-                <display value="Öffentliche Apotheke"/>
-            </valueCoding>
-        </part>
-    </parameter>
-</Parameters>
-----
-
-====
-
-.Beispiel für RequestType e-prescriptions-retrieval
-[%collapsible]
-====
-
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
@@ -699,21 +862,97 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
     </parameter>
 </Parameters>
 ----
-
 ====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
+
+
+.Request Body für prescriptions-list (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_RequestType_EU"/>
+                <code value="e-prescriptions-list"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="123456"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
+
 
 |===
 
-
 ==== Response
 
-.Beispiel für Bundle mit Verordnungen (Klicken zum Ausklappen)
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-
 [source,xml]
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
 ----
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-05-GET-Prescription-Bundle"/>
@@ -1671,32 +1910,34 @@ Content-Type: application/fhir+json;charset=utf-8
     </entry>
 </Bundle>
 ----
-
 ====
 
+2+¦Response Codes
 
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|200  | OK +
+¦200 ¦ Success +
 [small]#Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.#
 
-s|Code   s|Type Error
-|400  | Bad Request  +
+¦400 ¦ Client Error +
 [small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
-|401  | Unauthorized +
+
+¦401 ¦ Client Error +
 [small]#Ungültige Authentifizierung.#
-|403  | Forbidden +
+
+¦403 ¦ Client Error +
 [small]#Keine Berechtigung des Clients.#
-|404  | Not Found +
+
+¦404 ¦ Client Error +
 [small]#Keine Ergebnisse gefunden.#
-|408  | Request Timeout +
+
+¦408 ¦ Client Error +
 [small]#Zeitüberschreitung der Anfrage.#
-|429  | Too Many Requests +
+
+¦429 ¦ Client Error +
 [small]#Zu viele Anfragen.#
-|500  | Server Errors +
+
+¦500 ¦ Server Error +
 [small]#Unerwarteter Serverfehler.#
+
 |===
 
 
@@ -1708,17 +1949,20 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
 ==== Request
-[cols="h,a", separator=¦]
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Task/<id>/$eu-close
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
 ¦Method     ¦POST
 ¦Requester  ¦image:{NCPeH}[]
-¦Responder  ¦image:{eRp}[]
-¦HTTP Header¦
-
-* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
 ¦Payload    ¦
+.Request Body für all-data (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
@@ -1898,7 +2142,6 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
                 </meta>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-303"/>
                     <value value="1234567890"/>
                 </identifier>
                 <name>
@@ -1917,11 +2160,9 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
                 </meta>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-285"/>
                     <value value="1234567890"/>
                 </identifier>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/facilityId"/>
                     <value value="136ad69f"/>
                 </identifier>
                 <type>
@@ -1935,6 +2176,8 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
                 <address>
                     <line value="Rua da Alegria, 123"/>
                     <city value="Lisbon"/>
+                    <state value="Lisbon"/>
+                    <postalCode value="1234-567"/>
                     <country value="Portugal"/>
                 </address>
             </Organization>
@@ -1966,35 +2209,308 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
     </parameter>
 </Parameters>
 ----
-|===
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input[GEM_ERP_PR_PAR_EU_CloseOperation_Input]
 
+
+.Request Body für with-missing-data (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense-EU"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_EU|1.5"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.033.491.280.78"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="Medication/SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <reference value="PractitionerRole/Example-EU-PractitionerRole"/>
+                        </actor>
+                    </performer>
+                    <whenHandedOver value="2025-01-15"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                            <display value="Tabletten"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20"/>
+                            </extension>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="practitionerData"/>
+        <resource>
+            <Practitioner>
+                <id value="Example-EU-Practitioner-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <name>
+                    <family value="Sanches"/>
+                    <given value="Pedro"/>
+                </name>
+            </Practitioner>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="organizationData"/>
+        <resource>
+            <Organization>
+                <id value="Example-EU-Organization-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <identifier>
+                    <value value="136ad69f"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                        <code value="1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                </type>
+                <name value="Pharmacia de Santa Maria"/>
+                <address>
+                    <line value="Rua da Alegria, 123"/>
+                    <city value="Lisbon"/>
+                    <state>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="not-applicable"/>
+                        </extension>
+                    </state>
+                    <postalCode>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="unknown"/>
+                        </extension>
+                    </postalCode>
+                    <country value="Portugal"/>
+                </address>
+            </Organization>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="practitionerRoleData"/>
+        <resource>
+            <PractitionerRole>
+                <id value="Example-EU-PractitionerRole-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PractitionerRole_EU|1.5"/>
+                </meta>
+                <practitioner>
+                    <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
+                </practitioner>
+                <organization>
+                    <reference value="Organization/Example-EU-Organization-Missing-Data"/>
+                </organization>
+                <code>
+                    <coding>
+                        <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                        <code value="2262"/>
+                        <display value="Pharmacists"/>
+                    </coding>
+                </code>
+            </PractitionerRole>
+        </resource>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input[GEM_ERP_PR_PAR_EU_CloseOperation_Input]
+
+
+|===
 
 ==== Response
-[source]
-----
-HTTP/1.1 200 OK
-----
 
-[cols="a,a"]
+[cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-s|Code   s|Type Success
-|200  | OK +
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
 [small]#Erfolgreiche Übermittlung der Dispensierinformationen.#
 
-s|Code   s|Type Error
-|400  | Bad Request  +
+¦400 ¦ Client Error +
 [small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
-|401  | Unauthorized +
+
+¦401 ¦ Client Error +
 [small]#Ungültige Authentifizierung.#
-|403  | Forbidden +
+
+¦403 ¦ Client Error +
 [small]#Keine Berechtigung des Clients.#
-|404  | Not Found +
+
+¦404 ¦ Client Error +
 [small]#Keine Ergebnisse gefunden.#
-|408  | Request Timeout +
+
+¦408 ¦ Client Error +
 [small]#Zeitüberschreitung der Anfrage.#
-|429  | Too Many Requests +
+
+¦429 ¦ Client Error +
 [small]#Zu viele Anfragen.#
-|500  | Server Errors +
+
+¦500 ¦ Server Error +
 [small]#Unerwarteter Serverfehler.#
+
 |===

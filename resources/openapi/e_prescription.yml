@@ -1,0 +1,399 @@
+openapi: 3.0.0
+servers:
+  - url: https://erp.zentral.erp.splitdns.ti-dienste.de
+    description: E-Rezept-Fachdienst TI-Schnittstelle
+  - url: https://https://erp.app.ti-dienste.de
+    description: E-Rezept-Fachdienst Internet-Schnittstelle
+info:
+  title: E-Rezept-Fachdienst API für EU Prescriptions und "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
+  version: 1.1.0
+  description: API Endpunkte zur Verwaltung von Einwilligung, Zugriffscodes und E-Rezepten über den E-Rezept-Fachdienst.
+
+tags:
+  - name: Consent Management
+    description: Endpunkte zur Verwaltung der Einwilligungen der Versicherten.
+  - name: Access Code Management
+    description: Endpunkte zur Verwaltung von Zugriffscodes für das Einlösen im EU-Ausland.
+  - name: Prescription Management
+    description: Endpunkte zur Abfrage und Verarbeitung von E-Rezepten.
+
+paths:
+  /Consent:
+    post:
+      tags:
+        - Consent Management
+      summary: Zustimmung erteilen
+      description: Einwilligung zum Einlösen im EU-Ausland erteilen.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+      requestBody:
+        required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+        content:
+          application/fhir+json:
+            example:
+              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent.json"
+      responses:
+        '201':
+          description: Zustimmung erfolgreich erteilt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+          content:
+            application/fhir+json:
+              example:
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent_Response.json"
+        '253':
+          description: "Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt."
+        '254':
+          description: "Format der fullUrl ist ungültig. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt."
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '408':
+          description: Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.
+        '409':
+          description: Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
+    delete:
+      tags:
+        - Consent Management
+      summary: Zustimmung widerrufen
+      description: Widerruf der Zustimmung für das Einlösen im EU-Ausland.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: "Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'."
+      responses:
+        '204':
+          description: Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
+    get:
+      tags:
+        - Consent Management
+      summary: Zustimmung einsehen
+      description: Übersicht über die erteilte(n) Zustimmung(en).
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: query
+          name: category
+          required: false
+          schema:
+            type: string
+          description: Category of the Consent to be retrieved < EUDISPCONS | CHARGCONS >
+      responses:
+        '200':
+          description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent"
+          content:
+            application/fhir+json:
+              example:
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/02_GET_Consent_Bundle.json"
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
+
+  /$grant-eu-access-permission:
+    post:
+      tags:
+        - Access Code Management
+      summary: Zugriffscode erstellen
+      description: Generiert einen Zugriffscode für das Einlösen eines E-Rezepts im EU-Ausland.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+      requestBody:
+        required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request"
+        content:
+          application/fhir+json:
+            example:
+              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/03_POST_AccessCode_EU_Request.json"
+      responses:
+        '200':
+          description: Zugriffscode erfolgreich erstellt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+          content:
+            application/fhir+json:
+              example:
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json"
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
+
+  /$read-eu-access-permission:
+    get:
+      tags:
+        - Access Code Management
+      summary: Zugriffscode abfragen
+      description: Liefert Informationen zu einem generierten Zugriffscode.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+      responses:
+        '200':
+          description: Zugriffscode erfolgreich abgefragt
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response"
+          content:
+            application/fhir+json:
+              example:
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json"
+
+  /$revoke-eu-access-permission:
+    delete:
+      tags:
+        - Access Code Management
+      summary: Zugriffscode widerrufen
+      description: Widerruft einen Zugriffscode für das Einlösen im EU-Ausland.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+      responses:
+        '204':
+          description: Zugriffscode erfolgreich widerrufen.
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
+  
+  /$get-eu-prescriptions:
+    post:
+      tags:
+        - Prescription Management
+      summary: Abrufen von E-Rezept-Daten
+      description: Abrufen von demographischen Versichertendaten oder einer Liste verfügbarer bzw. ausgewählter E-Rezepte des Versicherten.
+      x-allowed-requester:
+        - "NCPeH"
+      parameters:
+        - in: header
+          name: AuthorizationHeader
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP-Dienst für den NCPeH.
+        - in: query
+          name: _count
+          schema:
+            type: integer
+          description: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.
+      requestBody:
+        required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input"
+        content:
+            application/xml:
+              examples:
+                demographics:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml'
+                prescriptions-retrieval:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml'
+                prescriptions-list:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml'
+      responses:
+        '200':
+          description: Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+xml
+          content:
+            application/xml:
+              example:
+                $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/05_GET_Prescription_Bundle.xml'
+        '400':
+          description: Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.
+        '401':
+          description: Ungültige Authentifizierung.
+        '403':
+          description: Keine Berechtigung des Clients.
+        '404':
+          description: Keine Ergebnisse gefunden.
+        '408':
+          description: Zeitüberschreitung der Anfrage.
+        '429':
+          description: Zu viele Anfragen.
+        '500':
+          description: Unerwarteter Serverfehler.
+
+  /Task/{id}/$eu-close:
+    post:
+      tags:
+        - Prescription Management
+      summary: Übermitteln von Dispensierinformationen aus dem EU-Ausland
+      description: Entgegennahme von FHIR-Ressourcen, die die Dispensierinformationen aus dem EU-Ausland enthalten.
+      x-allowed-requester:
+        - "NCPeH"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "160.000.000.000.000.01"
+          description: Prescription ID of the Task to be closed.
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP-Dienst für den NCPeH.
+      requestBody:
+        required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input"
+        content:
+          application/xml:
+            examples:
+                all-data:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
+                with-missing-data:
+                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close_Missing_Data.xml'
+      responses:
+        '200':
+          description: Erfolgreiche Übermittlung der Dispensierinformationen.
+        '400':
+          description: Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.
+        '401':
+          description: Ungültige Authentifizierung.
+        '403':
+          description: Keine Berechtigung des Clients.
+        '404':
+          description: Keine Ergebnisse gefunden.
+        '408':
+          description: Zeitüberschreitung der Anfrage.
+        '429':
+          description: Zu viele Anfragen.
+        '500':
+          description: Unerwarteter Serverfehler.
+

@@ -5,9 +5,10 @@ include::./config-source.adoc[]
 :date-folder: 2025-10-01-preview
 :toclevels: 2
 
-Zielgruppe: image:{FdV}[]
+Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
 
-Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/e_prescription.yml[OpenAPI-Spezifikation für ePrescription]
 
 toc::[]
 
@@ -17,176 +18,48 @@ toc::[]
 
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
-==== Request
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/Consent
-¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/Consent_POST_Request.adoc[]
+NOTE: Beim Request ist auf folgendes zu achten
 
-¦URL Parameter    ¦
-¦Payload    ¦
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent.json[]
-----
-
-|===
-
-==== Response
-
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent_Response.json[]
-----
+include::../resources/openapi-adoc/e_prescription/Consent_POST_Response.adoc[]
+NOTE: Und das gilt für die Response
 
 === Zustimmung widerrufen
 
 Als Versicherter möchte ich meine Zustimmung widerrufen.
 
-==== Request
-[cols="h,a"]
-|===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/Consent_DELETE_Request.adoc[]
 
-|Payload    |
-|===
-
-
-==== Response
-[source]
-----
-HTTP/1.1 204 No Content
-----
+include::../resources/openapi-adoc/e_prescription/Consent_DELETE_Response.adoc[]
 
 
 === Zustimmung einsehen
 
 Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
 
-==== Request
-[cols="h,a"]
-|===
-|URI        |https://erp.app.ti-dienste.de/Consent?category=EUDISPCONS
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/Consent_GET_Request.adoc[]
 
-|Payload    |
-|===
-
-
-==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/02_GET_Consent_Bundle.json[]
-----
+include::../resources/openapi-adoc/e_prescription/Consent_GET_Response.adoc[]
 
 == Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
 
 === Erstellen des Zugriffscodes im E-Rezept-Fachdienst 
 
-==== Request
-[cols="h,a", separator=¦]
-[%autowidth]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
-¦Method     ¦POST
-¦Requester ¦image:{FdV}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header ¦
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/$grant-eu-access-permission_POST_Request.adoc[]
 
-¦URL Parameter    ¦
-¦Payload    ¦
-
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/03_POST_AccessCode_EU_Request.json[]
-----
-
-|===
-
-==== Response
-
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json[]
-----
+include::../resources/openapi-adoc/e_prescription/$grant-eu-access-permission_POST_Response.adoc[]
 
 === Abfragen des Zugriffscodes im E-Rezept-Fachdienst
 
-==== Request
-[cols="h,a"]
-|===
-|URI        |https://erp.app.ti-dienste.de/$read-eu-access-permission
-|Method     |GET
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/$read-eu-access-permission_GET_Request.adoc[]
 
-|Payload    |
-|===
-
-
-==== Response
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-[source,json]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json[]
-----
+include::../resources/openapi-adoc/e_prescription/$read-eu-access-permission_GET_Response.adoc[]
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
 
-==== Request
-[cols="h,a"]
-|===
-|URI        |https://erp.app.ti-dienste.de/$revoke-eu-access-permission
-|Method     |DELETE
-|Requester |image:{FdV}[]
-|Responder |image:{eRp}[]
-|HTTP Header |
-----
-Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-----
+include::../resources/openapi-adoc/e_prescription/$revoke-eu-access-permission_DELETE_Request.adoc[]
 
-|Payload    |
-|===
-
-==== Response
-[source]
-----
-HTTP/1.1 204 No Content
-----
+include::../resources/openapi-adoc/e_prescription/$revoke-eu-access-permission_DELETE_Response.adoc[]
 
 == Interaktion NCPeH mit E-Rezept-Fachdienst 
 
@@ -197,94 +70,9 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 * link:https://simplifier.net/erezept-workflow/get-prescription-eu[OperationDefinition]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_get_prescription_eu_input[Profil Input Parameter]
 
-==== Request
-[cols="h,a", separator=¦]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/$get-eu-prescriptions?_count
-¦Method     ¦POST
-¦Requester ¦image:{NCPeH}[]
-¦Responder ¦image:{eRp}[]
-¦HTTP Header¦
+include::../resources/openapi-adoc/e_prescription/$get-eu-prescriptions_POST_Request.adoc[]
 
-* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-
-¦Payload    ¦
-
-.Beispiel für RequestType demographics
-[%collapsible]
-====
-
-[source,xml]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml[]
-----
-
-====
-
-.Beispiel für RequestType e-prescriptions-list
-[%collapsible]
-====
-
-[source,xml]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml[]
-----
-
-====
-
-.Beispiel für RequestType e-prescriptions-retrieval
-[%collapsible]
-====
-
-[source,xml]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml[]
-----
-
-====
-
-|===
-
-
-==== Response
-
-.Beispiel für Bundle mit Verordnungen (Klicken zum Ausklappen)
-[%collapsible]
-====
-
-[source,xml]
-HTTP/1.1 200 OK
-Content-Type: application/fhir+json;charset=utf-8
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/05_GET_Prescription_Bundle.xml[]
-----
-
-====
-
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|200  | OK +
-[small]#Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.#
-
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
-|401  | Unauthorized +
-[small]#Ungültige Authentifizierung.#
-|403  | Forbidden +
-[small]#Keine Berechtigung des Clients.#
-|404  | Not Found +
-[small]#Keine Ergebnisse gefunden.#
-|408  | Request Timeout +
-[small]#Zeitüberschreitung der Anfrage.#
-|429  | Too Many Requests +
-[small]#Zu viele Anfragen.#
-|500  | Server Errors +
-[small]#Unerwarteter Serverfehler.#
-|===
+include::../resources/openapi-adoc/e_prescription/$get-eu-prescriptions_POST_Response.adoc[]
 
 
 === Abgabeinformationen zu einem E-Rezept einstellen
@@ -294,52 +82,6 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 * link:https://simplifier.net/erezept-workflow/eucloseoperation[OperationDefinition]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_eu_closeoperation_input[Profil Input Parameter]
 
-==== Request
-[cols="h,a", separator=¦]
-|===
-¦URI        ¦https://erp.app.ti-dienste.de/Task/<id>/$eu-close
-¦Method     ¦POST
-¦Requester  ¦image:{NCPeH}[]
-¦Responder  ¦image:{eRp}[]
-¦HTTP Header¦
+include::../resources/openapi-adoc/e_prescription/Task_id_$eu-close_POST_Request.adoc[]
 
-* *Authorization*: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
-
-¦Payload    ¦
-[source,xml]
-----
-include::https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml[]
-----
-|===
-
-
-==== Response
-[source]
-----
-HTTP/1.1 200 OK
-----
-
-[cols="a,a"]
-[%autowidth]
-|===
-s|Code   s|Type Success
-|200  | OK +
-[small]#Erfolgreiche Übermittlung der Dispensierinformationen.#
-
-s|Code   s|Type Error
-|400  | Bad Request  +
-[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
-|401  | Unauthorized +
-[small]#Ungültige Authentifizierung.#
-|403  | Forbidden +
-[small]#Keine Berechtigung des Clients.#
-|404  | Not Found +
-[small]#Keine Ergebnisse gefunden.#
-|408  | Request Timeout +
-[small]#Zeitüberschreitung der Anfrage.#
-|429  | Too Many Requests +
-[small]#Zu viele Anfragen.#
-|500  | Server Errors +
-[small]#Unerwarteter Serverfehler.#
-|===
-
+include::../resources/openapi-adoc/e_prescription/Task_id_$eu-close_POST_Response.adoc[]
