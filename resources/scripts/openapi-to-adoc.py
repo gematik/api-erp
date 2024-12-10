@@ -254,6 +254,7 @@ for filename in os.listdir(INPUT_FOLDER):
                                 for url in request_body_fhir_profile:
                                     name = url.rstrip('/').split('/')[-1]
                                     adoc_lines.append(f"FHIR-Profil: link:{url}[{name}]")
+                                    adoc_lines.append('\n')
                     else:
                         adoc_lines.append('No request body.')
 
@@ -316,6 +317,7 @@ for filename in os.listdir(INPUT_FOLDER):
                                 for url in response_fhir_profiles[code]:
                                     name = url.rstrip('/').split('/')[-1]
                                     adoc_lines.append(f"FHIR-Profil: link:{url}[{name}]")
+                                    adoc_lines.append('\n')
                     if not any_response_examples:
                         adoc_lines.append('No response body.')
 

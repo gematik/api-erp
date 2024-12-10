@@ -374,8 +374,11 @@ paths:
             - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input"
         content:
           application/xml:
-            example:
-              $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
+            examples:
+                all-data:
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
+                with-missing-data:
+                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close_Missing_Data.xml'
       responses:
         '200':
           description: Erfolgreiche Übermittlung der Dispensierinformationen.

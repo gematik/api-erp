@@ -102,6 +102,8 @@ Authorization: Bearer <JWT> (string, required)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
+
+
 |===
 NOTE: Beim Request ist auf folgendes zu achten
 
@@ -168,6 +170,8 @@ Content-Type: application/fhir+json (string)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
+
+
 
 2+¦Response Codes
 
@@ -368,6 +372,8 @@ Content-Type: application/fhir+json (string)
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Consent[GEM_ERP_PR_Consent]
 
+
+
 2+¦Response Codes
 
 ¦200 ¦ Success +
@@ -445,6 +451,8 @@ Authorization: Bearer <JWT> (string, required)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Request[GEM_ERP_PR_PAR_EU_Access_Authorization_Request]
+
+
 |===
 
 ==== Response
@@ -498,6 +506,8 @@ Content-Type: application/fhir+json (string)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response[GEM_ERP_PR_PAR_EU_Access_Authorization_Response]
+
+
 
 2+¦Response Codes
 
@@ -595,6 +605,8 @@ Content-Type: application/fhir+json (string)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_Access_Authorization_Response[GEM_ERP_PR_PAR_EU_Access_Authorization_Response]
+
+
 
 2+¦Response Codes
 
@@ -753,6 +765,8 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
+
+
 .Request Body für prescriptions-retrieval (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -850,6 +864,8 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
+
+
 .Request Body für prescriptions-list (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -919,6 +935,8 @@ FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input[GEM_ERP_PR_PAR_EU_GET_Prescription_EU_Input]
+
+
 |===
 
 ==== Response
@@ -1942,7 +1960,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 Authorization: Bearer <JWT> (string, required)
 ----
 ¦Payload    ¦
-.Request Body (Klicken zum Ausklappen)
+.Request Body für all-data (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,xml]
@@ -2124,7 +2142,6 @@ Authorization: Bearer <JWT> (string, required)
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
                 </meta>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-303"/>
                     <value value="1234567890"/>
                 </identifier>
                 <name>
@@ -2143,11 +2160,9 @@ Authorization: Bearer <JWT> (string, required)
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
                 </meta>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/ehdsi-dataelement-285"/>
                     <value value="1234567890"/>
                 </identifier>
                 <identifier>
-                    <system value="https://cda.ehdsi.com/facilityId"/>
                     <value value="136ad69f"/>
                 </identifier>
                 <type>
@@ -2161,6 +2176,8 @@ Authorization: Bearer <JWT> (string, required)
                 <address>
                     <line value="Rua da Alegria, 123"/>
                     <city value="Lisbon"/>
+                    <state value="Lisbon"/>
+                    <postalCode value="1234-567"/>
                     <country value="Portugal"/>
                 </address>
             </Organization>
@@ -2194,6 +2211,269 @@ Authorization: Bearer <JWT> (string, required)
 ----
 ====
 FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input[GEM_ERP_PR_PAR_EU_CloseOperation_Input]
+
+
+.Request Body für with-missing-data (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="Example-MedicationDispense-EU"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_EU|1.5"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.033.491.280.78"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="Medication/SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <reference value="PractitionerRole/Example-EU-PractitionerRole"/>
+                        </actor>
+                    </performer>
+                    <whenHandedOver value="2025-01-15"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                            <display value="Tabletten"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20"/>
+                            </extension>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="practitionerData"/>
+        <resource>
+            <Practitioner>
+                <id value="Example-EU-Practitioner-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Practitioner_EU|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <name>
+                    <family value="Sanches"/>
+                    <given value="Pedro"/>
+                </name>
+            </Practitioner>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="organizationData"/>
+        <resource>
+            <Organization>
+                <id value="Example-EU-Organization-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Organization_EU|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <identifier>
+                    <value value="136ad69f"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                        <code value="1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                </type>
+                <name value="Pharmacia de Santa Maria"/>
+                <address>
+                    <line value="Rua da Alegria, 123"/>
+                    <city value="Lisbon"/>
+                    <state>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="not-applicable"/>
+                        </extension>
+                    </state>
+                    <postalCode>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="unknown"/>
+                        </extension>
+                    </postalCode>
+                    <country value="Portugal"/>
+                </address>
+            </Organization>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="practitionerRoleData"/>
+        <resource>
+            <PractitionerRole>
+                <id value="Example-EU-PractitionerRole-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PractitionerRole_EU|1.5"/>
+                </meta>
+                <practitioner>
+                    <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
+                </practitioner>
+                <organization>
+                    <reference value="Organization/Example-EU-Organization-Missing-Data"/>
+                </organization>
+                <code>
+                    <coding>
+                        <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                        <code value="2262"/>
+                        <display value="Pharmacists"/>
+                    </coding>
+                </code>
+            </PractitionerRole>
+        </resource>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_EU_CloseOperation_Input[GEM_ERP_PR_PAR_EU_CloseOperation_Input]
+
+
 |===
 
 ==== Response
