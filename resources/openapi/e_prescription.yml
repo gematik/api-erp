@@ -16,6 +16,8 @@ tags:
     description: Endpunkte zur Verwaltung von Zugriffscodes für das Einlösen im EU-Ausland.
   - name: Prescription Management
     description: Endpunkte zur Abfrage und Verarbeitung von E-Rezepten.
+  - name: Dispensation Management
+    description: Endpunkte zur Übermittlung und Abfrage von Dispensierinformationen aus dem EU-Ausland.
 
 paths:
   /Consent:
@@ -349,7 +351,7 @@ paths:
   /Task/{id}/$eu-close:
     post:
       tags:
-        - Prescription Management
+        - Dispensation Management
       summary: Übermitteln von Dispensierinformationen aus dem EU-Ausland
       description: Entgegennahme von FHIR-Ressourcen, die die Dispensierinformationen aus dem EU-Ausland enthalten.
       x-allowed-requester:
@@ -396,4 +398,72 @@ paths:
           description: Zu viele Anfragen.
         '500':
           description: Unerwarteter Serverfehler.
-
+  /MedicationDispense:
+    get:
+      tags:
+        - Dispensation Management
+      summary: Abfragen von Dispensierinformationen aus dem EU-Ausland
+      description: Abfrage von FHIR-Ressourcen, die die Dispensierinformationen aus dem EU-Ausland enthalten.
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+        - in: query
+          name: identifier
+          required: false
+          schema:
+            type: string
+          description: Angabe der Task-ID, um die Dispensierinformationen abzurufen, im Schema identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>.
+        - in: query
+          name: whenhandedover
+          required: false
+          schema:
+            type: string
+          description: Angabe der des Abgabedatums.
+        - in: query
+          name: whenprepared
+          required: false
+          schema:
+            type: string
+          description: Angabe der des Herstellungsdatums.
+        - in: query
+          name: performer
+          required: false
+          schema:
+            type: string
+          description: Angabe der Telematik-ID des Abgebenden.
+      responses:
+        '200':
+          description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          content:
+            application/fhir+json:
+              examples:
+                  only-eu-dispense:
+                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/08_response_get_single_medicationdispense.json'
+                  eu-and-rx-dispense:
+                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/09_response_get_multiple_medication_dispense.json'
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
