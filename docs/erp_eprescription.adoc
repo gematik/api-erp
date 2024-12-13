@@ -2572,6 +2572,284 @@ Content-Type: application/fhir+json (string)
   ],
   "entry": [
     {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "Example-MedicationDispense-EU",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.033.491.280.78"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "reference": "PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"
+            }
+          }
+        ],
+        "whenHandedOver": "2025-01-15",
+        "medicationReference": {
+          "reference": "Medication/SumatripanMedication"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sanches",
+            "given": [
+              "Pedro"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+          ]
+        },
+        "practitioner": {
+          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
+        },
+        "organization": {
+          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "code": "2262",
+                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
+                "display": "Pharmacists"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          },
+          {
+            "value": "136ad69f"
+          }
+        ],
+        "name": "Pharmacia de Santa Maria",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Rua da Alegria, 123"
+            ],
+            "city": "Lisbon",
+            "country": "Portugal",
+            "state": "Lisbon",
+            "postalCode": "1234-567"
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "SumatripanMedication",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20"
+              }
+            ],
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "ingredient": [
+          {
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg",
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              },
+              "denominator": {
+                "value": 1,
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              }
+            },
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB",
+              "display": "Tabletten"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
+}
+----
+====
+.Response Body (200) für eu-and-rx-dispense (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Bundle",
+  "id": "erp-eprescription-09-response-get-multiple-medication-dispense",
+  "type": "searchset",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 0,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?whenhandedover=ge2025-01-01&whenhandedover=le2025-01-31"
+    }
+  ],
+  "entry": [
+    {
       "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.02",
       "resource": {
         "resourceType": "MedicationDispense",
@@ -2817,284 +3095,6 @@ Content-Type: application/fhir+json (string)
       "resource": {
         "resourceType": "Medication",
         "id": "7c342123-ca23-4a98-a5c2-b2005ceece45",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
-          ]
-        },
-        "extension": [
-          {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
-            "valueCoding": {
-              "code": "00"
-            }
-          },
-          {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
-            "valueBoolean": false
-          },
-          {
-            "url": "http://fhir.de/StructureDefinition/normgroesse",
-            "valueCode": "N1"
-          }
-        ],
-        "amount": {
-          "numerator": {
-            "extension": [
-              {
-                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
-                "valueString": "20"
-              }
-            ],
-            "unit": "St"
-          },
-          "denominator": {
-            "value": 1
-          }
-        },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
-        "code": {
-          "coding": [
-            {
-              "code": "06313728",
-              "system": "http://fhir.de/CodeSystem/ifa/pzn"
-            }
-          ],
-          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
-        },
-        "form": {
-          "coding": [
-            {
-              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-              "code": "TAB",
-              "display": "Tabletten"
-            }
-          ]
-        }
-      },
-      "search": {
-        "mode": "include"
-      }
-    }
-  ]
-}
-----
-====
-.Response Body (200) für eu-and-rx-dispense (Klicken zum Ausklappen)
-[%collapsible]
-====
-[source,json]
-----
-{
-  "resourceType": "Bundle",
-  "id": "erp-eprescription-09-response-get-multiple-medication-dispense",
-  "type": "searchset",
-  "timestamp": "2025-01-15T15:29:00.434+00:00",
-  "total": 0,
-  "link": [
-    {
-      "relation": "self",
-      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=160.000.000.000.000.01"
-    }
-  ],
-  "entry": [
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
-      "resource": {
-        "resourceType": "MedicationDispense",
-        "id": "Example-MedicationDispense-EU",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
-          ]
-        },
-        "identifier": [
-          {
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.000.033.491.280.78"
-          }
-        ],
-        "status": "completed",
-        "subject": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
-          }
-        },
-        "performer": [
-          {
-            "actor": {
-              "reference": "PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"
-            }
-          }
-        ],
-        "whenHandedOver": "2025-01-15",
-        "medicationReference": {
-          "reference": "Medication/SumatripanMedication"
-        }
-      },
-      "search": {
-        "mode": "match"
-      }
-    },
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07",
-      "resource": {
-        "resourceType": "Practitioner",
-        "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
-          ]
-        },
-        "identifier": [
-          {
-            "value": "1234567890"
-          }
-        ],
-        "name": [
-          {
-            "family": "Sanches",
-            "given": [
-              "Pedro"
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "include"
-      }
-    },
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
-      "resource": {
-        "resourceType": "PractitionerRole",
-        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
-          ]
-        },
-        "practitioner": {
-          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
-        },
-        "organization": {
-          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
-        },
-        "code": [
-          {
-            "coding": [
-              {
-                "code": "2262",
-                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
-                "display": "Pharmacists"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "include"
-      }
-    },
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
-          ]
-        },
-        "identifier": [
-          {
-            "value": "1234567890"
-          },
-          {
-            "value": "136ad69f"
-          }
-        ],
-        "name": "Pharmacia de Santa Maria",
-        "type": [
-          {
-            "coding": [
-              {
-                "code": "1.2.276.0.76.4.54",
-                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
-                "display": "Öffentliche Apotheke"
-              }
-            ]
-          }
-        ],
-        "address": [
-          {
-            "line": [
-              "Rua da Alegria, 123"
-            ],
-            "city": "Lisbon",
-            "country": "Portugal",
-            "state": "Lisbon",
-            "postalCode": "1234-567"
-          }
-        ]
-      },
-      "search": {
-        "mode": "include"
-      }
-    },
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
-      "resource": {
-        "resourceType": "Medication",
-        "id": "SumatripanMedication",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
