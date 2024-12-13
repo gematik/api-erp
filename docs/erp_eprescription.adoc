@@ -105,7 +105,6 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 
 
 |===
-NOTE: Beim Request ist auf folgendes zu achten
 
 ==== Response
 
@@ -209,7 +208,6 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [small]#Unerwarteter Serverfehler.#
 
 |===
-NOTE: Und das gilt für die Response
 
 === Zustimmung widerrufen
 
@@ -2542,6 +2540,8 @@ performer: Angabe der Telematik-ID des Abgebenden.
 ¦Payload    ¦
 No request body.
 |===
+
+NOTE: Für den Request muss der Client keinen _include Query-Parameter setzen, dieser wird vom Server automatisch angenommen. Damit werden immer alle referenzierten Objekte mit ausgeliefert.
 
 ==== Response
 

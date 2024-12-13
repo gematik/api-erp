@@ -19,10 +19,8 @@ toc::[]
 Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
 
 include::../resources/openapi-adoc/e_prescription/Consent_POST_Request.adoc[]
-NOTE: Beim Request ist auf folgendes zu achten
 
 include::../resources/openapi-adoc/e_prescription/Consent_POST_Response.adoc[]
-NOTE: Und das gilt für die Response
 
 === Zustimmung widerrufen
 
@@ -93,5 +91,7 @@ include::../resources/openapi-adoc/e_prescription/Task_id_$eu-close_POST_Respons
 Als Versicherter möchte ich die Abgabeinformationen zu einem E-Rezept abrufen, damit ich die Abgabeinformationen einsehen kann.
 
 include::../resources/openapi-adoc/e_prescription/MedicationDispense_GET_Request.adoc[]
+
+NOTE: Für den Request muss der Client keinen _include Query-Parameter setzen, dieser wird vom Server automatisch angenommen. Damit werden immer alle referenzierten Objekte mit ausgeliefert.
 
 include::../resources/openapi-adoc/e_prescription/MedicationDispense_GET_Response.adoc[]
