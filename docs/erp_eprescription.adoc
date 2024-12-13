@@ -1980,7 +1980,7 @@ Authorization: Bearer <JWT> (string, required)
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                        <value value="160.000.033.491.280.78"/>
+                        <value value="160.000.000.000.000.01"/>
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
@@ -2233,7 +2233,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
-                        <value value="160.000.033.491.280.78"/>
+                        <value value="160.000.000.000.000.01"/>
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
@@ -2584,7 +2584,7 @@ Content-Type: application/fhir+json (string)
         "identifier": [
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.000.033.491.280.78"
+            "value": "160.000.000.000.000.01"
           }
         ],
         "status": "completed",
@@ -2850,19 +2850,19 @@ Content-Type: application/fhir+json (string)
   ],
   "entry": [
     {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.02",
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
       "resource": {
         "resourceType": "MedicationDispense",
-        "id": "200.000.000.000.000.01",
+        "id": "Example-MedicationDispense-EU",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
           ]
         },
         "identifier": [
           {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "200.000.000.000.000.01"
+            "value": "160.000.000.000.000.01"
           }
         ],
         "status": "completed",
@@ -2875,26 +2875,13 @@ Content-Type: application/fhir+json (string)
         "performer": [
           {
             "actor": {
-              "identifier": {
-                "system": "https://gematik.de/fhir/sid/telematik-id",
-                "value": "3-2-APO-XanthippeVeilchenblau01"
-              }
+              "reference": "PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"
             }
           }
         ],
-        "dosageInstruction": [
-          {
-            "text": "1-0-1-0"
-          }
-        ],
         "whenHandedOver": "2025-01-15",
-        "quantity": {
-          "value": 1,
-          "code": "{Package}",
-          "system": "http://unitsofmeasure.org"
-        },
         "medicationReference": {
-          "reference": "Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3"
+          "reference": "Medication/SumatripanMedication"
         }
       },
       "search": {
@@ -2902,10 +2889,116 @@ Content-Type: application/fhir+json (string)
       }
     },
     {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sanches",
+            "given": [
+              "Pedro"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+          ]
+        },
+        "practitioner": {
+          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
+        },
+        "organization": {
+          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "code": "2262",
+                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
+                "display": "Pharmacists"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          },
+          {
+            "value": "136ad69f"
+          }
+        ],
+        "name": "Pharmacia de Santa Maria",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Rua da Alegria, 123"
+            ],
+            "city": "Lisbon",
+            "country": "Portugal",
+            "state": "Lisbon",
+            "postalCode": "1234-567"
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
       "resource": {
         "resourceType": "Medication",
-        "id": "e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+        "id": "7c342123-ca23-4a98-a5c2-b2005ceece45",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
@@ -3013,88 +3106,62 @@ Content-Type: application/fhir+json (string)
       }
     },
     {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.02",
       "resource": {
-        "resourceType": "PractitionerRole",
-        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
+        "resourceType": "MedicationDispense",
+        "id": "160.000.000.000.000.02",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
-          ]
-        },
-        "practitioner": {
-          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
-        },
-        "organization": {
-          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
-        },
-        "code": [
-          {
-            "coding": [
-              {
-                "code": "2262",
-                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
-                "display": "Pharmacists"
-              }
-            ]
-          }
-        ]
-      },
-      "search": {
-        "mode": "include"
-      }
-    },
-    {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
-      "resource": {
-        "resourceType": "Organization",
-        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
           ]
         },
         "identifier": [
           {
-            "value": "1234567890"
-          },
-          {
-            "value": "136ad69f"
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
           }
         ],
-        "name": "Pharmacia de Santa Maria",
-        "type": [
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
           {
-            "coding": [
-              {
-                "code": "1.2.276.0.76.4.54",
-                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
-                "display": "Öffentliche Apotheke"
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
               }
-            ]
+            }
           }
         ],
-        "address": [
+        "dosageInstruction": [
           {
-            "line": [
-              "Rua da Alegria, 123"
-            ],
-            "city": "Lisbon",
-            "country": "Portugal",
-            "state": "Lisbon",
-            "postalCode": "1234-567"
+            "text": "1-0-1-0"
           }
-        ]
+        ],
+        "whenHandedOver": "2025-01-15",
+        "quantity": {
+          "value": 1,
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
+        },
+        "medicationReference": {
+          "reference": "Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3"
+        }
       },
       "search": {
-        "mode": "include"
+        "mode": "match"
       }
     },
     {
-      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
       "resource": {
         "resourceType": "Medication",
-        "id": "7c342123-ca23-4a98-a5c2-b2005ceece45",
+        "id": "e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
