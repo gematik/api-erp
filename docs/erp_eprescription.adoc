@@ -199,7 +199,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
 
 ¦409 ¦ Client Error +
-[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.#
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung für diese Kategorie vorhanden ist.#
 
 ¦429 ¦ Client Error +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
@@ -226,7 +226,7 @@ Authorization: Bearer <JWT> (string, required)
 ----
 ¦Query Parameters ¦
 ----
-category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'.
+category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'. (required)
 ----
 ¦Payload    ¦
 No request body.
@@ -258,10 +258,10 @@ No response body.
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 
 ¦404 ¦ Client Error +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.#
 
 ¦405 ¦ Client Error +
-[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+[small]#Angabe der Category fehlt, oder die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 
 ¦429 ¦ Client Error +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
@@ -387,7 +387,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 
 ¦404 ¦ Client Error +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.#
 
 ¦405 ¦ Client Error +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
@@ -521,9 +521,6 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ¦403 ¦ Client Error +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
 
-¦404 ¦ Client Error +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
-
 ¦405 ¦ Client Error +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
 
@@ -654,9 +651,6 @@ No response body.
 
 ¦403 ¦ Client Error +
 [small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
-
-¦404 ¦ Client Error +
-[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
 
 ¦405 ¦ Client Error +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
@@ -1929,9 +1923,6 @@ Content-Type: application/fhir+xml (string)
 
 ¦408 ¦ Client Error +
 [small]#Zeitüberschreitung der Anfrage.#
-
-¦429 ¦ Client Error +
-[small]#Zu viele Anfragen.#
 
 ¦500 ¦ Server Error +
 [small]#Unerwarteter Serverfehler.#

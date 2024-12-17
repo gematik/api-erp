@@ -75,7 +75,7 @@ paths:
         '408':
           description: Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.
         '409':
-          description: Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung mit der Kategorie Consent.category.coding.code = CHARGCONS vorhanden ist.
+          description: Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung für diese Kategorie vorhanden ist.
         '429':
           description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
         '500':
@@ -98,6 +98,7 @@ paths:
           description: Bearer-Token zur Authentifizierung.
         - in: query
           name: category
+          required: true
           schema:
             type: string
           description: "Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'."
@@ -111,9 +112,9 @@ paths:
         '403':
           description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
         '404':
-          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.
         '405':
-          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          description: Angabe der Category fehlt, oder die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
         '429':
           description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
         '500':
@@ -156,7 +157,7 @@ paths:
         '403':
           description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
         '404':
-          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.
         '405':
           description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
         '429':
@@ -210,8 +211,6 @@ paths:
           description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
         '403':
           description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
-        '404':
-          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
         '405':
           description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
         '429':
@@ -278,8 +277,6 @@ paths:
           description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
         '403':
           description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
-        '404':
-          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
         '405':
           description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
         '429':
@@ -343,8 +340,6 @@ paths:
           description: Keine Ergebnisse gefunden.
         '408':
           description: Zeitüberschreitung der Anfrage.
-        '429':
-          description: Zu viele Anfragen.
         '500':
           description: Unerwarteter Serverfehler.
 
