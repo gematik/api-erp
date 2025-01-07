@@ -1,0 +1,35 @@
+= Status zum Mapping der Medications am E-Rezept-Fachdienst image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+
+Hier dokumentiert die gematik welche Arten von Medications der E-Rezept-Fachdienst aktuell mappen und in die ePA einstellen kann.
+
+toc::[]
+
+== Motivation
+
+Aktuell befindet sich der Exporter des E-Rezept-Fachdienstes in der Entwicklung. Die gematik hat eine Mappingtabelle erstellt, die aufzeigt welche Medications der E-Rezept-Fachdienst aktuell mappen kann. Diese Tabelle wird regelmäßig aktualisiert und erweitert.
+
+Falls es Hinweise dazu gibt, das konkrete Fälle fehlen, bzw. nicht berücksichtigt wurden, erstellen Sie bitte einen [Issue auf GitHub](https://github.com/gematik/api-erp/issues).
+
+== Übersicht des Mapping-Status
+
+=== Verordnungen
+
+[cols="h,a, a, a", separator=¦]
+[%autowidth]
+|===
+¦ Verordnungstyp ¦ Mapping-Status ¦ Beispiel ¦ Kommentar
+
+¦ KBV_PR_ERP_Medication_PZN ¦ :heavy_check_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_PZN (Kombipackung) ¦ :heavy_cross_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_Ingredient ¦ :heavy_check_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_FreeText ¦ :heavy_check_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN) ¦ :heavy_check_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_Compounding (mit PZN) ¦ :heavy_cross_mark: ¦ Input, Output ¦
+
+|===
+
+
+
+
+=== Abgaben
