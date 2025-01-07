@@ -11,33 +11,32 @@ Aktuell befindet sich der Exporter des E-Rezept-Fachdienstes in der Entwicklung.
 
 Falls es Hinweise dazu gibt, das konkrete Fälle fehlen, bzw. nicht berücksichtigt wurden, erstellen Sie bitte einen [Issue auf GitHub](https://github.com/gematik/api-erp/issues).
 
+Legende zum Mapping-Status:
 ****
-* :heavy_check_mark: Aktuell verfügbar
-* :x: Aktuell nicht verfügbar
-* :question: Unklar
-* :information_source: optional/freiwillig
-* :bulb: Hinweis
+* :white_check_mark: Aktuell verfügbar
+* :x: Aktuell nicht verfügbar. Der erzeugte Datensatz ist nicht FHIR-Valide und wird damit nicht in die eML übertragen.
 ****
 
 == Übersicht des Mapping-Status
 
 === Verordnungen
 
-[cols="h,a, a, a", separator=¦]
+[cols="h,a,a,a", separator=¦]
 [%autowidth]
 |===
 ¦ Verordnungstyp ¦ Mapping-Status ¦ Beispiel ¦ Kommentar
 
-¦ KBV_PR_ERP_Medication_PZN ¦ :white_check_mark: ¦ Input, Output ¦
-¦ KBV_PR_ERP_Medication_PZN (Kombipackung) ¦ :heavy_cross_mark: ¦ Input, Output ¦
-¦ KBV_PR_ERP_Medication_Ingredient ¦ :white_check_mark: ¦ Input, Output ¦
-¦ KBV_PR_ERP_Medication_FreeText ¦ :white_check_mark: ¦ Input, Output ¦
-¦ KBV_PR_ERP_Medication_Compounding (ohne PZN) ¦ :white_check_mark: ¦ Input, Output ¦
-¦ KBV_PR_ERP_Medication_Compounding (mit PZN) ¦ :heavy_cross_mark: ¦ Input, Output ¦
+¦ KBV_PR_ERP_Medication_PZN ¦ :white_check_mark: ¦ Input, Output ¦ -
+¦ KBV_PR_ERP_Medication_PZN (Kombipackung) ¦ :x: ¦ Input, Output ¦ -
+¦ KBV_PR_ERP_Medication_Ingredient ¦ :white_check_mark: ¦ Input, Output ¦ -
+¦ KBV_PR_ERP_Medication_FreeText ¦ :white_check_mark: ¦ Input, Output ¦ - 
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN) ¦ :white_check_mark: ¦ Input, Output ¦ -
+¦ KBV_PR_ERP_Medication_Compounding (mit PZN) ¦ :x: ¦ Input, Output ¦ -
 
 |===
 
-:white_check_mark:
-
-
 === Abgaben
+
+Da Medications in der Abgabe von den Profilen mit Workflow Version 1.4 der ePA abgeleitet wurden, sind diese Medications bereits mit der ePA kompatibel. Der E-Rezept-Fachdienst kann diese Medications daher auch in die ePA einstellen und muss diese nicht mappen.
+
+Für Abgebaben mit Workflow Version <1.4 gelten die selben Mapping Status wie für Verordnungen.
