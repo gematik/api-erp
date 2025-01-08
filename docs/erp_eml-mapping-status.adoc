@@ -30,9 +30,11 @@ Aktuell befindet sich der Exporter des E-Rezept-Fachdienstes in der Entwicklung.
 
 Falls es Hinweise dazu gibt, das konkrete Fälle fehlen, bzw. nicht berücksichtigt wurden, erstellen Sie bitte einen [Issue auf GitHub](https://github.com/gematik/api-erp/issues).
 
+Inhalte der Releases des E-Rezept-Fachdienst können auf link:https://wiki.gematik.de/display/RUAAS/eRP+FD+Release+Notes[RUUAS] nachgesehen werden.
+
 Legende zum Mapping-Status:
 ****
-* :white_check_mark: Aktuell verfügbar
+* :white_check_mark: Entwickelt und ab entsprechendem Release verfügbar
 * :x: Aktuell nicht verfügbar. Der erzeugte Datensatz ist nicht FHIR-Valide und wird damit nicht in die eML übertragen.
 ****
 
@@ -43,7 +45,7 @@ Legende zum Mapping-Status:
 [cols="<h,^2,4,3", separator=¦]
 [%autowidth]
 |===
-¦ Verordnungstyp ¦ Mapping-Status ¦ Beispiele ¦ FD-Release
+¦ Verordnungstyp ¦ Status ¦ Beispiele ¦ FD-Release
 
 ¦ KBV_PR_ERP_Medication_PZN ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/19_verordnung_pzn.xml[Input], +
 link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/20_verordnung_pzn_Mapped.json[Output to eML]
@@ -64,17 +66,23 @@ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-
 
 4+¦ Rezepturen
 
-¦ KBV_PR_ERP_Medication_Compounding (ohne PZN) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/17_ibm_medication_compounding_text.xml[Input], +
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN, strukturierte Wirkstärke) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/17_ibm_medication_compounding_text.xml[Input], +
 link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/18_ibm_medication_compounding_text_Mapped.json[Output to eML]
 ¦ 1.16.0-1
 
-¦ KBV_PR_ERP_Medication_Compounding (mit PZN) ¦ :x: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/11_ibm_medication_compounding.xml[Input], +
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN, Wirkstärke als Freitext) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/21_ibm_medication_compounding_text_amount.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/22_ibm_medication_compounding_txt_amnt_Mapped.json[Output to eML]
+¦ 1.16.0-11
+
+¦ KBV_PR_ERP_Medication_Compounding (mit PZN, strukturierte Wirkstärke) ¦ :x: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/11_ibm_medication_compounding.xml[Input], +
 link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/12_ibm_medication_compounding_Mapped.json[Output to eML]
 ¦ 1.16.0-10
 
 ¦ KBV_PR_ERP_Medication_Compounding (mit PZN, Wirkstärke als Freitext) ¦ :x: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/13_ibm_medication_compounding_amount.xml[Input], +
 link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/14_ibm_medication_compounding_amount_Mapped.json[Output to eML]
 ¦ 1.16.0-11
+
+
 
 |===
 
