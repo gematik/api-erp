@@ -29,6 +29,8 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 ## Aktuelles
 Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 
+[Aktueller Status des E-Rezept-Fachdienst Exporters](docs/erp_eml-mapping-status.adoc)
+
 [E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
 
 
