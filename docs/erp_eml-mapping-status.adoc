@@ -1,0 +1,93 @@
+= Status zum Mapping der Medications am E-Rezept-Fachdienst image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
+Hier dokumentiert die gematik welche Arten von Medications der E-Rezept-Fachdienst aktuell mappen und in die ePA einstellen kann.
+
+toc::[]
+
+== Motivation
+
+Aktuell befindet sich der Exporter des E-Rezept-Fachdienstes in der Entwicklung. Die gematik hat eine Mappingtabelle erstellt, die aufzeigt welche Medications der E-Rezept-Fachdienst aktuell mappen kann. Diese Tabelle wird regelmäßig aktualisiert und erweitert.
+
+Falls es Hinweise dazu gibt, das konkrete Fälle fehlen, bzw. nicht berücksichtigt wurden, erstellen Sie bitte einen [Issue auf GitHub](https://github.com/gematik/api-erp/issues).
+
+Inhalte der Releases des E-Rezept-Fachdienst können auf link:https://wiki.gematik.de/display/RUAAS/eRP+FD+Release+Notes[RUUAS] nachgesehen werden.
+
+Legende zum Mapping-Status:
+****
+* :white_check_mark: Entwickelt und ab entsprechendem Release verfügbar
+* :x: Aktuell nicht verfügbar. Der erzeugte Datensatz ist nicht FHIR-Valide und wird damit nicht in die eML übertragen.
+****
+
+== Übersicht des Mapping-Status
+
+=== Verordnungen
+
+[cols="<h,^2,4,3", separator=¦]
+[%autowidth]
+|===
+¦ Verordnungstyp ¦ Status ¦ Beispiele ¦ FD-Release
+
+¦ KBV_PR_ERP_Medication_PZN ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/19_verordnung_pzn.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/20_verordnung_pzn_Mapped.json[Output to eML]
+¦ 1.16.0-1
+
+¦ KBV_PR_ERP_Medication_PZN (Kombipackung) ¦ :x: ¦
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/15_KPGVerordnung_PZN.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/16_KPGVerordnung_PZN_Mapped.json[Output to eML]
+¦ 1.16.0-11
+
+¦ KBV_PR_ERP_Medication_Ingredient ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/07_verordnung_wirkstoff.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/08_verordnung_wirkstoff_Mapped.json[Output to eML]
+¦ 1.16.0-1
+
+¦ KBV_PR_ERP_Medication_FreeText ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/09_verordnung_freitext.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/10_verordnung_freitext_Mapped.json[Output to eML]
+¦ 1.16.0-1
+
+4+¦ Rezepturen
+
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN, strukturierte Wirkstärke) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/17_ibm_medication_compounding_text.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/18_ibm_medication_compounding_text_Mapped.json[Output to eML]
+¦ 1.16.0-1
+
+¦ KBV_PR_ERP_Medication_Compounding (ohne PZN, Wirkstärke als Freitext) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/21_ibm_medication_compounding_text_amount.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/22_ibm_medication_compounding_txt_amnt_Mapped.json[Output to eML]
+¦ 1.16.0-11
+
+¦ KBV_PR_ERP_Medication_Compounding (mit PZN, strukturierte Wirkstärke) ¦ :white_check_mark: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/11_ibm_medication_compounding.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/12_ibm_medication_compounding_Mapped.json[Output to eML]
+¦ 1.16.0-10
+
+¦ KBV_PR_ERP_Medication_Compounding (mit PZN, Wirkstärke als Freitext) ¦ :x: ¦ link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/13_ibm_medication_compounding_amount.xml[Input], +
+link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_eml-epa-notes/14_ibm_medication_compounding_amount_Mapped.json[Output to eML]
+¦ 1.16.0-11
+
+|===
+
+Stand: 2025-01-08
+
+=== Abgaben
+
+Da Medications in der Abgabe von den Profilen mit Workflow Version 1.4 der ePA abgeleitet wurden, sind diese Medications bereits mit der ePA kompatibel. Der E-Rezept-Fachdienst kann diese Medications daher auch in die ePA einstellen und muss diese nicht mappen.
+
+Für Abgebaben mit Workflow Version <1.4 gelten die selben Mapping Status wie für Verordnungen.
