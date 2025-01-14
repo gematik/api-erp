@@ -275,6 +275,7 @@ Folgende Bildungsvorschrift gilt für den hcv:
 5. Setzen des MSB (Most Significant Bit) im ersten Byte auf 0.
 
 Das Ergebnis ist der hcv.
+
 ^1^ Das XML-Schema ist hier dokumentiert: https://github.com/gematik/api-telematik/blob/OPB5/fa/vsds/Schema_VSD.xsd
 
 Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/pop-egk-vsdm/src/master/encrypted_vsdmplus/
@@ -302,7 +303,7 @@ hcv aus diesem Beispiel ist `10be65f365`
 
 === Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3)
 
-Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
+Bei Störingen in der TI kann es dazu kommen, dass der Prüfungsnachweis den Fehlercode "3" enthält. In Ausnahmefällen kann der E-Rezept-Fachdienst so konfiguriert werden, dass er Anfragen mit diesem Fehlercode akzeptiert.
 
 .Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
 [%collapsible]
