@@ -12,41 +12,6 @@ Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK 
 
 **NEU:** Das PS muss auch den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Der hcv wurde im VSDM Fachdienst erstellt und ist kryptographisch in den PNW eingebettet. Zur Sicherstellung, dass eine eGK auch in der Apotheke ist, muss das AVS diesen ebenfalls erzeugen und als URL Parameter an den E-Rezept-Fachdienst übergeben.
 
-.**Beispiel zum Erzeugen des hcv** (Klicken zum Ausklappen)
-[%collapsible]
-====
-Folgende Bildungsvorschrift gilt für den hcv:
-1. Ermitteln des Versicherungsbeginns (VB) aus den Versicherungsdaten der eGK (UC_AllgemeineVersicherungsdatenXML.Versicherter.Versicherungsschutz.Beginn)^1^. Alle Leerzeichen MÜSSEN entfernt werden. 
-2. Ermitteln der StrassenAdresse aus den Versicherungsdaten der eGK (UC_PersoenlicheVersichertendatenXML.Versicherter.Person.StrassenAdresse.Strasse)^1^. Falls das Element nicht vorhanden ist würd ein Leerstring verwendet (""). Führende und endende Leerzeichen MÜSSEN entfernt werden.
-3. Bildung des SHA256 aus der Konkatenation (ohne Leerzeichen) von VB und StrassenAdresse (SHA256(VB + StrassenAdresse))
-4. Extrahieren der ersten 5 Bytes (40 Bit)
-5. Setzen des MSB (Most Significant Bit) im ersten Byte auf 0.
-
-Das Ergebnis ist der hcv.
-Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/pop-egk-vsdm/src/master/encrypted_vsdmplus/
-
-Python Code zum Erzeugen eines hcv:
-[source,python]
-----
-VB='2018-01-11T07:00:00'
-SAS='Beispielstrasse'
-
-def gen_H_40_0(VB: str, SAS: str)->bytes:
-    # Hinweis für Nicht-Python-Entwickler:
-    # encode() transformiert einen string in eine Bytefolge
-    H = hashlib.sha256(VB.encode() + SAS.encode()).digest(); assert len(H) == 32
-    H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
-    H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
-
-    return H_40_0
-
-hcv = gen_H_40_0(VB, SAS)
-----
-hcv aus diesem Beispiel ist `10be65f365`
-
-^1^ Das XML-Schema ist hier dokumentiert: https://github.com/gematik/api-telematik/blob/OPB5/fa/vsds/Schema_VSD.xsd
-====
-
 Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) URL-codiert im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
@@ -122,11 +87,16 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 
 |===
 
-*Response*
+*Response (Secunet)*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen_egk/04_ReadVSD_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen_egk/04_03_ReadVSD_Response_Secunet.xml[]
 ----
+
+Weitere Beispiele von ReadVSD Responses:
+
+* link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_01_ReadVSD_Response_KOCO.xml[Response Koco-Box Konnektor]
+* link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_02_ReadVSD_Response_Rise.xml[Response Rise Konnektor]
 
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
@@ -160,6 +130,43 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
 Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend und URL-codiert zu übergeben.
+
+.**Beispiel zum Erzeugen des hcv** (Klicken zum Ausklappen)
+[%collapsible]
+====
+Folgende Bildungsvorschrift gilt für den hcv:
+
+1. Ermitteln des Versicherungsbeginns (VB) aus den Versicherungsdaten der eGK (UC_AllgemeineVersicherungsdatenXML.Versicherter.Versicherungsschutz.Beginn)^1^. Alle Leerzeichen MÜSSEN entfernt werden. 
+2. Ermitteln der StrassenAdresse aus den Versicherungsdaten der eGK (UC_PersoenlicheVersichertendatenXML.Versicherter.Person.StrassenAdresse.Strasse)^1^. Falls das Element nicht vorhanden ist würd ein Leerstring verwendet (""). Führende und endende Leerzeichen MÜSSEN entfernt werden.
+3. Bildung des SHA256 aus der Konkatenation (ohne Leerzeichen) von VB und StrassenAdresse (SHA256(VB + StrassenAdresse))
+4. Extrahieren der ersten 5 Bytes (40 Bit)
+5. Setzen des MSB (Most Significant Bit) im ersten Byte auf 0.
+
+Das Ergebnis ist der hcv.
+^1^ Das XML-Schema ist hier dokumentiert: https://github.com/gematik/api-telematik/blob/OPB5/fa/vsds/Schema_VSD.xsd
+
+Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/pop-egk-vsdm/src/master/encrypted_vsdmplus/
+
+Python Code zum Erzeugen eines hcv:
+[source,python]
+----
+VB='2018-01-11T07:00:00'
+SAS='Beispielstrasse'
+
+def gen_H_40_0(VB: str, SAS: str)->bytes:
+    # Hinweis für Nicht-Python-Entwickler:
+    # encode() transformiert einen string in eine Bytefolge
+    H = hashlib.sha256(VB.encode() + SAS.encode()).digest(); assert len(H) == 32
+    H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
+    H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
+
+    return H_40_0
+
+hcv = gen_H_40_0(VB, SAS)
+----
+hcv aus diesem Beispiel ist `10be65f365`
+
+====
 
 === Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3)
 
