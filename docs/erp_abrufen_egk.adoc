@@ -29,7 +29,44 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-Die Apotheke übermittelt den Prüfungsnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+**NEU:** Das PS muss auch den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Der hcv wurde im VSDM Fachdienst erstellt und ist kryptographisch in den PNW eingebettet. Zur Sicherstellung, dass eine eGK auch in der Apotheke ist, muss das AVS diesen ebenfalls erzeugen und als URL Parameter an den E-Rezept-Fachdienst übergeben.
+
+.**Beispiel zum Erzeugen des hcv** (Klicken zum Ausklappen)
+[%collapsible]
+====
+Folgende Bildungsvorschrift gilt für den hcv:
+1. Ermitteln des Versicherungsbeginns (VB) aus den Versicherungsdaten der eGK (UC_AllgemeineVersicherungsdatenXML.Versicherter.Versicherungsschutz.Beginn)^1^. Alle Leerzeichen MÜSSEN entfernt werden.
+2. Ermitteln der StrassenAdresse aus den Versicherungsdaten der eGK (UC_PersoenlicheVersichertendatenXML.Versicherter.Person.StrassenAdresse.Strasse)^1^. Falls das Element nicht vorhanden ist würd ein Leerstring verwendet (""). Führende und endende Leerzeichen MÜSSEN entfernt werden.
+3. Bildung des SHA256 aus der Konkatenation (ohne Leerzeichen) von VB und StrassenAdresse (SHA256(VB + StrassenAdresse))
+4. Extrahieren der ersten 5 Bytes (40 Bit)
+5. Setzen des MSB (Most Significant Bit) im ersten Byte auf 0.
+
+Das Ergebnis ist der hcv.
+Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/pop-egk-vsdm/src/master/encrypted_vsdmplus/
+
+Python Code zum Erzeugen eines hcv:
+[source,python]
+----
+VB='2018-01-11T07:00:00'
+SAS='Beispielstrasse'
+
+def gen_H_40_0(VB: str, SAS: str)->bytes:
+    # Hinweis für Nicht-Python-Entwickler:
+    # encode() transformiert einen string in eine Bytefolge
+    H = hashlib.sha256(VB.encode() + SAS.encode()).digest(); assert len(H) == 32
+    H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
+    H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
+
+    return H_40_0
+
+hcv = gen_H_40_0(VB, SAS)
+----
+hcv aus diesem Beispiel ist `10be65f365`
+
+^1^ Das XML-Schema ist hier dokumentiert: https://github.com/gematik/api-telematik/blob/OPB5/fa/vsds/Schema_VSD.xsd
+====
+
+Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) URL-codiert im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
@@ -230,7 +267,8 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
-NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUkxUzIwN3JNQkQ4bGNqdmRKTklLUzNhR0FIbFVvbFFkQ3A2ZUt0TXNqUVJqb05zcDBCL2xnOUEvQU9iSGlqdEVRKzgySm54N002T05uajRYT3RnU2RaVmpVbEYxQXRGUUNadmlzb3NVakdlVHZZR2cyUzRGeVVpY0Y2WlF1bkdVQ3BleUlsRGlUY244MnN1YmNqb0tpOXAxclhoMjNwaUpSKzMyV1Z3TXNybXM5TS8wL0hrS2hWSkwrNGMyTk80VkpUZVB4NEFQTG5lZ21ybHE0ZGVRWEN2WU9tS3VqdGd5WG9oY2F1djNVRm1QaDdKMnlnS2swRVk5aE9FLzk5d1BaNlJlRTUzcmZXT3AycHJHUTM3VVRpTTl4RjJhSncxMXFpYTVKR21aODVLTnNpNG1TSWRaTXJtcExuL3B3S3ZWRjZ1djQ3ZjNxMnVERm1FRGNkdUxpODE1YVdYV1dleVFWeFhrM0dyMWltL2ttZVdLcDUxWGJwRjQ5UmI1UnlabzhJUzM1eWljVjVUNVZlcTFETHVSM0dNc01QaHhIbzUwUVVaenJOQTZDQmVjZ2FKZjV2U09KWnBSVjBrWGkzSkVjSlBOTUsva2s5L3lXaEJRWWRlQ2VHTHhRdlZPdFBXTlM5alAwVFlnaHZSOStqd3RRSFkzU0w4NHQrUkgvTEN1eU9lQWdBQQ[siehe decodiertes Beispiel^] +
+NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` und den Straßennamen im Attribut `Strasse` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUkxUzIwN3JNQkQ4bGNqdmRKTklLUzNhR0FIbFVvbFFkQ3A2ZUt0TXNqUVJqb05zcDBCL2xnOUEvQU9iSGlqdEVRKzgySm54N002T05uajRYT3RnU2RaVmpVbEYxQXRGUUNadmlzb3NVakdlVHZZR2cyUzRGeVVpY0Y2WlF1bkdVQ3BleUlsRGlUY244MnN1YmNqb0tpOXAxclhoMjNwaUpSKzMyV1Z3TXNybXM5TS8wL0hrS2hWSkwrNGMyTk80VkpUZVB4NEFQTG5lZ21ybHE0ZGVRWEN2WU9tS3VqdGd5WG9oY2F1djNVRm1QaDdKMnlnS2swRVk5aE9FLzk5d1BaNlJlRTUzcmZXT3AycHJHUTM3VVRpTTl4RjJhSncxMXFpYTVKR21aODVLTnNpNG1TSWRaTXJtcExuL3B3S3ZWRjZ1djQ3ZjNxMnVERm1FRGNkdUxpODE1YVdYV1dleVFWeFhrM0dyMWltL2ttZVdLcDUxWGJwRjQ5UmI1UnlabzhJUzM1eWljVjVUNVZlcTFETHVSM0dNc01QaHhIbzUwUVVaenJOQTZDQmVjZ2FKZjV2U09KWnBSVjBrWGkzSkVjSlBOTUsva2s5L3lXaEJRWWRlQ2VHTHhRdlZPdFBXTlM5alAwVFlnaHZSOStqd3RRSFkzU0w4NHQrUkgvTEN1eU9lQWdBQQ[siehe decodiertes Beispiel^] +
+`<ns6:AllgemeineVersicherungsdaten>` enhält den Versicherungsbeginn im Attribut `Beginn` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUwxU1cyK0NNQlQrSzRSM09ZQ2lzcFFhcDh0aW5Mck16QzE3SVIwY2dRaGxhYXRiL1BVcmhpeGdqTnZUWHRxY3kzZHB6eUdqcnlJM0RpaGtWdkxBZEN6Yk5KQkhaWnp4SkRCbjYxVm5PUFQ4anVPWkkwcWVKK0U0enhNc01PTzRxVEJSaW1MUEV4a3poZngxOFdCb05pNERNMVhxNHdiZ1UxcTZtNmxzWjhVSVd3WUhHUmZWQVFmUGNrMWpNbDJFbTd1bjlXeTFERXlkMGVxVS9CQXJGSTJva3BGUnVsZEhTbTR4eVRpbnJ1MjZkdGZ0RWFnVFpGNUtiVVFKaGtrRmJvVTc1RnlUVU4vM3ZmNWc2TnNFTHRiYnFKd2hqMUhvSDBFNlBVTTBhMlRKQ3FUMWE0M0ZYcmVKSFpNU25mdjVoc0NwU3NidkFxT1VuMUIvcytvTXVqMnYzLzkvcTNERks1ekhGNGYwdHBkTUhUTytMV1VyMENLdElYTW1GTzAyU09wVUV4UFdialIvZU1LL3JCNnBNeUJRM1FTdWRjSzVOTFNNUVh2ZDRQY2RwOStOQ3Q1QU5BTUFBQT09[siehe decodiertes Beispiel^] +
 `<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUIyTjNVNkRNQUJHWDRYMDFraGJDTTZZdHNzaU5mNVJSRmlYZUdQQWRnaGJDMXBrNHRQYjdPYTdPTWwzRGxuL21tTXc2Mi9YRFpZQ0hDSVFhUHN4cU02MkZHeXJ1OHRyRUxpcHRxbytEbFpUc0dnSDFveThpTUFmcmFQZ2M1ckdHd2hQTG15MXFhZnVFQ29OOXpXY25USnd0Q2M0bjZXM2FmWXUrV3Y1a0l0enhqTkdxcEpGS0lwUmdxL1FDc1Y0UmFCSGhMT0lRTzRqYjB5bUd5UjZqcksrU1BLS1IzbGFMRm0vd1htbHBFenZIeStLN1YrNzJ6WDc4cWtaWGFLYlJmQXZZdzVLUHNmNEo2TUVlb2tmd2Y0Qmw0TmVvK29BQUFBPQ[siehe decodiertes Beispiel^]
 
 NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
@@ -258,13 +296,11 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 
 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
-Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab.
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend und URL-codiert zu übergeben.
 
-=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3) und der Angabe von `kvnr`
+=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3)
 
 Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
-
-Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
 
 .Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
 [%collapsible]
@@ -278,7 +314,7 @@ image:puml_pn3_decision_tree.png[width=100%]
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&hcv=10be65f365&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
 
 CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
