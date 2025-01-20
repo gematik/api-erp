@@ -29,7 +29,7 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-**NEU:** Das PS muss auch den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Der hcv wurde im VSDM Fachdienst erstellt und ist kryptographisch in den PNW eingebettet. Zur Sicherstellung, dass eine eGK auch in der Apotheke ist, muss das AVS diesen ebenfalls erzeugen und als URL Parameter an den E-Rezept-Fachdienst übergeben.
+**NEU:** Zur Sicherstellung, dass die physische eGK im Zugriff der Apotheke ist, muss das AVS die KVNR ermitteln, sowie den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Beide Werte werden als URL Parameter an den E-Rezept-Fachdienst für den Abruf übergeben.
 
 Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) URL-codiert im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
