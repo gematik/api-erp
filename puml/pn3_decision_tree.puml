@@ -1,36 +1,55 @@
 @startuml
-
 start
 
-if(URL parameter pnw exists \n\n A_23450) then (yes)
+if(URL parameter kvnr exists?\n\nA_25208-01) then (yes)
+if(URL parameter hcv exists?\nAND enforce = true\n\nA_27346) then (yes)
+if(URL parameter pnw exists?\n\n A_23450-01) then (yes)
   :Extract Prüfziffer;
-  if(Prüfziffer exists) then (yes)
-    :Verify Prüfziffer;
-    if(Prüfziffer HMAC valid \nand pz-kvnr exists\n\nA_23450, A_23456-01) then (yes)
-      if(Prüfziffer validy period ok\n\nA_23451-1) then (yes)
-        :Return 200 - List of prescription for pz-kvnr\n\nA_23452-02;
+  if(Prüfziffer exists?) then (yes)
+    :Identify Version Prüfziffer\n\nA_23450-01;
+    if(Version?) then (Version 1)
+      :Verify Prüfziffer; 
+      if(Prüfziffer HMAC valid?\n\nA_23450-01, A_23456-01) then (yes)
       else (no)
         :Error 403;
         end
       endif
+    else (Version 2)
+        :Decrypt and \nVerify Prüfziffer\n\nA_27279;
+        if(Verification successfully?\n\nA_23450-01) then (success)
+          if(url-hcv exists AND\npz-hcv = url-hcv?\n\nA_27279 8.,\nA_27347) then (yes)
+          else (no)
+            :Error 458;
+            end
+          endif
+        else (fail)
+          :Error 403;
+          end
+        endif
+    endif
+    if(pz-kvnr = url-kvnr?\n\nA_27279 9.,\nA_27287) then (yes)
+      if(Prüfziffer period valid?\n\nA_27279 7.,\nA_23451-01) then (valid)
+        :Return 200 - \nList of prescription for pz-kvnr\n\nA_23452-02;
+      else (not valid)
+        :Error 403;
+        end
+      endif
     else (no)
-      :Error 403;
+      :Error 456;
       end
     endif
+      
   else (no)
-    if(Prüfungsnachweis Result = 3\n\nA_25206) then (yes)
+    if(Prüfungsnachweis Result = 3?\n\nA_25206) then (yes)
       :Update PN3 statistic;
-      if(URL parameter kvnr exists\n\nA_25208) then (yes)
-        if(AcceptPN3 is active\n\nA_25207) then (yes)
-          :Return 202 - List of prescription for url-kvnr\n\nA_25209;
+
+        if(AcceptPN3 active?\n\nA_25207) then (yes)
+          :Return 202 - \nList of prescription for url-kvnr\n\nA_25209;
         else (no)
           :Error 454;
           end
         endif
-	  else (no)
-        :Error 455;
-        end
-	  endif 
+
     else (no)
       :Error 403;
       end
@@ -40,7 +59,14 @@ else (no)
   :Error 403;
   end
 endif
+else (no)
+  :Error 457;
+  end
+endif
+else (no)
+  :Error 455;
+  end
+endif
 
 stop
-
 @enduml
