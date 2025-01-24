@@ -76,6 +76,8 @@ Folgendes Beispiel zeigt eine fehlerhafte Referenzierung:
       </section>
 ----
 
+Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
+
 Folgend ein korrigiertes Beispiel:
 
 [source,xml]
@@ -103,8 +105,6 @@ Alternativ ein korrektes Beispiel für relative Referenzierung:
 ----
 
 
-Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
-
 ==== Format von fullURLs
 fullURLs müssen entweder als URL-Schema oder als URN-Schema angegeben werden. Wenn das URL-Schema verwendet wird, muss dieses nach dem link:https://hl7.org/fhir/R4/references.html#regex[Regex für FHIR-URLs] aufgebaut sein. Folgende Hinweise sind zu beachten:
 
@@ -125,6 +125,17 @@ Gültige Referenzen:
 ----
 <fullUrl value="https://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" /> <!-- Korrekte URL nach https://hl7.org/fhir/R4/references.html#regex -->
 <fullUrl value="urn:uuid:4b7e4c01-6ee6-43ee-b527-61a813efa6be" /> <!-- Korrekte UUID nach RFC4122 -->
+----
+
+WARNING: Der E-Rezept-Fachdienst leht die Referenzierung von Bundles mit `urn:oid` in Zukunft ab. Diese sind zwar laut FHIR erlaubt, werden aber zur Verminderung von Aufwänden nicht unterstützt. Daher DARF diese Art der Referenzierung NICHT verwendet werden.
+
+Beispiel einer `ungültigen` urn:oid: Referenzierung:
+
+[source,xml]
+----
+<fullUrl value="urn:oid:1.2.3.4.5.6.7" />
+   <resource>
+        ...
 ----
 
 ==== Ressourcen ohne .id
