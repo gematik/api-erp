@@ -1,0 +1,63 @@
+= E-Rezept FHIR Veränderungen für TT.MM.JJJJ image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
+toc::[]
+
+== Versionsübergabegänge
+
+
+== Änderungen
+
+=== Übersicht
+[cols="a,a,a,a"]
+[%autowidth]
+|===
+h|Betrifft h|Feature h|Ressource h|Änderungen
+
+| *Alle* |<<Allgemein>>| Alle | Anpassen der Versionsangabe in meta.profile von '\|1.Y' zu '\|1.X'.
+
+| *Alle* |<<Allgemein>>| Alle | Hochziehen der Basisprofil Version (de.basisprofile.r4) auf 1.5.2. Der PKV- und GKV-Identifier wurde in den deutschen Basisprofilen mit folgendem .system vereinheitlicht: *\http://fhir.de/sid/gkv/kvid-10*
+
+| image:{NCPeH}[] image:{FdV}[] |<<Einlösen im EU Ausland>>| link:https://simplifier.net/erezept-workflow-eu[Workflow-EU] | Umsetzung der Anwendungsfälle für das link:./erp_eprescription.adoc[Einlösen von E-Rezepten im EU Ausland].
+
+| image:{KTR}[] image:{FdV}[] |<<DiGA>>| link:https://simplifier.net/erezept-workflow[Workflow] | Neues Profil Communication_DiGA, s. Anwendungsfall link:./erp_diga.adoc#nachricht-als-kostenträger-an-einen-versicherten-schicken[Nachricht als Kostenträger an einen Versicherten schicken]
+
+| image:{FdV}[] |link:erp_communication.adoc#anwendungsfall-ein-e-rezept-verbindlich-einer-apotheke-zuweisen[Zuweisen von E-Rezepten]| link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] | Constraint for GEM_ERP_PR_Communication_DispReq zur Prüfung, ob der flowType dem Referenzierten Task entspricht
+
+| image:{FdV}[] image:{AVS}[] |<<Belieferungsanfrage>>| link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_InfoReq] | Constraint for GEM_ERP_PR_Communication_InfoReq wurde als `retired` markiert. Der Anwendungsfall ist aktuell nicht umzusetzen.
+
+| image:{PVS}[] |<<Verordnung>>| link:https://simplifier.net/erezept/kbv_pr_erp_prescription[KBV_PR_ERP_Prescription] | Streichung der Extension KBV_EX_ERP_BVG, stattdessen Verwendung von KBV_EX_FOR_SER. +
+
+Einführung der strukturierten Dosierungsanweisung
+
+Einführung der strukturierten Anwendungshinweise
+
+Verbesserung von Constraints und fachlichen Prüfungen
+
+|===
+
+//TODO: DiGA und EPrescription reinmergen
+
+=== Allgemein
+Betrifft: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
+
+* Anpassen der Versionsangabe in meta.profile von '|1.Y' zu '|1.X'. Das betrifft alle Ressourcen.
