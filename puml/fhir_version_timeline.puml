@@ -33,8 +33,8 @@ footer Zuletzt verändert am %date("dd.MM.yyyy")
 
 concise "de.gkvsv.eRezeptAbrechnungsdaten" as GKV <<gkvcolor>>
 concise "kbv.ita.erp" as KBV <<kbvcolor>>
+concise "kbv.itv.evdga" as DGA <<kbvcolor>>
 concise "S_KBV_DARREICHUNGSFORM" as DF <<kbvcolor>>
-concise "S_KBV_DMP" as DMP <<kbvcolor>>
 concise "de.abda.eRezeptAbgabedaten" as DAV <<davcolor>>
 concise "de.abda.eRezeptAbgabedatenPKV" as PKV <<davcolor>>
 concise "de.gematik.erezept-workflow.r4" as gematik <<gematikcolor>>
@@ -45,53 +45,30 @@ concise "de.gematik.erezept-patientenrechnung.r4" as gematikpkv <<gematikcolor>>
 scale 2592000 as 50 pixels
 hide time-axis
 
-@2024/05/01
-GKV is 1.3
-KBV is 1.1.0
-note bottom of KBV : package 1.1.2
-DF is 1.12
-DMP is 1.05
-DAV is 1.3
-gematik is 1.2
-gematikpkv is 1.0
-PKV is 1.2
-
-@2024/07/01
-DF is 1.13
-note bottom of DF : 01.07.2024\nNeuer Wert: LYO
-
-@2024/10/01
-DMP is 1.06
-note bottom of DMP : 01.10.2024\nNeue DMP Kennzeichen
-DF is 1.14
-note bottom of DF : 01.10.2024\nNeue Werte: IID, LIV
-
-@2024/11/01
+@2025/04/01
 GKV is 1.4
-note bottom of GKV : 01.11.2024\npackage 1.4.0
-DAV is 1.4
-note top of DAV: Übergangszeit bis 15.04.2025
-note bottom of DAV : 01.11.2024\npackage 1.4.1
-gematik is 1.3
-note top of gematik: Übergangszeit AVS bis 15.01.25\nÜbergangszeit FdV bis 31.03.25
-note bottom of gematik : 01.11.2024\npackage 1.3.1
-gematikpkv is 1.0
-note bottom of gematikpkv : 01.11.2024\npackage 1.0.3
-
-@2025/01/15
+KBV is 1.1.0
+DGA is 1.1.1
+DF is 1.15
+note bottom of DF : 01.04.2026
 gematik is 1.4
-note bottom of gematik : 15.01.2025\npackage 1.4.3\nÜbergangszeit bis 15.04.2025
 gematikpkv is 1.0
-note bottom of gematikpkv : 15.01.2025\npackage 1.0.4
+DAV is 1.4
 PKV is 1.3
-note bottom of PKV : 15.01.2025\npackage 1.3.0
 
-
-@2025/07/15
+@2025/10/01
+KBV is 1.2.0
+note bottom of KBV : 01.10.2025\npackage 1.2.0\nÜbergangszeit bis 31.03.2026
+DGA is 1.2.0
+note bottom of DGA : 01.10.2025\npackage 1.2.0\nÜbergangszeit bis 31.03.2026
 gematik is 1.5
-note bottom of gematik : (vorläufig) 15.07.2025\npackage 1.5.0
+note bottom of gematik : 01.10.2025\npackage 1.5.0\nÜbergangszeit bis 11.01.2026\n\nCommunication Profile:\nÜbergangszeit bis 31.03.2026
+gematikpkv is 1.1
+note bottom of gematikpkv : 01.10.2025\npackage 1.1.0\nÜbergangszeit bis 11.01.2026
+PKV is 1.4
+note bottom of PKV : 01.10.2025\npackage 1.4.0\nÜbergangszeit bis 11.01.2026
 
-@2025/08/15
+@2026/03/31
 
 legend
 Die Profilversion ist in den Zeitstreifen die Packageversion in den Notizen festgehalten
