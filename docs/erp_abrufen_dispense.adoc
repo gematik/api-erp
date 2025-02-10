@@ -1,0 +1,196 @@
+= E-Rezept API-Dokumentation für Dispensierinformationen image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 3
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+
+Zielgruppe: image:{AVS}[]
+
+Hier dokumentiert die gematik Hinweise für die Erstellung von Dispensierinformationen bei der Abgabe von Medikamenten. Diese Beschreibungen sind für die Operationen $disense (xref:../docs/erp_abrufen.adoc#E-Rezept Abgabe zeitnah dokumentieren["E-Rezept Abgabe zeitnah dokumentieren"]) und $close (xref:../docs/erp_abrufen.adoc#E-Rezept-Abgabe vollziehen["E-Rezept-Abgabe vollziehen"]) relevant.
+
+toc::[]
+
+== Angabe von Dosierinformationen
+
+Mit Start der ePA 3.0 wurden Einigungen getroffen, wie Apotheken bei der Abgabe von Medikamenten Dosierinformationen an den E-Rezept-Fachdienst übermitteln.
+
+**Freitext**
+Die Dosierinformationen sind als Freitext zu übermitteln. Die Angabe erfolgt unter `MedicationDispense.dosageInstruction.text`. Eine strukturierte Angabe der Dosierinformationen ist nicht erlaubt. Diese werden von Primärsystemen und den Frontends der Versicherten nicht dargestellt.
+
+**Angabe bei Änderungen**
+Die Dosierinformationen werden in den Dispensierinformationen des AVS nur angegeben, wenn der Apotheker diese im Vergleich zur Dosierinformationen in der Verordnung konkretisiert, verbessert oder anpasst. In der Medikationsliste überschreibt diese Angabe die Dosierinformationen der Verordnung.
+
+.**Beispiel für Angabe von Dosierinformationen** (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,xml]
+----
+<MedicationDispense>
+<id value="a7e1d25f-0b0a-40f7-b529-afda48e51b46"/>
+<meta>
+    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
+</meta>
+<identifier>
+    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+    <value value="160.000.000.000.000.01"/>
+</identifier>
+<status value="completed"/>
+<medicationReference>
+    <reference value="8e2e5e65-4c5d-49f2-8efc-c30e40838273"/>
+</medicationReference>
+<subject>
+    <identifier>
+        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+        <value value="X234567890"/>
+    </identifier>
+</subject>
+<performer>
+    <actor>
+        <identifier>
+            <system value="https://gematik.de/fhir/sid/telematik-id"/>
+            <value value="3-07.2.1234560000.10.789"/>
+        </identifier>
+    </actor>
+</performer>
+<whenHandedOver value="2025-01-30"/>
+<dosageInstruction> <!-- Dosierangabe, nur angeben wenn geändert/korrigiert durch Apotheke -->
+    <text value="1-0-1-0"/>
+</dosageInstruction>
+<substitution>
+  <wasSubstituted value="true"/>
+</substitution>
+</MedicationDispense>
+----
+
+====
+
+== Angabe von Wirkstoff, Wirkstärke und Handelsname
+
+AVS müssen bei der Abgabe von **Fertigarneimitteln** Wirkstoff, Wirkstärke und Handelsname in der `MedicationDispense` angeben, sofern die Daten in der zugrundeliegenden Arzneimitteldatenbank vorhanden sind.
+Für **Rezepturen** müssen die Angaben zu Wirkstoff und Wirkstärke angegeben werden, wenn diese Information strukturiert im Verordnungsdatensatz vorliegen. Entsprechende Vorgaben sind in gemILF_PS_eRp zu finden.
+
+Hier ist ein Beispiel, wie eine FHIR-Ressource Medication für ein Fertigarzneimittel aussehen könnte:
+
+.**Beispiel für Angabe von Wirkstoff, Wirkstärke und Handelsname bei Fertigarzneimitteln** (Klicken zum Ausklappen)
+[%collapsible]
+
+====
+
+[source,xml]
+----
+<Medication>
+  <id value="8e2e5e65-4c5d-49f2-8efc-c30e40838273"/>
+  <meta>
+      <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
+  </meta>
+  <code>
+      <coding>
+          <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+          <code value="05454378"/>
+      </coding>
+      <text value="SUMATRIPTAN Aurobindo 100 mg Tabletten"/> <!-- Handelsname der eML-->
+  </code>
+  <form>
+      <coding>
+          <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+          <code value="TAB"/>
+          <display value="Tabletten"/>
+      </coding>
+      <!--text value="Tabletten"/--> <!-- Freitext nur angeben, wenn coding nicht genutzt -->
+  </form>
+  <amount>
+      <numerator>
+          <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension">
+              <valueString value="12"/>
+          </extension>
+          <unit value="Stück"/>
+      </numerator>
+      <denominator>
+          <value value="1"/>
+      </denominator>
+  </amount>
+  <ingredient>
+      <itemCodeableConcept>
+          <text value="Sumatriptan"/> <!-- Wirkstoff -->
+      </itemCodeableConcept>
+      <strength>
+          <numerator>
+              <value value="100"/> <!-- Wirkstärke -->
+              <unit value="mg"/>
+              <system>
+                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                      <valueCode value="unknown"/>
+                  </extension>
+              </system>
+              <code>
+                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                      <valueCode value="unknown"/>
+                  </extension>
+              </code>
+          </numerator>
+          <denominator>
+              <value value="1"/>
+              <system>
+                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                      <valueCode value="unknown"/>
+                  </extension>
+              </system>
+              <code>
+                  <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                      <valueCode value="unknown"/>
+                  </extension>
+              </code>
+          </denominator>
+      </strength>
+  </ingredient>
+  <batch>
+      <lotNumber value="A123456789-1"/>
+  </batch>
+  </Medication>
+----
+
+====
+
+== Profilversion der Dispensierinformationen
+
+Das Datenmodell für die Abgabe bei den Operationen $dispense und $close sieht vor, dass eine Parameters Ressource mit 1..* `.parameter[rxDispensation]` übergeben werden kann. Nach Datenmodell muss die Profilversion aller enthaltenen Ressourcen (MedicationDispense und Medication) die *gleiche* Profilversion tragen.
+Die Gültigkeit der Profilversion wird nach dem jüngsten Datum aller MedicationDispense.whenHandedOver (max(.whenHandedOver)) bestimmt.
+
+=== Beispiel für die Bestimmung der Profilversion
+
+Angenommen es gilt folgende Konfiguration der Gültigkeit der Profilversion des Workflow Package im E-Rezept-Fachdienst:
+
+image:parameters-max-whenhandedover-gültigkeiten.png[]
+
+So wird am Ende des Profilübergangs 1.3 zu 1.4 am 15.04. folgendes Verhalten erwartet:
+
+1. Ein AVS beliefert den ersten Teil der Verordnung am 10.04.
+** Es gibt eine MedicationDispense mit .whenHandedOver = 2025-04-10
+** Das AVS erstellt die Dispensierinformationen mit Profilversion 1.2, 1.3 oder 1.4
+2. Das AVS beliefert den restlichen Teil der Verordnung am 22.04.
+** Um die Belieferung abzuschließen, erstellt das AVS eine Parameters Ressource mit
+** MedicationDispense_1.whenHandedOver = 2025-04-10
+** MedicationDispense_2.whenHandedOver = 2025-04-22
+** Das AVS erstellt die Dispensierinformationen mit Profilversion 1.4
+
+image:parameters-max-whenhandedover.png[]
+
+Die zu verwendende Profilversion richtet sich nach dem jüngsten Datum aller MedicationDispense.whenHandedOver (max(.whenHandedOver)), also 2025-04-22, damit ist die Profilversion 1.4 für alle Ressourcen der Dispensierinformationen zu verwenden.

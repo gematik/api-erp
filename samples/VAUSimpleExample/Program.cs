@@ -11,7 +11,6 @@ namespace VAUSimpleExample {
 
             //VAU Bsp für TITUS Download erezept
 
-            //TODO aus TITUS einfügen: accesscode, taskid und apoBearerKey
             const string accesscode = "6152f3a653092e79ce4a2e65c2f0c01d50bd144fcbebba25d60d11b60d793323";
             const string taskid = "b4f0ee8d-306c-11b2-8bae-75f4f3ff4c92";
             const string apoBearerKey =
