@@ -289,7 +289,7 @@ SAS='Beispielstrasse'
 def gen_H_40_0(VB: str, SAS: str)->bytes:
     # Hinweis für Nicht-Python-Entwickler:
     # encode() transformiert einen string in eine Bytefolge
-    H = hashlib.sha256(VB.encode() + SAS.encode()).digest(); assert len(H) == 32
+    H = hashlib.sha256(VB.encode() + SAS.encode('iso8859-15')).digest(); assert len(H) == 32
     H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
     H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
 
