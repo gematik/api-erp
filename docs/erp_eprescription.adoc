@@ -1,0 +1,3290 @@
+= E-Rezept API Dokumentation zum Einlösen von E-Rezepten im EU-Ausland image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+
+// Variables for the Examples that are to be used
+:branch: main
+:date-folder: 2025-01-15
+// TODO: Change
+:branch: eu-examples
+:date-folder: 2025-10-01-preview
+:toclevels: 2
+
+Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der Versicherten für die Einlösung im EU-Ausland.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/e_prescription.yml[OpenAPI-Spezifikation für ePrescription]
+
+toc::[]
+
+== Zustimmung für die Nutzung von E-Rezepten im EU-Ausland
+
+=== Zustimmung erteilen
+
+Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen im EU-Ausland" erteilen. Die Einwilligung wird unbefristet erteilt und kann jederzeit widerrufen werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Consent",
+  "id": "erp-eprescription-01-POST-Consent",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "X123456789"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "EUDISPCONS",
+          "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
+          "display": "Consent for redeeming e-prescriptions in EU countries"
+        }
+      ]
+    }
+  ],
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  }
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent[GEM_ERPEU_PR_Consent]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (201) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Consent",
+  "id": "6bd784b8-6595-42ea-8201-c34354efa857",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "X123456789"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "EUDISPCONS",
+          "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
+          "display": "Consent for redeeming e-prescriptions in EU countries"
+        }
+      ]
+    }
+  ],
+  "dateTime": "2025-01-15T15:29:00+00:00",
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  }
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent[GEM_ERPEU_PR_Consent]
+
+
+
+2+¦Response Codes
+
+¦201 ¦ Success +
+[small]#Zustimmung erfolgreich erteilt#
+
+¦253 ¦ Success +
+[small]#Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.#
+
+¦254 ¦ Success +
+[small]#Format der fullUrl ist ungültig. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦408 ¦ Client Error +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+
+¦409 ¦ Client Error +
+[small]#Die Anfrage wurde unter falschen Annahmen gestellt, bspw. weil bereits eine Einwilligung für diese Kategorie vorhanden ist.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+=== Zustimmung widerrufen
+
+Als Versicherter möchte ich meine Zustimmung widerrufen.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Query Parameters ¦
+----
+category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'. (required)
+----
+¦Payload    ¦
+No request body.
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Angabe der Category fehlt, oder die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+
+=== Zustimmung einsehen
+
+Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zustimmungen enthalten sein (aktuell EU und Patientenrechnung).
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Consent
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+----
+¦Query Parameters ¦
+----
+category: Category of the Consent to be retrieved < EUDISPCONS | CHARGCONS >
+----
+¦Payload    ¦
+No request body.
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Bundle",
+  "id": "erp-eprescription-02-GET-Consent-Bundle",
+  "type": "searchset",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
+      "resource": {
+        "resourceType": "Consent",
+        "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+          ]
+        },
+        "status": "active",
+        "patient": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "scope": {
+          "coding": [
+            {
+              "code": "patient-privacy",
+              "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+              "display": "Privacy Consent"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "EUDISPCONS",
+                "system": "https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_ConsentType",
+                "display": "Consent for redeeming e-prescriptions in EU countries"
+              }
+            ]
+          }
+        ],
+        "dateTime": "2025-01-15T15:29:00+00:00",
+        "policyRule": {
+          "coding": [
+            {
+              "code": "OPTIN",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent[GEM_ERPEU_PR_Consent]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene Category ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+== Erstellen eines Zugriffscodes für das Einlösen im EU-Ausland
+
+=== Erstellen des Zugriffscodes im E-Rezept-Fachdienst
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request[GEM_ERPEU_PR_PAR_Access_Authorization_Request]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response[GEM_ERPEU_PR_PAR_Access_Authorization_Response]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich erstellt#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+=== Abfragen des Zugriffscodes im E-Rezept-Fachdienst
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/$read-eu-access-permission
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+No request body.
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "countryCode",
+      "valueCoding": {
+        "system": "urn:iso:std:iso:3166",
+        "code": "BE"
+      }
+    },
+    {
+      "name": "accessCode",
+      "valueIdentifier": {
+        "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode",
+        "value": "ABC123"
+      }
+    },
+    {
+      "name": "validUntil",
+      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+    },
+    {
+      "name": "createdAt",
+      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response[GEM_ERPEU_PR_PAR_Access_Authorization_Response]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Zugriffscode erfolgreich abgefragt#
+
+|===
+
+=== Löschen des Zugriffscodes im E-Rezept-Fachdienst
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/$revoke-eu-access-permission
+¦Method     ¦DELETE
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+No request body.
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Zugriffscode erfolgreich widerrufen.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+== Interaktion NCPeH mit E-Rezept-Fachdienst
+
+=== Abfragen von E-Rezepten des E-Rezept-Fachdienst
+
+Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E-Rezept-Fachdienst abrufen, damit ich diese in das Ausland weiterleiten kann.
+
+* link:https://simplifier.net/erezept-workflow-eu/get-prescription-eu[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow-eu/gem_erpeu_pr_par_get_prescription_input[Profil Input Parameter]
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
+¦Method     ¦POST
+¦Requester  ¦image:{NCPeH}[]
+¦HTTP Header ¦
+----
+AuthorizationHeader: <value> (string, required)
+----
+¦Query Parameters ¦
+----
+_count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.
+----
+¦Payload    ¦
+.Request Body für demographics (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-06-GET-Prescription-DEMOGRAPHICS"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
+                <code value="demographics"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input[GEM_ERPEU_PR_PAR_GET_Prescription_Input]
+
+
+.Request Body für prescriptions-retrieval (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-RETRIEVAL"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
+                <code value="e-prescriptions-retrieval"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="123456"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.01"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.02"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.03"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="prescription-id"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                <value value="160.000.000.000.000.04"/>
+            </valueIdentifier>
+        </part>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input[GEM_ERPEU_PR_PAR_GET_Prescription_Input]
+
+
+.Request Body für prescriptions-list (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="requesttype"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/erp-eu/CodeSystem/GEM_ERPEU_CS_RequestType"/>
+                <code value="e-prescriptions-list"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="123456"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input[GEM_ERPEU_PR_PAR_GET_Prescription_Input]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-05-GET-Prescription-Bundle"/>
+    <type value="collection"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <link>
+        <relation value="self"/>
+        <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Prescription"/>
+    </link>
+    <entry>
+        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
+        <resource>
+            <Bundle>
+                <id value="erp-eprescription-05-Prescription-Bundle-1"/>
+                <meta>
+                    <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.01"/>
+                </identifier>
+                <type value="document"/>
+                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
+                    <resource>
+                        <Composition>
+                            <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <status value="final"/>
+                            <type>
+                                <coding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FORMULAR_ART"/>
+                                    <code value="e16A"/>
+                                </coding>
+                            </type>
+                            <subject>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </subject>
+                            <date value="2025-01-15T15:29:00.434+00:00"/>
+                            <author>
+                                <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                                <type value="Practitioner"/>
+                            </author>
+                            <author>
+                                <type value="Device"/>
+                                <identifier>
+                                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_FOR_Pruefnummer"/>
+                                    <value value="Y/400/1910/36/346"/>
+                                </identifier>
+                            </author>
+                            <title value="elektronische Arzneimittelverordnung"/>
+                            <attester>
+                                <mode value="legal"/>
+                                <party>
+                                    <reference value="Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                                </party>
+                            </attester>
+                            <custodian>
+                                <reference value="Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                            </custodian>
+                            <section>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type"/>
+                                        <code value="Prescription"/>
+                                    </coding>
+                                </code>
+                                <entry>
+                                    <reference value="MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                                </entry>
+                            </section>
+                            <section>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type"/>
+                                        <code value="Coverage"/>
+                                    </coding>
+                                </code>
+                                <entry>
+                                    <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                                </entry>
+                            </section>
+                        </Composition>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                    <resource>
+                        <MedicationRequest>
+                            <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription">
+                                <extension url="Kennzeichen">
+                                    <valueBoolean value="true"/>
+                                </extension>
+                                <extension url="Nummerierung">
+                                    <valueRatio>
+                                        <numerator>
+                                            <value value="2"/>
+                                        </numerator>
+                                        <denominator>
+                                            <value value="4"/>
+                                        </denominator>
+                                    </valueRatio>
+                                </extension>
+                                <extension url="Zeitraum">
+                                    <valuePeriod>
+                                        <start value="2025-01-15"/>
+                                        <end value="2025-02-14"/>
+                                    </valuePeriod>
+                                </extension>
+                                <extension url="ID">
+                                    <valueIdentifier>
+                                        <system value="urn:ietf:rfc:3986"/>
+                                        <value value="urn:uuid:24e2e10d-e962-4d1c-be4f-8760e690a5f0"/>
+                                    </valueIdentifier>
+                                </extension>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_StatusCoPayment"/>
+                                    <code value="0"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident">
+                                <extension url="Unfallkennzeichen">
+                                    <valueCoding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Ursache_Type"/>
+                                        <code value="1"/>
+                                    </valueCoding>
+                                </extension>
+                                <extension url="Unfalltag">
+                                    <valueDate value="2025-01-15"/>
+                                </extension>
+                            </extension>
+                            <status value="active"/>
+                            <intent value="order"/>
+                            <medicationReference>
+                                <reference value="Medication/e3a4efa7-84fc-465b-b14c-720195097783"/>
+                            </medicationReference>
+                            <subject>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </subject>
+                            <authoredOn value="2025-01-15"/>
+                            <requester>
+                                <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                            </requester>
+                            <insurance>
+                                <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                            </insurance>
+                            <note>
+                                <text value="Dummy-Hinweis für die Apotheke"/>
+                            </note>
+                            <dosageInstruction>
+                                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag">
+                                    <valueBoolean value="false"/>
+                                </extension>
+                            </dosageInstruction>
+                            <dispenseRequest>
+                                <quantity>
+                                    <value value="2"/>
+                                    <unit value="Packung"/>
+                                    <system value="http://unitsofmeasure.org"/>
+                                    <code value="{Package}"/>
+                                </quantity>
+                            </dispenseRequest>
+                        </MedicationRequest>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/e3a4efa7-84fc-465b-b14c-720195097783"/>
+                    <resource>
+                        <Medication>
+                            <id value="e3a4efa7-84fc-465b-b14c-720195097783"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <code>
+                                <coding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Type"/>
+                                    <code value="wirkstoff"/>
+                                </coding>
+                            </code>
+                            <form>
+                                <text value="Tabletten"/>
+                            </form>
+                            <amount>
+                                <numerator>
+                                    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize">
+                                        <valueString value="2x20"/>
+                                    </extension>
+                                    <unit value="Stk"/>
+                                </numerator>
+                                <denominator>
+                                    <value value="1"/>
+                                </denominator>
+                            </amount>
+                            <ingredient>
+                                <itemCodeableConcept>
+                                    <coding>
+                                        <system value="http://fhir.de/CodeSystem/ask"/>
+                                        <code value="Dummy-ASK"/>
+                                    </coding>
+                                    <text value="Ibuprofen"/>
+                                </itemCodeableConcept>
+                                <strength>
+                                    <numerator>
+                                        <value value="800"/>
+                                        <unit value="mg"/>
+                                    </numerator>
+                                    <denominator>
+                                        <value value="1"/>
+                                    </denominator>
+                                </strength>
+                            </ingredient>
+                        </Medication>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                    <resource>
+                        <Patient>
+                            <id value="9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
+                                        <code value="KVZ10"/>
+                                    </coding>
+                                </type>
+                                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                                <value value="X234567890"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Ludger Königsstein">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Königsstein"/>
+                                    </extension>
+                                </family>
+                                <given value="Ludger"/>
+                            </name>
+                            <birthDate value="1935-06-22"/>
+                            <address>
+                                <type value="both"/>
+                                <line value="Musterstr. 1">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                                        <valueString value="1"/>
+                                    </extension>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                                        <valueString value="Musterstr."/>
+                                    </extension>
+                                </line>
+                                <city value="Berlin"/>
+                                <postalCode value="10623"/>
+                            </address>
+                        </Patient>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                    <resource>
+                        <Practitioner>
+                            <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="LANR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR"/>
+                                <value value="838382202"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Topp-Glücklich">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Topp-Glücklich"/>
+                                    </extension>
+                                </family>
+                                <given value="Hans"/>
+                                <prefix value="Dr. med.">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+                                        <valueCode value="AC"/>
+                                    </extension>
+                                </prefix>
+                            </name>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type"/>
+                                        <code value="00"/>
+                                    </coding>
+                                </code>
+                            </qualification>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung"/>
+                                        <code value="Berufsbezeichnung"/>
+                                    </coding>
+                                    <text value="FA Biochemie"/>
+                                </code>
+                            </qualification>
+                        </Practitioner>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                    <resource>
+                        <Practitioner>
+                            <id value="d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="LANR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR"/>
+                                <value value="838382210"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Meier">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Meier"/>
+                                    </extension>
+                                </family>
+                                <given value="Jörgen"/>
+                            </name>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type"/>
+                                        <code value="03"/>
+                                    </coding>
+                                </code>
+                            </qualification>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung"/>
+                                        <code value="Berufsbezeichnung"/>
+                                    </coding>
+                                    <text value="FA Onkologie"/>
+                                </code>
+                            </qualification>
+                        </Practitioner>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                    <resource>
+                        <Organization>
+                            <id value="cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="BSNR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR"/>
+                                <value value="031234567"/>
+                            </identifier>
+                            <name value="Hausarztpraxis Dr. Topp-Glücklich"/>
+                            <telecom>
+                                <system value="phone"/>
+                                <value value="0301234567"/>
+                            </telecom>
+                            <address>
+                                <type value="both"/>
+                                <line value="Musterstr. 2">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                                        <valueString value="2"/>
+                                    </extension>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                                        <valueString value="Musterstr."/>
+                                    </extension>
+                                </line>
+                                <city value="Berlin"/>
+                                <postalCode value="10623"/>
+                            </address>
+                        </Organization>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                    <resource>
+                        <Coverage>
+                            <id value="1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
+                            </meta>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/wop">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ITA_WOP"/>
+                                    <code value="03"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_VERSICHERTENSTATUS"/>
+                                    <code value="1"/>
+                                </valueCoding>
+                            </extension>
+                            <status value="active"/>
+                            <type>
+                                <coding>
+                                    <system value="http://fhir.de/CodeSystem/versicherungsart-de-basis"/>
+                                    <code value="GKV"/>
+                                </coding>
+                            </type>
+                            <beneficiary>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </beneficiary>
+                            <payor>
+                                <identifier>
+                                    <system value="http://fhir.de/sid/arge-ik/iknr"/>
+                                    <value value="104212059"/>
+                                </identifier>
+                                <display value="AOK Rheinland/Hamburg"/>
+                            </payor>
+                        </Coverage>
+                    </resource>
+                </entry>
+            </Bundle>
+        </resource>
+    </entry>
+    <entry>
+        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.02"/>
+        <resource>
+            <Bundle>
+                <id value="erp-eprescription-05-Prescription-Bundle-2"/>
+                <meta>
+                    <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
+                </meta>
+                <identifier>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.02"/>
+                </identifier>
+                <type value="document"/>
+                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
+                    <resource>
+                        <Composition>
+                            <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <status value="final"/>
+                            <type>
+                                <coding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_FORMULAR_ART"/>
+                                    <code value="e16A"/>
+                                </coding>
+                            </type>
+                            <subject>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </subject>
+                            <date value="2025-01-15T15:29:00.434+00:00"/>
+                            <author>
+                                <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                                <type value="Practitioner"/>
+                            </author>
+                            <author>
+                                <type value="Device"/>
+                                <identifier>
+                                    <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_FOR_Pruefnummer"/>
+                                    <value value="Y/400/1910/36/346"/>
+                                </identifier>
+                            </author>
+                            <title value="elektronische Arzneimittelverordnung"/>
+                            <attester>
+                                <mode value="legal"/>
+                                <party>
+                                    <reference value="Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                                </party>
+                            </attester>
+                            <custodian>
+                                <reference value="Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                            </custodian>
+                            <section>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type"/>
+                                        <code value="Prescription"/>
+                                    </coding>
+                                </code>
+                                <entry>
+                                    <reference value="MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                                </entry>
+                            </section>
+                            <section>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Section_Type"/>
+                                        <code value="Coverage"/>
+                                    </coding>
+                                </code>
+                                <entry>
+                                    <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                                </entry>
+                            </section>
+                        </Composition>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/MedicationRequest/f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                    <resource>
+                        <MedicationRequest>
+                            <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription">
+                                <extension url="Kennzeichen">
+                                    <valueBoolean value="true"/>
+                                </extension>
+                                <extension url="Nummerierung">
+                                    <valueRatio>
+                                        <numerator>
+                                            <value value="2"/>
+                                        </numerator>
+                                        <denominator>
+                                            <value value="4"/>
+                                        </denominator>
+                                    </valueRatio>
+                                </extension>
+                                <extension url="Zeitraum">
+                                    <valuePeriod>
+                                        <start value="2025-01-15"/>
+                                        <end value="2025-02-14"/>
+                                    </valuePeriod>
+                                </extension>
+                                <extension url="ID">
+                                    <valueIdentifier>
+                                        <system value="urn:ietf:rfc:3986"/>
+                                        <value value="urn:uuid:24e2e10d-e962-4d1c-be4f-8760e690a5f0"/>
+                                    </valueIdentifier>
+                                </extension>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_StatusCoPayment"/>
+                                    <code value="0"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident">
+                                <extension url="Unfallkennzeichen">
+                                    <valueCoding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Ursache_Type"/>
+                                        <code value="1"/>
+                                    </valueCoding>
+                                </extension>
+                                <extension url="Unfalltag">
+                                    <valueDate value="2025-01-15"/>
+                                </extension>
+                            </extension>
+                            <status value="active"/>
+                            <intent value="order"/>
+                            <medicationReference>
+                                <reference value="Medication/e3a4efa7-84fc-465b-b14c-720195097783"/>
+                            </medicationReference>
+                            <subject>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </subject>
+                            <authoredOn value="2025-01-15"/>
+                            <requester>
+                                <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                            </requester>
+                            <insurance>
+                                <reference value="Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                            </insurance>
+                            <note>
+                                <text value="Dummy-Hinweis für die Apotheke"/>
+                            </note>
+                            <dosageInstruction>
+                                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag">
+                                    <valueBoolean value="false"/>
+                                </extension>
+                            </dosageInstruction>
+                            <dispenseRequest>
+                                <quantity>
+                                    <value value="2"/>
+                                    <unit value="Packung"/>
+                                    <system value="http://unitsofmeasure.org"/>
+                                    <code value="{Package}"/>
+                                </quantity>
+                            </dispenseRequest>
+                        </MedicationRequest>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Medication/e3a4efa7-84fc-465b-b14c-720195097783"/>
+                    <resource>
+                        <Medication>
+                            <id value="e3a4efa7-84fc-465b-b14c-720195097783"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"/>
+                            </meta>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Category"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Vaccine">
+                                <valueBoolean value="false"/>
+                            </extension>
+                            <code>
+                                <coding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Medication_Type"/>
+                                    <code value="wirkstoff"/>
+                                </coding>
+                            </code>
+                            <form>
+                                <text value="Tabletten"/>
+                            </form>
+                            <amount>
+                                <numerator>
+                                    <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_PackagingSize">
+                                        <valueString value="2x20"/>
+                                    </extension>
+                                    <unit value="Stk"/>
+                                </numerator>
+                                <denominator>
+                                    <value value="1"/>
+                                </denominator>
+                            </amount>
+                            <ingredient>
+                                <itemCodeableConcept>
+                                    <coding>
+                                        <system value="http://fhir.de/CodeSystem/ask"/>
+                                        <code value="Dummy-ASK"/>
+                                    </coding>
+                                    <text value="Ibuprofen"/>
+                                </itemCodeableConcept>
+                                <strength>
+                                    <numerator>
+                                        <value value="800"/>
+                                        <unit value="mg"/>
+                                    </numerator>
+                                    <denominator>
+                                        <value value="1"/>
+                                    </denominator>
+                                </strength>
+                            </ingredient>
+                        </Medication>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                    <resource>
+                        <Patient>
+                            <id value="9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
+                                        <code value="KVZ10"/>
+                                    </coding>
+                                </type>
+                                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                                <value value="X234567890"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Ludger Königsstein">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Königsstein"/>
+                                    </extension>
+                                </family>
+                                <given value="Ludger"/>
+                            </name>
+                            <birthDate value="1935-06-22"/>
+                            <address>
+                                <type value="both"/>
+                                <line value="Musterstr. 1">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                                        <valueString value="1"/>
+                                    </extension>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                                        <valueString value="Musterstr."/>
+                                    </extension>
+                                </line>
+                                <city value="Berlin"/>
+                                <postalCode value="10623"/>
+                            </address>
+                        </Patient>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                    <resource>
+                        <Practitioner>
+                            <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="LANR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR"/>
+                                <value value="838382202"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Topp-Glücklich">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Topp-Glücklich"/>
+                                    </extension>
+                                </family>
+                                <given value="Hans"/>
+                                <prefix value="Dr. med.">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-EN-qualifier">
+                                        <valueCode value="AC"/>
+                                    </extension>
+                                </prefix>
+                            </name>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type"/>
+                                        <code value="00"/>
+                                    </coding>
+                                </code>
+                            </qualification>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung"/>
+                                        <code value="Berufsbezeichnung"/>
+                                    </coding>
+                                    <text value="FA Biochemie"/>
+                                </code>
+                            </qualification>
+                        </Practitioner>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                    <resource>
+                        <Practitioner>
+                            <id value="d8463daf-258e-4cad-a86a-6fd42fac161c"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="LANR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_ANR"/>
+                                <value value="838382210"/>
+                            </identifier>
+                            <name>
+                                <use value="official"/>
+                                <family value="Meier">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/humanname-own-name">
+                                        <valueString value="Meier"/>
+                                    </extension>
+                                </family>
+                                <given value="Jörgen"/>
+                            </name>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Qualification_Type"/>
+                                        <code value="03"/>
+                                    </coding>
+                                </code>
+                            </qualification>
+                            <qualification>
+                                <code>
+                                    <coding>
+                                        <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_FOR_Berufsbezeichnung"/>
+                                        <code value="Berufsbezeichnung"/>
+                                    </coding>
+                                    <text value="FA Onkologie"/>
+                                </code>
+                            </qualification>
+                        </Practitioner>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Organization/cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                    <resource>
+                        <Organization>
+                            <id value="cf042e44-086a-4d51-9c77-172f9a972e3b"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
+                            </meta>
+                            <identifier>
+                                <type>
+                                    <coding>
+                                        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"/>
+                                        <code value="BSNR"/>
+                                    </coding>
+                                </type>
+                                <system value="https://fhir.kbv.de/NamingSystem/KBV_NS_Base_BSNR"/>
+                                <value value="031234567"/>
+                            </identifier>
+                            <name value="Hausarztpraxis Dr. Topp-Glücklich"/>
+                            <telecom>
+                                <system value="phone"/>
+                                <value value="0301234567"/>
+                            </telecom>
+                            <address>
+                                <type value="both"/>
+                                <line value="Musterstr. 2">
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber">
+                                        <valueString value="2"/>
+                                    </extension>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetName">
+                                        <valueString value="Musterstr."/>
+                                    </extension>
+                                </line>
+                                <city value="Berlin"/>
+                                <postalCode value="10623"/>
+                            </address>
+                        </Organization>
+                    </resource>
+                </entry>
+                <entry>
+                    <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Coverage/1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                    <resource>
+                        <Coverage>
+                            <id value="1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
+                            <meta>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
+                            </meta>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_PERSONENGRUPPE"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/dmp-kennzeichen">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DMP"/>
+                                    <code value="00"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/wop">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_ITA_WOP"/>
+                                    <code value="03"/>
+                                </valueCoding>
+                            </extension>
+                            <extension url="http://fhir.de/StructureDefinition/gkv/versichertenart">
+                                <valueCoding>
+                                    <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_VERSICHERTENSTATUS"/>
+                                    <code value="1"/>
+                                </valueCoding>
+                            </extension>
+                            <status value="active"/>
+                            <type>
+                                <coding>
+                                    <system value="http://fhir.de/CodeSystem/versicherungsart-de-basis"/>
+                                    <code value="GKV"/>
+                                </coding>
+                            </type>
+                            <beneficiary>
+                                <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
+                            </beneficiary>
+                            <payor>
+                                <identifier>
+                                    <system value="http://fhir.de/sid/arge-ik/iknr"/>
+                                    <value value="104212059"/>
+                                </identifier>
+                                <display value="AOK Rheinland/Hamburg"/>
+                            </payor>
+                        </Coverage>
+                    </resource>
+                </entry>
+            </Bundle>
+        </resource>
+    </entry>
+</Bundle>
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.#
+
+¦400 ¦ Client Error +
+[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
+
+¦401 ¦ Client Error +
+[small]#Ungültige Authentifizierung.#
+
+¦403 ¦ Client Error +
+[small]#Keine Berechtigung des Clients.#
+
+¦404 ¦ Client Error +
+[small]#Keine Ergebnisse gefunden.#
+
+¦408 ¦ Client Error +
+[small]#Zeitüberschreitung der Anfrage.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+
+=== Abgabeinformationen zu einem E-Rezept einstellen
+
+Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept einstellen, damit der Versicherte das die Abgabeinformationen angezeigt bekommen kann.
+
+* link:https://simplifier.net/erezept-workflow-eu/eucloseoperation[OperationDefinition]
+* link:https://simplifier.net/erezept-workflow-eu/gem_erpeu_pr_par_closeoperation_input[Profil Input Parameter]
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
+¦Method     ¦POST
+¦Requester  ¦image:{NCPeH}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body für all-data (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-07-EU-Close"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="160.000.000.000.000.01"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.000.000.000.01"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="Medication/SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <reference value="PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
+                        </actor>
+                    </performer>
+                    <whenHandedOver value="2025-01-15"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                            <display value="Tabletten"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20"/>
+                            </extension>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="practitionerData"/>
+        <resource>
+            <Practitioner>
+                <id value="a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <name>
+                    <family value="Sanches"/>
+                    <given value="Pedro"/>
+                </name>
+            </Practitioner>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="organizationData"/>
+        <resource>
+            <Organization>
+                <id value="6a3c8c57-0870-476e-90e3-25b7562799d3"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <identifier>
+                    <value value="136ad69f"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                        <code value="1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                </type>
+                <name value="Pharmacia de Santa Maria"/>
+                <address>
+                    <line value="Rua da Alegria, 123"/>
+                    <city value="Lisbon"/>
+                    <state value="Lisbon"/>
+                    <postalCode value="1234-567"/>
+                    <country value="Portugal"/>
+                </address>
+            </Organization>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="practitionerRoleData"/>
+        <resource>
+            <PractitionerRole>
+                <id value="ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                </meta>
+                <practitioner>
+                    <reference value="Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
+                </practitioner>
+                <organization>
+                    <reference value="Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"/>
+                </organization>
+                <code>
+                    <coding>
+                        <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                        <code value="2262"/>
+                        <display value="Pharmacists"/>
+                    </coding>
+                </code>
+            </PractitionerRole>
+        </resource>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input[GEM_ERPEU_PR_PAR_CloseOperation_Input]
+
+
+.Request Body für with-missing-data (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Parameters xmlns="http://hl7.org/fhir">
+    <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
+    <meta>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+    </meta>
+    <parameter>
+        <name value="rxDispensation"/>
+        <part>
+            <name value="medicationDispense"/>
+            <resource>
+                <MedicationDispense>
+                    <id value="160.000.000.000.000.01"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                    </meta>
+                    <identifier>
+                        <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                        <value value="160.000.000.000.000.01"/>
+                    </identifier>
+                    <status value="completed"/>
+                    <medicationReference>
+                        <reference value="Medication/SumatripanMedication"/>
+                    </medicationReference>
+                    <subject>
+                        <identifier>
+                            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                            <value value="X123456789"/>
+                        </identifier>
+                    </subject>
+                    <performer>
+                        <actor>
+                            <reference value="PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
+                        </actor>
+                    </performer>
+                    <whenHandedOver value="2025-01-15"/>
+                </MedicationDispense>
+            </resource>
+        </part>
+        <part>
+            <name value="medication"/>
+            <resource>
+                <Medication>
+                    <id value="SumatripanMedication"/>
+                    <meta>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                    </meta>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
+                        <valueCoding>
+                            <code value="00"/>
+                        </valueCoding>
+                    </extension>
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                        <valueBoolean value="false"/>
+                    </extension>
+                    <extension url="http://fhir.de/StructureDefinition/normgroesse">
+                        <valueCode value="N1"/>
+                    </extension>
+                    <code>
+                        <coding>
+                            <system value="http://fhir.de/CodeSystem/ifa/pzn"/>
+                            <code value="06313728"/>
+                        </coding>
+                        <text value="Sumatriptan-1a Pharma 100 mg Tabletten"/>
+                    </code>
+                    <form>
+                        <coding>
+                            <system value="https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM"/>
+                            <code value="TAB"/>
+                            <display value="Tabletten"/>
+                        </coding>
+                    </form>
+                    <amount>
+                        <numerator>
+                            <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension">
+                                <valueString value="20"/>
+                            </extension>
+                            <unit value="St"/>
+                        </numerator>
+                        <denominator>
+                            <value value="1"/>
+                        </denominator>
+                    </amount>
+                    <ingredient>
+                        <itemCodeableConcept>
+                            <text value="Sumatriptan"/>
+                        </itemCodeableConcept>
+                        <strength>
+                            <numerator>
+                                <value value="100"/>
+                                <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </numerator>
+                            <denominator>
+                                <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
+                            </denominator>
+                        </strength>
+                    </ingredient>
+                </Medication>
+            </resource>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="requestData"/>
+        <part>
+            <name value="kvnr"/>
+            <valueIdentifier>
+                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                <value value="X123456789"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="accessCode"/>
+            <valueIdentifier>
+                <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_EU_AccessCode"/>
+                <value value="ABC123"/>
+            </valueIdentifier>
+        </part>
+        <part>
+            <name value="countryCode"/>
+            <valueCoding>
+                <system value="urn:iso:std:iso:3166"/>
+                <code value="BE"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="practitionerName"/>
+            <valueString value="Pedro Sanches"/>
+        </part>
+        <part>
+            <name value="practitionerRole"/>
+            <valueCoding>
+                <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                <code value="2262"/>
+                <display value="Pharmacists"/>
+            </valueCoding>
+        </part>
+        <part>
+            <name value="pointOfCare"/>
+            <valueString value="Pharmacia de Santa Maria"/>
+        </part>
+        <part>
+            <name value="healthcare-facility-type"/>
+            <valueCoding>
+                <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                <code value="1.2.276.0.76.4.54"/>
+                <display value="Öffentliche Apotheke"/>
+            </valueCoding>
+        </part>
+    </parameter>
+    <parameter>
+        <name value="practitionerData"/>
+        <resource>
+            <Practitioner>
+                <id value="Example-EU-Practitioner-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <name>
+                    <family value="Sanches"/>
+                    <given value="Pedro"/>
+                </name>
+            </Practitioner>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="organizationData"/>
+        <resource>
+            <Organization>
+                <id value="Example-EU-Organization-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                </meta>
+                <identifier>
+                    <value value="1234567890"/>
+                </identifier>
+                <identifier>
+                    <value value="136ad69f"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID"/>
+                        <code value="1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                </type>
+                <name value="Pharmacia de Santa Maria"/>
+                <address>
+                    <line value="Rua da Alegria, 123"/>
+                    <city value="Lisbon"/>
+                    <state>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="not-applicable"/>
+                        </extension>
+                    </state>
+                    <postalCode>
+                        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                            <valueCode value="unknown"/>
+                        </extension>
+                    </postalCode>
+                    <country value="Portugal"/>
+                </address>
+            </Organization>
+        </resource>
+    </parameter>
+    <parameter>
+        <name value="practitionerRoleData"/>
+        <resource>
+            <PractitionerRole>
+                <id value="Example-EU-PractitionerRole-Missing-Data"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                </meta>
+                <practitioner>
+                    <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
+                </practitioner>
+                <organization>
+                    <reference value="Organization/Example-EU-Organization-Missing-Data"/>
+                </organization>
+                <code>
+                    <coding>
+                        <system value="urn:oid:2.16.840.1.113883.2.9.6.2.7"/>
+                        <code value="2262"/>
+                        <display value="Pharmacists"/>
+                    </coding>
+                </code>
+            </PractitionerRole>
+        </resource>
+    </parameter>
+</Parameters>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input[GEM_ERPEU_PR_PAR_CloseOperation_Input]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Erfolgreiche Übermittlung der Dispensierinformationen.#
+
+¦400 ¦ Client Error +
+[small]#Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.#
+
+¦401 ¦ Client Error +
+[small]#Ungültige Authentifizierung.#
+
+¦403 ¦ Client Error +
+[small]#Keine Berechtigung des Clients.#
+
+¦404 ¦ Client Error +
+[small]#Keine Ergebnisse gefunden.#
+
+¦408 ¦ Client Error +
+[small]#Zeitüberschreitung der Anfrage.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
+
+== Abruf der Abgabeinformationen
+
+=== Abruf der Abgabeinformationen durch den Versicherten
+
+Als Versicherter möchte ich die Abgabeinformationen zu einem E-Rezept abrufen, damit ich die Abgabeinformationen einsehen kann.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/MedicationDispense
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Query Parameters ¦
+----
+identifier: Angabe der Task-ID, um die Dispensierinformationen abzurufen, im Schema identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|<task_id>.
+whenhandedover: Angabe der des Abgabedatums.
+whenprepared: Angabe der des Herstellungsdatums.
+performer: Angabe der Telematik-ID des Abgebenden.
+----
+¦Payload    ¦
+No request body.
+|===
+
+NOTE: Für den Request muss der Client keinen _include Query-Parameter setzen, dieser wird vom Server automatisch angenommen. Damit werden immer alle referenzierten Objekte mit ausgeliefert.
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) für only-eu-dispense (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Bundle",
+  "id": "erp-eprescription-08-response-get-single-medicationdispense",
+  "type": "searchset",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 0,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=160.000.000.000.000.01"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "160.000.000.000.000.01",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "reference": "PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"
+            }
+          }
+        ],
+        "whenHandedOver": "2025-01-15",
+        "medicationReference": {
+          "reference": "Medication/SumatripanMedication"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sanches",
+            "given": [
+              "Pedro"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+          ]
+        },
+        "practitioner": {
+          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
+        },
+        "organization": {
+          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "code": "2262",
+                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
+                "display": "Pharmacists"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          },
+          {
+            "value": "136ad69f"
+          }
+        ],
+        "name": "Pharmacia de Santa Maria",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Rua da Alegria, 123"
+            ],
+            "city": "Lisbon",
+            "country": "Portugal",
+            "state": "Lisbon",
+            "postalCode": "1234-567"
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "SumatripanMedication",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20"
+              }
+            ],
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "ingredient": [
+          {
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg",
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              },
+              "denominator": {
+                "value": 1,
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              }
+            },
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB",
+              "display": "Tabletten"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
+}
+----
+====
+.Response Body (200) für eu-and-rx-dispense (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Bundle",
+  "id": "erp-eprescription-09-response-get-multiple-medication-dispense",
+  "type": "searchset",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "total": 0,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?whenhandedover=ge2025-01-01&whenhandedover=le2025-01-31"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.01",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "160.000.000.000.000.01",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "reference": "PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"
+            }
+          }
+        ],
+        "whenHandedOver": "2025-01-15",
+        "medicationReference": {
+          "reference": "Medication/SumatripanMedication"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          }
+        ],
+        "name": [
+          {
+            "family": "Sanches",
+            "given": [
+              "Pedro"
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b",
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+          ]
+        },
+        "practitioner": {
+          "reference": "Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"
+        },
+        "organization": {
+          "reference": "Organization/6a3c8c57-0870-476e-90e3-25b7562799d3"
+        },
+        "code": [
+          {
+            "coding": [
+              {
+                "code": "2262",
+                "system": "urn:oid:2.16.840.1.113883.2.9.6.2.7",
+                "display": "Pharmacists"
+              }
+            ]
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Organization/6a3c8c57-0870-476e-90e3-25b7562799d3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "value": "1234567890"
+          },
+          {
+            "value": "136ad69f"
+          }
+        ],
+        "name": "Pharmacia de Santa Maria",
+        "type": [
+          {
+            "coding": [
+              {
+                "code": "1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/directory/CodeSystem/OrganizationProfessionOID",
+                "display": "Öffentliche Apotheke"
+              }
+            ]
+          }
+        ],
+        "address": [
+          {
+            "line": [
+              "Rua da Alegria, 123"
+            ],
+            "city": "Lisbon",
+            "country": "Portugal",
+            "state": "Lisbon",
+            "postalCode": "1234-567"
+          }
+        ]
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/7c342123-ca23-4a98-a5c2-b2005ceece45",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "7c342123-ca23-4a98-a5c2-b2005ceece45",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20"
+              }
+            ],
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "ingredient": [
+          {
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg",
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              },
+              "denominator": {
+                "value": 1,
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              }
+            },
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB",
+              "display": "Tabletten"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense/160.000.000.000.000.02",
+      "resource": {
+        "resourceType": "MedicationDispense",
+        "id": "160.000.000.000.000.02",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+          ]
+        },
+        "identifier": [
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          }
+        ],
+        "status": "completed",
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "performer": [
+          {
+            "actor": {
+              "identifier": {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "3-2-APO-XanthippeVeilchenblau01"
+              }
+            }
+          }
+        ],
+        "dosageInstruction": [
+          {
+            "text": "1-0-1-0"
+          }
+        ],
+        "whenHandedOver": "2025-01-15",
+        "quantity": {
+          "value": 1,
+          "code": "{Package}",
+          "system": "http://unitsofmeasure.org"
+        },
+        "medicationReference": {
+          "reference": "Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3"
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Medication/e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+      "resource": {
+        "resourceType": "Medication",
+        "id": "e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+          ]
+        },
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
+            "valueCoding": {
+              "code": "00"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "valueBoolean": false
+          },
+          {
+            "url": "http://fhir.de/StructureDefinition/normgroesse",
+            "valueCode": "N1"
+          }
+        ],
+        "amount": {
+          "numerator": {
+            "extension": [
+              {
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                "valueString": "20"
+              }
+            ],
+            "unit": "St"
+          },
+          "denominator": {
+            "value": 1
+          }
+        },
+        "ingredient": [
+          {
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg",
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              },
+              "denominator": {
+                "value": 1,
+                "_system": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                },
+                "_code": {
+                  "extension": [
+                    {
+                      "valueCode": "unknown",
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
+                    }
+                  ]
+                }
+              }
+            },
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            }
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "06313728",
+              "system": "http://fhir.de/CodeSystem/ifa/pzn"
+            }
+          ],
+          "text": "Sumatriptan-1a Pharma 100 mg Tabletten"
+        },
+        "form": {
+          "coding": [
+            {
+              "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+              "code": "TAB",
+              "display": "Tabletten"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "include"
+      }
+    }
+  ]
+}
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
