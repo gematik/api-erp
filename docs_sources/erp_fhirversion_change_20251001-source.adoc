@@ -1,4 +1,4 @@
-= E-Rezept FHIR Veränderungen für TT.MM.JJJJ image:gematik_logo.png[width=150, float="right"]
+= E-Rezept FHIR Veränderungen für 01.10.2025 image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
 toc::[]
@@ -30,13 +30,20 @@ h|Betrifft h|Feature h|Ressource h|Änderungen
 
 | image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_prescription[KBV_PR_ERP_Prescription] | Streichung der Extension KBV_EX_ERP_BVG, stattdessen Verwendung von KBV_EX_FOR_SER. +
 
-| image:{AVS}[] | *Abgabe auf Abrechnungsstrecke* | link:https://simplifier.net/erezeptabgabedatenbasis/dav_ex_erp_rezeptaenderung[DAV_EX_ERP_Rezeptaenderung] | Hinzufügen des Constraint "EX-DatumRezeptaenderung" in Extension-DAV-EX-ERP-Rezeptaenderung - Extension.extension:DatumRezeptaenderung.valueDate (YYYY-MM-DD) +
-
 Einführung der strukturierten Dosierungsanweisung
 
 Einführung der strukturierten Anwendungshinweise
 
 Verbesserung von Constraints und fachlichen Prüfungen
+
+| image:{AVS}[] | *Abgabe auf Abrechnungsstrecke* | link:https://simplifier.net/erezeptabgabedatenbasis/dav_ex_erp_rezeptaenderung[DAV_EX_ERP_Rezeptaenderung] | Hinzufügen des Constraint "EX-DatumRezeptaenderung" in Extension-DAV-EX-ERP-Rezeptaenderung - Extension.extension:DatumRezeptaenderung.valueDate (YYYY-MM-DD) +
+
+| image:{AVS}[] | *Abrechnungsdaten* | link:https://simplifier.net/erezeptabrechnungsdaten/gkvsv_pr_erp_eabrechnungsdaten[GKVSV_PR_ERP_eAbrechnungsdaten] | 
+Constraint line-item-seq hinzugefügt
+
+Bundle.entry:Quittungsdaten.link.url Änderung
+
+https://gematik.de/fhir/StructureDefinition/ErxReceipt zu https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle
 
 |===
 
