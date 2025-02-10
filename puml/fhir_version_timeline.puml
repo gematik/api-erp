@@ -1,10 +1,12 @@
 @startgantt fhir_version_timeline
 language de
 ' Define color variables
-!define gkvcolor #4285f4
-!define kbvcolor #8D0B41
-!define kbvcolor_st #c84c05
-!define davcolor #118B50
+!define gkvcolor #1a73e8
+!define kbvcolor #e65100
+!define kbvcolor_diga #f57c00
+!define kbvcolor_st #ff9800
+!define davcolor #2e7d32
+!define davcolor_pkv #4caf50
 !define gematikcolor #2E5077
 !define gematikcolor_com #213555
 !define gematikcolor_2 #4DA1A9
@@ -57,9 +59,9 @@ Project starts 2025-09-01
 -- DiGA Verordnung --
  
 [kbv.itv.evdga 1.1.1] starts 2025-09-01 and ends 2026-03-31
-[kbv.itv.evdga 1.1.1] is colored in kbvcolor/black 
+[kbv.itv.evdga 1.1.1] is colored in kbvcolor_diga/black 
 [kbv.itv.evdga 1.2.0] starts 2025-10-01 and ends 2026-04-30
-[kbv.itv.evdga 1.2.0] is colored in kbvcolor/black
+[kbv.itv.evdga 1.2.0] is colored in kbvcolor_diga/black
  
 -- KBV Schlüsseltabellen --
 [S_KBV_DARREICHUNGSFORM 1.15] starts 2025-09-01 and ends 2026-04-30
@@ -71,9 +73,9 @@ Project starts 2025-09-01
  
 -- de.abda.eRezeptAbgabedatenPKV --
 [de.abda.eRezeptAbgabedatenPKV 1.3] starts 2025-09-01 and ends 2026-01-11
-[de.abda.eRezeptAbgabedatenPKV 1.3] is colored in davcolor/black 
+[de.abda.eRezeptAbgabedatenPKV 1.3] is colored in davcolor_pkv/black 
 [de.abda.eRezeptAbgabedatenPKV 1.4] starts 2025-10-01 and ends 2026-04-30
-[de.abda.eRezeptAbgabedatenPKV 1.4] is colored in davcolor/black
+[de.abda.eRezeptAbgabedatenPKV 1.4] is colored in davcolor_pkv/black
  
 -- Communications im Workflow --
  
