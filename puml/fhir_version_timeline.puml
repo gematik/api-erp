@@ -5,14 +5,14 @@ language de
 !define kbvcolor #e65100
 !define kbvcolor_diga #f57c00
 !define kbvcolor_st #ff9800
-!define davcolor #2e7d32
+!define davcolor_basis #256428
+!define davcolor_gkv #2e7d32
 !define davcolor_pkv #4caf50
 !define gematikcolor #2E5077
 !define gematikcolor_com #213555
 !define gematikcolor_2 #4DA1A9
 !define gematikcolor_backup #95190C
 !define datelinecolor #EFD0CA
-!define separatorcolor #EFD0CA
  
 <style>
 ganttDiagram {
@@ -22,12 +22,6 @@ ganttDiagram {
       FontColor white
       FontSize 15
       FontStyle bold
-   }
-   undone {
-      BackGroundColor #F9C22E
-      FontColor black
-      FontSize 15
-      FontStyle bold    
    }
 }
 </style>
@@ -46,8 +40,10 @@ Project starts 2025-09-01
 [Ende Gültigkeit (31.03.2026)] happens on 2026-03-31
  
 -- de.gkvsv.eRezeptAbrechnungsdaten --
-[de.gkvsv.eRezeptAbrechnungsdaten 1.4] starts 2025-09-01 and ends 2026-04-30
-[de.gkvsv.eRezeptAbrechnungsdaten 1.4] is colored in gkvcolor/black
+[1.4] starts 2025-09-01 and ends 2025-10-01
+[1.4] is colored in gkvcolor/black
+[de.gkvsv.eRezeptAbrechnungsdaten 1.5] starts 2025-10-01 and ends 2026-04-30
+[de.gkvsv.eRezeptAbrechnungsdaten 1.5] is colored in gkvcolor/black
  
 -- Arzneimittel Verordnung --
  
@@ -66,10 +62,18 @@ Project starts 2025-09-01
 -- KBV Schlüsseltabellen --
 [S_KBV_DARREICHUNGSFORM 1.15] starts 2025-09-01 and ends 2026-04-30
 [S_KBV_DARREICHUNGSFORM 1.15] is colored in kbvcolor_st/black
+
+-- de.abda.eRezeptAbgabedatenBasis --
+[de.abda.eRezeptAbgabedatenBasis 1.4] starts 2025-09-01 and ends 2026-01-11
+[de.abda.eRezeptAbgabedatenBasis 1.4] is colored in davcolor_basis/black
+[de.abda.eRezeptAbgabedatenBasis 1.5] starts 2025-10-01 and ends 2026-04-30
+[de.abda.eRezeptAbgabedatenBasis 1.5] is colored in davcolor_basis/black
  
--- de.abda.eRezeptAbgabedaten --
-[de.abda.eRezeptAbgabedaten 1.4] starts 2025-09-01 and ends 2026-04-30
-[de.abda.eRezeptAbgabedaten 1.4] is colored in davcolor/black
+-- de.abda.eRezeptAbgabedatenGKV --
+[de.abda.eRezeptAbgabedaten 1.4] starts 2025-09-01 and ends 2026-01-11
+[de.abda.eRezeptAbgabedaten 1.4] is colored in davcolor_gkv/black
+[de.abda.eRezeptAbgabedaten 1.5] starts 2025-10-01 and ends 2026-04-30
+[de.abda.eRezeptAbgabedaten 1.5] is colored in davcolor_gkv/black
  
 -- de.abda.eRezeptAbgabedatenPKV --
 [de.abda.eRezeptAbgabedatenPKV 1.3] starts 2025-09-01 and ends 2026-01-11
