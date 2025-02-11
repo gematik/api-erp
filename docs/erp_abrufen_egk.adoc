@@ -283,13 +283,15 @@ Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/po
 Python Code zum Erzeugen eines hcv:
 [source,python]
 ----
-VB='2018-01-11T07:00:00'
+# Versicherungsbeginn 11.01.2018
+VB='20180111'
 SAS='Beispielstrasse'
 
 def gen_H_40_0(VB: str, SAS: str)->bytes:
     # Hinweis für Nicht-Python-Entwickler:
     # encode() transformiert einen string in eine Bytefolge
-    H = hashlib.sha256(VB.encode() + SAS.encode()).digest(); assert len(H) == 32
+    assert len(VB.encode('iso-8859-15')) == 8
+    H = hashlib.sha256(VB.encode('iso-8859-15') + SAS.encode('iso-8859-15')).digest(); assert len(H) == 32
     H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
     H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
 
@@ -297,7 +299,7 @@ def gen_H_40_0(VB: str, SAS: str)->bytes:
 
 hcv = gen_H_40_0(VB, SAS)
 ----
-hcv aus diesem Beispiel ist `10be65f365`
+hcv aus diesem Beispiel ist Hex-kodiert `17d643edc2`
 
 ====
 
