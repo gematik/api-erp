@@ -88,8 +88,10 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen_egk/04_ReadVSD_Response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_abrufen_egk/04_01_ReadVSD_Response_KOCO.xml[]
 ----
+
+NOTE: Das angegebene Beispiel ist die Response einer KOCO-Box, hier Beipspiele eines link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_03_ReadVSD_Response_Secunet.xml[Secunet Konnektors] und link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_02_ReadVSD_Response_Rise.xml[Rise Konnektors].
 
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
