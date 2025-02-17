@@ -86,6 +86,20 @@ for filename in os.listdir(INPUT_FOLDER):
                 # Construct the full URI
                 uri_formatted = f"{host}{uri}"
 
+                # Check for path parameters and modify the URI accordingly
+                for param in parameters:
+                    if param.get('in') == 'path':
+                        param_name = param.get('name', '')
+                        param_example = param.get('schema', {}).get('example', None)
+                        
+                        # Replace the path parameter in the URI
+                        if param_example is not None:
+                            # Use the example if provided
+                            uri_formatted = uri_formatted.replace(f"{{{param_name}}}", param_example)
+                        else:
+                            # Use the parameter name if no example is provided
+                            uri_formatted = uri_formatted.replace(f"{{{param_name}}}", f"<{param_name}>")
+
                 # Request Headers
                 request_headers = []
                 for param in parameters:

@@ -20,7 +20,7 @@ tags:
     description: Endpunkte zur Übermittlung und Abfrage von Dispensierinformationen aus dem EU-Ausland.
 
 paths:
-  /Task:
+  /Task/{id}:
     patch:
       tags:
         - Prescription Management
@@ -31,6 +31,13 @@ paths:
       x-allowed-requester:
         - "FdV"
       parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "160.000.000.000.000.01"
+          description: Prescription ID of the Task to be patched.
         - in: header
           name: Authorization
           required: true
