@@ -2663,52 +2663,33 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ----
 {
   "resourceType": "Parameters",
-  "id": "erp-chargeItem-10-patch-chargeitem-request",
+  "id": "Example-Parameters-Patch-ChargeItem-2",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input|1.1"
+    ]
+  },
   "parameter": [
     {
-      "name": "operation",
+      "name": "markingFlag",
       "part": [
         {
-          "name": "type",
-          "valueCode": "add"
-        },
-        {
-          "name": "path",
-          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"
-        },
-        {
-          "name": "name",
-          "valueString": "valueBoolean"
-        },
-        {
-          "name": "value",
+          "name": "insuranceProvider",
           "valueBoolean": true
-        }
-      ]
-    },
-    {
-      "name": "operation",
-      "part": [
-        {
-          "name": "type",
-          "valueCode": "add"
         },
         {
-          "name": "path",
-          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('insuranceProvider')"
+          "name": "taxOffice",
+          "valueBoolean": true
         },
         {
-          "name": "name",
-          "valueString": "valueBoolean"
-        },
-        {
-          "name": "value",
-          "valueBoolean": false
+          "name": "subsidy",
+          "valueBoolean": true
         }
       ]
     }
   ]
 }
+//TODO: include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_chargeItem/10_patch_chargeitem_request.json[]
 ----
 NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 
