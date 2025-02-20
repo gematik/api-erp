@@ -347,7 +347,7 @@ Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die e
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse image:{DEPR}[]
 |Method     |GET
 |HTTP Header |X-erp-user: l
 
@@ -362,6 +362,10 @@ Content-Type: application/ocsp-response
 100100100110001011110001110111011000110000101111101100100111011...
 ----
 |===
+
+WARNING: Dieser Endpunkt ist deprecated und wird in Zukunft ausgebaut. + 
+image:{PVS}[] Bitte den Konnektor für die Zertifikatsprüfung nutzen + 
+image:{FdV}[] Bitte GET /OCSPResponse verwenden.
 
 === Request versenden
 Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Request für die VAU in mehreren Schritten aufbereitet. Als Beispiel wird im Folgenden die Abfrage aller E-Rezepte eines Versicherten verwendet.
