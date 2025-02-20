@@ -2002,10 +2002,11 @@ Authorization: Bearer <JWT> (string, required)
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
+                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -2044,29 +2045,9 @@ Authorization: Bearer <JWT> (string, required)
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -2255,10 +2236,11 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
+                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -2297,29 +2279,9 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -2914,11 +2876,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -2940,54 +2903,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -3005,7 +2920,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"
@@ -3192,11 +3123,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -3218,54 +3150,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -3283,7 +3167,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"
@@ -3355,11 +3255,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -3381,54 +3282,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -3446,7 +3299,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"
