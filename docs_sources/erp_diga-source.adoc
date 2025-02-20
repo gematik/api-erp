@@ -1,6 +1,8 @@
 = E-Rezept API-Dokumentation für das Feature DiGA image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
+Zielgruppe: image:{PVS}[] image:{KTR}[] image:{FdV}[]
+
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Primärsysteme, Kostenträger und Frontends der Versicherten für die Bearbeitung von DiGA-Verordnungen.
 
 toc::[]
@@ -284,7 +286,7 @@ Der E-Rezept-Token, welcher die Task-ID und den AccessCode enthält ist in der C
 Ein Kostenträger hat vom Versicherten mittels Zuweisung die Informationen `https://erp.zentral.erp.splitdns.ti-dienste.de/Task/162.123.456.789.123.58/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea` für den Abruf eines E-Rezepts vom E-Rezept-Fachdienst erhalten.
 
 Der Aufruf erfolgt als http-POST-Operation mit der FHIR-Operation `$accept`. Im http-Request-Header `Authorization` muss das während der Authentisierung erhaltene ACCESS_TOKEN übergeben werden. Als URL-Parameter `?ac=...` muss der beim Erzeugen des Tasks generierte `AccessCode` für die Berechtigungsprüfung übergeben werden.
-Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signierte E-Rezept als E-Rezept-Datensatz zurückgegeben, wobei im Task das `secret` als zusätzliches Geheimnis in einem Task.identifier generiert wird, das in allen folgenden Zugriffen durch den Apotheker mitgeteilt werden muss.
+Im http-ResponseBody wird der referenzierte Task sowie das qualifiziert signierte E-Rezept als E-Rezept-Datensatz zurückgegeben, wobei im Task das `secret` als zusätzliches Geheimnis in einem Task.identifier generiert wird, das in allen folgenden Zugriffen durch den Kostenträger mitgeteilt werden muss.
 
 *Request*
 [cols="h,a"]
