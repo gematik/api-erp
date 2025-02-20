@@ -47,19 +47,19 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 ### Allgemein
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
-|[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV]|
+|[Endpunkte](docs/misc_api_endpoints.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
+|[Fehlerbehandlung](docs/erp_statuscodes.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
+|[FHIR-Package Änderungen bei Versionsübergängen](docs/erp_fhirversion_changes.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
+|[FHIR-Package Versionsmanagement](docs/erp_fhirversion.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
+|[FHIR-Validierung in Titus](docs/erp_validation.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
 
 ### Anwendungsfälle Zugang zur TI
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
-|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS]|
-|[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS]
-|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS]|
+|[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
+|[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS] ![][KTR]|
+|[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS] ![][KTR]|
+|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS] ![][KTR]|
 
 ### Anwendungsfälle Bedienung von E-Rezepten
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
@@ -69,16 +69,16 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
 |[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
-|[Bedienen von DiGA-Verordnungen](docs/erp_diga.adoc)|![][PVS] ![][KTR] ![][FdV]|
+|[Bedienen von DiGA-Verordnungen](docs/erp_diga.adoc)|![][PVS] ![][FdV] ![][KTR]|
 
 ### Besondere Anwendungsfälle
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
-|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS]|
+|[Benachrichtigungen für Apotheken und Kostenträger](docs/erp_notification_avs.adoc)|![][AVS] ![][KTR]|
 |[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|![][AVS] ![][FdV]|
 |[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
-|[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV]|
+|[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
 

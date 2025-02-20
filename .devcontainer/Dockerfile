@@ -10,7 +10,7 @@ RUN apt-get update \
         graphviz \
         plantuml \
     && gem install asciidoctor -v 2.0.20 \
-    && gem install asciidoctor-diagram -v 2.2.14 \
+    && gem install asciidoctor-diagram -v 2.3.0 \
     && gem install asciidoctor-reducer \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
