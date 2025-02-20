@@ -75,7 +75,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
 |[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
-|[Benachrichtigungen für Apotheken](docs/erp_notification_avs.adoc)|![][AVS] ![][KTR]|
+|[Benachrichtigungen für Apotheken und Kostenträger](docs/erp_notification_avs.adoc)|![][AVS] ![][KTR]|
 |[Einlösen ohne Anmeldung](docs/erp_alternative_zuweisung.adoc)|![][AVS] ![][FdV]|
 |[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|

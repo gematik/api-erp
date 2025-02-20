@@ -250,7 +250,7 @@ s|Code   s|Type Error
 
 
 ==  Anwendungsfall Alle Nachrichten vom E-Rezept-Fachdienst abrufen
-Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns einen Überblick der bisherigen E-Rezept-Anfragen zu beschaffen.
+Als Apotheke oder Kostenträger möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns einen Überblick der bisherigen E-Rezept-Anfragen zu beschaffen.
 
 *Request*
 [cols="h,a"]
@@ -258,7 +258,7 @@ Als Apotheke möchten wir alle Nachrichten des Monats April 2020 abrufen, um uns
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?recipient=3-2-APO-TestApotheke&sent=lt2020-04-30&_sort=sent +
 
-. Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke gerichtet sind. Andernfalls würden ebenso die von der Apotheke versendeten Nachrichten abgerufen werden.
+. Mit dem URL-Paramter `recipient=TelematikID` können die Nachrichten serverseitig nach der `TelematikID` gefiltert werden, um nur Nachrichten abzurufen, die AN die Apotheke oder den Kostenträger gerichtet sind. Andernfalls würden ebenso die von der Apotheke oder dem Kostenträger versendeten Nachrichten abgerufen werden.
 . Im konkreten Beispiel soll nach Nachrichten gesucht werden, die älter als 30. April 2020 sind (`?sent=lt2020-04-30`). +
 Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sent=gt2020-04-01&sent=lt2020-04-30`).
 . Vgl. auch `https://www.hl7.org/fhir/communication.html#search`
@@ -270,9 +270,9 @@ Eine Suche nach Nachrichten innerhalb eines Intervalls ist nicht möglich (`?sen
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke oder Kostenträger aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke oder Kostenträger, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
 |Payload    |-
 |===
@@ -315,8 +315,8 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
-==  Anwendungsfall Nachricht als Apotheke löschen
-Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst entfernen.
+==  Anwendungsfall Nachricht als Apotheke oder Kostenträger löschen
+Als Apotheke oder Kostenträger möchten wir eine von uns versendete Nachricht auf dem Fachdienst entfernen.
 
 *Request*
 [cols="h,a"]
@@ -330,9 +330,9 @@ Als Apotheke möchten wir eine von uns versendete Nachricht auf dem Fachdienst e
 ----
 Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 ----
-NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Versicherter bzw. Apotheke oder Kostenträger aus, im Token ist seine Versichertennummer bzw. die Telematik-ID der Apotheke oder Kostenträger enthalten, nach welcher die Einträge gefiltert werden. Die Base64-Darstellung des Tokens ist stark gekürzt.
 
-NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` ("l" für Abruf durch Apotheke oder Kostenträger, "v" für die E-Rezept-App) und `X-erp-resource: Communication` zu setzen.
 
 |Payload    |-
 |===
