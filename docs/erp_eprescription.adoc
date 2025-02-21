@@ -22,7 +22,7 @@
 :date-folder: 2025-01-15
 // TODO: Change
 :branch: eu-examples
-:date-folder: 2025-10-01-preview
+:date-folder: 2025-10-01
 :toclevels: 2
 
 Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
@@ -60,7 +60,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-01-POST-Consent",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
     ]
   },
   "status": "active",
@@ -126,7 +126,7 @@ Content-Type: application/fhir+json (string)
   "id": "6bd784b8-6595-42ea-8201-c34354efa857",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
     ]
   },
   "status": "active",
@@ -156,7 +156,7 @@ Content-Type: application/fhir+json (string)
       ]
     }
   ],
-  "dateTime": "2025-01-15T15:29:00+00:00",
+  "dateTime": "2025-10-01T15:29:00+00:00",
   "policyRule": {
     "coding": [
       {
@@ -313,7 +313,7 @@ Content-Type: application/fhir+json (string)
   "resourceType": "Bundle",
   "id": "erp-eprescription-02-GET-Consent-Bundle",
   "type": "searchset",
-  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "timestamp": "2025-10-01T15:29:00.434+00:00",
   "total": 1,
   "entry": [
     {
@@ -323,7 +323,7 @@ Content-Type: application/fhir+json (string)
         "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
           ]
         },
         "status": "active",
@@ -353,7 +353,7 @@ Content-Type: application/fhir+json (string)
             ]
           }
         ],
-        "dateTime": "2025-01-15T15:29:00+00:00",
+        "dateTime": "2025-10-01T15:29:00+00:00",
         "policyRule": {
           "coding": [
             {
@@ -426,7 +426,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.0"
     ]
   },
   "parameter": [
@@ -473,7 +473,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.0"
     ]
   },
   "parameter": [
@@ -493,11 +493,11 @@ Content-Type: application/fhir+json (string)
     },
     {
       "name": "validUntil",
-      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+      "valueInstant": "2025-10-01T16:29:00.434+00:00"
     },
     {
       "name": "createdAt",
-      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+      "valueInstant": "2025-10-01T15:29:00.434+00:00"
     }
   ]
 }
@@ -569,7 +569,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.0"
     ]
   },
   "parameter": [
@@ -589,11 +589,11 @@ Content-Type: application/fhir+json (string)
     },
     {
       "name": "validUntil",
-      "valueInstant": "2025-01-15T16:29:00.434+00:00"
+      "valueInstant": "2025-10-01T16:29:00.434+00:00"
     },
     {
       "name": "createdAt",
-      "valueInstant": "2025-01-15T15:29:00.434+00:00"
+      "valueInstant": "2025-10-01T15:29:00.434+00:00"
     }
   ]
 }
@@ -696,7 +696,7 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-DEMOGRAPHICS"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -767,7 +767,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-RETRIEVAL"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -866,7 +866,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -949,7 +949,7 @@ Content-Type: application/fhir+xml (string)
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-05-GET-Prescription-Bundle"/>
     <type value="collection"/>
-    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
     <link>
         <relation value="self"/>
         <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Prescription"/>
@@ -960,7 +960,7 @@ Content-Type: application/fhir+xml (string)
             <Bundle>
                 <id value="erp-eprescription-05-Prescription-Bundle-1"/>
                 <meta>
-                    <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+                    <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
                 </meta>
                 <identifier>
@@ -968,7 +968,7 @@ Content-Type: application/fhir+xml (string)
                     <value value="160.000.000.000.000.01"/>
                 </identifier>
                 <type value="document"/>
-                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+                <timestamp value="2025-10-01T15:29:00.434+00:00"/>
                 <entry>
                     <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
                     <resource>
@@ -993,7 +993,7 @@ Content-Type: application/fhir+xml (string)
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                             </subject>
-                            <date value="2025-01-15T15:29:00.434+00:00"/>
+                            <date value="2025-10-01T15:29:00.434+00:00"/>
                             <author>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                                 <type value="Practitioner"/>
@@ -1070,8 +1070,8 @@ Content-Type: application/fhir+xml (string)
                                 </extension>
                                 <extension url="Zeitraum">
                                     <valuePeriod>
-                                        <start value="2025-01-15"/>
-                                        <end value="2025-02-14"/>
+                                        <start value="2025-10-01"/>
+                                        <end value="2025-10-31"/>
                                     </valuePeriod>
                                 </extension>
                                 <extension url="ID">
@@ -1095,7 +1095,7 @@ Content-Type: application/fhir+xml (string)
                                     </valueCoding>
                                 </extension>
                                 <extension url="Unfalltag">
-                                    <valueDate value="2025-01-15"/>
+                                    <valueDate value="2025-10-01"/>
                                 </extension>
                             </extension>
                             <status value="active"/>
@@ -1106,7 +1106,7 @@ Content-Type: application/fhir+xml (string)
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                             </subject>
-                            <authoredOn value="2025-01-15"/>
+                            <authoredOn value="2025-10-01"/>
                             <requester>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                             </requester>
@@ -1433,7 +1433,7 @@ Content-Type: application/fhir+xml (string)
             <Bundle>
                 <id value="erp-eprescription-05-Prescription-Bundle-2"/>
                 <meta>
-                    <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+                    <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
                 </meta>
                 <identifier>
@@ -1441,7 +1441,7 @@ Content-Type: application/fhir+xml (string)
                     <value value="160.000.000.000.000.02"/>
                 </identifier>
                 <type value="document"/>
-                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+                <timestamp value="2025-10-01T15:29:00.434+00:00"/>
                 <entry>
                     <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
                     <resource>
@@ -1466,7 +1466,7 @@ Content-Type: application/fhir+xml (string)
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                             </subject>
-                            <date value="2025-01-15T15:29:00.434+00:00"/>
+                            <date value="2025-10-01T15:29:00.434+00:00"/>
                             <author>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                                 <type value="Practitioner"/>
@@ -1543,8 +1543,8 @@ Content-Type: application/fhir+xml (string)
                                 </extension>
                                 <extension url="Zeitraum">
                                     <valuePeriod>
-                                        <start value="2025-01-15"/>
-                                        <end value="2025-02-14"/>
+                                        <start value="2025-10-01"/>
+                                        <end value="2025-10-31"/>
                                     </valuePeriod>
                                 </extension>
                                 <extension url="ID">
@@ -1568,7 +1568,7 @@ Content-Type: application/fhir+xml (string)
                                     </valueCoding>
                                 </extension>
                                 <extension url="Unfalltag">
-                                    <valueDate value="2025-01-15"/>
+                                    <valueDate value="2025-10-01"/>
                                 </extension>
                             </extension>
                             <status value="active"/>
@@ -1579,7 +1579,7 @@ Content-Type: application/fhir+xml (string)
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                             </subject>
-                            <authoredOn value="2025-01-15"/>
+                            <authoredOn value="2025-10-01"/>
                             <requester>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                             </requester>
@@ -1941,7 +1941,7 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}/$eu-close
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$eu-close
 ¦Method     ¦POST
 ¦Requester  ¦image:{NCPeH}[]
 ¦HTTP Header ¦
@@ -1957,7 +1957,7 @@ Authorization: Bearer <JWT> (string, required)
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.0"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -1967,7 +1967,7 @@ Authorization: Bearer <JWT> (string, required)
                 <MedicationDispense>
                     <id value="160.000.000.000.000.01"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -1988,7 +1988,7 @@ Authorization: Bearer <JWT> (string, required)
                             <reference value="PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-01-15"/>
+                    <whenHandedOver value="2025-10-01"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -2002,10 +2002,11 @@ Authorization: Bearer <JWT> (string, required)
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
+                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -2044,29 +2045,9 @@ Authorization: Bearer <JWT> (string, required)
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -2128,7 +2109,7 @@ Authorization: Bearer <JWT> (string, required)
             <Practitioner>
                 <id value="a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2146,7 +2127,7 @@ Authorization: Bearer <JWT> (string, required)
             <Organization>
                 <id value="6a3c8c57-0870-476e-90e3-25b7562799d3"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2178,7 +2159,7 @@ Authorization: Bearer <JWT> (string, required)
             <PractitionerRole>
                 <id value="ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
@@ -2210,7 +2191,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.0"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -2220,7 +2201,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                 <MedicationDispense>
                     <id value="160.000.000.000.000.01"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -2241,7 +2222,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                             <reference value="PractitionerRole/ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-01-15"/>
+                    <whenHandedOver value="2025-10-01"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -2255,10 +2236,11 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
+                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -2297,29 +2279,9 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
-                                <system>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </system>
-                                <code>
-                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                                        <valueCode value="unknown"/>
-                                    </extension>
-                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -2381,7 +2343,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <Practitioner>
                 <id value="Example-EU-Practitioner-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2399,7 +2361,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <Organization>
                 <id value="Example-EU-Organization-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2439,7 +2401,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <PractitionerRole>
                 <id value="Example-EU-PractitionerRole-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
@@ -2501,7 +2463,203 @@ No response body.
 
 |===
 
-== Abruf der Abgabeinformationen
+== Interaktion FdV mit E-Rezept-Fachdienst
+
+=== Setzen der Markierung zur Einlösung im EU-Ausland
+
+Als Versicherter möchte ich einen Task als "Einzulösen im EU Ausland" markieren, damit dieser im EU-Ausland eingelöst werden kann. Der default-Wert wird vom E-Rezept-Fachdienst bei Einstellen der Verordnung als `false` gesetzt.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01
+¦Method     ¦PATCH
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "erp-eprescription-10-PATCH-Task-Request",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_PATCH_Task_Input|1.0"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "eu-isRedeemableByPatientAuthorization",
+      "valueBoolean": true
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_PATCH_Task_Input[GEM_ERPEU_PR_PAR_PATCH_Task_Input]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json (string)
+----
+¦Payload    ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Task",
+  "id": "erp-eprescription-10-PATCH-Task-Response",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+    ],
+    "tag": [
+      {
+        "display": "Task in READY state activated by (Z)PVS/KIS via $activate operation"
+      }
+    ]
+  },
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+      "valueCoding": {
+        "code": "160",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+      }
+    },
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+      "valueDate": "2026-04-02"
+    },
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+      "valueDate": "2026-06-02"
+    },
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_EU_IS_REDEEMABLE_BY_PROPERTIES",
+      "valueBoolean": true
+    },
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_EU_IS_REDEEMABLE_BY_PATIENT_AUTHORIZATION",
+      "valueBoolean": true
+    }
+  ],
+  "identifier": [
+    {
+      "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+      "value": "160.000.000.000.000.01"
+    },
+    {
+      "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+      "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
+  "status": "ready",
+  "intent": "order",
+  "authoredOn": "2026-03-18T15:26:00+00:00",
+  "performerType": [
+    {
+      "coding": [
+        {
+          "code": "urn:oid:1.2.276.0.76.4.54",
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+          "display": "Öffentliche Apotheke"
+        }
+      ]
+    }
+  ],
+  "for": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "X123456789"
+    }
+  },
+  "lastModified": "2026-03-18T15:27:00+00:00",
+  "input": [
+    {
+      "type": {
+        "coding": [
+          {
+            "code": "1",
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
+            "display": "Health Care Provider Prescription"
+          }
+        ]
+      },
+      "valueReference": {
+        "reference": "281a985c-f25b-4aae-91a6-41ad744080b0"
+      }
+    },
+    {
+      "type": {
+        "coding": [
+          {
+            "code": "2",
+            "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
+            "display": "Patient Confirmation"
+          }
+        ]
+      },
+      "valueReference": {
+        "reference": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
+      }
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task[GEM_ERP_PR_Task]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Task für Einlösung im EU-Ausland erfolgreich markiert#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦408 ¦ Client Error +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
 
 === Abruf der Abgabeinformationen durch den Versicherten
 
@@ -2550,7 +2708,7 @@ Content-Type: application/fhir+json (string)
   "resourceType": "Bundle",
   "id": "erp-eprescription-08-response-get-single-medicationdispense",
   "type": "searchset",
-  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "timestamp": "2025-10-01T15:29:00.434+00:00",
   "total": 0,
   "link": [
     {
@@ -2566,7 +2724,7 @@ Content-Type: application/fhir+json (string)
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"
           ]
         },
         "identifier": [
@@ -2589,7 +2747,7 @@ Content-Type: application/fhir+json (string)
             }
           }
         ],
-        "whenHandedOver": "2025-01-15",
+        "whenHandedOver": "2025-10-01",
         "medicationReference": {
           "reference": "Medication/SumatripanMedication"
         }
@@ -2605,7 +2763,7 @@ Content-Type: application/fhir+json (string)
         "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"
           ]
         },
         "identifier": [
@@ -2633,7 +2791,7 @@ Content-Type: application/fhir+json (string)
         "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"
           ]
         },
         "practitioner": {
@@ -2665,7 +2823,7 @@ Content-Type: application/fhir+json (string)
         "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"
           ]
         },
         "identifier": [
@@ -2718,11 +2876,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -2744,54 +2903,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -2809,7 +2920,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"
@@ -2828,7 +2955,7 @@ Content-Type: application/fhir+json (string)
   "resourceType": "Bundle",
   "id": "erp-eprescription-09-response-get-multiple-medication-dispense",
   "type": "searchset",
-  "timestamp": "2025-01-15T15:29:00.434+00:00",
+  "timestamp": "2025-10-01T15:29:00.434+00:00",
   "total": 0,
   "link": [
     {
@@ -2844,7 +2971,7 @@ Content-Type: application/fhir+json (string)
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"
           ]
         },
         "identifier": [
@@ -2867,7 +2994,7 @@ Content-Type: application/fhir+json (string)
             }
           }
         ],
-        "whenHandedOver": "2025-01-15",
+        "whenHandedOver": "2025-10-01",
         "medicationReference": {
           "reference": "Medication/SumatripanMedication"
         }
@@ -2883,7 +3010,7 @@ Content-Type: application/fhir+json (string)
         "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"
           ]
         },
         "identifier": [
@@ -2911,7 +3038,7 @@ Content-Type: application/fhir+json (string)
         "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"
           ]
         },
         "practitioner": {
@@ -2943,7 +3070,7 @@ Content-Type: application/fhir+json (string)
         "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"
           ]
         },
         "identifier": [
@@ -2996,11 +3123,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -3022,54 +3150,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -3087,7 +3167,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"
@@ -3131,7 +3227,7 @@ Content-Type: application/fhir+json (string)
             "text": "1-0-1-0"
           }
         ],
-        "whenHandedOver": "2025-01-15",
+        "whenHandedOver": "2025-10-01",
         "quantity": {
           "value": 1,
           "code": "{Package}",
@@ -3159,11 +3255,12 @@ Content-Type: application/fhir+json (string)
           {
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
-              "code": "00"
+              "code": "00",
+              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -3185,54 +3282,6 @@ Content-Type: application/fhir+json (string)
             "value": 1
           }
         },
-        "ingredient": [
-          {
-            "strength": {
-              "numerator": {
-                "value": 100,
-                "unit": "mg",
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              },
-              "denominator": {
-                "value": 1,
-                "_system": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                },
-                "_code": {
-                  "extension": [
-                    {
-                      "valueCode": "unknown",
-                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason"
-                    }
-                  ]
-                }
-              }
-            },
-            "itemCodeableConcept": {
-              "text": "Sumatriptan"
-            }
-          }
-        ],
         "code": {
           "coding": [
             {
@@ -3250,7 +3299,23 @@ Content-Type: application/fhir+json (string)
               "display": "Tabletten"
             }
           ]
-        }
+        },
+        "ingredient": [
+          {
+            "itemCodeableConcept": {
+              "text": "Sumatriptan"
+            },
+            "strength": {
+              "numerator": {
+                "value": 100,
+                "unit": "mg"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
+          }
+        ]
       },
       "search": {
         "mode": "include"

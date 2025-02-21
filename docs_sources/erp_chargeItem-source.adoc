@@ -454,7 +454,8 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_chargeItem/10_patch_chargeitem_request.json[]
+include::https://raw.githubusercontent.com/gematik/fhir-profiles-erpchrg/refs/heads/feature/patch-chargeitem-update/Resources/fsh-generated/resources/Parameters-Example-Parameters-Patch-ChargeItem-2.json[]
+//TODO: include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_chargeItem/10_patch_chargeitem_request.json[]
 ----
 NOTE: In `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"` ist der Pfadanfang, an dem das zu ändernde Attribut hängt definiert.
 

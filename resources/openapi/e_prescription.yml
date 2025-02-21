@@ -20,6 +20,69 @@ tags:
     description: Endpunkte zur Übermittlung und Abfrage von Dispensierinformationen aus dem EU-Ausland.
 
 paths:
+  /Task/{id}:
+    patch:
+      tags:
+        - Prescription Management
+      summary: Markieren für Einlösen im europäischen Ausland
+      description: Markiert ein E-Rezept für das Einlösen im europäischen Ausland.
+      x-request-route:
+        - "Internet"
+      x-allowed-requester:
+        - "FdV"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            example: "160.000.000.000.000.01"
+          description: Prescription ID of the Task to be patched.
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: Bearer-Token zur Authentifizierung.
+      requestBody:
+        required: true
+        x-fhir-profile: 
+            - "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_PATCH_Task_Input"
+        content:
+          application/fhir+json:
+            example:
+              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/10_PATCH_Task_Request.json"
+      responses:
+        '200':
+          description: Task für Einlösung im EU-Ausland erfolgreich markiert
+          headers:
+            Content-Type:
+              description: The media type of the response
+              schema:
+                type: string
+                example: application/fhir+json
+          x-fhir-profile: 
+            - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+          content:
+            application/fhir+json:
+              example:
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/10_PATCH_Task_Response.json"
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+        '405':
+          description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+        '408':
+          description: Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.
+        '429':
+          description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+        '500':
+          description: Unerwarteter Serverfehler.
   /Consent:
     post:
       tags:
@@ -44,7 +107,7 @@ paths:
         content:
           application/fhir+json:
             example:
-              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent.json"
+              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/01_POST_Consent.json"
       responses:
         '201':
           description: Zustimmung erfolgreich erteilt
@@ -59,7 +122,7 @@ paths:
           content:
             application/fhir+json:
               example:
-                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/01_POST_Consent_Response.json"
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/01_POST_Consent_Response.json"
         '253':
           description: "Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt."
         '254':
@@ -149,7 +212,7 @@ paths:
           content:
             application/fhir+json:
               example:
-                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/02_GET_Consent_Bundle.json"
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/02_GET_Consent_Bundle.json"
         '400':
           description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
         '401':
@@ -189,7 +252,7 @@ paths:
         content:
           application/fhir+json:
             example:
-              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/03_POST_AccessCode_EU_Request.json"
+              $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/03_POST_AccessCode_EU_Request.json"
       responses:
         '200':
           description: Zugriffscode erfolgreich erstellt
@@ -204,7 +267,7 @@ paths:
           content:
             application/fhir+json:
               example:
-                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json"
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/04_POST_AccessCode_EU_Response.json"
         '400':
           description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
         '401':
@@ -249,7 +312,7 @@ paths:
           content:
             application/fhir+json:
               example:
-                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/04_POST_AccessCode_EU_Response.json"
+                $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/04_POST_AccessCode_EU_Response.json"
 
   /$revoke-eu-access-permission:
     delete:
@@ -312,11 +375,11 @@ paths:
             application/xml:
               examples:
                 demographics:
-                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml'
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/06_GET_Prescription_DEMOGRAPHICS.xml'
                 prescriptions-retrieval:
-                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml'
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_RETRIEVAL.xml'
                 prescriptions-list:
-                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml'
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/06_GET_Prescription_PRESCRIPTIONS_LIST.xml'
       responses:
         '200':
           description: Erfolgreiche Antwort mit Verschreibungsdaten, sortiert absteigend nach `MedicationRequest.authored-on`.
@@ -329,7 +392,7 @@ paths:
           content:
             application/xml:
               example:
-                $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/05_GET_Prescription_Bundle.xml'
+                $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/05_GET_Prescription_Bundle.xml'
         '400':
           description: Fehlerhafte Anfrage, z.B. fehlerhafter Aufbau der Anfrage.
         '401':
@@ -373,9 +436,9 @@ paths:
           application/xml:
             examples:
                 all-data:
-                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close.xml'
+                  $ref: 'https://raw.githubusercontent.com/gematik/erezept-examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/07_EU_Close.xml'
                 with-missing-data:
-                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/07_EU_Close_Missing_Data.xml'
+                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/07_EU_Close_Missing_Data.xml'
       responses:
         '200':
           description: Erfolgreiche Übermittlung der Dispensierinformationen.
@@ -443,9 +506,9 @@ paths:
             application/fhir+json:
               examples:
                   only-eu-dispense:
-                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/08_response_get_single_medicationdispense.json'
+                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/08_response_get_single_medicationdispense.json'
                   eu-and-rx-dispense:
-                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01-preview/erp_eprescription/09_response_get_multiple_medication_dispense.json'
+                    $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/feature/eu-examples/API-Examples/2025-10-01/erp_eprescription/09_response_get_multiple_medication_dispense.json'
         '400':
           description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
         '401':
