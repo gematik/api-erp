@@ -60,7 +60,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-01-POST-Consent",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
     ]
   },
   "status": "active",
@@ -126,7 +126,7 @@ Content-Type: application/fhir+json (string)
   "id": "6bd784b8-6595-42ea-8201-c34354efa857",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
     ]
   },
   "status": "active",
@@ -323,7 +323,7 @@ Content-Type: application/fhir+json (string)
         "id": "e9b39f9c-0b70-4dd5-ada2-fea3cde2e340",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Consent|1.0"
           ]
         },
         "status": "active",
@@ -426,7 +426,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-03-POST-AccessCode-EU-Request",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Request|1.0"
     ]
   },
   "parameter": [
@@ -473,7 +473,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.0"
     ]
   },
   "parameter": [
@@ -569,7 +569,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-04-POST-AccessCode-EU-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.5"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_Access_Authorization_Response|1.0"
     ]
   },
   "parameter": [
@@ -696,7 +696,7 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-DEMOGRAPHICS"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -767,7 +767,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-RETRIEVAL"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -866,7 +866,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-06-GET-Prescription-PRESCRIPTIONS-LIST"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input|1.0"/>
     </meta>
     <parameter>
         <name value="requestData"/>
@@ -1957,7 +1957,7 @@ Authorization: Bearer <JWT> (string, required)
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.0"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -1967,7 +1967,7 @@ Authorization: Bearer <JWT> (string, required)
                 <MedicationDispense>
                     <id value="160.000.000.000.000.01"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -2109,7 +2109,7 @@ Authorization: Bearer <JWT> (string, required)
             <Practitioner>
                 <id value="a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2127,7 +2127,7 @@ Authorization: Bearer <JWT> (string, required)
             <Organization>
                 <id value="6a3c8c57-0870-476e-90e3-25b7562799d3"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2159,7 +2159,7 @@ Authorization: Bearer <JWT> (string, required)
             <PractitionerRole>
                 <id value="ebe39d92-276b-436d-a9ea-9dd5e042637b"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/a7adde1a-af5c-4814-8fea-e46e7e63ed07"/>
@@ -2191,7 +2191,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eprescription-07-EU-Close-Missing-Data"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input|1.0"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -2201,7 +2201,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                 <MedicationDispense>
                     <id value="160.000.000.000.000.01"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -2343,7 +2343,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <Practitioner>
                 <id value="Example-EU-Practitioner-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2361,7 +2361,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <Organization>
                 <id value="Example-EU-Organization-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"/>
                 </meta>
                 <identifier>
                     <value value="1234567890"/>
@@ -2401,7 +2401,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
             <PractitionerRole>
                 <id value="Example-EU-PractitionerRole-Missing-Data"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"/>
                 </meta>
                 <practitioner>
                     <reference value="Practitioner/Example-EU-Practitioner-Missing-Data"/>
@@ -2491,7 +2491,7 @@ Authorization: Bearer <JWT> (string, required)
   "id": "erp-eprescription-10-PATCH-Task-Request",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/GEM_ERP_PR_PAR_PATCH_Task_Input|1.0"
+      "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_PATCH_Task_Input|1.0"
     ]
   },
   "parameter": [
@@ -2724,7 +2724,7 @@ Content-Type: application/fhir+json (string)
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"
           ]
         },
         "identifier": [
@@ -2763,7 +2763,7 @@ Content-Type: application/fhir+json (string)
         "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"
           ]
         },
         "identifier": [
@@ -2791,7 +2791,7 @@ Content-Type: application/fhir+json (string)
         "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"
           ]
         },
         "practitioner": {
@@ -2823,7 +2823,7 @@ Content-Type: application/fhir+json (string)
         "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"
           ]
         },
         "identifier": [
@@ -2971,7 +2971,7 @@ Content-Type: application/fhir+json (string)
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_MedicationDispense|1.0"
           ]
         },
         "identifier": [
@@ -3010,7 +3010,7 @@ Content-Type: application/fhir+json (string)
         "id": "a7adde1a-af5c-4814-8fea-e46e7e63ed07",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"
           ]
         },
         "identifier": [
@@ -3038,7 +3038,7 @@ Content-Type: application/fhir+json (string)
         "id": "ebe39d92-276b-436d-a9ea-9dd5e042637b",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PractitionerRole|1.0"
           ]
         },
         "practitioner": {
@@ -3070,7 +3070,7 @@ Content-Type: application/fhir+json (string)
         "id": "6a3c8c57-0870-476e-90e3-25b7562799d3",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.5"
+            "https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"
           ]
         },
         "identifier": [
