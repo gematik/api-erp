@@ -88,7 +88,11 @@ s|Code   s|Type Error
 
 === Abruf von OCSP Responses
 
-Zur Gültigkeitsprüfung der Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet. 
+Zur Gültigkeitsprüfung der EE-Zertifikate ist es notwendig, dass das E-Rezept-FdV die OCSP Responses für die gematik PKI Zertifikate abrufen kann. Dazu wird die API `GET /OCSPResponse?issuer-cn&serial-nr` verwendet. 
+
+NOTE: Das FdV soll mit diesem Endpunkt nur die End-Entity Zertifikate im E-Rezept Kontext prüfen (Kategorie C, D und E aus link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_Krypt/gemSpec_Krypt_V2.38.0/#A_24470[A_24470]). Die Prüfung der CA-Zertifikate ist nicht notwendig.
+
+NOTE: Die End-Entity Zertifikate können nicht über einen Endpunkt am E-Rezept-Fachdienst bezogen werden. Die Zertifikate müssen erst zu dem Moment überprüft werden, wo sie in der Anwendung verwendet werden. Bspw. ist das Signaturzertifikat des IDP im IDP-Token enthalten und muss bei der Verarbeitung der IDP-Response geprüft werden.
 
 Der URL-Parameter `issuer-cn` ist der Common Name des ausstellenden Zertifikats und `serial-nr` ist die Seriennummer des Zertifikats, für das eine OCSP-Response angefragt wird. Die Seriennummer wird wie im Zertifikat als positive Integer angegeben.
 
