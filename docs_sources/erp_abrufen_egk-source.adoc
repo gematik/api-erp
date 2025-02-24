@@ -129,12 +129,12 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 
 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
-Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend zu übergeben. 
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend anzugeben. 
 
 Hierbei muss der URL-Parameter:
 
 * `pnw` aus der ReadVSD()-Response
-* `kvnr` aus C.AUT Zertifikat der eGK
+* `kvnr`
 * und `hcv` base64safeUrl-kodiert
 
 übergeben werden.
@@ -194,8 +194,6 @@ image:puml_pn3_decision_tree.png[width=100%]
 [%autowidth]
 |===
 |URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&hcv=MTBiZTY1ZjM2NQ==&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
-
-CAUTION: Der HCV-Hash und der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
 
 |Method     |GET
 |Requester | image:{AVS}[]
