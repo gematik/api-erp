@@ -80,8 +80,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
-|[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
-|[Einlösen im EU-Ausland](docs/erp-eprescription.adoc)|![][FdV]|
+|[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
