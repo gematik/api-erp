@@ -12,7 +12,7 @@ Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK 
 
 **NEU:** Zur Sicherstellung, dass die physische eGK im Zugriff der Apotheke ist, muss das AVS die KVNR ermitteln, sowie den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Beide Werte werden als URL Parameter an den E-Rezept-Fachdienst für den Abruf übergeben.
 
-Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) URL-codiert im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
@@ -129,7 +129,15 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 
 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
-Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend und URL-codiert zu übergeben.
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend anzugeben. 
+
+Hierbei muss der URL-Parameter:
+
+* `pnw` aus der ReadVSD()-Response URL-kodiert
+* `kvnr`
+* und `hcv` base64safeUrl-kodiert
+
+übergeben werden.
 
 .**Beispiel zum Erzeugen des hcv** (Klicken zum Ausklappen)
 [%collapsible]
@@ -187,9 +195,7 @@ image:puml_pn3_decision_tree.png[width=100%]
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&hcv=10be65f365&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
-
-CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&hcv=MTBiZTY1ZjM2NQ==&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
 
 |Method     |GET
 |Requester | image:{AVS}[]
