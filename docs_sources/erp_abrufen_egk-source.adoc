@@ -175,9 +175,10 @@ def gen_H_40_0(VB: str, SAS: str)->bytes:
     
 hcv = gen_H_40_0(VB, SAS)
 ----
-hcv aus diesem Beispiel ist Hex-kodiert `F9ZD7cI`
+hcv aus diesem Beispiel ist Hex-kodiert `17d643edc2`. 
+Als base64safeUrl-kodiert lautet es `F9ZD7cI`.
 
-**Alternativ: C# Code:**
+Alternative C# Code:
 [source,cs]
 ----
 public static string GenerateHcv(UC_AllgemeineVersicherungsdatenXML allgemeine, UC_PersoenlicheVersichertendatenXML persoenliche) {
