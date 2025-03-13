@@ -44,7 +44,7 @@ Auf dieser Seite finden sie eine Übersicht der Produkte und Verordnungen, die �
 
 s|verschreibungspflichtige Arzneimittel zu Lasten der GKV verordnet |:heavy_check_mark: | :heavy_check_mark: | generell derzeit eingeschlossen auf Basis SGB V §360 Abs. 2 und Abs. 3 und Regelungen im BMV-Ä, mit Ausnahme von T-Rezepten und Betäubungsmitteln
 //
-|Verordnungen anwendungsfertiger Zytostatika-Rezepturen als strukturierte Rezeptur (§11 Abs. 2 Apothekengesetz) |:heavy_check_mark: | :heavy_check_mark: | Eine Ausnahme von der Verpflichtung zur Verordnung wurde in SGB V §360 Abs. 2 Satz 5 mit dem KhPlfEG festgelegt. Davon unabhängig wird eine Pilotierung in 2024 vorangetrieben.
+|Verordnungen anwendungsfertiger Zytostatika-Rezepturen als strukturierte Rezeptur (§11 Abs. 2 Apothekengesetz) |:heavy_check_mark: | :heavy_check_mark: | Eine Ausnahme von der Verpflichtung zur Verordnung wurde in SGB V §360 Abs. 2 Satz 5 festgelegt.
 
 *Hinweis: Umgang mit Begleitmedikation ist durch BMG festzulegen*
 //
@@ -56,11 +56,11 @@ Problemstellung bei diesen Verordnungen (Rückmeldung von Apothekerin): _Es geht
 //
 |Verordnungen nach §27a SGB V | :heavy_check_mark: | :heavy_check_mark: | Entsprechendes Kennzeichen im FHIR Profil (KBV_PR_ERP_Prescription.extension:Zuzahlungsstatus) kann gesetzt werden. Wert "2" aus link:https://simplifier.net/packages/kbv.ita.for/1.1.0/files/720086[KBV_CS_FOR_StatusCoPayment]
 //
-|Betäubungsmittel |:x: | :x: | Fertigarzneimittel und z.B. auch cannabishaltige Arzneimittel (voraussichtliche Bereitstellung in 2025)
+|Betäubungsmittel |:x: | :x: | Fertigarzneimittel
 //
-|Rezepte für Dosierautomaten |:x: | :x: | Keine bundeseinheitliche Regelung derzeit. Im Kontext BTM Rezept ist dies mit BfArM noch zu besprechen und zu klären bzw. von den Vertragspartnern (LAV und Kassen) in den vertraglichen Regelungen zu berücksichtigen.
+|Rezepte für Dosierautomaten |:x: | :x: | Keine bundeseinheitliche Regelung derzeit.
 //
-|T-Rezepte (Kennzeichnung) |:x: | :x: | z.B. Arzneimittel mit den Wirkstoffen Lenalidomid, Pomalidomid und Thalidomid  (voraussichtliche Bereitstellung in 2025)
+|T-Rezepte (Kennzeichnung) |:x: | :x: | z.B. Arzneimittel mit den Wirkstoffen Lenalidomid, Pomalidomid und Thalidomid
 4+| [.underline]#Sonderfälle unter apothekenpflichtigen Arzneimittel nach SGBV §31 Abs. 1 Satz 1 verschreibungspflichtige Arzneimittel zu Lasten der GKV verordnet#
 //
 .2+|Blutprodukte
@@ -78,9 +78,9 @@ s|[.underline]#Nicht# verschreibungspflichtige aber zu Lasten der GKV verordnete
 //
 4+|
 //
-s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:information_source: optional| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 (KBV_PR_FOR_Coverage.type = "SEL") genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
+s|[.underline]#Nicht# verschreibungspflichtige und [.underline]#nicht# zu Lasten der GKV verordnete Arzneimittel |:heavy_check_mark:| :information_source: freiwillig| Freiwilligkeit nach BMV-Ä (Vordruck e16g): Grünes Rezept kann heute schon mit Workflow 160 (KBV_PR_FOR_Coverage.type = "SEL") genutzt werden. Da die technischen Anforderungen jedoch abweichen, wird zukünftig ein eigener Workflow vorgesehen.
 //
-|grünes Rezept |:information_source: optional | :information_source: freiwillig a|
+|grünes Rezept |:heavy_check_mark: | :information_source: freiwillig a|
 * Freiwilligkeit nach BMV-Ä.
 * Empfehlungen für nicht verschreibungspflichtige AM können über das E-Rezept bereits jetzt erfolgen (mit Workflow 160 und KBV_PR_FOR_Coverage.type = "SEL", aktuell Unterscheidung zu blauem Rezept nur anhand des Präparats möglich).
 * Der Ausdruck für ein Wunscharzneimittel kann dem Versicherten zum Einreichen bei der Krankenkasse mitgegeben werden. Zusätzlich hilft den Patienten der Kassenzettel aus der Apotheke. (Siehe link:https://service.gematik.de/browse/ERPFIND-121[ERPFIND-121^])
@@ -99,32 +99,29 @@ s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GK
 //
 4+|
 //
-|Apothekenpflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|Apothekenpflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt.
 //
-|verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt.
 //
-|[.underline]#nicht# verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt. Für die Umsetzung in der Fläche stehen nach und nach weitere angepasste Systeme auf Arzt- und Apothekenseite zur Verfügung. Die Privaten Krankenversicherungen werden in 2024 anfangen ihre Versicherten mit GesundheitsIDs in der Breite auszustatten.
+|[.underline]#nicht# verschreibungspflichtige Arzneimittel für Privatversicherte |:heavy_check_mark: | n/a | Eine Bereitstellung durch den E-Rezept-Fachdienst in der PU ist erfolgt.
 //
 4+s|Verbandmittel, Harn- und Blutteststreifen nach § 31 Abs. 1 Satz 1 SGB V
 //
 |Verordnung von sonstigen nach §31 SGB V einbezogenen Produkten (Verbandmittel und (Harn- und Blut-Teststreifen) [Geltungsarzneimittel] |:x: | :x: a|
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
-* kommt voraussichtlich nach 2026
 //
 4+s| Medizinprodukte nach § 31 Abs. 1 Satz 2 SGB V
 |Medizinprodukte nach § 31 Abs. 1 Satz 2 SGB V|:x: | :x: a|
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
 * *Spezialfall*: Macrogol welches aus der Arzneimitteldatenbank als Medizinprodukt übernommen wird im Verordnungsvorgang kann derzeit nicht auf einem E-Rezept verschrieben werden.
-* kommt voraussichtlich nach 2026
 
 4+s|Bilanzierte Diäten zur enteralen Ernährung nach § 31 Abs. 5 SGB V
 |Enterale Ernährung |:x: | :x: a|
 * Bei enteraler Ernährung nach § 31 Abs. 5 SGB V handelt es sich nicht um apothekenpflichtige Arzneimittel, sondern um bilanzierte Diäten. Somit können auch Leistungserbringer, die nicht Apotheken sind, diese nach Präqualifizierung abgeben.
 * Leistung ist noch nicht zu verordnen und daher von PVS zu unterbinden.
 * Neuer Workflow wird später spezifiziert damit z.b. auch in Sanitätshäusern eingelöst werden kann
-* kommt voraussichtlich nach 2026
 //
 4+s| Sprechstundenbedarf
 |Sprechstundenbedarf (Kennzeichnung) |:x: | :x: | 	In Ausbaustufe geplant (kein gesetzlicher Auftrag, daher keine Planung)
@@ -133,22 +130,22 @@ s|Verschreibungspflichtige Arzneimittel und [.underline]#nicht# zu Lasten der GK
 |Stationsbedarf |:x: | :x: | Nicht geplant
 //
 4+s| Hilfsmittel nach § 33 SGB V
-|Hilfsmittel |:x: | :x: | In Ausbaustufe geplant (voraussichtlich nach 2026)
+|Hilfsmittel |:x: | :x: | In Ausbaustufe geplant
 //
 4+s| Heilmittel
-|Heilmittel |:x: | :x: | In Ausbaustufe geplant für: Physiotherapie, Ergotherapie, SSSST, Podologie, Ernährungstherapie (voraussichtlich nach 2026)
+|Heilmittel |:x: | :x: | In Ausbaustufe geplant für: Physiotherapie, Ergotherapie, SSSST, Podologie, Ernährungstherapie
 //
 4+s| DIGA
-|Digitale Gesundheitsanwendungen (DiGA) nach §33a SGB V  |:x: | :x: | In Ausbaustufe geplant (voraussichtliche Bereitstellung in 2025)
+|Digitale Gesundheitsanwendungen (DiGA) nach §33a SGB V  |:heavy_check_mark: | :heavy_check_mark: | Pilotierung beginnt in Q2 2025. Regelung zur Verpflichtung nach SGB V §360 erfolgt durch BMG nach der Pilotierung.
 //
 4+s| Soziotherapien nach SGB V §37a
-||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2026)
+||:x: | :x: | In Ausbaustufe geplant
 //
 4+s| Häusliche Krankenpflege  nach SGB V §37b
-||:x: | :x: | In Ausbaustufe geplant  (voraussichtlich in 2025)
+||:x: | :x: | In Ausbaustufe geplant
 //
 4+s| Außerklinische Intensivpflege nach SGB V §37c
-|Außerklinische Intensivpflege |:x: | :x: | In Ausbaustufe geplant  (voraussichtlich nach 2026)
+|Außerklinische Intensivpflege |:x: | :x: | In Ausbaustufe geplant
 //
 4+s| Krankentransport / Taxifahrten SGB V §60
 |Krankentransport / Taxifahrten |:x: | :x: | In keiner Ausbaustufe bislang geplant
@@ -183,12 +180,14 @@ Hinweis GKV-SV: Verhandlungen zu Anlage 23 Anforderungskatalog laufen
 
 // Mehrfachverordnung
 |Mehrfachverordnung (Kennzeichnung) |:heavy_check_mark: |  |
-Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023): Die Umsetzung der AMV-Anforderung zur Mehrfachverordnung gemäß der Pflichtfunktion P3-640 muss zum 1. April 2023 erfolgen. Der E-Rezept-Fachdienst der gematik unterstützt diese Funktionalität seit dem 4. Oktober 2022 im produktiven Betrieb. AMV-Anforderungskatalog siehe: https://update.kbv.de/ita-update/Verordnungen/Arzneimittel/EXT_ITA_VGEX_Anforderungskatalog_AVWG.pdf.
+Verwendung für Workflow 160/200, jedoch keine Mehrfachverordnung für Entlassrezepte, BTM-Rezepte und T-Rezepte.
+
+Hinweis aus dem ITA-Newsletter für Anbieter von Gesundheits-IT (Update II/2023): Die Umsetzung der AMV-Anforderung zur Mehrfachverordnung gemäß der Pflichtfunktion P3-640 muss zum 1. April 2023 erfolgen. Der E-Rezept-Fachdienst der gematik unterstützt diese Funktionalität seit dem 4. Oktober 2022 im produktiven Betrieb.
 //
 |Isotretinoin, Alitretinoin und Acitretin |:heavy_check_mark: :bulb: |  a|
 * Retinoid-haltige Arzneimittel (Isotretinoin, Alitretinoin und Acitretin) sind zwar teratogen, werden aber nicht auf T-Rezept-Formularvordrucken verordnet sondern auf Muster 16
 * es gilt die Verwendung des Muster 16 inkl. der normalen Gültigkeitsfristen. Ausnahme: Frauen im gebärfähigen Alter (Die Patientin muss das Rezept innerhalb von sieben Tagen in der Apotheke einlösen bzw. "Verschreibungen sind [...] bis zu sechs Tagen nach dem Tag ihrer Ausstellung gültig" siehe AMVV §3b Abs. 2)
-* Da derzeit die Gültigkeitsfristen vom Verordnenden nicht vorgegeben werden, werden die Werte vom Fachdienst gesetzt. Die Apotheke hat die gesetzliche Regelung dennoch im Blick zu behalten.
+* Da derzeit die Gültigkeitsfristen vom Verordnenden nicht vorgegeben werden, werden die Werte vom Fachdienst automatisch gesetzt. Die Apotheke hat die gesetzliche Regelung dennoch im Blick zu behalten.
 //
 |Esketamin zur intranasalen Anwendung |:heavy_check_mark: |  | Verordnung über E-Rezept mit Abgabe an Arzt (Direktzuweisung)
 //
@@ -251,7 +250,7 @@ Es gibt bis heute einige Interessens- bzw. Absichtsbekundungen, insbesondere von
 //
 |Hebammen | :x: | Gemäß Anlage 1 der AMVV dürfen Hebammen und Entbindungspfleger vier Wirkstoffe ohne ärztliche Verordnung erhalten: Fenoterol, Lidocain, Methylergometrin und Oxytocin. Hinzu kommt, dass Hebammen auch Digitale Gesundheitsanwendungen verordnen dürfen (§ 134a iVm § 139e SGB V).
 
-→ Hebammen können diese AM erwerben, stellen dann aber keine Verordnung darüber aus. eRP für Arzneimittel müssen also von Hebammen nicht erstellt werden können. DiGAs sind gesondert zu betrachten.
+→ Hebammen können diese AM erwerben, stellen dann aber keine Verordnung darüber aus. eRP für Arzneimittel müssen also von Hebammen nicht erstellt werden können.
 //
 3+|
 3+s| Leistungserbringer Hilfsmittel
@@ -262,7 +261,11 @@ Es gibt bis heute einige Interessens- bzw. Absichtsbekundungen, insbesondere von
 //
 3+|
 3+s| Leistungserbringer Heilmittel
-|Physiotherapeuten |:x: |
+|* Physiotherapeuten
+* Ergotherapeuten
+* Stimm-, Sprech-, Sprach- und/oder Schluck-Therapie
+* Podologische Therapie
+* Ernährungstherapie |:x: |
 //
 3+|
 3+s| Vertriebswege nach §47 AMG
