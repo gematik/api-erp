@@ -59,7 +59,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Beschreibung des Verbindungsaufbaus zur Telematikinfrastruktur](docs/authentisieren.adoc)|![][PVS] ![][AVS] ![][FdV] ![][KTR]|
 |[Fachdienst Health-Check](docs/erp_ps_probing.adoc)|![][PVS] ![][AVS] ![][KTR]|
 |[TI-Konfiguration](docs/ti_configuration.adoc)|![][PVS] ![][AVS] ![][KTR]|
-|[TI Lagebild](docs/erp_ps_probing_lagebild.adoc)|![][PVS] ![][AVS] ![][KTR]|
+|[TI Lagebild](https://github.com/gematik/api-tilage/blob/main/content/Documentation.md)|![][PVS] ![][AVS] ![][KTR]|
 
 ### Anwendungsfälle Bedienung von E-Rezepten
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
