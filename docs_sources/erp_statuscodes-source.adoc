@@ -208,6 +208,9 @@ POST /Consent                 |253            |Die ID einer Ressource und die I
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
                               |454            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" übermittelt wurde. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
                               |455            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" aber kein URL-Parameter kvnr übermittelt wurde.
+                              |456            |Die Anfrage wird abgebrochen, da die KVNR im URL-Parameter nicht mit der KVNR in der Prüfziffer übereinstimmt.
+                              |457            |Die Anfrage wird abgebrochen, da der URL-Parameter "hcv" nicht übertragen wurde.
+                              |458            |Die Anfrage wird abgebrochen, da der hcv im URL-Parameter nicht mit dem hcv in der Prüfziffer übereinstimmt.
 .8+|GET /Task/<id>            |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            |Unzulässige fachliche Rolle
