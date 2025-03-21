@@ -21,6 +21,55 @@ tags:
 
 paths:
   /Task/{id}:
+    get:
+        tags:
+          - Prescription Management
+        summary: Abfragen von Task Informationen
+        description: Abfrage des Tasks vom E-Rezept-Fachdienst mit der Task-ID.
+        x-allowed-requester:
+          - "FdV"
+        parameters:
+          - in: header
+            name: Authorization
+            required: true
+            schema:
+              type: string
+            description: ACCESS_TOKEN, ausgestellt vom IDP
+          - in: path
+            name: identifier
+            required: true
+            schema:
+              type: string
+            description: Angabe der Task-ID, um die Task-Informationen abzurufen.
+        responses:
+          '200':
+            description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+            headers:
+              Content-Type:
+                description: The media type of the response
+                schema:
+                  type: string
+                  example: application/fhir+json
+            x-fhir-profile: 
+              - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+            content:
+              application/fhir+json:
+                example:
+                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/API-Examples/2025-10-01/erp_eprescription/12_GET_Task_ID_Bundle.json'
+          '400':
+            description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+          '401':
+            description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+          '403':
+            description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+          '404':
+            description: Die adressierte Ressource wurde nicht gefunden, die übergebene ID ist ungültig.
+          '405':
+            description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          '429':
+            description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+          '500':
+            description: Unerwarteter Serverfehler.
     patch:
       tags:
         - Prescription Management
