@@ -80,7 +80,7 @@ Die für diese Anwendung wichtigen Attribute und Besonderheiten durch die Profil
 == Anwendungsfälle DiGA für Primärsysteme verordnender LEI
 
 === E-Rezept einer DiGA erstellen
-Analog zum Anwendungsfall xref:../docs/erp_bereitstellen.adoc#"E-Rezept erstellen"["E-Rezept erstellen"] muss das Primärsystem der Verordnenden LEI die Task-ID für eine DiGA Verordnung vom E-Rezept-Fachdienst abfragen.
+Analog zum Anwendungsfall xref:../docs/erp_bereitstellen.adoc#E-Rezept-erstellen["E-Rezept erstellen"] muss das Primärsystem der Verordnenden LEI die Task-ID für eine DiGA Verordnung vom E-Rezept-Fachdienst abfragen.
 
 Hierfür wird eine Abfrage für einen neuen Task mit WorkflowType '162' erstellt.
 
@@ -213,7 +213,7 @@ Ein Beispielhafter Aufruf kann auf der Seite xref:../docs/erp_bereitstellen.adoc
 
 === Abrufen der DiGA Verordnung
 
-Wie im Kontext der Arzneimittelverordnung kann der Versicherte die DiGA-Verordnung abrufen. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#Alle_E-Rezepte_ansehen["Alle E-Rezepte ansehen"] und xref:../docs/erp_versicherte.adoc#Ein_einzelnes_E-Rezept_abrufen_und_in_der_Apotheke_einlösen"["Ein einzelnes E-Rezept abrufen"].
+Wie im Kontext der Arzneimittelverordnung kann der Versicherte die DiGA-Verordnung abrufen. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#Alle-E-Rezepte-ansehen["Alle E-Rezepte ansehen"] und xref:../docs/erp_versicherte.adoc#Ein-einzelnes-E-Rezept-abrufen-und-in-der-Apotheke-einlösen"["Ein einzelnes E-Rezept abrufen"].
 
 Hier exemplarisch ein Aufruf von eines DiGA-E-Rezeptes im Status "offen":
 
@@ -910,7 +910,7 @@ NOTE: Im Ergebnis ist die Telematik-ID des Kostenträgers '8-01-0000000232' unte
 
 ==== 3. Zuweisen der DiGA Verordnung an den Kostenträger
 
-Für die Zuweisung einer Verordnung wird, wie auch im Arzneimittelkontext das Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] verwendet und der Anwendungsfall analog zu xref:../docs/erp_communication.adoc#"Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"["Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"] durchgeführt.
+Für die Zuweisung einer Verordnung wird, wie auch im Arzneimittelkontext das Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] verwendet und der Anwendungsfall analog zu xref:../docs/erp_communication.adoc#Anwendungsfall-Ein-E-Rezept-verbindlich-einer-Apotheke-zuweisen["Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen"] durchgeführt.
 
 Für diesen Anwendungsfall gibt es Abweichungen vom Arzneimittelprozess, die das E-Rezept-FdV beachten muss:
 
@@ -959,7 +959,7 @@ Ein Beispiel einer Zuweisung an einen Kostenträger:
 
 === Freischaltcode einsehen
 
-Zum Einsehen des Freischaltcodes ruft das E-Rezept-FdV die Abgabedaten analog zum Arzneimittelkontext ab. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#"Abgabeinformationen abrufen"["Abgabeinformationen abrufen"].
+Zum Einsehen des Freischaltcodes ruft das E-Rezept-FdV die Abgabedaten analog zum Arzneimittelkontext ab. Siehe hierzu den Anwendungsfall xref:../docs/erp_versicherte.adoc#Abgabeinformationen-abrufen["Abgabeinformationen abrufen"].
 
 Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode enthalten:
 
@@ -1017,7 +1017,7 @@ Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode
 
 === Empfangen von Zuweisungen
 
-Der Empfang von Zuweisungen erfolgt via Abrufen von Communications am E-Rezept-Fachdienst. Dies erfolgt analog zu abgebenden LEI. Dabei kann ein xref:../docs/erp_notification_avs.adoc["Subscription Service"] genutzt werden, um über neue Zuweisungen informiert zu werden. Alternativ ist auch ein manuelles xref:../docs/erp_communication.adoc#"Anwendungsfall Alle Nachrichten vom E-Rezept-Fachdienst abrufen"["Abfragen der Communications"] möglich.
+Der Empfang von Zuweisungen erfolgt via Abrufen von Communications am E-Rezept-Fachdienst. Dies erfolgt analog zu abgebenden LEI. Dabei kann ein xref:../docs/erp_notification_avs.adoc["Subscription Service"] genutzt werden, um über neue Zuweisungen informiert zu werden. Alternativ ist auch ein manuelles xref:../docs/erp_communication.adoc#Anwendungsfall-Alle-Nachrichten-vom-E-Rezept-Fachdienst-abrufen["Abfragen der Communications"] möglich.
 
 Der E-Rezept-Token, welcher die Task-ID und den AccessCode enthält ist in der Communication unter .basedOn.reference enthalten.
 
@@ -1425,7 +1425,7 @@ s|Code   s|Type Success
 |201  | Created +
 [small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt.#
 s|Code   s|Type Warning
-|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
                 [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
 |254            |Format der fullUrl ist ungültig. +
                 [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
