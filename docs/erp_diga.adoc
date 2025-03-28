@@ -335,7 +335,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "3ebd56b4-5cdf-42bc-b26a-738d0b08068a",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.1"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.2"
           ]
         },
         "type": "document",
@@ -352,7 +352,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.1"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.2"
                 ]
               },
               "status": "final",
@@ -414,8 +414,8 @@ Content-Type: application/fhir+json;charset=utf-8
                 {
                   "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis",
                   "valueCoding": {
-                    "code": "00",
-                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN",
+                    "code": "00"
                   }
                 }
               ],
@@ -435,14 +435,14 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "a1533e28-4631-4afa-b5e6-f233fad87f53",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.1"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.2"
                 ]
               },
               "status": "active",
               "intent": "order",
               "extension": [
                 {
-                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_EVDGA_SER",
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER",
                   "valueBoolean": false
                 }
               ],

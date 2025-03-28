@@ -1999,7 +1999,7 @@ Authorization: Bearer <JWT> (string, required)
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
-                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
+                            <system value="https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
@@ -2233,7 +2233,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
-                            <system value="https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"/>
+                            <system value="https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"/>
                             <code value="00"/>
                         </valueCoding>
                     </extension>
@@ -2525,7 +2525,7 @@ Content-Type: application/fhir+json (string)
   "id": "erp-eprescription-10-PATCH-Task-Response",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
     ],
     "tag": [
       {
@@ -2533,6 +2533,7 @@ Content-Type: application/fhir+json (string)
       }
     ]
   },
+  "intent": "order",
   "extension": [
     {
       "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -2569,27 +2570,12 @@ Content-Type: application/fhir+json (string)
       "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
     }
   ],
-  "status": "ready",
-  "intent": "order",
-  "authoredOn": "2026-03-18T15:26:00+00:00",
-  "performerType": [
-    {
-      "coding": [
-        {
-          "code": "urn:oid:1.2.276.0.76.4.54",
-          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-          "display": "Öffentliche Apotheke"
-        }
-      ]
-    }
-  ],
   "for": {
     "identifier": {
       "system": "http://fhir.de/sid/gkv/kvid-10",
       "value": "X123456789"
     }
   },
-  "lastModified": "2026-03-18T15:27:00+00:00",
   "input": [
     {
       "type": {
@@ -2619,7 +2605,21 @@ Content-Type: application/fhir+json (string)
         "reference": "f8c2298f-7c00-4a68-af29-8a2862d55d43"
       }
     }
-  ]
+  ],
+  "status": "ready",
+  "authoredOn": "2026-03-18T15:26:00+00:00",
+  "performerType": [
+    {
+      "coding": [
+        {
+          "code": "urn:oid:1.2.276.0.76.4.54",
+          "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+          "display": "Öffentliche Apotheke"
+        }
+      ]
+    }
+  ],
+  "lastModified": "2026-03-18T15:27:00+00:00"
 }
 ----
 ====
@@ -3038,7 +3038,7 @@ Content-Type: application/fhir+json (string)
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
               "code": "00",
-              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
+              "system": "https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"
             }
           },
           {
@@ -3285,7 +3285,7 @@ Content-Type: application/fhir+json (string)
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
               "code": "00",
-              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
+              "system": "https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"
             }
           },
           {
@@ -3417,7 +3417,7 @@ Content-Type: application/fhir+json (string)
             "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension",
             "valueCoding": {
               "code": "00",
-              "system": "https://gematik.de/fhir/terminology/CodeSystem/epa-drug-category-cs"
+              "system": "https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"
             }
           },
           {
