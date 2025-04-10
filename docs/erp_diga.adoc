@@ -8,18 +8,19 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 :toc: macro
-:toclevels: 3
+:toclevels: 2
 :toc-title: Inhaltsverzeichnis
 :AVS: https://img.shields.io/badge/AVS-E30615
 :PVS: https://img.shields.io/badge/PVS/KIS-C30059
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: main
-:date-folder: 2025-01-15
+:branch: 2025-10-01
+:date-folder: 2025-10-01
 
 Zielgruppe: image:{PVS}[] image:{KTR}[] image:{FdV}[]
 
@@ -149,7 +150,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="162.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -159,10 +160,10 @@ Content-Type: application/fhir+xml; charset=UTF-8
         </valueCoding>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2025-04-25"/>
+        <valueDate value="2026-01-09"/>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2025-04-25"/>
+        <valueDate value="2026-01-09"/>
     </extension>
     <identifier>
         <use value="official"/>
@@ -177,8 +178,8 @@ Content-Type: application/fhir+xml; charset=UTF-8
             <value value="X123456789"/>
         </identifier>
     </for>
-    <authoredOn value="2025-01-15T15:29:00+00:00"/>
-    <lastModified value="2025-01-15T15:29:00.434+00:00"/>
+    <authoredOn value="2025-10-01T15:29:00+00:00"/>
+    <lastModified value="2025-10-01T15:29:00.434+00:00"/>
     <performerType>
         <coding>
             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
@@ -229,21 +230,21 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-diga-01-evdga-bundle"/>
     <meta>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.1"/>
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.2"/>
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
         <value value="162.000.000.000.000.01"/>
     </identifier>
     <type value="document"/>
-    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
     <entry>
         <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9"/>
         <resource>
             <Composition>
                 <id value="55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.1"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.2"/>
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -261,7 +262,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
                 <subject>
                     <reference value="Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 </subject>
-                <date value="2025-01-15T15:29:00.434+00:00"/>
+                <date value="2025-10-01T15:29:00.434+00:00"/>
                 <author>
                     <reference value="Practitioner/1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                     <type value="Practitioner"/>
@@ -308,9 +309,9 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <DeviceRequest>
                 <id value="a1533e28-4631-4afa-b5e6-f233fad87f53"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.1"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.2"/>
                 </meta>
-                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_EVDGA_SER">
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
                     <valueBoolean value="false"/>
                 </extension>
                 <status value="active"/>
@@ -325,7 +326,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
                 <subject>
                     <reference value="Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 </subject>
-                <authoredOn value="2025-01-15"/>
+                <authoredOn value="2025-10-01"/>
                 <requester>
                     <reference value="Practitioner/1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                 </requester>
@@ -341,13 +342,13 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Patient>
                 <id value="40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
                 </meta>
                 <identifier>
                     <type>
                         <coding>
                             <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
-                            <code value="GKV"/>
+                            <code value="KVZ10"/>
                         </coding>
                     </type>
                     <system value="http://fhir.de/sid/gkv/kvid-10"/>
@@ -385,7 +386,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Practitioner>
                 <id value="1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
                 </meta>
                 <identifier>
                     <type>
@@ -432,7 +433,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Organization>
                 <id value="b87b9d90-c8db-4660-93eb-fed916caa2da"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
                 </meta>
                 <identifier>
                     <type>
@@ -471,7 +472,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Coverage>
                 <id value="2d3a92c2-c93c-47ad-8ab5-49b275be97ee"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
                 </meta>
                 <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                     <valueCoding>
@@ -565,7 +566,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-diga-02-response-taskGetSingle",
   "meta": {
-    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
+    "lastUpdated": "2025-10-01T15:29:00.434+00:00"
   },
   "type": "collection",
   "link": [
@@ -582,7 +583,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "162.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
           ]
         },
         "intent": "order",
@@ -597,11 +598,11 @@ Content-Type: application/fhir+json;charset=utf-8
           },
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2025-04-25"
+            "valueDate": "2026-01-09"
           },
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2025-04-25"
+            "valueDate": "2026-01-09"
           }
         ],
         "identifier": [
@@ -622,21 +623,6 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "X123456789"
           }
         },
-        "status": "ready",
-        "authoredOn": "2025-01-15T15:29:00+00:00",
-        "lastModified": "2025-01-15T15:29:00.434+00:00",
-        "performerType": [
-          {
-            "coding": [
-              {
-                "code": "urn:oid:1.2.276.0.76.4.59",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                "display": "Kostenträger"
-              }
-            ],
-            "text": "Kostenträger"
-          }
-        ],
         "input": [
           {
             "type": {
@@ -651,6 +637,21 @@ Content-Type: application/fhir+json;charset=utf-8
               "reference": "3ebd56b4-5cdf-42bc-b26a-738d0b08068a"
             }
           }
+        ],
+        "status": "ready",
+        "authoredOn": "2025-10-01T15:29:00+00:00",
+        "lastModified": "2025-10-01T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.59",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Kostenträger"
+              }
+            ],
+            "text": "Kostenträger"
+          }
         ]
       }
     },
@@ -661,7 +662,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "3ebd56b4-5cdf-42bc-b26a-738d0b08068a",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.1"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.2"
           ]
         },
         "type": "document",
@@ -669,7 +670,7 @@ Content-Type: application/fhir+json;charset=utf-8
           "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
           "value": "162.000.000.000.000.01"
         },
-        "timestamp": "2025-01-15T15:29:00.434+00:00",
+        "timestamp": "2025-10-01T15:29:00.434+00:00",
         "entry": [
           {
             "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Composition/55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9",
@@ -678,7 +679,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.1"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.2"
                 ]
               },
               "status": "final",
@@ -740,15 +741,15 @@ Content-Type: application/fhir+json;charset=utf-8
                 {
                   "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis",
                   "valueCoding": {
-                    "code": "00",
-                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN"
+                    "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_STATUSKENNZEICHEN",
+                    "code": "00"
                   }
                 }
               ],
               "subject": {
                 "reference": "Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"
               },
-              "date": "2025-01-15T15:29:00.434+00:00",
+              "date": "2025-10-01T15:29:00.434+00:00",
               "custodian": {
                 "reference": "Organization/b87b9d90-c8db-4660-93eb-fed916caa2da"
               }
@@ -761,14 +762,14 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "a1533e28-4631-4afa-b5e6-f233fad87f53",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.1"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.2"
                 ]
               },
               "status": "active",
               "intent": "order",
               "extension": [
                 {
-                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_EVDGA_SER",
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER",
                   "valueBoolean": false
                 }
               ],
@@ -784,7 +785,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "subject": {
                 "reference": "Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"
               },
-              "authoredOn": "2025-01-15",
+              "authoredOn": "2025-10-01",
               "requester": {
                 "reference": "Practitioner/1228772e-1c72-493b-8b5c-5ae54d25843d"
               },
@@ -802,23 +803,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "40acd463-b25d-4ede-8b1f-2b0994f29aa5",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"
                 ]
               },
-              "identifier": [
-                {
-                  "type": {
-                    "coding": [
-                      {
-                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                        "code": "GKV"
-                      }
-                    ]
-                  },
-                  "system": "http://fhir.de/sid/gkv/kvid-10",
-                  "value": "X234567890"
-                }
-              ],
               "name": [
                 {
                   "use": "official",
@@ -834,6 +821,20 @@ Content-Type: application/fhir+json;charset=utf-8
                   "given": [
                     "Ludger"
                   ]
+                }
+              ],
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
+                        "code": "KVZ10"
+                      }
+                    ]
+                  },
+                  "system": "http://fhir.de/sid/gkv/kvid-10",
+                  "value": "X234567890"
                 }
               ],
               "address": [
@@ -870,7 +871,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "1228772e-1c72-493b-8b5c-5ae54d25843d",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"
                 ]
               },
               "name": [
@@ -936,7 +937,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "b87b9d90-c8db-4660-93eb-fed916caa2da",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"
                 ]
               },
               "telecom": [
@@ -993,7 +994,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "2d3a92c2-c93c-47ad-8ab5-49b275be97ee",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"
                 ]
               },
               "status": "active",
@@ -1121,7 +1122,7 @@ Content-Type: application/fhir+xml;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-diga-02-response-fhir-vzd",
   "meta": {
-    "lastUpdated": "2025-01-15T16:29:00.434+00:00"
+    "lastUpdated": "2025-10-01T16:29:00.434+00:00"
   },
   "type": "searchset",
   "total": 2,
@@ -1179,7 +1180,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             }
           ],
           "versionId": "2",
-          "lastUpdated": "2025-01-15T15:29:00.434+00:00",
+          "lastUpdated": "2025-10-01T15:29:00.434+00:00",
           "source": "#2WkZQ3ZhfsTF9vgi",
           "profile": [
             "https://gematik.de/fhir/directory/StructureDefinition/OrganizationDirectory"
@@ -1242,7 +1243,7 @@ Ein Beispiel einer Zuweisung an einen Kostenträger:
   "id": "erp-diga-03-communication-zuweisung-diga",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
     ]
   },
   "status": "unknown",
@@ -1284,7 +1285,7 @@ Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode
   "id": "erp-diga-04-medication-dispense-diga",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.5"
     ]
   },
   "identifier": [
@@ -1365,7 +1366,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-diga-05-response-accept"/>
     <type value="collection"/>
-    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
     <link>
         <relation value="self"/>
         <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/162.000.000.000.000.01/$accept/"/>
@@ -1376,7 +1377,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
             <Task>
                 <id value="162.000.000.000.000.01"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
                     <valueCoding>
@@ -1386,10 +1387,10 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                     </valueCoding>
                 </extension>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-                    <valueDate value="2025-04-25"/>
+                    <valueDate value="2026-01-09"/>
                 </extension>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-                    <valueDate value="2025-04-25"/>
+                    <valueDate value="2026-01-09"/>
                 </extension>
                 <identifier>
                     <use value="official"/>
@@ -1409,8 +1410,8 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                         <value value="X123456789"/>
                     </identifier>
                 </for>
-                <authoredOn value="2025-01-15T15:29:00+00:00"/>
-                <lastModified value="2025-01-15T15:29:00.434+00:00"/>
+                <authoredOn value="2025-10-01T15:29:00+00:00"/>
+                <lastModified value="2025-10-01T15:29:00.434+00:00"/>
                 <performerType>
                     <coding>
                         <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
@@ -1518,7 +1519,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-diga-06-medication-dispense-diga"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.4"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.5"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -1528,7 +1529,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
                 <MedicationDispense>
                     <id value="erp-diga-06-medication-dispense-medicationDispense"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.4"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense_DiGA|1.5"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_RedeemCode">
                         <valueString value="DE12345678901234"/>
@@ -1643,7 +1644,9 @@ Als Kostenträger möchte ich dem Versicherten eine Nachricht über den Bearbeit
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema]. Daher muss im Feld "supplyOptionsType" verpflichtend ein Wert angegeben werden. Als default sollte "delivery" gesetzt werden. FdV's SOLLEN diesen Wert ignorieren.
+NOTE: Die Verwendung des Profils GEM_ERP_PR_Communication_DiGA ist erst mit Einsatz der Workflow Version 1.5 möglich. Dieses Profil ermöglicht einen Freitext unter .payload.contentString. Bei Verwendung der Workflow Version 1.4 ist das Profil GEM_ERP_PR_Communication_Reply zu verwenden.
+
+NOTE: Wenn das Profil GEM_ERP_PR_Communication_Reply verwendet wird, muss ein JSON in payload.contentString angegeben werden. Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema]. Daher muss im Feld "supplyOptionsType" verpflichtend ein Wert angegeben werden. Als default sollte "delivery" gesetzt werden. FdV's SOLLEN diesen Wert ignorieren.
 
 WARNING: Nach Aufruf der $close Operation werden alle Communications zu einem Task gelöscht.
 
@@ -1670,7 +1673,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 <Communication xmlns="http://hl7.org/fhir">
     <id value="erp-diga-07-communication-to-patient"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DiGA|1.5"/>
     </meta>
     <basedOn>
         <reference value="Task/162.000.000.000.000.01"/>
@@ -1683,11 +1686,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
         </identifier>
     </recipient>
     <payload>
-        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;delivery&quot;, &quot;info_text&quot;: &quot;Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind.&quot;}"/>
+        <contentString value="Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind."/>
     </payload>
 </Communication>
 ----
-NOTE: Die vom Kostenträger übermittelte Nachricht ist strukturiert in .payload.contentString unter "info_text" nach gemSpec_eRp_DM abgelegt.
+NOTE: Die vom Kostenträger übermittelte Nachricht ist als Freitext in .payload.contentString abgelegt.
 
 |===
 
@@ -1704,13 +1707,13 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Communication xmlns="http://hl7.org/fhir">
     <id value="erp-diga-07-communication-to-patient-response"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DiGA|1.5"/>
     </meta>
     <basedOn>
         <reference value="Task/162.000.000.000.000.01"/>
     </basedOn>
     <status value="unknown"/>
-    <sent value="2025-01-15T15:29:00.434+00:00"/>
+    <sent value="2025-10-01T15:29:00.434+00:00"/>
     <recipient>
         <identifier>
             <system value="http://fhir.de/sid/gkv/kvid-10"/>
@@ -1724,7 +1727,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         </identifier>
     </sender>
     <payload>
-        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;delivery&quot;, &quot;info_text&quot;: &quot;Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind.&quot;}"/>
+        <contentString value="Die Anfrage zur Ausstellung eines Freischaltcodes für die DiGA wurde abgwiesen, da Sie nicht bei der Gematik-KK versichert sind."/>
     </payload>
 </Communication>
 ----

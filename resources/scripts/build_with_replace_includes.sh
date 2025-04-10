@@ -16,6 +16,8 @@ if ! grep -qE "$required_asciidoctor_diagram_version\.[0-9]+" <<<"$actual_asciid
     exit 1
 fi
 
+# Build OpenAPI Blocks: Launch Dependend Scripts
+python3 ./resources/scripts/openapi-to-adoc.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
 
@@ -63,6 +65,10 @@ for filename in $(find ../../docs_sources -name '*.adoc'); do
     newFileName=${newFileName//_sources/}
     asciidoctor-reducer $filename -o $newFileName -a allow-uri-read
 done
+
+# STAGE_3 cleanup
+
+rm -r ../openapi-adoc
 
 # Echo that the process is finished
 echo "Finished building source files"

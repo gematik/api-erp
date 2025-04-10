@@ -29,7 +29,7 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 ## Aktuelles
 Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 
-[Aktueller Status des E-Rezept-Fachdienst Exporters](docs/erp_eml-mapping-status.adoc)
+[E-Rezept FHIR Veränderungen für 01.11.2024](docs/erp_fhirversion_change_20241101.adoc)
 
 [E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
 
@@ -81,6 +81,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/certificate_check.adoc)|![][FdV]|
+|[Einlösen im EU-Ausland](docs/erp-eprescription.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |

@@ -1,0 +1,106 @@
+= E-Rezept FHIR Veränderungen für 01.10.2025 image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+
+toc::[]
+
+== Versionsübergabegänge
+
+
+== Änderungen
+
+=== Übersicht
+[cols="a,a,a,a"]
+[%autowidth]
+|===
+h|Betrifft h|Feature h|Ressource h|Änderungen
+
+| *Alle* | *Allgemein* | Alle | Anpassen der Versionsangabe in meta.profile von '\|1.Y' zu '\|1.X'.
+
+In allen Ressourcen wird die Versionsangabe in meta.profile zweistellig angegeben. Bsp: '\|1.2' statt '\|1.2.2'
+
+| *Alle* | *Allgemein* | Alle | Hochziehen der Basisprofil Version (de.basisprofile.r4) auf 1.5.2. Der PKV- und GKV-Identifier wurde in den deutschen Basisprofilen mit folgendem .system vereinheitlicht: *\http://fhir.de/sid/gkv/kvid-10*
+
+| image:{NCPeH}[] image:{FdV}[] | *Einlösen im EU Ausland*| link:https://simplifier.net/erezept-workflow-eu[Workflow-EU] | Umsetzung der Anwendungsfälle für das link:./erp_eprescription.adoc[Einlösen von E-Rezepten im EU Ausland].
+
+| image:{KTR}[] image:{FdV}[] | *DiGA* | link:https://simplifier.net/erezept-workflow[Workflow] | Neues Profil Communication_DiGA, s. Anwendungsfall link:./erp_diga.adoc#nachricht-als-kostenträger-an-einen-versicherten-schicken[Nachricht als Kostenträger an einen Versicherten schicken]
+
+| image:{FdV}[] |link:erp_communication.adoc#anwendungsfall-ein-e-rezept-verbindlich-einer-apotheke-zuweisen[Zuweisen von E-Rezepten]| link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_DispReq] | Constraint for GEM_ERP_PR_Communication_DispReq zur Prüfung, ob der flowType dem Referenzierten Task entspricht
+
+| image:{FdV}[] |link:erp_chargeItem.adoc#anwendungsfall-abrechnungsinformationen-durch-den-versicherten-ändern[Anwendungsfall Abrechnungsinformationen durch den Versicherten ändern]| link:https://simplifier.net/erezept-patientenrechnung/gem_erpchrg_pr_par_patch_chargeitem_input[GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input] | Neues Profil für den Endpunkt PATCH /ChargeItem
+
+| image:{FdV}[] image:{AVS}[] | *Belieferungsanfrage* | link:https://simplifier.net/erezept-workflow/gem_erp_pr_communication_dispreq[GEM_ERP_PR_Communication_InfoReq] | Constraint for GEM_ERP_PR_Communication_InfoReq wurde als `retired` markiert. Der Anwendungsfall ist aktuell nicht umzusetzen.
+
+| image:{AVS}[] | *Abgabe auf Abrechnungsstrecke* | link:https://simplifier.net/erezeptabgabedatenbasis/dav_ex_erp_rezeptaenderung[DAV_EX_ERP_Rezeptaenderung] | Hinzufügen des Constraint "EX-DatumRezeptaenderung" in Extension-DAV-EX-ERP-Rezeptaenderung - Extension.extension:DatumRezeptaenderung.valueDate (YYYY-MM-DD) +
+
+| image:{AVS}[] | *Abrechnungsdaten* | link:https://simplifier.net/erezeptabrechnungsdaten/gkvsv_pr_erp_eabrechnungsdaten[GKVSV_PR_ERP_eAbrechnungsdaten] |
+Constraint line-item-seq hinzugefügt
+
+Bundle.entry:Quittungsdaten.link.url Änderung
+
+https://gematik.de/fhir/StructureDefinition/ErxReceipt zu https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle
+
+| image:{PVS}[] | *Verordnung* | Allgemein |
+Verbesserung von Constraints und fachlichen Prüfungen
+
+Sonstige Kostenträger sind erlaubt. (Neue Nutzergruppe: Bundespolizei)
+
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_prescription[KBV_PR_ERP_Prescription] |
+
+Einführung der strukturierten Dosierungsanweisung, bzw. Anwendungshinweis (.dosageInstruction)
+
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_prescription[KBV_PR_ERP_Prescription] | Ersetzen der Extension KBV_EX_ERP_BVG durch KBV_EX_FOR_SER.
+
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_prescription[KBV_PR_ERP_Prescription] link:https://simplifier.net/erezept/kbv_ex_erp_prescriber_id[KBV_EX_ERP_PRESCRIBER_ID] | Hinzufügen der Verschreiber ID, welche bei der Verordnung bestimmter Präparate (bspw. Fintepla®) anzugeben ist, damit die Apotheke das Rezept beliefern darf.
+
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_medication_pzn[KBV_PR_ERP_Medication_PZN] |
+Möglichkeit zur Angabe des Wirkstoffs in einer PZN-Verordnung
+
+Anpassung der Constraints zur Packungsgröße
+
+|===
+
+=== Release Notes der FHIR Packages
+
+Weiterhin sind die Releasenotes der FHIR-Packages zu beachten:
+
+Gematik:
+
+* gematik de.gematik.erezept-workflow.r4: link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.5.0[Package 1.5.0^]
+* gematik de.gematik.erezept-patientenrechnung.r4: link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.1.0[Package 1.1.0^]
+* gematik de.gematik.erezept.eu: link:https://simplifier.net/packages/de.gematik.erezept.eu/1.0.0[Package 1.0.0^]
+
+DAV:
+
+* DAV de.abda.eRezeptAbgabedatenBasis: link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.5.0[Package 1.5.0^]
+* DAV de.abda.eRezeptAbgabedaten: link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.5.0[Package 1.5.0^]
+* DAV de.abda.eRezeptAbgabedatenPKV: link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.4.0[Package 1.4.0^]
+
+KBV:
+
+* KBV kbv.ita.erp: link:https://simplifier.net/packages/kbv.ita.erp/1.2.0[Package 1.2.0^]
+* KBV kbv.itv.evdga: link:https://simplifier.net/packages/kbv.itv.evdga/1.2.1[Package 1.2.1^]
+
+GKV-SV:
+
+* GKV-SV de.gkvsv.eRezeptAbrechnungsdaten: link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.5.0[Package 1.5.0^]
