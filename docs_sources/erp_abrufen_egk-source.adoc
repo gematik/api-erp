@@ -177,6 +177,23 @@ hcv = gen_H_40_0(VB, SAS)
 ----
 hcv aus diesem Beispiel ist `10be65f365`
 
+Alternative C# Code:
+[source,cs]
+----
+public static string GenerateHcv(UC_AllgemeineVersicherungsdatenXML allgemeine, UC_PersoenlicheVersichertendatenXML persoenliche) {
+    //A_27352 - VSDM-Prüfziffer Version 2: Erzeugung von hcv
+    string versicherungsBeginn = allgemeine.Versicherter.Versicherungsschutz.Beginn;
+    string strasse = persoenliche.Versicherter.Person.StrassenAdresse?.Strasse;
+
+    var digester = SHA256.Create();
+    var enc = Encoding.GetEncoding("ISO-8859-15");
+    byte[] h = digester.ComputeHash(enc.GetBytes(versicherungsBeginn).Concat(enc.GetBytes((strasse ?? "").Trim())).ToArray());
+    var h40 = h.Take(5).ToArray();
+    h40[0] &= 127; //Set the MSB (MostSignificantBit) of the first byte to 0
+    //A_27355 - PS abgebende LEI: E-Rezepte von Versicherten abrufen - Hashwert hcv Base64URLSafe kodieren
+    return Convert.ToBase64String(h40).Replace('+', '-').Replace('/', '_').Replace("=", "");
+}
+----
 ====
 
 === Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3)
