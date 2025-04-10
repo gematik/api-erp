@@ -15,13 +15,14 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
 :date-folder: 2025-10-01
 
-Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
 Folgende http Status Codes können Clients bei der Benutzung der Schnittstellen des E-Rezept-Fachdienstes erwarten.
 Fehler können sowohl im inneren http-Requests (bei fachlichen Fehlern) als auch im äußeren http-Request auftreten.
@@ -239,7 +240,7 @@ POST /Consent                 |253            |Die ID einer Ressource und die I
                               *Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Abbruch anstatt einem Warning führt.*
 3+h|Fehlerfälle
 
-.8+|GET /Task                 |400            |Ungültiger http-Request
+.11+|GET /Task                 |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            |Unzulässige fachliche Rolle
                               |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
@@ -247,6 +248,9 @@ POST /Consent                 |253            |Die ID einer Ressource und die I
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
                               |454            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" übermittelt wurde. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
                               |455            |Die Anfrage wird abgebrochen, da ein Prüfungsnachweis mit dem Ergebnis "3" aber kein URL-Parameter kvnr übermittelt wurde.
+                              |456            |Die Anfrage wird abgebrochen, da die KVNR im URL-Parameter nicht mit der KVNR in der Prüfziffer übereinstimmt.
+                              |457            |Die Anfrage wird abgebrochen, da der URL-Parameter "hcv" nicht übertragen wurde.
+                              |458            |Die Anfrage wird abgebrochen, da der hcv im URL-Parameter nicht mit dem hcv in der Prüfziffer übereinstimmt.
 .8+|GET /Task/<id>            |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |403            |Unzulässige fachliche Rolle

@@ -15,6 +15,7 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
 
 // Variables for the Examples that are to be used
@@ -30,7 +31,9 @@ toc::[]
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
-Die Apotheke übermittelt den Prüfungsnachweis URL-codiert im Aufruf GET /Task, mit dem der E-Rezept-Fachdienst die PZ auswerten und verifizieren kann. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
+**NEU:** Zur Sicherstellung, dass die physische eGK im Zugriff der Apotheke ist, muss das AVS die KVNR ermitteln, sowie den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Beide Werte werden als URL Parameter an den E-Rezept-Fachdienst für den Abruf übergeben.
+
+Die Apotheke übermittelt den Prüfungsnachweis, hcv und die KVNR des Versicherten (aus UC_PersoenlicheVersichertendatenXML.Versicherter.Versicherten_ID) im Aufruf GET /Task. Der E-Rezept-Fachdienst verfifiziert und prüft den PNW, Übereinstimmung der KVNR und die Validität des hcv. Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus der PZ und filtert in einer Suche entsprechend.
 
 Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
 
@@ -198,42 +201,41 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 
 |===
 
-*Response*
+*Response (Secunet)*
 [source,xml]
 ----
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-  <S:Body>
-    <ns6:ReadVSDResponse xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2"
-      xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
-      xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
-      xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema"
-      xmlns:ns5="http://www.w3.org/2000/09/xmldsig#"
-      xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0"
-      xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
-      <ns6:PersoenlicheVersichertendaten>
-        H4sIAAAAAAAA/41R21LCQAz9lc6+023VCjjpMgpeGLk4ougbs7aRVtpdZ3fBy9ebIiB1fPAll5Pk5EwCnfey8FZobK5VzEI/YB6qRKe5msesPxk3Wq2o3Qgj5lknVSoLrTBmH2hZR8B9d3ZDoxpVkScZTisa8sYhdZJ5HA484lc2Zplzryecv1l/jqV0+cJPkT9LvrJpWRm+ivwD5nV7w9n0/HbSH49iRgjpEbDHa2qZmvV74uIoiIIgDJpt4L9rsJanBFzi09I4S6qWpQjb0XEYBE3gNRim2ihZorgjPcS1yWAkk2wdPci5QgN8BxCtTbICk8yJYcW2y2DijLQW1WlqkDwp0dYVmLtPmRUiOgybtL6Gwdg4caaVAl5FMKBzC3jQmbLUUUi6KRr6DIoe8L9g4N8jm9XiWhtn8pcFGo8gH/i2AFdyadWyLOmcIfC9bNfzo5tvT8jrb+D/eL74AgVqSc9fAgAA</ns6:PersoenlicheVersichertendaten>
-      <ns6:AllgemeineVersicherungsdaten>
-        H4sIAAAAAAAA/81STU/CQBD9K83e6bQYtJjtEj6MIYg1EsF4aZZ2KA3t1OwuqPx2D7aEmJYQvHrZzZuZ9+ZlZnjvM8+sHSqdFuQz13aYhRQVcUqJz8azoOV5nW7L7TBLG0mxzApCn32hZj3BX4ZhP8sSzDElnFci0RrVlhIdS4P0On2wSnnSPlsb834L8KHtslqadGPHCCsJOx3n1QO7jt1m1nA0Ded3z7Nx8OizMlLaEfxX2KCqoaqNjtZbsxd8gElKJNzutee0HZfDMcAnhS6NGCUxqcgNuEGiUkS4jue4nuPccDibb7IyiRSjKkeEYnTCqOf4o8xR9IOJNZAxUmvxrYzBfIkq4XDI8f5SYbSmA+dfG4ULTuEUn13Q21ZLs09pVegGuJ/MGwsmqYxwayLHUJ0THt2U+uGBvwiexJXHofo5XKqE09bQMAbNU4O/71v8AP51JedBAwAA</ns6:AllgemeineVersicherungsdaten>
-      <ns6:GeschuetzteVersichertendaten>
-        H4sIAAAAAAAA/4VQbUvDMBD+KyHf13RCYZNLxphjDJwDi0P2ZYT2bMrSVJpr1f56byioKHgf7v2ee+5g8dp4MWAX6zZoOU1SKTAUbVmHSsttvp/MZtl8Ms2kiGRDaX0bUMs3jHJh4GF12mAsXI80Eh4uKIXDjpAbWT3ubgXDh6ilI3q+VuolJhU2lupzUqJ6smqIZXNRasiSKylWN7vTYX2fb/d3WnKG6Rg49qN1vg9VZArURwP5h01BfXqg/mhCj2eqBz6OOosVGlhiN5JnjmYO6iuAo3XBfq/9TMCyI5Oy8BB7vPU3tPr/F+YdSWI6bW0BAAA=</ns6:GeschuetzteVersichertendaten>
-      <ns6:VSD_Status>
-        <ns6:Status>0</ns6:Status>
-        <ns6:Timestamp>2025-01-08T10:52:44.000Z</ns6:Timestamp>
-        <ns6:Version>5.2.0</ns6:Version>
-      </ns6:VSD_Status>
-      <ns6:Pruefungsnachweis>
-        H4sIAAAAAAAA/x2N0QqCMBhGX2XsPv9NESS2eVEGXWSS1m2MtkzSX2lD6+0b3h0OnO8T+XfoyWw/rhtRUh4xSiw+RtNhK+m1OWwySpzXaHQ/opX0Zx3NlahKEkJ0kr68n7YAi4taO2jfvSNj4alhdmaACReY19Hd/nS/FZf6eC7Xm+CUaGoVszhlnCcs41maCAhKFCpAoQRUpfoDxsVnR6EAAAA=</ns6:Pruefungsnachweis>
-    </ns6:ReadVSDResponse>
-  </S:Body>
+    <S:Body>
+        <ns6:ReadVSDResponse xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns5="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2"
+            xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+            <ns6:PersoenlicheVersichertendaten>
+                H4sIAAAAAAAAAI1S207rMBD8lcjvdJNIKS3aGAHlUolQdCp6eKtMsjQRjoNsp0B/lg9A/AObHijtEQ+82Jnx7M6ONnj4XOtgSdZVjUlF1AtFQCZvisosUjGeTvYGg2S4FyUicF6ZQunGUCpeyIlDiTcn82subcjoKi9p1rXh23piJR+32WVwMsrms9M/0/HkKhVJL+4c2NO4VJTePx4APLnegmrlq4deQXCvYOmKujtgyXohcauv3UFmPh7J2ygKk0EY9hOE/99wPZ6ReE53rfWOp2prGQ37UTiM9xF2aJw11qia5JGmZ85KNsi4mSIdZMrmpLn/pwKvVF6uv47f3q2uDFmEDcduLi815aWXWWeyQVxXk3Gr1im/kmeWKp51XbpF49Rb5RyZo8IS35yicV5T5Veq1DLuR3GMsMPhxHo50QUZzrNA6CBecgaJf5vSOJZpRV0kXi3JEcJPNMK/kk9/yWhBQYdeCeGLxQvVOtPWNS9jP0TYghvR9+jwtQHY3SL84t+RH/LCuyOeAgAA</ns6:PersoenlicheVersichertendaten>
+            <ns6:AllgemeineVersicherungsdaten>
+                H4sIAAAAAAAAAL1SW2+CMBT+K4R3OYCispQap8tinLrMzC17IR0cgQhlaatb/PUrhixgjNvTXtqcy3dpzyGjryI3DihkVvLAdCzbNJBHZZzxJDBn61VnOPT8juOZI0qeJ+E4zxMsMOO4qTBRimLPExkzhfx18WBoNi4DM1Xq4wbgU1q6m6lsZ8UIWwYHGRfVAQfPck1jMl2Em7un9Wy1DEyd0eqU/BArFI2okpFRuldHSm4xyTinru26dtftEagTZF5KbUQJhkkFboU75FyTUN/3vf5g6NsELtbbqJwhj1HoH0E6PUM0a2TJCqT1a43FXreJHZMSnfv5hsCpSsbvAqOUn1B/s+oMuj2v3/9/q3DFK5zHF4f0tpdMHTO+LWUr0CKtIXMmFO02SOpUExPWbjR/eMK/rB6pMyBQ3QSudcK5NLSMQXvd4Pcdp9+NCt5ANAMAAA==</ns6:AllgemeineVersicherungsdaten>
+            <ns6:GeschuetzteVersichertendaten>
+                H4sIAAAAAAAAAIVQbUvDMBD+KyXf12xCcZNrxjZFBs6JZUP2ZYTmTMratCSXKv31ZiioDPHLvTzP3XMvMH9v6qRH56vW5mySjlmCtmxVZXXO1sV2NJ1ms9EkY3MBu9XxHn1pAtJAuD83lQYdoVUympfNQxLVrM+ZIepuOH/zqcZGUnVKFfJXyXuvmrPhfZZesWR1uznu756L9fYxZxGJ0wUcwiBNHaz2niQFL6D49GPgXxHwy6Il+tYqdPgU92otWu1C16G4Bv4XBQXWeKKqj/eTk6gjtEA3UB3vEjPg3wkcpLHyJ/cbiKtdavH/HyY+AAOgGlSBAQAA</ns6:GeschuetzteVersichertendaten>
+            <ns6:VSD_Status>
+                <ns6:Status>0</ns6:Status>
+                <ns6:Timestamp>2022-03-24T08:34:22.000Z</ns6:Timestamp>
+                <ns6:Version>5.2.0</ns6:Version>
+            </ns6:VSD_Status>
+            <ns6:Pruefungsnachweis>
+                H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln/mmMw62/XDZYCHCIQaPsxqM62FGyru8trELiptqo+DlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu+Wv5kItzxjNGqpJFKIpRgq/QCsV4RaBHhLOIQO4jb0ymGyR6jrK+SPKKR3laLFm/wXmlpEzvHy+K7V+72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo+oAAAA=</ns6:Pruefungsnachweis>
+        </ns6:ReadVSDResponse>
+    </S:Body>
 </S:Envelope>
 ----
 
-NOTE: Das angegebene Beispiel ist die Response einer KOCO-Box, hier Beipspiele eines link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_03_ReadVSD_Response_Secunet.xml[Secunet Konnektors] und link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_02_ReadVSD_Response_Rise.xml[Rise Konnektors].
-
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
-NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUkxUzIwN3JNQkQ4bGNqdmRKTklLUzNhR0FIbFVvbFFkQ3A2ZUt0TXNqUVJqb05zcDBCL2xnOUEvQU9iSGlqdEVRKzgySm54N002T05uajRYT3RnU2RaVmpVbEYxQXRGUUNadmlzb3NVakdlVHZZR2cyUzRGeVVpY0Y2WlF1bkdVQ3BleUlsRGlUY244MnN1YmNqb0tpOXAxclhoMjNwaUpSKzMyV1Z3TXNybXM5TS8wL0hrS2hWSkwrNGMyTk80VkpUZVB4NEFQTG5lZ21ybHE0ZGVRWEN2WU9tS3VqdGd5WG9oY2F1djNVRm1QaDdKMnlnS2swRVk5aE9FLzk5d1BaNlJlRTUzcmZXT3AycHJHUTM3VVRpTTl4RjJhSncxMXFpYTVKR21aODVLTnNpNG1TSWRaTXJtcExuL3B3S3ZWRjZ1djQ3ZjNxMnVERm1FRGNkdUxpODE1YVdYV1dleVFWeFhrM0dyMWltL2ttZVdLcDUxWGJwRjQ5UmI1UnlabzhJUzM1eWljVjVUNVZlcTFETHVSM0dNc01QaHhIbzUwUVVaenJOQTZDQmVjZ2FKZjV2U09KWnBSVjBrWGkzSkVjSlBOTUsva2s5L3lXaEJRWWRlQ2VHTHhRdlZPdFBXTlM5alAwVFlnaHZSOStqd3RRSFkzU0w4NHQrUkgvTEN1eU9lQWdBQQ[siehe decodiertes Beispiel^] +
+NOTE: `<ns6:PersoenlicheVersichertendaten>` enthalten die KVNR des Versicherten im Attribut `Versicherten_ID` und den Straßennamen im Attribut `Strasse` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUkxUzIwN3JNQkQ4bGNqdmRKTklLUzNhR0FIbFVvbFFkQ3A2ZUt0TXNqUVJqb05zcDBCL2xnOUEvQU9iSGlqdEVRKzgySm54N002T05uajRYT3RnU2RaVmpVbEYxQXRGUUNadmlzb3NVakdlVHZZR2cyUzRGeVVpY0Y2WlF1bkdVQ3BleUlsRGlUY244MnN1YmNqb0tpOXAxclhoMjNwaUpSKzMyV1Z3TXNybXM5TS8wL0hrS2hWSkwrNGMyTk80VkpUZVB4NEFQTG5lZ21ybHE0ZGVRWEN2WU9tS3VqdGd5WG9oY2F1djNVRm1QaDdKMnlnS2swRVk5aE9FLzk5d1BaNlJlRTUzcmZXT3AycHJHUTM3VVRpTTl4RjJhSncxMXFpYTVKR21aODVLTnNpNG1TSWRaTXJtcExuL3B3S3ZWRjZ1djQ3ZjNxMnVERm1FRGNkdUxpODE1YVdYV1dleVFWeFhrM0dyMWltL2ttZVdLcDUxWGJwRjQ5UmI1UnlabzhJUzM1eWljVjVUNVZlcTFETHVSM0dNc01QaHhIbzUwUVVaenJOQTZDQmVjZ2FKZjV2U09KWnBSVjBrWGkzSkVjSlBOTUsva2s5L3lXaEJRWWRlQ2VHTHhRdlZPdFBXTlM5alAwVFlnaHZSOStqd3RRSFkzU0w4NHQrUkgvTEN1eU9lQWdBQQ[siehe decodiertes Beispiel^] +
+`<ns6:AllgemeineVersicherungsdaten>` enhält den Versicherungsbeginn im Attribut `Beginn` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUwxU1cyK0NNQlQrSzRSM09ZQ2lzcFFhcDh0aW5Mck16QzE3SVIwY2dRaGxhYXRiL1BVcmhpeGdqTnZUWHRxY3kzZHB6eUdqcnlJM0RpaGtWdkxBZEN6Yk5KQkhaWnp4SkRCbjYxVm5PUFQ4anVPWkkwcWVKK0U0enhNc01PTzRxVEJSaW1MUEV4a3poZngxOFdCb05pNERNMVhxNHdiZ1UxcTZtNmxzWjhVSVd3WUhHUmZWQVFmUGNrMWpNbDJFbTd1bjlXeTFERXlkMGVxVS9CQXJGSTJva3BGUnVsZEhTbTR4eVRpbnJ1MjZkdGZ0RWFnVFpGNUtiVVFKaGtrRmJvVTc1RnlUVU4vM3ZmNWc2TnNFTHRiYnFKd2hqMUhvSDBFNlBVTTBhMlRKQ3FUMWE0M0ZYcmVKSFpNU25mdjVoc0NwU3NidkFxT1VuMUIvcytvTXVqMnYzLzkvcTNERks1ekhGNGYwdHBkTUhUTytMV1VyMENLdElYTW1GTzAyU09wVUV4UFdialIvZU1LL3JCNnBNeUJRM1FTdWRjSzVOTFNNUVh2ZDRQY2RwOStOQ3Q1QU5BTUFBQT09[siehe decodiertes Beispiel^] +
 `<ns6:Pruefungsnachweis>` enthält den Status der Onlineprüfung im Attribut `<E>` link:https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true,false)Gunzip()&input=SDRzSUFBQUFBQUFBQUIyTjNVNkRNQUJHWDRYMDFraGJDTTZZdHNzaU5mNVJSRmlYZUdQQWRnaGJDMXBrNHRQYjdPYTdPTWwzRGxuL21tTXc2Mi9YRFpZQ0hDSVFhUHN4cU02MkZHeXJ1OHRyRUxpcHRxbytEbFpUc0dnSDFveThpTUFmcmFQZ2M1ckdHd2hQTG15MXFhZnVFQ29OOXpXY25USnd0Q2M0bjZXM2FmWXUrV3Y1a0l0enhqTkdxcEpGS0lwUmdxL1FDc1Y0UmFCSGhMT0lRTzRqYjB5bUd5UjZqcksrU1BLS1IzbGFMRm0vd1htbHBFenZIeStLN1YrNzJ6WDc4cWtaWGFLYlJmQXZZdzVLUHNmNEo2TUVlb2tmd2Y0Qmw0TmVvK29BQUFBPQ[siehe decodiertes Beispiel^]
 
 NOTE: Der `<ns6:Pruefungsnachweis>` ist wie folgt aufgebaut: `Base64(gzip(xml_PN))` und muss als Ganzes - wie ihn die ReadVSD-Operation zurückliefert - in URL-Safe-Codierung an den Fachdienst übergeben werden.
@@ -261,13 +263,77 @@ Bei folgenden Fehlercodes liegt eine gesperrte eGK vor, möglicherweise ist der 
 
 
 == Liste einlösbarer E-Rezepte vom Fachdienst abrufen
-Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab.
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Die Parameter `kvnr`, `pnw` und `hcv` sind verpflichtend anzugeben.
 
-=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3) und der Angabe von `kvnr`
+Hierbei muss der URL-Parameter:
 
-Der E-Rezept-Fachdienst überprüft in 5-Minuten-Intervallen, ob mehrere Apotheken Prüfungsnachweise (pnw) mit dem Ergebnis "3" übermitteln (PN3). Sollte ein festgelegter Schwellenwert überschritten werden, akzeptiert der E-Rezept-Fachdienst auch Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.
+* `pnw` aus der ReadVSD()-Response URL-kodiert
+* `kvnr`
+* und `hcv` base64safeUrl-kodiert
 
-Um diese Funktion zu nutzen, muss der neue URL-Parameter `kvnr` in der Anfrage enthalten sein. Dieser Parameter ist unabhängig vom Ergebnis des Prüfungsnachweises. Da das AVS nicht verpflichtet ist den Prüfungsnachweis zu überprüfen, kann der Parameter `kvnr` auch ohne Ergebnis 3 im pnw übermittelt werden.
+übergeben werden.
+
+.**Beispiel zum Erzeugen des hcv** (Klicken zum Ausklappen)
+[%collapsible]
+====
+Folgende Bildungsvorschrift gilt für den hcv:
+
+1. Ermitteln des Versicherungsbeginns (VB) aus den Versicherungsdaten der eGK (UC_AllgemeineVersicherungsdatenXML.Versicherter.Versicherungsschutz.Beginn)^1^. Alle Leerzeichen MÜSSEN entfernt werden.
+2. Ermitteln der StrassenAdresse aus den Versicherungsdaten der eGK (UC_PersoenlicheVersichertendatenXML.Versicherter.Person.StrassenAdresse.Strasse)^1^. Falls das Element nicht vorhanden ist würd ein Leerstring verwendet (""). Führende und endende Leerzeichen MÜSSEN entfernt werden.
+3. Bildung des SHA256 aus der Konkatenation (ohne Leerzeichen) von VB und StrassenAdresse (SHA256(VB + StrassenAdresse))
+4. Extrahieren der ersten 5 Bytes (40 Bit)
+5. Setzen des MSB (Most Significant Bit) im ersten Byte auf 0.
+
+Das Ergebnis ist der hcv.
+
+^1^ Das XML-Schema ist hier dokumentiert: https://github.com/gematik/api-telematik/blob/OPB5/fa/vsds/Schema_VSD.xsd
+
+Für eine Beipsielimplementierung siehe: https://bitbucket.org/andreas_hallof/pop-egk-vsdm/src/master/encrypted_vsdmplus/
+
+Python Code zum Erzeugen eines hcv:
+[source,python]
+----
+# Versicherungsbeginn 11.01.2018
+VB='20180111'
+SAS='Beispielstrasse'
+
+def gen_H_40_0(VB: str, SAS: str)->bytes:
+    # Hinweis für Nicht-Python-Entwickler:
+    # encode() transformiert einen string in eine Bytefolge
+    assert len(VB.encode('iso-8859-15')) == 8
+    H = hashlib.sha256(VB.encode('iso-8859-15') + SAS.encode('iso-8859-15')).digest(); assert len(H) == 32
+    H_40 = H[0:5]; assert len(H_40) == 5 # 5 Bytes = 40 Bit
+    H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
+
+    return H_40_0
+
+hcv = gen_H_40_0(VB, SAS)
+----
+hcv aus diesem Beispiel ist Hex-kodiert `17d643edc2`.
+Als base64safeUrl-kodiert lautet es `F9ZD7cI`.
+
+Alternative C# Code:
+[source,cs]
+----
+public static string GenerateHcv(UC_AllgemeineVersicherungsdatenXML allgemeine, UC_PersoenlicheVersichertendatenXML persoenliche) {
+    //A_27352 - VSDM-Prüfziffer Version 2: Erzeugung von hcv
+    string versicherungsBeginn = allgemeine.Versicherter.Versicherungsschutz.Beginn;
+    string strasse = persoenliche.Versicherter.Person.StrassenAdresse?.Strasse;
+
+    var digester = SHA256.Create();
+    var enc = Encoding.GetEncoding("ISO-8859-15");
+    byte[] h = digester.ComputeHash(enc.GetBytes(versicherungsBeginn).Concat(enc.GetBytes((strasse ?? "").Trim())).ToArray());
+    var h40 = h.Take(5).ToArray();
+    h40[0] &= 127; //Set the MSB (MostSignificantBit) of the first byte to 0
+    //A_27355 - PS abgebende LEI: E-Rezepte von Versicherten abrufen - Hashwert hcv Base64URLSafe kodieren
+    return Convert.ToBase64String(h40).Replace('+', '-').Replace('/', '_').Replace("=", "");
+}
+----
+====
+
+=== Hinweis zum Fehlerfall Prüfungsnachweis 3 (PN3)
+
+Bei Störingen in der TI kann es dazu kommen, dass der Prüfungsnachweis den Fehlercode "3" enthält. In Ausnahmefällen kann der E-Rezept-Fachdienst so konfiguriert werden, dass er Anfragen mit diesem Fehlercode akzeptiert.
 
 .Ablaufdiagramm für das PN3 Feature im E-Rezept-Fachdienst (Klicken zum Ausklappen)
 [%collapsible]
@@ -281,9 +347,7 @@ image:puml_pn3_decision_tree.png[width=100%]
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
-
-CAUTION: Der Prüfungsnachweis in `Base64(gzip(xml_PN))`-Darstellung muss vor der Übertragung als URL-Parameter *URL-Safe* codiert werden.
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/Task?kvnr=X110580065&hcv=F9ZD7cI&pnw=H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln%2FmmMw62%2FXDZYCHCIQaPsxqM62FGyru8trELiptqo%2BDlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu%2BWv5kItzxjNGqpJFKIpRgq%2FQCsV4RaBHhLOIQO4jb0ymGyR6jrK%2BSPKKR3laLFm%2FwXmlpEzvHy%2BK7V%2B72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo%2BoAAAA%3D
 
 |Method     |GET
 |Requester | image:{AVS}[]
@@ -457,6 +521,12 @@ s|Code   s|Type Error
 [small]#Die Anfrage wird abgebrochen, da die Voraussetzungen zur Erfüllung nicht gegeben sind. Der E-Rezept-Fachdienst akzeptiert zu diesem Zeitpunkt keine Anfragen mit einem Prüfungsnachweis, der das Ergebnis "3" enthält.#
 |455 | +
 [small]#Die Anfrage wird abgebrochen, da die kvnr als URL-Parameter nicht angegeben ist.#
+|456 | +
+[small]#KVNR im URL-Parameter stimmt nicht mit der KVNR in der Prüfziffer überein.#
+|457 | +
+[small]#Der URL-Parameter "hcv" wurde nicht übertragen. Der E-Rezept-Fachdienst enforced die Angabe.#
+|458 | +
+[small]#hcv im URL-Parameter stimmt nicht mit dem hcv in der Prüfziffer überein. #
 |500  |Server Errors +
 [small]#Unerwarteter Serverfehler#
 

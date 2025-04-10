@@ -15,13 +15,14 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
 :date-folder: 2025-10-01
 
-Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[]
+Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Telematikinfrastruktur zu verbinden. Das betrifft zum einen die Authentifizierung als Nutzer oder Institution durch den Identity Provider (IDP) und zum anderen den verschlüsselten Datentransport auf Anwendungsebene (xref:anchor-vau-transport["VAU-Transport]").
 
@@ -495,7 +496,7 @@ Der E-Rezept-Fachdienst stellt zusätzlich eine frische OCSP-Response für die e
 [cols="h,a"]
 [%autowidth]
 |===
-|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse
+|URI        |https://erp.zentral.erp.splitdns.ti-dienste.de/VAUCertificateOCSPResponse image:{DEPR}[]
 |Method     |GET
 |HTTP Header |X-erp-user: l
 
@@ -510,6 +511,10 @@ Content-Type: application/ocsp-response
 100100100110001011110001110111011000110000101111101100100111011...
 ----
 |===
+
+WARNING: Dieser Endpunkt ist deprecated und wird in Zukunft ausgebaut. +
+image:{PVS}[] image:{AVS}[] image:{KTR}[] Bitte den Konnektor für die Zertifikatsprüfung nutzen +
+image:{FdV}[] Bitte GET /OCSPResponse verwenden.
 
 === Request versenden
 Für den verschlüsselten VAU-Transport wird der zu transportierende HTTP-Request für die VAU in mehreren Schritten aufbereitet. Als Beispiel wird im Folgenden die Abfrage aller E-Rezepte eines Versicherten verwendet.

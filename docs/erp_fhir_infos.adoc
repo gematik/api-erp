@@ -15,6 +15,7 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
 
 // Variables for the Examples that are to be used
@@ -80,6 +81,8 @@ Hier das korrigierte Beispiel:
                 <id value="bc329f24-3d65-4286-bf06-b54dd6cad655" />
 ----
 
+Ein weiteres Beispiel für eine *ungültige* Referenzierung findet sich auf link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_fhir_infos/01_INVALID_fullUrl_and_id_missmatch.xml[E-Rezept Example: id missmatch].
+
 ==== Einheitliche Referenzierung in Bundles
 Zur Vermeidung von Fehlern bei der Referenzierung von Ressourcen in Bundles sollte eine einheitliche Referenzierung genutzt werden. Das bedeutet, dass absolute und relative Referenzierung nicht gemischt werden sollte. Zur Eindeutigkeit und besseren Lesbarkeit wird empfohlen, durchgehend absolute Referenzen zu verwenden.
 
@@ -95,6 +98,8 @@ Folgendes Beispiel zeigt eine fehlerhafte Referenzierung:
          <reference value="Patient/123" /> <!-- relative Referenzierung, welche sich nicht auflösen lässt -->
       </section>
 ----
+
+Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
 
 Folgend ein korrigiertes Beispiel:
 
@@ -122,8 +127,8 @@ Alternativ ein korrektes Beispiel für relative Referenzierung:
       </section>
 ----
 
+Ein weiteres Beispiel für eine *ungültige* Referenzierung findet sich auf link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_fhir_infos/02_INVALID_mixed_reference.xml[E-Rezept Example: mixed reference].
 
-Die Referenz "Patient/123" kann nicht aufgelöst werden, da die Umgebende Composition-Ressource keine fullUrl besitzt, die eine base-URL enthält, wonach aufgelöst werden kann.
 
 ==== Format von fullURLs
 fullURLs müssen entweder als URL-Schema oder als URN-Schema angegeben werden. Wenn das URL-Schema verwendet wird, muss dieses nach dem link:https://hl7.org/fhir/R4/references.html#regex[Regex für FHIR-URLs] aufgebaut sein. Folgende Hinweise sind zu beachten:
@@ -146,6 +151,21 @@ Gültige Referenzen:
 <fullUrl value="https://pvs.praxis.local/fhir/Practitioner/bc329f24-3d65-4286-bf06-b54dd6cad655" /> <!-- Korrekte URL nach https://hl7.org/fhir/R4/references.html#regex -->
 <fullUrl value="urn:uuid:4b7e4c01-6ee6-43ee-b527-61a813efa6be" /> <!-- Korrekte UUID nach RFC4122 -->
 ----
+
+Ein weiteres Beispiel für eine *ungültige* Referenzierung findet sich auf link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_fhir_infos/03_INVALID_fullUrl_format.xml[E-Rezept Example: invalid fullUrl format].
+
+WARNING: Der E-Rezept-Fachdienst leht die Referenzierung von Bundles mit `urn:oid` in Zukunft ab. Diese sind zwar laut FHIR erlaubt, werden aber zur Verminderung von Aufwänden nicht unterstützt. Daher DARF diese Art der Referenzierung NICHT verwendet werden.
+
+Beispiel einer `ungültigen` urn:oid: Referenzierung:
+
+[source,xml]
+----
+<fullUrl value="urn:oid:1.2.3.4.5.6.7" />
+   <resource>
+        ...
+----
+
+Ein weiteres Beispiel für eine *ungültige* Referenzierung findet sich auf link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_fhir_infos/05_INVALID_oid_format.xml[E-Rezept Example: invalid urn:oid Bundle].
 
 ==== Ressourcen ohne .id
 Ressourcen, die in Bundles enthalten sind, müssen eine .id besitzen. Dies ist notwendig, um die Ressourcen eindeutig referenzieren und identifizieren zu können. Daher müssen diese angegeben werden auch wenn das Datenmodell keine Kardinalität von 1..1 für das Feld .id vorsieht.
@@ -175,6 +195,7 @@ Beispiel für korrekte Angabe der .id:
             </Practitioner>
 ----
 
+Ein weiteres Beispiel für eine *ungültige* Referenzierung findet sich auf link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_fhir_infos/04_Invalid_Example_Patient_no_id.xml[E-Rezept Example: resource without id].
 
 == Tools und Hinweise zu FHIR
 
