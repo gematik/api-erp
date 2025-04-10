@@ -15,12 +15,14 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
-:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: main
-:date-folder: 2025-01-15
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+
+Zielgruppe: image:{PVS}[] image:{KTR}[] image:{FdV}[]
 
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept aus Sicht der verordnenden Primärsysteme, Kostenträger und Frontends der Versicherten für die Bearbeitung von DiGA-Verordnungen.
 
@@ -228,21 +230,21 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-diga-01-evdga-bundle"/>
     <meta>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.1"/>
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Bundle|1.2"/>
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
         <value value="162.000.000.000.000.01"/>
     </identifier>
     <type value="document"/>
-    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
+    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
     <entry>
         <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9"/>
         <resource>
             <Composition>
                 <id value="55eb2cd5-27f0-46ef-87d1-1ffc30e85fd9"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.1"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_Composition|1.2"/>
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -260,7 +262,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
                 <subject>
                     <reference value="Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 </subject>
-                <date value="2025-01-15T15:29:00.434+00:00"/>
+                <date value="2025-10-01T15:29:00.434+00:00"/>
                 <author>
                     <reference value="Practitioner/1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                     <type value="Practitioner"/>
@@ -307,9 +309,9 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <DeviceRequest>
                 <id value="a1533e28-4631-4afa-b5e6-f233fad87f53"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.1"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_EVDGA_HealthAppRequest|1.2"/>
                 </meta>
-                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_EVDGA_SER">
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
                     <valueBoolean value="false"/>
                 </extension>
                 <status value="active"/>
@@ -324,7 +326,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
                 <subject>
                     <reference value="Patient/40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 </subject>
-                <authoredOn value="2025-01-15"/>
+                <authoredOn value="2025-10-01"/>
                 <requester>
                     <reference value="Practitioner/1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                 </requester>
@@ -340,13 +342,13 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Patient>
                 <id value="40acd463-b25d-4ede-8b1f-2b0994f29aa5"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
                 </meta>
                 <identifier>
                     <type>
                         <coding>
                             <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
-                            <code value="GKV"/>
+                            <code value="KVZ10"/>
                         </coding>
                     </type>
                     <system value="http://fhir.de/sid/gkv/kvid-10"/>
@@ -384,7 +386,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Practitioner>
                 <id value="1228772e-1c72-493b-8b5c-5ae54d25843d"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
                 </meta>
                 <identifier>
                     <type>
@@ -431,7 +433,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Organization>
                 <id value="b87b9d90-c8db-4660-93eb-fed916caa2da"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
                 </meta>
                 <identifier>
                     <type>
@@ -470,7 +472,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
             <Coverage>
                 <id value="2d3a92c2-c93c-47ad-8ab5-49b275be97ee"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
                 </meta>
                 <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                     <valueCoding>

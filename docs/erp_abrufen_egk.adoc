@@ -15,8 +15,8 @@
 :FdV: https://img.shields.io/badge/FdV-green
 :eRp: https://img.shields.io/badge/eRp--FD-blue
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
-:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
@@ -204,33 +204,33 @@ dass zwingend eine Online-Prüfung durchgeführt und im Anschluss ein Prüfungsn
 *Response (Secunet)*
 [source,xml]
 ----
-<?xml version="1.0"?>
-<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-    <S:Body>
-        <ns6:ReadVSDResponse xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
-            xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
-            xmlns:ns4="urn:oasis:names:tc:dss:1.0:core:schema"
-            xmlns:ns5="http://www.w3.org/2000/09/xmldsig#"
-            xmlns:ns6="http://ws.gematik.de/conn/vsds/VSDService/v5.2"
-            xmlns:ns7="http://ws.gematik.de/conn/ConnectorContext/v2.0"
-            xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
-            <ns6:PersoenlicheVersichertendaten>
-                H4sIAAAAAAAAAI1S207rMBD8lcjvdJNIKS3aGAHlUolQdCp6eKtMsjQRjoNsp0B/lg9A/AObHijtEQ+82Jnx7M6ONnj4XOtgSdZVjUlF1AtFQCZvisosUjGeTvYGg2S4FyUicF6ZQunGUCpeyIlDiTcn82subcjoKi9p1rXh23piJR+32WVwMsrms9M/0/HkKhVJL+4c2NO4VJTePx4APLnegmrlq4deQXCvYOmKujtgyXohcauv3UFmPh7J2ygKk0EY9hOE/99wPZ6ReE53rfWOp2prGQ37UTiM9xF2aJw11qia5JGmZ85KNsi4mSIdZMrmpLn/pwKvVF6uv47f3q2uDFmEDcduLi815aWXWWeyQVxXk3Gr1im/kmeWKp51XbpF49Rb5RyZo8IS35yicV5T5Veq1DLuR3GMsMPhxHo50QUZzrNA6CBecgaJf5vSOJZpRV0kXi3JEcJPNMK/kk9/yWhBQYdeCeGLxQvVOtPWNS9jP0TYghvR9+jwtQHY3SL84t+RH/LCuyOeAgAA</ns6:PersoenlicheVersichertendaten>
-            <ns6:AllgemeineVersicherungsdaten>
-                H4sIAAAAAAAAAL1SW2+CMBT+K4R3OYCispQap8tinLrMzC17IR0cgQhlaatb/PUrhixgjNvTXtqcy3dpzyGjryI3DihkVvLAdCzbNJBHZZzxJDBn61VnOPT8juOZI0qeJ+E4zxMsMOO4qTBRimLPExkzhfx18WBoNi4DM1Xq4wbgU1q6m6lsZ8UIWwYHGRfVAQfPck1jMl2Em7un9Wy1DEyd0eqU/BArFI2okpFRuldHSm4xyTinru26dtftEagTZF5KbUQJhkkFboU75FyTUN/3vf5g6NsELtbbqJwhj1HoH0E6PUM0a2TJCqT1a43FXreJHZMSnfv5hsCpSsbvAqOUn1B/s+oMuj2v3/9/q3DFK5zHF4f0tpdMHTO+LWUr0CKtIXMmFO02SOpUExPWbjR/eMK/rB6pMyBQ3QSudcK5NLSMQXvd4Pcdp9+NCt5ANAMAAA==</ns6:AllgemeineVersicherungsdaten>
-            <ns6:GeschuetzteVersichertendaten>
-                H4sIAAAAAAAAAIVQbUvDMBD+KyXf12xCcZNrxjZFBs6JZUP2ZYTmTMratCSXKv31ZiioDPHLvTzP3XMvMH9v6qRH56vW5mySjlmCtmxVZXXO1sV2NJ1ms9EkY3MBu9XxHn1pAtJAuD83lQYdoVUympfNQxLVrM+ZIepuOH/zqcZGUnVKFfJXyXuvmrPhfZZesWR1uznu756L9fYxZxGJ0wUcwiBNHaz2niQFL6D49GPgXxHwy6Il+tYqdPgU92otWu1C16G4Bv4XBQXWeKKqj/eTk6gjtEA3UB3vEjPg3wkcpLHyJ/cbiKtdavH/HyY+AAOgGlSBAQAA</ns6:GeschuetzteVersichertendaten>
-            <ns6:VSD_Status>
-                <ns6:Status>0</ns6:Status>
-                <ns6:Timestamp>2022-03-24T08:34:22.000Z</ns6:Timestamp>
-                <ns6:Version>5.2.0</ns6:Version>
-            </ns6:VSD_Status>
-            <ns6:Pruefungsnachweis>
-                H4sIAAAAAAAAAB2N3U6DMABGX4X01khbCM6YtssiNf5RRFiXeGPAdghbC1pk4tPb7Oa7OMl3Dln/mmMw62/XDZYCHCIQaPsxqM62FGyru8trELiptqo+DlZTsGgH1oy8iMAfraPgc5rGGwhPLmy1qafuECoN9zWcnTJwtCc4n6W3afYu+Wv5kItzxjNGqpJFKIpRgq/QCsV4RaBHhLOIQO4jb0ymGyR6jrK+SPKKR3laLFm/wXmlpEzvHy+K7V+72zX78qkZXaKbRfAvYw5KPsf4J6MEeokfwf4Bl4Neo+oAAAA=</ns6:Pruefungsnachweis>
-        </ns6:ReadVSDResponse>
-    </S:Body>
-</S:Envelope>
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <ns2:ReadVSDResponse xmlns:ns2="http://ws.gematik.de/conn/vsds/VSDService/v5.2">
+      <ns2:PersoenlicheVersichertendaten>
+        H4sIAAAAAAAA/41S0U7rMAz9lSrvq9vCRIfcIMQGTGIMMe7gbQqtWSva5CpJx2Vfj7vBLgMeeEniY+f4OCd48q+pgxVZVxmdiTiMREA6N0Wll5kYz6a9NO0PenFfBM4rXajaaMrEKzlxIvHP2eKGrxrSdZWXNO9oeLeeuJKXh8lVcDacLOaj29l4ep2Jfph0Hbindpkovf97DPDiwiU1ylfPYUHwpGDliqZbYMX1QuInXrsX6cV4KM/TKI6iw+ToCOFrDjfytMQLemytd6yqbWQ8SOMoPYgQ9mCcG6tVQ/KOezPXe4TXKi83p4utSoQdwrwuL2vKSy8nHd0u6sic8usXY71cGb3h2wF4V3mq5dCGCNsjzrxVzpE+LSzxztKN8zVVfq3KWibJYX+AsIfhlJkuVcMjLBG6AK/YIon3ptSOi2rFPpBlN0kOEX6CEbZX3rvLc1tRYfkJe6NHfsUe4yzxI4uXqnW6bRr2IWY5n0I81Ty7rZ745ddtN6iMkzAYebUkhO/JHen/geHDLNg3HH7xzeQbugD9a8kCAAA=</ns2:PersoenlicheVersichertendaten>
+      <ns2:AllgemeineVersicherungsdaten>
+        H4sIAAAAAAAA/7VT30/CMBD+V5a+SzfMApquBsEYgoARReMLqezYFsbNtAWVv94rotnI/PHiS5u7r993392l4ux1lXsb0CYrMGJBw2ce4LyIM0wi1p+Mj9rt8OQoCJlnrMJY5QVCxN7AsDMp7rqzTp4nsIIMYepE5inoNSYmVhbwYXjldXvD2fTiZtIfjyIWNpquAJVEE7HU2udTzl9MgxSUzZaNGPhC8Y2JV+7gG3rPpPgStqBLkStj5unabqU4hyRDlE0/OPYDPxB8nxCDwpARqxUkjlwJl4BIIpIIYSsMgxPBa/EqK1eAMWgaEcjeAaOMiZFagbyFeYrZErQ30ApJcamMAcF3oOg8aYfvSH922gp9/z+cDj5d8R9s8cO4dh2Pa6PsNsNFYSrB5WBaWScqbWVQEtmnypzZ3g3pz3b8DwfEsMraXdcd0FubOwEnVOjEZWlGtXnxqFJU3zC+xcSEqtEXIRD0OR2EO0Jd2nWoMKdFW7iCzDiTgO51PfA51HJL9+Nr6TcFdzfZ+mEc/HC+vDJ9Xv09/PcvK98BTCKoUhQEAAA=</ns2:AllgemeineVersicherungsdaten>
+      <ns2:GeschuetzteVersichertendaten>
+        H4sIAAAAAAAA/4VPXWvCQBD8K+HezWohoGXvpGgpQq3QUBFf5EjWXPByKblN2ubX90ILtSj4Mvs1zMzi/LOyUUeNL2snxSQei4hcVuelK6RYpZvRdJrMRpNERJ61y7WtHUnxRV7MFb4tDk/kM9MS90zbQSUz1DAFYoDd+jlaLNeH7eNrutq8SJHEd4NBsHReCsP8fg/w4eOCKs3lKc4Jjho6n1cDQBf4QuG+7bWxrSt8iMCtV5j+1DHCb4dwhUSWTlx24TluNBWk8IGanm3IqGYIfwPutXH6/PZ/EWwuteD28+obUb40hF4BAAA=</ns2:GeschuetzteVersichertendaten>
+      <ns2:VSD_Status>
+        <ns2:Status>0</ns2:Status>
+        <ns2:Timestamp>2025-01-12T06:36:33.000Z</ns2:Timestamp>
+        <ns2:Version>5.2.0</ns2:Version>
+      </ns2:VSD_Status>
+      <ns2:Pruefungsnachweis>
+        H4sIAAAAAAAA/w2M3QqCMBhAX0V8AL+5qUHMgeQIqc1fjLoJSzOtiaBp+fR5cy4Oh0Mjqe18cc15kgahdHXTQAbSta96d4OrP8ex3wLMg1FXqhibl1FW8ChgGkoFfTfDtPY6o1nKMMI2Mk2MHOIQi8KqKGcmBc5odGFJW88i82bpB0QunIjljGUrSJglp9w/NJ+Nt4/DoRPRvbgFNVG2Wn6hdYyjQPqYuxTWyQrJ/gsexlKzAAAA</ns2:Pruefungsnachweis>
+    </ns2:ReadVSDResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope> 
 ----
+
+Weitere Beispiele von ReadVSD Responses:
+
+* link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_01_ReadVSD_Response_KOCO.xml[Response Koco-Box Konnektor]
+* link:https://github.com/gematik/eRezept-Examples/blob/main/API-Examples/2025-01-15/erp_abrufen_egk/04_02_ReadVSD_Response_Rise.xml[Response Rise Konnektor]
 
 CAUTION: Liefert die `<ns6:ReadVSDResponse> <ns6:VSD_Status>` einen `<ns6:Status>1</ns6:Status>` *(ungleich 0)*, konnte der Stammdatenabgleich nicht erfolgreich beendet werden. Bei dieser Rückmeldung kann durch einen erneuten Aufruf von ReadVSD versucht werden, das Problem zu beheben. Falls es dann nicht klappt, muss der Anwendungsfall abgebrochen werden
 
