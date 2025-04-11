@@ -75,7 +75,7 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_alternative_zuweisung/01_sign_avs_request.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/{branch}/API-Examples/{date-folder}/erp_alternative_zuweisung/01_sign_avs_request.xml[]
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der nonQES als CMS-Signatur (CAdES).
 
@@ -89,7 +89,7 @@ NOTE: In `<ns5:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign">` erfolgt d
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_alternative_zuweisung/02_sign_avs_response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/{branch}/API-Examples/{date-folder}/erp_alternative_zuweisung/02_sign_avs_response.xml[]
 ----
 NOTE: Das Ergebnis der erfolgreichen nonQES wird Base64-codiert in `<ns7:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
