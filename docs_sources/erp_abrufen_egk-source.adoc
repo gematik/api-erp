@@ -172,10 +172,10 @@ def gen_H_40_0(VB: str, SAS: str)->bytes:
     H_40_0 = (H_40[0] & 127).to_bytes(1,'big', signed=False) + H_40[1:]
 
     return H_40_0
-    
+
 hcv = gen_H_40_0(VB, SAS)
 ----
-hcv aus diesem Beispiel ist Hex-kodiert `17d643edc2`. 
+hcv aus diesem Beispiel ist Hex-kodiert `17d643edc2`.
 Als base64safeUrl-kodiert lautet es `F9ZD7cI`.
 
 Alternative C# Code:
