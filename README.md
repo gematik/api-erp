@@ -87,7 +87,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |-----|------------|
 |[Abrechnungsinformationen](docs/erp_chargeItem.adoc)|![][AVS] ![][FdV]|
 |[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
-|[Liste der PKV-Institutionskennzeichennummern](docs/pkv_ik_numbers.adoc)|![][PVS]|
+|[Liste der PKV-Institutionskennzeichennummern](https://github.com/PKV-Verband/PKV-IK-Liste)|![][PVS]|
 
 ## Lizenzbedingungen
 
