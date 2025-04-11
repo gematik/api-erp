@@ -29,9 +29,9 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 ## Aktuelles
 Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 
-[E-Rezept FHIR Veränderungen für 01.11.2024](docs/erp_fhirversion_change_20241101.adoc)
-
 [E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
+
+[E-Rezept FHIR Veränderungen für 01.10.2025](docs/erp_fhirversion_change_20251001.adoc)
 
 
 ## Umfang der Anwendung E-Rezept
