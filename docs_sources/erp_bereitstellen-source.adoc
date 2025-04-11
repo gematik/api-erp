@@ -188,6 +188,8 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_bereitstellen/03_request_SignDocument.xml[]
 ----
+NOTE: Die Angabe des Parameters `<m2:SignatureType>urn:bsi:tr:03111:ecdsa</m2:SignatureType>` erzwingt für PTV5 Konnektoren die Signatur mit ECC durchzuführen.
+
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der QES als CMS-Signatur (CAdES).
 
 NOTE: Mit `<m:IncludeEContent>true</m:IncludeEContent>` wird der Konnektor angewiesen, eine enveloping-Signatur zu erzeugen. D.h. der signierte Datensatz ist (`true`) Bestandteil des erzeugten Signaturobjekts.
