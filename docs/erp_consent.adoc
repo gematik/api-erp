@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Zielgruppe: image:{FdV}[]
 
@@ -74,16 +74,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
   "id": "erp-consent-01-request-PostConsent",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
     ]
   },
   "status": "active",
-  "patient": {
-    "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "P987654321"
-    }
-  },
   "scope": {
     "coding": [
       {
@@ -112,7 +106,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       }
     ]
   },
-  "dateTime": "2025-10-01T15:29:00+00:00"
+  "patient": {
+    "identifier": {
+      "value": "P987654321",
+      "system": "http://fhir.de/sid/pkv/kvid-10"
+    }
+  },
+  "dateTime": "2025-01-15T15:29:00+00:00"
 }
 ----
 |===
@@ -129,16 +129,10 @@ Content-Type: application/fhir+json;charset=utf-8
   "id": "erp-consent-02-response-PostConsent",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
     ]
   },
   "status": "active",
-  "patient": {
-    "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "P987654321"
-    }
-  },
   "scope": {
     "coding": [
       {
@@ -167,7 +161,13 @@ Content-Type: application/fhir+json;charset=utf-8
       }
     ]
   },
-  "dateTime": "2025-10-01T15:29:00+00:00"
+  "patient": {
+    "identifier": {
+      "value": "P987654321",
+      "system": "http://fhir.de/sid/pkv/kvid-10"
+    }
+  },
+  "dateTime": "2025-01-15T15:29:00+00:00"
 }
 ----
 
@@ -234,7 +234,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "resourceType": "Bundle",
   "id": "erp-consent-03-response-GetConsent",
   "type": "searchset",
-  "timestamp": "2025-10-01T15:29:00.434+00:00",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
   "total": 1,
   "entry": [
     {
@@ -244,16 +244,10 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "CHARGCONS-X234567890",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.0"
           ]
         },
         "status": "active",
-        "patient": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "P987654321"
-          }
-        },
         "scope": {
           "coding": [
             {
@@ -282,7 +276,13 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           ]
         },
-        "dateTime": "2025-10-01T15:29:00+00:00"
+        "patient": {
+          "identifier": {
+            "value": "P987654321",
+            "system": "http://fhir.de/sid/pkv/kvid-10"
+          }
+        },
+        "dateTime": "2025-01-15T15:29:00+00:00"
       }
     }
   ]

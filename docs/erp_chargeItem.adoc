@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Zielgruppe: image:{AVS}[] image:{FdV}[]
 
@@ -177,7 +177,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="200.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"/>
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <contained>
         <Binary>
@@ -199,7 +199,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </code>
     <subject>
         <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <system value="http://fhir.de/sid/pkv/kvid-10"/>
             <value value="P987654321"/>
         </identifier>
     </subject>
@@ -209,7 +209,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <value value="3-SMC-B-Testkarte-883110000116873"/>
         </identifier>
     </enterer>
-    <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
+    <enteredDate value="2025-01-15T15:29:00.434+00:00"/>
     <supportingInformation>
         <reference value="#aed2e8ed-6dd6-4e94-80f4-3ab9e418513a"/>
         <display value="Binary"/>
@@ -241,7 +241,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="200.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"/>
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -256,7 +256,7 @@ Content-Type: application/fhir+xml;charset=utf-8
     </code>
     <subject>
         <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <system value="http://fhir.de/sid/pkv/kvid-10"/>
             <value value="P987654321"/>
         </identifier>
     </subject>
@@ -266,7 +266,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <value value="3-SMC-B-Testkarte-883110000116873"/>
         </identifier>
     </enterer>
-    <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
+    <enteredDate value="2025-01-15T15:29:00.434+00:00"/>
     <supportingInformation>
         <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
@@ -354,14 +354,14 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-chargeItem-05-GET-ChargeItem-Response"/>
     <type value="collection"/>
-    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
     <entry>
         <fullUrl value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/ChargeItem/200.000.000.000.000.01"/>
         <resource>
             <ChargeItem>
                 <id value="200.000.000.000.000.01"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"/>
+                    <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -376,7 +376,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                 </code>
                 <subject>
                     <identifier>
-                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <system value="http://fhir.de/sid/pkv/kvid-10"/>
                         <value value="P987654321"/>
                     </identifier>
                 </subject>
@@ -386,7 +386,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <value value="3-SMC-B-Testkarte-883110000116873"/>
                     </identifier>
                 </enterer>
-                <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
+                <enteredDate value="2025-01-15T15:29:00.434+00:00"/>
                 <supportingInformation>
                     <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
                     <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
@@ -408,14 +408,14 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
             <Bundle>
                 <id value="f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.4"/>
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
                     <value value="160.000.000.000.000.01"/>
                 </identifier>
                 <type value="document"/>
-                <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
                 <link>
                     <relation value="self"/>
                     <url value="https://erp-ref.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$close/"/>
@@ -426,7 +426,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Composition>
                             <id value="c624cf47-e235-4624-af71-0a09dc9254dc"/>
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.5"/>
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.4"/>
                             </meta>
                             <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_Beneficiary">
                                 <valueIdentifier>
@@ -442,15 +442,15 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                     <display value="Receipt"/>
                                 </coding>
                             </type>
-                            <date value="2025-10-01T15:29:00.434+00:00"/>
+                            <date value="2025-01-15T15:29:00.434+00:00"/>
                             <author>
                                 <reference value="urn:uuid:65ea903d-b3ea-4b5e-acbd-3e8c2c695542"/>
                             </author>
                             <title value="Quittung"/>
                             <event>
                                 <period>
-                                    <start value="2025-10-01T15:29:00.434+00:00"/>
-                                    <end value="2025-10-01T16:29:00.434+00:00"/>
+                                    <start value="2025-01-15T15:29:00.434+00:00"/>
+                                    <end value="2025-01-15T16:29:00.434+00:00"/>
                                 </period>
                             </event>
                             <section>
@@ -467,16 +467,16 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Device>
                             <id value="1"/>
                             <meta>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.5"/>
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.4"/>
                             </meta>
                             <status value="active"/>
-                            <serialNumber value="1.18.0"/>
+                            <serialNumber value="1.16.0"/>
                             <deviceName>
                                 <name value="E-Rezept-Fachdienst"/>
                                 <type value="user-friendly-name"/>
                             </deviceName>
                             <version>
-                                <value value="1.18.0"/>
+                                <value value="1.16.0"/>
                             </version>
                             <contact>
                                 <system value="email"/>
@@ -492,7 +492,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                             <id value="073ef818-3d18-4cf0-a5b7-9321ec838f94"/>
                             <meta>
                                 <versionId value="1"/>
-                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.5"/>
+                                <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.4"/>
                             </meta>
                             <contentType value="application/octet-stream"/>
                             <data value="tJg8c5ZtdhzEEhJ0ZpAsUVFx5dKuYgQFs5oKgthi17M="/>
@@ -504,7 +504,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <system value="urn:iso-astm:E1762-95:2013"/>
                         <code value="1.2.840.10065.1.12.1.1"/>
                     </type>
-                    <when value="2025-10-01T15:29:00.434+00:00"/>
+                    <when value="2025-01-15T15:29:00.434+00:00"/>
                     <who>
                         <reference value="https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"/>
                     </who>
@@ -520,22 +520,22 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
             <Bundle>
                 <id value="d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
                 <meta>
-                    <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
+                    <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"/>
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
                     <value value="200.000.000.000.000.01"/>
                 </identifier>
                 <type value="document"/>
-                <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
                 <entry>
                     <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442dPKV"/>
                     <resource>
                         <Composition>
                             <id value="b0e22b86-e7e9-46c1-80fe-e6e24442dPKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                                 <valueCoding>
@@ -559,7 +559,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-PKV"/>
                             </subject>
-                            <date value="2025-10-01T15:29:00+00:00"/>
+                            <date value="2025-01-15T15:29:00+00:00"/>
                             <author>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac1PKV"/>
                                 <type value="Practitioner"/>
@@ -606,12 +606,12 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <MedicationRequest>
                             <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
                                 <valueBoolean value="false"/>
                             </extension>
-                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
+                            <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG">
                                 <valueBoolean value="false"/>
                             </extension>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription">
@@ -666,7 +666,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                             <subject>
                                 <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-PKV"/>
                             </subject>
-                            <authoredOn value="2025-10-01"/>
+                            <authoredOn value="2025-01-15"/>
                             <requester>
                                 <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac1PKV"/>
                             </requester>
@@ -684,7 +684,6 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                             <dispenseRequest>
                                 <quantity>
                                     <value value="2"/>
-                                    <unit value="Packung"/>
                                     <system value="http://unitsofmeasure.org"/>
                                     <code value="{Package}"/>
                                 </quantity>
@@ -698,7 +697,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Medication>
                             <id value="e3a4efa7-84fc-465b-b14c-720195097PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.1.0"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                                 <valueCoding>
@@ -756,16 +755,16 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Patient>
                             <id value="9774f67f-a238-4daf-b4e6-Pat-PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"/>
                             </meta>
                             <identifier>
                                 <type>
                                     <coding>
                                         <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
-                                        <code value="KVZ10"/>
+                                        <code value="PKV"/>
                                     </coding>
                                 </type>
-                                <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                                <system value="http://fhir.de/sid/pkv/kvid-10"/>
                                 <value value="P123464117"/>
                             </identifier>
                             <name>
@@ -800,7 +799,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Practitioner>
                             <id value="d8463daf-258e-4cad-a86a-6fd42fac1PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"/>
                             </meta>
                             <identifier>
                                 <type>
@@ -847,7 +846,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Organization>
                             <id value="cf042e44-086a-4d51-9c77-172f9a972PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"/>
                             </meta>
                             <identifier>
                                 <type>
@@ -886,7 +885,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Coverage>
                             <id value="1b1ffb6e-eb05-43d7-87eb-Cov-PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"/>
                             </meta>
                             <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                                 <valueCoding>
@@ -935,21 +934,21 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
             <Bundle>
                 <id value="6d240a29-144f-477b-b8e7-92d4b4bcebfd"/>
                 <meta>
-                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.4"/>
+                    <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.3"/>
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
                     <value value="200.000.000.000.000.01"/>
                 </identifier>
                 <type value="document"/>
-                <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+                <timestamp value="2025-01-15T15:29:00.434+00:00"/>
                 <entry>
                     <fullUrl value="urn:uuid:bf4e0e75-9433-43b2-bcd5-46046479c306"/>
                     <resource>
                         <Composition>
                             <id value="bf4e0e75-9433-43b2-bcd5-46046479c306"/>
                             <meta>
-                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.4"/>
+                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.3"/>
                             </meta>
                             <status value="final"/>
                             <type>
@@ -958,7 +957,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                     <code value="ERezeptAbgabedaten"/>
                                 </coding>
                             </type>
-                            <date value="2025-10-01T15:29:00+00:00"/>
+                            <date value="2025-01-15T15:29:00+00:00"/>
                             <author>
                                 <reference value="urn:uuid:d0ddcdff-f582-4a23-b86a-58e22402d105"/>
                             </author>
@@ -984,7 +983,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Organization>
                             <id value="d0ddcdff-f582-4a23-b86a-58e22402d105"/>
                             <meta>
-                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Apotheke|1.4"/>
+                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Apotheke|1.3"/>
                             </meta>
                             <identifier>
                                 <system value="http://fhir.de/sid/arge-ik/iknr"/>
@@ -1014,7 +1013,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <MedicationDispense>
                             <id value="27231a52-71fb-4bbe-9c5a-2e865efd8526"/>
                             <meta>
-                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abgabeinformationen|1.4"/>
+                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abgabeinformationen|1.3"/>
                             </meta>
                             <extension url="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-Abrechnungszeilen">
                                 <valueReference>
@@ -1053,7 +1052,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                     <code value="Abgabeinformationen"/>
                                 </coding>
                             </type>
-                            <whenHandedOver value="2025-10-01"/>
+                            <whenHandedOver value="2025-01-15"/>
                         </MedicationDispense>
                     </resource>
                 </entry>
@@ -1063,7 +1062,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Invoice>
                             <id value="d2475944-f853-48b9-b101-be9280b81a71"/>
                             <meta>
-                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abrechnungszeilen|1.4"/>
+                                <profile value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abrechnungszeilen|1.3"/>
                             </meta>
                             <status value="issued"/>
                             <type>
@@ -1188,7 +1187,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="200.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"/>
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <contained>
         <Binary>
@@ -1210,7 +1209,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </code>
     <subject>
         <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <system value="http://fhir.de/sid/pkv/kvid-10"/>
             <value value="P987654321"/>
         </identifier>
     </subject>
@@ -1220,7 +1219,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <value value="3-SMC-B-Testkarte-883110000116873"/>
         </identifier>
     </enterer>
-    <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
+    <enteredDate value="2025-01-15T15:29:00.434+00:00"/>
     <supportingInformation>
         <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
@@ -1249,7 +1248,7 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
 <ChargeItem xmlns="http://hl7.org/fhir">
     <id value="200.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"/>
+        <profile value="https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"/>
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -1264,7 +1263,7 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
     </code>
     <subject>
         <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
+            <system value="http://fhir.de/sid/pkv/kvid-10"/>
             <value value="P987654321"/>
         </identifier>
     </subject>
@@ -1274,7 +1273,7 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
             <value value="3-SMC-B-Testkarte-883110000116873"/>
         </identifier>
     </enterer>
-    <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
+    <enteredDate value="2025-01-15T15:29:00.434+00:00"/>
     <supportingInformation>
         <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
@@ -1372,7 +1371,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "200.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
           ]
         },
         "status": "billable",
@@ -1386,12 +1385,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "value": "555bjf73jr8d9si2ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "subject": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "P987654321"
-          }
-        },
         "enterer": {
           "identifier": {
             "system": "https://gematik.de/fhir/sid/telematik-id",
@@ -1431,6 +1424,12 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
           }
         ],
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/pkv/kvid-10",
+            "value": "P987654321"
+          }
+        },
         "code": {
           "coding": [
             {
@@ -1439,7 +1438,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             }
           ]
         },
-        "enteredDate": "2025-10-01T15:29:00.434+00:00"
+        "enteredDate": "2025-01-15T15:29:00.434+00:00"
       },
       "search": {
         "mode": "match"
@@ -1452,7 +1451,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "der124bc-bc30-45f8-b109-4h474wer2h89",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
           ]
         },
         "status": "billable",
@@ -1466,12 +1465,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "value": "888bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "subject": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "P987654321"
-          }
-        },
         "enterer": {
           "identifier": {
             "system": "https://gematik.de/fhir/sid/telematik-id",
@@ -1511,6 +1504,12 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "reference": "urn:uuid:9d9bdee8-b36a-490d-9289-2b7022e330b9"
           }
         ],
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/pkv/kvid-10",
+            "value": "P987654321"
+          }
+        },
         "code": {
           "coding": [
             {
@@ -1519,7 +1518,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             }
           ]
         },
-        "enteredDate": "2025-10-01T15:29:00.434+00:00"
+        "enteredDate": "2025-01-15T15:29:00.434+00:00"
       }
     }
   ]
@@ -1566,7 +1565,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
   "resourceType": "Bundle",
   "id": "erp-chargeItem-09-GET-ChargeItem-Response",
   "type": "collection",
-  "timestamp": "2025-10-01T15:29:00.434+00:00",
+  "timestamp": "2025-01-15T15:29:00.434+00:00",
   "entry": [
     {
       "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/ChargeItem/200.000.000.000.000.01",
@@ -1575,7 +1574,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "200.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
           ]
         },
         "status": "billable",
@@ -1589,12 +1588,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "value": "555bjf73jr8d9si2ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "subject": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "P987654321"
-          }
-        },
         "enterer": {
           "identifier": {
             "system": "https://gematik.de/fhir/sid/telematik-id",
@@ -1615,6 +1608,12 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             "reference": "urn:uuid:42772ecc-3d67-4351-a719-2d728426a06b"
           }
         ],
+        "subject": {
+          "identifier": {
+            "system": "http://fhir.de/sid/pkv/kvid-10",
+            "value": "P987654321"
+          }
+        },
         "code": {
           "coding": [
             {
@@ -1623,7 +1622,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
             }
           ]
         },
-        "enteredDate": "2025-10-01T15:29:00.434+00:00"
+        "enteredDate": "2025-01-15T15:29:00.434+00:00"
       }
     },
     {
@@ -1633,7 +1632,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "f1909de6-7d21-443b-a2ae-230b9cb62f70-1",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.4"
           ]
         },
         "type": "document",
@@ -1641,7 +1640,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
           "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
           "value": "160.000.000.000.000.01"
         },
-        "timestamp": "2025-10-01T15:29:00.434+00:00",
+        "timestamp": "2025-01-15T15:29:00.434+00:00",
         "link": [
           {
             "relation": "self",
@@ -1656,7 +1655,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "c624cf47-e235-4624-af71-0a09dc9254dc",
               "meta": {
                 "profile": [
-                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.5"
+                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Composition|1.4"
                 ]
               },
               "status": "final",
@@ -1673,13 +1672,13 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "type": {
                 "coding": [
                   {
-                    "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
                     "code": "3",
+                    "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType",
                     "display": "Receipt"
                   }
                 ]
               },
-              "date": "2025-10-01T15:29:00.434+00:00",
+              "date": "2025-01-15T15:29:00.434+00:00",
               "author": [
                 {
                   "reference": "urn:uuid:65ea903d-b3ea-4b5e-acbd-3e8c2c695542"
@@ -1688,8 +1687,8 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "event": [
                 {
                   "period": {
-                    "start": "2025-10-01T15:29:00.434+00:00",
-                    "end": "2025-10-01T16:29:00.434+00:00"
+                    "start": "2025-01-15T15:29:00.434+00:00",
+                    "end": "2025-01-15T16:29:00.434+00:00"
                   }
                 }
               ],
@@ -1711,14 +1710,14 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "1",
               "meta": {
                 "profile": [
-                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.5"
+                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Device|1.4"
                 ]
               },
               "status": "active",
-              "serialNumber": "1.18.0",
+              "serialNumber": "1.16.0",
               "version": [
                 {
-                  "value": "1.18.0"
+                  "value": "1.16.0"
                 }
               ],
               "deviceName": [
@@ -1742,7 +1741,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "073ef818-3d18-4cf0-a5b7-9321ec838f94",
               "meta": {
                 "profile": [
-                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.5"
+                  "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Digest|1.4"
                 ],
                 "versionId": "1"
               },
@@ -1758,7 +1757,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "code": "1.2.840.10065.1.12.1.1"
             }
           ],
-          "when": "2025-10-01T15:29:00.434+00:00",
+          "when": "2025-01-15T15:29:00.434+00:00",
           "who": {
             "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
           },
@@ -1774,16 +1773,16 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "42a8260d-579f-4cde-a288-4de0bfb6e6d9",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"
           ],
-          "lastUpdated": "2025-10-01T15:29:00.434+00:00"
+          "lastUpdated": "2025-01-15T15:29:00.434+00:00"
         },
         "type": "document",
         "identifier": {
           "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
           "value": "200.000.000.000.000.01"
         },
-        "timestamp": "2025-10-01T15:29:00.434+00:00",
+        "timestamp": "2025-01-15T15:29:00.434+00:00",
         "entry": [
           {
             "fullUrl": "http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442dPKV",
@@ -1792,7 +1791,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "b0e22b86-e7e9-46c1-80fe-e6e24442dPKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"
                 ]
               },
               "status": "final",
@@ -1869,7 +1868,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "subject": {
                 "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-PKV"
               },
-              "date": "2025-10-01T15:29:00+00:00",
+              "date": "2025-01-15T15:29:00+00:00",
               "custodian": {
                 "reference": "Organization/cf042e44-086a-4d51-9c77-172f9a972PKV"
               }
@@ -1882,7 +1881,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "f58f4403-7a3a-4a12-bb15-b2fa25b02PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0"
                 ]
               },
               "status": "active",
@@ -1893,7 +1892,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                   "valueBoolean": false
                 },
                 {
-                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER",
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG",
                   "valueBoolean": false
                 },
                 {
@@ -1956,10 +1955,9 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               ],
               "dispenseRequest": {
                 "quantity": {
-                  "unit": "Packung",
-                  "value": 2,
+                  "system": "http://unitsofmeasure.org",
                   "code": "{Package}",
-                  "system": "http://unitsofmeasure.org"
+                  "value": 2
                 }
               },
               "dosageInstruction": [
@@ -1978,7 +1976,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "subject": {
                 "reference": "Patient/9774f67f-a238-4daf-b4e6-Pat-PKV"
               },
-              "authoredOn": "2025-10-01",
+              "authoredOn": "2025-01-15",
               "requester": {
                 "reference": "Practitioner/d8463daf-258e-4cad-a86a-6fd42fac1PKV"
               },
@@ -2001,7 +1999,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "e3a4efa7-84fc-465b-b14c-720195097PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.1.0"
                 ]
               },
               "extension": [
@@ -2073,9 +2071,23 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "9774f67f-a238-4daf-b4e6-Pat-PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"
                 ]
               },
+              "identifier": [
+                {
+                  "type": {
+                    "coding": [
+                      {
+                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
+                        "code": "PKV"
+                      }
+                    ]
+                  },
+                  "system": "http://fhir.de/sid/pkv/kvid-10",
+                  "value": "P123464117"
+                }
+              ],
               "name": [
                 {
                   "use": "official",
@@ -2091,20 +2103,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                   "given": [
                     "Ludger"
                   ]
-                }
-              ],
-              "identifier": [
-                {
-                  "type": {
-                    "coding": [
-                      {
-                        "system": "http://fhir.de/CodeSystem/identifier-type-de-basis",
-                        "code": "KVZ10"
-                      }
-                    ]
-                  },
-                  "system": "http://fhir.de/sid/gkv/kvid-10",
-                  "value": "P123464117"
                 }
               ],
               "address": [
@@ -2141,7 +2139,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "d8463daf-258e-4cad-a86a-6fd42fac1PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"
                 ]
               },
               "name": [
@@ -2207,7 +2205,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "cf042e44-086a-4d51-9c77-172f9a972PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"
                 ]
               },
               "telecom": [
@@ -2264,7 +2262,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "1b1ffb6e-eb05-43d7-87eb-Cov-PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"
                 ]
               },
               "status": "active",
@@ -2321,7 +2319,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "code": "1.2.840.10065.1.12.1.1"
             }
           ],
-          "when": "2025-10-01T15:29:00.434+00:00",
+          "when": "2025-01-15T15:29:00.434+00:00",
           "who": {
             "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
           },
@@ -2337,7 +2335,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "6d240a29-144f-477b-b8e7-92d4b4bcebfd",
         "meta": {
           "profile": [
-            "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.4"
+            "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle|1.3"
           ]
         },
         "type": "document",
@@ -2345,7 +2343,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
           "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
           "value": "200.000.000.000.000.01"
         },
-        "timestamp": "2025-10-01T15:29:00.434+00:00",
+        "timestamp": "2025-01-15T15:29:00.434+00:00",
         "entry": [
           {
             "fullUrl": "urn:uuid:bf4e0e75-9433-43b2-bcd5-46046479c306",
@@ -2354,7 +2352,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "bf4e0e75-9433-43b2-bcd5-46046479c306",
               "meta": {
                 "profile": [
-                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.4"
+                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenComposition|1.3"
                 ]
               },
               "status": "final",
@@ -2385,7 +2383,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                   ]
                 }
               ],
-              "date": "2025-10-01T15:29:00+00:00",
+              "date": "2025-01-15T15:29:00+00:00",
               "author": [
                 {
                   "reference": "urn:uuid:d0ddcdff-f582-4a23-b86a-58e22402d105"
@@ -2400,7 +2398,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "d0ddcdff-f582-4a23-b86a-58e22402d105",
               "meta": {
                 "profile": [
-                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Apotheke|1.4"
+                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Apotheke|1.3"
                 ]
               },
               "identifier": [
@@ -2444,7 +2442,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "27231a52-71fb-4bbe-9c5a-2e865efd8526",
               "meta": {
                 "profile": [
-                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abgabeinformationen|1.4"
+                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abgabeinformationen|1.3"
                 ]
               },
               "status": "completed",
@@ -2498,7 +2496,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                   }
                 }
               ],
-              "whenHandedOver": "2025-10-01"
+              "whenHandedOver": "2025-01-15"
             }
           },
           {
@@ -2508,7 +2506,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "d2475944-f853-48b9-b101-be9280b81a71",
               "meta": {
                 "profile": [
-                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abrechnungszeilen|1.4"
+                  "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-Abrechnungszeilen|1.3"
                 ]
               },
               "status": "issued",
@@ -2527,7 +2525,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                     "url": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-EX-ERP-Gesamtzuzahlung",
                     "valueMoney": {
                       "currency": "EUR",
-                      "value": 0.00
+                      "value": 0
                     }
                   }
                 ],
@@ -2561,7 +2559,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                               "url": "Kostenbetrag",
                               "valueMoney": {
                                 "currency": "EUR",
-                                "value": 0.00
+                                "value": 0
                               }
                             }
                           ]
@@ -2596,7 +2594,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "code": "1.2.840.10065.1.12.1.1"
             }
           ],
-          "when": "2025-10-01T15:29:00.434+00:00",
+          "when": "2025-01-15T15:29:00.434+00:00",
           "who": {
             "reference": "https://erp.zentral.erp.splitdns.ti-dienste.de/Device/1"
           },
@@ -2667,22 +2665,46 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
 {
   "resourceType": "Parameters",
   "id": "erp-chargeItem-10-patch-chargeitem-request",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input|1.1"
-    ]
-  },
   "parameter": [
     {
-      "name": "markingFlag",
+      "name": "operation",
       "part": [
         {
-          "name": "insuranceProvider",
-          "valueBoolean": true
+          "name": "type",
+          "valueCode": "add"
         },
         {
-          "name": "taxOffice",
+          "name": "path",
+          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('taxOffice')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
           "valueBoolean": true
+        }
+      ]
+    },
+    {
+      "name": "operation",
+      "part": [
+        {
+          "name": "type",
+          "valueCode": "add"
+        },
+        {
+          "name": "path",
+          "valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_EX_MarkingFlag').extension('insuranceProvider')"
+        },
+        {
+          "name": "name",
+          "valueString": "valueBoolean"
+        },
+        {
+          "name": "value",
+          "valueBoolean": false
         }
       ]
     }
@@ -2708,7 +2730,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
   "id": "200.000.000.000.000.01",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.1"
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_ChargeItem|1.0"
     ]
   },
   "status": "billable",
@@ -2718,12 +2740,6 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
       "value": "200.000.000.000.000.01"
     }
   ],
-  "subject": {
-    "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "P987654321"
-    }
-  },
   "enterer": {
     "identifier": {
       "system": "https://gematik.de/fhir/sid/telematik-id",
@@ -2763,6 +2779,12 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
       "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
     }
   ],
+  "subject": {
+    "identifier": {
+      "system": "http://fhir.de/sid/pkv/kvid-10",
+      "value": "P987654321"
+    }
+  },
   "code": {
     "coding": [
       {
@@ -2771,7 +2793,7 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
       }
     ]
   },
-  "enteredDate": "2025-10-01T15:29:00.434+00:00"
+  "enteredDate": "2025-01-15T15:29:00.434+00:00"
 }
 ----
 

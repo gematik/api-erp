@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Zielgruppe: image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
@@ -79,7 +79,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "id": "erp-communication-05-request-RezeptZuweisen",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"
     ]
   },
   "status": "unknown",
@@ -129,7 +129,7 @@ Content-Type: application/fhir+json;charset=utf-8
   "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c73",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"
     ]
   },
   "status": "unknown",
@@ -157,7 +157,7 @@ Content-Type: application/fhir+json;charset=utf-8
       "value": "X123456789"
     }
   },
-  "sent": "2025-10-01T15:29:00.434+00:00",
+  "sent": "2025-01-15T15:29:00.434+00:00",
   "basedOn": [
     {
       "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
@@ -234,7 +234,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 <Communication xmlns="http://hl7.org/fhir">
     <id value="erp-communication-03-request-PostPharmacyToPatient"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
     </meta>
     <basedOn>
         <reference value="Task/160.000.000.000.000.01"/>
@@ -270,13 +270,13 @@ Location:
 <Communication xmlns="http://hl7.org/fhir">
     <id value="erp-communication-04-response-PostPharmacyToPatient"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.4"/>
     </meta>
     <basedOn>
         <reference value="Task/160.000.000.000.000.01"/>
     </basedOn>
     <status value="unknown"/>
-    <sent value="2025-10-01T15:29:00.434+00:00"/>
+    <sent value="2025-01-15T15:29:00.434+00:00"/>
     <recipient>
         <identifier>
             <system value="http://fhir.de/sid/gkv/kvid-10"/>
@@ -386,7 +386,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c73",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"
           ]
         },
         "status": "unknown",
@@ -414,7 +414,7 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "X123456789"
           }
         },
-        "sent": "2025-10-01T15:29:00.434+00:00",
+        "sent": "2025-01-15T15:29:00.434+00:00",
         "basedOn": [
           {
             "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
@@ -507,7 +507,7 @@ Content-Type: application/fhir+xml;charset=utf-8
             <Communication>
                 <id value="a3384a5a-4180-4be5-b6e4-df80a88554dd"/>
                 <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"/>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.4"/>
                 </meta>
                 <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
                     <valueCoding>
@@ -520,7 +520,7 @@ Content-Type: application/fhir+xml;charset=utf-8
                     <reference value="Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
                 </basedOn>
                 <status value="unknown"/>
-                <sent value="2025-10-01T15:29:00.434+00:00"/>
+                <sent value="2025-01-15T15:29:00.434+00:00"/>
                 <recipient>
                     <identifier>
                         <system value="https://gematik.de/fhir/sid/telematik-id"/>

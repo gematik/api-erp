@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
@@ -579,7 +579,7 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
   "resourceType": "Bundle",
   "id": "authentisieren-07-response-InnerVau",
   "meta": {
-    "lastUpdated": "2025-10-01T15:29:00.434+00:00"
+    "lastUpdated": "2025-01-15T15:29:00.434+00:00"
   },
   "type": "searchset",
   "total": 2,
@@ -597,7 +597,7 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
         "id": "Example-Task",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"
           ]
         },
         "intent": "order",
@@ -612,11 +612,11 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
           },
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
-            "valueDate": "2025-10-28"
+            "valueDate": "2025-02-12"
           },
           {
             "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
-            "valueDate": "2026-01-01"
+            "valueDate": "2025-04-15"
           }
         ],
         "identifier": [
@@ -637,6 +637,21 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
             "value": "X123456789"
           }
         },
+        "status": "in-progress",
+        "authoredOn": "2025-01-15T15:29:00+00:00",
+        "lastModified": "2025-01-15T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
+        ],
         "input": [
           {
             "type": {
@@ -650,21 +665,6 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
             "valueReference": {
               "reference": "Binary/281a985c-f25b-4aae-91a6-41ad744080b0"
             }
-          }
-        ],
-        "status": "in-progress",
-        "authoredOn": "2025-10-01T15:29:00+00:00",
-        "lastModified": "2025-10-01T15:29:00.434+00:00",
-        "performerType": [
-          {
-            "coding": [
-              {
-                "code": "urn:oid:1.2.276.0.76.4.54",
-                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
-                "display": "Öffentliche Apotheke"
-              }
-            ],
-            "text": "Öffentliche Apotheke"
           }
         ]
       },

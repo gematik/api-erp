@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Hier dokumentiert die gematik Hinweise, wie E-Rezepte ab dem 15.01.2025 zu beliefern sind. Weiterhin werden Tools uns Hilfestellungen bereitgestellt.
 
@@ -55,7 +55,7 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-01-Parameters-ExampleCloseInputParameters"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.4"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -65,7 +65,7 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                 <MedicationDispense>
                     <id value="Example-MedicationDispense"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -89,7 +89,7 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                             </identifier>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-10-01"/>
+                    <whenHandedOver value="2025-01-15"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -99,7 +99,7 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                 <Medication>
                     <id value="SumatripanMedication"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
@@ -107,7 +107,7 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -146,9 +146,29 @@ Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -172,7 +192,7 @@ image:parameters-schematics-multiple.png[width=50%]
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-02-Parameters-ExampleInputMultipleDispenses"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_DispenseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_DispenseOperation_Input|1.4"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -182,7 +202,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <MedicationDispense>
                     <id value="Example-MedicationDispense"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -206,7 +226,7 @@ image:parameters-schematics-multiple.png[width=50%]
                             </identifier>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-10-01"/>
+                    <whenHandedOver value="2025-01-15"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -216,7 +236,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <Medication>
                     <id value="SumatripanMedication"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
@@ -224,7 +244,7 @@ image:parameters-schematics-multiple.png[width=50%]
                             <code value="00"/>
                         </valueCoding>
                     </extension>
-                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
+                    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
                         <valueBoolean value="false"/>
                     </extension>
                     <extension url="http://fhir.de/StructureDefinition/normgroesse">
@@ -263,9 +283,29 @@ image:parameters-schematics-multiple.png[width=50%]
                             <numerator>
                                 <value value="100"/>
                                 <unit value="mg"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
                             </numerator>
                             <denominator>
                                 <value value="1"/>
+                                <system>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </system>
+                                <code>
+                                    <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+                                        <valueCode value="unknown"/>
+                                    </extension>
+                                </code>
                             </denominator>
                         </strength>
                     </ingredient>
@@ -281,7 +321,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <MedicationDispense>
                     <id value="Example-MedicationDispense-2"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.4"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -305,7 +345,7 @@ image:parameters-schematics-multiple.png[width=50%]
                             </identifier>
                         </actor>
                     </performer>
-                    <whenHandedOver value="2025-10-01"/>
+                    <whenHandedOver value="2025-01-15"/>
                 </MedicationDispense>
             </resource>
         </part>
@@ -394,7 +434,7 @@ image:medication-rezeptur-schematics.png[width=50%]
 <Medication xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-03-Medication-Medication-Rezeptur"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
     </meta>
     <contained>
         <Medication>
@@ -459,7 +499,7 @@ image:medication-rezeptur-schematics.png[width=50%]
             <display value="Extemporaneous preparation (product)"/>
         </valueCoding>
     </extension>
-    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
+    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
         <valueBoolean value="false"/>
     </extension>
     <code>
@@ -535,7 +575,7 @@ Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredi
 <Medication xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-04-Medication-Medication-Kombipackung"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.4"/>
     </meta>
     <contained>
         <Medication>
@@ -640,12 +680,11 @@ Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredi
             <display value="Medicinal product package"/>
         </valueCoding>
     </extension>
-    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension">
+    <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension">
         <valueBoolean value="false"/>
     </extension>
     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
         <valueCoding>
-            <system value="https://gematik.de/fhir/epa-medication/CodeSystem/epa-drug-category-cs"/>
             <code value="00"/>
             <display value="Arzneimittel oder in die Arzneimittelversorgung nach § 31 SGB V einbezogenes Produkt"/>
         </valueCoding>

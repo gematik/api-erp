@@ -19,8 +19,8 @@
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
-:date-folder: 2025-10-01
+:branch: main
+:date-folder: 2025-01-15
 
 Zielgruppe: image:{PVS}[]
 
@@ -122,7 +122,7 @@ Content-Type: application/fhir+xml; charset=UTF-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="160.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -143,8 +143,8 @@ Content-Type: application/fhir+xml; charset=UTF-8
     </identifier>
     <status value="draft"/>
     <intent value="order"/>
-    <authoredOn value="2025-10-01T15:29:00+00:00"/>
-    <lastModified value="2025-10-01T15:29:00.434+00:00"/>
+    <authoredOn value="2025-01-15T15:29:00+00:00"/>
+    <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
         <coding>
             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
@@ -209,22 +209,22 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
 <Bundle xmlns="http://hl7.org/fhir">
     <id value="erp-bereitstellen-02-Prescription-Bundle"/>
     <meta>
-        <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
-        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
+        <lastUpdated value="2025-01-15T15:29:00.434+00:00"/>
+        <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.1.0"/>
     </meta>
     <identifier>
         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
         <value value="160.000.000.000.000.01"/>
     </identifier>
     <type value="document"/>
-    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+    <timestamp value="2025-01-15T15:29:00.434+00:00"/>
     <entry>
         <fullUrl value="http://pvs.praxis-topp-gluecklich.local/fhir/Composition/b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
         <resource>
             <Composition>
                 <id value="b0e22b86-e7e9-46c1-80fe-e6e24442d77c"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.1.0"/>
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                     <valueCoding>
@@ -242,7 +242,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
                 <subject>
                     <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                 </subject>
-                <date value="2025-10-01T15:29:00.434+00:00"/>
+                <date value="2025-01-15T15:29:00.434+00:00"/>
                 <author>
                     <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                     <type value="Practitioner"/>
@@ -295,12 +295,12 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <MedicationRequest>
                 <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02561"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.1.0"/>
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
                     <valueBoolean value="false"/>
                 </extension>
-                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER">
+                <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_BVG">
                     <valueBoolean value="false"/>
                 </extension>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription">
@@ -319,8 +319,8 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
                     </extension>
                     <extension url="Zeitraum">
                         <valuePeriod>
-                            <start value="2025-10-01"/>
-                            <end value="2025-10-31"/>
+                            <start value="2025-01-15"/>
+                            <end value="2025-02-14"/>
                         </valuePeriod>
                     </extension>
                     <extension url="ID">
@@ -344,7 +344,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
                         </valueCoding>
                     </extension>
                     <extension url="Unfalltag">
-                        <valueDate value="2025-10-01"/>
+                        <valueDate value="2025-01-15"/>
                     </extension>
                 </extension>
                 <status value="active"/>
@@ -355,7 +355,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
                 <subject>
                     <reference value="Patient/9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                 </subject>
-                <authoredOn value="2025-10-01"/>
+                <authoredOn value="2025-01-15"/>
                 <requester>
                     <reference value="Practitioner/d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                 </requester>
@@ -373,7 +373,6 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
                 <dispenseRequest>
                     <quantity>
                         <value value="2"/>
-                        <unit value="Packung"/>
                         <system value="http://unitsofmeasure.org"/>
                         <code value="{Package}"/>
                     </quantity>
@@ -387,7 +386,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Medication>
                 <id value="e3a4efa7-84fc-465b-b14c-720195097783"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.1.0"/>
                 </meta>
                 <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                     <valueCoding>
@@ -445,13 +444,13 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Patient>
                 <id value="9774f67f-a238-4daf-b4e6-Pat-GKV"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.1.0"/>
                 </meta>
                 <identifier>
                     <type>
                         <coding>
                             <system value="http://fhir.de/CodeSystem/identifier-type-de-basis"/>
-                            <code value="KVZ10"/>
+                            <code value="GKV"/>
                         </coding>
                     </type>
                     <system value="http://fhir.de/sid/gkv/kvid-10"/>
@@ -489,7 +488,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Practitioner>
                 <id value="20597e0e-cb2a-45b3-95f0-dc3dbdb617c3"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"/>
                 </meta>
                 <identifier>
                     <type>
@@ -541,7 +540,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Practitioner>
                 <id value="d8463daf-258e-4cad-a86a-6fd42fac161c"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.1.0"/>
                 </meta>
                 <identifier>
                     <type>
@@ -588,7 +587,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Organization>
                 <id value="cf042e44-086a-4d51-9c77-172f9a972e3b"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.1.0"/>
                 </meta>
                 <identifier>
                     <type>
@@ -627,7 +626,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
             <Coverage>
                 <id value="1b1ffb6e-eb05-43d7-87eb-Cov-GKV"/>
                 <meta>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.1.0"/>
                 </meta>
                 <extension url="http://fhir.de/StructureDefinition/gkv/besondere-personengruppe">
                     <valueCoding>
@@ -1169,7 +1168,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 <Task xmlns="http://hl7.org/fhir">
     <id value="160.000.000.000.000.01"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.4"/>
     </meta>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
         <valueCoding>
@@ -1179,10 +1178,10 @@ Content-Type: application/fhir+xml;charset=utf-8
         </valueCoding>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
-        <valueDate value="2025-10-28"/>
+        <valueDate value="2025-02-12"/>
     </extension>
     <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
-        <valueDate value="2026-01-01"/>
+        <valueDate value="2025-04-15"/>
     </extension>
     <identifier>
         <use value="official"/>
@@ -1202,8 +1201,8 @@ Content-Type: application/fhir+xml;charset=utf-8
             <value value="X123456789"/>
         </identifier>
     </for>
-    <authoredOn value="2025-10-01T15:29:00+00:00"/>
-    <lastModified value="2025-10-01T15:29:00.434+00:00"/>
+    <authoredOn value="2025-01-15T15:29:00+00:00"/>
+    <lastModified value="2025-01-15T15:29:00.434+00:00"/>
     <performerType>
         <coding>
             <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
