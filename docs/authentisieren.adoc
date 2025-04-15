@@ -155,27 +155,31 @@ SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertifica
 |Payload    |
 [source,xml]
 ----
-<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
-    <S:Body>
-        <ns8:ReadCardCertificate xmlns:ns2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
-            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
-            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
-            xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
-            xmlns:ns6="http://ws.gematik.de/tel/error/v2.0"
-            xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion"
-            xmlns:ns8="http://ws.gematik.de/conn/CertificateService/v7.4"
-            xmlns:ns9="http://ws.gematik.de/conn/ConnectorContext/v2.0">
-            <ns5:CardHandle>smc-b_2</ns5:CardHandle>
-            <ns9:Context>
-                <ns5:MandantId>Mandant1</ns5:MandantId>
-                <ns5:ClientSystemId>myPVS</ns5:ClientSystemId>
-                <ns5:WorkplaceId>WP1</ns5:WorkplaceId>
-            </ns9:Context>
-            <ns8:CertRefList>
-                <ns8:CertRef>C.AUT</ns8:CertRef>
-            </ns8:CertRefList>
-        </ns8:ReadCardCertificate>
-    </S:Body>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <S:Body>
+    <ns4:ReadCardCertificate xmlns:ns4="http://ws.gematik.de/conn/CertificateService/v6.0"
+      xmlns="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns3="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns5="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+      xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns7="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+      <ns2:CardHandle>SMC-B-15</ns2:CardHandle>
+      <ns3:Context>
+        <ns2:MandantId>Mandant1</ns2:MandantId>
+        <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+        <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+        <ns2:UserId>user1</ns2:UserId>
+      </ns3:Context>
+      <ns4:CertRefList>
+        <ns4:CertRef>C.AUT</ns4:CertRef>
+      </ns4:CertRefList>
+      <ns4:Crypt>ECC</ns4:Crypt>
+    </ns4:ReadCardCertificate>
+  </S:Body>
 </S:Envelope>
 ----
 NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
@@ -187,30 +191,37 @@ NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat 
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-    <soap:Body>
-        <ns3:ReadCardCertificateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
-            xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0"
-            xmlns:ns3="http://ws.gematik.de/conn/CertificateService/v7.4"
-            xmlns:ns4="http://ws.gematik.de/tel/error/v2.0"
-            xmlns:ns5="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
-            xmlns:ns6="http://www.w3.org/2000/09/xmldsig#"
-            xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema"
-            xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
-            <Status>
-                <Result>OK</Result>
-            </Status>
-            <ns5:X509DataInfoList>
-                <ns5:X509DataInfo>
-                    <ns5:X509Data>
-                        <ns5:X509Certificate>MIIFcTCCBFmgAwIBAgIHAXumDkbX3zANBgkqhkiG9w0BAQsFADCBmjELMAkGA1UEBhMCREUxHzAdBgNVBAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxSDBGBgNVBAsMP0luc3RpdHV0aW9uIGRlcyBHZXN1bmRoZWl0c3dlc2Vucy1DQSBkZXIgVGVsZW1hdGlraW5mcmFzdHJ1a3R1cjEgMB4GA1UEAwwXR0VNLlNNQ0ItQ0EyNCBURVNULU9OTFkwHhcNMjAwNjEwMDAwMDAwWhcNMjUwNjA5MjM1OTU5WjCB+DELMAkGA1UEBhMCREUxFDASBgNVBAcMC03DvGhsaGF1c2VuMQ4wDAYDVQQRDAU5OTk3NDEeMBwGA1UECQwVTGFuZ2Vuc2FsemFlciBTdHIuIDI1MSowKAYDVQQKDCEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgxHTAbBgNVBAUTFDgwMjc2ODgzMTEwMDAwMTI5MDY4MRQwEgYDVQQEDAtCbGFua2VuYmVyZzEWMBQGA1UEKgwNRG9taW5pay1QZXRlcjEqMCgGA1UEAwwhQXBvdGhla2UgYW0gU3BvcnR6ZW50cnVtVEVTVC1PTkxZMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjVMEf2TTXlfkuCDyiMpo96jA5XRvkaHTy+4qTcDR1awUP4yemfKsB1BTWMMSDrA1/2YdnlZJeynEnQi0K4LWMvTcq+CRGi4ghcIokb2TURZXZ1K6FTJHqITojp9ZRaNTap+kIpOZCmSRa7ftRzEgooPjG6C+7XxUViczlVE17UJMPavWQfY2+A1M/0vx9Jbi7wPmXCMuEvj7yEAVRCGQExVxzbLZPE7FS/vlXcwkFtmnMUVWiQFFXlVLG7uUc9CQFvTXPT5ppDhxAmVeUBLNXKruDkpSeuq3sCi93ln9hXXw/xPeNAAehtvxFp6eMGf5LEVGvZj8v51qu4eDPaKtJwIDAQABo4IBWjCCAVYwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDgYDVR0PAQH/BAQDAgWgMB0GA1UdDgQWBBSEkJ1lgmhiHfVZyKKyVw2Qd86PPDA4BggrBgEFBQcBAQQsMCowKAYIKwYBBQUHMAGGHGh0dHA6Ly9laGNhLmdlbWF0aWsuZGUvb2NzcC8wDAYDVR0TAQH/BAIwADAgBgNVHSAEGTAXMAoGCCqCFABMBIEjMAkGByqCFABMBE0wHwYDVR0jBBgwFoAUeunhb+oUWRYF7gPp0/0hq97p2Z4wgYQGBSskCAMDBHsweaQoMCYxCzAJBgNVBAYTAkRFMRcwFQYDVQQKDA5nZW1hdGlrIEJlcmxpbjBNMEswSTBHMBcMFcOWZmZlbnRsaWNoZSBBcG90aGVrZTAJBgcqghQATAQ2EyEzLVNNQy1CLVRlc3RrYXJ0ZS04ODMxMTAwMDAxMjkwNjgwDQYJKoZIhvcNAQELBQADggEBAGwmbkXMdRrIZwTzUVsdH6RUB7cc3+CcDN0NqLSOM7sdCQrr5NfzcK2dzhc77KVzviZbvz6MxfEq47Y/dPMmtVlU0Amw5bbnYT4WnadjrLOHnKCxLFssrfo0izB7IJvBswMQl/KnUXbk/X57KcNKTYOfuCVVVt+yET63N4qp9YOPiMdCHxu+BUvgwmOgr/enRnh+HgCYVQtzLmDXimBcneRoZg3XgukoMQPd5TlVlZAF1JZ6W8uGN+LEiddnHdzYFVInest3xMzwHj4T3lXLCkr6oc9jvwKe2A2qsBvcbEFDR0mi0CW9NjfJ05v/52GKZZZyjEnFjnHJ1J5r1DlD5S8=
-                        </ns5:X509Certificate>
-                    </ns5:X509Data>
-                </ns5:X509DataInfo>
-            </ns5:X509DataInfoList>
-        </ns3:ReadCardCertificateResponse>
-    </soap:Body>
-</soap:Envelope>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <ns5:ReadCardCertificateResponse xmlns:ns5="http://ws.gematik.de/conn/CertificateService/v6.0"
+      xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns4="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0">
+      <ns2:Status>
+        <ns2:Result>OK</ns2:Result>
+      </ns2:Status>
+      <ns4:X509DataInfoList>
+        <ns4:X509DataInfo>
+          <ns4:CertRef>C.AUT</ns4:CertRef>
+          <ns4:X509Data>
+            <ns4:X509IssuerSerial>
+              <ns4:X509IssuerName>CN=GEM.SMCB-CA57 TEST-ONLY,OU=Institution des Gesundheitswesens-CA
+                der Telematikinfrastruktur,O=gematik NOT-VALID,C=DE</ns4:X509IssuerName>
+              <ns4:X509SerialNumber>384074971647989</ns4:X509SerialNumber>
+            </ns4:X509IssuerSerial>
+            <ns4:X509SubjectName>CN=Praxis Peer Graf von
+              MüllerTEST-ONLY,2.5.4.12=#0c0950726f662e2044722e,2.5.4.42=#0c0450656572,2.5.4.4=#0c074dc3bc6c6c6572,O=Praxis
+              Peer Graf von MüllerNOT-VALID,STREET=Frohnhauser Straße
+              253,2.5.4.17=#0c053435313434,L=Essen,C=DE</ns4:X509SubjectName>
+            <ns4:X509Certificate>
+              MIIDpDCCA0ugAwIBAgIHAV1QbECP9TAKBggqhkjOPQQDAjCBlTELMAkGA1UEBhMCREUxGjAYBgNVBAoMEWdlbWF0aWsgTk9ULVZBTElEMUgwRgYDVQQLDD9JbnN0aXR1dGlvbiBkZXMgR2VzdW5kaGVpdHN3ZXNlbnMtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxIDAeBgNVBAMMF0dFTS5TTUNCLUNBNTcgVEVTVC1PTkxZMB4XDTI0MTIwMzAwMDAwMFoXDTI5MTIwMjIzNTk1OVowgeQxCzAJBgNVBAYTAkRFMQ4wDAYDVQQHDAVFc3NlbjEOMAwGA1UEEQwFNDUxNDQxIDAeBgNVBAkMF0Zyb2huaGF1c2VyIFN0cmHDn2UgMjUzMS4wLAYDVQQKDCVQcmF4aXMgUGVlciBHcmFmIHZvbiBNw7xsbGVyTk9ULVZBTElEMRAwDgYDVQQEDAdNw7xsbGVyMQ0wCwYDVQQqDARQZWVyMRIwEAYDVQQMDAlQcm9mLiBEci4xLjAsBgNVBAMMJVByYXhpcyBQZWVyIEdyYWYgdm9uIE3DvGxsZXJURVNULU9OTFkwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAEEIZg/qYcKfgeZ5kwYiDsyFNCk97KzGerP+oQz5Fdr+wZ7zvJz5v10lrHUE/eIIX0Wnw4quMPRR21e9g80l/85qOCATIwggEuMA4GA1UdDwEB/wQEAwIHgDA7BggrBgEFBQcBAQQvMC0wKwYIKwYBBQUHMAGGH2h0dHA6Ly9laGNhLmdlbWF0aWsuZGUvZWNjLW9jc3AwHwYDVR0jBBgwFoAUte91fpmaF8nTdy9bEcWEMy8FnFEwHQYDVR0OBBYEFG3JPVn5ckQoCarX8Y9r3U+Ltxh1MBMGA1UdJQQMMAoGCCsGAQUFBwMCMCAGA1UdIAQZMBcwCgYIKoIUAEwEgSMwCQYHKoIUAEwETTAMBgNVHRMBAf8EAjAAMFoGBSskCAMDBFEwTzBNMEswSTBHMBYMFEJldHJpZWJzc3TDpHR0ZSBBcnp0MAkGByqCFABMBDITIjEtU01DLUItVGVzdGthcnRlLS04ODMxMTAwMDAxNjM5NzIwCgYIKoZIzj0EAwIDRwAwRAIgEn+br/azo26haApXPtQwOdbwx2CKmFBtnK34IdteEEsCIBBh2ibdVej78joEXzml4xZI9UbTYqo7bFe5OF2vXK3d</ns4:X509Certificate>
+          </ns4:X509Data>
+        </ns4:X509DataInfo>
+      </ns4:X509DataInfoList>
+    </ns5:ReadCardCertificateResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
 NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
@@ -338,21 +349,40 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
 |Payload    |
 [source,xml]
 ----
-<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
-    <soap-env:Body>
-        <ns0:ExternalAuthenticate xmlns:ns0="http://ws.gematik.de/conn/SignatureService/v7.4">
-            <ns1:CardHandle xmlns:ns1="http://ws.gematik.de/conn/ConnectorCommon/v5.0">smc-b_2</ns1:CardHandle>
-            <ns2:Context xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0">
-                <ns3:MandantId xmlns:ns3="http://ws.gematik.de/conn/ConnectorCommon/v5.0">Mandant1</ns3:MandantId>
-                <ns4:ClientSystemId xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0">myPVS</ns4:ClientSystemId>
-                <ns5:WorkplaceId xmlns:ns5="http://ws.gematik.de/conn/ConnectorCommon/v5.0">WP1</ns5:WorkplaceId>
-            </ns2:Context>
-            <ns0:BinaryString>
-                <ns7:Base64Data xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema">lCOIgrJKqt5BlQ7O5airFMQZbtTF2dLfo0T9/WOicmI=</ns7:Base64Data>
-            </ns0:BinaryString>
-        </ns0:ExternalAuthenticate>
-    </soap-env:Body>
-</soap-env:Envelope>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <S:Body>
+    <ns4:ExternalAuthenticate xmlns:ns4="http://ws.gematik.de/conn/SignatureService/v7.4"
+      xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns10="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns11="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+      xmlns:ns12="urn:oasis:names:tc:SAML:1.0:assertion"
+      xmlns:ns13="urn:oasis:names:tc:SAML:2.0:assertion"
+      xmlns:ns14="http://www.w3.org/2001/04/xmlenc#"
+      xmlns:ns2="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns3="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns5="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+      xmlns:ns6="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns7="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+      xmlns:ns8="http://uri.etsi.org/01903/v1.3.2#" xmlns:ns9="http://uri.etsi.org/02231/v2#">
+      <CardHandle>SMC-B-15</CardHandle>
+      <ns10:Context>
+        <MandantId>Mandant1</MandantId>
+        <ClientSystemId>CS1</ClientSystemId>
+        <WorkplaceId>AP1</WorkplaceId>
+        <UserId>user1</UserId>
+      </ns10:Context>
+      <ns4:OptionalInputs>
+        <ns2:SignatureType>urn:bsi:tr:03111:ecdsa</ns2:SignatureType>
+      </ns4:OptionalInputs>
+      <ns4:BinaryString>
+        <ns2:Base64Data MimeType="application/octet-stream">
+          EGvRHN8ZHbaFVSaMBoKLVO3CqW6SjWM8fVeIZyClkQw=</ns2:Base64Data>
+      </ns4:BinaryString>
+    </ns4:ExternalAuthenticate>
+  </S:Body>
+</S:Envelope>
 ----
 NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
 
@@ -365,31 +395,30 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-    <soap:Body>
-        <ns4:ExternalAuthenticateResponse xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
-            xmlns:ns2="http://ws.gematik.de/conn/ConnectorContext/v2.0"
-            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
-            xmlns:ns4="http://ws.gematik.de/conn/SignatureService/v7.4"
-            xmlns:ns5="http://www.w3.org/2000/09/xmldsig#"
-            xmlns:ns6="http://ws.gematik.de/tel/error/v2.0"
-            xmlns:ns7="http://uri.etsi.org/01903/v1.3.2#"
-            xmlns:ns8="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
-            xmlns:ns9="urn:oasis:names:tc:SAML:1.0:assertion"
-            xmlns:ns10="http://www.w3.org/2001/04/xmlenc#"
-            xmlns:ns11="http://uri.etsi.org/02231/v2#"
-            xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
-            xmlns:ns13="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
-            xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion">
-            <Status>
-                <Result>OK</Result>
-            </Status>
-            <ns3:SignatureObject>
-                <ns3:Base64Signature Type="urn:ietf:rfc:3447">iSCNtUJUaH3uameymaYdplnmn5iq6k90a8i/TvSRvYOjw3x7zXn6+74LoVDc1xWNplmy6fzZejoIZAPxAJ0wBGQWFbdpD6ZLdOqC+Cm3BXUEXHeW2swfI6KfUwfWj43pujBTdzYI6JYG08sL63fxuY9eeGndzuWCDvHQVK0bPPjxq0K/fHx+PFQ1DxuNr5jbDaCBKOegPvcPXOFBY8dRGW0fu/T8baEpm5ACNGmX3vIqC3SWsP7M1TcTbEwxh82vMc0iOkIVDa2LKJAk5H4gSBBAGJahsFD3N3fnKgdLr81HiEQaoIyb+uEIVvaemz8yQ59dAIv3Hrb0Em5k/faHDQ==</ns3:Base64Signature>
-            </ns3:SignatureObject>
-        </ns4:ExternalAuthenticateResponse>
-    </soap:Body>
-</soap:Envelope>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <ns11:ExternalAuthenticateResponse xmlns:ns11="http://ws.gematik.de/conn/SignatureService/v7.4"
+      xmlns:ns10="http://uri.etsi.org/02231/v2#"
+      xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+      xmlns:ns2="http://ws.gematik.de/conn/nfds/NFDService/v1.0"
+      xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns5="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns7="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns8="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+      xmlns:ns9="http://uri.etsi.org/01903/v1.3.2#">
+      <ns4:Status>
+        <ns4:Result>OK</ns4:Result>
+      </ns4:Status>
+      <ns6:SignatureObject>
+        <ns6:Base64Signature Type="urn:bsi:tr:03111:ecdsa">
+          MEQCIGFM9BsPKQYIJA/UgGosqbVh4r84b6OZukGhzXJ4TabwAiBg2dyMpKtXc93ZbcgXz2wP8WWqsdqUumB4jOpd7zXs/A==</ns6:Base64Signature>
+      </ns6:SignatureObject>
+    </ns11:ExternalAuthenticateResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
 
 
