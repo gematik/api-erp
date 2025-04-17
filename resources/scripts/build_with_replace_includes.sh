@@ -16,7 +16,7 @@ if ! grep -qE "$required_asciidoctor_diagram_version\.[0-9]+" <<<"$actual_asciid
     exit 1
 fi
 
-# Build OpenAPI Blocks: Launch Dependend Scripts
+# Build OpenAPI Blocks: Launch Dependent Scripts
 python3 ./resources/scripts/openapi-to-adoc.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
@@ -25,7 +25,8 @@ python3 ./resources/scripts/openapi-to-adoc.py
 cd "$(dirname "$0")" || exit
 # rm ../../images/puml_*
 
-# loop through all puml files and create the image
+# loop through all puml files and create the image in parallel
+puml_jobs=()
 for filename in $(find ../../puml -name '*.puml'); do
 
     filebase=$(basename -- "$filename") # test.adoc
@@ -41,16 +42,25 @@ for filename in $(find ../../puml -name '*.puml'); do
 
         tempAdocFile=../../docs_sources/${name}.adoc
 
-        # creates a temporary adoc file in order to render with asciidoctor-diagram
-        touch ${tempAdocFile}
-        echo "[plantuml, target=../../images/puml_${name}, format=png]
+        # Run the task in the background
+        (
+            # creates a temporary adoc file in order to render with asciidoctor-diagram
+            touch ${tempAdocFile}
+            echo "[plantuml, target=../../images/puml_${name}, format=png]
 ....
 include::${pumlPath}[]
 ...." >${tempAdocFile}
-        asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
-        rm ../../docs_sources/${name}.adoc
+            asciidoctor -r asciidoctor-diagram -o ../puml/$newFileName ../../docs_sources/${name}.adoc
+            rm ../../docs_sources/${name}.adoc
+        ) &
+        puml_jobs+=($!) # Add the job to the list
     fi
 
+done
+
+# Wait for all puml jobs to complete
+for job in "${puml_jobs[@]}"; do
+    wait "$job"
 done
 
 # cleanup temp files
@@ -58,16 +68,23 @@ if [ -d "../puml" ]; then
     rm -r ../puml
 fi
 
-# STAGE_2 this creates new adoc files in /docs/resources
-
+# STAGE_2: this creates new adoc files in /docs/resources in parallel
+adoc_jobs=()
 for filename in $(find ../../docs_sources -name '*.adoc'); do
-    newFileName=${filename//-source/}
-    newFileName=${newFileName//_sources/}
-    asciidoctor-reducer $filename -o $newFileName -a allow-uri-read
+    (
+        newFileName=${filename//-source/}
+        newFileName=${newFileName//_sources/}
+        asciidoctor-reducer $filename -o $newFileName -a allow-uri-read
+    ) &
+    adoc_jobs+=($!) # Add the job to the list
+done
+
+# Wait for all adoc jobs to complete
+for job in "${adoc_jobs[@]}"; do
+    wait "$job"
 done
 
 # STAGE_3 cleanup
-
 rm -r ../openapi-adoc
 
 # Echo that the process is finished
