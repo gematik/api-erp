@@ -7,6 +7,8 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen, um sich mit der Te
 
 toc::[]
 
+WARNING: Für die RSA - ECC umstellung wurde ein Leitfaden erstellt, der den Übergang unterstützen soll: link:https://service.gematik.de/servicedesk/customer/kb/view/641653859[E-Rezept - RSA2ECC Umstellungsleitfaden für Entwickler]
+
 == Endpunkte des E-Rezept Fachdienstes
 Für den Verbindungsaufbau mit dem E-Rezept Fachdienst stehen verschiedene Endpunkte zur verfügung, je nach Entwicklungsumgebung. Angegeben werden jeweils der Endpunkt für den Fachdienst und den IDP:
 
@@ -82,6 +84,7 @@ Prüfung der Signatur des DD gegen das Signatur-Zertifikat im `x5c`-Feld des Res
 Erzeugung einer `nonce` und eines `state`. `Nonce` ist ein optionaler Zufallswert, `state` kann beliebig gewählt werden, also ebenso eine Zufallszahl oder eine session-id etc. +
  Um das CHALLENGE_TOKEN zu beziehen, werden CODE_CHALLENGE, `state` und ggf. `Nonce` an das Authenticator-Modul übergeben und in der Fachlogik für spätere Prüfungen zwischengespeichert.
 3.+|*AuthorizationCode über Handshake mit Kartenidentität beziehen*
+// TODO: ECC
 |9 - 12|AM|Lesen des X509-Signatur-Zertifikats zum `puk_idp_sig` des IDP und des IDP-Verschlüsselungsschlüssels `puk_idp_enc` von http://url.des.idp/idpSig/jwk.json und http://url.des.idp/idpEnc/jwk.json oder aus dem JWK-Set http://url.des.idp/jwks *Schritt 3 + 5 im Rbel-Flow*
 |13 - 17|AM| Senden der in Schritt 8 übergebenen Werte (als URL-Parameter wie z.B. 'code_challenge') an den authorization_endpoint des IDP, ,+ dieser antwortet mit dem CHALLENGE_TOKEN und dem `user_consent` *Schritt 7 im Rbel-Flow*, +
 Die Signatur des CHALLENGE_TOKEN wird mittels `puk_idp_sig` geprüft. Es erfolgt eine Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],.
@@ -108,7 +111,6 @@ Die enthaltene Nonce gegen den im Schritt 1 erzeugten Wert abgeglichen. Anschlie
 ==== Vorbereitende Schritte für die Authentifizierung mittels der SMC-B
 1. Dem Nutzer soll der vom IDP bereitgestellte UserConsent angezeigt werden. Stimmt der Nutzer der Bereitstellung der Daten für den E-Rezept-Fachdienst nicht zu, muss der Authentifizierungsvorgang abgebrochen werden, da der Fachdienst ohne diese Informationen den E-Rezept-Workflow nicht umsetzen kann.
 2. Die vom IDP in der obigen Response übermittelte Challenge beinhaltet ein Challenge-Token `{"iss":"https://idp.zentral.idp.splitdns.ti-dienste.de","response_type":"code","snc":"syQAvJmxPnRtLjT6uPVERb_RF7MmVzhS1sP8FbHjhLM","code_challenge_method":"S256","token_type":"challenge","nonce":"887766","client_id":"gematikTestPs","scope":"openid e-rezept","state":"xxxstatexxx","redirect_uri":"http://test-ps.gematik.de/erezept","exp":1616686048,"iat":1616685868,"code_challenge":"Ca3Ve8jSsBQOBFVqQvLs1E-dGV1BXg2FTvrd-Tg19Vg","jti":"5e5ad23ae3e7d8aa"}` in Base64-Codierung `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5zcGxpdGRucy50aS1kaWVuc3RlLmRlIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJzbmMiOiJzeVFBdkpteFBuUnRMalQ2dVBWRVJiX1JGN01tVnpoUzFzUDhGYkhqaExNIiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsInRva2VuX3R5cGUiOiJjaGFsbGVuZ2UiLCJub25jZSI6Ijg4Nzc2NiIsImNsaWVudF9pZCI6ImdlbWF0aWtUZXN0UHMiLCJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsInN0YXRlIjoieHh4c3RhdGV4eHgiLCJyZWRpcmVjdF91cmkiOiJodHRwOi8vdGVzdC1wcy5nZW1hdGlrLmRlL2VyZXplcHQiLCJleHAiOjE2MTY2ODYwNDgsImlhdCI6MTYxNjY4NTg2OCwiY29kZV9jaGFsbGVuZ2UiOiJDYTNWZThqU3NCUU9CRlZxUXZMczFFLWRHVjFCWGcyRlR2cmQtVGcxOVZnIiwianRpIjoiNWU1YWQyM2FlM2U3ZDhhYSJ9`. Da die Signatur immer über einen Hashwert der zu signierenden Daten erfolgt, muss dieser Hashwert vom Clientsystem berechnet werden. Als kryptografisches Verfahren kommt hier SHA-256 zum Einsatz. Aus dem obigen Beispiel `eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5...` ergibt sich folgender Hashwert: `94238882b24aaade41950ecee5a8ab14c4196ed4c5d9d2dfa344fdfd63a27262`
-
 NOTE: Der JWS-Payload muss zusammen mit dem Base64 enkodierten Header {"alg": "ES256","typ": "JWT"} kombiniert und dann gehasht werden:
 eyJhbGciOiAiRVMyNTYiLCJ0eXAiOiAiSldUIn0.eyJpc3MiOiJodHRwczovL2lkcC56ZW50cmFsLmlkcC5zcGxpdGRucy50aS1kaWVuc3RlLmRlIiwicmVzcG9uc2VfdHlwZSI6ImNvZGUiLCJzbmMiOiJzeVFBdkpteFBuUnRMalQ2dVBWRVJiX1JGN01tVnpoUzFzUDhGYkhqaExNIiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsInRva2VuX3R5cGUiOiJjaGFsbGVuZ2UiLCJub25jZSI6Ijg4Nzc2NiIsImNsaWVudF9pZCI6ImdlbWF0aWtUZXN0UHMiLCJzY29wZSI6Im9wZW5pZCBlLXJlemVwdCIsInN0YXRlIjoieHh4c3RhdGV4eHgiLCJyZWRpcmVjdF91cmkiOiJodHRwOi8vdGVzdC1wcy5nZW1hdGlrLmRlL2VyZXplcHQiLCJleHAiOjE2MTY2ODYwNDgsImlhdCI6MTYxNjY4NTg2OCwiY29kZV9jaGFsbGVuZ2UiOiJDYTNWZThqU3NCUU9CRlZxUXZMczFFLWRHVjFCWGcyRlR2cmQtVGcxOVZnIiwianRpIjoiNWU1YWQyM2FlM2U3ZDhhYSJ9
 SHA256(x) = 94238882b24aaade41950ecee5a8ab14c4196ed4c5d9d2dfa344fdfd63a27262
@@ -116,6 +118,8 @@ SHA256(x) = 94238882b24aaade41950ecee5a8ab14c4196ed4c5d9d2dfa344fdfd63a27262
 [[anchor-read-aut]]
 ==== Request zum Auslesen des Zertifikats der SMC-B über Konnektor (read_certificate)
 Der Konnektor authentifiziert Nutzer anhand einer kartengebundenen, kryptografischen Identität. Die Karte hält den privaten Schlüssel zu dieser Identität, welcher für die Signatur über eine Challenge des IDP genutzt wird. Zur Prüfung der Signatur benötigt der IDP das Zertifikat dieser Identität. Dieses enthält den öffentlichen Schlüssel für die kryptografische Signaturprüfung sowie weitere Nutzerinformationen (Name, KVNR/Telematik-ID, fachliche Rolle), die der IDP in Identitätsbestätigungen zur Nutzung gegenüber dem E-Rezept-Fachdienst attestiert. Der Abruf des Zertifikats erfolgt über die Konnektor-Operation `ReadCertificate`.
+
+NOTE: Mit dem optionalen Parameter `Crypt` und dem Wert "ECC" kann angegeben werden, dass ausschließlich Zertifikate, die ECC fähig sind, zurückgegeben werden.
 
 [cols="h,a"]
 [%autowidth]
@@ -209,6 +213,8 @@ IMPORTANT: Die Gültigkeitsprüfung von ECC-Zertifikaten unterstützt der Konnek
 ==== Signatur mit SMC-B erzeugen (external_authenticate)
 Das vom IDP bereitgestellte Challenge-Token muss mit der AUT-Identität der SMC-B signiert werden. Das Primärsystem berechnet den Hashwert der Challenge im vom IDP vorgegebenen SHA-256-Verfahren und ruft für diesen Hashwert die Konnektor-Operation `ExternalAuthenticate` auf. +
 Für das obige Challenge-Beispiel ergibt sich der folgende SHA-256-Wert: `94238882b24aaade41950ecee5a8ab14c4196ed4c5d9d2dfa344fdfd63a27262` in HEX-Darstellung, welcher dann Base64-codiert werden muss (ergibt `lCOIgrJKqt5BlQ7O5airFMQZbtTF2dLfo0T9/WOicmI=`, siehe link:https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')&input=OTQyMzg4ODJiMjRhYWFkZTQxOTUwZWNlZTVhOGFiMTRjNDE5NmVkNGM1ZDlkMmRmYTM0NGZkZmQ2M2EyNzI2Mg[CyberChef-Beispiel]).
+
+WARNING: Für Signaturen, die mit ECC (nicht RSA) erstellt wurden muss der Rückgabewert von ExternalAuthenticate konkateniert werden, bevor dieser an den IDP-Dienst weiterversandt wird. Beispielsweise mit link:https://github.com/gematik/ref-idp-server/blob/master/idp-client/src/main/java/de/gematik/idp/client/IdpClient.java#L172[Java und der jose4j-library] oder link:https://github.com/gematik/app-Authenticator/blob/ac17e8e80475021b2e2b80f9d7cd5f5c02a317e1/src/renderer/modules/gem-idp/services/signing-service.ts#L72[Custom-Code-Beispiel mit Java-Script].
 
 [cols="h,a"]
 [%autowidth]

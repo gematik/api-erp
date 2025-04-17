@@ -8,6 +8,8 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
   - [Einleitung](#einleitung)
   - [Aktuelles](#aktuelles)
+    - [RSA zu ECC Umstellung](#rsa-zu-ecc-umstellung)
+    - [Profilwechsel](#profilwechsel)
   - [Umfang der Anwendung E-Rezept](#umfang-der-anwendung-e-rezept)
   - [Implementierungsunterstützung](#implementierungsunterstützung)
   - [Anwendungsfälle im E-Rezept](#anwendungsfälle-im-e-rezept)
@@ -27,6 +29,11 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 
 
 ## Aktuelles
+
+### RSA zu ECC Umstellung
+- Für die RSA - ECC umstellung wurde ein Leitfaden erstellt, der den Übergang unterstützen soll: link:https://service.gematik.de/servicedesk/customer/kb/view/641653859[E-Rezept - RSA2ECC Umstellungsleitfaden für Entwickler]
+
+### Profilwechsel
 Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 
 - [E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
