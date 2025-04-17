@@ -1123,8 +1123,6 @@ Content-Type: application/fhir+xml (string)
                                 <quantity>
                                     <value value="2"/>
                                     <unit value="Packung"/>
-                                    <system value="http://unitsofmeasure.org"/>
-                                    <code value="{Package}"/>
                                 </quantity>
                             </dispenseRequest>
                         </MedicationRequest>
@@ -1596,8 +1594,6 @@ Content-Type: application/fhir+xml (string)
                                 <quantity>
                                     <value value="2"/>
                                     <unit value="Packung"/>
-                                    <system value="http://unitsofmeasure.org"/>
-                                    <code value="{Package}"/>
                                 </quantity>
                             </dispenseRequest>
                         </MedicationRequest>
@@ -1973,7 +1969,7 @@ Authorization: Bearer <JWT> (string, required)
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
-                        <reference value="Medication/SumatripanMedication"/>
+                        <reference value="Medication/SumatripanMedication-EU"/>
                     </medicationReference>
                     <subject>
                         <identifier>
@@ -1994,9 +1990,9 @@ Authorization: Bearer <JWT> (string, required)
             <name value="medication"/>
             <resource>
                 <Medication>
-                    <id value="SumatripanMedication"/>
+                    <id value="SumatripanMedication-EU"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Medication|1.0"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
@@ -2113,6 +2109,7 @@ Authorization: Bearer <JWT> (string, required)
                     <value value="1234567890"/>
                 </identifier>
                 <name>
+                    <text value="Pedro Sanches"/>
                     <family value="Sanches"/>
                     <given value="Pedro"/>
                 </name>
@@ -2207,7 +2204,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     </identifier>
                     <status value="completed"/>
                     <medicationReference>
-                        <reference value="Medication/SumatripanMedication"/>
+                        <reference value="Medication/SumatripanMedication-EU"/>
                     </medicationReference>
                     <subject>
                         <identifier>
@@ -2347,6 +2344,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
                     <value value="1234567890"/>
                 </identifier>
                 <name>
+                    <text value="Pedro Sanches"/>
                     <family value="Sanches"/>
                     <given value="Pedro"/>
                 </name>
@@ -2911,7 +2909,7 @@ Content-Type: application/fhir+json (string)
         ],
         "whenHandedOver": "2025-10-01",
         "medicationReference": {
-          "reference": "Medication/SumatripanMedication"
+          "reference": "Medication/SumatripanMedication-EU"
         }
       },
       "search": {
@@ -2938,7 +2936,8 @@ Content-Type: application/fhir+json (string)
             "family": "Sanches",
             "given": [
               "Pedro"
-            ]
+            ],
+            "text": "Pedro Sanches"
           }
         ]
       },
@@ -3158,7 +3157,7 @@ Content-Type: application/fhir+json (string)
         ],
         "whenHandedOver": "2025-10-01",
         "medicationReference": {
-          "reference": "Medication/SumatripanMedication"
+          "reference": "Medication/SumatripanMedication-EU"
         }
       },
       "search": {
@@ -3185,7 +3184,8 @@ Content-Type: application/fhir+json (string)
             "family": "Sanches",
             "given": [
               "Pedro"
-            ]
+            ],
+            "text": "Pedro Sanches"
           }
         ]
       },
