@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "signatureDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Datum der Signatur QES des Verordnungsdatensatzes"
+    },
+    "prescriptionID": {
+      "type": "string",
+      "description": "Rezept-ID (Task.identifier[PrescriptionID].value)"
+    },
+    "prescribedMedication": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Bezeichnung des Fertigarzneimittels oder des Wirkstoffes einschließlich der Stärke ODER Rezeptur"
+        },
+        "dosageForm": {
+          "type": "string",
+          "description": "Darreichungsform des verordneten Arzneimittels"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Abzugebende Menge des verordneten Arzneimittels"
+        },
+        "dosage": {
+          "type": "string",
+          "description": "Dosierung des verordneten Arzneimittels"
+        },
+        "duration": {
+          "type": "string",
+          "description": "Reichdauer des verordneten Arzneimittels (offen)"
+        }
+      },
+      "required": ["name", "dosageForm", "quantity"]
+    },
+    "dispensedMedication": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Bezeichnung des Fertigarzneimittels oder des Wirkstoffes einschließlich der Stärke ODER Rezeptur"
+        },
+        "dosageForm": {
+          "type": "string",
+          "description": "Darreichungsform des abgebenden Arzneimittels"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Abzugebende Menge des abgebenden Arzneimittels"
+        },
+        "dosage": {
+          "type": "string",
+          "description": "Dosierung des abgebenden Arzneimittels"
+        }
+      },
+      "required": ["name", "dosageForm", "quantity"]
+    },
+    "pharmacy": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name der Apotheke"
+        },
+        "address": {
+          "type": "string",
+          "description": "Anschrift der Apotheke"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Telefonnummer der Apotheke (optional)"
+        }
+      },
+      "required": ["name", "address"]
+    },
+    "dispenseDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Das Datum der Abgabe"
+    },
+    "confirmations": {
+      "type": "object",
+      "properties": {
+        "safetyMeasures": {
+          "type": "boolean",
+          "description": "Bestätigung der ärztlichen Person über Sicherheitsmaßnahmen gemäß Fachinformation"
+        },
+        "informationMaterial": {
+          "type": "boolean",
+          "description": "Bestätigung, dass medizinische Informationsmaterialien ausgehändigt wurden"
+        },
+        "offLabelUse": {
+          "type": "boolean",
+          "description": "Angabe, ob eine Behandlung außerhalb der zugelassenen Anwendungsgebiete erfolgt"
+        },
+        "prescriptionForWoman": {
+          "type": "boolean",
+          "description": "Angabe, ob es sich um eine Verschreibung für eine gebärfähige Frau handelt"
+        },
+        "expertiseConfirmation": {
+          "type": "boolean",
+          "description": "Bestätigung der ärztlichen Person über ausreichende Sachkenntnisse"
+        }
+      },
+      "required": ["safetyMeasures", "informationMaterial"]
+    }
+  },
+  "required": ["signatureDate", "prescriptionID", "prescribedMedication", "dispensedMedication", "pharmacy", "dispenseDate"]
+}
