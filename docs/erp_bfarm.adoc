@@ -46,6 +46,7 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 ¦Requester  ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
+X-Request-ID: <value> (string)
 ----
 ¦Payload    ¦
 .Request Body (Klicken zum Ausklappen)
@@ -54,6 +55,7 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 [source,json]
 ----
 {
+  "version": 1,
   "signatureDate": "2025-04-22",
   "prescriptionID": "RX987654321",
   "prescribedMedication": {
@@ -94,6 +96,7 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 |===
 ¦HTTP Header ¦
 ----
+X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
 ----
 ¦Payload    ¦
 .Response Body (201) (Klicken zum Ausklappen)
@@ -102,6 +105,7 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 [source,json]
 ----
 {
+  "version": 1,
   "signatureDate": "2025-04-22",
   "prescriptionID": "RX987654321",
   "prescribedMedication": {
@@ -133,6 +137,31 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 }
 ----
 ====
+.Response Body (422) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errors": [
+    {
+      "severity": "error",
+      "code": "invalid_request",
+      "message": "Invalid request payload",
+      "field": "name",
+      "details": "This field is required"
+    },
+    {
+      "severity": "error",
+      "code": "invalid_value",
+      "message": "Invalid value for field",
+      "field": "age",
+      "details": "Value must be a positive integer"
+    }
+  ]
+}
+----
+====
 
 2+¦Response Codes
 
@@ -150,6 +179,9 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 
 ¦405 ¦ Client Error +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦422 ¦ Client Error +
+[small]#Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.#
 
 ¦429 ¦ Client Error +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
@@ -172,6 +204,7 @@ Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzne
 ¦Requester  ¦image:{eRp}[]
 ¦HTTP Header ¦
 ----
+X-Request-ID: <value> (string)
 ----
 ¦Payload    ¦
 .Request Body (Klicken zum Ausklappen)
@@ -387,6 +420,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-bfarm/StructureDefinition/GEM_ERP_
 |===
 ¦HTTP Header ¦
 ----
+X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
 ----
 ¦Payload    ¦
 .Response Body (201) (Klicken zum Ausklappen)
@@ -590,6 +624,36 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-bfarm/StructureDefinition/GEM_ERP_
 }
 ----
 ====
+.Response Body (422) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "invalid",
+      "details": {
+        "text": "Invalid request payload"
+      },
+      "expression": ["parameter[rxPrescription].part[prescriptionId].value"],
+      "diagnostics": "This field is required"
+    },
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Invalid format for field"
+      },
+      "expression": ["parameter[rxPrescription].part[medicationRequest].resource.authoredOn"],
+      "diagnostics": "Value must be a date"
+    }
+  ]
+}
+----
+====
 
 2+¦Response Codes
 
@@ -607,6 +671,9 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-bfarm/StructureDefinition/GEM_ERP_
 
 ¦405 ¦ Client Error +
 [small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦422 ¦ Client Error +
+[small]#Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.#
 
 ¦429 ¦ Client Error +
 [small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#

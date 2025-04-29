@@ -24,6 +24,15 @@ paths:
         description: Bereitstellen eines digitalen Durchschlags eines T-Rezept für das T-Register
         security:
           - mTLS: []
+        parameters:
+        - name: X-Request-ID
+          in: header
+          description: A unique identifier for tracking the request.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "123e4567-e89b-12d3-a456-426614174000"
         x-request-route:
           - "Internet"
         x-allowed-requester:
@@ -39,6 +48,13 @@ paths:
         responses:
           '201':
             description: Die Anfrage wurde erfolgreich bearbeitet. Der digitale Durchschlag wurde im T-Register eingestellt.
+            headers:
+              X-Request-ID:
+                description: The unique identifier for tracking the request, echoed back in the response.
+                schema:
+                  type: string
+                  format: uuid
+                  example: "123e4567-e89b-12d3-a456-426614174000"
             content:
               application/json:
                 example:
@@ -53,6 +69,12 @@ paths:
             description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
           '405':
             description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          '422':
+            description: Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.
+            content:
+              application/json:
+                example:
+                  $ref: '../../bfarm-temp/example-bfarm-json-oo-422.json'
           '429':
             description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
           '500':
@@ -63,6 +85,15 @@ paths:
           - T-Register
         summary: Digitaler Durchschlag T-Rezept mit FHIR
         description: Bereitstellen eines digitalen Durchschlags eines T-Rezept für das T-Register
+        parameters:
+        - name: X-Request-ID
+          in: header
+          description: A unique identifier for tracking the request.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "123e4567-e89b-12d3-a456-426614174000"
         security:
           - mTLS: []
         x-allowed-requester:
@@ -80,6 +111,13 @@ paths:
         responses:
           '201':
             description: Die Anfrage wurde erfolgreich bearbeitet. Der digitale Durchschlag wurde im T-Register eingestellt.
+            headers:
+              X-Request-ID:
+                description: The unique identifier for tracking the request, echoed back in the response.
+                schema:
+                  type: string
+                  format: uuid
+                  example: "123e4567-e89b-12d3-a456-426614174000"
             content:
               application/json+fhir:
                 example:
@@ -92,6 +130,12 @@ paths:
             description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
           '405':
             description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          '422':
+            description: Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.
+            content:
+              application/json:
+                example:
+                  $ref: '../../bfarm-temp/example-bfarm-fhir-oo-422.json'
           '429':
             description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
           '500':
