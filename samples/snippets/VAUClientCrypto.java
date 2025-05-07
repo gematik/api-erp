@@ -52,6 +52,10 @@ public class VAUClientCrypto {
 	
 	// Bit length for the 16 byte AES Authentication Tag 
 	private final int AUTHENTICATION_TAG_BITS = 16 * 8;
+
+	public static final int IV_START = 65;
+
+	public static final int CIPHER_TEXT_START = 77;
 	
 	public VAUClientCrypto() {
 		Security.addProvider(new BouncyCastleProvider());
@@ -115,15 +119,13 @@ public class VAUClientCrypto {
 		return outputStream.toByteArray();
 	}
 
-	public String decrypt(SecretKeySpec responseKey, byte[] encryptedInnerResponse)
+	public String decrypt(SecretKeySpec responseKey, String encryptedField)
 			throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException,
 			BadPaddingException, InvalidKeySpecException, InvalidAlgorithmParameterException {
 
-		ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedInnerResponse);
-		byte[] iv = new byte[IV_LENGTH];
-		byteBuffer.get(iv);
-		byte[] cipherText = new byte[byteBuffer.remaining()];
-		byteBuffer.get(cipherText);
+		byte[] encryptedInnerResponse = encryptedField.getBytes();
+		byte[] iv = Arrays.copyOfRange(encryptedInnerResponse, IV_START, IV_START + IV_LENGTH);
+		byte[] cipherText = Arrays.copyOfRange(encryptedInnerResponse, CIPHER_TEXT_START, encryptedInnerResponse.length);
 
 		Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
 		GCMParameterSpec spec = new GCMParameterSpec(AUTHENTICATION_TAG_BITS, iv);
