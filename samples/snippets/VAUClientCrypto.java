@@ -139,8 +139,10 @@ public class VAUClientCrypto {
 	 */
 	private byte[] pad32(byte[] input) {
 
-		// this requires some rework or analysis - in some cases I noticed the X/Y
-		// coordinates from EC Key had 33 bytes instead of 32.
+		// Der Zahlwert der Koordinaten kann eine größe von 32 Byte haben. Da BitInteger::toByteArray die Zahl in Zweier-
+		// Komplement-Darstellung ausgibt, kann ein 33 Byte (32 Bye Zahlwert + 1 Byte Vorzeichen) großer Wert entstehen. In
+		// diesem Fall schneiden wir die führende Null (welche das positive Vorzeichen representiert) ab, da alle Koordinaten
+		// positiv sein müssen, weil elliptische Kurven arithmitik in Gruppen machen.
 		if (input[0] == 0 && input.length > 32) {
 			byte[] tmp = new byte[input.length - 1];
 			System.arraycopy(input, 1, tmp, 0, tmp.length);
