@@ -1,0 +1,109 @@
+@startgantt
+!define kbvcolor #e65100
+!define evdgacolor #df8a5d
+!define davcolor #2e7d32
+!define gematikcolor #2E5077
+!define gematikcolor_fdv #213555
+!define gematikcolor_patrn #4DA1A9
+!define gematikcolor_eu #93a8bc
+!define datelinecolor #EFD0CA
+!define erpfdcolor #607D8B
+
+<style>
+ganttDiagram {
+   task {
+      BackGroundColor GreenYellow
+      LineColor Green
+      FontColor white
+      FontSize 10
+      FontStyle bold
+   }
+}
+</style>
+
+title Zeitleiste der Versionsübergänge der FHIR-Profile
+footer Zuletzt verändert am %date("dd.MM.yyyy")
+
+projectscale monthly zoom 3
+Project starts 2026-01-02
+
+-- ERP-FD Konfigurationen --
+
+2026-01-12 is colored datelinecolor
+2026-03-31 is colored datelinecolor
+
+[Start Gültigkeit erp_2026_01 (12.01.2026)] happens on 2026-01-12
+[Ende Gültigkeit erp_2026_01 (31.03.2026)] happens on 2026-03-31
+
+[erp_2026_01] starts 2026-01-12
+[erp_2026_01] ends 2026-03-31
+[erp_2026_01] is colored in erpfdcolor
+
+2026-04-01 is colored datelinecolor
+2026-09-30 is colored datelinecolor
+
+[Start Gültigkeit erp_2026_02 (01.04.2026)] happens on 2026-04-01
+[Ende Gültigkeit erp_2026_02 (30.09.2026)] happens on 2026-09-30
+
+[erp_2026_02] starts 2026-04-01
+[erp_2026_02] ends 2026-09-30
+[erp_2026_02] is colored in erpfdcolor
+
+2026-10-01 is colored datelinecolor
+2026-11-30 is colored datelinecolor
+
+[Start Gültigkeit erp_2026_03 (01.10.2026)] happens on 2026-10-01
+[Ende Gültigkeit erp_2026_03 (30.11.2026)] happens on 2026-11-30
+
+[erp_2026_03] starts 2026-10-01
+[erp_2026_03] ends 2026-11-30
+[erp_2026_03] is colored in erpfdcolor
+
+-- Arzneimittelverordnung --
+
+[kbv.ita.erp 1.1.2] starts 2026-01-12 and ends 2026-03-31
+[kbv.ita.erp 1.1.2] is colored in kbvcolor
+
+[kbv.ita.erp 1.3.0] starts 2026-01-12 and ends 2026-09-30
+[kbv.ita.erp 1.3.0] is colored in kbvcolor
+
+[kbv.ita.erp 1.4.0] starts 2026-04-01 and ends 2026-11-30
+[kbv.ita.erp 1.4.0] is colored in kbvcolor
+
+-- DiGA Verordnung --
+
+[kbv.itv.evdga 1.1.1] starts 2026-01-12 and ends 2026-03-31
+[kbv.itv.evdga 1.1.1] is colored in evdgacolor
+
+[kbv.itv.evdga 1.2.0] starts 2026-01-12 and ends 2026-11-30
+[kbv.itv.evdga 1.2.0] is colored in evdgacolor
+
+-- Abgabedaten PKV --
+
+[de.abda.erezeptabgabedatenpkv 1.4.0] starts 2026-01-12 and ends 2026-11-30
+[de.abda.erezeptabgabedatenpkv 1.4.0] is colored in davcolor
+
+-- E-Rezept Workflow --
+
+[de.gematik.erezept-workflow.r4 1.5.0] starts 2026-01-12 and ends 2026-11-30
+[de.gematik.erezept-workflow.r4 1.5.0] is colored in gematikcolor
+
+-- Profile für FdVs --
+
+[de.gematik.erezept-workflow.r4(FDV) 1.4.3] starts 2026-01-12 and ends 2026-03-31
+[de.gematik.erezept-workflow.r4(FDV) 1.4.3] is colored in kbvcolor
+
+[de.gematik.erezept-workflow.r4(FDV) 1.5.0] starts 2026-01-12 and ends 2026-11-30
+[de.gematik.erezept-workflow.r4(FDV) 1.5.0] is colored in kbvcolor
+
+-- Patientenrechnung --
+
+[de.gematik.erezept-patientenrechnung.r4 1.1.0] starts 2026-01-12 and ends 2026-11-30
+[de.gematik.erezept-patientenrechnung.r4 1.1.0] is colored in gematikcolor_patrn
+
+-- E-Rezept EU Workflow --
+
+[de.gematik.erezept.eu.r4 1.0.0] starts 2026-01-12 and ends 2026-11-30
+[de.gematik.erezept.eu.r4 1.0.0] is colored in gematikcolor_eu
+
+@endgantt

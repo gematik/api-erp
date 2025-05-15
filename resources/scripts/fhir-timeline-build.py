@@ -3,6 +3,18 @@ import json
 from datetime import datetime, timedelta
 from packaging.version import parse as parse_version
 
+def validate_unique_configuration_names(configurations, filename):
+    """
+    Validates that all configurations have unique names.
+    """
+    errors = []
+    seen_names = set()
+    for config in configurations:
+        if config["name"] in seen_names:
+            errors.append(f"Duplicate configuration name found: '{config['name']}' in '{filename}'.")
+        seen_names.add(config["name"])
+    return errors
+
 def validate_dates(configurations):
     """
     Validates the `validFrom` and `validTo` dates for each configuration.
@@ -139,7 +151,7 @@ def generate_gantt(configurations, package_mappings):
     puml.append("      BackGroundColor GreenYellow")  # Default task color
     puml.append("      LineColor Green")
     puml.append("      FontColor white")
-    puml.append("      FontSize 15")
+    puml.append("      FontSize 10")
     puml.append("      FontStyle bold")
     puml.append("   }")
     puml.append("}")
@@ -151,7 +163,7 @@ def generate_gantt(configurations, package_mappings):
 
     # Set project scale and start date with padding
     first_valid_from = datetime.strptime(configurations[0]["validFrom"], "%Y-%m-%d")
-    project_start = (first_valid_from - timedelta(days=5)).strftime("%Y-%m-%d")
+    project_start = (first_valid_from - timedelta(days=10)).strftime("%Y-%m-%d")
     puml.append("projectscale monthly zoom 3")
     puml.append(f"Project starts {project_start}")
     puml.append("")
@@ -247,59 +259,74 @@ def generate_gantt(configurations, package_mappings):
     puml.append("@endgantt")
     return "\n".join(puml)
 
-
 # Main script
 if __name__ == "__main__":
     # Define the paths
     root_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the script
-    config_path = os.path.join(root_dir, "../configuration/fhir-timeline-config.json")
-    output_path = os.path.join(root_dir, "../../puml/fhir_version_timeline_test.puml")
+    config_dir = os.path.join(root_dir, "../configuration")
+    output_dir = os.path.join(root_dir, "../../puml")
 
-    # Load JSON data
-    try:
-        with open(config_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            package_mappings = data["packageMappings"]
-            configurations = data["fhir_configurations"]
-    except FileNotFoundError:
-        print(f"Error: Configuration file not found at {config_path}")
-        exit(1)
-    except json.JSONDecodeError as e:
-        print(f"Error: Failed to parse JSON file. {e}")
-        exit(1)
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
 
-    # Run sanity checks
-    errors = validate_dates(configurations)
-    if errors:
-        print("Sanity Check Errors:")
-        for error in errors:
-            print(f"  - {error}")
-        exit(1)
+    # Iterate through all JSON files in the configuration directory
+    for filename in os.listdir(config_dir):
+        if filename.endswith(".json"):
+            config_path = os.path.join(config_dir, filename)
+            output_file = os.path.splitext(filename)[0] + "_timeline.puml"
+            output_path = os.path.join(output_dir, output_file)
 
-    # Validate package mappings
-    missing_packages = validate_package_mappings(configurations, package_mappings)
-    if missing_packages:
-        print("Missing Package Mappings:")
-        for package in missing_packages:
-            print(f"  - {package}")
-        exit(1)
+            # Load JSON data
+            try:
+                with open(config_path, "r", encoding="utf-8") as file:
+                    data = json.load(file)
+                    package_mappings = data["packageMappings"]
+                    configurations = data["fhir_configurations"]
+            except FileNotFoundError:
+                print(f"Error: Configuration file not found at {config_path}")
+                continue
+            except json.JSONDecodeError as e:
+                print(f"Error: Failed to parse JSON file {filename}. {e}")
+                continue
 
-    # Validate package versions
-    version_errors = validate_package_versions(configurations)
-    if version_errors:
-        print("Package Version Errors:")
-        for error in version_errors:
-            print(f"  - {error}")
-        exit(1)
+            # Run sanity checks
+            name_errors = validate_unique_configuration_names(configurations, filename)
+            if name_errors:
+                print(f"Configuration Name Errors in {filename}:")
+                for error in name_errors:
+                    print(f"  - {error}")
+                continue
+            
+            errors = validate_dates(configurations)
+            if errors:
+                print(f"Sanity Check Errors in {filename}:")
+                for error in errors:
+                    print(f"  - {error}")
+                continue
 
-    # Generate Gantt diagram
-    gantt_output = generate_gantt(configurations, package_mappings)
+            # Validate package mappings
+            missing_packages = validate_package_mappings(configurations, package_mappings)
+            if missing_packages:
+                print(f"Missing Package Mappings in {filename}:")
+                for package in missing_packages:
+                    print(f"  - {package}")
+                continue
 
-    # Save Gantt output to file
-    try:
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, "w", encoding="utf-8") as file:
-            file.write(gantt_output)
-        print(f"Gantt diagram saved to {output_path}")
-    except Exception as e:
-        print(f"Error: Failed to save Gantt file. {e}")
+            # Validate package versions
+            version_errors = validate_package_versions(configurations)
+            if version_errors:
+                print(f"Package Version Errors in {filename}:")
+                for error in version_errors:
+                    print(f"  - {error}")
+                continue
+
+            # Generate Gantt diagram
+            gantt_output = generate_gantt(configurations, package_mappings)
+
+            # Save Gantt output to file
+            try:
+                with open(output_path, "w", encoding="utf-8") as file:
+                    file.write(gantt_output)
+                print(f"Gantt diagram for {filename} saved to {output_path}")
+            except Exception as e:
+                print(f"Error: Failed to save Gantt file for {filename}. {e}")
