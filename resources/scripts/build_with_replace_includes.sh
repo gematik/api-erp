@@ -18,6 +18,8 @@ fi
 
 # Build OpenAPI Blocks: Launch Dependent Scripts
 python3 ./resources/scripts/openapi-to-adoc.py
+python3 ./resources/scripts/fhir-timeline-build.py
+python3 ./resources/scripts/fhirversion-table-builder.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
 
@@ -86,6 +88,7 @@ done
 
 # STAGE_3 cleanup
 rm -r ../openapi-adoc
+rm -r ./output_adoc
 
 # Echo that the process is finished
 echo "Finished building source files"
