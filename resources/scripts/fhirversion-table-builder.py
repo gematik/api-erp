@@ -189,24 +189,31 @@ def generate_transition_overview(configurations, output_file):
 if __name__ == "__main__":
     # Define paths
     root_dir = os.path.dirname(os.path.abspath(__file__))
-    config_path = os.path.join(root_dir, "../configuration/fhir-timeline-config.json")
-    output_path = os.path.join(root_dir, "./output_adoc")
-    transition_overview_file = os.path.join(output_path, "transition-overview.adoc")
+    config_dir = os.path.join(root_dir, "../configuration/")
+    output_base_dir = os.path.join(root_dir, "./output_adoc")
 
-    # Load JSON data
-    try:
-        with open(config_path, "r", encoding="utf-8") as file:
-            data = json.load(file)
-            configurations = data["fhir_configurations"]
-    except FileNotFoundError:
-        print(f"Error: Configuration file not found at {config_path}")
-        exit(1)
-    except json.JSONDecodeError as e:
-        print(f"Error: Failed to parse JSON file. {e}")
-        exit(1)
+    # Iterate through all JSON configuration files in the configuration directory
+    for config_file in os.listdir(config_dir):
+        if config_file.endswith(".json"):
+            config_path = os.path.join(config_dir, config_file)
+            config_name = os.path.splitext(config_file)[0]  # Remove the .json extension
+            output_dir = os.path.join(output_base_dir, config_name)
 
-    # Generate the .adoc files
-    generate_adoc(configurations, output_path)
+            # Load JSON data
+            try:
+                with open(config_path, "r", encoding="utf-8") as file:
+                    data = json.load(file)
+                    configurations = data["fhir_configurations"]
+            except FileNotFoundError:
+                print(f"Error: Configuration file not found at {config_path}")
+                continue
+            except json.JSONDecodeError as e:
+                print(f"Error: Failed to parse JSON file {config_file}. {e}")
+                continue
 
-    # Generate the transition overview table
-    generate_transition_overview(configurations, transition_overview_file)
+            # Generate the .adoc files for this configuration
+            generate_adoc(configurations, output_dir)
+
+            # Generate the transition overview table for this configuration
+            transition_overview_file = os.path.join(output_dir, "transition-overview.adoc")
+            generate_transition_overview(configurations, transition_overview_file)
