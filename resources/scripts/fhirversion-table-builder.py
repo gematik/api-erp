@@ -104,12 +104,94 @@ def generate_adoc(configurations, output_dir):
 
         print(f"Generated {adoc_filename}")
 
+def generate_transition_overview(configurations, output_file):
+    """
+    Generates a single .adoc file with a transition overview table for all packages and versions.
+    Each package/version appears only once, with the correct gültig von and gültig bis dates.
+    """
+    # Prepare a dictionary to store the first and last occurrences of each package/version
+    version_data = {}
+
+    # Iterate over configurations to collect package/version data
+    for config in configurations:
+        valid_from = config["validFrom"]
+        valid_to = config.get("validTo", None)
+
+        for package in config["packages"]:
+            package_name = package["name"]
+            for version in package["versions"]:
+                # If this version is not yet tracked, initialize its data
+                if (package_name, version) not in version_data:
+                    version_data[(package_name, version)] = {
+                        "valid_from": valid_from,
+                        "valid_to": valid_to,
+                    }
+                else:
+                    # Update the valid_to to the most recent validTo
+                    version_data[(package_name, version)]["valid_to"] = valid_to
+
+    # Process the version data to determine the correct gültig bis (valid_to)
+    overview_entries = []
+    last_config = configurations[-1]
+    last_config_valid_from = last_config["validFrom"]
+
+    for (package_name, version), dates in version_data.items():
+        valid_from = dates["valid_from"]
+        valid_to = dates["valid_to"]
+
+        # If the version appears in the last configuration without a validTo, set gültig bis to "-"
+        if valid_to is None and valid_from == last_config_valid_from:
+            valid_to = "-"
+
+        # Format the dates
+        valid_from_formatted = datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
+        valid_to_formatted = (
+            "-" if valid_to in [None, "-"] else datetime.strptime(valid_to, "%Y-%m-%d").strftime("%d.%m.%Y")
+        )
+
+        # Add the entry
+        overview_entries.append({
+            "package": package_name,
+            "version": version,
+            "valid_from": valid_from_formatted,
+            "valid_to": valid_to_formatted,
+        })
+
+    # Sort the entries by package name and version
+    overview_entries.sort(key=lambda e: (e["package"], e["version"]))
+
+    # Write the transition overview table to the output file
+    with open(output_file, "w", encoding="utf-8") as adoc_file:
+        # Write the header
+        adoc_file.write("== Gültigkeitsregeln\n\n")
+
+        # Write the table header
+        adoc_file.write('[cols="h,a,a,a"]\n')
+        adoc_file.write("|===\n")
+        adoc_file.write("|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis*\n\n")
+
+        # Write the table rows
+        for entry in overview_entries:
+            package_name = entry["package"]
+            version = entry["version"]
+            valid_from = entry["valid_from"]
+            valid_to = entry["valid_to"]
+
+            # Write the row
+            adoc_file.write(f"|{package_name} |{version} |{valid_from} |{valid_to}\n")
+
+        # Close the table
+        adoc_file.write("|===\n")
+
+    print(f"Generated transition overview table: {output_file}")
+
 # Main script
 if __name__ == "__main__":
     # Define paths
     root_dir = os.path.dirname(os.path.abspath(__file__))
     config_path = os.path.join(root_dir, "../configuration/fhir-timeline-config.json")
     output_path = os.path.join(root_dir, "./output_adoc")
+    transition_overview_file = os.path.join(output_path, "transition-overview.adoc")
 
     # Load JSON data
     try:
@@ -125,3 +207,6 @@ if __name__ == "__main__":
 
     # Generate the .adoc files
     generate_adoc(configurations, output_path)
+
+    # Generate the transition overview table
+    generate_transition_overview(configurations, transition_overview_file)
