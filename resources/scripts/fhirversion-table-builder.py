@@ -113,7 +113,7 @@ def generate_transition_overview(configurations, output_file):
     version_data = {}
 
     # Iterate over configurations to collect package/version data
-    for config in configurations:
+    for index, config in enumerate(configurations):
         valid_from = config["validFrom"]
         valid_to = config.get("validTo", None)
 
@@ -132,11 +132,13 @@ def generate_transition_overview(configurations, output_file):
 
     # Process the version data to determine the correct gültig bis (valid_to)
     overview_entries = []
+    first_config = configurations[0]
+    first_config_valid_from = first_config["validFrom"]
     last_config = configurations[-1]
     last_config_valid_from = last_config["validFrom"]
 
     for (package_name, version), dates in version_data.items():
-        valid_from = dates["valid_from"]
+        valid_from = dates["valid_from"] if dates["valid_from"] != first_config_valid_from else "-"
         valid_to = dates["valid_to"]
 
         # If the version appears in the last configuration without a validTo, set gültig bis to "-"
@@ -144,7 +146,10 @@ def generate_transition_overview(configurations, output_file):
             valid_to = "-"
 
         # Format the dates
-        valid_from_formatted = datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
+        valid_from_formatted = (
+            "-" if valid_from in [None, "-"] else datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
+        )
+        
         valid_to_formatted = (
             "-" if valid_to in [None, "-"] else datetime.strptime(valid_to, "%Y-%m-%d").strftime("%d.%m.%Y")
         )

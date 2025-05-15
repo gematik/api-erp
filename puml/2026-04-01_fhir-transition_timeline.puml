@@ -1,20 +1,24 @@
 @startgantt
-!define kbvcolor #e65100
-!define evdgacolor #df8a5d
-!define davcolor #2e7d32
-!define gematikcolor #2E5077
-!define gematikcolor_fdv #213555
-!define gematikcolor_patrn #4DA1A9
-!define gematikcolor_eu #93a8bc
-!define datelinecolor #EFD0CA
-!define erpfdcolor #607D8B
+!define kbvcolor #ff8c42
+!define evdgacolor #ffb685
+!define davcolor #6abf69
+!define gematikcolor #4a90e2
+!define gematikcolor_fdv #5a6fa5
+!define gematikcolor_patrn #88d4d8
+!define gematikcolor_eu #b3cde3
+!define erpfdcolor #90a4ae
+
+!define datelinecolor #f2b6b6
 
 <style>
+document {
+   BackGroundColor #f5f5f5
+}
 ganttDiagram {
    task {
       BackGroundColor GreenYellow
       LineColor Green
-      FontColor black
+      FontColor #333333
       FontSize 18
       FontStyle bold
    }
@@ -29,10 +33,8 @@ Project starts 2026-01-02
 
 -- ERP-FD Konfigurationen --
 
-2026-01-12 is colored datelinecolor
 2026-03-31 is colored datelinecolor
 
-[Start Gültigkeit erp_2026_01 (12.01.2026)] happens on 2026-01-12
 [Ende Gültigkeit erp_2026_01 (31.03.2026)] happens on 2026-03-31
 
 [erp_2026_01] starts 2026-01-12
@@ -90,11 +92,11 @@ Project starts 2026-01-02
 
 -- Profile für FdVs --
 
-[de.gematik.erezept-workflow.r4(FDV) 1.4.3] starts 2026-01-12 and ends 2026-03-31
-[de.gematik.erezept-workflow.r4(FDV) 1.4.3] is colored in kbvcolor
+[de.gematik.erezept-workflow.r4(FdV) 1.4.3] starts 2026-01-12 and ends 2026-03-31
+[de.gematik.erezept-workflow.r4(FdV) 1.4.3] is colored in gematikcolor_fdv
 
-[de.gematik.erezept-workflow.r4(FDV) 1.5.0] starts 2026-01-12 and ends 2026-11-30
-[de.gematik.erezept-workflow.r4(FDV) 1.5.0] is colored in kbvcolor
+[de.gematik.erezept-workflow.r4(FdV) 1.5.0] starts 2026-01-12 and ends 2026-11-30
+[de.gematik.erezept-workflow.r4(FdV) 1.5.0] is colored in gematikcolor_fdv
 
 -- Patientenrechnung --
 

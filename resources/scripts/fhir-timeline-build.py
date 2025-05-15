@@ -121,36 +121,30 @@ def generate_gantt(configurations, package_mappings):
     # Start the Gantt diagram
     puml = ["@startgantt"]
 
-    # Add color definitions
-    puml.append("!define kbvcolor #e65100")
-    puml.append("!define evdgacolor #df8a5d")
-    puml.append("!define davcolor #2e7d32")
-    puml.append("!define gematikcolor #2E5077")
-    puml.append("!define gematikcolor_fdv #213555")
-    puml.append("!define gematikcolor_patrn #4DA1A9")
-    puml.append("!define gematikcolor_eu #93a8bc")
-    puml.append("!define datelinecolor #EFD0CA")  # Updated dateline color
-    puml.append("!define erpfdcolor #607D8B")  # New color for ERP-FD Konfigurationen
-
-    # Map package names to colors
-    package_colors = {
-        "kbv.ita.erp": "kbvcolor",
-        "kbv.itv.evdga": "evdgacolor",
-        "de.gematik.erezept-workflow.r4": "gematikcolor",
-        "de.gematik.erezept-workflow.r4.FDV": "gematikcolor_fdv",
-        "de.gematik.erezept-patientenrechnung.r4": "gematikcolor_patrn",
-        "de.gematik.erezept.eu.r4": "gematikcolor_eu",
-        "de.abda.erezeptabgabedatenpkv": "davcolor"
-    }
-
-    # Add style and metadata
+    
+    # Add updated color definitions
+    puml.append("!define kbvcolor #ff8c42")
+    puml.append("!define evdgacolor #ffb685")
+    puml.append("!define davcolor #6abf69")
+    puml.append("!define gematikcolor #4a90e2")
+    puml.append("!define gematikcolor_fdv #5a6fa5")
+    puml.append("!define gematikcolor_patrn #88d4d8")
+    puml.append("!define gematikcolor_eu #b3cde3")
+    puml.append("!define erpfdcolor #90a4ae")
     puml.append("")
+    puml.append("!define datelinecolor #f2b6b6")
+    puml.append("")
+
+    # Add updated style and metadata
     puml.append("<style>")
+    puml.append("document {")
+    puml.append("   BackGroundColor #f5f5f5")
+    puml.append("}")
     puml.append("ganttDiagram {")
     puml.append("   task {")
     puml.append("      BackGroundColor GreenYellow")  # Default task color
     puml.append("      LineColor Green")
-    puml.append("      FontColor black")
+    puml.append("      FontColor #333333")
     puml.append("      FontSize 18")
     puml.append("      FontStyle bold")
     puml.append("   }")
@@ -160,6 +154,17 @@ def generate_gantt(configurations, package_mappings):
     puml.append("title Zeitleiste der Versionsübergänge der FHIR-Profile")
     puml.append('footer Zuletzt verändert am %date("dd.MM.yyyy")')
     puml.append("")
+
+    # Map package names to colors
+    package_colors = {
+        "kbv.ita.erp": "kbvcolor",
+        "kbv.itv.evdga": "evdgacolor",
+        "de.gematik.erezept-workflow.r4": "gematikcolor",
+        "de.gematik.erezept-workflow.r4(FdV)": "gematikcolor_fdv",
+        "de.gematik.erezept-patientenrechnung.r4": "gematikcolor_patrn",
+        "de.gematik.erezept.eu.r4": "gematikcolor_eu",
+        "de.abda.erezeptabgabedatenpkv": "davcolor"
+    }
 
     # Set project scale and start date with padding
     first_valid_from = datetime.strptime(configurations[0]["validFrom"], "%Y-%m-%d")
@@ -176,12 +181,13 @@ def generate_gantt(configurations, package_mappings):
     # Add configurations section
     puml.append("-- ERP-FD Konfigurationen --")
     puml.append("")
-    for config in configurations:
+    for index, config in enumerate(configurations):
         valid_from = config["validFrom"]
         valid_to = config.get("validTo", None)
 
         # Add date markers
-        puml.append(f"{valid_from} is colored datelinecolor")
+        if index != 0:
+            puml.append(f"{valid_from} is colored datelinecolor")
         if valid_to:
             puml.append(f"{valid_to} is colored datelinecolor")
         else:
@@ -193,7 +199,8 @@ def generate_gantt(configurations, package_mappings):
             f"[Start Gültigkeit {config['name']} ({valid_from[8:10]}.{valid_from[5:7]}.{valid_from[:4]})] "
             f"happens on {valid_from}"
         )
-        puml.append(start_marker)
+        if index != 0:
+            puml.append(start_marker)
         if valid_to:
             end_marker = (
                 f"[Ende Gültigkeit {config['name']} ({valid_to[8:10]}.{valid_to[5:7]}.{valid_to[:4]})] "
