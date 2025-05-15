@@ -150,8 +150,8 @@ def generate_gantt(configurations, package_mappings):
     puml.append("   task {")
     puml.append("      BackGroundColor GreenYellow")  # Default task color
     puml.append("      LineColor Green")
-    puml.append("      FontColor white")
-    puml.append("      FontSize 10")
+    puml.append("      FontColor black")
+    puml.append("      FontSize 18")
     puml.append("      FontStyle bold")
     puml.append("   }")
     puml.append("}")
