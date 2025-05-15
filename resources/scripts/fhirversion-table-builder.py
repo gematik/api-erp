@@ -162,8 +162,6 @@ def generate_transition_overview(configurations, output_file):
 
     # Write the transition overview table to the output file
     with open(output_file, "w", encoding="utf-8") as adoc_file:
-        # Write the header
-        adoc_file.write("== Gültigkeitsregeln\n\n")
 
         # Write the table header
         adoc_file.write('[cols="h,a,a,a"]\n')
