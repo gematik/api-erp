@@ -190,8 +190,8 @@ def generate_gantt(configurations, package_mappings):
             puml.append(f"{valid_from} is colored datelinecolor")
         if valid_to:
             puml.append(f"{valid_to} is colored datelinecolor")
-        else:
-            puml.append(f"{global_end_date} is colored datelinecolor")
+        # else:
+        #     puml.append(f"{global_end_date} is colored datelinecolor")
         puml.append("")
 
         # Add configuration markers
@@ -206,11 +206,11 @@ def generate_gantt(configurations, package_mappings):
                 f"[Ende Gültigkeit {config['name']} ({valid_to[8:10]}.{valid_to[5:7]}.{valid_to[:4]})] "
                 f"happens on {valid_to}"
             )
-        else:
-            end_marker = (
-                f"[Ende Gültigkeit {config['name']} ({global_end_date[8:10]}.{global_end_date[5:7]}.{global_end_date[:4]})] "
-                f"happens on {global_end_date}"
-            )
+        # else:
+        #     end_marker = (
+        #         f"[Ende Gültigkeit {config['name']} ({global_end_date[8:10]}.{global_end_date[5:7]}.{global_end_date[:4]})] "
+        #         f"happens on {global_end_date}"
+        #     )
         puml.append(end_marker)
         puml.append("")
 
