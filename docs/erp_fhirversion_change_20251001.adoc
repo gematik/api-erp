@@ -17,6 +17,7 @@
 :KTR: https://img.shields.io/badge/KTR-AE8E1C
 :NCPeH: https://img.shields.io/badge/NCPeH-orange
 :DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
@@ -24,8 +25,49 @@
 
 toc::[]
 
+Die FHIR Profiländerungen beinhalten keine fachlichen Erweiterungen oder neue Features. Die Profilanpassungen enthalten Fehlerbehebungen, bessere Validierung, sowie die Anpassung aller Profilabhängigkeiten auf das DE-Basisprofil in Version 1.5.x. Damit wird der PKV-Identifier nicht mehr unterstützt.
+
 == Versionsübergabegänge
 
+Der anstehende FHIR-Profilübergang stellt sich wie folgt dar:
+
+image::../images/puml_2025-10-01_fhir-transition_timeline.png[]
+
+Die zugrundeliegende Konfiguration findet sich hier: link:../resources/configuration/2025-10-01_fhir-transition.json[Konfiguration für den Übergang zum 01.10.2025]
+
+
+=== Package Gültigkeiten
+
+Die Gültigkeiten von FHIR Packages in diesem Übergang stellen sich wie folgt dar:
+
+[cols="h,a,a,a"]
+|===
+|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis*
+
+|de.abda.erezeptabgabedatenpkv |1.3.0 |- |11.01.2026
+|de.abda.erezeptabgabedatenpkv |1.4.0 |01.10.2025 |-
+|de.gematik.erezept-patientenrechnung.r4 |1.0.4 |- |11.01.2026
+|de.gematik.erezept-patientenrechnung.r4 |1.1.0 |01.10.2025 |-
+|de.gematik.erezept-workflow.r4 |1.4.3 |- |11.01.2026
+|de.gematik.erezept-workflow.r4 |1.5.0 |01.10.2025 |-
+|de.gematik.erezept.eu.r4 |1.0.0 |01.10.2025 |-
+|erp-FdV-profile |1.4.3 |- |31.03.2026
+|erp-FdV-profile |1.5.0 |01.10.2025 |-
+|kbv.ita.erp |1.1.2 |- |31.03.2026
+|kbv.ita.erp |1.3.1 |01.10.2025 |-
+|kbv.itv.evdga |1.1.1 |- |31.03.2026
+|kbv.itv.evdga |1.2.0 |01.10.2025 |-
+|===
+
+Die Profile für die E-Rezept-FdV's (erp-FdV-profile) sind wie folgt definiert:
+[options="header"]
+|===
+| Profilname | aus Package
+| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4
+| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4
+| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-abrechnungsinformationen.r4
+| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-abrechnungsinformationen.r4
+|===
 
 == Änderungen
 
