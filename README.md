@@ -31,7 +31,7 @@ Die E-Rezept-App wird durch die gematik bereitgestellt und ist zum Start des E-R
 ## Aktuelles
 
 ### RSA zu ECC Umstellung
-- Für die RSA - ECC umstellung wurde ein Leitfaden erstellt, der den Übergang unterstützen soll: link:https://service.gematik.de/servicedesk/customer/kb/view/641653859[E-Rezept - RSA2ECC Umstellungsleitfaden für Entwickler]
+- Für die RSA - ECC umstellung wurde ein Leitfaden erstellt, der den Übergang unterstützen soll: [E-Rezept - RSA2ECC Umstellungsleitfaden für Entwickler](https://service.gematik.de/servicedesk/customer/kb/view/641653859)
 
 ### Profilwechsel und Versionierung
 
