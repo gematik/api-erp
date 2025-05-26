@@ -18,8 +18,8 @@ fi
 
 # Build OpenAPI Blocks: Launch Dependent Scripts
 python3 ./resources/scripts/openapi-to-adoc.py
-python3 ./resources/scripts/fhir-timeline-build.py
-python3 ./resources/scripts/fhirversion-table-builder.py
+python3 ./resources/scripts/fhirconfig-timeline-build.py
+python3 ./resources/scripts/fhirconfig-table-builder.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
 
@@ -73,6 +73,10 @@ fi
 # STAGE_2: this creates new adoc files in /docs/resources in parallel
 adoc_jobs=()
 for filename in $(find ../../docs_sources -name '*.adoc'); do
+    # Check if the filename matches the one to ignore
+    if [[ $filename == *"erp_fhirversion_change_YYYYMMDD-source.adoc" ]]; then
+        continue
+    fi
     (
         newFileName=${filename//-source/}
         newFileName=${newFileName//_sources/}
@@ -80,6 +84,7 @@ for filename in $(find ../../docs_sources -name '*.adoc'); do
     ) &
     adoc_jobs+=($!) # Add the job to the list
 done
+
 
 # Wait for all adoc jobs to complete
 for job in "${adoc_jobs[@]}"; do
