@@ -20,6 +20,7 @@ fi
 python3 ./resources/scripts/openapi-to-adoc.py
 python3 ./resources/scripts/fhirconfig-timeline-build.py
 python3 ./resources/scripts/fhirconfig-table-builder.py
+python3 ./resources/scripts/terminologyconfig-table-builder.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
 
