@@ -125,7 +125,9 @@ def generate_gantt(configurations, package_mappings):
     # Add updated color definitions
     puml.append("!define kbvcolor #ff8c42")
     puml.append("!define evdgacolor #ffb685")
-    puml.append("!define davcolor #6abf69")
+    puml.append("!define davpkvcolor #6abf69")
+    puml.append("!define davcolor #91d891")
+    puml.append("!define gkvsvcolor #A8111E")
     puml.append("!define gematikcolor #4a90e2")
     puml.append("!define gematikcolor_fdv #5a6fa5")
     puml.append("!define gematikcolor_patrn #88d4d8")
@@ -163,7 +165,9 @@ def generate_gantt(configurations, package_mappings):
         "de.gematik.erezept-workflow.r4(FdV)": "gematikcolor_fdv",
         "de.gematik.erezept-patientenrechnung.r4": "gematikcolor_patrn",
         "de.gematik.erezept.eu.r4": "gematikcolor_eu",
-        "de.abda.erezeptabgabedatenpkv": "davcolor"
+        "de.abda.erezeptabgabedatenpkv": "davpkvcolor",
+        "de.abda.erezeptabgabedaten": "davcolor",
+        "de.gkvsv.eRezeptAbrechnungsdaten": "gkvsvcolor"
     }
 
     # Set project scale and start date with padding
