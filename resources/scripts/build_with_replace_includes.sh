@@ -17,7 +17,7 @@ if ! grep -qE "$required_asciidoctor_diagram_version\.[0-9]+" <<<"$actual_asciid
     exit 1
 fi
 
-# Build OpenAPI Blocks: Launch Dependent Scripts
+# STAGE_0: Build OpenAPI Blocks: Launch Dependent Scripts
 python3 $SCRIPT_DIR/./openapi-to-adoc.py
 
 # STAGE_1: creates images from the puml files and will store them in /puml/images
