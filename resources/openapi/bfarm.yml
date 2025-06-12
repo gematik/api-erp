@@ -23,7 +23,7 @@ paths:
         summary: Digitaler Durchschlag T-Rezept mit JSON
         description: Bereitstellen eines digitalen Durchschlags eines T-Rezept für das T-Register
         security:
-          - mTLS: []
+          - oAuth: []
         parameters:
         - name: X-Request-ID
           in: header
@@ -95,7 +95,7 @@ paths:
             format: uuid
             example: "123e4567-e89b-12d3-a456-426614174000"
         security:
-          - mTLS: []
+          - oAuth: []
         x-allowed-requester:
           - "eRp"
         x-request-route:
@@ -140,7 +140,65 @@ paths:
             description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
           '500':
             description: Unerwarteter Serverfehler.
-    
+  /t-prescription-json-fhir:
+    post:
+        tags:
+          - T-Register
+        summary: Digitaler Durchschlag T-Rezept mit JSON und FHIR
+        description: Bereitstellen eines digitalen Durchschlags eines T-Rezept für das T-Register
+        security:
+          - oAuth: []
+        parameters:
+        - name: X-Request-ID
+          in: header
+          description: A unique identifier for tracking the request.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: "123e4567-e89b-12d3-a456-426614174000"
+        x-request-route:
+          - "Internet"
+        x-allowed-requester:
+          - "eRp"
+        requestBody:
+          required: true
+          content:
+              application/json:
+                example:
+                  $ref: '../../bfarm-temp/example-bfarm-json-fhir.json'
+        responses:
+          '201':
+            description: Die Anfrage wurde erfolgreich bearbeitet. Der digitale Durchschlag wurde im T-Register eingestellt.
+            headers:
+              X-Request-ID:
+                description: The unique identifier for tracking the request, echoed back in the response.
+                schema:
+                  type: string
+                  format: uuid
+                  example: "123e4567-e89b-12d3-a456-426614174000"
+            content:
+              application/json:
+                example:
+                  $ref: '../../bfarm-temp/example-bfarm-json-fhir.json'
+          '400':
+            description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+          '401':
+            description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+          '403':
+            description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+          '405':
+            description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          '422':
+            description: Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.
+            content:
+              application/json:
+                example:
+                  $ref: '../../bfarm-temp/example-bfarm-json-fhir-oo-422.json'
+          '429':
+            description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+          '500':
+            description: Unerwarteter Serverfehler.
   
 components:
   securitySchemes:
