@@ -522,7 +522,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                 <id value="d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
                 <meta>
                     <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
-                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"/>
+                    <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"/>
                 </meta>
                 <identifier>
                     <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -536,7 +536,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Composition>
                             <id value="b0e22b86-e7e9-46c1-80fe-e6e24442dPKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.3"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Legal_basis">
                                 <valueCoding>
@@ -607,7 +607,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <MedicationRequest>
                             <id value="f58f4403-7a3a-4a12-bb15-b2fa25b02PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.3"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee">
                                 <valueBoolean value="false"/>
@@ -699,7 +699,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                         <Medication>
                             <id value="e3a4efa7-84fc-465b-b14c-720195097PKV"/>
                             <meta>
-                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"/>
+                                <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.3"/>
                             </meta>
                             <extension url="https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Medication_Category">
                                 <valueCoding>
@@ -745,6 +745,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                                     </numerator>
                                     <denominator>
                                         <value value="1"/>
+                                        <unit value="Tablette"/>
                                     </denominator>
                                 </strength>
                             </ingredient>
@@ -1775,7 +1776,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "id": "42a8260d-579f-4cde-a288-4de0bfb6e6d9",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"
           ],
           "lastUpdated": "2025-10-01T15:29:00.434+00:00"
         },
@@ -1793,7 +1794,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "b0e22b86-e7e9-46c1-80fe-e6e24442dPKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.3"
                 ]
               },
               "status": "final",
@@ -1883,7 +1884,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "f58f4403-7a3a-4a12-bb15-b2fa25b02PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.3"
                 ]
               },
               "status": "active",
@@ -2002,7 +2003,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               "id": "e3a4efa7-84fc-465b-b14c-720195097PKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.3"
                 ]
               },
               "extension": [
@@ -2026,28 +2027,6 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
                   }
                 ]
               },
-              "ingredient": [
-                {
-                  "strength": {
-                    "denominator": {
-                      "value": 1
-                    },
-                    "numerator": {
-                      "value": 800,
-                      "unit": "mg"
-                    }
-                  },
-                  "itemCodeableConcept": {
-                    "coding": [
-                      {
-                        "code": "Dummy-ASK",
-                        "system": "http://fhir.de/CodeSystem/ask"
-                      }
-                    ],
-                    "text": "Ibuprofen"
-                  }
-                }
-              ],
               "amount": {
                 "numerator": {
                   "extension": [
@@ -2064,7 +2043,30 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
               },
               "form": {
                 "text": "Tabletten"
-              }
+              },
+              "ingredient": [
+                {
+                  "itemCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "Dummy-ASK",
+                        "system": "http://fhir.de/CodeSystem/ask"
+                      }
+                    ],
+                    "text": "Ibuprofen"
+                  },
+                  "strength": {
+                    "numerator": {
+                      "value": 800,
+                      "unit": "mg"
+                    },
+                    "denominator": {
+                      "value": 1,
+                      "unit": "Tablette"
+                    }
+                  }
+                }
+              ]
             }
           },
           {

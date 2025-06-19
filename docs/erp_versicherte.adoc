@@ -459,7 +459,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "414ca393-dde3-4082-9a3b-3752e629e4aa",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.2"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"
           ],
           "lastUpdated": "2025-10-01T15:29:00.434+00:00"
         },
@@ -477,7 +477,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "b0e22b86-e7e9-46c1-80fe-e6e24442d77c",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.3"
                 ]
               },
               "status": "final",
@@ -568,7 +568,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "f58f4403-7a3a-4a12-bb15-b2fa25b02561",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.3"
                 ]
               },
               "status": "active",
@@ -685,7 +685,7 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "e3a4efa7-84fc-465b-b14c-720195097783",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.2"
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.3"
                 ]
               },
               "extension": [
@@ -709,28 +709,6 @@ Content-Type: application/fhir+json;charset=utf-8
                   }
                 ]
               },
-              "ingredient": [
-                {
-                  "strength": {
-                    "denominator": {
-                      "value": 1
-                    },
-                    "numerator": {
-                      "value": 800,
-                      "unit": "mg"
-                    }
-                  },
-                  "itemCodeableConcept": {
-                    "coding": [
-                      {
-                        "code": "Dummy-ASK",
-                        "system": "http://fhir.de/CodeSystem/ask"
-                      }
-                    ],
-                    "text": "Ibuprofen"
-                  }
-                }
-              ],
               "amount": {
                 "numerator": {
                   "extension": [
@@ -747,7 +725,30 @@ Content-Type: application/fhir+json;charset=utf-8
               },
               "form": {
                 "text": "Tabletten"
-              }
+              },
+              "ingredient": [
+                {
+                  "itemCodeableConcept": {
+                    "coding": [
+                      {
+                        "code": "Dummy-ASK",
+                        "system": "http://fhir.de/CodeSystem/ask"
+                      }
+                    ],
+                    "text": "Ibuprofen"
+                  },
+                  "strength": {
+                    "numerator": {
+                      "value": 800,
+                      "unit": "mg"
+                    },
+                    "denominator": {
+                      "value": 1,
+                      "unit": "Tablette"
+                    }
+                  }
+                }
+              ]
             }
           },
           {
@@ -1630,7 +1631,7 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -2240,7 +2241,7 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -2441,7 +2442,7 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
             "valueBoolean": false
           },
           {
@@ -2573,7 +2574,7 @@ Content-Type: application/fhir+json;charset=utf-8
             }
           },
           {
-            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-is-vaccine-extension",
+            "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-id-vaccine-extension",
             "valueBoolean": false
           },
           {
