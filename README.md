@@ -3,6 +3,7 @@
 [AVS]: https://img.shields.io/badge/AVS-E30615
 [FdV]: https://img.shields.io/badge/FdV-green
 [KTR]: https://img.shields.io/badge/KTR-AE8E1C
+[bfarm]: https://img.shields.io/badge/BfArM-197F71
 Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezept.
 
 - [E-Rezept API-Dokumentation ](#e-rezept-api-dokumentation-)
@@ -92,7 +93,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
-|[Übertragung digitaler Durchschlag E-T-Rezept](docs/bfarm.adoc)|![][bfarm]|
+|[Übertragung digitaler Durchschlag E-T-Rezept](docs/erp_bfarm.adoc)|![][bfarm]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
