@@ -92,6 +92,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
+|[Übertragung digitaler Durchschlag E-T-Rezept](docs/bfarm.adoc)|![][bfarm]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
