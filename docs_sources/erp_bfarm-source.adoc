@@ -1,0 +1,22 @@
+= E-Rezept API Dokumentation zum Datenaustausch mit dem BfArM image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+:toclevels: 2
+
+Zielgruppe: image:{bfarm}[] image:{eRp}[]
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen des BfArM aus Sicht des E-Rezept-Fachdienstes.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/bfarm.yml[OpenAPI-Spezifikation für BfArM].
+
+Details zu den verwendeten FHIR Artefakten und den Mappings für Daten im E-Rezept-Fachdienst siehe (FHIR IG E-T-Rezept)[https://gemspec.gematik.de/ig/fhir/erp-t-prescription/1.0.0].
+
+toc::[]
+
+== Datenaustausch mit dem T-Register
+
+=== Digitaler Durchschlag E-T-Rezept am T-Register einstellen
+
+Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzneimittels aufgrund eines E-T-Rezepts an einen Versicherten den digitalen Durchschlag E-T-Rezept für das BfArM bereit.
+
+include::../resources/openapi-adoc/bfarm/ords_rezepte_t-rezept_v1_POST_Request.adoc[]
+
+include::../resources/openapi-adoc/bfarm/ords_rezepte_t-rezept_v1_POST_Response.adoc[]

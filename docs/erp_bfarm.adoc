@@ -1,0 +1,528 @@
+= E-Rezept API Dokumentation zum Datenaustausch mit dem BfArM image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+:toclevels: 2
+
+Zielgruppe: image:{bfarm}[] image:{eRp}[]
+
+Hier dokumentiert die gematik die Nutzung der Schnittstellen des BfArM aus Sicht des E-Rezept-Fachdienstes.
+Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/bfarm.yml[OpenAPI-Spezifikation für BfArM].
+
+Details zu den verwendeten FHIR Artefakten und den Mappings für Daten im E-Rezept-Fachdienst siehe (FHIR IG E-T-Rezept)[https://gemspec.gematik.de/ig/fhir/erp-t-prescription/1.0.0].
+
+toc::[]
+
+== Datenaustausch mit dem T-Register
+
+=== Digitaler Durchschlag E-T-Rezept am T-Register einstellen
+
+Mit diesem Anwendungsfall stellt der E-Rezept-Fachdienst nach Abgabe eines Arzneimittels aufgrund eines E-T-Rezepts an einen Versicherten den digitalen Durchschlag E-T-Rezept für das BfArM bereit.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://webapps-public-test.bfarm.de/ords/rezepte/t-rezept/v1
+¦Method     ¦POST
+¦Requester  ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+X-Request-ID: <value> (string)
+----
+¦Payload    ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "Example-T-Prescription-CC-Post",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_T_Prescription|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "prescriptionSignatureDate",
+      "valueInstant": "2026-04-01T12:43:23Z"
+    },
+    {
+      "name": "rxPrescription",
+      "part": [
+        {
+          "name": "prescriptionId",
+          "valueIdentifier": {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.153.303.257.459"
+          }
+        },
+        {
+          "name": "authoredOn",
+          "valueDate": "2026-04-01"
+        },
+        {
+          "name": "medicationRequest",
+          "resource": {
+            "resourceType": "MedicationRequest",
+            "id": "ExampleMedicationRequest-T",
+            "status": "active",
+            "intent": "order",
+            "authoredOn": "2026-04-01",
+            "medicationReference": {
+              "reference": "Medication/ExampleMedication1-Paracetamol-T"
+            },
+            "dosageInstruction": [
+              {
+                "text": "1-1-1-1"
+              }
+            ],
+            "subject": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "not-permitted"
+                }
+              ]
+            },
+            "dispenseRequest": {
+              "quantity": {
+                "value": 10,
+                "unit": "Tablette"
+              }
+            },
+            "extension": [
+              {
+                "url": "http://example.org/fhir/StructureDefinition/confirmations",
+                "_url": {
+                  "extension": [
+                    {
+                      "url": "safetyMeasures",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "informationMaterial",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "offLabelUse",
+                      "valueBoolean": false
+                    },
+                    {
+                      "url": "prescriptionForWoman",
+                      "valueBoolean": false
+                    },
+                    {
+                      "url": "expertiseConfirmation",
+                      "valueBoolean": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "ExampleMedication1-Paracetamol-T",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://www.whocc.no/atc",
+                  "code": "N02BE01",
+                  "display": "Paracetamol"
+                }
+              ],
+              "text": "Paracetamol 500 mg Tabletten"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "TAB",
+                  "display": "Tablette"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rxDispensation",
+      "part": [
+        {
+          "name": "medicationDispense",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "ExampleMedicationDispense-T",
+            "status": "completed",
+            "medicationReference": {
+              "reference": "Medication/ExampleMedication2-Ibuprofen-T"
+            },
+            "quantity": {
+              "value": 10,
+              "unit": "Tablette"
+            },
+            "dosageInstruction": [
+              {
+                "text": "1-1-1-1 nach Bedarf"
+              }
+            ],
+            "whenHandedOver": "2026-04-02"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "ExampleMedication2-Ibuprofen-T",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://www.whocc.no/atc",
+                  "code": "M01AE01",
+                  "display": "Ibuprofen"
+                }
+              ],
+              "text": "Ibuprofen 400 mg Tablette"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "TAB",
+                  "display": "Filmtablette"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "organization",
+          "resource": {
+            "resourceType": "Organization",
+            "id": "ExampleOrganization-T",
+            "name": "Stadt-Apotheke",
+            "address": [
+              {
+                "line": [
+                  "Hauptstraße 10"
+                ],
+                "city": "Beispielstadt",
+                "postalCode": "54321",
+                "country": "DE"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "+49 987 6543210"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp-t-prescription/StructureMap/ERP-TPrescription-StructureMap-CarbonCopy[ERP-TPrescription-StructureMap-CarbonCopy]
+
+
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
+----
+¦Payload    ¦
+.Response Body (201) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "Parameters",
+  "id": "Example-T-Prescription-CC-Post",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_T_Prescription|1.5"
+    ]
+  },
+  "parameter": [
+    {
+      "name": "prescriptionSignatureDate",
+      "valueInstant": "2026-04-01T12:43:23Z"
+    },
+    {
+      "name": "rxPrescription",
+      "part": [
+        {
+          "name": "prescriptionId",
+          "valueIdentifier": {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.153.303.257.459"
+          }
+        },
+        {
+          "name": "authoredOn",
+          "valueDate": "2026-04-01"
+        },
+        {
+          "name": "medicationRequest",
+          "resource": {
+            "resourceType": "MedicationRequest",
+            "id": "ExampleMedicationRequest-T",
+            "status": "active",
+            "intent": "order",
+            "authoredOn": "2026-04-01",
+            "medicationReference": {
+              "reference": "Medication/ExampleMedication1-Paracetamol-T"
+            },
+            "dosageInstruction": [
+              {
+                "text": "1-1-1-1"
+              }
+            ],
+            "subject": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "not-permitted"
+                }
+              ]
+            },
+            "dispenseRequest": {
+              "quantity": {
+                "value": 10,
+                "unit": "Tablette"
+              }
+            },
+            "extension": [
+              {
+                "url": "http://example.org/fhir/StructureDefinition/confirmations",
+                "_url": {
+                  "extension": [
+                    {
+                      "url": "safetyMeasures",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "informationMaterial",
+                      "valueBoolean": true
+                    },
+                    {
+                      "url": "offLabelUse",
+                      "valueBoolean": false
+                    },
+                    {
+                      "url": "prescriptionForWoman",
+                      "valueBoolean": false
+                    },
+                    {
+                      "url": "expertiseConfirmation",
+                      "valueBoolean": true
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "ExampleMedication1-Paracetamol-T",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://www.whocc.no/atc",
+                  "code": "N02BE01",
+                  "display": "Paracetamol"
+                }
+              ],
+              "text": "Paracetamol 500 mg Tabletten"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "TAB",
+                  "display": "Tablette"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "rxDispensation",
+      "part": [
+        {
+          "name": "medicationDispense",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "ExampleMedicationDispense-T",
+            "status": "completed",
+            "medicationReference": {
+              "reference": "Medication/ExampleMedication2-Ibuprofen-T"
+            },
+            "quantity": {
+              "value": 10,
+              "unit": "Tablette"
+            },
+            "dosageInstruction": [
+              {
+                "text": "1-1-1-1 nach Bedarf"
+              }
+            ],
+            "whenHandedOver": "2026-04-02"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "ExampleMedication2-Ibuprofen-T",
+            "code": {
+              "coding": [
+                {
+                  "system": "http://www.whocc.no/atc",
+                  "code": "M01AE01",
+                  "display": "Ibuprofen"
+                }
+              ],
+              "text": "Ibuprofen 400 mg Tablette"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "TAB",
+                  "display": "Filmtablette"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "organization",
+          "resource": {
+            "resourceType": "Organization",
+            "id": "ExampleOrganization-T",
+            "name": "Stadt-Apotheke",
+            "address": [
+              {
+                "line": [
+                  "Hauptstraße 10"
+                ],
+                "city": "Beispielstadt",
+                "postalCode": "54321",
+                "country": "DE"
+              }
+            ],
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "+49 987 6543210"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+----
+====
+.Response Body (422) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "invalid",
+      "details": {
+        "text": "Invalid request payload"
+      },
+      "expression": ["parameter[rxPrescription].part[prescriptionId].value"],
+      "diagnostics": "This field is required"
+    },
+    {
+      "severity": "error",
+      "code": "value",
+      "details": {
+        "text": "Invalid format for field"
+      },
+      "expression": ["parameter[rxPrescription].part[medicationRequest].resource.authoredOn"],
+      "diagnostics": "Value must be a date"
+    }
+  ]
+}
+----
+====
+
+2+¦Response Codes
+
+¦201 ¦ Success +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Der digitale Durchschlag wurde im T-Register eingestellt.#
+
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦405 ¦ Client Error +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+
+¦422 ¦ Client Error +
+[small]#Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.#
+
+¦429 ¦ Client Error +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+
+¦500 ¦ Server Error +
+[small]#Unerwarteter Serverfehler.#
+
+|===
