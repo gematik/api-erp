@@ -3,8 +3,32 @@ include::./config-source.adoc[]
 
 toc::[]
 
+Die FHIR Profiländerungen beinhalten keine fachlichen Erweiterungen oder neue Features. Die Profilanpassungen enthalten Fehlerbehebungen, bessere Validierung, sowie die Anpassung aller Profilabhängigkeiten auf das DE-Basisprofil in Version 1.5.x. Damit wird der PKV-Identifier nicht mehr unterstützt.
+
 == Versionsübergabegänge
 
+Der anstehende FHIR-Profilübergang stellt sich wie folgt dar:
+
+image::../images/puml_2025-10-01_fhir-transition_timeline.png[]
+
+Die zugrundeliegende Konfiguration findet sich hier: link:../resources/configuration/2025-10-01_fhir-transition.json[Konfiguration für den Übergang zum 01.10.2025]
+
+
+=== Package Gültigkeiten
+
+Die Gültigkeiten von FHIR Packages in diesem Übergang stellen sich wie folgt dar:
+
+include::../resources/scripts/output_adoc/2025-10-01_fhir-transition/transition-overview.adoc[]
+
+Die Profile für die E-Rezept-FdV's (erp-FdV-profile) sind wie folgt definiert:
+[options="header"]
+|===
+| Profilname | aus Package
+| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4
+| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4
+| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-abrechnungsinformationen.r4
+| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-abrechnungsinformationen.r4
+|===
 
 == Änderungen
 
@@ -55,29 +79,25 @@ Möglichkeit zur Angabe des Wirkstoffs in einer PZN-Verordnung
 
 Anpassung der Constraints zur Packungsgröße
 
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_medication_pzn[KBV_PR_ERP_Medication_PZN], link:https://simplifier.net/erezept/kbv_pr_erp_medication_ingredient[KBV_PR_ERP_Medication_Ingredient] | 
+Die Wirstärke von Wirkstoffen bei PZN- und Wirkstoffverordnungen werden mit Numerator **und** Denominator angegeben. Es muss jeweils beides angegeben werden (z.B. 400mg / 1 Tablette). Die Einheiten werden als Freitext angegeben.
+
 |===
 
 === Release Notes der FHIR Packages
-
 Weiterhin sind die Releasenotes der FHIR-Packages zu beachten:
 
-Gematik:
+[cols="a,a,a"]
+[%autowidth]
+|===
+h| Herausgeber h|FHIR Package h| Beispiele
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.5.1[de.gematik.erezept-workflow.r4 Package 1.5.1^]  | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/E-Rezept-Workflow_gematik/1.5.1[Beispiele 1.5.1^]
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.1.0[de.gematik.erezept-patientenrechnung.r4 Package 1.1.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/E-Rezept-Patientenrechnung_gematik/1.1.0[Beispiele 1.1.0]
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept.eu/1.0.0[de.gematik.erezept.eu Package 1.0.0^]  | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.gematik.erezept.eu/1.0.0[TODO] 
+| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.5.0[de.abda.eRezeptAbgabedaten Package 1.5.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezeptAbgabedaten_DAV/1.5.0[Beispiele 1.5.0]
+| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.4.0[de.abda.eRezeptAbgabedatenPKV Package 1.4.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezeptAbgabedatenPKV_DAV/1.4.0[Beispiele 1.4.0]
+| KBV |  link:https://simplifier.net/packages/kbv.ita.erp/1.3.2[kbv.ita.erp Package 1.3.2^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezept_KBV/1.3.2[Beispiele 1.3.2]
+| KBV |  link:https://simplifier.net/packages/kbv.itv.evdga/1.2.1[kbv.itv.evdga Package 1.2.1^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eVDGA_KBV/1.2.1[Beispiele 1.2.1]
+| GKV-SV | link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.5.0[de.gkvsv.eRezeptAbrechnungsdaten Package 1.5.0^] | n/a
+|===
 
-* gematik de.gematik.erezept-workflow.r4: link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.5.0[Package 1.5.0^] 
-* gematik de.gematik.erezept-patientenrechnung.r4: link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.1.0[Package 1.1.0^]
-* gematik de.gematik.erezept.eu: link:https://simplifier.net/packages/de.gematik.erezept.eu/1.0.0[Package 1.0.0^] 
-
-DAV:
-
-* DAV de.abda.eRezeptAbgabedatenBasis: link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.5.0[Package 1.5.0^]
-* DAV de.abda.eRezeptAbgabedaten: link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.5.0[Package 1.5.0^]
-* DAV de.abda.eRezeptAbgabedatenPKV: link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.4.0[Package 1.4.0^]
-
-KBV:
-
-* KBV kbv.ita.erp: link:https://simplifier.net/packages/kbv.ita.erp/1.2.0[Package 1.2.0^]
-* KBV kbv.itv.evdga: link:https://simplifier.net/packages/kbv.itv.evdga/1.2.1[Package 1.2.1^]
-
-GKV-SV:
-
-* GKV-SV de.gkvsv.eRezeptAbrechnungsdaten: link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.5.0[Package 1.5.0^]
