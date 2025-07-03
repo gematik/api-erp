@@ -473,29 +473,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
 ====
 [source,json]
 ----
-{
-  "resourceType": "OperationOutcome",
-  "issue": [
-    {
-      "severity": "error",
-      "code": "invalid",
-      "details": {
-        "text": "Invalid request payload"
-      },
-      "expression": ["parameter[rxPrescription].part[prescriptionId].value"],
-      "diagnostics": "This field is required"
-    },
-    {
-      "severity": "error",
-      "code": "value",
-      "details": {
-        "text": "Invalid format for field"
-      },
-      "expression": ["parameter[rxPrescription].part[medicationRequest].resource.authoredOn"],
-      "diagnostics": "Value must be a date"
-    }
-  ]
-}
+Unresolved directive in ../resources/openapi-adoc/bfarm/ords_rezepte_t-rezept_v1_POST_Response.adoc - include::../../bfarm-temp/example-bfarm-fhir-oo-422.json[]
 ----
 ====
 
