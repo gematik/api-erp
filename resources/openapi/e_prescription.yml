@@ -362,6 +362,17 @@ paths:
             application/fhir+json:
               example:
                 $ref: "https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/API-Examples/2025-10-01/erp_eprescription/04_POST_AccessCode_EU_Response.json"
+        '400':
+          description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+        '401':
+          description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+        '403':
+          description: Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.
+        '404':
+          description: Zugriffsberechtigung nicht gefunden
+          content:
+            application/fhir+json:
+              example: FHIR-OperationOutcome mit issue.text = 'Zugriffsberechtigung nicht gefunden'
 
   /$revoke-eu-access-permission:
     delete:

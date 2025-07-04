@@ -607,6 +607,18 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ¦200 ¦ Success +
 [small]#Zugriffscode erfolgreich abgefragt#
 
+¦400 ¦ Client Error +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
+
+¦401 ¦ Client Error +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+
+¦403 ¦ Client Error +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+
+¦404 ¦ Client Error +
+[small]#Zugriffsberechtigung nicht gefunden#
+
 |===
 
 === Löschen des Zugriffscodes im E-Rezept-Fachdienst
