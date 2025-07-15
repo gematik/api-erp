@@ -51,26 +51,28 @@ Die Gültigkeiten von FHIR Packages in diesem Übergang stellen sich wie folgt d
 |de.gematik.erezept-patientenrechnung.r4 |1.0.4 |- |11.01.2026
 |de.gematik.erezept-patientenrechnung.r4 |1.1.0 |01.10.2025 |-
 |de.gematik.erezept-workflow.r4 |1.4.3 |- |11.01.2026
-|de.gematik.erezept-workflow.r4 |1.5.1 |01.10.2025 |-
+|de.gematik.erezept-workflow.r4 |1.5.2 |01.10.2025 |-
 |de.gematik.erezept.eu.r4 |1.0.0 |01.10.2025 |-
 |de.gkvsv.eRezeptAbrechnungsdaten |1.4.1 |- |30.09.2025
 |de.gkvsv.eRezeptAbrechnungsdaten |1.5.1 |01.10.2025 |-
-|erp-FdV-profile |1.4.3 |- |31.03.2026
-|erp-FdV-profile |1.5.1 |01.10.2025 |-
+|erp-communications-patientenrechnung |1.0.4 |- |31.03.2026
+|erp-communications-patientenrechnung |1.1.0 |01.10.2025 |-
+|erp-communications-workflow |1.4.3 |- |31.03.2026
+|erp-communications-workflow |1.5.2 |01.10.2025 |-
 |kbv.ita.erp |1.1.2 |- |31.03.2026
 |kbv.ita.erp |1.3.2 |01.10.2025 |-
 |kbv.itv.evdga |1.1.1 |- |31.03.2026
 |kbv.itv.evdga |1.2.1 |01.10.2025 |-
 |===
 
-Die Profile für die E-Rezept-FdV's (erp-FdV-profile) sind wie folgt definiert:
+Die Profile für die Angaben _erp-communications-workflow_ und _erp-communications-patientenrechnung_ entsprechen den Communication Profilen aus den Packages:
 [options="header"]
 |===
-| Profilname | aus Package
-| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4
-| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4
-| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-abrechnungsinformationen.r4
-| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-abrechnungsinformationen.r4
+| Profilname | aus Package | Bestandteil von
+| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4 | erp-communications-workflow
+| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4 | erp-communications-workflow
+| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-patientenrechnung.r4 | erp-communications-patientenrechnung
+| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-patientenrechnung.r4 | erp-communications-patientenrechnung
 |===
 
 == Änderungen
