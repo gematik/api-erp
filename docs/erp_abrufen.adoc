@@ -920,9 +920,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Parameters xmlns="http://hl7.org/fhir">
-    <id value="erp-abrufen-06-request-taskClose"/>
+    <id value="erp-abrufen-06-request-taskDispense"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_DispenseOperation_Input|1.5"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -930,7 +930,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
             <name value="medicationDispense"/>
             <resource>
                 <MedicationDispense>
-                    <id value="erp-abrufen-06-request-taskClose-medicationDispense"/>
+                    <id value="erp-abrufen-06-request-taskDispense-medicationDispense"/>
                     <meta>
                         <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
                     </meta>
