@@ -1,0 +1,1030 @@
+= E-Rezept API Dokumentation zur Push Notifications
+image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+:toclevels: 2
+
+Zielgruppe: image:{fdv}[] image:{eRp}[]
+
+Intro
+
+toc::[]
+
+== Setup der Push Notifications
+
+=== Pusher Verwaltung
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Request Body für registration (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  registration: 
+    value:
+    # tag::example_registration[]
+      {
+        "lang": "en",
+        "kind": "http",
+        "app_display_name": "Mat Rix",
+        "device_display_name": "iPhone 9",
+        "app_id": "com.example.app.ios",
+        "pushkey": "<APNS/GCM TOKEN>",
+        "data": {
+          "url": "https://push-gateway.location.here/_matrix/push/v1/notify"
+        },
+        "encryption": {
+          "method": "aes-hmac-sha256",
+          "time_iss_created": "2023-10",
+          "iss": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+          "key_identifier": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+        },
+        "append": false
+      }
+    # end::example_registration[]
+  deletion:
+    value: {
+        "app_id": "com.example.app.ios",
+        "pushkey": "<APNS/GCM TOKEN>",
+        "kind": null
+    }
+schema:
+  type: object
+  title: Pusher
+  properties:
+    pushkey:
+      type: string
+      description: |-
+        This is a unique identifier for this pusher. The value you
+        should use for this is the routing or destination address
+        information for the notification, for example, the APNS token
+        for APNS or the Registration ID for GCM. If your notification
+        client has no such concept, use any unique identifier.
+        Max length, 512 bytes.
+
+        If the `kind` is `"email"`, this is the email address to
+        send notifications to.
+    kind:
+      description: |-
+        The kind of pusher to configure. `"http"` makes a pusher that
+        sends HTTP pokes. `"email"` makes a pusher that emails the
+        user with unread notifications. `null` deletes the pusher.
+      type: string
+      nullable: true
+    app_id:
+      type: string
+      description: |-
+        This is a reverse-DNS style identifier for the application.
+        It is recommended that this end with the platform, such that
+        different platform versions get different app identifiers.
+        Max length, 64 chars.
+
+        If the `kind` is `"email"`, this is `"m.email"`.
+    app_display_name:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. A string that will allow the
+        user to identify what application owns this pusher.
+    device_display_name:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. A string that will allow the
+        user to identify what device owns this pusher.
+    profile_tag:
+      type: string
+      description: |-
+        This string determines which set of device specific rules this
+        pusher executes.
+    lang:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. The preferred language for
+        receiving notifications (e.g. 'en' or 'en-US').
+    data:
+      type: object
+      description: |-
+        Required if `kind` is not `null`. A dictionary of information
+        for the pusher implementation itself.
+
+        If `kind` is `http`, this MUST contain `url` which is the URL
+        to use for sending notifications. Clients MAY use this object
+        to pass custom data to their push gateway. Servers MUST forward
+        the entire content including `format` and any custom keys but excluding `url`
+        when calling [`/notify`](./push_gateway_openapi.html#tag/Push-Gateway/operation/push_v1_notify).       
+      title: PusherData
+      properties:
+        url:
+          type: string
+          format: uri
+          description: |-
+            Required if `kind` is `http`. The URL to use for sending
+            notifications. MUST be an HTTPS URL with a path of
+            `/_matrix/push/v1/notify`.
+          example: https://push-gateway.location.here/_matrix/push/v1/notify
+        format:
+          type: string
+          description: |-
+            The format to send notifications in to Push Gateways if the
+            `kind` is `http`. The details about what fields the
+            homeserver should send to the push gateway are defined in the
+            [Push Gateway Specification](/push-gateway-api/).
+            
+            **TIM:** Currently the only format available is `event_id_only`.
+
+            **Others:** This property is not used and should be omitted unless
+            specified explicitly by the service implementing this specification.
+    encryption:
+      type: object
+      description: |-
+        This object contains information on how to encrypt the notifications for the pusher.
+        This property may be `required` or `forbidden` depending on what service it is called on.
+      properties:
+        method:
+          type: string
+          description: |-
+            The encryption method to use. As currently only AES/GCM with a key generated using HKDF is supported, this value is static and should be 'aes-hmac-sha256'.
+        time_iss_created:
+          type: string
+          description: |-
+            A string in the format "yyyy-MM" that specifies the first period the cypher key is generated for.
+        iss:
+          type: string
+          description: |-
+            A string containing the hex representation of the 256 bit initial shared secret.
+        key_identifier:
+          type: string
+          description: |-
+            A string containing an identifier for the key. This is used
+            to identify the key and the corresponding service (Fachdienst)
+            when a push notification is received within the FdV. The
+            `key_identifier` must be random and must not be reused for a
+            different ISS. An UUID is recommended.
+    append:
+      type: boolean
+      description: |-
+        If true, the homeserver should add another pusher with the
+        given pushkey and App ID in addition to any others with
+        different user IDs. Otherwise, the homeserver must remove any
+        other pushers with the same App ID and pushkey for different
+        users. The default is `false`.
+  required:
+    - kind
+    - app_id
+    - pushkey
+----
+====
+.Request Body für deletion (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  registration: 
+    value:
+    # tag::example_registration[]
+      {
+        "lang": "en",
+        "kind": "http",
+        "app_display_name": "Mat Rix",
+        "device_display_name": "iPhone 9",
+        "app_id": "com.example.app.ios",
+        "pushkey": "<APNS/GCM TOKEN>",
+        "data": {
+          "url": "https://push-gateway.location.here/_matrix/push/v1/notify"
+        },
+        "encryption": {
+          "method": "aes-hmac-sha256",
+          "time_iss_created": "2023-10",
+          "iss": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+          "key_identifier": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+        },
+        "append": false
+      }
+    # end::example_registration[]
+  deletion:
+    value: {
+        "app_id": "com.example.app.ios",
+        "pushkey": "<APNS/GCM TOKEN>",
+        "kind": null
+    }
+schema:
+  type: object
+  title: Pusher
+  properties:
+    pushkey:
+      type: string
+      description: |-
+        This is a unique identifier for this pusher. The value you
+        should use for this is the routing or destination address
+        information for the notification, for example, the APNS token
+        for APNS or the Registration ID for GCM. If your notification
+        client has no such concept, use any unique identifier.
+        Max length, 512 bytes.
+
+        If the `kind` is `"email"`, this is the email address to
+        send notifications to.
+    kind:
+      description: |-
+        The kind of pusher to configure. `"http"` makes a pusher that
+        sends HTTP pokes. `"email"` makes a pusher that emails the
+        user with unread notifications. `null` deletes the pusher.
+      type: string
+      nullable: true
+    app_id:
+      type: string
+      description: |-
+        This is a reverse-DNS style identifier for the application.
+        It is recommended that this end with the platform, such that
+        different platform versions get different app identifiers.
+        Max length, 64 chars.
+
+        If the `kind` is `"email"`, this is `"m.email"`.
+    app_display_name:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. A string that will allow the
+        user to identify what application owns this pusher.
+    device_display_name:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. A string that will allow the
+        user to identify what device owns this pusher.
+    profile_tag:
+      type: string
+      description: |-
+        This string determines which set of device specific rules this
+        pusher executes.
+    lang:
+      type: string
+      description: |-
+        Required if `kind` is not `null`. The preferred language for
+        receiving notifications (e.g. 'en' or 'en-US').
+    data:
+      type: object
+      description: |-
+        Required if `kind` is not `null`. A dictionary of information
+        for the pusher implementation itself.
+
+        If `kind` is `http`, this MUST contain `url` which is the URL
+        to use for sending notifications. Clients MAY use this object
+        to pass custom data to their push gateway. Servers MUST forward
+        the entire content including `format` and any custom keys but excluding `url`
+        when calling [`/notify`](./push_gateway_openapi.html#tag/Push-Gateway/operation/push_v1_notify).       
+      title: PusherData
+      properties:
+        url:
+          type: string
+          format: uri
+          description: |-
+            Required if `kind` is `http`. The URL to use for sending
+            notifications. MUST be an HTTPS URL with a path of
+            `/_matrix/push/v1/notify`.
+          example: https://push-gateway.location.here/_matrix/push/v1/notify
+        format:
+          type: string
+          description: |-
+            The format to send notifications in to Push Gateways if the
+            `kind` is `http`. The details about what fields the
+            homeserver should send to the push gateway are defined in the
+            [Push Gateway Specification](/push-gateway-api/).
+            
+            **TIM:** Currently the only format available is `event_id_only`.
+
+            **Others:** This property is not used and should be omitted unless
+            specified explicitly by the service implementing this specification.
+    encryption:
+      type: object
+      description: |-
+        This object contains information on how to encrypt the notifications for the pusher.
+        This property may be `required` or `forbidden` depending on what service it is called on.
+      properties:
+        method:
+          type: string
+          description: |-
+            The encryption method to use. As currently only AES/GCM with a key generated using HKDF is supported, this value is static and should be 'aes-hmac-sha256'.
+        time_iss_created:
+          type: string
+          description: |-
+            A string in the format "yyyy-MM" that specifies the first period the cypher key is generated for.
+        iss:
+          type: string
+          description: |-
+            A string containing the hex representation of the 256 bit initial shared secret.
+        key_identifier:
+          type: string
+          description: |-
+            A string containing an identifier for the key. This is used
+            to identify the key and the corresponding service (Fachdienst)
+            when a push notification is received within the FdV. The
+            `key_identifier` must be random and must not be reused for a
+            different ISS. An UUID is recommended.
+    append:
+      type: boolean
+      description: |-
+        If true, the homeserver should add another pusher with the
+        given pushkey and App ID in addition to any others with
+        different user IDs. Otherwise, the homeserver must remove any
+        other pushers with the same App ID and pushkey for different
+        users. The default is `false`.
+  required:
+    - kind
+    - app_id
+    - pushkey
+----
+====
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+include::[]
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pusher was set.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+=== Liste der Pusher
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "pushers": [
+        {
+          "pushkey": "Xp/MzCt8/9DcSNE9cuiaoT5Ac55job3TdLSSmtmYl4A=",
+          "kind": "http",
+          "app_id": "face.mcapp.appy.prod",
+          "app_display_name": "Appy McAppface",
+          "device_display_name": "Alice's Phone",
+          "profile_tag": "xyz",
+          "lang": "en-US",
+          "data": {
+            "url": "https://example.com/_matrix/push/v1/notify"
+          }
+        }
+      ]
+    }
+schema:
+  properties:
+    pushers:
+      type: array
+      title: Pushers
+      description: An array containing the current pushers for the user
+      items:
+        type: object
+        properties:
+          pushkey:
+            type: string
+          kind:
+            description: |-
+              The kind of pusher to configure. `"http"` makes a pusher that
+              sends HTTP pokes. `null` deletes the pusher.
+            type: string
+            nullable: true
+          app_id:
+            type: string
+            description: |-
+              This is a reverse-DNS style identifier for the application.
+              It is recommended that this end with the platform, such that
+              different platform versions get different app identifiers.
+              Max length, 64 chars.
+          app_display_name:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. A string that will allow the
+              user to identify what application owns this pusher.
+          device_display_name:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. A string that will allow the
+              user to identify what device owns this pusher.
+          profile_tag:
+            type: string
+            description: |-
+              **UNUSED** This string determines which set of device specific rules this
+              pusher executes.
+          lang:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. The preferred language for
+              receiving notifications (e.g. 'en' or 'en-US').
+          data:
+            type: object
+            description: |-
+              Required if `kind` is not `null`. A dictionary of information
+              for the pusher implementation itself.
+
+              If `kind` is `http`, this MUST contain `url` which is the URL
+              to use for sending notifications. Clients MAY use this object
+              to pass custom data to their push gateway. Servers MUST forward
+              the entire content including `format` and any custom keys but excluding `url`
+              when calling [`/push/v1/notify`](/push-gateway-api/#postpushv1notify).
+            title: PusherData
+            properties:
+              url:
+                type: string
+                format: uri
+                description: |-
+                  Required if `kind` is `http`. The URL to use for sending
+                  notifications. MUST be an HTTPS URL with a path of
+                  `/push/v1/notify`.
+                example: https://push-gateway.location.here/push/v1/notify
+              format:
+                type: string
+                description: |-
+                  The format to send notifications in to Push Gateways if the
+                  `kind` is `http`. The details about what fields the
+                  homeserver should send to the push gateway are defined in the
+                  [Push Gateway Specification](/push-gateway-api/). Currently the only format
+                  available is 'event_id_only'.
+          append:
+            type: boolean
+            description: |-
+              If true, the FD should add another pusher with the
+              given pushkey and App ID in addition to any others with
+              different user IDs. Otherwise, the homeserver must remove any
+              other pushers with the same App ID and pushkey for different
+              users. The default is `false`.
+        required:
+          - pushkey
+          - app_id
+          - kind
+          - app_display_name
+          - device_display_name
+          - lang
+          - data
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pushers for this user.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+== Channel Verwaltung
+=== Verfügbare Channels
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "channels": [
+        {
+          "id": "channel1",
+          "status": "enabled"
+        },
+        {
+          "id": "channel2",
+          "status": "disabled"
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    channels:
+      type: array
+      title: channels
+      description: An array containing channels
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The name of the channel
+          status:
+            type: string
+            enum: ["enabled", "disabled", "not_set"] 
+        required:
+          - id
+          - status
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channels for this user.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+=== Channel Konfiguration für Pusher
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Request Body für update (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  update:
+    value: {
+      "channels": [
+        {
+          "name": "channel1",
+          "value": "enabled"
+        },
+        {
+          "name": "channel2",
+          "value": "disabled"
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    channels:
+      type: array
+      title: channels
+      description: An array containing channels
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name of the channel
+          value:
+            type: string
+            enum: ["enabled", "disabled", "not_set"] 
+        required:
+          - name
+          - value
+----
+====
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+include::[]
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channel was set.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+=== Channel Konfiguration Verwaltung
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Request Body für update (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  update:
+    value: {
+      "channels": [
+        {
+          "name": "channel1",
+          "value": "enabled"
+        },
+        {
+          "name": "channel2",
+          "value": "disabled"
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    channels:
+      type: array
+      title: channels
+      description: An array containing channels
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            description: The name of the channel
+          value:
+            type: string
+            enum: ["enabled", "disabled", "not_set"] 
+        required:
+          - name
+          - value
+----
+====
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+include::[]
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channel was set.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+== History
+=== Notification by id
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/history/<notification_id>
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+        "identifier": "1",
+        "payload": {
+            "trigger_id": "abc",
+            "message": "Hello World!",
+            "document_id": "123"
+        }
+    }
+schema:
+  title: Message
+  properties:
+    identifier:
+      type: string
+      description: uniquie identifier for the message
+    payload:
+      type: object
+      description: |
+        payload of the message, use-case specific. Available properties are to be defined by the backends
+        specification. This should strongly correlate with any sent data within cyphertext of the original
+        notification.
+  required:
+    - identifier
+    - payload
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The notification message.#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
+
+=== Notifications für Pusher
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/history/device/<pushkey>
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "messages": [
+        {
+          "identifier": "1",
+          "payload": {
+            "title": "Welcome",
+            "message": "Welcome to our service!",
+            "reference": "REF123"
+          }
+        },
+        {
+          "identifier": "2",
+          "payload": {
+            "title": "Reminder",
+            "message": "Don't forget to check out our new features.",
+            "reference": "REF456"
+          }
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    messages:
+      type: array
+      title: messages
+      description: An array containing channels
+      items:
+        type: object
+        title: Message
+        properties:
+          identifier:
+            type: string
+            description: uniquie identifier for the message
+          payload:
+            type: object
+            description: |
+              payload of the message, use-case specific. Available properties are to be defined by the backends
+              specification. This should strongly correlate with any sent data within cyphertext of the original
+              notification.
+        required:
+          - identifier
+          - payload
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#List of sent messages#
+
+¦400 ¦ Client Error +
+[small]##
+
+¦401 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦406 ¦ Client Error +
+[small]##
+
+¦408 ¦ Client Error +
+[small]##
+
+¦429 ¦ Client Error +
+[small]##
+
+|===
