@@ -37,19 +37,18 @@ paths:
               examples:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
-        "400":
-          description: The request was invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Invalid parameter",
-                      "errcode": "M_INVALID_PARAM",
-                    }
+        "400":          
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
   /pushers/set:
@@ -89,24 +88,17 @@ paths:
                 response:
                   value: {}
         "400":
-          description: One or more of the pusher values were invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Missing parameters: lang, data",
-                      "errcode": "M_MISSING_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
         "429":
-          description: This request was rate-limited.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/rate_limited.yaml"
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
   /channels/{pushkey}:
@@ -135,18 +127,17 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
         "400":
-          description: The request was invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Invalid parameter",
-                      "errcode": "M_INVALID_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
     post:
@@ -188,24 +179,17 @@ paths:
                 response:
                   value: {}
         "400":
-          description: One or more of the channel values were invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Missing parameters: value",
-                      "errcode": "M_MISSING_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
         "429":
-          description: This request was rate-limited.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/rate_limited.yaml"
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
   /channels:
@@ -224,18 +208,17 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
         "400":
-          description: The request was invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Invalid parameter",
-                      "errcode": "M_INVALID_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
   /history/{notification_id}:
@@ -262,18 +245,17 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/message_get.yaml#/examples/response"
         "400":
-          description: The request was invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Invalid parameter",
-                      "errcode": "M_INVALID_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - History
   /history/device/{pushkey}:
@@ -300,18 +282,17 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/messages_get.yaml#/examples/response"
         "400":
-          description: The request was invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-              examples:
-                response:
-                  value:
-                    {
-                      "error": "Invalid parameter",
-                      "errcode": "M_INVALID_PARAM",
-                    }
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
       tags:
         - History
 servers:
@@ -326,5 +307,84 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  responses:
+    ErrorResponse400:
+      description: The request was invalid.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Invalid parameter",
+                  "errcode": "M_INVALID_PARAM",
+                }
+    ErrorResponse401:
+      description: Ungültiges/Abgelaufenes AccessToken.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Ungültiges/Abgelaufenes AccessToken",
+                  "errcode": "M_ACCESSTOKEN_EXPIRED",
+                }
+    ErrorResponse403:
+      description: Unzulässige fachliche Rolle.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Unzulässige fachliche Rolle",
+                  "errcode": "M_FORBIDDEN",
+                }
+    ErrorResponse406:
+      description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden",
+                  "errcode": "M_INVALID_MIME_TYPE",
+                }
+    ErrorResponse408:
+      description: Timeout.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Timeout",
+                  "errcode": "M_TIMEOUT",
+                }
+    ErrorResponse429:
+      description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+      content:
+        application/json:
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
+          examples:
+            response:
+              value:
+                {
+                  "error": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer",
+                  "errcode": "M_RATE_LIMIT_EXCEEDED",
+                }
 security:
   - bearerAuth: []
