@@ -309,82 +309,16 @@ components:
       bearerFormat: JWT
   responses:
     ErrorResponse400:
-      description: The request was invalid.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Invalid parameter",
-                  "errcode": "M_INVALID_PARAM",
-                }
+      description: Ungültiger http-Request.
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Ungültiges/Abgelaufenes AccessToken",
-                  "errcode": "M_ACCESSTOKEN_EXPIRED",
-                }
     ErrorResponse403:
       description: Unzulässige fachliche Rolle.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Unzulässige fachliche Rolle",
-                  "errcode": "M_FORBIDDEN",
-                }
     ErrorResponse406:
       description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden",
-                  "errcode": "M_INVALID_MIME_TYPE",
-                }
     ErrorResponse408:
       description: Timeout.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0-RC1/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Timeout",
-                  "errcode": "M_TIMEOUT",
-                }
     ErrorResponse429:
       description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
-      content:
-        application/json:
-          schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
-          examples:
-            response:
-              value:
-                {
-                  "error": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer",
-                  "errcode": "M_RATE_LIMIT_EXCEEDED",
-                }
 security:
   - bearerAuth: []
