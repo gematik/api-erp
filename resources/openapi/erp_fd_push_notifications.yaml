@@ -16,7 +16,7 @@
 openapi: 3.0.3
 info:
   title: E-Rezept-Fachdienst API for Push Notifications
-  version: 1.0.0
+  version: 1.0.0-RC1
   description: API Endpoints for managing pushers, the channel configuration and retrieving previously sent notifications.
   license:
     name: Apache 2.0
@@ -27,6 +27,15 @@ paths:
       summary: Gets the current pushers
       description: Gets all currently active pushers for the authenticated user.
       operationId: getPushers
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
       responses:
         "200":
           description: The pushers for this user.
@@ -64,6 +73,15 @@ paths:
         `kind` is `null`, the pusher with this `app_id` and `pushkey` for this
         user is deleted.
       operationId: postPusher
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
       requestBody:
         content:
           application/json:
@@ -108,6 +126,8 @@ paths:
         Gets all channels and their configuration state of the authenticated user's device identified by the
         `pushkey`.
       operationId: getChannelsOfDevice
+      x-allowed-requester:
+          - "FdV"          
       parameters:
         - name: pushkey
           in: path
@@ -116,6 +136,12 @@ paths:
           schema:
             type: string
           example: "1234567890"
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
       responses:
         "200":
           description: The channels for this user.
@@ -149,6 +175,8 @@ paths:
         An unset channel is treated as disabled and thus no pushes will be triggerd that correspond
         to the channel.
       operationId: postChannelsOfDevice
+      x-allowed-requester:
+          - "FdV"
       parameters:
         - name: pushkey
           in: path
@@ -157,6 +185,12 @@ paths:
           schema:
             type: string
           example: "1234567890"
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
       requestBody:
         content:
           application/json:
@@ -197,6 +231,15 @@ paths:
       summary: Gets the available channels
       description: Gets all available channels for the authenticated user.
       operationId: getChannels
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
       responses:
         "200":
           description: The channels for this user.
@@ -221,84 +264,10 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
-  /history/{notification_id}:
-    get:
-      summary: Get notification by id
-      description: Get the notofication message with the given id.
-      operationId: getNotification
-      parameters:
-        - name: notification_id
-          in: path
-          required: true
-          description: The id of the notification.
-          schema:
-            type: string
-          example: "1234567890"
-      responses:
-        "200":
-          description: The notification message.
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/message_get.yaml#/schema"
-              examples:
-                response:
-                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/message_get.yaml#/examples/response"
-        "400":
-          $ref: "#/components/responses/ErrorResponse400"
-        "401":
-          $ref: "#/components/responses/ErrorResponse401"
-        "403":
-          $ref: "#/components/responses/ErrorResponse403"
-        "406":
-          $ref: "#/components/responses/ErrorResponse406"
-        "408":
-          $ref: "#/components/responses/ErrorResponse408"
-        "429":
-          $ref: "#/components/responses/ErrorResponse429"
-      tags:
-        - History
-  /history/device/{pushkey}:
-    get:
-      summary: Get notification history (Discussion)
-      description: Get all the sent notification messages of this backend.
-      operationId: getNotifications
-      parameters:
-        - name: pushkey
-          in: path
-          required: true
-          description: The pushkey of the device.
-          schema:
-            type: string
-          example: "1234567890"
-      responses:
-        "200":
-          description: List of sent messages
-          content:
-            application/json:
-              schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/messages_get.yaml#/schema"
-              examples:
-                response:
-                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/messages_get.yaml#/examples/response"
-        "400":
-          $ref: "#/components/responses/ErrorResponse400"
-        "401":
-          $ref: "#/components/responses/ErrorResponse401"
-        "403":
-          $ref: "#/components/responses/ErrorResponse403"
-        "406":
-          $ref: "#/components/responses/ErrorResponse406"
-        "408":
-          $ref: "#/components/responses/ErrorResponse408"
-        "429":
-          $ref: "#/components/responses/ErrorResponse429"
-      tags:
-        - History
 servers:
   - url: https://erp.zentral.erp.splitdns.ti-dienste.de
     description: E-Rezept-Fachdienst TI-Schnittstelle
-  - url: https://https://erp.app.ti-dienste.de
+  - url: https://erp.app.ti-dienste.de
     description: E-Rezept-Fachdienst Internet-Schnittstelle
 
 components:
