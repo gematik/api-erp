@@ -97,7 +97,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
 |[Übertragung digitaler Durchschlag E-T-Rezept](docs/erp_bfarm.adoc)|![][bfarm]|
-|[OpenApi Remote-FdV](docs/fdv-testdriver-openapi.html)|![][FdV]|
+|[OpenApi Remote-FdV](docs/fdv-testdriver-openapi.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
