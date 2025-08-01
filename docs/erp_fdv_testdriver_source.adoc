@@ -1,0 +1,644 @@
+= Test driver interface v1.2.1  image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+
+Zielgruppe: image:{FdV}[]
+
+Hier dokumentiert die gematik die Nutzung der Test-FdV-Schnittstelle zum automatisierten Testen von eRezept-FdV-Modul Implementierungen.
+
+toc::[]
+
+Die OpenAPI-Spezifikation für diese Beschreibung ist unter folgendem Link zu finden: link:../resources/openapi/testdriver.yml[OpenAPI-Spezifikation für Test-FdV]
+
+Aktuelle Informationen finden sich hier:
+* Übersicht https://github.com/gematik/ref-erp-fdv-testdriver/tree/main/openapi
+* Url OpenAPI https://github.com/gematik/ref-erp-fdv-testdriver/blob/main/openapi/v1.2.1/ErpTestDriver.yaml
+
+== Allgemeine Informationen
+
+=== Testdriver-Info abrufen
+
+Mit dieser Operation erhält man allgemeine Informationen über das Testdriver-Interface und die Test-FdV.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/info
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+=== Test-FdV starten
+
+Mit dieser Operation kann die Test-FdV gestartet werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/start
+¦Method     ¦PUT
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+=== Test-FdV stoppen
+
+Mit dieser Operation kann die Test-FdV gestoppt werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/stop
+¦Method     ¦PUT
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+== Login
+
+=== Login mit KVNR
+
+Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/login
+¦Method     ¦PUT
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+== E-Rezepte
+
+=== Liste aller E-Rezepte abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von E-Rezepten abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: E-Rezepte empfangen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#alle-e-rezepte-ansehen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+=== Einzelnes E-Rezept abrufen
+
+Mit dieser Operation kann ein einzelnes E-Rezept anhand der ID abgerufen werden.
+
+*UC: E-Rezepte empfangen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#ein-einzelnes-e-rezept-abrufen-und-in-der-apotheke-einl%C3%B6sen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+|===
+
+=== E-Rezept löschen
+
+Mit dieser Operation kann ein E-Rezept am E-Rezept-Fachdienst gelöscht werden.
+
+*UC: E-Rezepte löschen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#ein-e-rezept-l%C3%B6schen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method     ¦DELETE
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+== Abgabeinformationen
+
+=== Liste der Abgabeinformationen abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Abgabeinformationen (medication dispenses) abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Abgabeinformationen anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#abgabeinformationen-abrufen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/medicationdispense
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Query Parameters ¦
+----
+whenhandedover:
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+== Audit Events
+
+=== Liste der Audit Events abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Audit Events abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Protokolldaten anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#einsicht-in-das-zugriffsprotokoll
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/auditEvents
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+== Apotheken
+
+=== Apotheken suchen
+
+Mit dieser Operation kann eine Apotheke anhand verschiedener Parameter gesucht werden.
+
+*UC: Apotheke suchen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#eine-apotheke-aus-dem-apotheken-verzeichnis-ausw%C3%A4hlen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/search
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Query Parameters ¦
+----
+near:
+address-city:
+name:
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+=== E-Rezept einer Apotheke zuweisen
+
+Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/assignment
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+=== 2D-Code für E-Rezept erzeugen
+
+Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für die Einlösung in der Apotheke).
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
+¦Method     ¦POST
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+== Kommunikation
+
+=== Nachrichten abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Nachrichten (Communications) für einen Patienten abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Nachrichten von Apotheke anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-alle-nachrichten-vom-e-rezept-fachdienst-abrufen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/communication
+¦Method     ¦GET
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===
+
+=== Nachricht löschen
+
+Mit dieser Operation kann eine Nachricht (Communication) anhand der ID gelöscht werden.
+
+*UC: Nachrichten löschen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-nachricht-als-apotheke-l%C3%B6schen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://localhost:443/erp/testdriver/api/v1/communication/<id>
+¦Method     ¦DELETE
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]##
+
+¦400 ¦ Client Error +
+[small]##
+
+|===

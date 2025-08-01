@@ -155,14 +155,15 @@ for filename in os.listdir(INPUT_FOLDER):
                     resp_description = response.get('description', '')
                     resp_type = ''
                     # Determine type based on code
-                    if code.startswith('2'):
+                    if str(code).startswith('2'):
                         resp_type = 'Success'
-                    elif code.startswith('4'):
+                    elif str(code).startswith('4'):
                         resp_type = 'Client Error'
-                    elif code.startswith('5'):
+                    elif str(code).startswith('5'):
                         resp_type = 'Server Error'
                     else:
                         resp_type = 'Unknown'
+
                     response_codes.append((code, resp_type, resp_description))
 
                     # Extract x-fhir-profile
