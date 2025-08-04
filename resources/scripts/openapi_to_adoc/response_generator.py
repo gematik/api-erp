@@ -167,7 +167,13 @@ def generate_response_file(output_file_path, endpoint_data, data):
             for example_name, example_ref in examples_list:
                 any_response_examples = True
                 
-                if example_ref and (str(example_ref).strip().startswith('{') or str(example_ref).strip().startswith('[')):
+                # Check if this is inline JSON content (starts with {, [, or is a quoted JSON string)
+                is_inline_json = (example_ref and 
+                                 (str(example_ref).strip().startswith('{') or 
+                                  str(example_ref).strip().startswith('[') or
+                                  (str(example_ref).strip().startswith('"') and str(example_ref).strip().endswith('"'))))
+                
+                if is_inline_json:
                     adoc_lines.append(f'.Beispiel Response Body ({code})')
                     adoc_lines.append('[source,json]')
                     adoc_lines.append('----')
