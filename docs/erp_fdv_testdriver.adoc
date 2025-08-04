@@ -45,12 +45,9 @@ Mit dieser Operation erhält man allgemeine Informationen über das Testdriver-I
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/info
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/info
+¦Method ¦GET
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -58,22 +55,25 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
 ----
+{
+  "detail": "Test-FdV is currently not running"
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#Test driver interface is ready for use#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#Error processing the request with the test driver#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -85,12 +85,9 @@ Mit dieser Operation kann die Test-FdV gestartet werden.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/start
-¦Method     ¦PUT
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/start
+¦Method ¦PUT
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -98,22 +95,25 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
 ----
+{
+  "detail": "Test-FdV is currently not running"
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#Operation was successful#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#Error processing the request with the test driver#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -125,12 +125,9 @@ Mit dieser Operation kann die Test-FdV gestoppt werden.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/stop
-¦Method     ¦PUT
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/stop
+¦Method ¦PUT
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -138,22 +135,25 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
 ----
+{
+  "detail": "Test-FdV is currently not running"
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#Operation was successful#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#Error processing the request with the test driver#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -167,24 +167,31 @@ Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/login
-¦Method     ¦PUT
-¦HTTP Header ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/login
+¦Method ¦PUT
+¦Payload ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source]
 ----
+"A000500015"
 ----
-¦Payload    ¦
-No request body.
+====
 |===
 ==== Response
 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+{
+  "accessToken": "string"
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
@@ -192,10 +199,10 @@ No response body.
 [small]##
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -212,12 +219,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#a
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription
+¦Method ¦GET
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -225,22 +229,50 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+[
+  {
+    "prescriptionId": "160.000.000.000.123.76",
+    "accessCode": "c3830cacdc32d8b521dbfc02e5f7102f879f53206b5fca1d80fee3bda969ce4d",
+    "workFlow": "160",
+    "acceptDate": "2020-04-01",
+    "expiryDate": "2020-06-02",
+    "authoredOn": "2020-03-02T08:25:05+00:00",
+    "lastMedicationDispense": "2024-11-25T14:30:00+00:00",
+    "status": "string",
+    "patient": {
+      "name": "Juliane Steinmeyer",
+      "kvnr": "A000500015",
+      "insuranceType": "string"
+    },
+    "practitioner": {
+      "name": "string",
+      "anr": "string",
+      "anrType": "string",
+      "qualificationType": "Fach&#228;rztin f&#252;r Innere Medizin"
+    },
+    "medication": {
+      "type": "pzn",
+      "code": "Nerisona 30g, Asche Basis 60g",
+      "isVaccine": true
+    }
+  }
+]
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#A list (max. 50 entries) of e-prescriptions, sorted in descending order by creation date#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -255,12 +287,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#e
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method ¦GET
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -268,22 +297,48 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+{
+  "prescriptionId": "160.000.000.000.123.76",
+  "accessCode": "c3830cacdc32d8b521dbfc02e5f7102f879f53206b5fca1d80fee3bda969ce4d",
+  "workFlow": "160",
+  "acceptDate": "2020-04-01",
+  "expiryDate": "2020-06-02",
+  "authoredOn": "2020-03-02T08:25:05+00:00",
+  "lastMedicationDispense": "2024-11-25T14:30:00+00:00",
+  "status": "string",
+  "patient": {
+    "name": "Juliane Steinmeyer",
+    "kvnr": "A000500015",
+    "insuranceType": "string"
+  },
+  "practitioner": {
+    "name": "string",
+    "anr": "string",
+    "anrType": "string",
+    "qualificationType": "Fach&#228;rztin f&#252;r Innere Medizin"
+  },
+  "medication": {
+    "type": "pzn",
+    "code": "Nerisona 30g, Asche Basis 60g",
+    "isVaccine": true
+  }
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#See https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#alle-e-prescriptione-ansehen#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 |===
 
@@ -298,12 +353,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#e
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
-¦Method     ¦DELETE
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method ¦DELETE
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -311,22 +363,19 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦Payload ¦
 No response body.
 
 2+¦Response Codes
 
 ¦204 ¦ Success +
-[small]##
+[small]#Operation was successful#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -343,16 +392,13 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#a
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/medicationdispense
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/medicationdispense
+¦Method ¦GET
 ¦Query Parameters ¦
 ----
 whenhandedover:
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -360,22 +406,34 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+[
+  {
+    "prescriptionId": "160.000.000.000.123.76",
+    "medication": {
+      "type": "pzn",
+      "code": "Nerisona 30g, Asche Basis 60g",
+      "isVaccine": true
+    },
+    "pharmacist": "3-1.54.10123404",
+    "whenhandedover": "2020-03-20"
+  }
+]
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#A list (max. 50 entries) of medication dispenses, sorted in descending order by creation date#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -392,12 +450,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#e
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/auditEvents
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/auditEvents
+¦Method ¦GET
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -405,22 +460,25 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+[
+  null
+]
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#A list (max. 50 entries) of audit events, sorted in descending order by creation date#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -437,18 +495,15 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#e
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/search
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/search
+¦Method ¦GET
 ¦Query Parameters ¦
 ----
 near:
 address-city:
 name:
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -456,22 +511,38 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+[
+  {
+    "name": "Adlerapotheke",
+    "address": {
+      "city": "Berlin",
+      "street": "Friedrichstr.",
+      "streetNr": 136,
+      "zipcode": 10117
+    },
+    "position": {
+      "latitude": 52.522575,
+      "longitude": 13.387884
+    },
+    "telematikId": "3-1.54.10123404"
+  }
+]
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#A list (max. 50 entries) of pharmacies, sorted in order by name#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -483,24 +554,38 @@ Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/assignment
-¦Method     ¦POST
-¦HTTP Header ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/assignment
+¦Method ¦POST
+¦Payload ¦
+.Beispiel Request Body
+[source,json]
 ----
+{
+  "prescriptionId": "160.000.000.000.123.76",
+  "telematikId": "3-1.54.10123404",
+  "supplyOptionsType": "delivery"
+}
 ----
-¦Payload    ¦
-No request body.
 |===
 ==== Response
 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+{
+  "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
+  "type": "DispReq",
+  "reference": "160.000.000.000.123.76",
+  "sender": null,
+  "recipient": null,
+  "sent": "2020-03-12T18:01:10+00:00",
+  "supplyOptionsType": "delivery"
+}
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
@@ -508,10 +593,10 @@ No response body.
 [small]##
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -523,35 +608,43 @@ Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für di
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
-¦Method     ¦POST
-¦HTTP Header ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
+¦Method ¦POST
+¦Payload ¦
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source]
 ----
+"160.000.000.000.123.76"
 ----
-¦Payload    ¦
-No request body.
+====
 |===
 ==== Response
 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
 ----
+Unresolved directive in ../resources/openapi-adoc/fdv-testdiver/erp_testdriver_api_v1_pharmacy_2dCode_POST_Response.adoc - include::"string"[]
 ----
-¦Payload    ¦
-No response body.
+====
 
 2+¦Response Codes
 
 ¦200 ¦ Success +
-[small]##
+[small]#Image (PNG) encoded as base64 string#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -568,12 +661,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/communication
-¦Method     ¦GET
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/communication
+¦Method ¦GET
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -581,11 +671,22 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
 ----
+[
+  {
+    "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
+    "type": "DispReq",
+    "reference": "160.000.000.000.123.76",
+    "sender": null,
+    "recipient": null,
+    "sent": "2020-03-12T18:01:10+00:00",
+    "supplyOptionsType": "delivery"
+  }
+]
 ----
-¦Payload    ¦
-No response body.
 
 2+¦Response Codes
 
@@ -593,10 +694,10 @@ No response body.
 [small]##
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
 
@@ -611,12 +712,9 @@ Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://localhost:443/erp/testdriver/api/v1/communication/<id>
-¦Method     ¦DELETE
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/communication/<id>
+¦Method ¦DELETE
+¦Payload ¦
 No request body.
 |===
 ==== Response
@@ -624,21 +722,18 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦Payload ¦
 No response body.
 
 2+¦Response Codes
 
 ¦204 ¦ Success +
-[small]##
+[small]#Operation was successful#
 
 ¦403 ¦ Client Error +
-[small]##
+[small]#Forbidden - you are not allowed to do this#
 
 ¦400 ¦ Client Error +
-[small]##
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
 
 |===
