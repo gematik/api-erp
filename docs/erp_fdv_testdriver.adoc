@@ -170,14 +170,11 @@ Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
 ¦URI ¦https://localhost:443/erp/testdriver/api/v1/login
 ¦Method ¦PUT
 ¦Payload ¦
-.Request Body (Klicken zum Ausklappen)
-[%collapsible]
-====
-[source]
+.Beispiel Request Body
+[source,json]
 ----
 "A000500015"
 ----
-====
 |===
 ==== Response
 
@@ -611,14 +608,11 @@ Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für di
 ¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
 ¦Method ¦POST
 ¦Payload ¦
-.Request Body (Klicken zum Ausklappen)
-[%collapsible]
-====
-[source]
+.Beispiel Request Body
+[source,json]
 ----
 "160.000.000.000.123.76"
 ----
-====
 |===
 ==== Response
 
@@ -626,14 +620,11 @@ Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für di
 [%autowidth]
 |===
 ¦Payload ¦
-.Response Body (200) (Klicken zum Ausklappen)
-[%collapsible]
-====
-[source,]
+.Beispiel Response Body (200)
+[source,json]
 ----
-Unresolved directive in ../resources/openapi-adoc/fdv-testdiver/erp_testdriver_api_v1_pharmacy_2dCode_POST_Response.adoc - include::"string"[]
+"string"
 ----
-====
 
 2+¦Response Codes
 

@@ -59,7 +59,13 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
         example_ref (str): Reference or content of the example
         label_prefix (str): Prefix for the label
     """
-    if example_ref and (str(example_ref).strip().startswith('{') or str(example_ref).strip().startswith('[')):
+    # Check if this is inline JSON content (starts with {, [, or is a quoted JSON string)
+    is_inline_json = (example_ref and 
+                     (str(example_ref).strip().startswith('{') or 
+                      str(example_ref).strip().startswith('[') or
+                      (str(example_ref).strip().startswith('"') and str(example_ref).strip().endswith('"'))))
+    
+    if is_inline_json:
         # Inline JSON example
         adoc_lines.append(f'.Beispiel {label_prefix}')
         adoc_lines.append('[source,json]')
@@ -211,6 +217,12 @@ def generate_request_file(output_file_path, endpoint_data, data):
         if endpoint_data["request_body_examples"]:
             for example_name, example_ref in endpoint_data["request_body_examples"]:
                 _add_example_to_adoc(adoc_lines, example_name, example_ref, "Request Body")
+            # Also show FHIR profiles if present (after examples)
+            if endpoint_data["request_body_fhir_profile"]:
+                for url in endpoint_data["request_body_fhir_profile"]:
+                    name = url.rstrip('/').split('/')[-1]
+                    adoc_lines.append(f"FHIR-Profil: link:{url}[{name}]")
+                adoc_lines.append('\n')
         elif endpoint_data["request_body_fhir_profile"]:
             for url in endpoint_data["request_body_fhir_profile"]:
                 name = url.rstrip('/').split('/')[-1]
