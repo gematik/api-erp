@@ -1,7 +1,7 @@
 = E-Rezept Hinweise für das Feature "Übermittlung von E-Rezept Daten in die ePA" image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Hier dokumentiert die gematik Hinweise, wie E-Rezepte zu beliefern und Medications zu erzeugen sind. Weiterhin werden Tools uns Hilfestellungen bereitgestellt.
+Hier dokumentiert die gematik Hinweise, wie E-Rezepte zu beliefern und Medication-Ressourcen zu erzeugen sind. Weiterhin werden Tools und Hilfestellungen bereitgestellt.
 
 toc::[]
 
@@ -17,7 +17,7 @@ Instanzen, die zu diesen Profilen konform sind, sind damit auch für die Kommuni
 
 == Erzeugen des Abgabedatensatzes
 
-Die API für die $close-Operation am E-Rezept-Fachdienst sieht vor, dass ein Parameters Objekt im Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_closeoperation_input[GEM ERP PR CloseOperation Input] übergeben wird. Dieses Parameters Profil enthält für jede Abgabe ein Tupel aus MedicationDispense und Medication. Es kann auch die Abgabe von mehreren Arzneimitteln für eine Verordnung in diesem Profil dokumentiert werden. Hierzu müssen für jede Abgabe ein eigenes Tupel von MedicationDispense und Medication angegen werden.
+Die API für die $close-Operation am E-Rezept-Fachdienst sieht vor, dass ein Parameters Objekt im Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_closeoperation_input[GEM ERP PR CloseOperation Input] übergeben wird. Dieses Parameters Profil enthält für jede Abgabe ein Tupel aus MedicationDispense und Medication. Es kann auch die Abgabe von mehreren Arzneimitteln für eine Verordnung in diesem Profil dokumentiert werden. Hierzu müssen für jede Abgabe eigene Tupel von MedicationDispense und Medication angegeben werden.
 
 Schematisch sieht das wie folgt aus:
 
@@ -51,21 +51,21 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api
 
 ====
 
-== Erzeugen von Medications
+== Erzeugen von Medication-Ressourcen
 
 Zur Angabe der pharmazeutischen Informationen wird die link:http://hl7.org/fhir/R4/medication.html[FHIR-Ressource Medication] verwendet. Im Folgenden wird beschrieben, wie einzelne Arzneimitteltypen in FHIR abgebildet werden.
 
-=== Erzeugen von Freitext-, PZN- und Wirkstoff-Medications
+=== Erzeugen von Freitext-, PZN- und Wirkstoff-Medication-Ressourcen
 
 In den Dispensierinformationen sind pharmazeutische Angaben zum Arzneimittel zu tätigen. Diese werden im Profil GEM_ERP_PR_Medication angegeben. Dieses Profil wurde von link:https://simplifier.net/epa-medication/epamedication[EPAMedication] abgeleitet und ist damit auch für die Kommunikation mit der ePA geeignet.
 
-Die Verordnung enthält die pharmazeutischen Informationen in einem Profil, was von der KBV definiert wurde link:https://simplifier.net/erezept/~resources?category=Profile&corebasetype=Medication&sortBy=LastUpdateDate_desc[KBV_PR_ERP_Medication_*]. Zur Unterstützung der der Transformation der Daten gibt es eine Mappingtabelle, die aufzeigt welche Werte aus den KBV-Profilen in das Workflow-Profil übernommen werden können und an welche Stelle sie zu setzen sind: link:https://gematik.github.io/api-erp/erp_epa_mapping_details/KBV_PR_ERP_Medication_Compounding%7C1.1.0_KBV_PR_ERP_Medication_FreeText%7C1.1.0_KBV_PR_ERP_Medication_Ingredient%7C1.1.0_KBV_PR_ERP_Medication_PZN%7C1.1.0_to_EPAMedication%7C1.1.0.html[Mappingtabelle für Medications].
+Die Verordnung enthält die pharmazeutischen Informationen in einem Profil, das von der KBV definiert wurde link:https://simplifier.net/erezept/~resources?category=Profile&corebasetype=Medication&sortBy=LastUpdateDate_desc[KBV_PR_ERP_Medication_*]. Zur Unterstützung der Transformation der Daten gibt es eine Mappingtabelle, die aufzeigt, welche Werte aus den KBV-Profilen in das Workflow-Profil übernommen werden können und an welche Stelle sie zu setzen sind: link:https://gematik.github.io/api-erp/erp_epa_mapping_details/KBV_PR_ERP_Medication_Compounding%7C1.1.0_KBV_PR_ERP_Medication_FreeText%7C1.1.0_KBV_PR_ERP_Medication_Ingredient%7C1.1.0_KBV_PR_ERP_Medication_PZN%7C1.1.0_to_EPAMedication%7C1.1.0.html[Mappingtabelle für Medication-Ressourcen].
 
 Jede Stelle aus den Profilen KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient und KBV_PR_ERP_Medication_PZN kann in das neue Profil GEM_ERP_PR_Medication gemappt werden. Andernfalls wird ein Hinweis angegeben, dass der entsprechende Wert nicht übernommen wird.
 
-=== Erzeugen von Medications für Rezepturen und Kombipackungen
+=== Erzeugen von Medication-Ressourcen für Rezepturen und Kombipackungen
 
-Die Darstellung von Rezepturen und Kombipackungen in der ePA unterscheidet sich zu denen in den KBV-Profilen. Das grundlegende Konzept sieht vor, dass es jeweils _eine_ Medication gibt, die das Arzneimittel beschreiben. Bestandteile einer Rezeptur oder Kombipackung können auch in eigenen Medication Ressourcen abgebildet werden. Diese werden als Kind-Medications unter .contained in der Eltern-Medication eingehangen.
+Die Darstellung von Rezepturen und Kombipackungen in der ePA unterscheidet sich zu denen in den KBV-Profilen. Das grundlegende Konzept sieht vor, dass es jeweils _eine_ Medication gibt, die das Arzneimittel beschreibt. Bestandteile einer Rezeptur oder Kombipackung können auch in eigenen Medication Ressourcen abgebildet werden. Diese werden als Kind-Medications unter .contained in der Eltern-Medication eingehangen.
 
 image:puml_rezeptur_schema.png[]
 
@@ -142,4 +142,4 @@ Folgende Beispielhafte Responses für den Aufruf GET /MedicationDispense können
 * link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-MultipleMedicationDispenseBundle.json[Bundle mit mehreren MedicationDispense 1.4 und einfacher Medication	]
 * link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SearchSetMultipleMedicationDispenseBundle.json[Bundle mit 2x MedicationDispense 1.4, MedicationDispense 1.3 und MedicationDispense 1.2	]
 
-NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "match" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.
+NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "include" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.
