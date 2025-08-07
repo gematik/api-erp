@@ -78,9 +78,7 @@ paths:
           '422':
             description: Die Anfrage konnte nicht verarbeitet werden, da die übermittelten Daten ungültig sind oder gegen die Validierungsregeln verstoßen.
             content:
-              application/json:
-                example:
-                  $ref: '../../bfarm-temp/example-bfarm-fhir-oo-422.json'
+              application/json: {}
           '429':
             description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
           '500':
