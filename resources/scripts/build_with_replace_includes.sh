@@ -18,7 +18,7 @@ if ! grep -qE "$required_asciidoctor_diagram_version\.[0-9]+" <<<"$actual_asciid
 fi
 
 # STAGE_0: Build OpenAPI Blocks: Launch Dependent Scripts
-python3 $SCRIPT_DIR/./openapi-to-adoc.py
+python3 $SCRIPT_DIR/./openapi_to_adoc/run_standalone.py
 python3 $SCRIPT_DIR/./fhirconfig-timeline-build.py
 python3 $SCRIPT_DIR/./fhirconfig-table-builder.py
 python3 $SCRIPT_DIR/./terminologyconfig-table-builder.py
