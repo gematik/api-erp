@@ -2,104 +2,155 @@ import os
 import json
 from datetime import datetime, timedelta
 
+# Configure ignore list for "in PU einstellbar bis" column.
+# Any package name (case-insensitive match) listed here will show "-" in that column.
+IN_PU_IGNORE_PACKAGES = {
+    "de.abda.erezeptabgabedaten",  # example from your request
+    # add more package names as needed
+}
+
+def to_date(s):
+    return None if s in (None, "-", "") else datetime.strptime(s, "%Y-%m-%d")
+
+def fmt_date(d):
+    return "-" if d is None else d.strftime("%d.%m.%Y")
+
+def add_days(d, days):
+    return None if d is None else d + timedelta(days=days)
+
+def compute_in_pu_einstellbar_bis(package_name, valid_to_str):
+    """
+    Ermittelt 'in PU einstellbar bis' anhand definierter Nachhalte-Logik.
+    Berücksichtigt eine Ignore-Liste, bei der die Spalte als '-' ausgewiesen wird.
+
+    Regeln:
+    - Ignore-Liste: alle in IN_PU_IGNORE_PACKAGES aufgeführten Pakete → "-"
+    - de.gematik.erezept-workflow.r4:
+        normaler Grenzfall: validTo + 192 Tage
+        (MVO-Sonderfall 365+100 wird hier bewusst nicht automatisch verlängert)
+    - de.abda.eRezeptAbgabedatenPKV:
+        validTo + (10 Jahre + 1 Monat) -> 10*365 + 1*30 ≈ 3680 Tage (vereinfachte Arithmetik)
+      Hinweis: Für exakte Monats-/Jahresarithmetik ggf. dateutil.relativedelta verwenden.
+    - Alle anderen Pakete:
+        Standard: kein zusätzlicher Puffer → validTo (identisch)
+    """
+    # Ignore-Liste prüfen (case-insensitive)
+    if package_name.lower() in IN_PU_IGNORE_PACKAGES:
+        return "-"
+
+    valid_to = to_date(valid_to_str)  # expects '%Y-%m-%d' or None
+    if valid_to is None:
+        # Kein Ende gesetzt → nicht begrenzbar
+        return "-"
+
+    name = package_name.lower()
+
+    if name == "de.gematik.erezept-workflow.r4":
+        # Ende Gültigkeit + 3 Monate (≈ 92 Tage) + 100 Tage = 192 Tage (Grenzfall normal)
+        return fmt_date(add_days(valid_to, 192))
+
+    if name == "de.abda.erezeptabgabedatenpkv":
+        # 10 Jahre + 1 Monat (vereinfachte Arithmetik: 10*365 + 30 Tage)
+        return fmt_date(add_days(valid_to, 3680))
+
+    # Default: kein Zusatzpuffer
+    return fmt_date(valid_to)
+
 def generate_adoc(configurations, output_dir):
     """
     Generates .adoc files with tables of package versions grouped by their validFrom dates.
     Each .adoc file corresponds to a specific validFrom date.
-    """
-    # Prepare a dictionary to track which versions have already been listed
-    listed_versions = {}
 
-    # Prepare a dictionary to group packages by validFrom dates
+    Ergänzt um die Spalte 'in PU einstellbar bis' und eine Ignore-Liste.
+    """
+    listed_versions = {}
     packages_by_date = {}
 
-    # Iterate over configurations to group packages by validFrom dates
+    # Group by validFrom
     for config in configurations:
         valid_from = config["validFrom"]
-        valid_to = config.get("validTo", None)
 
         for package in config["packages"]:
             package_name = package["name"]
             for version in package["versions"]:
-                # Skip if this version has already been listed in a previous table
+                # Skip if already listed
                 if package_name in listed_versions and version in listed_versions[package_name]:
                     continue
 
-                # Add package details to the validFrom date group
                 if valid_from not in packages_by_date:
                     packages_by_date[valid_from] = []
 
-                # Determine the gültig bis (valid_to) date
-                # Find the last configuration where the version appears
+                # Determine "gültig bis" by finding last config where the version appears
                 last_valid_to = "-"
                 for later_config in configurations:
-                    if any(
-                        p["name"] == package_name and version in p["versions"]
-                        for p in later_config["packages"]
-                    ):
+                    if any(p["name"] == package_name and version in p["versions"]
+                           for p in later_config["packages"]):
                         last_valid_to = later_config.get("validTo", None)
 
-                # If the version appears in the last configuration without a validTo, set gültig bis to "-"
                 if last_valid_to is None:
                     last_valid_to = "-"
 
-                # Format the dates
-                valid_to_formatted = (
-                    "-" if last_valid_to == "-" else datetime.strptime(last_valid_to, "%Y-%m-%d").strftime("%d.%m.%Y")
+                # Compute "in PU einstellbar bis"
+                in_pu_until = compute_in_pu_einstellbar_bis(
+                    package_name,
+                    last_valid_to if last_valid_to != "-" else None
                 )
-                valid_from_formatted = datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
 
-                # Add the package/version entry
+                # Format dates for table
+                valid_to_formatted = "-" if last_valid_to == "-" else datetime.strptime(
+                    last_valid_to, "%Y-%m-%d"
+                ).strftime("%d.%m.%Y")
+                valid_from_formatted = datetime.strptime(
+                    valid_from, "%Y-%m-%d"
+                ).strftime("%d.%m.%Y")
+
                 packages_by_date[valid_from].append({
                     "package": package_name,
                     "version": version,
                     "valid_from": valid_from_formatted,
                     "valid_to": valid_to_formatted,
+                    "in_pu_bis": in_pu_until,
                 })
 
-                # Mark this version as listed
+                # Mark as listed
                 if package_name not in listed_versions:
                     listed_versions[package_name] = set()
                 listed_versions[package_name].add(version)
 
-    # Create the output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
-    # Generate an .adoc file for each validFrom date
+    # Generate an .adoc file per validFrom date
     for valid_from, packages in sorted(packages_by_date.items()):
-        # Format the validFrom date in German notation (dd.MM.yyyy)
         formatted_date = datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
         adoc_filename = os.path.join(output_dir, f"{valid_from}.adoc")
 
         with open(adoc_filename, "w", encoding="utf-8") as adoc_file:
-            # Write the header
+            # Header
             adoc_file.write(f"== {formatted_date}\n\n")
             adoc_file.write(f"Ab dem {formatted_date} erfolgt ein Versionswechsel der FHIR-Profile.\n\n")
             adoc_file.write("Details zu den Änderungen sind hier zu finden.\n\n")
 
-            # Write the table header
-            adoc_file.write('[cols="h,a,a,a"]\n')
+            # Table header (added column)
+            adoc_file.write('[cols="h,a,a,a,a"]\n')
             adoc_file.write("|===\n")
-            adoc_file.write("| |*Version und Releasenotes* |*Datum gültig ab* |*Datum gültig bis*\n\n")
+            adoc_file.write("| |*Version und Releasenotes* |*Datum gültig ab* |*Datum gültig bis* |*in PU einstellbar bis*\n\n")
 
-            # Write the table rows
+            # Rows
             for package in sorted(packages, key=lambda p: p["package"]):
                 package_name = package["package"]
                 version = package["version"]
                 valid_from = package["valid_from"]
                 valid_to = package["valid_to"]
+                in_pu_bis = package["in_pu_bis"]
 
-                # Construct the Simplifier link
                 simplifier_link = (
                     f"link:https://simplifier.net/packages/{package_name}/{version}[Package {version}^]"
                 )
 
-                # Write the row
                 adoc_file.write(
-                    f"|{package_name} |{simplifier_link} |{valid_from} |{valid_to}\n"
+                    f"|{package_name} |{simplifier_link} |{valid_from} |{valid_to} |{in_pu_bis}\n"
                 )
 
-            # Close the table
             adoc_file.write("|===\n")
 
         print(f"Generated {adoc_filename}")
@@ -108,11 +159,12 @@ def generate_transition_overview(configurations, output_file):
     """
     Generates a single .adoc file with a transition overview table for all packages and versions.
     Each package/version appears only once, with the correct gültig von and gültig bis dates.
+
+    Ergänzt um die Spalte 'in PU einstellbar bis' und die Ignore-Liste.
     """
-    # Prepare a dictionary to store the first and last occurrences of each package/version
     version_data = {}
 
-    # Iterate over configurations to collect package/version data
+    # Collect first/last occurrences
     for index, config in enumerate(configurations):
         valid_from = config["validFrom"]
         valid_to = config.get("validTo", None)
@@ -120,17 +172,15 @@ def generate_transition_overview(configurations, output_file):
         for package in config["packages"]:
             package_name = package["name"]
             for version in package["versions"]:
-                # If this version is not yet tracked, initialize its data
                 if (package_name, version) not in version_data:
                     version_data[(package_name, version)] = {
                         "valid_from": valid_from,
                         "valid_to": valid_to,
                     }
                 else:
-                    # Update the valid_to to the most recent validTo
+                    # Update last valid_to seen
                     version_data[(package_name, version)]["valid_to"] = valid_to
 
-    # Process the version data to determine the correct gültig bis (valid_to)
     overview_entries = []
     first_config = configurations[0]
     first_config_valid_from = first_config["validFrom"]
@@ -141,49 +191,45 @@ def generate_transition_overview(configurations, output_file):
         valid_from = dates["valid_from"] if dates["valid_from"] != first_config_valid_from else "-"
         valid_to = dates["valid_to"]
 
-        # If the version appears in the last configuration without a validTo, set gültig bis to "-"
-        if valid_to is None and valid_from == last_config_valid_from:
+        # If appears in last config without validTo, set "-" (open-ended)
+        if valid_to is None and dates["valid_from"] == last_config_valid_from:
             valid_to = "-"
 
-        # Format the dates
+        # Compute "in PU einstellbar bis"
+        in_pu_until = compute_in_pu_einstellbar_bis(
+            package_name,
+            valid_to if valid_to not in (None, "-") else None
+        )
+
+        # Format dates for table
         valid_from_formatted = (
             "-" if valid_from in [None, "-"] else datetime.strptime(valid_from, "%Y-%m-%d").strftime("%d.%m.%Y")
         )
-        
         valid_to_formatted = (
             "-" if valid_to in [None, "-"] else datetime.strptime(valid_to, "%Y-%m-%d").strftime("%d.%m.%Y")
         )
 
-        # Add the entry
         overview_entries.append({
             "package": package_name,
             "version": version,
             "valid_from": valid_from_formatted,
             "valid_to": valid_to_formatted,
+            "in_pu_bis": in_pu_until,
         })
 
-    # Sort the entries by package name and version
     overview_entries.sort(key=lambda e: (e["package"], e["version"]))
 
-    # Write the transition overview table to the output file
     with open(output_file, "w", encoding="utf-8") as adoc_file:
-
-        # Write the table header
-        adoc_file.write('[cols="h,a,a,a"]\n')
+        # Table header (added column)
+        adoc_file.write('[cols="h,a,a,a,a"]\n')
         adoc_file.write("|===\n")
-        adoc_file.write("|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis*\n\n")
+        adoc_file.write("|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis* |*in PU einstellbar bis*\n\n")
 
-        # Write the table rows
         for entry in overview_entries:
-            package_name = entry["package"]
-            version = entry["version"]
-            valid_from = entry["valid_from"]
-            valid_to = entry["valid_to"]
+            adoc_file.write(
+                f"|{entry['package']} |{entry['version']} |{entry['valid_from']} |{entry['valid_to']} |{entry['in_pu_bis']}\n"
+            )
 
-            # Write the row
-            adoc_file.write(f"|{package_name} |{version} |{valid_from} |{valid_to}\n")
-
-        # Close the table
         adoc_file.write("|===\n")
 
     print(f"Generated transition overview table: {output_file}")
