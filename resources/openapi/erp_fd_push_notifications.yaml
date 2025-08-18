@@ -1,0 +1,293 @@
+# Copyright 2025 Gematik GmbH
+#
+# Based on the OpenAPI specification of the Matrix Client-Server API https://github.com/matrix-org/matrix-spec
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+openapi: 3.0.3
+info:
+  title: E-Rezept-Fachdienst API for Push Notifications
+  version: 1.0.0-RC1
+  description: API Endpoints for managing pushers, the channel configuration and retrieving previously sent notifications.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+paths:
+  /pushers:
+    get:
+      summary: Gets the current pushers
+      description: Gets all currently active pushers for the authenticated user.
+      operationId: getPushers
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+      responses:
+        "200":
+          description: The pushers for this user.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_get.yaml#/schema"
+              examples:
+                response:
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
+        "400":          
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
+      tags:
+        - Setup
+  /pushers/set:
+    post:
+      summary: Modify a pusher
+      description: |-
+        This endpoint allows the creation, modification and deletion of [pushers](/client-server-api/#push-notifications)
+        for the authenticated user. The behaviour of this endpoint varies depending on the
+        values in the JSON body.
+
+        If `kind` is not `null`, the pusher with this `app_id` and `pushkey`
+        for this user is updated, or it is created if it doesn't exist. If
+        `kind` is `null`, the pusher with this `app_id` and `pushkey` for this
+        user is deleted.
+      operationId: postPusher
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/schema"
+            examples:
+              registration:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration"
+              deletion:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion"
+        description: The pusher information.
+        required: true
+      responses:
+        "200":
+          description: The pusher was set.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: An empty object.
+              examples:
+                response:
+                  value: {}
+        "400":
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
+      tags:
+        - Setup
+  /channels/{pushkey}:
+    get:
+      summary: Gets channels for a specific device
+      description: |-
+        Gets all channels and their configuration state of the authenticated user's device identified by the
+        `pushkey`.
+      operationId: getChannelsOfDevice
+      x-allowed-requester:
+          - "FdV"          
+      parameters:
+        - name: pushkey
+          in: path
+          required: true
+          description: The pushkey of the device.
+          schema:
+            type: string
+          example: "1234567890"
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+      responses:
+        "200":
+          description: The channels for this user.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/schema"
+              examples:
+                response:
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+        "400":
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
+      tags:
+        - Channel
+    post:
+      summary: Modify the channels for a specific device
+      description: |-
+        This endpoint allows the creation, modification and deletion of channel subscriptions
+        for a specific device identified by `pushkey` of the authenticated user. If a channel is not present in the POST
+        request, the state of the channel on the server is not changed.
+        An unset channel is treated as disabled and thus no pushes will be triggerd that correspond
+        to the channel.
+      operationId: postChannelsOfDevice
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - name: pushkey
+          in: path
+          required: true
+          description: The pushkey of the device.
+          schema:
+            type: string
+          example: "1234567890"
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/schema"
+            examples:
+              update:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/examples/update"
+        description: The channel information.
+        required: true
+      responses:
+        "200":
+          description: The channel was set.
+          content:
+            application/json:
+              schema:
+                type: object
+                description: An empty object.
+              examples:
+                response:
+                  value: {}
+        "400":
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
+      tags:
+        - Channel
+  /channels:
+    get:
+      summary: Gets the available channels
+      description: Gets all available channels for the authenticated user.
+      operationId: getChannels
+      x-allowed-requester:
+          - "FdV"
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+          description: ACCESS_TOKEN, ausgestellt vom IDP
+      responses:
+        "200":
+          description: The channels for this user.
+          content:
+            application/json:
+              schema:
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/schema"
+              examples:
+                response:
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+        "400":
+          $ref: "#/components/responses/ErrorResponse400"
+        "401":
+          $ref: "#/components/responses/ErrorResponse401"
+        "403":
+          $ref: "#/components/responses/ErrorResponse403"
+        "406":
+          $ref: "#/components/responses/ErrorResponse406"
+        "408":
+          $ref: "#/components/responses/ErrorResponse408"
+        "429":
+          $ref: "#/components/responses/ErrorResponse429"
+      tags:
+        - Channel
+servers:
+  - url: https://erp.zentral.erp.splitdns.ti-dienste.de
+    description: E-Rezept-Fachdienst TI-Schnittstelle
+  - url: https://erp.app.ti-dienste.de
+    description: E-Rezept-Fachdienst Internet-Schnittstelle
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    ErrorResponse400:
+      description: Ungültiger http-Request.
+    ErrorResponse401:
+      description: Ungültiges/Abgelaufenes AccessToken.
+    ErrorResponse403:
+      description: Unzulässige fachliche Rolle.
+    ErrorResponse406:
+      description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
+    ErrorResponse408:
+      description: Timeout.
+    ErrorResponse429:
+      description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+security:
+  - bearerAuth: []

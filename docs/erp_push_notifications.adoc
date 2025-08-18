@@ -1,0 +1,403 @@
+= E-Rezept API Dokumentation zur Push Notifications
+image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:date-folder: 2025-10-01
+:toclevels: 2
+
+Zielgruppe: image:{fdv}[] image:{eRp}[]
+
+Intro
+
+toc::[]
+
+== Setup der Push Notifications
+
+=== Pusher Verwaltung
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body für registration (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "lang": "en",
+  "kind": "http",
+  "app_display_name": "Mat Rix",
+  "device_display_name": "iPhone 9",
+  "app_id": "com.example.app.ios",
+  "pushkey": "<APNS/GCM TOKEN>",
+  "data": {
+    "url": "https://push-gateway.location.here/_matrix/push/v1/notify"
+  },
+  "encryption": {
+    "method": "aes-hmac-sha256",
+    "time_iss_created": "2023-10",
+    "iss": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "key_identifier": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+  },
+  "append": false
+}
+----
+====
+.Request Body für deletion (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "app_id": "com.example.app.ios",
+  "pushkey": "<APNS/GCM TOKEN>",
+  "kind": null
+}
+----
+====
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pusher was set.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Liste der Pusher
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "pushers": [
+    {
+      "pushkey": "Xp/MzCt8/9DcSNE9cuiaoT5Ac55job3TdLSSmtmYl4A=",
+      "kind": "http",
+      "app_id": "face.mcapp.appy.prod",
+      "app_display_name": "Appy McAppface",
+      "device_display_name": "Alice's Phone",
+      "profile_tag": "xyz",
+      "lang": "en-US",
+      "data": {
+        "url": "https://example.com/_matrix/push/v1/notify"
+      }
+    }
+  ]
+}
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pushers for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+== Channel Verwaltung
+=== Verfügbare Channels
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "id": "channel1",
+      "status": "enabled"
+    },
+    {
+      "id": "channel2",
+      "status": "disabled"
+    }
+  ]
+}
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channels for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Channel Konfiguration für Pusher
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "id": "channel1",
+      "status": "enabled"
+    },
+    {
+      "id": "channel2",
+      "status": "disabled"
+    }
+  ]
+}
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channels for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Channel Konfiguration Verwaltung
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload    ¦
+.Request Body für update (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "name": "channel1",
+      "value": "enabled"
+    },
+    {
+      "name": "channel2",
+      "value": "disabled"
+    }
+  ]
+}
+----
+====
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+No response body.
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channel was set.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
