@@ -1,5 +1,9 @@
+
 import os
 import yaml
+import json
+import requests
+from urllib.parse import urlparse
 
 def get_list(value):
     if isinstance(value, list):
@@ -8,6 +12,116 @@ def get_list(value):
         return [value]
     else:
         return []
+
+def download_and_extract_examples(example_ref, example_name, examples_dir):
+    """
+    Download external reference file and extract specific example to separate file
+    Returns the path to the extracted example file
+    """
+    try:
+        # Download the external file
+        response = requests.get(example_ref.split('#')[0])
+        response.raise_for_status()
+        
+        # Parse the YAML/JSON content
+        if example_ref.split('#')[0].endswith('.yaml') or example_ref.split('#')[0].endswith('.yml'):
+            data = yaml.safe_load(response.text)
+        else:
+            data = json.loads(response.text)
+        
+        # Extract the specific example using JSON pointer
+        if '#/' in example_ref:
+            json_pointer = example_ref.split('#/', 1)[1]
+            pointer_parts = json_pointer.split('/')
+            
+            # Navigate through the JSON pointer
+            current_data = data
+            for part in pointer_parts:
+                if part in current_data:
+                    current_data = current_data[part]
+                else:
+                    print(f"Warning: Could not find {part} in {example_ref}")
+                    return None
+            
+            # Create filename for the extracted example
+            base_url = example_ref.split('#')[0]
+            original_filename = os.path.basename(urlparse(base_url).path)
+            name_without_ext = os.path.splitext(original_filename)[0]
+            
+            if example_name:
+                example_filename = f"{name_without_ext}_{example_name}_example.json"
+            else:
+                example_filename = f"{name_without_ext}_example.json"
+            
+            example_file_path = os.path.join(examples_dir, example_filename)
+            
+            # Ensure examples directory exists
+            os.makedirs(examples_dir, exist_ok=True)
+            
+            # Write the extracted example to file
+            with open(example_file_path, 'w', encoding='utf-8') as f:
+                if 'value' in current_data:
+                    # If the example has a 'value' field, use that
+                    json.dump(current_data['value'], f, indent=2, ensure_ascii=False)
+                else:
+                    # Otherwise use the data as-is
+                    json.dump(current_data, f, indent=2, ensure_ascii=False)
+            
+            return example_file_path
+        else:
+            # No JSON pointer, use the whole file
+            original_filename = os.path.basename(urlparse(example_ref).path)
+            example_file_path = os.path.join(examples_dir, original_filename)
+            
+            os.makedirs(examples_dir, exist_ok=True)
+            
+            with open(example_file_path, 'w', encoding='utf-8') as f:
+                f.write(response.text)
+            
+            return example_file_path
+            
+    except Exception as e:
+        print(f"Error downloading/extracting example from {example_ref}: {e}")
+        return None
+
+def resolve_ref(ref_path, data):
+    """
+    Resolve a JSON reference like "#/components/responses/ErrorResponse400"
+    Returns the resolved object or None if not found
+    """
+    if not ref_path.startswith('#/'):
+        return None
+    
+    # Remove the '#/' prefix and split the path
+    path_parts = ref_path[2:].split('/')
+    
+    # Navigate through the data structure
+    current = data
+    for part in path_parts:
+        if isinstance(current, dict) and part in current:
+            current = current[part]
+        else:
+            print(f"Warning: Could not resolve reference {ref_path}")
+            return None
+    
+    return current
+
+def get_response_description(response, data):
+    """
+    Get the description from a response, resolving $ref if necessary
+    """
+    # First check if there's a direct description
+    if 'description' in response:
+        return response['description']
+    
+    # If there's a $ref, resolve it
+    if '$ref' in response:
+        resolved = resolve_ref(response['$ref'], data)
+        if resolved and 'description' in resolved:
+            return resolved['description']
+    
+    # Fallback to empty string
+    return ''
 
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -27,6 +141,7 @@ for filename in os.listdir(INPUT_FOLDER):
 
         base_name = os.path.splitext(filename)[0]
         dir_path = os.path.join(OUTPUT_FOLDER, base_name)
+        examples_dir = os.path.join(dir_path, 'examples')  # New examples subdirectory
         os.makedirs(dir_path, exist_ok=True)
 
         # Get the list of servers
@@ -130,7 +245,7 @@ for filename in os.listdir(INPUT_FOLDER):
                         param_description = param.get('description', '')
                         query_parameters.append(f"{name}: {param_description}{required}")
 
-                # Extract request body examples
+                # Modified: Extract request body examples with separate files
                 request_body_examples = []
                 if 'content' in request_body:
                     for mime_type, content_details in request_body['content'].items():
@@ -138,21 +253,39 @@ for filename in os.listdir(INPUT_FOLDER):
                             examples = content_details['examples']
                             for example_name, example_details in examples.items():
                                 example_ref = example_details.get('$ref', '')
-                                request_body_examples.append((example_name, example_ref))
+                                if example_ref:
+                                    # Download and extract to separate file
+                                    extracted_file = download_and_extract_examples(
+                                        example_ref, example_name, examples_dir
+                                    )
+                                    if extracted_file:
+                                        # Make path relative to the adoc file
+                                        relative_path = os.path.relpath(extracted_file, dir_path)
+                                        request_body_examples.append((example_name, relative_path))
                         elif 'example' in content_details:
                             example = content_details['example']
                             if isinstance(example, dict) and '$ref' in example:
-                                request_body_examples.append((None, example['$ref']))
+                                extracted_file = download_and_extract_examples(
+                                    example['$ref'], None, examples_dir
+                                )
+                                if extracted_file:
+                                    relative_path = os.path.relpath(extracted_file, dir_path)
+                                    request_body_examples.append((None, relative_path))
                             elif '$ref' in content_details:
-                                request_body_examples.append((None, content_details['$ref']))
+                                extracted_file = download_and_extract_examples(
+                                    content_details['$ref'], None, examples_dir
+                                )
+                                if extracted_file:
+                                    relative_path = os.path.relpath(extracted_file, dir_path)
+                                    request_body_examples.append((None, relative_path))
 
-                # Process responses
+                # Modified: Process responses with separate example files
                 response_codes = []
                 responses_examples = {}  # Dictionary to hold response examples per status code
                 responses_headers = {}   # Dictionary to hold response headers per status code
                 response_fhir_profiles = {}  # Dictionary to hold x-fhir-profile per status code
                 for code, response in responses.items():
-                    resp_description = response.get('description', '')
+                    resp_description = get_response_description(response, data)
                     resp_type = ''
                     # Determine type based on code
                     if code.startswith('2'):
@@ -193,20 +326,36 @@ for filename in os.listdir(INPUT_FOLDER):
                         header_list.append(header_value)
                     responses_headers[code] = header_list
 
-                    # Extract response examples
+                    # Extract response examples with separate files
                     if 'content' in response:
                         for mime_type, content_details in response['content'].items():
                             if 'examples' in content_details:
                                 examples = content_details['examples']
                                 for example_name, example_details in examples.items():
                                     example_ref = example_details.get('$ref', '')
-                                    responses_examples.setdefault(code, []).append((example_name, example_ref))
+                                    if example_ref:
+                                        extracted_file = download_and_extract_examples(
+                                            example_ref, example_name, examples_dir
+                                        )
+                                        if extracted_file:
+                                            relative_path = os.path.relpath(extracted_file, dir_path)
+                                            responses_examples.setdefault(code, []).append((example_name, relative_path))
                             elif 'example' in content_details:
                                 example = content_details['example']
                                 if isinstance(example, dict) and '$ref' in example:
-                                    responses_examples.setdefault(code, []).append((None, example['$ref']))
+                                    extracted_file = download_and_extract_examples(
+                                        example['$ref'], None, examples_dir
+                                    )
+                                    if extracted_file:
+                                        relative_path = os.path.relpath(extracted_file, dir_path)
+                                        responses_examples.setdefault(code, []).append((None, relative_path))
                                 elif '$ref' in content_details:
-                                    responses_examples.setdefault(code, []).append((None, content_details['$ref']))
+                                    extracted_file = download_and_extract_examples(
+                                        content_details['$ref'], None, examples_dir
+                                    )
+                                    if extracted_file:
+                                        relative_path = os.path.relpath(extracted_file, dir_path)
+                                        responses_examples.setdefault(code, []).append((None, relative_path))
 
                 ### Generate Request File ###
                 with open(output_file_request, 'w', encoding='utf-8') as adoc_file:

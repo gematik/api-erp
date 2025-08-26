@@ -77,44 +77,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-{
-  "resourceType": "Communication",
-  "id": "erp-communication-05-request-RezeptZuweisen",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
-    ]
-  },
-  "status": "unknown",
-  "extension": [
-    {
-      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-      "valueCoding": {
-        "code": "160",
-        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-      }
-    }
-  ],
-  "recipient": [
-    {
-      "identifier": {
-        "system": "https://gematik.de/fhir/sid/telematik-id",
-        "value": "3-2-APO-XanthippeVeilchenblau01"
-      }
-    }
-  ],
-  "basedOn": [
-    {
-      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-    }
-  ],
-  "payload": [
-    {
-      "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"onPremise\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"phone\": \"004916094858168\" }"
-    }
-  ]
-}
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/05_request_RezeptZuweisen.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -127,51 +90,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-{
-  "resourceType": "Communication",
-  "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c73",
-  "meta": {
-    "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
-    ]
-  },
-  "status": "unknown",
-  "extension": [
-    {
-      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-      "valueCoding": {
-        "code": "160",
-        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-      }
-    }
-  ],
-  "recipient": [
-    {
-      "identifier": {
-        "system": "https://gematik.de/fhir/sid/telematik-id",
-        "value": "3-2-APO-XanthippeVeilchenblau01"
-      }
-    }
-  ],
-  "sender": {
-    "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "X123456789"
-    }
-  },
-  "sent": "2025-10-01T15:29:00.434+00:00",
-  "basedOn": [
-    {
-      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-    }
-  ],
-  "payload": [
-    {
-      "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"onPremise\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"phone\": \"004916094858168\" }"
-    }
-  ]
-}
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/06_response_RezeptZuweisen.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
@@ -234,25 +153,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-<Communication xmlns="http://hl7.org/fhir">
-    <id value="erp-communication-03-request-PostPharmacyToPatient"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
-    </meta>
-    <basedOn>
-        <reference value="Task/160.000.000.000.000.01"/>
-    </basedOn>
-    <status value="unknown"/>
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </recipient>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;info_text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickUpCodeHR&quot;: &quot;12341234&quot;, &quot;pickUpCodeDMC&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;}"/>
-    </payload>
-</Communication>
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/03_request_PostPharmacyToPatient.xml[]
 ----
 NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
@@ -270,32 +171,7 @@ Location:
 
 [source,xml]
 ----
-<Communication xmlns="http://hl7.org/fhir">
-    <id value="erp-communication-04-response-PostPharmacyToPatient"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
-    </meta>
-    <basedOn>
-        <reference value="Task/160.000.000.000.000.01"/>
-    </basedOn>
-    <status value="unknown"/>
-    <sent value="2025-10-01T15:29:00.434+00:00"/>
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </recipient>
-    <sender>
-        <identifier>
-            <system value="https://gematik.de/fhir/sid/telematik-id"/>
-            <value value="3-2-APO-XanthippeVeilchenblau01"/>
-        </identifier>
-    </sender>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1,&quot;supplyOptionsType&quot;: &quot;onPremise&quot;,&quot;info_text&quot;: &quot;Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten.&quot;,&quot;url&quot;: &quot;https://sonnenschein-apotheke.de&quot;}"/>
-    </payload>
-</Communication>
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/04_response_PostPharmacyToPatient.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
@@ -370,68 +246,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-{
-  "resourceType": "Bundle",
-  "id": "erp-communication-07-response-GetMessages",
-  "type": "searchset",
-  "total": 1,
-  "link": [
-    {
-      "relation": "self",
-      "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?received=NULL"
-    }
-  ],
-  "entry": [
-    {
-      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/cd4958ad-da92-453c-aef1-f3e02a4c6c73",
-      "resource": {
-        "resourceType": "Communication",
-        "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c73",
-        "meta": {
-          "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
-          ]
-        },
-        "status": "unknown",
-        "extension": [
-          {
-            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
-            "valueCoding": {
-              "code": "160",
-              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
-              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
-            }
-          }
-        ],
-        "recipient": [
-          {
-            "identifier": {
-              "system": "https://gematik.de/fhir/sid/telematik-id",
-              "value": "3-2-APO-XanthippeVeilchenblau01"
-            }
-          }
-        ],
-        "sender": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
-          }
-        },
-        "sent": "2025-10-01T15:29:00.434+00:00",
-        "basedOn": [
-          {
-            "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-          }
-        ],
-        "payload": [
-          {
-            "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"onPremise\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"phone\": \"004916094858168\" }"
-          }
-        ]
-      }
-    }
-  ]
-}
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/07_response_GetMessages.json[]
 ----
 NOTE: Die abgerufene Nachricht enthält kein Element `received`, da die Nachricht erstmalig vom E-Rezept-Fachdienst abgerufen wurde. Dieses Attribut `received` wurde beim Abruf durch den Fachdienst auf dessen aktuelle Systemzeit in `"sent": "2020-03-12T18:01:10+00:00"` aktualisiert, sodass ein erneuter Aufruf mit dem Filter `?received=NULL` kein Ergebnis liefert, da keine neuen  bzw. ungelesenen Nachrichten vorhanden sind.
 
@@ -496,56 +311,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-<Bundle xmlns="http://hl7.org/fhir">
-    <id value="erp-communication-08-response-GetAllMessages"/>
-    <type value="searchset"/>
-    <total value="1"/>
-    <link>
-        <relation value="self"/>
-        <url value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication?_sort=sent&amp;_count=50&amp;sent=gt2025-01-14"/>
-    </link>
-    <entry>
-        <fullUrl value="https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/a3384a5a-4180-4be5-b6e4-df80a88554dd"/>
-        <resource>
-            <Communication>
-                <id value="a3384a5a-4180-4be5-b6e4-df80a88554dd"/>
-                <meta>
-                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"/>
-                </meta>
-                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
-                    <valueCoding>
-                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
-                        <code value="160"/>
-                        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
-                    </valueCoding>
-                </extension>
-                <basedOn>
-                    <reference value="Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
-                </basedOn>
-                <status value="unknown"/>
-                <sent value="2025-10-01T15:29:00.434+00:00"/>
-                <recipient>
-                    <identifier>
-                        <system value="https://gematik.de/fhir/sid/telematik-id"/>
-                        <value value="3-2-APO-XanthippeVeilchenblau01"/>
-                    </identifier>
-                </recipient>
-                <sender>
-                    <identifier>
-                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
-                        <value value="X123456789"/>
-                    </identifier>
-                </sender>
-                <payload>
-                    <contentString value="{ &quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;name&quot;: &quot;Dr. Maximilian von Muster&quot;, &quot;address&quot;: [ &quot;wohnhaft bei Emilia Fischer&quot;, &quot;Bundesallee 312&quot;, &quot;123. OG&quot;, &quot;12345 Berlin&quot; ], &quot;phone&quot;: &quot;004916094858168&quot; }"/>
-                </payload>
-            </Communication>
-        </resource>
-        <search>
-            <mode value="match"/>
-        </search>
-    </entry>
-</Bundle>
+Unresolved directive in erp_communication-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_communication/08_response_GetAllMessages.xml[]
 
 ----
 NOTE: `<total value="391"/>` gibt Auskunft über die Anzahl der Ergebnis-Einträge.
