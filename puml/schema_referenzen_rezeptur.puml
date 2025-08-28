@@ -1,0 +1,25 @@
+@startuml "schema_referenzen_rezeptur"
+class RezepturMedication {
+  + extension[type]: Extemporaneous preparation (product)
+  + ingredient 1..*:
+  .. itemReference = #EPAMedicationPZNIngredient1
+  .. itemReference = #EPAMedicationPZNIngredient2
+  .. itemReference = #EPAMedicationPZNIngredient3
+  + contained: []
+}
+
+class EPAMedicationPZNIngredient1 {
+  + id = EPAMedicationPZNIngredient1
+}
+class EPAMedicationPZNIngredient2 {
+  + id = EPAMedicationPZNIngredient2
+}
+class EPAMedicationPZNIngredient3 {
+  + id = EPAMedicationPZNIngredient3
+}
+
+
+RezepturMedication -- EPAMedicationPZNIngredient1 : contained
+RezepturMedication -- EPAMedicationPZNIngredient2 : contained
+RezepturMedication -- EPAMedicationPZNIngredient3 : contained
+@enduml

@@ -1,32 +1,31 @@
 = E-Rezept Hinweise für das Feature "Übermittlung von E-Rezept Daten in die ePA" image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
-Hier dokumentiert die gematik Hinweise, wie E-Rezepte ab dem 15.01.2025 zu beliefern sind. Weiterhin werden Tools uns Hilfestellungen bereitgestellt.
+Hier dokumentiert die gematik Hinweise, wie E-Rezepte zu beliefern und Medication-Ressourcen zu erzeugen sind. Weiterhin werden Tools und Hilfestellungen bereitgestellt.
 
 toc::[]
 
 == Motivation
 
-Ab dem 15.01.2025 verfügt der E-Rezept-Fachdienst über eine Anbindung an das ePA Aktensystem und überträgt Verordnungs- und Abgabedaten, damit diese in der elektronischen Medikationsliste bereitstehen. Der E-Rezept-Fachdienst überträgt hierbei Daten an das Aktensystem in den ePA Profilen link:https://simplifier.net/epa-medication[EPAMedication].
+Der E-Rezept-Fachdienst verfügt über eine Anbindung an das ePA Aktensystem und überträgt Verordnungs- und Abgabedaten, damit diese in der elektronischen Medikationsliste bereitstehen. Der E-Rezept-Fachdienst überträgt hierbei Daten an das Aktensystem in den ePA Profilen link:https://simplifier.net/epa-medication[EPAMedication].
 Da auch in Zukunft die Primärsysteme mit der ePA in diesen Profilen kommunizieren, wurden folgende Workflow-Profile von denen der ePA abgeleitet:
 
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_medicationdispense[GEM_ERP_PR_MedicationDispense]
 * link:https://simplifier.net/erezept-workflow/gem_erp_pr_medication[GEM_ERP_PR_Medication]
 
-Instanzen, die zu diesen Profilen konform sind, sind damit auch für die Kommunikation mit der ePA geeignet. Auf dieser Seite sollen Besonderheiten und Hilfestellungen gegeben werden.
+Instanzen, die zu diesen Profilen konform sind, sind damit auch für die Kommunikation mit der ePA geeignet. Auf dieser Seite sollen Besonderheiten und Hilfestellungen gegeben werden, wie diese zu erzeugen sind.
 
 == Erzeugen des Abgabedatensatzes
 
-Die API für die $close-Operation am E-Rezept-Fachdienst wird verändert. Diese Änderung geschieht in Vorausschau auf die Abgabe von OTCs gegenüber dem ePA-Aktensystem, was die gleiche Struktur erfordern wird.
-Bisher wurde das MedicationDispense Objekt direkt übergeben. Ab dem 15.01.2025 wird bei Verwendung der neuen Profile gefordert, dass die Informationen in einem Parameters Objekt übergeben werden:
+Die API für die $close-Operation am E-Rezept-Fachdienst sieht vor, dass ein Parameters Objekt im Profil link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_closeoperation_input[GEM ERP PR CloseOperation Input] übergeben wird. Dieses Parameters Profil enthält für jede Abgabe ein Tupel aus MedicationDispense und Medication. Es kann auch die Abgabe von mehreren Arzneimitteln für eine Verordnung in diesem Profil dokumentiert werden. Hierzu müssen für jede Abgabe eigene Tupel von MedicationDispense und Medication angegeben werden.
+
+Schematisch sieht das wie folgt aus:
 
 image:parameters-schematics.png[width=50%]
 
-Die Medication ist damit nicht mehr in der MedicationDispense eingebettet, sondern wird als eigenes Objekt übergeben und von der MedicationDispense referenziert.
+Im folgenden ein konkretes Beispiel für die Übermittlung von Dispensierinformationen:
 
-Im folgenden ein Beispiel für die Übermittlung eines Abgabedatensatzes mit den neuen Profilen:
-
-.Beispiel für eine Abgabe mit Parameters (Klicken zum Ausklappen)
+.Beispiel für eine Abgabe mit GEM ERP PR CloseOperation Input (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,xml]
@@ -36,35 +35,41 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api
 ====
 
 Bei einer Mehrfachabgabe werden die Medication und MedicationDispense Objekte alle im Parameters Objekt übergeben.
+
 .Beispiel für eine Mehrfachabgabe mit Parameters (Klicken zum Ausklappen)
 [%collapsible]
 ====
 
 Schematische Darstellung der Struktur:
+
 image:parameters-schematics-multiple.png[width=50%]
+
 [source,xml]
 ----
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_eml-epa-notes/02_Parameters-ExampleDispenseInputParametersMultipleMedicationDispenses.xml[]
 ----
+
 ====
 
-=== Erzeugen von Freitext-, PZN- und Wirkstoff-Medications
+== Erzeugen von Medication-Ressourcen
 
-Neu ab dem 15.01.2025 ist, dass abgebende Systeme statt einer Medication die der KBV-Profile entspricht, eine Medication verwenden, die dem GEM_ERP_PR_Medication Profil entspricht. Dieses Profil wurde von link:https://simplifier.net/epa-medication/epamedication[EPAMedication] abgeleitet und ist damit auch für die Kommunikation mit der ePA geeignet.
+Zur Angabe der pharmazeutischen Informationen wird die link:http://hl7.org/fhir/R4/medication.html[FHIR-Ressource Medication] verwendet. Im Folgenden wird beschrieben, wie einzelne Arzneimitteltypen in FHIR abgebildet werden.
 
-Für das Erzeugen von Freitext-, PZN- und Wirkstoff-Medications können die KBV-Profile auf das neue Profil gemappt werden. Hierzu gibt es eine Mappingtabelle, die aufzeigt welche Werte aus den KBV-Profilen in das neue Profil übernommen werden können und an welche Stelle sie zu setzen sind: link:https://gematik.github.io/api-erp/erp_epa_mapping_details/KBV_PR_ERP_Medication_Compounding%7C1.1.0_KBV_PR_ERP_Medication_FreeText%7C1.1.0_KBV_PR_ERP_Medication_Ingredient%7C1.1.0_KBV_PR_ERP_Medication_PZN%7C1.1.0_to_EPAMedication%7C1.1.0.html[Mappingtabelle für Medications].
+=== Erzeugen von Freitext-, PZN- und Wirkstoff-Medication-Ressourcen
+
+In den Dispensierinformationen sind pharmazeutische Angaben zum Arzneimittel zu tätigen. Diese werden im Profil GEM_ERP_PR_Medication angegeben. Dieses Profil wurde von link:https://simplifier.net/epa-medication/epamedication[EPAMedication] abgeleitet und ist damit auch für die Kommunikation mit der ePA geeignet.
+
+Die Verordnung enthält die pharmazeutischen Informationen in einem Profil, das von der KBV definiert wurde link:https://simplifier.net/erezept/~resources?category=Profile&corebasetype=Medication&sortBy=LastUpdateDate_desc[KBV_PR_ERP_Medication_*]. Zur Unterstützung der Transformation der Daten gibt es eine Mappingtabelle, die aufzeigt, welche Werte aus den KBV-Profilen in das Workflow-Profil übernommen werden können und an welche Stelle sie zu setzen sind: link:https://gematik.github.io/api-erp/erp_epa_mapping_details/KBV_PR_ERP_Medication_Compounding%7C1.1.0_KBV_PR_ERP_Medication_FreeText%7C1.1.0_KBV_PR_ERP_Medication_Ingredient%7C1.1.0_KBV_PR_ERP_Medication_PZN%7C1.1.0_to_EPAMedication%7C1.1.0.html[Mappingtabelle für Medication-Ressourcen].
 
 Jede Stelle aus den Profilen KBV_PR_ERP_Medication_FreeText, KBV_PR_ERP_Medication_Ingredient und KBV_PR_ERP_Medication_PZN kann in das neue Profil GEM_ERP_PR_Medication gemappt werden. Andernfalls wird ein Hinweis angegeben, dass der entsprechende Wert nicht übernommen wird.
 
-=== Erzeugen von Medications für Rezepturen und Kombipackungen
+=== Erzeugen von Medication-Ressourcen für Rezepturen und Kombipackungen
 
-Die Darstellung von Rezepturen und Kombipackungen in der ePA unterscheidet sich zum Profil KBV_PR_ERP_Medication_Compounding.
+Die Darstellung von Rezepturen und Kombipackungen in der ePA unterscheidet sich zu denen in den KBV-Profilen. Das grundlegende Konzept sieht vor, dass es jeweils _eine_ Medication gibt, die das Arzneimittel beschreibt. Bestandteile einer Rezeptur oder Kombipackung können auch in eigenen Medication Ressourcen abgebildet werden. Diese werden als Kind-Medications unter .contained in der Eltern-Medication eingehangen.
 
-In KBV_PR_ERP_Medication_Compounding sind die Bestandteile einer Rezeptur in _einer_ Medication als PZN Codes unter .ingredient aufzulisten. Die anzugebenen Bestandteile können vom Arzt bzw. Apotheker ausgewählt werden.
+image:puml_rezeptur_schema.png[]
 
-Für die Abgabe von Rezepturen hat das technisch u.A. den Nachteil, dass nicht für jeden PZN-Bestandteil der Rezeptur eine Angabe zur Chargeninformation angegeben werden kann.
-
-Die ePA bietet folgende Profile mit Besonderheiten:
+Zur Abgabe ggü. dem E-Rezept-Fachdienst und als Abbildung in der ePA stehen die folgenden Profile mit den jeweiligen Besonderheiten zur Verfügung:
 
 [cols="1,2"]
 |===
@@ -74,11 +79,12 @@ Die ePA bietet folgende Profile mit Besonderheiten:
 * Generisches Medication Profil
 * GEM_ERP_PR_Medication ist hiervon abgeleitet
 * Kann Kindelemente als .contained enthalten
-|link:https://simplifier.net/epa-medication/epamedicationpzningredient[EPA Medication Ingredient] a|
+|link:https://gemspec.gematik.de/ig/fhir/epa-medication/1.1.5/StructureDefinition-epa-medication-pzn-ingredient.html[EPA Medication PZN Ingredient] a|
 * Medication zur Angabe eines Bestandteils einer Rezeptur
 * Kann keine weiteren Medications unter .ingredient.itemReference enthalten
-|link:https://simplifier.net/epa-medication/epamedicationpharmaceuticalproduct[EPA Pharmaceutical Product Medication] a|
-* Medication zur Angabe eines pharmazeutischen Produkts
+|link:https://gemspec.gematik.de/ig/fhir/epa-medication/1.1.5/StructureDefinition-epa-medication-pharmaceutical-product.html[EPA Pharmaceutical Product Medication] a|
+* Medication zur Angabe eines pharmazeutischen Produkts (Bestandteil einer Kombipackung)
+* Kann keine weiteren Medications unter .ingredient.itemReference enthalten
 
 |===
 
@@ -86,11 +92,11 @@ Die ePA bietet folgende Profile mit Besonderheiten:
 
 Für Rezepturen wird eine übergeordnete EPA Medication erzeugt. Diese Medication enthält unter .extension:type den Wert "Extemporaneous preparation (product)". Damit ist diese Medication als Rezeptur gekennzeichnet.
 
-Für die einzelnen Bestandteile der Rezeptur wird eine EPA Medication Ingredient erzeugt und als .contained hinzugefügt. Die EPA Medication Ingredient Objekte können keine weiteren Medications enthalten, sondern nur die Angaben zu einem Bestandteil einer Rezeptur.
+Für die einzelnen Bestandteile der Rezeptur wird eine EPA Medication PZN Ingredient erzeugt und als .contained hinzugefügt. Die EPA Medication Ingredient Objekte können keine weiteren Medications enthalten, sondern nur die Angaben zu einem Bestandteil einer Rezeptur.
 
-Schematisch stellt sich eine Rezeptur wie folgt dar:
+Schematisch stellt sich eine Rezeptur mit Referenzen dann wie folgt dar:
 
-image:medication-rezeptur-schematics.png[width=50%]
+image:puml_schema_referenzen_rezeptur.png[]
 
 .Beispiel eines Rezeptur FHIR-Datensatzes (Klicken zum Ausklappen)
 [%collapsible]
@@ -103,7 +109,9 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api
 
 ==== Kombipackung
 
-Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredient Profile wird das Profil EPA Medication Pharmaceutical Product für die Angabe der Bestandteile einer Kombipackung genutzt.
+Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredient Profile wird das Profil EPA Medication Pharmaceutical Product für die Angabe der Bestandteile einer Kombipackung genutzt. Eine Angabe unter .extension:type erfolgt nicht. Sondern die Form des Medikaments ist als Kombipackung (#KPG) markiert.
+
+image:puml_schema_referenzen_kombipackung.png[]
 
 .Beispiel eines Kombipackung FHIR-Datensatzes (Klicken zum Ausklappen)
 [%collapsible]
@@ -113,16 +121,6 @@ Das Erzeugen von Kombipackungen geschieht analog zur Rezeptur. Statt der Ingredi
 include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_eml-epa-notes/04_Medication-Medication-Kombipackung.xml[]
 ----
 ====
-
-== Konzept für die Abgabe
-
-Zusammenfassend lässt sich die Abgabe von E-Rezepten ab dem 15.01.2025 mit den Workflow-Profilen der Version 1.4 wie folgt schematisch darstellen:
-
-image:dispense-1.4-schema.png[width=100%]
-
-So lange die Profile der Version 1.3 gültig sind, kann gegenüber den Endpunkten $dispense und $close die Abgabe via MedicationDispense erfolgen.
-Wenn eine Abgabe mit den Profilen der Version 1.4 erfolgt, wird die MedicationDispense und die Medication in einem Parameters Objekt übergeben.
-
 
 == Hinweise für E-Rezept-FdV
 
@@ -144,4 +142,4 @@ Folgende Beispielhafte Responses für den Aufruf GET /MedicationDispense können
 * link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-MultipleMedicationDispenseBundle.json[Bundle mit mehreren MedicationDispense 1.4 und einfacher Medication	]
 * link:https://github.com/gematik/fhir-profiles-erp/blob/master/Resources/fsh-generated/resources/Bundle-SearchSetMultipleMedicationDispenseBundle.json[Bundle mit 2x MedicationDispense 1.4, MedicationDispense 1.3 und MedicationDispense 1.2	]
 
-NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "match" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.
+NOTE: Search Mode gibt an, wie Ressourcen in das Rückgabebundle aufgenommen wurden. Der Aufruf GET /MedicationDispense nimmt an, dass per default _include=MedicationDispense:medication gesetzt ist. Entries mit SearchMode "match" sind also die MedicationDispense Ressourcen, die auf die Suchanfrage zutreffen. Entries mit SearchMode "include" sind die Medication Ressourcen, die von MedicationDispenses referenziert werden.

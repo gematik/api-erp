@@ -1,0 +1,25 @@
+@startuml "schema_referenzen_kombipackung"
+class KombipackungMedication {
+  + form = KPG
+  + ingredient 1..*:
+  .. itemReference = #EPAMedicationPharmaceuticalProduct1
+  .. itemReference = #EPAMedicationPharmaceuticalProduct2
+  .. itemReference = #EPAMedicationPharmaceuticalProduct3
+  + contained: []
+}
+
+class EPAMedicationPharmaceuticalProduct1 {
+  + id = EPAMedicationPharmaceuticalProduct1
+}
+class EPAMedicationPharmaceuticalProduct2 {
+  + id = EPAMedicationPharmaceuticalProduct2
+}
+class EPAMedicationPharmaceuticalProduct3 {
+  + id = EPAMedicationPharmaceuticalProduct3
+}
+
+
+KombipackungMedication -- EPAMedicationPharmaceuticalProduct1 : contained
+KombipackungMedication -- EPAMedicationPharmaceuticalProduct2 : contained
+KombipackungMedication -- EPAMedicationPharmaceuticalProduct3 : contained
+@enduml
