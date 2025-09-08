@@ -1,0 +1,12 @@
+@startuml "rezeptur_schema"
+class Medication {
+  + type: Code
+  + .contained : Kind-Medication
+}
+
+class "Kind-Medication" as KindMedication {
+  + PZN des Rezepturbestandteils
+}
+
+Medication "1" *-- "*" KindMedication : enthält
+@enduml
