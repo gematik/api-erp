@@ -45,6 +45,10 @@ def compute_in_pu_einstellbar_bis(package_name, valid_to_str):
 
     name = package_name.lower()
 
+    if name == "kbv.ita.erp":
+        # Ende Gültigkeit + 10 Tage für $create + 10 Tage Löschfrist im Status 'draft'
+        return fmt_date(add_days(valid_to, 10))
+
     if name == "de.gematik.erezept-workflow.r4":
         # Ende Gültigkeit + 3 Monate (≈ 92 Tage) + 100 Tage = 192 Tage (Grenzfall normal)
         return fmt_date(add_days(valid_to, 192))
