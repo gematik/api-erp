@@ -1,0 +1,141 @@
+= E-Rezept FHIR-Package Nachhaltung (Server und Clients) image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+
+Zielgruppe: image:{FdV}[] image:{AVS}[] image:{KTR}[] image:{eRp}[]
+
+Diese Seite erklärt kompakt, wie lange Versionen zentraler FHIR-Packages nach ihrem Gültigkeitsende praktisch noch relevant sind — für den E-Rezept-Fachdienst (Server) und für Clients (z. B. AVS).
+
+Maßgeblich ist: Der Fachdienst benötigt das passende Package nur zum Zeitpunkt der Validierung beim Einstellen/Ändern einer Ressource. Bereits eingestellte Instanzen bleiben danach im Fachdienst gespeichert und können — im Rahmen der jeweiligen Aufbewahrungs-/Löschfristen — weiter abgerufen werden, auch wenn das dazugehörige Package serverseitig nicht mehr aktiv validiert wird. Deshalb können Clients Instanzen länger konsumieren, als der Server aktiv „alte“ Package-Versionen zum Validieren vorhält.
+
+== Kernaussagen zur Nachhaltung
+
+Die Tabellen fassen die relevanten Zeiträume und Bezüge zusammen. Der erläuternde Text ordnet ein, warum diese Zeiten gebraucht werden.
+
+=== Nachhalte- und Relevanzzeiträume je Package
+
+Die Tabelle zeigt, wie lange ein Package nach seinem Gültigkeitsende noch auf dem Server unterstützt werden muss (Validieren/Annehmen) und wie lange Clients typischerweise Instanzen daraus noch abrufen/verarbeiten können müssen.
+
+[options="header"]
+|===
+| Package | Rolle | Zeitraum nach Ende der Package-Gültigkeit | Zweck/Begründung
+
+| de.gematik.erezept-workflow.r4 | Server (FD)
+| bis zu 192 Tage
+| Normale Verordnung: Einlösung bis 3 Monate; Task-Löschung nach max. 100 Tagen. Grenzfall: Ende Package-Gültigkeit + 3 Monate + 100 Tage = 192 Tage. In diesem Zeitraum müssen Einstellen/Änderungen (Validierung) mit der alten Package-Version noch möglich sein.
+
+| de.gematik.erezept-workflow.r4 | Clients (AVS/FdV)
+| bis zu 192 Tage
+| Bereits eingestellte Instanzen (Tasks, Dispenses, Communication etc.) können vom FD weiter bereitgestellt und von Clients abgerufen werden, selbst wenn die zugehörige Package-Version serverseitig nicht mehr zum Validieren genutzt wird. Für Abrufe gilt insbesondere: bis maxBelieferung (Grenzfall ≈ 192 Tage); darüber hinaus können nicht löschpflichtige Ressourcen (z. B. bestimmte Audit/Kommunikationsdaten gemäß jeweiligen Fristen) weiterhin abrufbar sein.
+
+| de.abda.eRezeptAbgabedatenPKV | Server (FD)
+| 10 Jahre + 1 Monat
+| Langfristige Abrechnungs-/Korrekturfenster erfordern, dass die alte Package-Version für Validierungen innerhalb dieses Fensters unterstützt wird (Einstellen/Ändern).
+
+| de.abda.eRezeptAbgabedatenPKV | Clients (AVS/FdV)
+| bis „maxAbrechnung“ bzw. Ende PKV-Package + 10 Jahre + 1 Monat
+| Änderungen/Abfragen zum Abrechnungsfall sind über den gesamten Abrechnungszeitraum möglich. Clients können Instanzen (ChargeItem/Abgabedaten) über diesen Zeitraum konsumieren, auch wenn serverseitig neuere Package-Versionen eingeführt wurden.
+|===
+
+Hinweis zu MVO: Bei MVO-Verordnungen ist die Einlöse-/Gültigkeitsdauer bis 365 Tage möglich. Für das Validieren neuer/ändernder Operationen auf dem Server bleibt dennoch die definierte Nachhaltezeit der alten Workflow-Package-Version maßgeblich (typisch 192 Tage für normale Fälle). Für die reine Bereitstellung/den Abruf bereits eingestellter Instanzen gilt hingegen: Solange die Ressource entsprechend ihrer Aufbewahrungs- und Löschfristen vorhanden ist, können Clients sie abrufen — unabhängig davon, ob die alte Package-Version serverseitig noch zum Validieren genutzt wird.
+
+=== Zeitreferenzen zur Package-Bestimmung
+
+Diese Tabelle zeigt, welche Zeit-/Kontextangaben bestimmen, welches Package für Validierung/Verarbeitung herangezogen wird.
+
+[options="header"]
+|===
+| Anwendungsfall | Package | Profil(e) (Beispiele) | Zeitbezug / Trigger
+
+| KBV Verordnung | kbv.ita.erp | KBV_PR_ERP_Prescription | MedicationRequest.authoredOn (Erstellungsdatum der Verordnung; steuert, welche KBV-Version validiert werden muss)
+
+| KBV Verordnung DiGA | kbv.itv.evdga | KBV_PR_EVDGA_HealthAppRequest | DeviceRequest.authoredOn
+
+| Communication | de.gematik.erezept-workflow.r4 | GEM_ERP_PR_Communication_* | Zeitpunkt des API-Aufrufs (POST/GET/DELETE /Communication); für Validierungen zählt der Einstell-/Änderzeitpunkt
+
+| MedicationDispense | de.gematik.erezept-workflow.r4 | GEM_ERP_PR_MedicationDispense | whenHandedOver (künftig max(whenHandedOver)); für Validierungen zählt das Einstellen/Ändern
+
+| PKV ChargeItem/Consent | de.gematik.erezept-patientenrechnung.r4 | GEM_ERPCHRG_PR_* | Zeitpunkt des API-Aufrufs (CRUD auf /ChargeItem, /Consent)
+
+| PKV Abgabedaten | de.abda.eRezeptAbgabedatenPKV | DAV_PKV_PR_ERP_Abgabeinformationen | MedicationDispense.whenHandedOver (zeitliche Zuordnung der Abgabe)
+|===
+
+=== Client-relevante Ableitungen (Abruf, Belieferung, Abrechnung)
+
+Aus Client-Sicht sind zwei Zeitspannen zentral: „maxAbruf“ (wie lange ein Rezept abgerufen werden kann) und „maxBelieferung“ (wie lange Be-/Abgabe und Schließen möglich sind). Zusätzlich gibt es PKV-spezifische Fenster.
+
+[options="header"]
+|===
+| Kontext | Formel/Definition | Typische Ausprägungen | Bedeutung für Clients
+
+| maxAbruf (rX) | abhängig von Workflow/Verordnung | normale Verordnung: bis ca. 3 Monate; MVO: bis 365 Tage | Zeitraum, in dem $accept/Abrufe noch möglich sind (Server validiert beim Aufruf). Liegt eine Instanz bereits vor, kann sie im Rahmen der Aufbewahrung auch später noch gelesen werden.
+
+| maxBelieferung | maxAbruf + 100 Tage | normaler Grenzfall ≈ 192 Tage | Zeitraum, in dem $dispense/$close/Dispense-Abfragen realistisch stattfinden. Nach Löschfristen sind einzelne Ressourcen (z. B. Audit/Kommunikation gemäß deren Regeln) ggf. weiterhin abrufbar.
+
+| PKV: Datenbeistellung | 200-Tage-Fenster | letzte 200 Tage vor Anlegen eines ChargeItems | Welche Abgabedaten bei Erstanlage herangezogen werden.
+
+| PKV: maxAbrechnung | maxBelieferung + 10 Jahre + 1 Monat (alternativ: Ende PKV-Package + 10 Jahre + 1 Monat) | > 10 Jahre | Zeitraum für Änderungen/Abfragen zum Abrechnungsfall (Clients konsumieren Instanzen durchgängig; Server validiert neue/ändernde Operationen mit der relevanten Package-Version).
+|===
+
+== Operative Rahmenbedingungen (Server-Perspektive)
+
+Diese Rahmenbedingungen erklären, warum die Nachhaltezeiten nötig sind und wie sich späte Vorgänge verhalten. Wichtig ist die Unterscheidung: Validierung (Server braucht Package) versus Konsum/Abruf (Clients können vorhandene Instanzen lesen, solange sie gespeichert sind).
+
+=== Task-Löschfristen
+
+[options="header"]
+|===
+| Task.status | Löschfrist (ab Statuswechsel bzw. expiryDate)
+
+| draft | 5 Tage
+| ready | 10 Tage ab Task.expiryDate
+| in-progress | 100 Tage
+| completed | 100 Tage
+| cancelled | 10 Tage
+|===
+
+=== Prüfungen beim Zugriff (Auswahl)
+
+[options="header"]
+|===
+| Operation | Regel | Wirkung
+
+| POST /Task/{id}/$accept | Einlösefrist (expiryDate) überschritten | Abbruch mit 403 (kein Abruf mehr möglich; Validierung beim Aufruf)
+
+| POST /Communication | Pflicht-Referenz basedOn-Task existiert nicht | Abbruch mit 400 (keine nicht-rezeptbezogene Nachricht)
+|===
+
+=== Löschfristen ChargeItems
+
+[options="header"]
+|===
+| Ressource | Löschfrist | Mitbetroffene Daten
+
+| ChargeItem | 1 Monat nach Ablauf von 10 Jahren (ab Erstellung) | E-Rezept-Bundle, Quittungs-Bundle, PKV-Abgabedatensatz werden mit gelöscht
+|===
+
+== Einordnung und Empfehlung
+
+Für Serverbetreiber bedeutet dies: Nach einem Versionswechsel sollte die alte Workflow-Package-Version noch bis zu 192 Tage für Validierungen (Einstellen/Ändern) bereitstehen, damit normale Verordnungen vollständig abgewickelt werden können. Für MVO-Sonderfälle gelten zwar längere fachliche Gültigkeiten, das ändert jedoch nicht die grundlegende Trennung: Der Server benötigt die Package-Version nur bei Operationen, die validiert werden müssen; bereits eingestellte Instanzen können unabhängig davon im Rahmen ihrer Aufbewahrung weiter ausgeliefert werden. Für das PKV-Abgabedaten-Package sollte die Validierung über zehn Jahre plus einen Monat ab Gültigkeitsende möglich bleiben, um den gesamten Abrechnungszeitraum abzudecken.
+
+Für Clients heißt das: Die Relevanz einer abgelösten Package-Version bestimmt sich danach, wie lange Instanzen praktisch noch abgerufen oder im Prozess fortgeführt werden. Für den Workflow sind dies im Grenzfall etwa 192 Tage (maxBelieferung) für operationsgebundene Vorgänge. Darüber hinaus können Clients Instanzen, die auf dem Server verbleiben (z. B. bestimmte Kommunikations- oder Auditdaten), im Rahmen deren Aufbewahrungsfristen weiterhin konsumieren — auch wenn die entsprechende Package-Version serverseitig nicht mehr aktiv zum Validieren genutzt wird. Für PKV-Fälle sollten Clients über den gesamten Abrechnungszeitraum (mehr als zehn Jahre) mit „alten“ Instanzen rechnen und sie unterstützen.
