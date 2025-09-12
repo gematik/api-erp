@@ -19,9 +19,11 @@ Ausschließlich die folgenden (Betriebs-)Krankenkassen können ab dem 15.05.2025
 *	hkk – IK 103170002
 *	DAK – IK 105830016
 *	TK – IK 101575519
-* vivida BKK – IK 107536262 *(neu)*
-* mkk – Meine Krankenkasse - IK 109723913 *(neu)*
-* Barmer - IK 104940005 *(neu)*
+* vivida BKK – IK 107536262
+* mkk – Meine Krankenkasse - IK 109723913
+* Barmer - IK 104940005 
+* IKK Berlin Brandenburg - IK 100602360 *(neu)*
+* BKK Linde - IK 105830517 *(neu)*
 
 Weitere folgen.
 
@@ -126,7 +128,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 HTTP/1.1 201 Created
 Content-Type: application/fhir+xml; charset=UTF-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/01_task_162_create.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/01_task_162_create.xml[]
 ----
 
 NOTE: Der Wert `urn:oid:1.2.276.0.76.4.59` entspricht dem intendierten Institutionstyp, in welchen der Versicherte für die Einlösung des Rezepts gelenkt werden soll (Kostenträger für Workflow `162`).
@@ -165,7 +167,7 @@ Der Datensatz ist analog zum Arzneimittelkontext qualifiziert zu signieren und d
 ====
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/01_evdga_bundle.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/01_evdga_bundle.xml[]
 ----
 ====
 
@@ -209,7 +211,7 @@ HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/02_response_taskGetSingle.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/02_response_taskGetSingle.json[]
 ----
 ====
 
@@ -273,7 +275,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/02_response_fhir_vzd.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/02_response_fhir_vzd.json[]
 ----
 
 NOTE: Im Ergebnis ist die Telematik-ID des Kostenträgers '8-01-0000000232' unter Organization.identifier mit identifier.type == 'PRN' enthalten.
@@ -293,7 +295,7 @@ Ein Beispiel einer Zuweisung an einen Kostenträger:
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/03_communication_zuweisung_diga.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/03_communication_zuweisung_diga.json[]
 ----
 
 === Freischaltcode einsehen
@@ -304,7 +306,7 @@ Unter MedicationDispense.extension:redeemCode.valueString ist der Freischaltcode
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/04_medication_dispense_diga.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/04_medication_dispense_diga.json[]
 ----
 
 == Anwendungsfälle DiGA für Kostenträger
@@ -342,7 +344,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 *Response*
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/05_response_accept.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/05_response_accept.xml[]
 ----
 
 [cols="a,a"]
@@ -408,7 +410,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/06_medication_dispense_diga.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/06_medication_dispense_diga.xml[]
 ----
 
 NOTE: Mit der Übergabe der MedicationDispense signalisiert der Kostenträger den Abschluss des E-Rezept-Workflows. Der Versicherte erhält Informationen zur DiGA und den Freischaltcode.
@@ -491,8 +493,6 @@ NOTE: Die Verwendung des Profils GEM_ERP_PR_Communication_DiGA ist erst mit Eins
 
 NOTE: Wenn das Profil GEM_ERP_PR_Communication_Reply verwendet wird, muss ein JSON in payload.contentString angegeben werden. Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema]. Daher muss im Feld "supplyOptionsType" verpflichtend ein Wert angegeben werden. Als default sollte "delivery" gesetzt werden. FdV's SOLLEN diesen Wert ignorieren. 
 
-WARNING: Nach Aufruf der $close Operation werden alle Communications zu einem Task gelöscht.
-
 *Request*
 [cols="h,a", separator=¦]
 [%autowidth]
@@ -513,7 +513,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/07_communication_to_patient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/07_communication_to_patient.xml[]
 ----
 NOTE: Die vom Kostenträger übermittelte Nachricht ist als Freitext in .payload.contentString abgelegt.
 
@@ -529,7 +529,7 @@ Content-Type: application/fhir+xml;charset=utf-8
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_diga/07_communication_to_patient_response.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_diga/07_communication_to_patient_response.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in `Communication.sent`
 

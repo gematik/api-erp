@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 :toclevels: 2
 
 Zielgruppe: image:{FdV}[] image:{NCPeH}[] image:{eRp}[]
@@ -2106,6 +2105,7 @@ Authorization: Bearer <JWT> (string, required)
                     <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Practitioner|1.0"/>
                 </meta>
                 <identifier>
+                    <system value="http://local-identifier.esp/practitioner-id"/>
                     <value value="1234567890"/>
                 </identifier>
                 <name>
@@ -2125,9 +2125,11 @@ Authorization: Bearer <JWT> (string, required)
                     <profile value="https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_Organization|1.0"/>
                 </meta>
                 <identifier>
+                    <system value="http://local-identifier.esp/pharmacia-id"/>
                     <value value="1234567890"/>
                 </identifier>
                 <identifier>
+                    <system value="http://eu-unified-identifier.eu/pharmacy"/>
                     <value value="136ad69f"/>
                 </identifier>
                 <type>
@@ -2867,7 +2869,7 @@ Content-Type: application/fhir+json (string)
   "link": [
     {
       "relation": "self",
-      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=160.000.000.000.000.01"
+      "url": "https://erp-ref.zentral.erp.splitdns.ti-dienste.de/MedicationDispense?identifier=https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId|160.000.000.000.000.01"
     }
   ],
   "entry": [
@@ -2922,6 +2924,7 @@ Content-Type: application/fhir+json (string)
         },
         "identifier": [
           {
+            "system": "http://local-identifier.esp/practitioner-id",
             "value": "1234567890"
           }
         ],
@@ -2983,9 +2986,11 @@ Content-Type: application/fhir+json (string)
         },
         "identifier": [
           {
+            "system": "http://local-identifier.esp/pharmacia-id",
             "value": "1234567890"
           },
           {
+            "system": "http://eu-unified-identifier.eu/pharmacy",
             "value": "136ad69f"
           }
         ],
@@ -3170,6 +3175,7 @@ Content-Type: application/fhir+json (string)
         },
         "identifier": [
           {
+            "system": "http://local-identifier.esp/practitioner-id",
             "value": "1234567890"
           }
         ],
@@ -3231,9 +3237,11 @@ Content-Type: application/fhir+json (string)
         },
         "identifier": [
           {
+            "system": "http://local-identifier.esp/pharmacia-id",
             "value": "1234567890"
           },
           {
+            "system": "http://eu-unified-identifier.eu/pharmacy",
             "value": "136ad69f"
           }
         ],

@@ -42,7 +42,7 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 Content-Type: application/fhir+xml; charset=UTF-8
 Accept: application/fhir+xml; charset=utf-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
@@ -59,7 +59,7 @@ HTTP/1.1 200 OK
 Content-Length: 510
 Content-Type: application/fhir+xml;charset=utf-8
 
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
 ----
 
 NOTE: In ` <id value="df694c098c2fb373524150461cfd9d23"/>` ist eine eindeutige ID (Pseudonym der Telematik-ID) hinterlegt
@@ -111,7 +111,8 @@ Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw==
 TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird TLS-verschlüsselt an den Subscription-Endpunkt geschickt.
 
 TIP: Je nach eingesetztem Framework lautet die Zieladresse dann `wss://subscription.zentral.erp.splitdns.ti-dienste.de:443` +
-bzw. zum Test in der TI-Referenzumgebung RU = `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443`
+bzw. zum Test in der TI-Referenzumgebung RU `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443` +
+oder für RU-DEV `wss://subscription-dev.zentral.erp.splitdns.ti-dienste.de:443`
 
 |===
 NOTE: In `Authorization:` wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
@@ -169,7 +170,7 @@ Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine n
 == Beispielhafte Implementierung für Primärsysteme
 [source,c++]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/API-Examples/{date-folder}/erp_notification_avs/03_ping_Subscription.cpp[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_notification_avs/03_ping_Subscription.cpp[]
 ----
 
 == => Wichtige Hinweise <=

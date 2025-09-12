@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{AVS}[]
 
@@ -1948,6 +1947,8 @@ s|Code   s|Type Error
 
 == Quittung erneut abrufen
 Als Apotheker kann es erforderlich sein, die Quittung für ein beliefertes E-Rezept erneut abzurufen (z.B. am Monatsende für Abrechnungszwecke, falls das Apothekenverwaltungssystem die Quittung nicht während der Belieferung gespeichert hat). Der Abruf ist möglich, solange das E-Rezept nicht automatisch und auch nicht durch den Versicherten gelöscht wurde.
+
+Die in diesem Aufruf beschriebene Response wird zurückgegeben, wenn der Task den Status `completed` hat. Wenn der Status des Tasks auf `in-progress` gesetzt ist, wird bei diesem Abruf der Task ohne Quittung zurückgegeben.
 
 *Request*
 [cols="h,a"]
