@@ -1,0 +1,729 @@
+= Test driver interface v1.2.1  image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+
+Zielgruppe: image:{FdV}[]
+
+Hier dokumentiert die gematik die Nutzung der Test-FdV-Schnittstelle zum automatisierten Testen von eRezept-FdV-Modul Implementierungen.
+
+toc::[]
+
+Die OpenAPI-Spezifikation für diese Beschreibung ist unter folgendem Link zu finden: link:../resources/openapi/testdriver.yml[OpenAPI-Spezifikation für Test-FdV]
+
+Aktuelle Informationen finden sich hier:
+* Übersicht https://github.com/gematik/ref-erp-fdv-testdriver/tree/main/openapi
+* Url OpenAPI https://github.com/gematik/ref-erp-fdv-testdriver/blob/main/openapi/v1.2.1/ErpTestDriver.yaml
+
+== Allgemeine Informationen
+
+=== Testdriver-Info abrufen
+
+Mit dieser Operation erhält man allgemeine Informationen über das Testdriver-Interface und die Test-FdV.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/info
+¦Method ¦GET
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
+----
+{
+  "detail": "Test-FdV is currently not running"
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Test driver interface is ready for use#
+
+¦400 ¦ Client Error +
+[small]#Error processing the request with the test driver#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+=== Test-FdV starten
+
+Mit dieser Operation kann die Test-FdV gestartet werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/start
+¦Method ¦PUT
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
+----
+{
+  "detail": "Test-FdV is currently not running"
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Operation was successful#
+
+¦400 ¦ Client Error +
+[small]#Error processing the request with the test driver#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+=== Test-FdV stoppen
+
+Mit dieser Operation kann die Test-FdV gestoppt werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/stop
+¦Method ¦PUT
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (400)
+[source,json]
+----
+{
+  "detail": "Test-FdV is currently not running"
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Operation was successful#
+
+¦400 ¦ Client Error +
+[small]#Error processing the request with the test driver#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+== Login
+
+=== Login mit KVNR
+
+Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/login
+¦Method ¦PUT
+¦Payload ¦
+.Beispiel Request Body
+[source,json]
+----
+"A000500015"
+----
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+{
+  "accessToken": "string"
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+== E-Rezepte
+
+=== Liste aller E-Rezepte abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von E-Rezepten abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: E-Rezepte empfangen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#alle-e-rezepte-ansehen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription
+¦Method ¦GET
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+[
+  {
+    "prescriptionId": "160.000.000.000.123.76",
+    "accessCode": "c3830cacdc32d8b521dbfc02e5f7102f879f53206b5fca1d80fee3bda969ce4d",
+    "workFlow": "160",
+    "acceptDate": "2020-04-01",
+    "expiryDate": "2020-06-02",
+    "authoredOn": "2020-03-02T08:25:05+00:00",
+    "lastMedicationDispense": "2024-11-25T14:30:00+00:00",
+    "status": "string",
+    "patient": {
+      "name": "Juliane Steinmeyer",
+      "kvnr": "A000500015",
+      "insuranceType": "string"
+    },
+    "practitioner": {
+      "name": "string",
+      "anr": "string",
+      "anrType": "string",
+      "qualificationType": "Fach&#228;rztin f&#252;r Innere Medizin"
+    },
+    "medication": {
+      "type": "pzn",
+      "code": "Nerisona 30g, Asche Basis 60g",
+      "isVaccine": true
+    }
+  }
+]
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#A list (max. 50 entries) of e-prescriptions, sorted in descending order by creation date#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+=== Einzelnes E-Rezept abrufen
+
+Mit dieser Operation kann ein einzelnes E-Rezept anhand der ID abgerufen werden.
+
+*UC: E-Rezepte empfangen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#ein-einzelnes-e-rezept-abrufen-und-in-der-apotheke-einl%C3%B6sen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method ¦GET
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+{
+  "prescriptionId": "160.000.000.000.123.76",
+  "accessCode": "c3830cacdc32d8b521dbfc02e5f7102f879f53206b5fca1d80fee3bda969ce4d",
+  "workFlow": "160",
+  "acceptDate": "2020-04-01",
+  "expiryDate": "2020-06-02",
+  "authoredOn": "2020-03-02T08:25:05+00:00",
+  "lastMedicationDispense": "2024-11-25T14:30:00+00:00",
+  "status": "string",
+  "patient": {
+    "name": "Juliane Steinmeyer",
+    "kvnr": "A000500015",
+    "insuranceType": "string"
+  },
+  "practitioner": {
+    "name": "string",
+    "anr": "string",
+    "anrType": "string",
+    "qualificationType": "Fach&#228;rztin f&#252;r Innere Medizin"
+  },
+  "medication": {
+    "type": "pzn",
+    "code": "Nerisona 30g, Asche Basis 60g",
+    "isVaccine": true
+  }
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#See https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#alle-e-prescriptione-ansehen#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+|===
+
+=== E-Rezept löschen
+
+Mit dieser Operation kann ein E-Rezept am E-Rezept-Fachdienst gelöscht werden.
+
+*UC: E-Rezepte löschen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#ein-e-rezept-l%C3%B6schen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/prescription/<id>
+¦Method ¦DELETE
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Operation was successful#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+== Abgabeinformationen
+
+=== Liste der Abgabeinformationen abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Abgabeinformationen (medication dispenses) abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Abgabeinformationen anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#abgabeinformationen-abrufen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/medicationdispense
+¦Method ¦GET
+¦Query Parameters ¦
+----
+whenhandedover:
+----
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+[
+  {
+    "prescriptionId": "160.000.000.000.123.76",
+    "medication": {
+      "type": "pzn",
+      "code": "Nerisona 30g, Asche Basis 60g",
+      "isVaccine": true
+    },
+    "pharmacist": "3-1.54.10123404",
+    "whenhandedover": "2020-03-20"
+  }
+]
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#A list (max. 50 entries) of medication dispenses, sorted in descending order by creation date#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+== Audit Events
+
+=== Liste der Audit Events abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Audit Events abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Protokolldaten anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#einsicht-in-das-zugriffsprotokoll
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/auditEvents
+¦Method ¦GET
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+[
+  null
+]
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#A list (max. 50 entries) of audit events, sorted in descending order by creation date#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+== Apotheken
+
+=== Apotheken suchen
+
+Mit dieser Operation kann eine Apotheke anhand verschiedener Parameter gesucht werden.
+
+*UC: Apotheke suchen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_versicherte.adoc#eine-apotheke-aus-dem-apotheken-verzeichnis-ausw%C3%A4hlen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/search
+¦Method ¦GET
+¦Query Parameters ¦
+----
+near:
+address-city:
+name:
+----
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+[
+  {
+    "name": "Adlerapotheke",
+    "address": {
+      "city": "Berlin",
+      "street": "Friedrichstr.",
+      "streetNr": 136,
+      "zipcode": 10117
+    },
+    "position": {
+      "latitude": 52.522575,
+      "longitude": 13.387884
+    },
+    "telematikId": "3-1.54.10123404"
+  }
+]
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#A list (max. 50 entries) of pharmacies, sorted in order by name#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+=== E-Rezept einer Apotheke zuweisen
+
+Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/assignment
+¦Method ¦POST
+¦Payload ¦
+.Beispiel Request Body
+[source,json]
+----
+{
+  "prescriptionId": "160.000.000.000.123.76",
+  "telematikId": "3-1.54.10123404",
+  "supplyOptionsType": "delivery"
+}
+----
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+{
+  "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
+  "type": "DispReq",
+  "reference": "160.000.000.000.123.76",
+  "sender": null,
+  "recipient": null,
+  "sent": "2020-03-12T18:01:10+00:00",
+  "supplyOptionsType": "delivery"
+}
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+=== 2D-Code für E-Rezept erzeugen
+
+Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für die Einlösung in der Apotheke).
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
+¦Method ¦POST
+¦Payload ¦
+.Beispiel Request Body
+[source,json]
+----
+"160.000.000.000.123.76"
+----
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+"string"
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#Image (PNG) encoded as base64 string#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+== Kommunikation
+
+=== Nachrichten abrufen
+
+Mit dieser Operation wird eine Liste (max. 50 Einträge) von Nachrichten (Communications) für einen Patienten abgerufen, sortiert nach Erstellungsdatum (absteigend).
+
+*UC: Nachrichten von Apotheke anzeigen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-alle-nachrichten-vom-e-rezept-fachdienst-abrufen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/communication
+¦Method ¦GET
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Beispiel Response Body (200)
+[source,json]
+----
+[
+  {
+    "id": "79cc4c08-0e7b-4e52-acee-6ec7519ce67f",
+    "type": "DispReq",
+    "reference": "160.000.000.000.123.76",
+    "sender": null,
+    "recipient": null,
+    "sent": "2020-03-12T18:01:10+00:00",
+    "supplyOptionsType": "delivery"
+  }
+]
+----
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]##
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
+
+=== Nachricht löschen
+
+Mit dieser Operation kann eine Nachricht (Communication) anhand der ID gelöscht werden.
+
+*UC: Nachrichten löschen*
+Siehe https://github.com/gematik/api-erp/blob/master/docs/erp_communication.adoc#anwendungsfall-nachricht-als-apotheke-l%C3%B6schen
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://localhost:443/erp/testdriver/api/v1/communication/<id>
+¦Method ¦DELETE
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+No response body.
+
+2+¦Response Codes
+
+¦204 ¦ Success +
+[small]#Operation was successful#
+
+¦403 ¦ Client Error +
+[small]#Forbidden - you are not allowed to do this#
+
+¦400 ¦ Client Error +
+[small]#The error is used to describe an OperationOutcome or a technical error, e.g. VAU encryption error#
+
+|===
