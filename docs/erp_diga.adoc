@@ -40,9 +40,11 @@ Ausschließlich die folgenden (Betriebs-)Krankenkassen können ab dem 15.05.2025
 *	hkk – IK 103170002
 *	DAK – IK 105830016
 *	TK – IK 101575519
-* vivida BKK – IK 107536262 *(neu)*
-* mkk – Meine Krankenkasse - IK 109723913 *(neu)*
-* Barmer - IK 104940005 *(neu)*
+* vivida BKK – IK 107536262
+* mkk – Meine Krankenkasse - IK 109723913
+* Barmer - IK 104940005
+* IKK Berlin Brandenburg - IK 100602360 *(neu)*
+* BKK Linde - IK 105830517 *(neu)*
 
 Weitere folgen.
 
@@ -1647,8 +1649,6 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 NOTE: Die Verwendung des Profils GEM_ERP_PR_Communication_DiGA ist erst mit Einsatz der Workflow Version 1.5 möglich. Dieses Profil ermöglicht einen Freitext unter .payload.contentString. Bei Verwendung der Workflow Version 1.4 ist das Profil GEM_ERP_PR_Communication_Reply zu verwenden.
 
 NOTE: Wenn das Profil GEM_ERP_PR_Communication_Reply verwendet wird, muss ein JSON in payload.contentString angegeben werden. Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema]. Daher muss im Feld "supplyOptionsType" verpflichtend ein Wert angegeben werden. Als default sollte "delivery" gesetzt werden. FdV's SOLLEN diesen Wert ignorieren.
-
-WARNING: Nach Aufruf der $close Operation werden alle Communications zu einem Task gelöscht.
 
 *Request*
 [cols="h,a", separator=¦]
