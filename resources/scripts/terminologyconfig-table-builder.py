@@ -4,8 +4,8 @@ from pathlib import Path
 from datetime import datetime, timedelta
 
 # Define the paths
-base_path = Path("resources/configuration_terminology")
-output_path = Path("resources/scripts/output_adoc")
+base_path = Path("/workspaces/api-erp/resources/configuration_terminology")
+output_path = Path("/workspaces/api-erp/resources/scripts/output_adoc")
 output_file = output_path / "terminology_table.adoc"
 
 # Ensure the output directory exists
