@@ -4,8 +4,9 @@ from pathlib import Path
 from datetime import datetime, timedelta
 
 # Define the paths
-base_path = Path("resources/configuration_terminology")
-output_path = Path("resources/scripts/output_adoc")
+resources_path = Path(__file__).resolve().parent.parent
+base_path = resources_path / "configuration_terminology"
+output_path = resources_path / "scripts" / "output_adoc"
 output_file = output_path / "terminology_table.adoc"
 
 # Ensure the output directory exists
