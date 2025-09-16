@@ -231,3 +231,14 @@ Folgende Best Practice sollte beachtet werden:
 * In Parameters Objekten sollte relative Referenzierung genutzt werden.
 ** Bsp: `<reference value="Medication/e3fd4ae7-fa81-414f-b12d-864cdad41de8" />`
 ** Der E-Rezept-Fachdienst prüft nicht, welche Referenzierung genutzt wird, jedoch sind relative Referenzen durch den FHIR-Standard vorgegeben
+
+=== Validierung von Extensions
+FHIR sieht vor, dass Extensions an jeder Stelle angegeben werden können, um zusätzliche Informationen zu übertragen. Der E-Rezept-Fachdienst und der gematik Referenzvalidator sind jedoch derart konfiguriert, dass nur Extensions an den vorgesehen Stellen erlaubt sind. D.h. nur wenn die Profile definierte Extensions enthalten dürfen diese angegeben werden.
+
+Eine Beispielhafte Fehlermeldung vom E-Rezept-Fachdienst, wenn dies nicht der Fall ist kann wiefolgt aussehen:
+
+[source,text]
+----
+Bundle.entry[6].resource{MedicationRequest}.status.extension[0]: error: element doesn't match any slice in closed slicing (from profile: http://hl7.org/fhir/StructureDefinition/Extension%7C4.0.1);
+Bundle.entry[6].resource{MedicationRequest}.status.extension[0]: error: element doesn't match any slice in closed slicing (from profile: http://hl7.org/fhir/StructureDefinition/code%7C4.0.1); 
+----
