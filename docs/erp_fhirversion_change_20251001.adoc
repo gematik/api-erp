@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 toc::[]
 
@@ -40,37 +39,41 @@ Die zugrundeliegende Konfiguration findet sich hier: link:../resources/configura
 
 Die Gültigkeiten von FHIR Packages in diesem Übergang stellen sich wie folgt dar:
 
-[cols="h,a,a,a"]
+[cols="h,a,a,a,a"]
 |===
-|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis*
+|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis* |*in PU einstellbar bis*
 
-|de.abda.erezeptabgabedaten |1.4.2 |- |11.01.2026
-|de.abda.erezeptabgabedaten |1.5.0 |01.10.2025 |-
-|de.abda.erezeptabgabedatenpkv |1.3.0 |- |11.01.2026
-|de.abda.erezeptabgabedatenpkv |1.4.0 |01.10.2025 |-
-|de.gematik.erezept-patientenrechnung.r4 |1.0.4 |- |11.01.2026
-|de.gematik.erezept-patientenrechnung.r4 |1.1.0 |01.10.2025 |-
-|de.gematik.erezept-workflow.r4 |1.4.3 |- |11.01.2026
-|de.gematik.erezept-workflow.r4 |1.5.1 |01.10.2025 |-
-|de.gematik.erezept.eu.r4 |1.0.0 |01.10.2025 |-
-|de.gkvsv.eRezeptAbrechnungsdaten |1.4.1 |- |30.09.2025
-|de.gkvsv.eRezeptAbrechnungsdaten |1.5.1 |01.10.2025 |-
-|erp-FdV-profile |1.4.3 |- |31.03.2026
-|erp-FdV-profile |1.5.1 |01.10.2025 |-
-|kbv.ita.erp |1.1.2 |- |31.03.2026
-|kbv.ita.erp |1.3.2 |01.10.2025 |-
-|kbv.itv.evdga |1.1.1 |- |31.03.2026
-|kbv.itv.evdga |1.2.1 |01.10.2025 |-
+|de.abda.erezeptabgabedaten |1.4.2 |- |11.01.2026 |-
+|de.abda.erezeptabgabedaten |1.5.0 |01.10.2025 |- |-
+|de.abda.erezeptabgabedatenpkv |1.3.0 |- |11.01.2026 |08.02.2036
+|de.abda.erezeptabgabedatenpkv |1.4.0 |01.10.2025 |- |-
+|de.gematik.erezept-patientenrechnung.r4 |1.0.4 |- |11.01.2026 |11.01.2026
+|de.gematik.erezept-patientenrechnung.r4 |1.1.0 |01.10.2025 |- |-
+|de.gematik.erezept-workflow.r4 |1.4.3 |- |11.01.2026 |22.07.2026
+|de.gematik.erezept-workflow.r4 |1.5.2 |01.10.2025 |- |-
+|de.gematik.erezept.eu.r4 |1.0.0 |01.10.2025 |- |-
+|de.gkvsv.eRezeptAbrechnungsdaten |1.4.1 |- |30.09.2025 |30.09.2025
+|de.gkvsv.eRezeptAbrechnungsdaten |1.5.1 |01.10.2025 |- |-
+|erp-communications-patientenrechnung |1.0.4 |- |31.03.2026 |31.03.2026
+|erp-communications-patientenrechnung |1.1.0 |01.10.2025 |- |-
+|erp-communications-workflow |1.4.3 |- |31.03.2026 |31.03.2026
+|erp-communications-workflow |1.5.2 |01.10.2025 |- |-
+|kbv.ita.erp |1.1.2 |- |31.03.2026 |10.04.2026
+|kbv.ita.erp |1.3.2 |01.10.2025 |- |-
+|kbv.itv.evdga |1.1.1 |- |31.03.2026 |31.03.2026
+|kbv.itv.evdga |1.2.1 |01.10.2025 |- |-
 |===
 
-Die Profile für die E-Rezept-FdV's (erp-FdV-profile) sind wie folgt definiert:
+Hinweis: * Die Daten für "in PU einstellbar bis" sind in xref:../docs/erp_deprecated_package_fd.adoc[E-Rezept FHIR-Package Nachhaltung] beschrieben.
+
+Die Profile für die Angaben _erp-communications-workflow_ und _erp-communications-patientenrechnung_ entsprechen den Communication Profilen aus den Packages:
 [options="header"]
 |===
-| Profilname | aus Package
-| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4
-| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4
-| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-abrechnungsinformationen.r4
-| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-abrechnungsinformationen.r4
+| Profilname | aus Package | Bestandteil von
+| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4 | erp-communications-workflow
+| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4 | erp-communications-workflow
+| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-patientenrechnung.r4 | erp-communications-patientenrechnung
+| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-patientenrechnung.r4 | erp-communications-patientenrechnung
 |===
 
 == Änderungen
@@ -130,12 +133,12 @@ Weiterhin sind die Releasenotes der FHIR-Packages zu beachten:
 [%autowidth]
 |===
 h| Herausgeber h|FHIR Package h| Beispiele
-| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.5.1[de.gematik.erezept-workflow.r4 Package 1.5.1^]  | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/E-Rezept-Workflow_gematik/1.5.1[Beispiele 1.5.1^]
-| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.1.0[de.gematik.erezept-patientenrechnung.r4 Package 1.1.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/E-Rezept-Patientenrechnung_gematik/1.1.0[Beispiele 1.1.0]
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.5.1[de.gematik.erezept-workflow.r4 Package 1.5.1^]  | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.gematik.erezept-workflow.r4/1.5.1[Beispiele 1.5.1^]
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.1.0[de.gematik.erezept-patientenrechnung.r4 Package 1.1.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.gematik.erezept-patientenrechnung.r4/1.1.0[Beispiele 1.1.0]
 | gematik |  link:https://simplifier.net/packages/de.gematik.erezept.eu/1.0.0[de.gematik.erezept.eu Package 1.0.0^]  | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.gematik.erezept.eu/1.0.0[TODO]
-| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.5.0[de.abda.eRezeptAbgabedaten Package 1.5.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezeptAbgabedaten_DAV/1.5.0[Beispiele 1.5.0]
-| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.4.0[de.abda.eRezeptAbgabedatenPKV Package 1.4.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezeptAbgabedatenPKV_DAV/1.4.0[Beispiele 1.4.0]
-| KBV |  link:https://simplifier.net/packages/kbv.ita.erp/1.3.2[kbv.ita.erp Package 1.3.2^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eRezept_KBV/1.3.2[Beispiele 1.3.2]
-| KBV |  link:https://simplifier.net/packages/kbv.itv.evdga/1.2.1[kbv.itv.evdga Package 1.2.1^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/eVDGA_KBV/1.2.1[Beispiele 1.2.1]
+| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.5.0[de.abda.eRezeptAbgabedaten Package 1.5.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.abda.eRezeptAbgabedaten/1.5.0[Beispiele 1.5.0]
+| DAV |  link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.4.0[de.abda.eRezeptAbgabedatenPKV Package 1.4.0^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/de.abda.eRezeptAbgabedatenPKV/1.4.0[Beispiele 1.4.0]
+| KBV |  link:https://simplifier.net/packages/kbv.ita.erp/1.3.2[kbv.ita.erp Package 1.3.2^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/kbv.ita.erp/1.3.2[Beispiele 1.3.2]
+| KBV |  link:https://simplifier.net/packages/kbv.itv.evdga/1.2.1[kbv.itv.evdga Package 1.2.1^] | link:https://github.com/gematik/eRezept-Examples/tree/main/Standalone-Examples/kbv.itv.evdga/1.2.1[Beispiele 1.2.1]
 | GKV-SV | link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.5.0[de.gkvsv.eRezeptAbrechnungsdaten Package 1.5.0^] | n/a
 |===

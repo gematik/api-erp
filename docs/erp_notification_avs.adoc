@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{AVS}[] image:{KTR}[]
 
@@ -64,7 +63,15 @@ Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
 Content-Type: application/fhir+xml; charset=UTF-8
 Accept: application/fhir+xml; charset=utf-8
 
-Unresolved directive in erp_notification_avs-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_notification_avs/01_request_PostSubscriptionPseudo.xml[]
+<Subscription xmlns="http://hl7.org/fhir">
+    <id value="erp-notification-avs-01-request-PostSubscriptionPseudo"/>
+    <status value="requested"/>
+    <reason value="Communication notifications"/>
+    <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
+    <channel>
+        <type value="websocket"/>
+    </channel>
+</Subscription>
 ----
 
 NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Subscription` zu setzen.
@@ -81,7 +88,17 @@ HTTP/1.1 200 OK
 Content-Length: 510
 Content-Type: application/fhir+xml;charset=utf-8
 
-Unresolved directive in erp_notification_avs-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_notification_avs/02_response_PostSubscriptionPseudo.xml[]
+<Subscription xmlns="http://hl7.org/fhir">
+    <id value="erp-notification-avs-02-response-PostSubscriptionPseudo"/>
+    <status value="active"/>
+    <end value="2025-10-01T15:29:00+00:00"/>
+    <reason value="Communication notifications"/>
+    <criteria value="Communication?received=null&amp;recipient=3-abc-12345678"/>
+    <channel>
+        <type value="websocket"/>
+        <header value="Authorization: Bearer eyJhbGciOiAiYnJhaW5wb29sUDI1NnIxIiwidHlwIjogIkpXVCJ9.eyJpc3MiOiAiTWF0aGlzIGJyYWlucG9vbCBqd3QiLCJpYXQiOiAxNjMyMjk0MzY1LCJleHAiOiAxNjYzODMwMzY1LCJhdWQiOiAibG9jYWxob3N0Iiwic3ViIjogIm15VXNlcm5hbWUiLCJzdWJzY3JpcHRpb25JZCI6ICIxMjNhYmMifQ.MEUCIAKqlB50xqNhnHkP6qoOoll33l3rWQ-_b5XfQJAUErnFAiEAlGR-cEl7DCzaoHqifh0drreFInsqo1xVy3SrWSMmNCI"/>
+    </channel>
+</Subscription>
 ----
 
 NOTE: In ` <id value="df694c098c2fb373524150461cfd9d23"/>` ist eine eindeutige ID (Pseudonym der Telematik-ID) hinterlegt
@@ -133,7 +150,8 @@ Sec-WebSocket-Key: q4xkcO32u266gldTuKaSOw==
 TIP: Dieser Request ist NICHT zusätzlich VAU-verschlüsselt, sondern wird TLS-verschlüsselt an den Subscription-Endpunkt geschickt.
 
 TIP: Je nach eingesetztem Framework lautet die Zieladresse dann `wss://subscription.zentral.erp.splitdns.ti-dienste.de:443` +
-bzw. zum Test in der TI-Referenzumgebung RU = `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443`
+bzw. zum Test in der TI-Referenzumgebung RU `wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de:443` +
+oder für RU-DEV `wss://subscription-dev.zentral.erp.splitdns.ti-dienste.de:443`
 
 |===
 NOTE: In `Authorization:` wird das von der VAU generierte Bearer Token mit dem Pseudonym über die Telematik-ID übergeben.
@@ -191,7 +209,52 @@ Empfängt das AVS nun ein `ping: df694c098c2fb373524150461cfd9d23`, liegt eine n
 == Beispielhafte Implementierung für Primärsysteme
 [source,c++]
 ----
-Unresolved directive in erp_notification_avs-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_notification_avs/03_ping_Subscription.cpp[]
+using System;
+using System.Net.WebSockets;
+using System.Text;
+using System.Threading;
+
+class Program {
+    static void Main() {
+        //subscriptionId und bearertoken aus VAU-Request /Subcription extrahieren
+        CreateSocket("df694c098c2fb373524150461cfd9d23",
+            "Bearer eyJhbGciOiJFUzI1NiJ9.CnsKInN1YnNjcmlwdGlvbklkIjogImRmNjk0YzA5OGMyZmIzNzM1MjQxNTA0NjFjZmQ5ZDI…");
+    }
+
+    private static void CreateSocket(string subscriptionId, string bearertoken) {
+        var _websocketObj = new ClientWebSocket();
+        _websocketObj.Options.SetRequestHeader("Authorization", bearertoken);
+        //url RU: "wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de" und PU: "wss://subscription.zentral.erp.splitdns.ti-dienste.de"
+        _websocketObj.ConnectAsync(new Uri("wss://subscription-ref.zentral.erp.splitdns.ti-dienste.de/subscription"), CancellationToken.None)
+            .Wait();
+
+        if (_websocketObj.State != WebSocketState.Open) {
+            throw new Exception("Websocket ist nicht geöffnet");
+        }
+
+        {
+            var bind = $"bind: {subscriptionId}";
+            _websocketObj.SendAsync(new ArraySegment<byte>(Encoding.UTF8.GetBytes(bind)), WebSocketMessageType.Text, true, CancellationToken.None)
+                .Wait();
+            Console.Out.WriteLine($"Websocket-Bind: {bind}");
+
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            Console.Out.WriteLine($"Websocket-Bound: {res}");
+        }
+
+        while (true) {
+            var buffer = new ArraySegment<byte>(new byte[2048]);
+            WebSocketReceiveResult wsr = _websocketObj.ReceiveAsync(buffer, CancellationToken.None).Result;
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var res = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, wsr.Count);
+            if (wsr.Count > 0) {
+                Console.Out.WriteLine($"Websocket-Empfangen: {res} ({wsr.Count} Bytes) -> es liegen neue Nachrichten bereit!");
+            }
+        }
+    }
+}
 ----
 
 == => Wichtige Hinweise <=

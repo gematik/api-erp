@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{KTR}[]
 
@@ -46,7 +45,7 @@ WARNING: Es ist darauf zu achten, dass jegliche Health-Checks so sparsam wie mö
 === Health-Check über das TI-Lagebild
 Eine verlässliche Aussage zur Verfügbarkeit des Fachdienstes E-Rezept kann alternativ über die API des TI-Lagebilds eingeholt werden. Bei ausschließlicher Nutzung dieser API finden die Vorgaben und Einschränkungen zu einfachen und erweiterten Healthchecks keine Anwendung.
 
-link:erp_ps_probing_lagebild.adoc[API-Beschreibung für Abfragen über das TI-Lagebild]
+link:https://github.com/gematik/api-tilage/blob/main/content/Documentation.md[API-Beschreibung für Abfragen über das TI-Lagebild]
 
 === Einfacher Health-Check
 Ein einfacher Health-Check ist ein leichtgewichtiger Aufruf auf den Fachdienst-Endpunkt / (root) mit der http-Methode GET ("äußerer http-Request"), ohne eine zusätzliche VAU-Verschlüsselung ⇒ ( "GET / [---]" ). Ziel dieses Health-Checks soll es sein, die Verfügbarkeit des E-Rezept-Fachdienstes vom Clientsystem aus sicherzustellen. Dabei werden weder Access-Token noch Verschlüsselung benötigt, was ihn für wiederkehrende Abfragen optimiert.

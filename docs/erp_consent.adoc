@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{FdV}[]
 
@@ -70,7 +69,51 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 ¦Payload    ¦
 [source,json]
 ----
-Unresolved directive in erp_consent-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_consent/01_request_PostConsent.json[]
+{
+  "resourceType": "Consent",
+  "id": "erp-consent-01-request-PostConsent",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "P987654321"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "CHARGCONS",
+          "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+          "display": "Consent for saving electronic charge item"
+        }
+      ]
+    }
+  ],
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  },
+  "dateTime": "2025-10-01T15:29:00+00:00"
+}
 ----
 |===
 
@@ -81,7 +124,51 @@ Unresolved directive in erp_consent-source.adoc - include::https://raw.githubuse
 HTTP/1.1 201 Created
 Content-Type: application/fhir+json;charset=utf-8
 
-Unresolved directive in erp_consent-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_consent/02_response_PostConsent.json[]
+{
+  "resourceType": "Consent",
+  "id": "erp-consent-02-response-PostConsent",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+    ]
+  },
+  "status": "active",
+  "patient": {
+    "identifier": {
+      "system": "http://fhir.de/sid/gkv/kvid-10",
+      "value": "P987654321"
+    }
+  },
+  "scope": {
+    "coding": [
+      {
+        "code": "patient-privacy",
+        "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+        "display": "Privacy Consent"
+      }
+    ]
+  },
+  "category": [
+    {
+      "coding": [
+        {
+          "code": "CHARGCONS",
+          "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+          "display": "Consent for saving electronic charge item"
+        }
+      ]
+    }
+  ],
+  "policyRule": {
+    "coding": [
+      {
+        "code": "OPTIN",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+      }
+    ]
+  },
+  "dateTime": "2025-10-01T15:29:00+00:00"
+}
 ----
 
 [cols="a,a"]
@@ -143,7 +230,63 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
 HTTP/1.1 200 OK
 Content-Type: application/fhir+json;charset=utf-8
 
-Unresolved directive in erp_consent-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_consent/03_response_GetConsent.json[]
+{
+  "resourceType": "Bundle",
+  "id": "erp-consent-03-response-GetConsent",
+  "type": "searchset",
+  "timestamp": "2025-10-01T15:29:00.434+00:00",
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Consent/CHARGCONS-X234567890",
+      "resource": {
+        "resourceType": "Consent",
+        "id": "CHARGCONS-X234567890",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erpchrg/StructureDefinition/GEM_ERPCHRG_PR_Consent|1.1"
+          ]
+        },
+        "status": "active",
+        "patient": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "P987654321"
+          }
+        },
+        "scope": {
+          "coding": [
+            {
+              "code": "patient-privacy",
+              "system": "http://terminology.hl7.org/CodeSystem/consentscope",
+              "display": "Privacy Consent"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "CHARGCONS",
+                "system": "https://gematik.de/fhir/erpchrg/CodeSystem/GEM_ERPCHRG_CS_ConsentType",
+                "display": "Consent for saving electronic charge item"
+              }
+            ]
+          }
+        ],
+        "policyRule": {
+          "coding": [
+            {
+              "code": "OPTIN",
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode"
+            }
+          ]
+        },
+        "dateTime": "2025-10-01T15:29:00+00:00"
+      }
+    }
+  ]
+}
 ----
 
 [cols="a,a"]

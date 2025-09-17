@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{AVS}[] image:{FdV}[]
 
@@ -97,7 +96,46 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#SignDocument"
 |Payload    |
 [source,xml]
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/01_sign_avs_request.xml[]
+<?xml version='1.0' encoding='UTF-8'?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns5:SignDocument xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns5="http://ws.gematik.de/conn/SignatureService/v7.5"
+            xmlns:ns6="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+            xmlns:ns7="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns8="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+            xmlns:ns9="http://uri.etsi.org/01903/v1.3.2#"
+            xmlns:ns10="http://uri.etsi.org/02231/v2#"
+            xmlns:ns11="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns12="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+            xmlns:ns13="urn:oasis:names:tc:SAML:1.0:assertion"
+            xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion"
+            xmlns:ns15="http://www.w3.org/2001/04/xmlenc#">
+            <ns2:CardHandle>8cbd273f-a644-4986-a64a-4ee7994b77cc</ns2:CardHandle>
+            <ns5:Crypt>RSA</ns5:Crypt>
+            <ns11:Context>
+                <ns2:MandantId>Mandant1</ns2:MandantId>
+                <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+                <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+                <ns2:UserId>user1</ns2:UserId>
+            </ns11:Context>
+            <ns5:TvMode>NONE</ns5:TvMode>
+            <ns5:JobNumber>NHH-436</ns5:JobNumber>
+            <ns5:SignRequest RequestID="c82e6614-c891-40aa-9b8b-fa17a54f03b8">
+                <ns5:OptionalInputs>
+                    <ns3:SignatureType>urn:ietf:rfc:5652</ns3:SignatureType>
+                    <ns5:IncludeEContent>true</ns5:IncludeEContent>
+                </ns5:OptionalInputs>
+                <ns5:Document ShortText="a CMSDocument2Sign" ID="CMS-Doc1">
+                    <ns3:Base64Data MimeType="text/plain; charset=utf-8">eyJzaGlwbWVudCI6Imh0dHBzOi8vYmVpc3BpZWx1cmxWZXJzYW5kLmRlLzMtMTAuMy4xMjM0NTY3MDAwLjEwLjk5OT9yZXE9MTIzNDU2IiwiZGVsaXZlcnkiOiJodHRwczovL2JlaXNwaWVsdXJsQm90ZS5kZS8iLCJvblByZW1pc2UiOiJodHRwczovL2JlaXNwaWVsdXJsQWJob2x1bmcuZGUvIn0=</ns3:Base64Data>
+                </ns5:Document>
+                <ns5:IncludeRevocationInfo>false</ns5:IncludeRevocationInfo>
+            </ns5:SignRequest>
+        </ns5:SignDocument>
+    </S:Body>
+</S:Envelope>
 ----
 NOTE: Mit der Referenz `<m2:SignatureType>urn:ietf:rfc:5652</m2:SignatureType>` auf den RFC-5652 erfolgt die Erzeugung der nonQES als CMS-Signatur (CAdES).
 
@@ -111,7 +149,39 @@ NOTE: In `<ns5:Document ID="CMS-Doc1" ShortText="a CMSDocument2sign">` erfolgt d
 *Response*
 [source,xml]
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/02_sign_avs_response.xml[]
+<?xml version="1.0"?>
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+    <S:Body>
+        <ns10:SignDocumentResponse xmlns:ns2="http://www.w3.org/2001/04/xmlenc#"
+            xmlns:ns3="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns4="http://uri.etsi.org/01903/v1.3.2#"
+            xmlns:ns5="http://uri.etsi.org/02231/v2#"
+            xmlns:ns6="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+            xmlns:ns7="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns8="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns9="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns10="http://ws.gematik.de/conn/SignatureService/v7.5"
+            xmlns:ns11="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+            xmlns:ns13="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+            xmlns:ns14="urn:oasis:names:tc:SAML:2.0:assertion"
+            xmlns:ns15="urn:oasis:names:tc:SAML:1.0:assertion">
+            <ns10:SignResponse RequestID="c82e6614-c891-40aa-9b8b-fa17a54f03b8">
+                <ns8:Status>
+                    <ns8:Result>OK</ns8:Result>
+                </ns8:Status>
+                <ns10:OptionalOutputs>
+                    <ns10:DocumentWithSignature ShortText="a CMSDocument2Sign" ID="CMS-Doc1">
+                        <ns7:Base64Data></ns7:Base64Data>
+                    </ns10:DocumentWithSignature>
+                </ns10:OptionalOutputs>
+                <ns7:SignatureObject>
+                    <ns7:Base64Signature Type="urn:ietf:rfc:5652">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</ns7:Base64Signature>
+                </ns7:SignatureObject>
+            </ns10:SignResponse>
+        </ns10:SignDocumentResponse>
+    </S:Body>
+</S:Envelope>
 ----
 NOTE: Das Ergebnis der erfolgreichen nonQES wird Base64-codiert in `<ns7:SignatureObject>` zurückgegeben. Darin enthalten ist eine PKCS#7-Datei in HEX-Codierung, die mit einem ASN1-Decoder angesehen werden kann.
 
@@ -185,7 +255,20 @@ Das APOVZD stellt jedes Zertifikat in einer eigenen FHIR-Binary-Ressource bereit
 Beispiel eines solchen Binaries:
 [[apovzd-cert-binary]]
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/03_certificate_in_apovzd.json[]
+{
+  "resourceType": "Binary",
+  "id": "erp-alternative-zuweisung-03-certificate-in-apovzd",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2025-10-01T15:29:00.434+00:00",
+    "source": "=thriqhUOEicndJuZ"
+  },
+  "contentType": "application/pkix-cert",
+  "securityContext": {
+    "reference": "Location/87e5bda2-cf17-439f-bef5-f705afcd06f1"
+  },
+  "data": "MIIFUTCCBDmgAwIBAgIDQNF0MA0GCSqGSIb3DQEBCwUAMIGJMQswCQYDVQQGEwJERTEVMBMGA1UECgwMRC1UUlVTVCBHbWJIMUgwRgYDVQQLDD9JbnN0aXR1dGlvbiBkZXMgR2VzdW5kaGVpdHN3ZXNlbnMtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxGTAXBgNVBAMMEEQtVHJ1c3QuU01DQi1DQTMwHhcNMjExMDExMDM0ODU0WhcNMjYwODE1MDcyOTMxWjBmMQswCQYDVQQGEwJERTEgMB4GA1UECgwXQmV0cmllYnNzdMOkdHRlIGdlbWF0aWsxIDAeBgNVBAUTFzEwLjgwMjc2MDAzMTExMDAwMDAwNTQyMRMwEQYDVQQDDApnZW1hdGlrMDA2MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmtDDCfvOJL82smWeqCKa1azV3SpMHOhO2P+ot6Yi+DRqANl/0HyUO+b5VGatK1ugqONe9f0jfwUCPKxr33V5dmtJ4F4Ywbjv5rfYhMdTR1XMbrzoOwAFhdve0k42dXbW2NCr8TZLz7xlcKihRphuzGbnGa+XpJriaw7g6fNmdo27Ad4tNIpezqFQWduRJMDnW+89bzOdicLmyKU2k6IK9Wpd8+TjQLtoG32IAxX/+auqf9wYZW9H7mGFBagPxLO7D8cWaaX0K3JtRfCCE2hS7iBd6EqGCeoGz9NFg6aMDLxSOTuEgriTOI/OWSXVpFyAp9amm6KUmdhKegQ0iSvS0wIDAQABo4IB4jCCAd4wHwYDVR0jBBgwFoAUxk6YSKNeL3M/yJih5vVHqDXIhTowcgYFKyQIAwMEaTBnpCYwJDELMAkGA1UEBhMCREUxFTATBgNVBAoMDGdlbWF0aWsgR21iSDA9MDswOTA3MBkMF0JldHJpZWJzc3TDpHR0ZSBnZW1hdGlrMAkGByqCFABMBDoTDzktMi41OC4wMDAwMDA0MDBEBggrBgEFBQcBAQQ4MDYwNAYIKwYBBQUHMAGGKGh0dHA6Ly9ELVRSVVNULVNNQ0ItQ0EzLm9jc3AuZC10cnVzdC5uZXQwUQYDVR0gBEowSDA7BggqghQATASBIzAvMC0GCCsGAQUFBwIBFiFodHRwOi8vd3d3LmdlbWF0aWsuZGUvZ28vcG9saWNpZXMwCQYHKoIUAEwETDBxBgNVHR8EajBoMGagZKBihmBsZGFwOi8vZGlyZWN0b3J5LmQtdHJ1c3QubmV0L0NOPUQtVHJ1c3QuU01DQi1DQTMsTz1ELVRSVVNUJTIwR21iSCxDPURFP2NlcnRpZmljYXRlcmV2b2NhdGlvbmxpc3QwHQYDVR0OBBYEFO4u6BXelEMIzPzPE3Dr+mYUEto/MA4GA1UdDwEB/wQEAwIEMDAMBgNVHRMBAf8EAjAAMA0GCSqGSIb3DQEBCwUAA4IBAQDVUgAkYpXjjeUJbj2fWEXcgiFC0xEk0yAwmY9jK6An0fT+cRC/quTdZx81BR0qt77ROBJ3Sw5CH5+Ai4bjfIsmPOtIFV3qlYWgkldXhUfNHO+pLtdSnlhr7q4MpAoX8pyHrLyMPubJwBSeEHoY6yrW8bm1Pmo3NY/haOGEtuu6oS4hOqUD7kGHFsVpxYQY3gSzVzSv8B2d/pQ6zt6PU2nAYPV+JmRGBXGKPL8ncvZuQK0UsuMpNW0Q7sP6YDxLibjz3631dSjPs5MxIinKVxRPPSm357w8ekTs89oWshDGMuY8Oz7pu4taFHpE3xlzYXhnic0Bj61g6O9YFjcL43No"
+}
 ----
 
 Das Synchronisieren vom Upload-Container in das APOVZD erfolgt täglich zwischen 0 und 6 Uhr. Spätestens ab 6 Uhr ist die Änderung für das E-Rezept-FdV verfügbar.
@@ -203,7 +286,33 @@ Dem E-Rezept-FdV werden über das APOVZD die URLs innerhalb der LocationRessourc
 
 Beispiel:
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/04_url_in_apovzd.json[]
+{
+"telecom":[
+    {
+        "system": "phone", 
+        "value": "030/400410", 
+        "rank": 1 
+    }, 
+    { 
+        "system": "other", 
+        "value": "https://www.megaaoptheke.de/reservierung", 
+        "use": "mobile",
+        "rank": 100 
+    }, 
+    { 
+        "system": "other", 
+        "value": "https://www.megaapotheke.de/botendienst", 
+        "use": "mobile",
+        "rank": 200 
+    }, 
+    { 
+        "system": "other", 
+        "value": "https://www.megaapotheke.de/versand", 
+        "use": "mobile", 
+        "rank": 300 
+    }
+]
+}
 ----
 
 Um aus dem E-Rezept-FdV nach Apotheken zu filtern, die dieses Feature unterstützen, wird ein zusätzlicher Type DELEGATOR aus dem Codesystem http://terminology.hl7.org/CodeSystem/v3-RoleCode eingeführt.
@@ -239,7 +348,19 @@ Als Versicherter möchte ich mein Rezept an die Apotheke meiner Wahl übermittel
 Der folgende Datensatz wird erstellt:
 
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
+{
+    "version": "2",
+    "supplyOptionsType": "delivery",
+    "name": "Dr. Maximilian von Muster",
+    "address": ["Bundesallee", "312", "12345", "Berlin"],
+    "hint": "Bitte im Morsecode klingeln: -.-.",
+    "text": "123456",
+    "phone": "004916094858168",
+    "mail": "max@musterfrau.de",
+    "transactionID": "ee63e415-9a99-4051-ab07-257632faf985",
+    "taskID": "160.000.000.000.000.01",
+    "accessCode": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+}
 ----
 
 === Verschlüsselung des Datensatzes
@@ -265,7 +386,47 @@ Diese ASN.1-Struktur muss Base64-DER codiert im Aufruf der Verschlüsselungsoper
 Das folgende beispielhafte Kommando verschlüsselt einen Datensatz für ein ENC-Zertifikat inkl. Einbettung der unsafe-Attribute (kotlin-Code).
 
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/06_example_encryption.java[]
+public class example_encryption {
+    val info = ASN1EncodableVector().apply
+    {
+        recipientCerts.forEach { recipientCert ->
+            add(
+                DERSequence(
+                    ASN1EncodableVector().apply {
+                        add(DERIA5String("3-10.3.1234567000.10.999", true))
+
+                        add(RecipientIdentifier(IssuerAndSerialNumber(JcaX509CertificateHolder(recipientCert).toASN1Structure())))
+                    }
+                )
+            )
+        }
+    }
+    // ...
+    recipientCerts.forEach{ recipientCert ->
+        if (recipientCert.sigAlgOID == oidEcdsaWithSHA256) {
+            edGen.addRecipientInfoGenerator(
+                JceKeyAgreeRecipientInfoGenerator(
+                    CMSAlgorithm.ECDH_SHA256KDF,
+                    kp.private,
+                    kp.public,
+                    CMSAlgorithm.AES256_GCM
+                )
+                    .setProvider(BCProvider)
+                    .addRecipient(recipientCert)
+            );
+        } else {
+            edGen.addRecipientInfoGenerator(
+                JceKeyTransRecipientInfoGenerator(
+                    recipientCert,
+                    JceAsymmetricKeyWrapper(
+                        OAEPParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA256, PSource.PSpecified.DEFAULT),
+                        recipientCert.publicKey
+                    )
+                ).setProvider(BCProvider)
+            )
+        }
+    }
+}
 ----
 
 Der erhaltene CMS-Datensatz enthält unter der genannten OID die Entschlüsselungsinformationen für den Empfänger:
@@ -285,13 +446,51 @@ Wenn das FdV eine mit dem Zertifikat der SMB-C verschlüsselte Nachricht an den 
 === Entschlüsselung der Nachricht
 Der übermittelte CMS-Datensatz enthält die notwendigen Informationen zur Lokalisierung der für die Entschlüsselung zu nutzende SMC-B. Der Datensatz kann mit der Operation `DecryptDocument` des Konnektors entschlüsselt werden.
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/07_decrypt_request.xml[]
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <S:Body>
+        <ns5:DecryptDocument xmlns="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="urn:oasis:names:tc:dss:1.0:core:schema"
+            xmlns:ns4="http://www.w3.org/2000/09/xmldsig#"
+            xmlns:ns5="http://ws.gematik.de/conn/EncryptionService/v6.1"
+            xmlns:ns6="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+            xmlns:ns7="urn:oasis:names:tc:SAML:1.0:assertion">
+            <ns6:Context>
+                <ns2:MandantId>Mandant1</ns2:MandantId>
+                <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+                <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+                <ns2:UserId>user</ns2:UserId>
+            </ns6:Context>
+            <ns5:PrivateKeyOnCard>
+                <ns2:CardHandle>SMC-B-73</ns2:CardHandle>
+                <ns5:KeyReference/>
+            </ns5:PrivateKeyOnCard>
+            <ns2:Document>
+                <ns3:Base64Data MimeType="text/plain">MIAGCyqGSIb3DQEJE...</ns3:Base64Data>
+            </ns2:Document>
+        </ns5:DecryptDocument>
+    </S:Body>
+</S:Envelope>
 ----
 
 Der entschlüsselte Datensatz enthält folgende Informationen:
 
 ----
-Unresolved directive in erp_alternative_zuweisung-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/erp_alternative_zuweisung/05_message_from_fdv.json[]
+{
+    "version": "2",
+    "supplyOptionsType": "delivery",
+    "name": "Dr. Maximilian von Muster",
+    "address": ["Bundesallee", "312", "12345", "Berlin"],
+    "hint": "Bitte im Morsecode klingeln: -.-.",
+    "text": "123456",
+    "phone": "004916094858168",
+    "mail": "max@musterfrau.de",
+    "transactionID": "ee63e415-9a99-4051-ab07-257632faf985",
+    "taskID": "160.000.000.000.000.01",
+    "accessCode": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+}
 ----
 
 NOTE: "transactionID" beinhaltet die von der E-Rezept-App erzeuge UUID zur eindeutigen Identifikation der Transaktion.

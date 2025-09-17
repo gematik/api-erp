@@ -21,7 +21,6 @@
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
@@ -159,7 +158,32 @@ SOAPAction: "http://ws.gematik.de/conn/CertificateService/v7.4#ReadCardCertifica
 |Payload    |
 [source,xml]
 ----
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/01_request_ReadCardCertificate.xml[]
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <S:Body>
+    <ns4:ReadCardCertificate xmlns:ns4="http://ws.gematik.de/conn/CertificateService/v6.0"
+      xmlns="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns3="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns5="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+      xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns7="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns8="urn:oasis:names:tc:SAML:1.0:assertion">
+      <ns2:CardHandle>SMC-B-15</ns2:CardHandle>
+      <ns3:Context>
+        <ns2:MandantId>Mandant1</ns2:MandantId>
+        <ns2:ClientSystemId>CS1</ns2:ClientSystemId>
+        <ns2:WorkplaceId>AP1</ns2:WorkplaceId>
+        <ns2:UserId>user1</ns2:UserId>
+      </ns3:Context>
+      <ns4:CertRefList>
+        <ns4:CertRef>C.AUT</ns4:CertRef>
+      </ns4:CertRefList>
+      <ns4:Crypt>ECC</ns4:Crypt>
+    </ns4:ReadCardCertificate>
+  </S:Body>
+</S:Envelope>
 ----
 NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat zur Authentisierung gegenüber dem IDP aus der SMC-B ausgelesen werden soll.
 |===
@@ -170,7 +194,37 @@ NOTE: In `<ns8:CertRef>C.AUT</ns8:CertRef>` wird angegeben, dass das Zertifikat 
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/02_response_ReadCardCertificate.xml[]
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <ns5:ReadCardCertificateResponse xmlns:ns5="http://ws.gematik.de/conn/CertificateService/v6.0"
+      xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns4="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0">
+      <ns2:Status>
+        <ns2:Result>OK</ns2:Result>
+      </ns2:Status>
+      <ns4:X509DataInfoList>
+        <ns4:X509DataInfo>
+          <ns4:CertRef>C.AUT</ns4:CertRef>
+          <ns4:X509Data>
+            <ns4:X509IssuerSerial>
+              <ns4:X509IssuerName>CN=GEM.SMCB-CA57 TEST-ONLY,OU=Institution des Gesundheitswesens-CA
+                der Telematikinfrastruktur,O=gematik NOT-VALID,C=DE</ns4:X509IssuerName>
+              <ns4:X509SerialNumber>384074971647989</ns4:X509SerialNumber>
+            </ns4:X509IssuerSerial>
+            <ns4:X509SubjectName>CN=Praxis Peer Graf von
+              MüllerTEST-ONLY,2.5.4.12=#0c0950726f662e2044722e,2.5.4.42=#0c0450656572,2.5.4.4=#0c074dc3bc6c6c6572,O=Praxis
+              Peer Graf von MüllerNOT-VALID,STREET=Frohnhauser Straße
+              253,2.5.4.17=#0c053435313434,L=Essen,C=DE</ns4:X509SubjectName>
+            <ns4:X509Certificate>
+              MIIDpDCCA0ugAwIBAgIHAV1QbECP9TAKBggqhkjOPQQDAjCBlTELMAkGA1UEBhMCREUxGjAYBgNVBAoMEWdlbWF0aWsgTk9ULVZBTElEMUgwRgYDVQQLDD9JbnN0aXR1dGlvbiBkZXMgR2VzdW5kaGVpdHN3ZXNlbnMtQ0EgZGVyIFRlbGVtYXRpa2luZnJhc3RydWt0dXIxIDAeBgNVBAMMF0dFTS5TTUNCLUNBNTcgVEVTVC1PTkxZMB4XDTI0MTIwMzAwMDAwMFoXDTI5MTIwMjIzNTk1OVowgeQxCzAJBgNVBAYTAkRFMQ4wDAYDVQQHDAVFc3NlbjEOMAwGA1UEEQwFNDUxNDQxIDAeBgNVBAkMF0Zyb2huaGF1c2VyIFN0cmHDn2UgMjUzMS4wLAYDVQQKDCVQcmF4aXMgUGVlciBHcmFmIHZvbiBNw7xsbGVyTk9ULVZBTElEMRAwDgYDVQQEDAdNw7xsbGVyMQ0wCwYDVQQqDARQZWVyMRIwEAYDVQQMDAlQcm9mLiBEci4xLjAsBgNVBAMMJVByYXhpcyBQZWVyIEdyYWYgdm9uIE3DvGxsZXJURVNULU9OTFkwWjAUBgcqhkjOPQIBBgkrJAMDAggBAQcDQgAEEIZg/qYcKfgeZ5kwYiDsyFNCk97KzGerP+oQz5Fdr+wZ7zvJz5v10lrHUE/eIIX0Wnw4quMPRR21e9g80l/85qOCATIwggEuMA4GA1UdDwEB/wQEAwIHgDA7BggrBgEFBQcBAQQvMC0wKwYIKwYBBQUHMAGGH2h0dHA6Ly9laGNhLmdlbWF0aWsuZGUvZWNjLW9jc3AwHwYDVR0jBBgwFoAUte91fpmaF8nTdy9bEcWEMy8FnFEwHQYDVR0OBBYEFG3JPVn5ckQoCarX8Y9r3U+Ltxh1MBMGA1UdJQQMMAoGCCsGAQUFBwMCMCAGA1UdIAQZMBcwCgYIKoIUAEwEgSMwCQYHKoIUAEwETTAMBgNVHRMBAf8EAjAAMFoGBSskCAMDBFEwTzBNMEswSTBHMBYMFEJldHJpZWJzc3TDpHR0ZSBBcnp0MAkGByqCFABMBDITIjEtU01DLUItVGVzdGthcnRlLS04ODMxMTAwMDAxNjM5NzIwCgYIKoZIzj0EAwIDRwAwRAIgEn+br/azo26haApXPtQwOdbwx2CKmFBtnK34IdteEEsCIBBh2ibdVej78joEXzml4xZI9UbTYqo7bFe5OF2vXK3d</ns4:X509Certificate>
+          </ns4:X509Data>
+        </ns4:X509DataInfo>
+      </ns4:X509DataInfoList>
+    </ns5:ReadCardCertificateResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
 NOTE: Der Konnektor liefert das Zertifikat in `<ns5:X509Certificate>` zurück, wie es auf der Karte gespeichert ist, ASN.1 DER codiert in Base64-Darstellung.
 
@@ -209,7 +263,36 @@ IMPORTANT: Die Länge des Soap-Requests, muss entsprechend im Header mit der Eig
 |Payload    |
 [source,xml]
 ----
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/03_request_VerifyCertificate.xml[]
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:m0="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+    xmlns:m1="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+    xmlns:m2="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0">
+    <SOAP-ENV:Body>
+        <m:VerifyCertificate xmlns:m="http://ws.gematik.de/conn/CertificateService/v6.0">
+            <m0:Context>
+                <m1:MandantId>Mandant1</m1:MandantId>
+                <m1:ClientSystemId>ClientID1</m1:ClientSystemId>
+                <m1:WorkplaceId>CATS</m1:WorkplaceId>
+            </m0:Context>
+            <m2:X509Certificate>MIICsTCCAligAwIBAgIHA61I5ACUjTAKBggqhkjOPQQDAjCBhDELMAkGA1UEBhMCREUxHzAdBgNV
+BAoMFmdlbWF0aWsgR21iSCBOT1QtVkFMSUQxMjAwBgNVBAsMKUtvbXBvbmVudGVuLUNBIGRlciBU
+ZWxlbWF0aWtpbmZyYXN0cnVrdHVyMSAwHgYDVQQDDBdHRU0uS09NUC1DQTEwIFRFU1QtT05MWTAe
+Fw0yMDA4MDQwMDAwMDBaFw0yNTA4MDQyMzU5NTlaMEkxCzAJBgNVBAYTAkRFMSYwJAYDVQQKDB1n
+ZW1hdGlrIFRFU1QtT05MWSAtIE5PVC1WQUxJRDESMBAGA1UEAwwJSURQIFNpZyAxMFowFAYHKoZI
+zj0CAQYJKyQDAwIIAQEHA0IABJZQrG1NWxIB3kz/6Z2zojlkJqN3vJXZ3EZnJ6JXTXw5ZDFZ5Xjw
+Wmtgfomv3VOV7qzI5ycUSJysMWDEu3mqRcajge0wgeowHQYDVR0OBBYEFJ8DVLAZWT+BlojTD4MT
+/Na+ES8YMDgGCCsGAQUFBwEBBCwwKjAoBggrBgEFBQcwAYYcaHR0cDovL2VoY2EuZ2VtYXRpay5k
+ZS9vY3NwLzAMBgNVHRMBAf8EAjAAMCEGA1UdIAQaMBgwCgYIKoIUAEwEgUswCgYIKoIUAEwEgSMw
+HwYDVR0jBBgwFoAUKPD45qnId8xDRduartc6g6wOD6gwLQYFKyQIAwMEJDAiMCAwHjAcMBowDAwK
+SURQLURpZW5zdDAKBggqghQATASCBDAOBgNVHQ8BAf8EBAMCB4AwCgYIKoZIzj0EAwIDRwAwRAIg
+VBPhAwyX8HAVH0O0b3+VazpBAWkQNjkEVRkv+EYX1e8CIFdn4O+nivM+XVi9xiKK4dW1R7MD334O
+pOPTFjeEhIVV</m2:X509Certificate>
+        </m:VerifyCertificate>
+    </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
 NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certificate></m2:X509Certificate>` identifiziert.
 |===
@@ -220,7 +303,24 @@ NOTE: Das zu prüfende Zertifikat in Base64-DER-Codierung ist mit `<m2:X509Certi
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/04_response_VerifyCertificate.xml[]
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header/>
+    <SOAP-ENV:Body>
+        <ns4:VerifyCertificateResponse xmlns:ns2="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+            xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+            xmlns:ns4="http://ws.gematik.de/conn/CertificateService/v6.0">
+            <ns2:Status>
+                <ns2:Result>OK</ns2:Result>
+            </ns2:Status>
+            <ns4:VerificationStatus>
+                <ns4:VerificationResult>VALID</ns4:VerificationResult>
+                </ns4:VerificationStatus>
+                <ns4:RoleList>
+                    <ns4:Role>1.2.276.0.76.4.260</ns4:Role>
+                </ns4:RoleList>
+            </ns4:VerifyCertificateResponse>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
 ----
 NOTE: In `<ns4:VerificationResult></ns4:VerificationResult>` wird das Prüfergebnis des Zertifikats [VALID = gültig, INCONCLUSIVE = offline-gültig ohne Sperrstatus, INVALID = ungültig] angegeben
 
@@ -252,7 +352,40 @@ SOAPAction: "http://ws.gematik.de/conn/SignatureService/v7.4#ExternalAuthenticat
 |Payload    |
 [source,xml]
 ----
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/05_request_ExternalAuthenticate.xml[]
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <S:Body>
+    <ns4:ExternalAuthenticate xmlns:ns4="http://ws.gematik.de/conn/SignatureService/v7.4"
+      xmlns="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns10="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns11="http://ws.gematik.de/conn/CertificateServiceCommon/v2.0"
+      xmlns:ns12="urn:oasis:names:tc:SAML:1.0:assertion"
+      xmlns:ns13="urn:oasis:names:tc:SAML:2.0:assertion"
+      xmlns:ns14="http://www.w3.org/2001/04/xmlenc#"
+      xmlns:ns2="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns3="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns5="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+      xmlns:ns6="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns7="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+      xmlns:ns8="http://uri.etsi.org/01903/v1.3.2#" xmlns:ns9="http://uri.etsi.org/02231/v2#">
+      <CardHandle>SMC-B-15</CardHandle>
+      <ns10:Context>
+        <MandantId>Mandant1</MandantId>
+        <ClientSystemId>CS1</ClientSystemId>
+        <WorkplaceId>AP1</WorkplaceId>
+        <UserId>user1</UserId>
+      </ns10:Context>
+      <ns4:OptionalInputs>
+        <ns2:SignatureType>urn:bsi:tr:03111:ecdsa</ns2:SignatureType>
+      </ns4:OptionalInputs>
+      <ns4:BinaryString>
+        <ns2:Base64Data MimeType="application/octet-stream">
+          EGvRHN8ZHbaFVSaMBoKLVO3CqW6SjWM8fVeIZyClkQw=</ns2:Base64Data>
+      </ns4:BinaryString>
+    </ns4:ExternalAuthenticate>
+  </S:Body>
+</S:Envelope>
 ----
 NOTE: Entsprechend der Mandantenkonfiguration wird in `<ns1:CardHandle></ns1:CardHandle>` die SMC-B referenziert, welche der IDP authentifizieren soll.
 
@@ -265,7 +398,30 @@ NOTE: In `<ns7:Base64Data></ns7:Base64Data>` befindet sich der zu signierende Ha
 HTTP/1.1 200 OK
 Content-Type: text/xml;charset=utf-8
 
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/06_response_ExternalAuthenticate.xml[]
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header />
+  <SOAP-ENV:Body>
+    <ns11:ExternalAuthenticateResponse xmlns:ns11="http://ws.gematik.de/conn/SignatureService/v7.4"
+      xmlns:ns10="http://uri.etsi.org/02231/v2#"
+      xmlns:ns12="urn:oasis:names:tc:dss-x:1.0:profiles:SignaturePolicy:schema#"
+      xmlns:ns2="http://ws.gematik.de/conn/nfds/NFDService/v1.0"
+      xmlns:ns3="http://ws.gematik.de/tel/error/v2.0"
+      xmlns:ns4="http://ws.gematik.de/conn/ConnectorCommon/v5.0"
+      xmlns:ns5="http://ws.gematik.de/conn/ConnectorContext/v2.0"
+      xmlns:ns6="urn:oasis:names:tc:dss:1.0:core:schema"
+      xmlns:ns7="http://www.w3.org/2000/09/xmldsig#"
+      xmlns:ns8="urn:oasis:names:tc:dss-x:1.0:profiles:verificationreport:schema#"
+      xmlns:ns9="http://uri.etsi.org/01903/v1.3.2#">
+      <ns4:Status>
+        <ns4:Result>OK</ns4:Result>
+      </ns4:Status>
+      <ns6:SignatureObject>
+        <ns6:Base64Signature Type="urn:bsi:tr:03111:ecdsa">
+          MEQCIGFM9BsPKQYIJA/UgGosqbVh4r84b6OZukGhzXJ4TabwAiBg2dyMpKtXc93ZbcgXz2wP8WWqsdqUumB4jOpd7zXs/A==</ns6:Base64Signature>
+      </ns6:SignatureObject>
+    </ns11:ExternalAuthenticateResponse>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
 ----
 
 
@@ -454,7 +610,105 @@ Der HTTP-Statuscode 200 signalisiert dabei die korrekte Verarbeitung und Erstell
 Content-Type: application/fhir+json;charset=utf-8
 Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf-9052-42f6-ac4e-fadceed7293b
 
-Unresolved directive in authentisieren-source.adoc - include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2025-10-01/API-Examples/2025-10-01/authentisieren/07_response_InnerVau.json[]
+{
+  "resourceType": "Bundle",
+  "id": "authentisieren-07-response-InnerVau",
+  "meta": {
+    "lastUpdated": "2025-10-01T15:29:00.434+00:00"
+  },
+  "type": "searchset",
+  "total": 2,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://erp.zentral.erp.splitdns.ti-dienste.de/Task/Example-Task",
+      "resource": {
+        "resourceType": "Task",
+        "id": "Example-Task",
+        "meta": {
+          "profile": [
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+          ]
+        },
+        "intent": "order",
+        "extension": [
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+            "valueCoding": {
+              "code": "160",
+              "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+              "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+            }
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate",
+            "valueDate": "2025-10-28"
+          },
+          {
+            "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate",
+            "valueDate": "2026-01-01"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "official",
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.000.000.000.000.01"
+          },
+          {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode",
+            "use": "official",
+            "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+          }
+        ],
+        "for": {
+          "identifier": {
+            "system": "http://fhir.de/sid/gkv/kvid-10",
+            "value": "X123456789"
+          }
+        },
+        "input": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "1",
+                  "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_DocumentType"
+                }
+              ]
+            },
+            "valueReference": {
+              "reference": "Binary/281a985c-f25b-4aae-91a6-41ad744080b0"
+            }
+          }
+        ],
+        "status": "in-progress",
+        "authoredOn": "2025-10-01T15:29:00+00:00",
+        "lastModified": "2025-10-01T15:29:00.434+00:00",
+        "performerType": [
+          {
+            "coding": [
+              {
+                "code": "urn:oid:1.2.276.0.76.4.54",
+                "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType",
+                "display": "Öffentliche Apotheke"
+              }
+            ],
+            "text": "Öffentliche Apotheke"
+          }
+        ]
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+  ]
+}
 ----
 
 NOTE: Die innere HTTP-Response hat die folgende Struktur "1" + " " + ursprüngliche-Request-ID + " " + Response-Header-und-Body
