@@ -27,12 +27,12 @@ image:gematik_logo.png[width=150, float="right"]
 
 Zielgruppe: image:{fdv}[] image:{eRp}[]
 
-Intro
+Das Konzept für Push Notifications wird https://gematik.github.io/gem-push-notifications-concept/index.html[hier] im Detail beschrieben. Diese Seite erläutert nur die E-Rezept-spezifischen Details und API-Endpunkte.
 
 toc::[]
 
 == Setup der Push Notifications
-
+Die E-Rezept-spezifischen API-Endpunkte für die Registrierung und Verwaltung von Pusher sind hier beschrieben.
 === Pusher Verwaltung
 ==== Request
 [cols="h,a", width="100%", separator=¦]
@@ -59,7 +59,7 @@ Authorization: Bearer <JWT> (string, required)
   "app_id": "com.example.app.ios",
   "pushkey": "<APNS/GCM TOKEN>",
   "data": {
-    "url": "https://push-gateway.location.here/_matrix/push/v1/notify"
+    "url": "https://push-gateway.location.here/_matrix/push/v1/"
   },
   "encryption": {
     "method": "aes-hmac-sha256",
@@ -84,7 +84,6 @@ Authorization: Bearer <JWT> (string, required)
 ----
 ====
 |===
-
 ==== Response
 
 [cols="h,a", width="100%", separator=¦]
@@ -161,7 +160,7 @@ No request body.
       "profile_tag": "xyz",
       "lang": "en-US",
       "data": {
-        "url": "https://example.com/_matrix/push/v1/notify"
+        "url": "https://example.com/_matrix/push/v1/"
       }
     }
   ]
@@ -195,6 +194,7 @@ No request body.
 |===
 
 == Channel Verwaltung
+Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezifischen API-Endpunkte sind hier beschrieben.
 === Verfügbare Channels
 ==== Request
 [cols="h,a", width="100%", separator=¦]
@@ -401,3 +401,20 @@ No response body.
 [small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
 
 |===
+
+== Nachrichteninhalt
+Der E-Rezept-Fachdienst verschlüsselt die Nachrichteninhalte und sendet diese im Feld Ciphertext an das Push Gateway. Die Entschlüsselung der Nachrichteninhalte erfolgt im FdV.
+Die Datenstruktur der Nachrichteninhalte ist in [gemSpec_DM_eRp] beschrieben.
+
+=== Beispiel Nachrichteninhalt
+[source,json]
+----
+{
+  "ChannelId": "erp.communication.new",
+  "Identifier": "160.000.000.000.123.76",
+  "IdentifierType": "TaskId",
+  "Product": "Sumatriptan-1a Pharma 100 mg Tabletten",
+  "ActorName": "Meine Apotheke",
+  "Message": "Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen."
+}
+----

@@ -5,15 +5,14 @@ include::./config-source.adoc[]
 
 Zielgruppe: image:{fdv}[] image:{eRp}[]
 
-Intro
+Das Konzept für Push Notifications wird https://gematik.github.io/gem-push-notifications-concept/index.html[hier] im Detail beschrieben. Diese Seite erläutert nur die E-Rezept-spezifischen Details und API-Endpunkte.
 
 toc::[]
 
 == Setup der Push Notifications
-
+Die E-Rezept-spezifischen API-Endpunkte für die Registrierung und Verwaltung von Pusher sind hier beschrieben.
 === Pusher Verwaltung
 include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_set_POST_Request.adoc[]
-
 include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_set_POST_Response.adoc[]
 
 === Liste der Pusher
@@ -21,6 +20,7 @@ include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_GET_Request
 include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_GET_Response.adoc[]
 
 == Channel Verwaltung
+Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezifischen API-Endpunkte sind hier beschrieben.
 === Verfügbare Channels
 include::../resources/openapi-adoc/erp_fd_push_notifications/channels_GET_Request.adoc[]
 include::../resources/openapi-adoc/erp_fd_push_notifications/channels_GET_Response.adoc[]
@@ -32,3 +32,13 @@ include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_GE
 === Channel Konfiguration Verwaltung
 include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_POST_Request.adoc[]
 include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_POST_Response.adoc[]
+
+== Nachrichteninhalt
+Der E-Rezept-Fachdienst verschlüsselt die Nachrichteninhalte und sendet diese im Feld Ciphertext an das Push Gateway. Die Entschlüsselung der Nachrichteninhalte erfolgt im FdV.
+Die Datenstruktur der Nachrichteninhalte ist in [gemSpec_DM_eRp] beschrieben.
+
+=== Beispiel Nachrichteninhalt
+[source,json]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/push-notification-payload-example/api-examples/generated-examples/erp_push_notifications/01_notification_payload.json[role=include]
+----
