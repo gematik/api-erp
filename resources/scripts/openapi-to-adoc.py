@@ -1,4 +1,3 @@
-
 import os
 import yaml
 import json
@@ -94,7 +93,6 @@ for filename in os.listdir(INPUT_FOLDER):
 
         base_name = os.path.splitext(filename)[0]
         dir_path = os.path.join(OUTPUT_FOLDER, base_name)
-        examples_dir = os.path.join(dir_path, 'examples')  # New examples subdirectory
         os.makedirs(dir_path, exist_ok=True)
 
         # --- SCHEMA EXPORT ---
@@ -226,15 +224,7 @@ for filename in os.listdir(INPUT_FOLDER):
                             examples = content_details['examples']
                             for example_name, example_details in examples.items():
                                 example_ref = example_details.get('$ref', '')
-                                if example_ref:
-                                    # Download and extract to separate file
-                                    extracted_file = download_and_extract_examples(
-                                        example_ref, example_name, examples_dir
-                                    )
-                                    if extracted_file:
-                                        # Make path relative to the adoc file
-                                        relative_path = os.path.relpath(extracted_file, dir_path)
-                                        request_body_examples.append((example_name, relative_path))
+                                request_body_examples.append((example_name, example_ref))
                         elif 'example' in content_details:
                             example = content_details['example']
                             if isinstance(example, dict) and '$ref' in example:
@@ -251,13 +241,13 @@ for filename in os.listdir(INPUT_FOLDER):
                             if example:
                                 request_body_examples.append((None, json.dumps(example, indent=2)))
 
-                # Modified: Process responses with separate example files
+                # Process responses
                 response_codes = []
                 responses_examples = {} # Dictionary to hold response examples per status code
                 responses_headers = {} # Dictionary to hold response headers per status code
                 response_fhir_profiles = {} # Dictionary to hold x-fhir-profile per status code
                 for code, response in responses.items():
-                    resp_description = get_response_description(response, data)
+                    resp_description = response.get('description', '')
                     resp_type = ''
                     if str(code).startswith('2'):
                         resp_type = 'Success'
@@ -302,13 +292,7 @@ for filename in os.listdir(INPUT_FOLDER):
                                 examples = content_details['examples']
                                 for example_name, example_details in examples.items():
                                     example_ref = example_details.get('$ref', '')
-                                    if example_ref:
-                                        extracted_file = download_and_extract_examples(
-                                            example_ref, example_name, examples_dir
-                                        )
-                                        if extracted_file:
-                                            relative_path = os.path.relpath(extracted_file, dir_path)
-                                            responses_examples.setdefault(code, []).append((example_name, relative_path))
+                                    responses_examples.setdefault(code, []).append((example_name, example_ref))
                             elif 'example' in content_details:
                                 example = content_details['example']
                                 if isinstance(example, dict) and '$ref' in example:
