@@ -22,18 +22,24 @@ image:gematik_logo.png[width=150, float="right"]
 
 // Variables for the Examples that are to be used
 :branch: 2025-10-01
-:date-folder: 2025-10-01
 :toclevels: 2
 
 Zielgruppe: image:{fdv}[] image:{eRp}[]
 
-Das Konzept für Push Notifications wird https://gematik.github.io/gem-push-notifications-concept/index.html[hier] im Detail beschrieben. Diese Seite erläutert nur die E-Rezept-spezifischen Details und API-Endpunkte.
+Das Konzept für Push Notifications wird https://gematik.github.io/gem-push-notifications-concept/index.html[hier] im Detail beschrieben. Dazu gibt es auch das https://gemspec.gematik.de/docs/gemF/gemF_PushNotification/latest/[produktübergreifende Feature-Document] mit den zugehörigen Anforderungen.
+
+Diese Seite erläutert ausschließlich die E-Rezept-spezifischen Details und API-Endpunkte. Die OpenAPI-Spezifikation ist link:../resources/openapi/erp_fd_push_notifications.yaml[hier] verlinkt.
 
 toc::[]
 
 == Setup der Push Notifications
 Die E-Rezept-spezifischen API-Endpunkte für die Registrierung und Verwaltung von Pusher sind hier beschrieben.
+
 === Pusher Verwaltung
+Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Pushers für den authentifizierten Nutzer. Das Verhalten dieses Endpunkts variiert je nach Werten im JSON-Body.
+
+Ist `kind` nicht `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer aktualisiert oder erstellt, falls er nicht existiert. Ist `kind` `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer gelöscht.
+
 ==== Request
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
@@ -121,6 +127,8 @@ No response body.
 |===
 
 === Liste der Pusher
+Ruft alle aktuell aktiven Pusher für den authentifizierten Nutzer ab.
+
 ==== Request
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
@@ -195,7 +203,10 @@ No request body.
 
 == Channel Verwaltung
 Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezifischen API-Endpunkte sind hier beschrieben.
+
 === Verfügbare Channels
+Ruft alle verfügbaren Channels für den authentifizierten Nutzer ab.
+
 ==== Request
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
@@ -265,6 +276,8 @@ No request body.
 |===
 
 === Channel Konfiguration für Pusher
+Ruft alle Channels und deren Konfigurationsstatus für das Gerät des authentifizierten Nutzers ab, das durch den `pushkey` identifiziert wird.
+
 ==== Request
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
@@ -334,6 +347,8 @@ No request body.
 |===
 
 === Channel Konfiguration Verwaltung
+Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Channel-Abonnements für ein bestimmtes Gerät des authentifizierten Nutzers, das durch den `pushkey` identifiziert wird. Ist ein Channel in der POST-Anfrage nicht enthalten, wird der Zustand des Channels auf dem Server nicht verändert. Ein nicht gesetzter Channel gilt als deaktiviert; entsprechend werden keine Pushes ausgelöst, die diesem Channel zugeordnet sind.
+
 ==== Request
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
@@ -404,7 +419,7 @@ No response body.
 
 == Nachrichteninhalt
 Der E-Rezept-Fachdienst verschlüsselt die Nachrichteninhalte und sendet diese im Feld Ciphertext an das Push Gateway. Die Entschlüsselung der Nachrichteninhalte erfolgt im FdV.
-Die Datenstruktur der Nachrichteninhalte ist in [gemSpec_DM_eRp] beschrieben.
+Die Datenstruktur der Nachrichteninhalte ist in https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/latest/[gemSpec_DM_eRp] beschrieben.
 
 === Beispiel Nachrichteninhalt
 [source,json]
