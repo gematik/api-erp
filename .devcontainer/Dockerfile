@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 RUN python3 -m pip install --no-cache-dir PyYAML
 RUN python3 -m pip install --no-cache-dir packaging
+RUN python3 -m pip install --no-cache-dir requests
 
 # Copy keybinding and task configuration files to the container's .vscode directory
 # COPY .vscode/tasks.json .vscode/keybindings.json /workspace/.vscode/
