@@ -181,7 +181,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </meta>
     <contained>
         <Binary>
-            <id value="aed2e8ed-6dd6-4e94-80f4-3ab9e418513a"/>
+            <id value="ChargeItem-Abgabedaten-Binary"/>
             <contentType value="application/pkcs7-mime"/>
             <data value="RGllcyBpc3QgZWluIEJlaXNwaWVs"/>
         </Binary>
@@ -211,7 +211,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </enterer>
     <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
     <supportingInformation>
-        <reference value="#aed2e8ed-6dd6-4e94-80f4-3ab9e418513a"/>
+        <reference value="#ChargeItem-Abgabedaten-Binary"/>
         <display value="Binary"/>
     </supportingInformation>
 </ChargeItem>
@@ -268,15 +268,15 @@ Content-Type: application/fhir+xml;charset=utf-8
     </enterer>
     <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
     <supportingInformation>
-        <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+        <reference value="urn:uuid:ChargeItem-KBV-Bundle"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
+        <reference value="urn:uuid:ChargeItem-Receipt-Bundle"/>
         <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"/>
+        <reference value="urn:uuid:ChargeItem-Abgabedaten-Bundle"/>
         <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
@@ -388,25 +388,25 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
                 </enterer>
                 <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
                 <supportingInformation>
-                    <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+                    <reference value="urn:uuid:ChargeItem-KBV-Bundle"/>
                     <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
                 </supportingInformation>
                 <supportingInformation>
-                    <reference value="urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
-                    <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
+                    <reference value="urn:uuid:ChargeItem-Receipt-Bundle"/>
+                    <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
                 </supportingInformation>
                 <supportingInformation>
-                    <reference value="urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"/>
-                    <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
+                    <reference value="urn:uuid:ChargeItem-Abgabedaten-Bundle"/>
+                    <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
                 </supportingInformation>
             </ChargeItem>
         </resource>
     </entry>
     <entry>
-        <fullUrl value="urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
+        <fullUrl value="urn:uuid:ChargeItem-Receipt-Bundle"/>
         <resource>
             <Bundle>
-                <id value="f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
+                <id value="ChargeItem-Receipt-Bundle"/>
                 <meta>
                     <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.5"/>
                 </meta>
@@ -515,10 +515,10 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
         </resource>
     </entry>
     <entry>
-        <fullUrl value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+        <fullUrl value="urn:uuid:ChargeItem-KBV-Bundle"/>
         <resource>
             <Bundle>
-                <id value="d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+                <id value="ChargeItem-KBV-Bundle"/>
                 <meta>
                     <lastUpdated value="2025-10-01T15:29:00.434+00:00"/>
                     <profile value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"/>
@@ -931,7 +931,7 @@ NOTE:  Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende
         </resource>
     </entry>
     <entry>
-        <fullUrl value="urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"/>
+        <fullUrl value="urn:uuid:ChargeItem-Abgabedaten-Bundle"/>
         <resource>
             <Bundle>
                 <id value="6d240a29-144f-477b-b8e7-92d4b4bcebfd"/>
@@ -1193,7 +1193,7 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </meta>
     <contained>
         <Binary>
-            <id value="aed2e8ed-6dd6-4e94-80f4-3ab9e418513a"/>
+            <id value="ChargeItem-Abgabedaten-Binary"/>
             <contentType value="application/pkcs7-mime"/>
             <data value="RGllcyBpc3QgZWluIEJlaXNwaWVs"/>
         </Binary>
@@ -1223,15 +1223,15 @@ NOTE: In den Profilen ist unter meta.profile auch die Version mit anzugeben. (Bs
     </enterer>
     <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
     <supportingInformation>
-        <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+        <reference value="urn:uuid:ChargeItem-KBV-Bundle"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
+        <reference value="urn:uuid:ChargeItem-Receipt-Bundle"/>
         <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="#aed2e8ed-6dd6-4e94-80f4-3ab9e418513a"/>
+        <reference value="#ChargeItem-Abgabedaten-Binary"/>
         <display value="Binary"/>
     </supportingInformation>
 </ChargeItem>
@@ -1277,15 +1277,15 @@ NOTE: In `<id value="Abg456"/>` fügt die abgebende LEI ihren geänderten Abgabe
     </enterer>
     <enteredDate value="2025-10-01T15:29:00.434+00:00"/>
     <supportingInformation>
-        <reference value="urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"/>
+        <reference value="urn:uuid:ChargeItem-KBV-Bundle"/>
         <display value="https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"/>
+        <reference value="urn:uuid:ChargeItem-Receipt-Bundle"/>
         <display value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle"/>
     </supportingInformation>
     <supportingInformation>
-        <reference value="urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"/>
+        <reference value="urn:uuid:ChargeItem-Abgabedaten-Bundle"/>
         <display value="http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle"/>
     </supportingInformation>
 </ChargeItem>
@@ -1421,15 +1421,15 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "supportingInformation": [
           {
             "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
-            "reference": "urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"
-          },
-          {
-            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
-            "reference": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"
+            "reference": "urn:uuid:ChargeItem-KBV-Bundle"
           },
           {
             "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
-            "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
+            "reference": "urn:uuid:ChargeItem-Receipt-Bundle"
+          },
+          {
+            "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
+            "reference": "urn:uuid:ChargeItem-Abgabedaten-Bundle"
           }
         ],
         "code": {
@@ -1605,15 +1605,15 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
         "supportingInformation": [
           {
             "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
-            "reference": "urn:uuid:42a8260d-579f-4cde-a288-4de0bfb6e6d9"
+            "reference": "urn:uuid:ChargeItem-PKV-KBV-Bundle"
           },
           {
             "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
-            "reference": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"
+            "reference": "urn:uuid:ChargeItem-PKV-Abgabedaten-Bundle"
           },
           {
             "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
-            "reference": "urn:uuid:42772ecc-3d67-4351-a719-2d728426a06b"
+            "reference": "urn:uuid:ChargeItem-Receipt-Bundle"
           }
         ],
         "code": {
@@ -1628,10 +1628,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       }
     },
     {
-      "fullUrl": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1",
+      "fullUrl": "urn:uuid:ChargeItem-Receipt-Bundle",
       "resource": {
         "resourceType": "Bundle",
-        "id": "f1909de6-7d21-443b-a2ae-230b9cb62f70-1",
+        "id": "ChargeItem-Receipt-Bundle",
         "meta": {
           "profile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle|1.5"
@@ -1769,10 +1769,10 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       }
     },
     {
-      "fullUrl": "urn:uuid:42a8260d-579f-4cde-a288-4de0bfb6e6d9",
+      "fullUrl": "urn:uuid:ChargeItem-PKV-KBV-Bundle",
       "resource": {
         "resourceType": "Bundle",
-        "id": "42a8260d-579f-4cde-a288-4de0bfb6e6d9",
+        "id": "ChargeItem-PKV-KBV-Bundle",
         "meta": {
           "profile": [
             "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"
@@ -2333,7 +2333,7 @@ NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende 
       }
     },
     {
-      "fullUrl": "urn:uuid:42772ecc-3d67-4351-a719-2d728426a06b",
+      "fullUrl": "urn:uuid:ChargeItem-PKV-Abgabedaten-Bundle",
       "resource": {
         "resourceType": "Bundle",
         "id": "6d240a29-144f-477b-b8e7-92d4b4bcebfd",
@@ -2754,15 +2754,15 @@ NOTE: Im `"valueString": "ChargeItem.extension('https://gematik.de/fhir/erpchrg/
   "supportingInformation": [
     {
       "display": "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle",
-      "reference": "urn:uuid:d9a98ce4-9585-4031-ba85-3719bf0fc14a"
+      "reference": "urn:uuid:ChargeItem-KBV-Bundle"
     },
     {
       "display": "http://fhir.abda.de/eRezeptAbgabedaten/StructureDefinition/DAV-PKV-PR-ERP-AbgabedatenBundle",
-      "reference": "urn:uuid:f1909de6-7d21-443b-a2ae-230b9cb62f70-1"
+      "reference": "urn:uuid:ChargeItem-Receipt-Bundle"
     },
     {
       "display": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Bundle",
-      "reference": "urn:uuid:d45fa5b0-7b01-457f-a41f-b1ea28982963"
+      "reference": "urn:uuid:ChargeItem-Abgabedaten-Bundle"
     }
   ],
   "code": {
