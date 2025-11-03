@@ -286,9 +286,6 @@ if __name__ == "__main__":
             config_path = os.path.join(config_dir, filename)
             output_file = os.path.splitext(filename)[0] + "_timeline.puml"
             output_path = os.path.join(output_dir, output_file)
-            
-            print("OUTPUT PATH: " + output_path)
-            print("OUTPUT FILE: " + output_file)
 
             # Load JSON data
             try:
