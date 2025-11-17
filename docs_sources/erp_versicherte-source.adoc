@@ -327,7 +327,7 @@ NOTE: Unter `"performer"` findet sich die Telematik-ID der Apotheke, bei der das
 
 NOTE: ` "whenHandedOver"` wurde als Filterkriterium verwendet, das Medikament wurde hier am 15.01.2025 ausgehändigt (`whenhandedover`) und ist damit vom Datumswert "größer" als das Datum des Filterkriteriums der Suchanfrage 01.01.2020 (`whenhandedover=gt2020-01-01`)
 
-WARNING: Mit dem Übergang in die Profilversion 1.4 der Workflow Profile verändert sich die Struktur der MedicationDispenses. Unter Version <= 1.3 der Workflow Profile war die Medication in der MedicationDispense als .contained Resource enthalten. Ab Version 1.4 wird die Medication als separate Ressource im Bundle ausgewiesen. Im Folgenden ein Beispiel der Rückgabe von GET /MedicationDispense mit MedicationDispenses in Version 1.4, 1.3 und 1.2:
+WARNING: WARNING: Beim Übergang von einer Profilversion der Workflow-Profile zu einer anderen kann es sein, dass GET /MedicationDispense mehrere Versionen zurückgibt. Im Folgenden ein Beispiel für genau diesen Fall:
 
 .Beispiel-Response für MedicationDispenses mit mehreren Versionen (Klicken zum Ausklappen)
 [%collapsible]

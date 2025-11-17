@@ -40,14 +40,14 @@ Mit diesem Anwendungsfall kann der Versicherte seine "Einwilligung zum Einlösen
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Consent
-¦Method     ¦POST
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/Consent
+¦Method ¦POST
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Request Body (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -113,7 +113,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (201) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -215,9 +215,9 @@ Als Versicherter möchte ich meine Zustimmung widerrufen.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Consent
-¦Method     ¦DELETE
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/Consent
+¦Method ¦DELETE
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
@@ -226,7 +226,7 @@ Authorization: Bearer <JWT> (string, required)
 ----
 category: Filter für die zu widerrufende Kategorie. In diesem Fall 'EUDISPCONS'. (required)
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -235,10 +235,7 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦Payload ¦
 No response body.
 
 2+¦Response Codes
@@ -278,17 +275,14 @@ Als Versicherter die erteilte Zustimmung einsehen. Im Bundle können mehrere Zus
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Consent
-¦Method     ¦GET
-¦Requester  ¦image:{FdV}[]
-¦HTTP Header ¦
-----
-----
+¦URI ¦https://erp.app.ti-dienste.de/Consent
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
 ¦Query Parameters ¦
 ----
 category: Category of the Consent to be retrieved < EUDISPCONS | CHARGCONS >
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -301,7 +295,7 @@ No request body.
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -406,14 +400,14 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
-¦Method     ¦POST
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/$grant-eu-access-permission
+¦Method ¦POST
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Request Body (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -460,7 +454,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (201) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -536,14 +530,14 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/$read-eu-access-permission
-¦Method     ¦GET
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/$read-eu-access-permission
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -556,7 +550,7 @@ No request body.
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -626,14 +620,14 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/$revoke-eu-access-permission
-¦Method     ¦DELETE
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/$revoke-eu-access-permission
+¦Method ¦DELETE
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -642,10 +636,7 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦Payload ¦
 No response body.
 
 2+¦Response Codes
@@ -686,9 +677,9 @@ Als NCPeH Deutschland möchte ich die im EU-Ausland einlösbaren E-Rezepte vom E
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
-¦Method     ¦POST
-¦Requester  ¦image:{NCPeH}[]
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/$get-eu-prescriptions
+¦Method ¦POST
+¦Requester ¦image:{NCPeH}[]
 ¦HTTP Header ¦
 ----
 AuthorizationHeader: <value> (string, required)
@@ -697,7 +688,7 @@ AuthorizationHeader: <value> (string, required)
 ----
 _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf `1` gesetzt.
 ----
-¦Payload    ¦
+¦Payload ¦
 .Request Body für demographics (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -766,9 +757,6 @@ _count: Anzahl der zurückzugebenden Einträge. Für `demographics` Use Case auf
 </Parameters>
 ----
 ====
-FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input[GEM_ERPEU_PR_PAR_GET_Prescription_Input]
-
-
 .Request Body für prescriptions-retrieval (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -865,9 +853,6 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 </Parameters>
 ----
 ====
-FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_GET_Prescription_Input[GEM_ERPEU_PR_PAR_GET_Prescription_Input]
-
-
 .Request Body für prescriptions-list (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -950,7 +935,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ----
 Content-Type: application/fhir+xml (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -1949,14 +1934,14 @@ Als NCPEH Deutschland möchte ich die Abgabeinformationen zu einem E-Rezept eins
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$eu-close
-¦Method     ¦POST
-¦Requester  ¦image:{NCPeH}[]
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01/$eu-close
+¦Method ¦POST
+¦Requester ¦image:{NCPeH}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Request Body für all-data (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -2192,9 +2177,6 @@ Authorization: Bearer <JWT> (string, required)
 </Parameters>
 ----
 ====
-FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_PR_PAR_CloseOperation_Input[GEM_ERPEU_PR_PAR_CloseOperation_Input]
-
-
 .Request Body für with-missing-data (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -2445,10 +2427,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦HTTP Header ¦
-----
-----
-¦Payload    ¦
+¦Payload ¦
 No response body.
 
 2+¦Response Codes
@@ -2486,14 +2465,14 @@ Als Versicherter möchte ich einen Task als "Einzulösen im EU Ausland" markiere
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01
-¦Method     ¦PATCH
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.app.ti-dienste.de/Task/160.000.000.000.000.01
+¦Method ¦PATCH
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Request Body (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -2530,7 +2509,7 @@ FHIR-Profil: link:https://gematik.de/fhir/erp-eu/StructureDefinition/GEM_ERPEU_P
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -2682,14 +2661,14 @@ Als Versicherter möchte ich meinen Task einsehen, um zu erfahren, ob mein E-Rez
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}
-¦Method     ¦GET
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task/{id}
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -2702,7 +2681,7 @@ No request body.
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) (Klicken zum Ausklappen)
 [%collapsible]
 ====
@@ -2846,9 +2825,9 @@ Als Versicherter möchte ich die Abgabeinformationen zu einem E-Rezept abrufen, 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/MedicationDispense
-¦Method     ¦GET
-¦Requester  ¦image:{FdV}[]
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/MedicationDispense
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
@@ -2860,7 +2839,7 @@ whenhandedover: Angabe der des Abgabedatums.
 whenprepared: Angabe der des Herstellungsdatums.
 performer: Angabe der Telematik-ID des Abgebenden.
 ----
-¦Payload    ¦
+¦Payload ¦
 No request body.
 |===
 
@@ -2875,7 +2854,7 @@ NOTE: Für den Request muss der Client keinen _include Query-Parameter setzen, d
 ----
 Content-Type: application/fhir+json (string)
 ----
-¦Payload    ¦
+¦Payload ¦
 .Response Body (200) für only-eu-dispense (Klicken zum Ausklappen)
 [%collapsible]
 ====

@@ -1,0 +1,537 @@
+= E-Rezept API Dokumentation zur Push Notifications
+image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+:toclevels: 2
+
+Zielgruppe: image:{fdv}[] image:{eRp}[]
+
+Das Konzept für Push Notifications wird https://gematik.github.io/gem-push-notifications-concept/index.html[hier] im Detail beschrieben. Dazu gibt es auch das https://gemspec.gematik.de/docs/gemF/gemF_PushNotification/latest/[produktübergreifende Feature-Document] mit den zugehörigen Anforderungen.
+
+Diese Seite erläutert ausschließlich die E-Rezept-spezifischen Details und API-Endpunkte. Die OpenAPI-Spezifikation ist link:../resources/openapi/erp_fd_push_notifications.yaml[hier] verlinkt.
+
+toc::[]
+
+== Setup der Push Notifications
+Die E-Rezept-spezifischen API-Endpunkte für die Registrierung und Verwaltung von Pusher sind hier beschrieben.
+
+=== Pusher Verwaltung
+Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Pushers für den authentifizierten Nutzer. Das Verhalten dieses Endpunkts variiert je nach Werten im JSON-Body.
+
+Ist `kind` nicht `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer aktualisiert oder erstellt, falls er nicht existiert. Ist `kind` `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer gelöscht.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
+¦Method ¦POST
+¦Requester ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload ¦
+.Request Body für registration (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source]
+----
+https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration
+----
+====
+.Request Body für deletion (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source]
+----
+https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion
+----
+====
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+include::[]
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pusher was set.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Liste der Pusher
+Ruft alle aktuell aktiven Pusher für den authentifizierten Nutzer ab.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "pushers": [
+        {
+          "pushkey": "Xp/MzCt8/9DcSNE9cuiaoT5Ac55job3TdLSSmtmYl4A=",
+          "kind": "http",
+          "app_id": "face.mcapp.appy.prod",
+          "app_display_name": "Appy McAppface",
+          "device_display_name": "Alice's Phone",
+          "profile_tag": "xyz",
+          "lang": "en-US",
+          "data": {
+            "url": "https://example.com/_matrix/push/v1/"
+          }
+        }
+      ]
+    }
+schema:
+  properties:
+    pushers:
+      type: array
+      title: Pushers
+      description: An array containing the current pushers for the user
+      items:
+        type: object
+        properties:
+          pushkey:
+            type: string
+          kind:
+            description: |-
+              The kind of pusher to configure. `"http"` makes a pusher that
+              sends HTTP pokes. `null` deletes the pusher.
+            type: string
+            nullable: true
+          app_id:
+            type: string
+            description: |-
+              This is a reverse-DNS style identifier for the application.
+              It is recommended that this end with the platform, such that
+              different platform versions get different app identifiers.
+              Max length, 64 chars.
+          app_display_name:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. A string that will allow the
+              user to identify what application owns this pusher.
+          device_display_name:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. A string that will allow the
+              user to identify what device owns this pusher.
+          profile_tag:
+            type: string
+            description: |-
+              **UNUSED** This string determines which set of device specific rules this
+              pusher executes.
+          lang:
+            type: string
+            description: |-
+              Required if `kind` is not `null`. The preferred language for
+              receiving notifications (e.g. 'en' or 'en-US').
+          data:
+            type: object
+            description: |-
+              Required if `kind` is not `null`. A dictionary of information
+              for the pusher implementation itself.
+
+              If `kind` is `http`, this MUST contain `url` which is the URL
+              to use for sending notifications. Clients MAY use this object
+              to pass custom data to their push gateway. Servers MUST forward
+              the entire content including `format` and any custom keys but excluding `url`
+              when calling [`/push/v1/notify*`](/push-gateway-api/#postpushv1notify).
+            title: PusherData
+            properties:
+              url:
+                type: string
+                format: uri
+                description: |-
+                  Required if `kind` is `http`. The URL to use for sending
+                  notifications. MUST be an HTTPS URL with a path of
+                  `/push/v1/` that can be extended by `notify`, `notify/batch`
+                  or `notifyEncrypted/batch`, so that the FD can pick the method, if not
+                  specified otherwise by the FD specification.
+                example: https://push-gateway.location.here/push/v1/
+              format:
+                type: string
+                description: |-
+                  The format to send notifications in to Push Gateways if the
+                  `kind` is `http`. The details about what fields the
+                  homeserver should send to the push gateway are defined in the
+                  [Push Gateway Specification](/push-gateway-api/). Currently the only format
+                  available is 'event_id_only'.
+          append:
+            type: boolean
+            description: |-
+              If true, the FD should add another pusher with the
+              given pushkey and App ID in addition to any others with
+              different user IDs. Otherwise, the homeserver must remove any
+              other pushers with the same App ID and pushkey for different
+              users. The default is `false`.
+        required:
+          - pushkey
+          - app_id
+          - kind
+          - app_display_name
+          - device_display_name
+          - lang
+          - data
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The pushers for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+== Channel Verwaltung
+Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezifischen API-Endpunkte sind hier beschrieben.
+
+=== Verfügbare Channels
+Ruft alle verfügbaren Channels für den authentifizierten Nutzer ab.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "channels": [
+        {
+          "id": "channel1",
+          "status": "enabled"
+        },
+        {
+          "id": "channel2",
+          "status": "disabled"
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    channels:
+      type: array
+      title: channels
+      description: An array containing channels
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The name of the channel
+          status:
+            type: string
+            enum: ["enabled", "disabled", "not_set"] 
+        required:
+          - id
+          - status
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channels for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Channel Konfiguration für Pusher
+Ruft alle Channels und deren Konfigurationsstatus für das Gerät des authentifizierten Nutzers ab, das durch den `pushkey` identifiziert wird.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method ¦GET
+¦Requester ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload ¦
+No request body.
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+examples:
+  response:
+    value: {
+      "channels": [
+        {
+          "id": "channel1",
+          "status": "enabled"
+        },
+        {
+          "id": "channel2",
+          "status": "disabled"
+        }
+      ]
+    }
+schema:
+  type: object
+  properties:
+    channels:
+      type: array
+      title: channels
+      description: An array containing channels
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: The name of the channel
+          status:
+            type: string
+            enum: ["enabled", "disabled", "not_set"] 
+        required:
+          - id
+          - status
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channels for this user.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+=== Channel Konfiguration Verwaltung
+Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Channel-Abonnements für ein bestimmtes Gerät des authentifizierten Nutzers, das durch den `pushkey` identifiziert wird. Ist ein Channel in der POST-Anfrage nicht enthalten, wird der Zustand des Channels auf dem Server nicht verändert. Ein nicht gesetzter Channel gilt als deaktiviert; entsprechend werden keine Pushes ausgelöst, die diesem Channel zugeordnet sind.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method ¦POST
+¦Requester ¦image:{FdV}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+----
+¦Payload ¦
+.Request Body für update (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source]
+----
+https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/examples/update
+----
+====
+|===
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦Payload ¦
+.Response Body (200) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,]
+----
+include::[]
+----
+====
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+[small]#The channel was set.#
+
+¦400 ¦ Client Error +
+[small]#Ungültiger http-Request.#
+
+¦401 ¦ Client Error +
+[small]#Ungültiges/Abgelaufenes AccessToken.#
+
+¦403 ¦ Client Error +
+[small]#Unzulässige fachliche Rolle.#
+
+¦406 ¦ Client Error +
+[small]#Angefragter Mime-Type im Accept-Header kann nicht bedient werden.#
+
+¦408 ¦ Client Error +
+[small]#Timeout.#
+
+¦429 ¦ Client Error +
+[small]#Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.#
+
+|===
+
+== Nachrichteninhalt
+Der E-Rezept-Fachdienst verschlüsselt die Nachrichteninhalte und sendet diese im Feld Ciphertext an das Push Gateway. Die Entschlüsselung der Nachrichteninhalte erfolgt im FdV.
+Die Datenstruktur der Nachrichteninhalte ist in https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/latest/[gemSpec_DM_eRp] beschrieben.
+
+=== Beispiel Nachrichteninhalt
+[source,json]
+----
+{
+  "ChannelId": "erp.communication.new",
+  "Identifier": "160.000.000.000.123.76",
+  "IdentifierType": "TaskId",
+  "Product": "Sumatriptan-1a Pharma 100 mg Tabletten",
+  "ActorName": "Meine Apotheke",
+  "Message": "Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen."
+}
+----

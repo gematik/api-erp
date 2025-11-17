@@ -19,7 +19,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um das E-Rezep
     - [Anwendungsfälle Bedienung von E-Rezepten](#anwendungsfälle-bedienung-von-e-rezepten)
     - [Besondere Anwendungsfälle](#besondere-anwendungsfälle)
     - [Anwendungsfälle PKV](#anwendungsfälle-pkv)
-  - [Lizenzbedingungen](#lizenzbedingungen)
+  - [License](#license)
 
 ## Einleitung
 Die gematik geht neue Wege und möchte auf diesem Weg die Nutzung der Schnittstellen rund um das E-Rezept vorstellen. Die Beschreibung dieser API ergänzt die normativen Dokumente der gematik sowie die Festlegungen über die [E-Rezept-Profile (inkl. Beispielen)](https://simplifier.net/erezept-workflow) des genutzten FHIR-Standards.
@@ -97,6 +97,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
 |[Übertragung digitaler Durchschlag E-T-Rezept](docs/erp_bfarm.adoc)|![][bfarm]|
+|[OpenApi Remote-FdV v1.2.1](docs/fdv-testdriver-openapi.adoc)|![][FdV]|
 
 ### Anwendungsfälle PKV
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
@@ -105,9 +106,9 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Einwilligung](docs/erp_consent.adoc)|![][AVS] ![][FdV]
 |[Liste der PKV-Institutionskennzeichennummern](https://github.com/PKV-Verband/PKV-IK-Liste)|![][PVS]|
 
-## Lizenzbedingungen
+## License
 
-Copyright (c) 2024 gematik GmbH
+Copyright (c) 2025 gematik GmbH
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
