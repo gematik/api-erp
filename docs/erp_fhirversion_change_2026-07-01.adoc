@@ -1,0 +1,109 @@
+= E-Rezept FHIR Veränderungen für 01.07.2026 image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+
+toc::[]
+
+Der Übergang ab 01.07.2026 im E-Rezept ermöglicht die Angabe strukturierter Dosierungen bei Verordnung und Abgabe von Arzneimitteln.
+
+Verordnungen von E-T und E-BtM-Rezepten wird zu einem späteren Zeitpunkt zur Verfügung stehen. Aktuelle Informationen zur Bereitstellung der Features finden sich unter link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[RUAAS].
+
+== Versionsübergabegänge
+
+Der anstehende FHIR-Profilübergang stellt sich wie folgt dar:
+
+image::../images/puml_2026-07-01_fhir-transition_timeline.png[]
+
+Die zugrundeliegende Konfiguration findet sich hier: link:../resources/configuration/2026-07-01_fhir-transition.json[Konfiguration für den Übergang zum 01.07.2026]
+
+
+=== Package Gültigkeiten
+
+Die Gültigkeiten von FHIR Packages in diesem Übergang stellen sich wie folgt dar:
+
+[cols="h,a,a,a,a"]
+|===
+|*FHIR Paket* |*Version* |*Gültig Von* |*Gültig Bis* |*in PU einstellbar bis*
+
+|de.abda.erezeptabgabedaten |1.5.0 |- |- |-
+|de.abda.erezeptabgabedatenpkv |1.4.0 |- |- |-
+|de.gematik.erezept-patientenrechnung.r4 |1.1.0 |- |- |-
+|de.gematik.erezept-workflow.r4 |1.5.2 |- |30.09.2026 |10.04.2027
+|de.gematik.erezept-workflow.r4 |1.6.1 |01.07.2026 |- |-
+|de.gematik.erezept.eu.r4 |1.0.0 |- |- |-
+|de.gkvsv.eRezeptAbrechnungsdaten |1.5.1 |- |- |-
+|erp-fdv-patientenrechnung |1.1.0 |- |- |-
+|erp-fdv-workflow |1.5.2 |- |14.01.2027 |14.01.2027
+|erp-fdv-workflow |1.6.1 |01.07.2026 |- |-
+|kbv.ita.erp |1.3.3 |- |14.01.2027 |24.01.2027
+|kbv.ita.erp |1.4.1 |01.07.2026 |- |-
+|kbv.itv.evdga |1.2.2 |- |- |-
+|===
+
+Hinweis: Die Daten für "in PU einstellbar bis" sind in xref:../docs/erp_deprecated_package_fd.adoc[E-Rezept FHIR-Package Nachhaltung] beschrieben.
+
+Die Profile für die Angaben _erp-fdv-workflow_ und _erp-fdv-patientenrechnung_ entsprechen den Communication Profilen aus den Packages:
+[options="header"]
+|===
+| Profilname | aus Package | Bestandteil von
+| GEM_ERP_PR_Communication_Representative | de.gematik.erezept-workflow.r4 | erp-fdv-workflow
+| GEM_ERP_PR_Communication_DispReq | de.gematik.erezept-workflow.r4 | erp-fdv-workflow
+| GEM_ERPCHRG_PR_PAR_Patch_ChargeItem_Input | de.gematik.erezept-patientenrechnung.r4 | erp-fdv-patientenrechnung
+| GEM_ERPCHRG_PR_Communication_ChargChangeReq | de.gematik.erezept-patientenrechnung.r4 | erp-fdv-patientenrechnung
+| GEM_ERPCHRG_PR_Consent | de.gematik.erezept-patientenrechnung.r4 | erp-fdv-patientenrechnung
+|===
+
+== Änderungen
+
+=== Übersicht
+[cols="a,a,a,a"]
+[%autowidth]
+|===
+h|Betrifft h|Feature h|Ressource h|Änderungen
+
+| *Alle* | *Allgemein* | Alle | Anpassen der Versionsangabe in meta.profile von '\|1.Y' zu '\|1.X'.
+
+In allen Ressourcen wird die Versionsangabe in meta.profile angepasst. Bsp: '\|1.4' statt '\|1.3'
+
+| image:{PVS}[] | *Verordnung* | link:https://simplifier.net/erezept/kbv_pr_erp_bundle[KBV_PR_ERP_Bundle] |
+Mit den neuen eRezept Profilen ist es möglich, dass E-T und E-BtM-Rezepte verordnet werden können.
+Für Informationen zur Bereitstellung des Features am E-Rezept-Fachdienst ist link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[RUAAS] zu konsultieren.
+
+| image:{PVS}[] image:{AVS}[] | *Verordnung, Abgabe* | link:https://simplifier.net/erezept/kbv_pr_erp_bundle[KBV_PR_ERP_Bundle], link:https://simplifier.net/erezept-workflow/gem_erp_pr_par_closeoperation_input[GEM_ERP_PR_PAR_CloseOperation_Input] |
+Die Profile des KBV eRezepts und gematik Workflow erlauben die strukturierte Angabe von Dosierinformationen nach link:https://ig.fhir.de/igs/medication/[Medication IG DE] der HL7 DE.
+Für die korrekte Erstellung von strukturierten Dosierungen muss der FHIR IG der HL7 Deutschland implementiert werden.
+
+Wichtig: der E-Rezept-Fachdienst validiert den erzeugten Dosiertext nach link:https://ig.fhir.de/igs/medication/dosierung-textgenerierung.html[Dosis Textgenerierung]. Verordnende und Abgebende Systeme müssen eine Implementierung erstellen, die einen Text mit gleichem Output wie die link:https://github.com/hl7germany/dgMP-DosageTextgenerierung-Skript[Python Referenzimplementierung] erzeugt.
+
+|===
+
+=== Release Notes der FHIR Packages
+Weiterhin sind die Releasenotes der FHIR-Packages zu beachten, da diese Änderungsinformationen der Strukturen enthalten:
+
+[cols="a,a,a"]
+[%autowidth]
+|===
+h| Herausgeber h|FHIR Package h| Beispiele
+| gematik |  link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.6.1[de.gematik.erezept-workflow.r4 Package 1.6.1^]  | link:https://github.com/gematik/eRezept-Examples/tree/2026-07-01/Standalone-Examples/de.gematik.erezept-workflow.r4[Beispiele de.gematik.erezept-workflow.r4 1.6.1^]
+| KBV |  link:https://simplifier.net/packages/kbv.ita.erp/1.4.0[kbv.ita.erp Package 1.4.1^] | link:https://github.com/gematik/eRezept-Examples/tree/2026-07-01/Standalone-Examples/kbv.ita.erp[Beispiele kbv.ita.erp 1.4.1]
+|===

@@ -57,195 +57,278 @@ X-Request-ID: <value> (string)
 ----
 {
   "resourceType": "Parameters",
-  "id": "Example-T-Prescription-CC-Post",
+  "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_T_Prescription|1.5"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.0"
     ]
   },
   "parameter": [
     {
-      "name": "prescriptionSignatureDate",
-      "valueInstant": "2026-04-01T12:43:23Z"
-    },
-    {
-      "name": "rxPrescription",
       "part": [
         {
-          "name": "prescriptionId",
-          "valueIdentifier": {
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.153.303.257.459"
-          }
+          "name": "prescriptionSignatureDate",
+          "valueInstant": "2026-04-01T08:23:12Z"
         },
         {
-          "name": "authoredOn",
-          "valueDate": "2026-04-01"
+          "valueIdentifier": {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.100.000.000.001.39"
+          },
+          "name": "prescriptionId"
         },
         {
           "name": "medicationRequest",
           "resource": {
             "resourceType": "MedicationRequest",
-            "id": "ExampleMedicationRequest-T",
-            "status": "active",
-            "intent": "order",
-            "authoredOn": "2026-04-01",
-            "medicationReference": {
-              "reference": "Medication/ExampleMedication1-Paracetamol-T"
-            },
-            "dosageInstruction": [
+            "id": "TRP-Carbon-Copy-MedicationRequest",
+            "extension": [
               {
-                "text": "1-1-1-1"
+                "extension": [
+                  {
+                    "url": "Off-Label",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "GebaerfaehigeFrau",
+                    "valueBoolean": false
+                  },
+                  {
+                    "url": "EinhaltungSicherheitsmassnahmen",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "AushaendigungInformationsmaterialien",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "ErklaerungSachkenntnis",
+                    "valueBoolean": true
+                  }
+                ],
+                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic"
               }
             ],
+            "medicationReference": {
+              "reference": "Medication/TRP-Carbon-Copy-Medication"
+            },
             "subject": {
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
                   "valueCode": "not-permitted"
                 }
-              ]
+              ],
+              "display": "DataAbsentReason-Extension: #not-permitted, dieser Wert wird leer gelassen"
             },
+            "dosageInstruction": [
+              {
+                "extension": [
+                  {
+                    "valueCoding": {
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Dosage_Category",
+                      "code": "DAILY_FOUR_SCHEME"
+                    },
+                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageCategory"
+                  }
+                ],
+                "timing": {
+                  "repeat": {
+                    "when": [
+                      "EVE"
+                    ],
+                    "frequency": 1,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "doseAndRate": [
+                  {
+                    "doseQuantity": {
+                      "value": 1,
+                      "code": "1",
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
+                      "unit": "Stück"
+                    }
+                  }
+                ]
+              }
+            ],
             "dispenseRequest": {
               "quantity": {
-                "value": 10,
-                "unit": "Tablette"
+                "value": 1,
+                "unit": "Packung"
+              },
+              "expectedSupplyDuration": {
+                "value": 3,
+                "unit": "Woche(n)"
               }
             },
+            "status": "completed",
+            "intent": "order",
+            "authoredOn": "2025-05-20"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "TRP-Carbon-Copy-Medication",
             "extension": [
               {
-                "url": "http://example.org/fhir/StructureDefinition/confirmations",
-                "_url": {
-                  "extension": [
-                    {
-                      "url": "safetyMeasures",
-                      "valueBoolean": true
-                    },
-                    {
-                      "url": "informationMaterial",
-                      "valueBoolean": true
-                    },
-                    {
-                      "url": "offLabelUse",
-                      "valueBoolean": false
-                    },
-                    {
-                      "url": "prescriptionForWoman",
-                      "valueBoolean": false
-                    },
-                    {
-                      "url": "expertiseConfirmation",
-                      "valueBoolean": true
-                    }
-                  ]
+                "url": "http://fhir.de/StructureDefinition/normgroesse",
+                "valueCode": "N1"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                  "code": "19201712"
+                }
+              ],
+              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "HKP"
+                }
+              ]
+            },
+            "amount": {
+              "numerator": {
+                "extension": [
+                  {
+                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension",
+                    "valueString": "21"
+                  }
+                ],
+                "unit": "Stück"
+              },
+              "denominator": {
+                "value": 1
+              }
+            },
+            "ingredient": [
+              {
+                "itemCodeableConcept": {
+                  "text": "Pomalidomid"
+                },
+                "strength": {
+                  "numerator": {
+                    "value": 1,
+                    "unit": "mg"
+                  },
+                  "denominator": {
+                    "value": 1,
+                    "unit": "Stück"
+                  }
                 }
               }
             ]
           }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "ExampleMedication1-Paracetamol-T",
-            "code": {
-              "coding": [
-                {
-                  "system": "http://www.whocc.no/atc",
-                  "code": "N02BE01",
-                  "display": "Paracetamol"
-                }
-              ],
-              "text": "Paracetamol 500 mg Tabletten"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "TAB",
-                  "display": "Tablette"
-                }
-              ]
-            }
-          }
         }
-      ]
+      ],
+      "name": "rxPrescription"
     },
     {
-      "name": "rxDispensation",
       "part": [
-        {
-          "name": "medicationDispense",
-          "resource": {
-            "resourceType": "MedicationDispense",
-            "id": "ExampleMedicationDispense-T",
-            "status": "completed",
-            "medicationReference": {
-              "reference": "Medication/ExampleMedication2-Ibuprofen-T"
-            },
-            "quantity": {
-              "value": 10,
-              "unit": "Tablette"
-            },
-            "dosageInstruction": [
-              {
-                "text": "1-1-1-1 nach Bedarf"
-              }
-            ],
-            "whenHandedOver": "2026-04-02"
-          }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "ExampleMedication2-Ibuprofen-T",
-            "code": {
-              "coding": [
-                {
-                  "system": "http://www.whocc.no/atc",
-                  "code": "M01AE01",
-                  "display": "Ibuprofen"
-                }
-              ],
-              "text": "Ibuprofen 400 mg Tablette"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "TAB",
-                  "display": "Filmtablette"
-                }
-              ]
-            }
-          }
-        },
         {
           "name": "organization",
           "resource": {
             "resourceType": "Organization",
-            "id": "ExampleOrganization-T",
-            "name": "Stadt-Apotheke",
-            "address": [
-              {
-                "line": [
-                  "Hauptstraße 10"
-                ],
-                "city": "Beispielstadt",
-                "postalCode": "54321",
-                "country": "DE"
-              }
-            ],
+            "id": "TRP-Carbon-Copy-Organization",
             "telecom": [
               {
                 "system": "phone",
-                "value": "+49 987 6543210"
+                "value": "1234",
+                "use": "work"
               }
-            ]
+            ],
+            "address": [
+              {
+                "line": [
+                  "Schwarzwaldstr. 18"
+                ],
+                "use": "work",
+                "type": "postal",
+                "text": "Schwarzwaldstr. 18&#13;&#10;63762&#13;&#10;Großostheim&#13;&#10;Bayern&#13;&#10;DE",
+                "city": "Großostheim",
+                "state": "Bayern",
+                "postalCode": "63762",
+                "country": "DE"
+              }
+            ],
+            "name": "Organisation 1-2arvtst-ap000053"
+          }
+        },
+        {
+          "name": "medicationDispense",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "TRP-Carbon-Copy-MedicationDispense",
+            "medicationReference": {
+              "reference": "Medication/TRP-Carbon-Copy-D-Medication"
+            },
+            "performer": [
+              {
+                "actor": {
+                  "reference": "Organization/3-SMC-B-Testkarte-883110000095957"
+                }
+              }
+            ],
+            "status": "completed",
+            "whenHandedOver": "2026-04-01"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "TRP-Carbon-Copy-D-Medication",
+            "extension": [
+              {
+                "url": "http://fhir.de/StructureDefinition/normgroesse",
+                "valueCode": "N1"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                  "code": "19201712"
+                }
+              ],
+              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "HKP"
+                }
+              ]
+            },
+            "amount": {
+              "numerator": {
+                "extension": [
+                  {
+                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                    "valueString": "21"
+                  }
+                ],
+                "unit": "Stück"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
           }
         }
-      ]
+      ],
+      "name": "rxDispensation"
     }
   ]
 }
@@ -273,195 +356,278 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
 ----
 {
   "resourceType": "Parameters",
-  "id": "Example-T-Prescription-CC-Post",
+  "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_T_Prescription|1.5"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.0"
     ]
   },
   "parameter": [
     {
-      "name": "prescriptionSignatureDate",
-      "valueInstant": "2026-04-01T12:43:23Z"
-    },
-    {
-      "name": "rxPrescription",
       "part": [
         {
-          "name": "prescriptionId",
-          "valueIdentifier": {
-            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.153.303.257.459"
-          }
+          "name": "prescriptionSignatureDate",
+          "valueInstant": "2026-04-01T08:23:12Z"
         },
         {
-          "name": "authoredOn",
-          "valueDate": "2026-04-01"
+          "valueIdentifier": {
+            "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
+            "value": "160.100.000.000.001.39"
+          },
+          "name": "prescriptionId"
         },
         {
           "name": "medicationRequest",
           "resource": {
             "resourceType": "MedicationRequest",
-            "id": "ExampleMedicationRequest-T",
-            "status": "active",
-            "intent": "order",
-            "authoredOn": "2026-04-01",
-            "medicationReference": {
-              "reference": "Medication/ExampleMedication1-Paracetamol-T"
-            },
-            "dosageInstruction": [
+            "id": "TRP-Carbon-Copy-MedicationRequest",
+            "extension": [
               {
-                "text": "1-1-1-1"
+                "extension": [
+                  {
+                    "url": "Off-Label",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "GebaerfaehigeFrau",
+                    "valueBoolean": false
+                  },
+                  {
+                    "url": "EinhaltungSicherheitsmassnahmen",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "AushaendigungInformationsmaterialien",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "ErklaerungSachkenntnis",
+                    "valueBoolean": true
+                  }
+                ],
+                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic"
               }
             ],
+            "medicationReference": {
+              "reference": "Medication/TRP-Carbon-Copy-Medication"
+            },
             "subject": {
               "extension": [
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
                   "valueCode": "not-permitted"
                 }
-              ]
+              ],
+              "display": "DataAbsentReason-Extension: #not-permitted, dieser Wert wird leer gelassen"
             },
+            "dosageInstruction": [
+              {
+                "extension": [
+                  {
+                    "valueCoding": {
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Dosage_Category",
+                      "code": "DAILY_FOUR_SCHEME"
+                    },
+                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageCategory"
+                  }
+                ],
+                "timing": {
+                  "repeat": {
+                    "when": [
+                      "EVE"
+                    ],
+                    "frequency": 1,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "doseAndRate": [
+                  {
+                    "doseQuantity": {
+                      "value": 1,
+                      "code": "1",
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
+                      "unit": "Stück"
+                    }
+                  }
+                ]
+              }
+            ],
             "dispenseRequest": {
               "quantity": {
-                "value": 10,
-                "unit": "Tablette"
+                "value": 1,
+                "unit": "Packung"
+              },
+              "expectedSupplyDuration": {
+                "value": 3,
+                "unit": "Woche(n)"
               }
             },
+            "status": "completed",
+            "intent": "order",
+            "authoredOn": "2025-05-20"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "TRP-Carbon-Copy-Medication",
             "extension": [
               {
-                "url": "http://example.org/fhir/StructureDefinition/confirmations",
-                "_url": {
-                  "extension": [
-                    {
-                      "url": "safetyMeasures",
-                      "valueBoolean": true
-                    },
-                    {
-                      "url": "informationMaterial",
-                      "valueBoolean": true
-                    },
-                    {
-                      "url": "offLabelUse",
-                      "valueBoolean": false
-                    },
-                    {
-                      "url": "prescriptionForWoman",
-                      "valueBoolean": false
-                    },
-                    {
-                      "url": "expertiseConfirmation",
-                      "valueBoolean": true
-                    }
-                  ]
+                "url": "http://fhir.de/StructureDefinition/normgroesse",
+                "valueCode": "N1"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                  "code": "19201712"
+                }
+              ],
+              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "HKP"
+                }
+              ]
+            },
+            "amount": {
+              "numerator": {
+                "extension": [
+                  {
+                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-packaging-size-extension",
+                    "valueString": "21"
+                  }
+                ],
+                "unit": "Stück"
+              },
+              "denominator": {
+                "value": 1
+              }
+            },
+            "ingredient": [
+              {
+                "itemCodeableConcept": {
+                  "text": "Pomalidomid"
+                },
+                "strength": {
+                  "numerator": {
+                    "value": 1,
+                    "unit": "mg"
+                  },
+                  "denominator": {
+                    "value": 1,
+                    "unit": "Stück"
+                  }
                 }
               }
             ]
           }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "ExampleMedication1-Paracetamol-T",
-            "code": {
-              "coding": [
-                {
-                  "system": "http://www.whocc.no/atc",
-                  "code": "N02BE01",
-                  "display": "Paracetamol"
-                }
-              ],
-              "text": "Paracetamol 500 mg Tabletten"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "TAB",
-                  "display": "Tablette"
-                }
-              ]
-            }
-          }
         }
-      ]
+      ],
+      "name": "rxPrescription"
     },
     {
-      "name": "rxDispensation",
       "part": [
-        {
-          "name": "medicationDispense",
-          "resource": {
-            "resourceType": "MedicationDispense",
-            "id": "ExampleMedicationDispense-T",
-            "status": "completed",
-            "medicationReference": {
-              "reference": "Medication/ExampleMedication2-Ibuprofen-T"
-            },
-            "quantity": {
-              "value": 10,
-              "unit": "Tablette"
-            },
-            "dosageInstruction": [
-              {
-                "text": "1-1-1-1 nach Bedarf"
-              }
-            ],
-            "whenHandedOver": "2026-04-02"
-          }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "ExampleMedication2-Ibuprofen-T",
-            "code": {
-              "coding": [
-                {
-                  "system": "http://www.whocc.no/atc",
-                  "code": "M01AE01",
-                  "display": "Ibuprofen"
-                }
-              ],
-              "text": "Ibuprofen 400 mg Tablette"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "TAB",
-                  "display": "Filmtablette"
-                }
-              ]
-            }
-          }
-        },
         {
           "name": "organization",
           "resource": {
             "resourceType": "Organization",
-            "id": "ExampleOrganization-T",
-            "name": "Stadt-Apotheke",
-            "address": [
-              {
-                "line": [
-                  "Hauptstraße 10"
-                ],
-                "city": "Beispielstadt",
-                "postalCode": "54321",
-                "country": "DE"
-              }
-            ],
+            "id": "TRP-Carbon-Copy-Organization",
             "telecom": [
               {
                 "system": "phone",
-                "value": "+49 987 6543210"
+                "value": "1234",
+                "use": "work"
               }
-            ]
+            ],
+            "address": [
+              {
+                "line": [
+                  "Schwarzwaldstr. 18"
+                ],
+                "use": "work",
+                "type": "postal",
+                "text": "Schwarzwaldstr. 18&#13;&#10;63762&#13;&#10;Großostheim&#13;&#10;Bayern&#13;&#10;DE",
+                "city": "Großostheim",
+                "state": "Bayern",
+                "postalCode": "63762",
+                "country": "DE"
+              }
+            ],
+            "name": "Organisation 1-2arvtst-ap000053"
+          }
+        },
+        {
+          "name": "medicationDispense",
+          "resource": {
+            "resourceType": "MedicationDispense",
+            "id": "TRP-Carbon-Copy-MedicationDispense",
+            "medicationReference": {
+              "reference": "Medication/TRP-Carbon-Copy-D-Medication"
+            },
+            "performer": [
+              {
+                "actor": {
+                  "reference": "Organization/3-SMC-B-Testkarte-883110000095957"
+                }
+              }
+            ],
+            "status": "completed",
+            "whenHandedOver": "2026-04-01"
+          }
+        },
+        {
+          "name": "medication",
+          "resource": {
+            "resourceType": "Medication",
+            "id": "TRP-Carbon-Copy-D-Medication",
+            "extension": [
+              {
+                "url": "http://fhir.de/StructureDefinition/normgroesse",
+                "valueCode": "N1"
+              }
+            ],
+            "code": {
+              "coding": [
+                {
+                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                  "code": "19201712"
+                }
+              ],
+              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+            },
+            "form": {
+              "coding": [
+                {
+                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                  "code": "HKP"
+                }
+              ]
+            },
+            "amount": {
+              "numerator": {
+                "extension": [
+                  {
+                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                    "valueString": "21"
+                  }
+                ],
+                "unit": "Stück"
+              },
+              "denominator": {
+                "value": 1
+              }
+            }
           }
         }
-      ]
+      ],
+      "name": "rxDispensation"
     }
   ]
 }
