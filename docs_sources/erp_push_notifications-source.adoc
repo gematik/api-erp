@@ -19,14 +19,14 @@ Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Pushers 
 
 Ist `kind` nicht `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer aktualisiert oder erstellt, falls er nicht existiert. Ist `kind` `null`, wird der Pusher mit dieser `app_id` und `pushkey` für diesen Nutzer gelöscht.
 
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_pushers_set_POST_Request.adoc[]
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_pushers_set_POST_Response.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_set_POST_Request.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_set_POST_Response.adoc[]
 
 === Liste der Pusher
 Ruft alle aktuell aktiven Pusher für den authentifizierten Nutzer ab.
 
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_pushers_GET_Request.adoc[]
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_pushers_GET_Response.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_GET_Request.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/pushers_GET_Response.adoc[]
 
 == Channel Verwaltung
 Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezifischen API-Endpunkte sind hier beschrieben.
@@ -34,20 +34,20 @@ Der E-Rezept-Fachdienst unterstützt das optionale Feature "Channels". Die spezi
 === Verfügbare Channels
 Ruft alle verfügbaren Channels für den authentifizierten Nutzer ab.
 
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_GET_Request.adoc[]
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_GET_Response.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_GET_Request.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_GET_Response.adoc[]
 
 === Channel Konfiguration für Pusher
 Ruft alle Channels und deren Konfigurationsstatus für das Gerät des authentifizierten Nutzers ab, das durch den `pushkey` identifiziert wird.
 
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_pushkey_GET_Request.adoc[]
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_pushkey_GET_Response.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_GET_Request.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_GET_Response.adoc[]
 
 === Channel Konfiguration Verwaltung
 Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Channel-Abonnements für ein bestimmtes Gerät des authentifizierten Nutzers, das durch den `pushkey` identifiziert wird. Ist ein Channel in der POST-Anfrage nicht enthalten, wird der Zustand des Channels auf dem Server nicht verändert. Ein nicht gesetzter Channel gilt als deaktiviert; entsprechend werden keine Pushes ausgelöst, die diesem Channel zugeordnet sind.
 
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_pushkey_POST_Request.adoc[]
-include::../resources/openapi-adoc/erp_fd_push_notifications/v1_channels_pushkey_POST_Response.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_POST_Request.adoc[]
+include::../resources/openapi-adoc/erp_fd_push_notifications/channels_pushkey_POST_Response.adoc[]
 
 == Nachrichteninhalt
 Der E-Rezept-Fachdienst verschlüsselt die Nachrichteninhalte und sendet diese im Feld Ciphertext an das Push Gateway. Die Entschlüsselung der Nachrichteninhalte erfolgt im FdV.

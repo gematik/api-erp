@@ -22,7 +22,7 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
-  /v1/pushers:
+  /pushers:
     get:
       summary: Gets the current pushers
       description: Gets all currently active pushers for the authenticated user.
@@ -60,7 +60,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
-  /v1/pushers/set:
+  /pushers/set:
     post:
       summary: Modify a pusher
       description: |-
@@ -119,7 +119,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
-  /v1/channels/{pushkey}:
+  /channels/{pushkey}:
     get:
       summary: Gets channels for a specific device
       description: |-
@@ -226,7 +226,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
-  /v1/channels:
+  /channels:
     get:
       summary: Gets the available channels
       description: Gets all available channels for the authenticated user.
