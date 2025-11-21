@@ -44,28 +44,139 @@ Ist `kind` nicht `null`, wird der Pusher mit dieser `app_id` und `pushkey` für 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
-¦Method ¦POST
-¦Requester ¦image:{FdV}[]
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload ¦
-.Request Body für registration (Klicken zum Ausklappen)
+¦Payload    ¦
+.Schema (application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source]
+[source,json]
 ----
-https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration
+{
+  "type": "object",
+  "title": "Pusher",
+  "properties": {
+    "pushkey": {
+      "type": "string",
+      "description": "This is a unique identifier for this pusher. The value you\nshould use for this is the routing or destination address\ninformation for the notification, for example, the APNS token\nfor APNS or the Registration ID for GCM. If your notification\nclient has no such concept, use any unique identifier.\nMax length, 512 bytes.\n\nIf the `kind` is `\"email\"`, this is the email address to\nsend notifications to."
+    },
+    "kind": {
+      "description": "The kind of pusher to configure. `\"http\"` makes a pusher that\nsends HTTP pokes. `\"email\"` makes a pusher that emails the\nuser with unread notifications. `null` deletes the pusher.",
+      "type": "string",
+      "nullable": true
+    },
+    "app_id": {
+      "type": "string",
+      "description": "This is a reverse-DNS style identifier for the application.\nIt is recommended that this end with the platform, such that\ndifferent platform versions get different app identifiers.\nMax length, 64 chars.\n\nIf the `kind` is `\"email\"`, this is `\"m.email\"`."
+    },
+    "app_display_name": {
+      "type": "string",
+      "description": "Required if `kind` is not `null`. A string that will allow the\nuser to identify what application owns this pusher."
+    },
+    "device_display_name": {
+      "type": "string",
+      "description": "Required if `kind` is not `null`. A string that will allow the\nuser to identify what device owns this pusher."
+    },
+    "profile_tag": {
+      "type": "string",
+      "description": "This string determines which set of device specific rules this\npusher executes."
+    },
+    "lang": {
+      "type": "string",
+      "description": "Required if `kind` is not `null`. The preferred language for\nreceiving notifications (e.g. 'en' or 'en-US')."
+    },
+    "data": {
+      "type": "object",
+      "description": "Required if `kind` is not `null`. A dictionary of information\nfor the pusher implementation itself.\n\nIf `kind` is `http`, this MUST contain `url` which is the URL\nto use for sending notifications. Clients MAY use this object\nto pass custom data to their push gateway. Servers MUST forward\nthe entire content including `format` and any custom keys but excluding `url`\nwhen calling [`/notify`](./push_gateway_openapi.html#tag/Push-Gateway/operation/push_v1_notify_plain) \nor [`/notifyEncrypted`](./push_gateway_openapi.html#tag/Push-Gateway/operation/push_v1_notify_batch_encrypted).",
+      "title": "PusherData",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Required if `kind` is `http`. The URL to use for sending\nnotifications. MUST be an HTTPS URL with a path of\n`/_matrix/push/v1/`.",
+          "example": "https://push-gateway.location.here/_matrix/push/v1/"
+        },
+        "format": {
+          "type": "string",
+          "description": "The format to send notifications in to Push Gateways if the\n`kind` is `http`. The details about what fields the\nhomeserver should send to the push gateway are defined in the\n[Push Gateway Specification](/push-gateway-api/).\n\n**TIM:** Currently the only format available is `event_id_only`.\n\n**Others:** This property is not used and should be omitted unless\nspecified explicitly by the service implementing this specification."
+        }
+      }
+    },
+    "encryption": {
+      "type": "object",
+      "description": "This object contains information on how to encrypt the notifications for the pusher.\nThis property may be `required` or `forbidden` depending on what service it is called on.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "The encryption method to use. As currently only AES/GCM with a key generated using HKDF is supported, this value is static and should be 'aes-hmac-sha256'."
+        },
+        "time_iss_created": {
+          "type": "string",
+          "description": "A string in the format \"yyyy-MM\" that specifies the first period the cypher key is generated for."
+        },
+        "iss": {
+          "type": "string",
+          "description": "A string containing the hex representation of the 256 bit initial shared secret."
+        },
+        "key_identifier": {
+          "type": "string",
+          "description": "A string containing an identifier for the key. This is used\nto identify the key and the corresponding service (Fachdienst)\nwhen a push notification is received within the FdV. The\n`key_identifier` must be random and must not be reused for a\ndifferent ISS. An UUID is recommended."
+        }
+      }
+    },
+    "append": {
+      "type": "boolean",
+      "description": "If true, the homeserver should add another pusher with the\ngiven pushkey and App ID in addition to any others with\ndifferent user IDs. Otherwise, the homeserver must remove any\nother pushers with the same App ID and pushkey for different\nusers. The default is `false`."
+    }
+  },
+  "required": [
+    "kind",
+    "app_id",
+    "pushkey"
+  ]
+}
 ----
 ====
-.Request Body für deletion (Klicken zum Ausklappen)
+.Request Body (application/json) für registration (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source]
+[source,json]
 ----
-https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion
+{
+  "lang": "en",
+  "kind": "http",
+  "app_display_name": "Mat Rix",
+  "device_display_name": "iPhone 9",
+  "app_id": "com.example.app.ios",
+  "pushkey": "<APNS/GCM TOKEN>",
+  "data": {
+    "url": "https://push-gateway.location.here/_matrix/push/v1/"
+  },
+  "encryption": {
+    "method": "aes-hmac-sha256",
+    "time_iss_created": "2023-10",
+    "iss": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+    "key_identifier": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+  },
+  "append": false
+}
+----
+====
+.Request Body (application/json) für deletion (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "app_id": "com.example.app.ios",
+  "pushkey": "<APNS/GCM TOKEN>",
+  "kind": null
+}
 ----
 ====
 |===
@@ -74,13 +185,27 @@ https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/ta
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦Payload ¦
-.Response Body (200) für response (Klicken zum Ausklappen)
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Schema (200, application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,]
+[source,json]
 ----
-include::[]
+{
+  "type": "object",
+  "description": "An empty object."
+}
+----
+====
+.Response Body (200, application/json) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{}
 ----
 ====
 
@@ -116,14 +241,14 @@ Ruft alle aktuell aktiven Pusher für den authentifizierten Nutzer ab.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
-¦Method ¦GET
-¦Requester ¦image:{FdV}[]
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload ¦
+¦Payload    ¦
 No request body.
 |===
 ==== Response
@@ -131,121 +256,110 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦Payload ¦
-.Response Body (200) für response (Klicken zum Ausklappen)
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Schema (200, application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,]
+[source,json]
 ----
-examples:
-  response:
-    value: {
-      "pushers": [
-        {
-          "pushkey": "Xp/MzCt8/9DcSNE9cuiaoT5Ac55job3TdLSSmtmYl4A=",
-          "kind": "http",
-          "app_id": "face.mcapp.appy.prod",
-          "app_display_name": "Appy McAppface",
-          "device_display_name": "Alice's Phone",
-          "profile_tag": "xyz",
-          "lang": "en-US",
+{
+  "properties": {
+    "pushers": {
+      "type": "array",
+      "title": "Pushers",
+      "description": "An array containing the current pushers for the user",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pushkey": {
+            "type": "string"
+          },
+          "kind": {
+            "description": "The kind of pusher to configure. `\"http\"` makes a pusher that\nsends HTTP pokes. `null` deletes the pusher.",
+            "type": "string",
+            "nullable": true
+          },
+          "app_id": {
+            "type": "string",
+            "description": "This is a reverse-DNS style identifier for the application.\nIt is recommended that this end with the platform, such that\ndifferent platform versions get different app identifiers.\nMax length, 64 chars."
+          },
+          "app_display_name": {
+            "type": "string",
+            "description": "Required if `kind` is not `null`. A string that will allow the\nuser to identify what application owns this pusher."
+          },
+          "device_display_name": {
+            "type": "string",
+            "description": "Required if `kind` is not `null`. A string that will allow the\nuser to identify what device owns this pusher."
+          },
+          "profile_tag": {
+            "type": "string",
+            "description": "**UNUSED** This string determines which set of device specific rules this\npusher executes."
+          },
+          "lang": {
+            "type": "string",
+            "description": "Required if `kind` is not `null`. The preferred language for\nreceiving notifications (e.g. 'en' or 'en-US')."
+          },
           "data": {
-            "url": "https://example.com/_matrix/push/v1/"
+            "type": "object",
+            "description": "Required if `kind` is not `null`. A dictionary of information\nfor the pusher implementation itself.\n\nIf `kind` is `http`, this MUST contain `url` which is the URL\nto use for sending notifications. Clients MAY use this object\nto pass custom data to their push gateway. Servers MUST forward\nthe entire content including `format` and any custom keys but excluding `url`\nwhen calling [`/push/v1/notify*`](/push-gateway-api/#postpushv1notify).",
+            "title": "PusherData",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Required if `kind` is `http`. The URL to use for sending\nnotifications. MUST be an HTTPS URL with a path of\n`/push/v1/` that can be extended by `notify`, `notify/batch`\nor `notifyEncrypted/batch`, so that the FD can pick the method, if not\nspecified otherwise by the FD specification.",
+                "example": "https://push-gateway.location.here/push/v1/"
+              },
+              "format": {
+                "type": "string",
+                "description": "The format to send notifications in to Push Gateways if the\n`kind` is `http`. The details about what fields the\nhomeserver should send to the push gateway are defined in the\n[Push Gateway Specification](/push-gateway-api/). Currently the only format\navailable is 'event_id_only'."
+              }
+            }
+          },
+          "append": {
+            "type": "boolean",
+            "description": "If true, the FD should add another pusher with the\ngiven pushkey and App ID in addition to any others with\ndifferent user IDs. Otherwise, the homeserver must remove any\nother pushers with the same App ID and pushkey for different\nusers. The default is `false`."
           }
-        }
-      ]
+        },
+        "required": [
+          "pushkey",
+          "app_id",
+          "kind",
+          "app_display_name",
+          "device_display_name",
+          "lang",
+          "data"
+        ]
+      }
     }
-schema:
-  properties:
-    pushers:
-      type: array
-      title: Pushers
-      description: An array containing the current pushers for the user
-      items:
-        type: object
-        properties:
-          pushkey:
-            type: string
-          kind:
-            description: |-
-              The kind of pusher to configure. `"http"` makes a pusher that
-              sends HTTP pokes. `null` deletes the pusher.
-            type: string
-            nullable: true
-          app_id:
-            type: string
-            description: |-
-              This is a reverse-DNS style identifier for the application.
-              It is recommended that this end with the platform, such that
-              different platform versions get different app identifiers.
-              Max length, 64 chars.
-          app_display_name:
-            type: string
-            description: |-
-              Required if `kind` is not `null`. A string that will allow the
-              user to identify what application owns this pusher.
-          device_display_name:
-            type: string
-            description: |-
-              Required if `kind` is not `null`. A string that will allow the
-              user to identify what device owns this pusher.
-          profile_tag:
-            type: string
-            description: |-
-              **UNUSED** This string determines which set of device specific rules this
-              pusher executes.
-          lang:
-            type: string
-            description: |-
-              Required if `kind` is not `null`. The preferred language for
-              receiving notifications (e.g. 'en' or 'en-US').
-          data:
-            type: object
-            description: |-
-              Required if `kind` is not `null`. A dictionary of information
-              for the pusher implementation itself.
-
-              If `kind` is `http`, this MUST contain `url` which is the URL
-              to use for sending notifications. Clients MAY use this object
-              to pass custom data to their push gateway. Servers MUST forward
-              the entire content including `format` and any custom keys but excluding `url`
-              when calling [`/push/v1/notify*`](/push-gateway-api/#postpushv1notify).
-            title: PusherData
-            properties:
-              url:
-                type: string
-                format: uri
-                description: |-
-                  Required if `kind` is `http`. The URL to use for sending
-                  notifications. MUST be an HTTPS URL with a path of
-                  `/push/v1/` that can be extended by `notify`, `notify/batch`
-                  or `notifyEncrypted/batch`, so that the FD can pick the method, if not
-                  specified otherwise by the FD specification.
-                example: https://push-gateway.location.here/push/v1/
-              format:
-                type: string
-                description: |-
-                  The format to send notifications in to Push Gateways if the
-                  `kind` is `http`. The details about what fields the
-                  homeserver should send to the push gateway are defined in the
-                  [Push Gateway Specification](/push-gateway-api/). Currently the only format
-                  available is 'event_id_only'.
-          append:
-            type: boolean
-            description: |-
-              If true, the FD should add another pusher with the
-              given pushkey and App ID in addition to any others with
-              different user IDs. Otherwise, the homeserver must remove any
-              other pushers with the same App ID and pushkey for different
-              users. The default is `false`.
-        required:
-          - pushkey
-          - app_id
-          - kind
-          - app_display_name
-          - device_display_name
-          - lang
-          - data
+  }
+}
+----
+====
+.Response Body (200, application/json) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "pushers": [
+    {
+      "pushkey": "Xp/MzCt8/9DcSNE9cuiaoT5Ac55job3TdLSSmtmYl4A=",
+      "kind": "http",
+      "app_id": "face.mcapp.appy.prod",
+      "app_display_name": "Appy McAppface",
+      "device_display_name": "Alice's Phone",
+      "profile_tag": "xyz",
+      "lang": "en-US",
+      "data": {
+        "url": "https://example.com/_matrix/push/v1/"
+      }
+    }
+  ]
+}
 ----
 ====
 
@@ -284,14 +398,14 @@ Ruft alle verfügbaren Channels für den authentifizierten Nutzer ab.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
-¦Method ¦GET
-¦Requester ¦image:{FdV}[]
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload ¦
+¦Payload    ¦
 No request body.
 |===
 ==== Response
@@ -299,45 +413,65 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦Payload ¦
-.Response Body (200) für response (Klicken zum Ausklappen)
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Schema (200, application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,]
+[source,json]
 ----
-examples:
-  response:
-    value: {
-      "channels": [
-        {
-          "id": "channel1",
-          "status": "enabled"
+{
+  "type": "object",
+  "properties": {
+    "channels": {
+      "type": "array",
+      "title": "channels",
+      "description": "An array containing channels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The name of the channel"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled",
+              "not_set"
+            ]
+          }
         },
-        {
-          "id": "channel2",
-          "status": "disabled"
-        }
-      ]
+        "required": [
+          "id",
+          "status"
+        ]
+      }
     }
-schema:
-  type: object
-  properties:
-    channels:
-      type: array
-      title: channels
-      description: An array containing channels
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            description: The name of the channel
-          status:
-            type: string
-            enum: ["enabled", "disabled", "not_set"] 
-        required:
-          - id
-          - status
+  }
+}
+----
+====
+.Response Body (200, application/json) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "id": "channel1",
+      "status": "enabled"
+    },
+    {
+      "id": "channel2",
+      "status": "disabled"
+    }
+  ]
+}
 ----
 ====
 
@@ -373,14 +507,14 @@ Ruft alle Channels und deren Konfigurationsstatus für das Gerät des authentifi
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
-¦Method ¦GET
-¦Requester ¦image:{FdV}[]
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦GET
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload ¦
+¦Payload    ¦
 No request body.
 |===
 ==== Response
@@ -388,45 +522,65 @@ No request body.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦Payload ¦
-.Response Body (200) für response (Klicken zum Ausklappen)
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Schema (200, application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,]
+[source,json]
 ----
-examples:
-  response:
-    value: {
-      "channels": [
-        {
-          "id": "channel1",
-          "status": "enabled"
+{
+  "type": "object",
+  "properties": {
+    "channels": {
+      "type": "array",
+      "title": "channels",
+      "description": "An array containing channels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The name of the channel"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled",
+              "not_set"
+            ]
+          }
         },
-        {
-          "id": "channel2",
-          "status": "disabled"
-        }
-      ]
+        "required": [
+          "id",
+          "status"
+        ]
+      }
     }
-schema:
-  type: object
-  properties:
-    channels:
-      type: array
-      title: channels
-      description: An array containing channels
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            description: The name of the channel
-          status:
-            type: string
-            enum: ["enabled", "disabled", "not_set"] 
-        required:
-          - id
-          - status
+  }
+}
+----
+====
+.Response Body (200, application/json) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "id": "channel1",
+      "status": "enabled"
+    },
+    {
+      "id": "channel2",
+      "status": "disabled"
+    }
+  ]
+}
 ----
 ====
 
@@ -462,20 +616,69 @@ Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Channel-
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
-¦Method ¦POST
-¦Requester ¦image:{FdV}[]
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦Method     ¦POST
+¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
 ----
 Authorization: Bearer <JWT> (string, required)
 ----
-¦Payload ¦
-.Request Body für update (Klicken zum Ausklappen)
+¦Payload    ¦
+.Schema (application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source]
+[source,json]
 ----
-https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/examples/update
+{
+  "type": "object",
+  "properties": {
+    "channels": {
+      "type": "array",
+      "title": "channels",
+      "description": "An array containing channels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the channel"
+          },
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled",
+              "not_set"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      }
+    }
+  }
+}
+----
+====
+.Request Body (application/json) für update (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "channels": [
+    {
+      "name": "channel1",
+      "value": "enabled"
+    },
+    {
+      "name": "channel2",
+      "value": "disabled"
+    }
+  ]
+}
 ----
 ====
 |===
@@ -484,13 +687,27 @@ https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/ta
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦Payload ¦
-.Response Body (200) für response (Klicken zum Ausklappen)
+¦HTTP Header ¦
+----
+----
+¦Payload    ¦
+.Schema (200, application/json) (Klicken zum Ausklappen)
 [%collapsible]
 ====
-[source,]
+[source,json]
 ----
-include::[]
+{
+  "type": "object",
+  "description": "An empty object."
+}
+----
+====
+.Response Body (200, application/json) für response (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{}
 ----
 ====
 
