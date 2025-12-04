@@ -37,11 +37,11 @@ paths:
                 description: The media type of the response
                 schema:
                   type: string
-                  example: application/fhir+json
+                  example: application/fhir+xml
             x-fhir-profile: 
               - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
             content:
-              application/fhir+json:
+              application/fhir+xml:
                 example:
                   $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/api-examples/generated-examples/erp_abrufen_egk/05_Response_Task.xml'
           '400':
@@ -51,6 +51,7 @@ paths:
           '403':
             description: |
               Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Darunter fällt:
+              
               - Fehlgeschlagene Signaturprüfung des PoPP-Tokens
               - Abweichung von `actor_id` des PoPP-Tokens mit `idNumber` des Access-Tokens 
               - Zeitstempel des PoPP-Token (`iat`) außerhalb des Akzeptanzzeitraums
