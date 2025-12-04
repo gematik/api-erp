@@ -28,6 +28,8 @@ paths:
             required: true
             schema:
               type: string
+              description: PoPP-Token, ausgestellt vom PoPP-Service
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
             description: PoPP-Token, ausgestellt vom PoPP-Service
         responses:
           '200':
@@ -51,7 +53,7 @@ paths:
           '403':
             description: |
               Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Darunter fällt:
-              
+
               - Fehlgeschlagene Signaturprüfung des PoPP-Tokens
               - Abweichung von `actor_id` des PoPP-Tokens mit `idNumber` des Access-Tokens 
               - Zeitstempel des PoPP-Token (`iat`) außerhalb des Akzeptanzzeitraums
