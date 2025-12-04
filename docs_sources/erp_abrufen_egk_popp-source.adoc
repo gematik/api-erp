@@ -1,0 +1,29 @@
+= E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte mittels PoPP) image:gematik_logo.png[width=150, float="right"]
+include::./config-source.adoc[]
+
+Zielgruppe: image:{AVS}[]
+
+Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
+
+toc::[]
+
+==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte mittels PoPP
+Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Der Client muss hierzu einen PoPP-Token vom PoPP-Service beziehen. Für die entsprechende Dokumentation können:
+
+* link:https://github.com/gematik/spec-ilf-popp-client/blob/main/LiesMich.md[ILF für PoPP-Clients]
+* link:https://gemspec.gematik.de/prereleases/Draft_PoPP_25_1/gemSpec_PoPP_Service_V1.0.0_CC2/[Spezifikation PoPP-Service]
+
+herangezogen werden.
+
+Als Ergebnis erhält das PS einen PoPP-Token, der gemäß link:https://datatracker.ietf.org/doc/html/rfc7519[RFC7519] als JWT im Compact Serialization Format kodiert ist.
+
+== Liste einlösbarer E-Rezepte vom Fachdienst abrufen
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Der HTTP-Header "X-PoPP-Token" ist verpflichtend mit dem PoPP-Token als Wert anzugeben.
+
+*Request*
+include::../resources/openapi-adoc/erp_popp/Task_GET_Request.adoc[]
+
+*Response*
+include::../resources/openapi-adoc/erp_popp/Task_GET_Response.adoc[]
+
+NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]
