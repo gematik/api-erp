@@ -8,14 +8,31 @@ Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts 
 toc::[]
 
 ==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte mittels PoPP
-Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Der Client muss hierzu einen PoPP-Token vom PoPP-Service beziehen. Für die entsprechende Dokumentation können:
+Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Der Client muss hierzu einen PoPP-Token vom PoPP-Service beziehen, um nachzuweisen, dass ein Versorgungskontext vorliegt.
+
+Für die Dokumentation zum Beziehen eines PoPP-Token am PoPP-Service können:
 
 * link:https://github.com/gematik/spec-ilf-popp-client/blob/main/LiesMich.md[ILF für PoPP-Clients]
 * link:https://gemspec.gematik.de/prereleases/Draft_PoPP_25_1/gemSpec_PoPP_Service_V1.0.0_CC2/[Spezifikation PoPP-Service]
 
 herangezogen werden.
 
-Als Ergebnis erhält das PS einen PoPP-Token, der gemäß link:https://datatracker.ietf.org/doc/html/rfc7519[RFC7519] als JWT im Compact Serialization Format kodiert ist.
+Als Ergebnis erhält das PS einen PoPP-Token, der gemäß link:https://datatracker.ietf.org/doc/html/rfc7519[RFC7519] als JWT im Compact Serialization Format kodiert ist und an den E-Rezept-Fachdienst zur Legitimation des Aufrufs angegeben werden kann.
+Die Apotheke übermittelt den PoPP-Token im Aufruf GET /Task als HTTP-Header.
+
+Der E-Rezept-Fachdienst prüft:
+
+* die Signatur des PoPP-Tokens, um sicherzugehen, dass dieser vom PoPP-Service ausgestellt wurde
+* die Telematik-ID des Aufrufenden gleich der Telematik-ID des im PoPP-Token genannten Akteurs sind
+* der Zeitstempel des PoPP-Token innerhalb des Akzeptanzzeitraumes ist.
+
+Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus dem PoPP-Token und filtert die Suchabfrage von Tasks entsprechend.
+
+Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
+
+Mit dem Einzelabruf je Rezept erhält die Apotheke Einsicht in die eigentlichen Verordnungen, um zu klären, welche(s) davon in der Apotheke eingelöst werden soll(en). Dieses Vorgehen ist analog zum Einscannen des Sammel-Barcodes auf dem E-Rezept-Patientenausdruck.
+
+image:puml_egk_abrufen_popp.png[width=100%]
 
 === Liste einlösbarer E-Rezepte vom Fachdienst abrufen
 Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Der HTTP-Header "X-PoPP-Token" ist verpflichtend mit dem PoPP-Token als Wert anzugeben.

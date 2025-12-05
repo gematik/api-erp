@@ -55,7 +55,7 @@ paths:
               Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Darunter fällt:
 
               - Fehlgeschlagene Signaturprüfung des PoPP-Tokens
-              - Abweichung von `actor_id` des PoPP-Tokens mit `idNumber` des Access-Tokens 
+              - Abweichung von Telematik-ID des PoPP-Tokens mit Telematik-ID des Access-Tokens.
               - Zeitstempel des PoPP-Token (`iat`) außerhalb des Akzeptanzzeitraums
           '405':
             description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
