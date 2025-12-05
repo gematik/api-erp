@@ -1,0 +1,67 @@
+openapi: 3.0.0
+servers:
+  - url: https://erp.zentral.erp.splitdns.ti-dienste.de
+    description: E-Rezept-Fachdienst TI-Schnittstelle
+  - url: https://https://erp.app.ti-dienste.de
+    description: E-Rezept-Fachdienst Internet-Schnittstelle
+info:
+  title: E-Rezept-Fachdienst API für Abruf von E-Rezepten via PoPP
+  version: 1.0.0
+  description: API Endpunkte zum Abruf von E-Rezepten am E-Rezept-Fachdienst via eGK in der Apotheke mittels PoPP-Token.
+
+paths:
+  /Task:
+    get:
+        summary: Abfragen von E-Rezepten
+        description: Abfrage von E-Rezepten vom E-Rezept-Fachdienst.
+        x-allowed-requester:
+          - "AVS"
+        parameters:
+          - in: header
+            name: Authorization
+            required: true
+            schema:
+              type: string
+            description: ACCESS_TOKEN, ausgestellt vom IDP
+          - in: header
+            name: X-PoPP-Token
+            required: true
+            schema:
+              type: string
+              description: PoPP-Token, ausgestellt vom PoPP-Service
+              example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+            description: PoPP-Token, ausgestellt vom PoPP-Service
+        responses:
+          '200':
+            description: Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+            headers:
+              Content-Type:
+                description: The media type of the response
+                schema:
+                  type: string
+                  example: application/fhir+xml
+            x-fhir-profile: 
+              - "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
+            content:
+              application/fhir+xml:
+                example:
+                  $ref: 'https://raw.githubusercontent.com/gematik/eRezept-Examples/refs/heads/2025-10-01/api-examples/generated-examples/erp_abrufen_egk/05_Response_Task.xml'
+          '400':
+            description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+          '401':
+            description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+          '403':
+            description: |
+              Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Darunter fällt:
+
+              - Fehlgeschlagene Signaturprüfung des PoPP-Tokens
+              - Abweichung von Telematik-ID des PoPP-Tokens mit Telematik-ID des Access-Tokens.
+              - Zeitstempel des PoPP-Token (`iat`) außerhalb des Akzeptanzzeitraums
+          '405':
+            description: Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+          '429':
+            description: Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+          '500':
+            description: Unerwarteter Serverfehler.
+
+

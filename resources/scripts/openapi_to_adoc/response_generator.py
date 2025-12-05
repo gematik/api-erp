@@ -218,8 +218,9 @@ def generate_response_file(output_file_path, endpoint_data, data):
         for code, resp_type, desc in endpoint_data["response_codes"]:
             adoc_lines.append('')
             adoc_lines.append(f'¦{code} ¦ {resp_type} +')
-            adoc_lines.append(f'[small]#{desc}#')
-        
+            #adoc_lines.append(f'[small]#{desc}#')
+            adoc_lines.append(f'{desc}')
+            
         adoc_lines.append('')
         adoc_lines.append('|===')
         

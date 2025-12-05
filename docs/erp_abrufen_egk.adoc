@@ -1,4 +1,4 @@
-= E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte) image:gematik_logo.png[width=150, float="right"]
+= E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte mittels VSDM) image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -28,7 +28,9 @@ Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts 
 
 toc::[]
 
-==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte
+WARN: Dieser Anwendungsfall ist ´deprecated´ und wird durch die link:./erp_abrufen_egk_popp.adoc[Verwendung des PoPP-Tokens] abgelöst.
+
+==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte mittels VSDM
 Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Zunächst muss ein VSD-Abruf über den Konnektor erfolgen. In der Response gibt der Konnektor die von der eGK gelesenen Versichertenstammdaten VSD und den Prüfungsnachweis zurück.
 
 **NEU:** Zur Sicherstellung, dass die physische eGK im Zugriff der Apotheke ist, muss das AVS die KVNR ermitteln, sowie den hcv (Hash Check Value) (siehe link:https://gemspec.gematik.de/prereleases/Draft_ePAfueralle_3_0_3-1/C_12143_Anlage_V1.0.0/#A_27352[A_27352]) erzeugen. Beide Werte werden als URL Parameter an den E-Rezept-Fachdienst für den Abruf übergeben.

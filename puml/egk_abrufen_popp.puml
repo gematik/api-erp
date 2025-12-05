@@ -1,0 +1,38 @@
+@startuml egk_abrufen
+hide footbox
+title E-Rezept abrufen mittels eGK in der Apotheke
+actor Vers as "Versicherte" #ee8360
+actor LE as "Apotheker:in" #ee8360
+participant AVS as "AVS abgebende LEI" #ee8360
+participant popp as "PoPP-Service" #edf54cff
+participant FD as "E-Rezept-Fachdienst" #009a7c
+
+Vers -> LE: eGK übergeben/stecken
+LE -> AVS: E-Rezept mittels eGK abrufen
+    activate AVS #ee8360
+
+group PoPP-Token beziehen
+    ref over AVS, popp
+        UC_PoPP_1c PoPP-Token bei physischer Anwesenheit in der LEI - eGK
+    end ref
+end
+
+group opt AccessToken beziehen
+    ref over AVS
+        UC 5.2 AuthN Token durch LEI anfordern
+    end ref
+end
+
+AVS -> FD:  GET /Task\nAuthorization: Bearer eyGCihJ...\nX-PoPP-Token: eyJhbGci...
+    activate FD #009a7c
+FD -> FD: Prüfung Signatur PoPP-Token
+FD -> FD: Prüfung:\nTelematik-ID in PoPP-Token\n == Telematik-ID in AccessToken
+FD -> FD: Prüfung, ob Zeitstempel vom PoPP-Token im Zeitfenster
+FD -> FD: Suche Task anhand der im PoPP-Token enthaltenen KVNR
+FD -> FD: Filter Tasks nach Task.status = "ready"
+FD --> AVS: 200: Bundle{Task, Task, ...}
+    deactivate FD
+
+AVS --> LE: :Liste einlösbarer \rE-Rezepte[TaskIDs + AccessCodes]
+LE --> Vers: :eGK zurückgeben
+@enduml
