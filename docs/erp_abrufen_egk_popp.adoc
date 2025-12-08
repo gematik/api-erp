@@ -1,0 +1,244 @@
+= E-Rezept API-Dokumentation für Apotheken (Einlösung mit Gesundheitskarte mittels PoPP) image:gematik_logo.png[width=150, float="right"]
+// asciidoc settings for DE (German)
+// ==================================
+:imagesdir: ../images
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:toc: macro
+:toclevels: 2
+:toc-title: Inhaltsverzeichnis
+:AVS: https://img.shields.io/badge/AVS-E30615
+:PVS: https://img.shields.io/badge/PVS/KIS-C30059
+:FdV: https://img.shields.io/badge/FdV-green
+:eRp: https://img.shields.io/badge/eRp--FD-blue
+:KTR: https://img.shields.io/badge/KTR-AE8E1C
+:NCPeH: https://img.shields.io/badge/NCPeH-orange
+:DEPR: https://img.shields.io/badge/DEPRECATED-B7410E
+:bfarm: https://img.shields.io/badge/BfArM-197F71
+
+// Variables for the Examples that are to be used
+:branch: 2025-10-01
+
+Zielgruppe: image:{AVS}[]
+
+Hier dokumentiert die gematik den Anwendungsfall der Einlösung eines E-Rezepts mittels Stecken der Gesundheitskarte
+
+toc::[]
+
+==  Anwendungsfall Liste einlösbarer E-Rezepte abrufen mit Stecken der Gesundheitskarte mittels PoPP
+Mit diesem Anwendungsfall wird die Apotheke durch Übergabe und Stecken der eGK berechtigt, die Liste einlösbarer E-Rezepte vom E-Rezept-Fachdienst abzurufen. Der Client muss hierzu einen PoPP-Token vom PoPP-Service beziehen, um nachzuweisen, dass ein Versorgungskontext vorliegt.
+
+Für die Dokumentation zum Beziehen eines PoPP-Token am PoPP-Service können:
+
+* link:https://github.com/gematik/spec-ilf-popp-client/blob/main/LiesMich.md[ILF für PoPP-Clients]
+* link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_PoPP_Service/gemSpec_PoPP_Service_V1.0.0_CC2/[Spezifikation PoPP-Service]
+
+herangezogen werden.
+
+Als Ergebnis erhält das PS einen PoPP-Token, der gemäß link:https://datatracker.ietf.org/doc/html/rfc7519[RFC7519] als JWT im Compact Serialization Format kodiert ist und an den E-Rezept-Fachdienst zur Legitimation des Aufrufs angegeben werden kann.
+Die Apotheke übermittelt den PoPP-Token im Aufruf GET /Task als HTTP-Header.
+
+Der E-Rezept-Fachdienst prüft:
+
+* die Signatur des PoPP-Tokens, um sicherzugehen, dass dieser vom PoPP-Service ausgestellt wurde
+* die Telematik-ID des Aufrufenden gleich der Telematik-ID des im PoPP-Token genannten Akteurs sind
+* der Zeitstempel des PoPP-Token innerhalb des Akzeptanzzeitraumes ist.
+
+Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus dem PoPP-Token und filtert die Suchabfrage von Tasks entsprechend.
+
+Im Ergebnis stellt der E-Rezept-Fachdienst dem AVS eine Liste der KVNR zugeordneten, einlösbaren E-Rezepte als Bundle von Task-Objekten bereit, die die notwendigen Einlöseinformationen TaskID und AccessCode enthalten. Der `Task.status` ändert sich mit dem Abruf der Liste nicht. Dieser erfolgt mit dem anschließenden Abruf des Verordnungsdatensatzes mittels der `Task/<TaskID>/$accept`-Operation gemäß link:erp_abrufen.adoc#e-rezept-abrufen[E-Rezept abrufen^]
+
+Mit dem Einzelabruf je Rezept erhält die Apotheke Einsicht in die eigentlichen Verordnungen, um zu klären, welche(s) davon in der Apotheke eingelöst werden soll(en). Dieses Vorgehen ist analog zum Einscannen des Sammel-Barcodes auf dem E-Rezept-Patientenausdruck.
+
+image:puml_egk_abrufen_popp.png[width=100%]
+
+=== Liste einlösbarer E-Rezepte vom Fachdienst abrufen
+Mit der folgenden Fachdienst-Operation ruft das AVS alle Tasks zu aktuell und zukünftig einlösbaren E-Rezepten vom E-Rezept-Fachdienst ab. Der HTTP-Header "X-PoPP-Token" ist verpflichtend mit dem PoPP-Token als Wert anzugeben.
+
+==== Request
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦URI ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Task
+¦Method ¦GET
+¦Requester ¦image:{AVS}[]
+¦HTTP Header ¦
+----
+Authorization: Bearer <JWT> (string, required)
+X-PoPP-Token: <value> (string, required)
+----
+¦Payload ¦
+No request body.
+|===
+
+==== Response
+
+[cols="h,a", width="100%", separator=¦]
+[%autowidth]
+|===
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml (string)
+----
+¦Payload ¦
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,xml]
+----
+<Bundle xmlns="http://hl7.org/fhir">
+    <id value="erp-abrufen-egk-05-Response-Task"/>
+    <type value="searchset"/>
+    <timestamp value="2025-10-01T15:29:00.434+00:00"/>
+    <total value="2"/>
+    <entry>
+        <fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.01"/>
+        <resource>
+            <Task>
+                <id value="160.000.000.000.000.01"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                    <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+                    </valueCoding>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                    <valueDate value="2025-10-28"/>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                    <valueDate value="2026-01-01"/>
+                </extension>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.01"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                </identifier>
+                <status value="ready"/>
+                <intent value="order"/>
+                <for>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <value value="X123456789"/>
+                    </identifier>
+                </for>
+                <authoredOn value="2025-10-01T15:29:00+00:00"/>
+                <lastModified value="2025-10-01T15:29:00.434+00:00"/>
+                <performerType>
+                    <coding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+                        <code value="urn:oid:1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                    <text value="Öffentliche Apotheke"/>
+                </performerType>
+            </Task>
+        </resource>
+        <search>
+            <mode value="match"/>
+        </search>
+    </entry>
+    <entry>
+        <fullUrl value="https://erp-dev.zentral.erp.splitdns.ti-dienste.de/Task/160.000.000.000.000.02"/>
+        <resource>
+            <Task>
+                <id value="160.000.000.000.000.02"/>
+                <meta>
+                    <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"/>
+                </meta>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType">
+                    <valueCoding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType"/>
+                        <code value="160"/>
+                        <display value="Muster 16 (Apothekenpflichtige Arzneimittel)"/>
+                    </valueCoding>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_AcceptDate">
+                    <valueDate value="2025-10-28"/>
+                </extension>
+                <extension url="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_ExpiryDate">
+                    <valueDate value="2026-01-01"/>
+                </extension>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
+                    <value value="160.000.000.000.000.02"/>
+                </identifier>
+                <identifier>
+                    <use value="official"/>
+                    <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_AccessCode"/>
+                    <value value="777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"/>
+                </identifier>
+                <status value="ready"/>
+                <intent value="order"/>
+                <for>
+                    <identifier>
+                        <system value="http://fhir.de/sid/gkv/kvid-10"/>
+                        <value value="X123456789"/>
+                    </identifier>
+                </for>
+                <authoredOn value="2025-10-01T15:29:00+00:00"/>
+                <lastModified value="2025-10-01T15:29:00.434+00:00"/>
+                <performerType>
+                    <coding>
+                        <system value="https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_OrganizationType"/>
+                        <code value="urn:oid:1.2.276.0.76.4.54"/>
+                        <display value="Öffentliche Apotheke"/>
+                    </coding>
+                    <text value="Öffentliche Apotheke"/>
+                </performerType>
+            </Task>
+        </resource>
+        <search>
+            <mode value="match"/>
+        </search>
+    </entry>
+</Bundle>
+----
+====
+FHIR-Profil: link:https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task[GEM_ERP_PR_Task]
+
+
+
+2+¦Response Codes
+
+¦200 ¦ Success +
+Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wird im ResponseBody bereitgestellt.
+
+¦400 ¦ Client Error +
+Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+
+¦401 ¦ Client Error +
+Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
+
+¦403 ¦ Client Error +
+Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt. Darunter fällt:
+
+- Fehlgeschlagene Signaturprüfung des PoPP-Tokens
+- Abweichung von Telematik-ID des PoPP-Tokens mit Telematik-ID des Access-Tokens.
+- Zeitstempel des PoPP-Token (`iat`) außerhalb des Akzeptanzzeitraums
+
+
+¦405 ¦ Client Error +
+Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.
+
+¦429 ¦ Client Error +
+Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.
+
+¦500 ¦ Server Error +
+Unerwarteter Serverfehler.
+
+|===
+
+NOTE: Die allgemeinen http-Statuscodes finden sich in der Übersicht link:erp_statuscodes.adoc[E-Rezept-Fachdienst-Statuscodes^]

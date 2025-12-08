@@ -448,7 +448,8 @@ for filename in os.listdir(INPUT_FOLDER):
                     for code, resp_type, desc in response_codes:
                         adoc_lines.append('')
                         adoc_lines.append(f'¦{code} ¦ {resp_type} +')
-                        adoc_lines.append(f'[small]#{desc}#')
+                        #adoc_lines.append(f'[small]#{desc}#')
+                        adoc_lines.append(f'{desc}')
 
                     adoc_lines.append('')
                     adoc_lines.append('|===')
