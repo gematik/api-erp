@@ -83,7 +83,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Anwendungsfälle für Versicherte](docs/erp_versicherte.adoc)|![][FdV]|
 |[Belieferung von E-Rezepten](docs/erp_abrufen.adoc)|![][AVS]|
 |[Bereitstellung von E-Rezepten](docs/erp_bereitstellen.adoc)|![][PVS]|
-|[Einlösung von E-Rezepten mit Gesundheitskarte](docs/erp_abrufen_egk.adoc)|![][AVS]|
+|[Einlösung von E-Rezepten mit Gesundheitskarte mittels PoPP](docs/erp_abrufen_egk_popp.adoc)|![][AVS]|
 |[Workflow-Steuerung durch Leistungserbringer](docs/erp_steuerung_durch_le.adoc)|![][PVS] ![][AVS] ![][FdV]|
 |[Bedienen von DiGA-Verordnungen](docs/erp_diga.adoc)|![][PVS] ![][FdV] ![][KTR]|
 
