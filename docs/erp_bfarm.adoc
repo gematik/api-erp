@@ -73,7 +73,7 @@ X-Request-ID: <value> (string)
         {
           "valueIdentifier": {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.100.000.000.001.39"
+            "value": "166.100.000.000.001.39"
           },
           "name": "prescriptionId"
         },
@@ -82,6 +82,11 @@ X-Request-ID: <value> (string)
           "resource": {
             "resourceType": "MedicationRequest",
             "id": "TRP-Carbon-Copy-MedicationRequest",
+            "meta": {
+              "profile": [
+                "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-medication-request"
+              ]
+            },
             "extension": [
               {
                 "extension": [
@@ -112,26 +117,8 @@ X-Request-ID: <value> (string)
             "medicationReference": {
               "reference": "Medication/TRP-Carbon-Copy-Medication"
             },
-            "subject": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                  "valueCode": "not-permitted"
-                }
-              ],
-              "display": "DataAbsentReason-Extension: #not-permitted, dieser Wert wird leer gelassen"
-            },
             "dosageInstruction": [
               {
-                "extension": [
-                  {
-                    "valueCoding": {
-                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Dosage_Category",
-                      "code": "DAILY_FOUR_SCHEME"
-                    },
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageCategory"
-                  }
-                ],
                 "timing": {
                   "repeat": {
                     "when": [
@@ -166,6 +153,14 @@ X-Request-ID: <value> (string)
             },
             "status": "completed",
             "intent": "order",
+            "subject": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "not-permitted"
+                }
+              ]
+            },
             "authoredOn": "2025-05-20"
           }
         },
@@ -236,10 +231,21 @@ X-Request-ID: <value> (string)
     {
       "part": [
         {
-          "name": "organization",
+          "name": "dispenseOrganization",
           "resource": {
             "resourceType": "Organization",
-            "id": "TRP-Carbon-Copy-Organization",
+            "id": "8b416995-852f-4933-99bf-c71ad76abae3",
+            "meta": {
+              "profile": [
+                "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-organization"
+              ]
+            },
+            "identifier": [
+              {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "Organisation 3-2arvtst-ap000053"
+              }
+            ],
             "telecom": [
               {
                 "system": "phone",
@@ -254,78 +260,82 @@ X-Request-ID: <value> (string)
                 ],
                 "use": "work",
                 "type": "postal",
-                "text": "Schwarzwaldstr. 18&#13;&#10;63762&#13;&#10;Großostheim&#13;&#10;Bayern&#13;&#10;DE",
                 "city": "Großostheim",
                 "state": "Bayern",
                 "postalCode": "63762",
                 "country": "DE"
               }
             ],
-            "name": "Organisation 1-2arvtst-ap000053"
+            "name": "Stadt Apotheke"
           }
         },
         {
-          "name": "medicationDispense",
-          "resource": {
-            "resourceType": "MedicationDispense",
-            "id": "TRP-Carbon-Copy-MedicationDispense",
-            "medicationReference": {
-              "reference": "Medication/TRP-Carbon-Copy-D-Medication"
-            },
-            "performer": [
-              {
-                "actor": {
-                  "reference": "Organization/3-SMC-B-Testkarte-883110000095957"
-                }
-              }
-            ],
-            "status": "completed",
-            "whenHandedOver": "2026-04-01"
-          }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "TRP-Carbon-Copy-D-Medication",
-            "extension": [
-              {
-                "url": "http://fhir.de/StructureDefinition/normgroesse",
-                "valueCode": "N1"
-              }
-            ],
-            "code": {
-              "coding": [
-                {
-                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                  "code": "19201712"
-                }
-              ],
-              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "HKP"
-                }
-              ]
-            },
-            "amount": {
-              "numerator": {
-                "extension": [
+          "part": [
+            {
+              "name": "medicationDispense",
+              "resource": {
+                "resourceType": "MedicationDispense",
+                "id": "TRP-Carbon-Copy-MedicationDispense",
+                "medicationReference": {
+                  "reference": "Medication/TRP-Carbon-Copy-D-Medication"
+                },
+                "performer": [
                   {
-                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
-                    "valueString": "21"
+                    "actor": {
+                      "reference": "Organization/8b416995-852f-4933-99bf-c71ad76abae3"
+                    }
                   }
                 ],
-                "unit": "Stück"
-              },
-              "denominator": {
-                "value": 1
+                "status": "completed",
+                "whenHandedOver": "2026-04-01"
+              }
+            },
+            {
+              "name": "medication",
+              "resource": {
+                "resourceType": "Medication",
+                "id": "TRP-Carbon-Copy-D-Medication",
+                "extension": [
+                  {
+                    "url": "http://fhir.de/StructureDefinition/normgroesse",
+                    "valueCode": "N1"
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                      "code": "19201712"
+                    }
+                  ],
+                  "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+                },
+                "form": {
+                  "coding": [
+                    {
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                      "code": "HKP"
+                    }
+                  ]
+                },
+                "amount": {
+                  "numerator": {
+                    "extension": [
+                      {
+                        "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                        "valueString": "21"
+                      }
+                    ],
+                    "unit": "Stück"
+                  },
+                  "denominator": {
+                    "value": 1
+                  }
+                }
               }
             }
-          }
+          ],
+          "name": "dispenseInformation"
         }
       ],
       "name": "rxDispensation"
@@ -372,7 +382,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
         {
           "valueIdentifier": {
             "system": "https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId",
-            "value": "160.100.000.000.001.39"
+            "value": "166.100.000.000.001.39"
           },
           "name": "prescriptionId"
         },
@@ -381,6 +391,11 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
           "resource": {
             "resourceType": "MedicationRequest",
             "id": "TRP-Carbon-Copy-MedicationRequest",
+            "meta": {
+              "profile": [
+                "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-medication-request"
+              ]
+            },
             "extension": [
               {
                 "extension": [
@@ -411,26 +426,8 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
             "medicationReference": {
               "reference": "Medication/TRP-Carbon-Copy-Medication"
             },
-            "subject": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                  "valueCode": "not-permitted"
-                }
-              ],
-              "display": "DataAbsentReason-Extension: #not-permitted, dieser Wert wird leer gelassen"
-            },
             "dosageInstruction": [
               {
-                "extension": [
-                  {
-                    "valueCoding": {
-                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_ERP_Dosage_Category",
-                      "code": "DAILY_FOUR_SCHEME"
-                    },
-                    "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageCategory"
-                  }
-                ],
                 "timing": {
                   "repeat": {
                     "when": [
@@ -465,6 +462,14 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
             },
             "status": "completed",
             "intent": "order",
+            "subject": {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                  "valueCode": "not-permitted"
+                }
+              ]
+            },
             "authoredOn": "2025-05-20"
           }
         },
@@ -535,10 +540,21 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
     {
       "part": [
         {
-          "name": "organization",
+          "name": "dispenseOrganization",
           "resource": {
             "resourceType": "Organization",
-            "id": "TRP-Carbon-Copy-Organization",
+            "id": "8b416995-852f-4933-99bf-c71ad76abae3",
+            "meta": {
+              "profile": [
+                "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-organization"
+              ]
+            },
+            "identifier": [
+              {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
+                "value": "Organisation 3-2arvtst-ap000053"
+              }
+            ],
             "telecom": [
               {
                 "system": "phone",
@@ -553,78 +569,82 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
                 ],
                 "use": "work",
                 "type": "postal",
-                "text": "Schwarzwaldstr. 18&#13;&#10;63762&#13;&#10;Großostheim&#13;&#10;Bayern&#13;&#10;DE",
                 "city": "Großostheim",
                 "state": "Bayern",
                 "postalCode": "63762",
                 "country": "DE"
               }
             ],
-            "name": "Organisation 1-2arvtst-ap000053"
+            "name": "Stadt Apotheke"
           }
         },
         {
-          "name": "medicationDispense",
-          "resource": {
-            "resourceType": "MedicationDispense",
-            "id": "TRP-Carbon-Copy-MedicationDispense",
-            "medicationReference": {
-              "reference": "Medication/TRP-Carbon-Copy-D-Medication"
-            },
-            "performer": [
-              {
-                "actor": {
-                  "reference": "Organization/3-SMC-B-Testkarte-883110000095957"
-                }
-              }
-            ],
-            "status": "completed",
-            "whenHandedOver": "2026-04-01"
-          }
-        },
-        {
-          "name": "medication",
-          "resource": {
-            "resourceType": "Medication",
-            "id": "TRP-Carbon-Copy-D-Medication",
-            "extension": [
-              {
-                "url": "http://fhir.de/StructureDefinition/normgroesse",
-                "valueCode": "N1"
-              }
-            ],
-            "code": {
-              "coding": [
-                {
-                  "system": "http://fhir.de/CodeSystem/ifa/pzn",
-                  "code": "19201712"
-                }
-              ],
-              "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
-            },
-            "form": {
-              "coding": [
-                {
-                  "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
-                  "code": "HKP"
-                }
-              ]
-            },
-            "amount": {
-              "numerator": {
-                "extension": [
+          "part": [
+            {
+              "name": "medicationDispense",
+              "resource": {
+                "resourceType": "MedicationDispense",
+                "id": "TRP-Carbon-Copy-MedicationDispense",
+                "medicationReference": {
+                  "reference": "Medication/TRP-Carbon-Copy-D-Medication"
+                },
+                "performer": [
                   {
-                    "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
-                    "valueString": "21"
+                    "actor": {
+                      "reference": "Organization/8b416995-852f-4933-99bf-c71ad76abae3"
+                    }
                   }
                 ],
-                "unit": "Stück"
-              },
-              "denominator": {
-                "value": 1
+                "status": "completed",
+                "whenHandedOver": "2026-04-01"
+              }
+            },
+            {
+              "name": "medication",
+              "resource": {
+                "resourceType": "Medication",
+                "id": "TRP-Carbon-Copy-D-Medication",
+                "extension": [
+                  {
+                    "url": "http://fhir.de/StructureDefinition/normgroesse",
+                    "valueCode": "N1"
+                  }
+                ],
+                "code": {
+                  "coding": [
+                    {
+                      "system": "http://fhir.de/CodeSystem/ifa/pzn",
+                      "code": "19201712"
+                    }
+                  ],
+                  "text": "Pomalidomid Accord 1 mg 21 x 1 Hartkapseln"
+                },
+                "form": {
+                  "coding": [
+                    {
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_KBV_DARREICHUNGSFORM",
+                      "code": "HKP"
+                    }
+                  ]
+                },
+                "amount": {
+                  "numerator": {
+                    "extension": [
+                      {
+                        "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/medication-total-quantity-formulation-extension",
+                        "valueString": "21"
+                      }
+                    ],
+                    "unit": "Stück"
+                  },
+                  "denominator": {
+                    "value": 1
+                  }
+                }
               }
             }
-          }
+          ],
+          "name": "dispenseInformation"
         }
       ],
       "name": "rxDispensation"
