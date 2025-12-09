@@ -44,7 +44,7 @@ Ist `kind` nicht `null`, wird der Pusher mit dieser `app_id` und `pushkey` für 
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/set
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/v1/set
 ¦Method     ¦POST
 ¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
@@ -241,7 +241,7 @@ Ruft alle aktuell aktiven Pusher für den authentifizierten Nutzer ab.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/pushers/v1
 ¦Method     ¦GET
 ¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
@@ -398,7 +398,7 @@ Ruft alle verfügbaren Channels für den authentifizierten Nutzer ab.
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/v1
 ¦Method     ¦GET
 ¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
@@ -507,7 +507,7 @@ Ruft alle Channels und deren Konfigurationsstatus für das Gerät des authentifi
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/v1/<pushkey>
 ¦Method     ¦GET
 ¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
@@ -616,7 +616,7 @@ Dieser Endpunkt ermöglicht die Erstellung, Änderung und Löschung von Channel-
 [cols="h,a", width="100%", separator=¦]
 [%autowidth]
 |===
-¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/<pushkey>
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/channels/v1/<pushkey>
 ¦Method     ¦POST
 ¦Requester  ¦image:{FdV}[]
 ¦HTTP Header ¦
