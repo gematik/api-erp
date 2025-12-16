@@ -16,13 +16,13 @@
 openapi: 3.0.3
 info:
   title: E-Rezept-Fachdienst API for Push Notifications
-  version: 1.0.0
+  version: 1.1.0
   description: API Endpoints for managing pushers, the channel configuration and retrieving previously sent notifications.
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
 paths:
-  /pushers:
+  /pushers/v1:
     get:
       summary: Gets the current pushers
       description: Gets all currently active pushers for the authenticated user.
@@ -60,7 +60,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
-  /pushers/set:
+  /pushers/v1/set:
     post:
       summary: Modify a pusher
       description: |-
@@ -119,7 +119,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Setup
-  /channels/{pushkey}:
+  /channels/v1/{pushkey}:
     get:
       summary: Gets channels for a specific device
       description: |-
@@ -226,7 +226,7 @@ paths:
           $ref: "#/components/responses/ErrorResponse429"
       tags:
         - Channel
-  /channels:
+  /channels/v1:
     get:
       summary: Gets the available channels
       description: Gets all available channels for the authenticated user.
