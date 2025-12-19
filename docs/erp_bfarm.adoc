@@ -28,7 +28,7 @@ Zielgruppe: image:{bfarm}[] image:{eRp}[]
 Hier dokumentiert die gematik die Nutzung der Schnittstellen des BfArM aus Sicht des E-Rezept-Fachdienstes.
 Die OpenAPI-Spezifikationen sind unter folgendem Link zu finden: link:../resources/openapi/bfarm.yml[OpenAPI-Spezifikation für BfArM].
 
-Details zu den verwendeten FHIR Artefakten und den Mappings für Daten im E-Rezept-Fachdienst siehe (FHIR IG E-T-Rezept)[https://gemspec.gematik.de/ig/fhir/erp-t-prescription/1.0.0].
+Details zu den verwendeten FHIR Artefakten und den Mappings für Daten im E-Rezept-Fachdienst siehe (FHIR IG E-T-Rezept)[https://gemspec.gematik.de/ig/fhir/erp-t-prescription/1.1.0].
 
 toc::[]
 
@@ -60,7 +60,7 @@ X-Request-ID: <value> (string)
   "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.0"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.1"
     ]
   },
   "parameter": [
@@ -91,33 +91,92 @@ X-Request-ID: <value> (string)
               {
                 "extension": [
                   {
-                    "url": "Off-Label",
+                    "url": "off-label",
                     "valueBoolean": true
                   },
                   {
-                    "url": "GebaerfaehigeFrau",
+                    "url": "childbearing-potential",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "security-compliance",
                     "valueBoolean": false
                   },
                   {
-                    "url": "EinhaltungSicherheitsmassnahmen",
-                    "valueBoolean": true
+                    "url": "hand-out-information-material",
+                    "valueBoolean": false
                   },
                   {
-                    "url": "AushaendigungInformationsmaterialien",
-                    "valueBoolean": true
-                  },
-                  {
-                    "url": "ErklaerungSachkenntnis",
+                    "url": "declaration-of-expertise",
                     "valueBoolean": true
                   }
                 ],
-                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic"
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/teratogenic-extension"
+              },
+              {
+                "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction",
+                "valueMarkdown": "1-0-1-0 Stück"
+              },
+              {
+                "extension": [
+                  {
+                    "url": "algorithmVersion",
+                    "valueString": "1.0.1"
+                  },
+                  {
+                    "url": "language",
+                    "valueCode": "de-DE"
+                  }
+                ],
+                "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta"
               }
             ],
+            "subject": {
+              "identifier": {
+                "_system": {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "not-permitted"
+                    }
+                  ]
+                },
+                "_value": {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "not-permitted"
+                    }
+                  ]
+                }
+              }
+            },
             "medicationReference": {
               "reference": "Medication/TRP-Carbon-Copy-Medication"
             },
             "dosageInstruction": [
+              {
+                "timing": {
+                  "repeat": {
+                    "when": [
+                      "MORN"
+                    ],
+                    "frequency": 1,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "doseAndRate": [
+                  {
+                    "doseQuantity": {
+                      "value": 1,
+                      "code": "1",
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
+                      "unit": "Stück"
+                    }
+                  }
+                ]
+              },
               {
                 "timing": {
                   "repeat": {
@@ -132,7 +191,7 @@ X-Request-ID: <value> (string)
                 "doseAndRate": [
                   {
                     "doseQuantity": {
-                      "value": 1,
+                      "value": 2,
                       "code": "1",
                       "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
                       "unit": "Stück"
@@ -153,14 +212,6 @@ X-Request-ID: <value> (string)
             },
             "status": "completed",
             "intent": "order",
-            "subject": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                  "valueCode": "not-permitted"
-                }
-              ]
-            },
             "authoredOn": "2025-05-20"
           }
         },
@@ -242,7 +293,6 @@ X-Request-ID: <value> (string)
             },
             "identifier": [
               {
-                "system": "https://gematik.de/fhir/sid/telematik-id",
                 "value": "Organisation 3-2arvtst-ap000053"
               }
             ],
@@ -369,7 +419,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
   "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.0"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.1"
     ]
   },
   "parameter": [
@@ -400,33 +450,92 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
               {
                 "extension": [
                   {
-                    "url": "Off-Label",
+                    "url": "off-label",
                     "valueBoolean": true
                   },
                   {
-                    "url": "GebaerfaehigeFrau",
+                    "url": "childbearing-potential",
+                    "valueBoolean": true
+                  },
+                  {
+                    "url": "security-compliance",
                     "valueBoolean": false
                   },
                   {
-                    "url": "EinhaltungSicherheitsmassnahmen",
-                    "valueBoolean": true
+                    "url": "hand-out-information-material",
+                    "valueBoolean": false
                   },
                   {
-                    "url": "AushaendigungInformationsmaterialien",
-                    "valueBoolean": true
-                  },
-                  {
-                    "url": "ErklaerungSachkenntnis",
+                    "url": "declaration-of-expertise",
                     "valueBoolean": true
                   }
                 ],
-                "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic"
+                "url": "https://gematik.de/fhir/epa-medication/StructureDefinition/teratogenic-extension"
+              },
+              {
+                "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction",
+                "valueMarkdown": "1-0-1-0 Stück"
+              },
+              {
+                "extension": [
+                  {
+                    "url": "algorithmVersion",
+                    "valueString": "1.0.1"
+                  },
+                  {
+                    "url": "language",
+                    "valueCode": "de-DE"
+                  }
+                ],
+                "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta"
               }
             ],
+            "subject": {
+              "identifier": {
+                "_system": {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "not-permitted"
+                    }
+                  ]
+                },
+                "_value": {
+                  "extension": [
+                    {
+                      "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                      "valueCode": "not-permitted"
+                    }
+                  ]
+                }
+              }
+            },
             "medicationReference": {
               "reference": "Medication/TRP-Carbon-Copy-Medication"
             },
             "dosageInstruction": [
+              {
+                "timing": {
+                  "repeat": {
+                    "when": [
+                      "MORN"
+                    ],
+                    "frequency": 1,
+                    "period": 1,
+                    "periodUnit": "d"
+                  }
+                },
+                "doseAndRate": [
+                  {
+                    "doseQuantity": {
+                      "value": 1,
+                      "code": "1",
+                      "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
+                      "unit": "Stück"
+                    }
+                  }
+                ]
+              },
               {
                 "timing": {
                   "repeat": {
@@ -441,7 +550,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
                 "doseAndRate": [
                   {
                     "doseQuantity": {
-                      "value": 1,
+                      "value": 2,
                       "code": "1",
                       "system": "https://fhir.kbv.de/CodeSystem/KBV_CS_SFHIR_BMP_DOSIEREINHEIT",
                       "unit": "Stück"
@@ -462,14 +571,6 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
             },
             "status": "completed",
             "intent": "order",
-            "subject": {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                  "valueCode": "not-permitted"
-                }
-              ]
-            },
             "authoredOn": "2025-05-20"
           }
         },
@@ -551,7 +652,6 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
             },
             "identifier": [
               {
-                "system": "https://gematik.de/fhir/sid/telematik-id",
                 "value": "Organisation 3-2arvtst-ap000053"
               }
             ],
