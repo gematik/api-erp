@@ -24,7 +24,7 @@ Der E-Rezept-Fachdienst prüft:
 
 * die Signatur des PoPP-Tokens, um sicherzugehen, dass dieser vom PoPP-Service ausgestellt wurde
 * die Telematik-ID des Aufrufenden gleich der Telematik-ID des im PoPP-Token genannten Akteurs sind
-* der Zeitstempel des PoPP-Token innerhalb des Akzeptanzzeitraumes ist.
+* der Zeitstempel des PoPP-Token innerhalb des Akzeptanzzeitraumes (30 Minuten) ist.
 
 Nach erfolgreicher Prüfung extrahiert der E-Rezept-Fachdienst die KVNR aus dem PoPP-Token und filtert die Suchabfrage von Tasks entsprechend.
 
