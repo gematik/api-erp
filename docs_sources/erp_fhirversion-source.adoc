@@ -17,7 +17,7 @@ IMPORTANT: Die Hinweise und konkreten Regelungen zu stichtagsbezogenen Versions�
 
 TIP: Hinweise zur aktuellen FHIR-Konfiguration des E-Rezept-Fachdienstes in der Referenzumgebung RU finden Sie auf link:https://wiki.gematik.de/display/RUAAS/E-Rezept@RU[E-Rezept@RU^]
 
-== Übersicht FHIR Packages und Gültigkeit
+== Übersicht FHIR Packages im E-Rezept
 
 In Abständen erfolgt eine Anpassung des Datenmodells, die der E-Rezept-Fachdienst akzeptiert und verarbeitet. Die Versionierung erfolgt aktuell auf Ebene der Datenstrukturen. Um einen Übergang für Primärsysteme und die E-Rezept-FdV zu ermöglichen erfolgen die Wechsel der Profilversionen in einem Übergang.
 
@@ -26,17 +26,17 @@ Die Gültigkeit einer Instanz bei der Validierung im E-Rezept-Fachdienst wird gg
 Die folgenden Packages werden vom E-Rezept-Fachdienst unterstützt:
 [options="header"]
 |===
-| Paketname | Beschreibung | Referenz | Technische Anlage
-| de.gkvsv.eRezeptAbrechnungsdaten | Abrechnungsdaten des GKV-SV | link:https://simplifier.net/eRezeptAbrechnungsdaten[eRezeptAbrechnungsdaten^] | link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_006_20250114.pdf[Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]
-| kbv.ita.erp | eRezept-Projekt der KBV | link:https://simplifier.net/eRezept[eRezept] | link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^]
-| kbv.itv.evdga | Verordnung von digitalen Gesundheitsanwendungen der KBV | link:https://simplifier.net/evdga[eVDGA] | link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^]
-| S_KBV_DARREICHUNGSFORM    | Schlüsseltabelle Darreichungsform|  link:https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml[S_KBV_DARREICHUNGSFORM^] | -
-| S_KBV_DMP   | Schlüsseltabelle DMP-Kennzeichen | link:https://applications.kbv.de/S_KBV_DMP.xhtml[S_KBV_DMP^] | -
-| de.abda.eRezeptAbgabedaten| DAV-Abgabedaten | link:https://simplifier.net/eRezeptAbgabedaten[eRezeptAbgabedaten^] | link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_006_20250114.pdf[Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^], Zusatz: link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20250109.pdf[Anhang 2 - FHIR Versionen zur Technischen Anlage 7^]
-| de.abda.eRezeptAbgabedatenPKV    |  DAV-PKVAbgabedaten  | link:https://simplifier.net/eRezeptAbgabedatenPKV[eRezeptAbgabedatenPKV^] | link:http://www.abda.de/themen/e-health/datenauschtausch-pkv[Technische Anlage der PKV-Abgabedaten]
-| de.gematik.erezept-workflow.r4   | E-Rezept-Workflow-Projekt der gematik | link:https://simplifier.net/erezept-workflow[E-Rezept-Workflow^] | -
-| de.gematik.erezept.eu   | E-Rezept-Workflow-EU-Projekt der gematik | link:https://simplifier.net/erezept-workflow-eu[E-Rezept-Workflow-EU^] | -
-| de.gematik.erezept-patientenrechnung.r4 | Abrechnungsinformationen zum E-Rezept | link:https://simplifier.net/erezept-patientenrechnung[E-Rezept-Patientenrechnung^] | -
+| Betrifft | Paketname | Beschreibung | Referenz | Technische Anlage
+| image:{AVS}[] | de.gkvsv.eRezeptAbrechnungsdaten | Abrechnungsdaten des GKV-SV | link:https://simplifier.net/eRezeptAbrechnungsdaten[eRezeptAbrechnungsdaten^] | link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_006_20250114.pdf[Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^]
+| image:{PVS}[] image:{AVS}[] image:{FdV}[] | kbv.ita.erp | eRezept-Projekt der KBV | link:https://simplifier.net/eRezept[eRezept] | link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^]
+| image:{PVS}[] image:{KTR}[] image:{FdV}[] | kbv.itv.evdga | Verordnung von digitalen Gesundheitsanwendungen der KBV | link:https://simplifier.net/evdga[eVDGA] | link:https://update.kbv.de/ita-update/DigitaleMuster/ERP/KBV_ITA_VGEX_Technische_Anlage_ERP.pdf[KBV_ITA_VGEX_TECHNISCHE_ANLAGE_ERP^]
+| image:{PVS}[] image:{AVS}[] | S_KBV_DARREICHUNGSFORM    | Schlüsseltabelle Darreichungsform|  link:https://applications.kbv.de/S_KBV_DARREICHUNGSFORM.xhtml[S_KBV_DARREICHUNGSFORM^] | -
+| image:{PVS}[] image:{AVS}[] | S_KBV_DMP   | Schlüsseltabelle DMP-Kennzeichen | link:https://applications.kbv.de/S_KBV_DMP.xhtml[S_KBV_DMP^] | -
+| image:{AVS}[] | de.abda.eRezeptAbgabedaten| DAV-Abgabedaten | link:https://simplifier.net/eRezeptAbgabedaten[eRezeptAbgabedaten^] | link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_006_20250114.pdf[Technische Anlage 7 zur Arzneimittelabrechnungsvereinbarung gemäß § 300 Absatz 3 SGB V^], Zusatz: link:https://www.gkv-datenaustausch.de/media/dokumente/leistungserbringer_1/apotheken/technische_anlagen_aktuell/TA7_Anhang_2_20250109.pdf[Anhang 2 - FHIR Versionen zur Technischen Anlage 7^]
+| image:{AVS}[] | de.abda.eRezeptAbgabedatenPKV |  DAV-PKVAbgabedaten  | link:https://simplifier.net/eRezeptAbgabedatenPKV[eRezeptAbgabedatenPKV^] | link:http://www.abda.de/themen/e-health/datenauschtausch-pkv[Technische Anlage der PKV-Abgabedaten]
+| image:{AVS}[] image:{KTR}[] image:{FdV}[] | de.gematik.erezept-workflow.r4   | E-Rezept-Workflow-Projekt der gematik | link:https://simplifier.net/erezept-workflow[E-Rezept-Workflow^] | -
+| image:{NCPeH}[] image:{FdV}[] | de.gematik.erezept.eu   | E-Rezept-Workflow-EU-Projekt der gematik | link:https://simplifier.net/erezept-workflow-eu[E-Rezept-Workflow-EU^] | -
+| image:{AVS}[] | de.gematik.erezept-patientenrechnung.r4 | Abrechnungsinformationen zum E-Rezept | link:https://simplifier.net/erezept-patientenrechnung[E-Rezept-Patientenrechnung^] | -
 |===
 
 
@@ -44,48 +44,18 @@ Die folgenden Packages werden vom E-Rezept-Fachdienst unterstützt:
 
 Auf den Detailseiten der Profilwechsel können vertiefende Informationen zu zeitlichen sowie inhaltlichen Aspekten des Übergangs eingesehen werden.
 
-[options="header"]
-|===
-| Startdatum Profilübergang | Beschreibung | Detailseite
-| 01.07.2026 | Strukturierte Dosierungen | link:./erp_fhirversion_change_2026-07-01.adoc[Übergang zum 01.07.2026]
-| 01.10.2025 | Update de-basisprofile | link:./erp_fhirversion_change_20251001.adoc[Übergang zum 01.10.2025]
-|===
+=== 01.07.2026
+
+Ab 01.07.2026 werden die Packages kbv.ita.erp und de.gematik.erezept-workflow.r4 aktualisiert, um die Angabe von strukturierten Dosierinformationen zu ermöglichen.
+Weitere Informationen unter link:./erp_fhirversion_change_2026-07-01.adoc[Übergang zum 01.07.2026].
+
+=== 01.10.2025
+
+Der Profilwechsel zum 01.10.2025 enthält Fehlerbehebungen und Verbesserungen, sowie ein Update der DE-Basisprofilversion, wodurch der PKV-Identifier nicht mehr unterstützt wird.
+Weitere Informationen unter link:./erp_fhirversion_change_20251001.adoc[Übergang zum 01.10.2025].
 
 == Übersicht Terminologiewechsel
 
 Folgende Anpassungen der Terminologievalidierung im E-Rezept-Fachdienst erfolgen (s. link:../resources/configuration_terminology[Terminologiekonfigurationen]):
 
 include::../resources/scripts/output_adoc/terminology_table.adoc[]
-
-
-== Vergangene Versionsübergänge
-
-=== 2024.11.01
-Es erfolgt ein Update der Abgabedaten des DAV, den Abrechnungsdaten von GKV-SV und der Workflow-Profile.
-
-[cols="h,a,a,a,a"]
-|===
-| |*Version und Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
-
-|DAV de.abda.eRezeptAbgabedatenBasis |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenbasis/1.4.1[Package 1.4.1 Profile 1.4^] |16.05.2024 |01.11.2024 | 11.01.2026
-|DAV de.abda.eRezeptAbgabedaten |link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.4.1[Package 1.4.1 Profile 1.4^]|16.05.2024 |01.11.2024 |11.01.2026
-|GKV-SV de.gkvsv.eRezeptAbrechnungsdaten |link:https://simplifier.net/packages/de.gkvsv.eRezeptAbrechnungsdaten/1.4.0[Package 1.4.0 Profile 1.4^]|01.05.2024 |ab Abrechnungsmonat 11/2024 | bis Abrechnungsmonat 09/2025
-|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.3.1[Package 1.3.1 Profile 1.3^] |21.05.2024 |01.11.2024 |15.04.2025
-|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.3[Package 1.0.3 Profile 1.0^] |01.05.2024 | 01.11.2024 (ab eRP-FD Release 1.15.0-2) |15.04.2025
-
-|===
-
-=== 2023.07.01
-Das Major Release des E-Rezepts zum 01.07.2023 umfasst diverse Anpassungen und Korrekturen, die sich aus Abstimmungen am runden FHIR-Tisch aller E-Rezept-Beteiligten Organisationen, der Technischen Kommission zur Abrechnungsstrecke und diversen Fehler- und Verbesserungstickets ergeben haben.
-
-[cols="h,a,a,a,a"]
-|===
-| |*Version und Releasenotes* |*Datum Veröffentlichung* |*Datum gültig ab* |*Datum gültig bis*
-
-|KBV kbv.ita.erp    |link:https://simplifier.net/packages/kbv.ita.erp/1.1.2[Package 1.1.2 Profile 1.1.0^]|30.09.2022 |01.07.2023 | 31.03.2026
-|gematik de.gematik.erezept-workflow.r4 |link:https://simplifier.net/packages/de.gematik.erezept-workflow.r4/1.2.3[Package 1.2.3 Profile 1.2^] |05.10.2022 |01.07.2023 | 15.04.2025
-|gematik de.gematik.erezept-patientenrechnung.r4 |link:https://simplifier.net/packages/de.gematik.erezept-patientenrechnung.r4/1.0.2[Package 1.0.2 Profile 1.0^] |22.12.2022 |01.07.2023 | 31.10.2024
-|DAV de.abda.erezeptabgabedaten| link:https://simplifier.net/packages/de.abda.erezeptabgabedaten/1.3.1[Package 1.3.1 Profile 1.3^]|15.03.2023 (v1.3.1) 21.12.2022 (v1.3.0) |01.07.2023 |15.04.2025
-|GKV de.gkvsv.eRezeptAbrechnungsdaten |link:https://simplifier.net/packages/de.gkvsv.erezeptabrechnungsdaten/1.3.0[Package 1.3.0 Profile 1.3^] |22.12.2022 |01.07.2023 | bis einschl. Abrechnungsmonat 10/2024
-|PKV de.abda.eRezeptAbgabedatenPKV |link:https://simplifier.net/packages/de.abda.erezeptabgabedatenpkv/1.2.0[Package 1.2.0 Profile 1.2^] |15.03.2023 (v1.2.0)21.12.2022 (v1.1.0) |01.07.2023 | 15.04.2025
-|===
