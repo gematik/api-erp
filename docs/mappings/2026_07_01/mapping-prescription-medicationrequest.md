@@ -1,5 +1,10 @@
-# Mapping der Verschreibung für Verordnungsdaten am E-Rezept-Fachdienst ab dem 01.07.2026
+# Mapping der Verschreibung für Verordnungsdaten - Implementation Guide E-Rezept-Fachdienst v1.6.1-draft
 
+Implementation Guide
+
+E-Rezept-Fachdienst
+
+Version 1.6.1-draft - ci-build 
 
 * [**Table of Contents**](toc.md)
 * [**Vorgaben zum Mapping von FHIR-Instanzen**](mapping.md)
@@ -27,11 +32,49 @@ Die folgende Tabelle stellt generell das Mapping der beiden Profile gegenüber:
 
 | | | | |
 | :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.insurance` | `EPAMedicationRequest.insurance` | Nicht Übertragen | Feld wird nicht gemappt | Quelle: MedicationRequest.insurance |
+| `KBVPRERPPrescription` | `EPAMedicationRequest.insurance.display` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.display |
+| `KBVPRERPPrescription.insurance.id` | `EPAMedicationRequest.insurance.id` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.id |
+| `KBVPRERPPrescription` | `EPAMedicationRequest.insurance.identifier` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.identifier |
+| `KBVPRERPPrescription.insurance.reference` | `EPAMedicationRequest.insurance.reference` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.reference |
+| `KBVPRERPPrescription` | `EPAMedicationRequest.insurance.type` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.type |
 | `KBVPRERPPrescription.meta` | `EPAMedicationRequest.meta.profile` | Fester Wert | setzt festen Wert:`https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request` |
 | `KBVPRERPPrescription.subject` | `EPAMedicationRequest.subject` | Manuell | Transformationsregel F_007: Wird aus KBV_PR_FOR_Patient.identifier:versichertenId übernommen. | Quelle: MedicationRequest.subject |
 | `KBVPRERPPrescription` | `EPAMedicationRequest.subject.identifier` | Manuell | Befüllen von .subject nach Transformationsregel F_010 | Quelle: MedicationRequest.subject.identifier |
 
 ### Extensions
+
+#### Extension: KBV_EX_ERP_DosageFlag
+
+Bedingung: url = `https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag`
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.extension``[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag']` | `EPAMedicationRequest.extension` | Nicht Übertragen | Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Dosierungskennzeichen |
+
+#### Extension: KBV_EX_ERP_EmergencyServicesFee
+
+Bedingung: url = `https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee`
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.extension``[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee']` | `EPAMedicationRequest.extension` | Nicht Übertragen | Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Notdienstgebuehr |
+
+#### Extension: KBV_EX_FOR_Accident
+
+Bedingung: url = `https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident`
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.extension``[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident']` | `EPAMedicationRequest.extension` | Nicht Übertragen | Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Unfallinformationen |
+
+#### Extension: KBV_EX_FOR_StatusCoPayment
+
+Bedingung: url = `https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment`
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.extension``[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment']` | `EPAMedicationRequest.extension` | Nicht Übertragen | Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Zuzahlungsstatus |
 
 #### Extension: KBV_EX_FOR_SER
 
@@ -154,6 +197,12 @@ Bedingung: url = `https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic
 | | | | |
 | :--- | :--- | :--- | :--- |
 | `KBVPRERPPrescription.extension.extension``[Bedingung: url = 'EinhaltungSicherheitsmassnahmen']` | `EPAMedicationRequest.extension.extension.url` | Fester Wert | setzt festen Wert:`security-compliance` |
+
+#### Extension: (ohne Bedingung)
+
+| | | | |
+| :--- | :--- | :--- | :--- |
+| `KBVPRERPPrescription.insurance.extension` | `EPAMedicationRequest.insurance.extension` | Nicht Übertragen | Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.extension |
 
 ## Transformationsregeln
 
