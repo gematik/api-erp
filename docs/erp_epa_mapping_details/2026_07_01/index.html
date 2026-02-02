@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+<html lang="de" xml:lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <title>FHIR Mapping-Dokumentation - E-Rezept-Fachdienst ab 01.07.2026</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link href="fhir.css" rel="stylesheet"/>
+    <link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+    <link href="assets/css/project.css" rel="stylesheet"/>
+    <link href="assets/css/ig.gematik.css" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2a6496;
+            border-bottom: 3px solid #2a6496;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #2a6496;
+            margin-top: 30px;
+        }
+        .info-box {
+            background-color: #e7f3ff;
+            border-left: 4px solid #2a6496;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .mapping-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .mapping-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        .mapping-list a {
+            color: #2a6496;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .mapping-list a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>FHIR Mapping-Dokumentation</h1>
+    
+    <div class="info-box">
+        <strong>Gültig ab:</strong> 01.07.2026<br/>
+        <strong>Beschreibung:</strong> Diese Dokumentation beschreibt das FHIR-Mapping, welches der E-Rezept-Fachdienst 
+        ab dem 01.07.2026 für die Transformation von Verordnungsdaten ausführen wird.
+    </div>
+    
+    <h2>Übersicht der Mapping-Dokumentationen</h2>
+    
+    <p>
+        Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom KBV-Format 
+        in das EPA-Format transformiert werden:
+    </p>
+    
+    <ul class="mapping-list">
+        <li><a href="mapping-prescription-bundle-parameters.html">Mapping des Bundles zu Parameters für Verordnungsdaten</a></li>
+        <li><a href="mapping-prescription-medication-compounding.html">Mapping einer Rezeptur Medikation</a></li>
+        <li><a href="mapping-prescription-medication-freetext.html">Mapping einer Freitext Medikation</a></li>
+        <li><a href="mapping-prescription-medication-ingredient.html">Mapping einer Wirkstoff Medikation</a></li>
+        <li><a href="mapping-prescription-medication-pzn.html">Mapping einer PZN Medikation</a></li>
+        <li><a href="mapping-prescription-medication.html">Mapping der Arzneimitteldaten für Verordnungsdaten</a></li>
+        <li><a href="mapping-prescription-medicationrequest.html">Mapping der Verschreibung für Verordnungsdaten</a></li>
+        <li><a href="mapping-prescription-organization.html">Mapping der Organization für Verordnungsdaten</a></li>
+    </ul>
+    
+    <h2>Hintergrund</h2>
+    
+    <p>
+        Diese Mappings sind Teil der Integration des E-Rezept-Fachdienstes mit der 
+        elektronischen Patientenakte (ePA). Sie definieren die Transformation von 
+        Verordnungsdaten gemäß den KBV-Profilen (Kassenärztliche Bundesvereinigung) 
+        in die EPA-Medication-Profile.
+    </p>
+    
+    <footer>
+        <p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p>
+        <p>© gematik GmbH</p>
+    </footer>
+</body>
+</html>
