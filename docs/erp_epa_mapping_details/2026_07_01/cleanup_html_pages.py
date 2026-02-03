@@ -82,8 +82,19 @@ def cleanup_html(html_content, file_path):
             # Konvertiere zu normalem Text
             link.name = 'span'
             del link['href']
+
+    # 8. Entferne Tabellenzeilen mit Überschrift "Referenzen"
+    removed_references_rows = 0
+    for th in soup.find_all('th'):
+        if th.get_text(strip=True) == 'Referenzen':
+            row = th.find_parent('tr')
+            if row:
+                row.decompose()
+                removed_references_rows += 1
+    if removed_references_rows:
+        print(f"  ✓ Referenzen-Zeilen entfernt ({removed_references_rows})")
     
-    # 8. Füge einfachen Titel hinzu, wenn keiner existiert
+    # 9. Füge einfachen Titel hinzu, wenn keiner existiert
     content_div = soup.find(id='segment-content')
     if content_div:
         h2 = content_div.find('h2')
