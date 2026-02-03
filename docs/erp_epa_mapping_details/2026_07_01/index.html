@@ -63,20 +63,24 @@
 </head>
 <body>
     <h1>FHIR Mapping-Dokumentation</h1>
-    
+    <p><strong>Datum:</strong> 03.02.2026 &nbsp;|&nbsp; <strong>Version:</strong> 0.9.0</p>
+
     <div class="info-box">
         <strong>Gültig ab:</strong> 01.07.2026<br/>
-        <strong>Beschreibung:</strong> Diese Dokumentation beschreibt das FHIR-Mapping, welches der E-Rezept-Fachdienst 
+        <strong>Beschreibung:</strong> Diese Dokumentation beschreibt das FHIR-Mapping, welches der E-Rezept-Fachdienst
         ab dem 01.07.2026 für die Transformation von Verordnungsdaten ausführen wird.
     </div>
-    
+
     <h2>Übersicht der Mapping-Dokumentationen</h2>
-    
+
     <p>
-        Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom KBV-Format 
-        in das EPA-Format transformiert werden:
+        Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom <a href="https://simplifier.net/eRezept">KBV-Format</a> 
+        in das <a href="https://gemspec.gematik.de/ig/fhir/epa-medication/1.3.0">EPA-Format</a> transformiert werden.
     </p>
-    
+    <p>
+        Dabei müssen alle Werte übertragen werden. Die Mappingseiten beschreiben jeweils abweichenede Anpassungen und Transformationen, die vorzunehmen sind, um die Daten an die ePA Aktensysteme zu übertragen.
+    </p>
+
     <ul class="mapping-list">
         <li><a href="mapping-prescription-bundle-parameters.html">Mapping des Bundles zu Parameters für Verordnungsdaten</a></li>
         <li><a href="mapping-prescription-medication-compounding.html">Mapping einer Rezeptur Medikation</a></li>
@@ -88,18 +92,23 @@
         <li><a href="mapping-prescription-organization.html">Mapping der Organization für Verordnungsdaten</a></li>
         <li><a href="mapping-prescription-practitioner.html">Mapping des Verordnenden für Verordnungsdaten</a></li>
     </ul>
-    
+
     <h2>Hintergrund</h2>
-    
+
     <p>
-        Diese Mappings sind Teil der Integration des E-Rezept-Fachdienstes mit der 
-        elektronischen Patientenakte (ePA). Sie definieren die Transformation von 
-        Verordnungsdaten gemäß den KBV-Profilen (Kassenärztliche Bundesvereinigung) 
+        Diese Mappings sind Teil der Integration des E-Rezept-Fachdienstes mit der
+        elektronischen Patientenakte (ePA). Sie definieren die Transformation von
+        Verordnungsdaten gemäß den KBV-Profilen (Kassenärztliche Bundesvereinigung)
         in die EPA-Medication-Profile.
     </p>
-    
+
     <footer>
-        <p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p>
+        <p>
+            Mapping-Dokumentation extrahiert aus dem
+            <a href="https://simplifier.net/eRezept" target="_blank" rel="noopener noreferrer">
+                E-Rezept Implementation Guide
+            </a>
+        </p>
         <p>© gematik GmbH</p>
     </footer>
 </body>

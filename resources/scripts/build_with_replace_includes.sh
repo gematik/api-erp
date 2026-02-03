@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 echo "Start building source files"
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
@@ -93,7 +93,10 @@ for job in "${adoc_jobs[@]}"; do
     wait "$job"
 done
 
-# STAGE_3 cleanup
+# STAGE_3 create html mapping pages
+python3 ./../../docs/erp_epa_mapping_details/2026_07_01/cleanup_html_pages.py ./../../docs/erp_epa_mapping_details/2026_07_01
+
+# STAGE_4 cleanup
 rm -r ../openapi-adoc
 rm -r ./output_adoc
 

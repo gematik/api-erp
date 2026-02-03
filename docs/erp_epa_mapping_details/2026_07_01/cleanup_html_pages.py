@@ -211,8 +211,11 @@ def create_index_page(directory, html_files, run_date, version):
     <h2>Übersicht der Mapping-Dokumentationen</h2>
 
     <p>
-        Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom KBV-Format 
-        in das EPA-Format transformiert werden. Dabei muss
+        Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom <a href="https://simplifier.net/eRezept">KBV-Format</a> 
+        in das <a href="https://gemspec.gematik.de/ig/fhir/epa-medication/1.3.0">EPA-Format</a> transformiert werden.
+    </p>
+    <p>
+        Dabei müssen alle Werte übertragen werden. Die Mappingseiten beschreiben jeweils abweichenede Anpassungen und Transformationen, die vorzunehmen sind, um die Daten an die ePA Aktensysteme zu übertragen.
     </p>
 
     <ul class="mapping-list">
