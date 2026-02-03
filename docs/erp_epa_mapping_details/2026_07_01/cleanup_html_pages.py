@@ -10,7 +10,10 @@ import os
 import sys
 import re
 from pathlib import Path
+from datetime import datetime
 from bs4 import BeautifulSoup
+
+VERSION = "0.9.0"
 
 
 def cleanup_html(html_content, file_path):
@@ -97,7 +100,7 @@ def cleanup_html(html_content, file_path):
     return str(soup)
 
 
-def create_index_page(directory, html_files):
+def create_index_page(directory, html_files, run_date, version):
     """
     Erstellt eine Übersichtsseite mit Links zu allen Mapping-Dokumenten.
     
@@ -197,35 +200,41 @@ def create_index_page(directory, html_files):
 </head>
 <body>
     <h1>FHIR Mapping-Dokumentation</h1>
-    
+    <p><strong>Datum:</strong> {run_date} &nbsp;|&nbsp; <strong>Version:</strong> {version}</p>
+
     <div class="info-box">
         <strong>Gültig ab:</strong> 01.07.2026<br/>
-        <strong>Beschreibung:</strong> Diese Dokumentation beschreibt das FHIR-Mapping, welches der E-Rezept-Fachdienst 
+        <strong>Beschreibung:</strong> Diese Dokumentation beschreibt das FHIR-Mapping, welches der E-Rezept-Fachdienst
         ab dem 01.07.2026 für die Transformation von Verordnungsdaten ausführen wird.
     </div>
-    
+
     <h2>Übersicht der Mapping-Dokumentationen</h2>
-    
+
     <p>
         Die folgenden Dokumente beschreiben detailliert, wie die FHIR-Ressourcen vom KBV-Format 
-        in das EPA-Format transformiert werden:
+        in das EPA-Format transformiert werden. Dabei muss
     </p>
-    
+
     <ul class="mapping-list">
 {chr(10).join(links_html)}
     </ul>
-    
+
     <h2>Hintergrund</h2>
-    
+
     <p>
-        Diese Mappings sind Teil der Integration des E-Rezept-Fachdienstes mit der 
-        elektronischen Patientenakte (ePA). Sie definieren die Transformation von 
-        Verordnungsdaten gemäß den KBV-Profilen (Kassenärztliche Bundesvereinigung) 
+        Diese Mappings sind Teil der Integration des E-Rezept-Fachdienstes mit der
+        elektronischen Patientenakte (ePA). Sie definieren die Transformation von
+        Verordnungsdaten gemäß den KBV-Profilen (Kassenärztliche Bundesvereinigung)
         in die EPA-Medication-Profile.
     </p>
-    
+
     <footer>
-        <p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p>
+        <p>
+            Mapping-Dokumentation extrahiert aus dem
+            <a href="https://simplifier.net/eRezept" target="_blank" rel="noopener noreferrer">
+                E-Rezept Implementation Guide
+            </a>
+        </p>
         <p>© gematik GmbH</p>
     </footer>
 </body>
@@ -285,7 +294,13 @@ def process_directory(directory):
     
     # Erstelle Übersichtsseite
     print("\n📋 Erstelle Übersichtsseite...\n")
-    create_index_page(directory, [f for f in html_files if f.name != 'index.html'])
+    run_date = datetime.now().strftime('%d.%m.%Y')
+    create_index_page(
+        directory,
+        [f for f in html_files if f.name != 'index.html'],
+        run_date,
+        VERSION,
+    )
 
 
 def main():
