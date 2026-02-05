@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+<title>Mapping der Organization für Verordnungsdaten</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="http://hl7.org/fhir" name="author"/>
+<link href="fhir.css" rel="stylesheet"/>
+<!-- Bootstrap core CSS -->
+<link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+<!-- Project extras -->
+<link href="assets/css/project.css" rel="stylesheet"/>
+<link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+<link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+<link href="assets/css/prism.css" rel="stylesheet"/>
+<link href="assets/css/cqf.css" rel="stylesheet"/>
+<!-- Placeholder for child template CSS declarations -->
+<link href="assets/css/ig.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/edge-dark.min.css" rel="stylesheet"/>
+<script src="assets/js/ig.api.doc.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/ig.req.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.req.gematik.min.js" type="text/javascript"> </script>
+<script src="assets/js/ig.bibliography.gematik.js" type="text/javascript"> </script>
+<style>
+    .gem-ig-headline-container {
+        -webkit-background-size: 100% auto;
+        -moz-background-size: 100% auto;
+        -o-background-size: 100% auto;
+        background-size: 100% auto;
+        height: 280px;
+        background-color: #2a6496;
+        background: url('./e-rezept-img.png') no-repeat;
+        background-position: 650px -150px;
+        background-size: 45% auto;
+    }
+    .bubble-link {
+        display: none;
+        transition: opacity 0.2s;
+        }
+
+        h1:hover .bubble-link,
+        h2:hover .bubble-link,
+        h3:hover .bubble-link,
+        h4:hover .bubble-link,
+        h5:hover .bubble-link,
+        h6:hover .bubble-link {
+        display: inline;
+        }
+</style>
+<script src="assets/js/heading-links.js" type="text/javascript"> </script>
+<script src="fhir-table-scripts.js" type="text/javascript"> </script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+<!-- Favicons -->
+<link href="assets/ico/icon-fhir-144.png" rel="fhir-logo" sizes="144x144"/>
+<link href="assets/ico/icon-fhir-114.png" rel="fhir-logo" sizes="114x114"/>
+<link href="assets/ico/icon-fhir-72.png" rel="fhir-logo" sizes="72x72"/>
+<link href="assets/ico/icon-fhir-57.png" rel="fhir-logo"/>
+<link href="assets/ico/favicon.png" rel="shortcut icon"/>
+</head>
+<body onload="document.body.style.opacity='1'">
+<script src="assets/js/prism.js"></script>
+<script src="assets/js/mermaid.js" type="text/javascript"></script>
+<script src="assets/js/mermaid-init.js" type="text/javascript"></script>
+<style type="text/css">h2{--heading-prefix:"4.1.3"}
+    h3,h4,h5,h6{--heading-prefix:"4.1.3"}</style>
+<!-- /segment-header -->
+<!-- /segment-navbar -->
+<div class="segment">
+<div class="container">
+</div>
+</div>
+<!--status-bar-->
+<!-- /segment-breadcrumb -->
+<a name="top"> </a>
+<div class="segment" id="segment-content"> <!-- segment-content -->
+<div class="container"> <!-- container -->
+<div class="row">
+<div class="inner-wrapper">
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+<h2>Mapping der Organization für Verordnungsdaten</h2>
+<p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+<p>Seiteninhalt:</p>
+<ul id="markdown-toc">
+<li><a href="#wichtige-punkte-beim-mapping-der-organization-ressource" id="markdown-toc-wichtige-punkte-beim-mapping-der-organization-ressource">Wichtige Punkte beim Mapping der Organization Ressource</a></li>
+<li><a href="#generelles-mapping-des-profils" id="markdown-toc-generelles-mapping-des-profils">Generelles Mapping des Profils</a> <ul>
+<li><a href="#feld-mappings" id="markdown-toc-feld-mappings">Feld-Mappings</a></li>
+<li><a href="#extensions" id="markdown-toc-extensions">Extensions</a></li>
+</ul>
+</li>
+<li><a href="#transformationsregeln" id="markdown-toc-transformationsregeln">Transformationsregeln</a></li>
+</ul>
+</div>
+<p>Diese Seite beschreibt Anforderungen und Umsetzungsunterstützung für das Mapping von</p>
+<ul>
+<li><a href="https://simplifier.net/packages/kbv.ita.for/1.2.1/files/3157102">KBV_FOR_PR_Organization</a></li>
+<li>zum <a href="https://simplifier.net/packages/de.gematik.fhir.directory/1.0.0/files/2970167">OrganizationDirectory</a>.</li>
+</ul>
+<h2 id="wichtige-punkte-beim-mapping-der-organization-ressource">Wichtige Punkte beim Mapping der Organization Ressource</h2>
+<p>Die folgenden Punkte sind relevant für das Mapping der Organization Ressource:</p>
+<ul>
+<li>Telematik-ID, Name und professionOID der Organisation müssen aus dem Accesstoken der Anfrage bezogen werden (F_006b)</li>
+<li>Extensions aus der Adresse werden übernommen (F_007)</li>
+</ul>
+<h2 id="generelles-mapping-des-profils">Generelles Mapping des Profils</h2>
+<p>Die folgende Tabelle stellt generell das Mapping der beiden Profile gegenüber:</p>
+<h3 id="feld-mappings">Feld-Mappings</h3>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: Organization.identifier:Standortnummer</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.assigner</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.assigner</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.period</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.period</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.system</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.system</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.system</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.type</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type | Quelle: Organization.identifier:Standortnummer.type.coding</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.code</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.code</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.code</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.display</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.display</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.system</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.system</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.system</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.userSelected</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.userSelected</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.version</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.version</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type | Quelle: Organization.identifier:Standortnummer.type.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.text</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type | Quelle: Organization.identifier:Standortnummer.type.text</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.use</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.use</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.use</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.value</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.value</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.value</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: Organization.identifier:Telematik-ID</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.assigner</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.assigner</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.period</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.period</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.system</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.system</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.system</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.type</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type | Quelle: Organization.identifier:Telematik-ID.type.coding</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.code</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.code</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.code</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.display</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.display</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.system</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.system</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.system</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.userSelected</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.userSelected</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.version</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.version</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type | Quelle: Organization.identifier:Telematik-ID.type.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.text</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type | Quelle: Organization.identifier:Telematik-ID.type.text</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.use</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.use</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.use</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.value</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.value</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.value</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier</code></td>
+<td>Manuell</td>
+<td>Telematik-ID wird aus idNummer → aus dem ACCESS_TOKEN der Anfrage bezogen | Quelle: Organization.identifier:TelematikID</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.meta</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.meta.profile</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/directory/StructureDefinition/OrganizationDirectory</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.name</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.name</code></td>
+<td>Manuell</td>
+<td>organizationName → aus dem ACCESS_TOKEN der Anfrage beziehen | Quelle: Organization.name</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.type</code></td>
+<td>Manuell</td>
+<td>professionOID → aus dem ACCESS_TOKEN der Anfrage | Quelle: Organization.type:profession</td>
+</tr>
+</tbody>
+</table>
+<h3 id="extensions">Extensions</h3>
+<h4 id="extension-ohne-bedingung">Extension: (ohne Bedingung)</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer | Quelle: Organization.identifier:Standortnummer.extension</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type.coding | Quelle: Organization.identifier:Standortnummer.type.coding.extension</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Standortnummer.type | Quelle: Organization.identifier:Standortnummer.type.extension</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID | Quelle: Organization.identifier:Telematik-ID.extension</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.coding.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.coding.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type.coding | Quelle: Organization.identifier:Telematik-ID.type.coding.extension</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRFOROrganization.identifier.type.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">OrganizationDirectory.identifier.type.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from Organization.identifier:Telematik-ID.type | Quelle: Organization.identifier:Telematik-ID.type.extension</td>
+</tr>
+</tbody>
+</table>
+<h2 id="transformationsregeln">Transformationsregeln</h2>
+<p>Folgende zusätzliche Anmerkungen und Regeln sind für das Mapping zu umzusetzen:</p>
+<p><a id="f-006b"></a></p>
+<h4>Organization für provide Prescription</h4>
+<figure style="width: auto;">
+<table style="width: auto; border: 1px solid #dcdcdc;">
+<tr>
+<th style="padding: 5px; width: 23rem;">ID</th>
+<td style="padding: 5px;"><code>F_006b</code></td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Beschreibung</th>
+<td style="padding: 5px; overflow-x: auto;"><p>Bei provide Prescription ist die Organization aus der KBV_PR_FOR_Organization zu mappen.</p>
+<p>Der Transformator muss sicherstellen, dass bei Organization.identifier mindestens die TelematikID der Organisation enthalten, die auch im ACCESS_TOKEN der Anfrage angegeben ist. 
+Dazu muss nach der A_25946 die TelematikId bei “identifier:TelematikID” durch die idNummer aus dem ACCESS_TOKEN des verwendeten Operationsaufrufes ersetzt werden bzw. erzeugt werden, wenn diese nicht vorhanden ist.</p>
+<p>Folgende Operationen sind zusätzlich zum Mapping der StructureMaps durchzuführen:</p>
+<p>Organization.identifier:TelematikID
+  idNummer → aus dem ACCESS_TOKEN der Anfrage</p>
+<p>Organization.name 
+  organizationName → aus dem ACCESS_TOKEN der Anfrage</p>
+<p>Organization.type:profession
+  professionOID → aus dem ACCESS_TOKEN der Anfrage</p>
+</td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Profile</th>
+<td style="padding: 5px;">
+<ul>
+<li><a href="https://simplifier.net/vzd-fhir-directory/organizationdirectorystrict">OrganizationDirectory</a></li>
+</ul>
+</td>
+</tr>
+
+</table>
+</figure>
+<p><a id="f-007"></a></p>
+<h4>Address Slices in Organization</h4>
+<figure style="width: auto;">
+<table style="width: auto; border: 1px solid #dcdcdc;">
+<tr>
+<th style="padding: 5px; width: 23rem;">ID</th>
+<td style="padding: 5px;"><code>F_007</code></td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Beschreibung</th>
+<td style="padding: 5px; overflow-x: auto;"><p>Beim Mapping der Organization bei providePrescription (siehe 006b) sollen die Extensions der Adresse:</p>
+<ul>
+<li>Organization.address:Strassenanschrift.line.extension:Adresszusatz</li>
+<li>Organization.address:Strassenanschrift.line.extension:Hausnummer</li>
+<li>Organization.address:Strassenanschrift.line.extension:Strasse
+in das OpenSlicing des Organization-Profils des VZD übernommen werden, auch wenn diese nicht explizit dort modelliert sind.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Profile</th>
+<td style="padding: 5px;">
+<ul>
+<li>
+<p><a href="https://simplifier.net/for/kbv_pr_for_organization">KBV_PR_FOR_Organization</a></p>
+</li>
+<li>
+<p><a href="https://simplifier.net/vzd-fhir-directory/organizationdirectorystrict">OrganizationDirectory</a></p>
+</li>
+</ul>
+</td>
+</tr>
+
+</table>
+</figure>
+</div>
+</div> <!-- /inner-wrapper -->
+</div> <!-- /row -->
+</div> <!-- /container -->
+</div> <!-- /segment-content -->
+<script src="assets/js/jquery.js" type="text/javascript"> </script> <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"> </script>
+<script src="assets/js/window-hash.js" type="text/javascript"> </script>
+<a name="bottom"> </a>
+<div class="segment" id="segment-footer"><div class="container"><div class="inner-wrapper"><p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p></div></div></div> <!-- /segment-footer -->
+<div class="segment hidden" id="segment-post-footer"> <!-- segment-post-footer -->
+<div class="container"> <!-- container -->
+</div> <!-- /container -->
+</div> <!-- /segment-post-footer -->
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"> </script>
+<script src="assets/js/respond.min.js" type="text/javascript"> </script>
+<script src="assets/js/anchor.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard-btn.js" type="text/javascript"> </script>
+<script src="assets/js/anchor-hover.js" type="text/javascript"> </script>
+<!-- Analytics Below
+  ================================================== -->
+</body>
+</html>

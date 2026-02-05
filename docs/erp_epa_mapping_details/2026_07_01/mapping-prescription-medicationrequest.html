@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+<title>Mapping der Verschreibung für Verordnungsdaten</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="http://hl7.org/fhir" name="author"/>
+<link href="fhir.css" rel="stylesheet"/>
+<!-- Bootstrap core CSS -->
+<link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+<!-- Project extras -->
+<link href="assets/css/project.css" rel="stylesheet"/>
+<link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+<link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+<link href="assets/css/prism.css" rel="stylesheet"/>
+<link href="assets/css/cqf.css" rel="stylesheet"/>
+<!-- Placeholder for child template CSS declarations -->
+<link href="assets/css/ig.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/edge-dark.min.css" rel="stylesheet"/>
+<script src="assets/js/ig.api.doc.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/ig.req.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.req.gematik.min.js" type="text/javascript"> </script>
+<script src="assets/js/ig.bibliography.gematik.js" type="text/javascript"> </script>
+<style>
+    .gem-ig-headline-container {
+        -webkit-background-size: 100% auto;
+        -moz-background-size: 100% auto;
+        -o-background-size: 100% auto;
+        background-size: 100% auto;
+        height: 280px;
+        background-color: #2a6496;
+        background: url('./e-rezept-img.png') no-repeat;
+        background-position: 650px -150px;
+        background-size: 45% auto;
+    }
+    .bubble-link {
+        display: none;
+        transition: opacity 0.2s;
+        }
+
+        h1:hover .bubble-link,
+        h2:hover .bubble-link,
+        h3:hover .bubble-link,
+        h4:hover .bubble-link,
+        h5:hover .bubble-link,
+        h6:hover .bubble-link {
+        display: inline;
+        }
+</style>
+<script src="assets/js/heading-links.js" type="text/javascript"> </script>
+<script src="fhir-table-scripts.js" type="text/javascript"> </script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+<!-- Favicons -->
+<link href="assets/ico/icon-fhir-144.png" rel="fhir-logo" sizes="144x144"/>
+<link href="assets/ico/icon-fhir-114.png" rel="fhir-logo" sizes="114x114"/>
+<link href="assets/ico/icon-fhir-72.png" rel="fhir-logo" sizes="72x72"/>
+<link href="assets/ico/icon-fhir-57.png" rel="fhir-logo"/>
+<link href="assets/ico/favicon.png" rel="shortcut icon"/>
+</head>
+<body onload="document.body.style.opacity='1'">
+<script src="assets/js/prism.js"></script>
+<script src="assets/js/mermaid.js" type="text/javascript"></script>
+<script src="assets/js/mermaid-init.js" type="text/javascript"></script>
+<style type="text/css">h2{--heading-prefix:"4.1.4"}
+    h3,h4,h5,h6{--heading-prefix:"4.1.4"}</style>
+<!-- /segment-header -->
+<!-- /segment-navbar -->
+<div class="segment">
+<div class="container">
+</div>
+</div>
+<!--status-bar-->
+<!-- /segment-breadcrumb -->
+<a name="top"> </a>
+<div class="segment" id="segment-content"> <!-- segment-content -->
+<div class="container"> <!-- container -->
+<div class="row">
+<div class="inner-wrapper">
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+<h2>Mapping der Verschreibung für Verordnungsdaten</h2>
+<p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+<p>Seiteninhalt:</p>
+<ul id="markdown-toc">
+<li><a href="#wichtige-punkte-beim-mapping-der-medicationrequest-ressource" id="markdown-toc-wichtige-punkte-beim-mapping-der-medicationrequest-ressource">Wichtige Punkte beim Mapping der MedicationRequest Ressource</a></li>
+<li><a href="#generelles-mapping-des-profils" id="markdown-toc-generelles-mapping-des-profils">Generelles Mapping des Profils</a> <ul>
+<li><a href="#feld-mappings" id="markdown-toc-feld-mappings">Feld-Mappings</a></li>
+<li><a href="#extensions" id="markdown-toc-extensions">Extensions</a></li>
+</ul>
+</li>
+<li><a href="#transformationsregeln" id="markdown-toc-transformationsregeln">Transformationsregeln</a></li>
+</ul>
+</div>
+<p>Diese Seite beschreibt Anforderungen und Umsetzungsunterstützung für das Mapping von</p>
+<ul>
+<li>KBV MedicationRequest (aus dem <a href="https://simplifier.net/erezept/kbv_pr_erp_bundle">KBV_PR_ERP_Bundle</a>)</li>
+<li>zur <a href="https://gemspec.gematik.de/ig/fhir/epa-medication/1.3.0/StructureDefinition-epa-medication-request.html">EPA MedicationRequest</a>.</li>
+</ul>
+<h2 id="wichtige-punkte-beim-mapping-der-medicationrequest-ressource">Wichtige Punkte beim Mapping der MedicationRequest Ressource</h2>
+<p>Die folgenden Punkte sind relevant für das Mapping der MedicationRequest Ressource:</p>
+<ul>
+<li><code class="language-plaintext highlighter-rouge">MedicationRequest.subject.identifier</code> wird aus der Patienten-KVNR befüllt (F_010)</li>
+</ul>
+<h2 id="generelles-mapping-des-profils">Generelles Mapping des Profils</h2>
+<p>Die folgende Tabelle stellt generell das Mapping der beiden Profile gegenüber:</p>
+<h3 id="feld-mappings">Feld-Mappings</h3>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.insurance</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: MedicationRequest.insurance</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.display</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.display</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.insurance.id</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.id</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.id</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.identifier</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.identifier</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.insurance.reference</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.reference</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.reference</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.type</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.type</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.meta</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.meta.profile</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.subject</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.subject</code></td>
+<td>Manuell</td>
+<td>Transformationsregel F_007: Wird aus KBV_PR_FOR_Patient.identifier:versichertenId übernommen. | Quelle: MedicationRequest.subject</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.subject.identifier</code></td>
+<td>Manuell</td>
+<td>Befüllen von .subject nach Transformationsregel F_010 | Quelle: MedicationRequest.subject.identifier</td>
+</tr>
+</tbody>
+</table>
+<h3 id="extensions">Extensions</h3>
+<h4 id="extension-kbv_ex_erp_dosageflag">Extension: KBV_EX_ERP_DosageFlag</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Dosierungskennzeichen</td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_emergencyservicesfee">Extension: KBV_EX_ERP_EmergencyServicesFee</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Notdienstgebuehr</td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_for_accident">Extension: KBV_EX_FOR_Accident</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Unfallinformationen</td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_for_statuscopayment">Extension: KBV_EX_FOR_StatusCoPayment</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_StatusCoPayment']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Quelle: MedicationRequest.extension:Zuzahlungsstatus</td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_for_ser">Extension: KBV_EX_FOR_SER</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_SER']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/indicator-ser-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_multiple_prescription">Extension: KBV_EX_ERP_Multiple_Prescription</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Multiple_Prescription']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/multiple-prescription-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-nummerierung">Extension: Nummerierung</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'Nummerierung']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">counter</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-id">Extension: ID</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'ID']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">id</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kennzeichen">Extension: Kennzeichen</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'Kennzeichen']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">indicator</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-zeitraum">Extension: Zeitraum</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'Zeitraum']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">period</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_narcotic">Extension: KBV_EX_ERP_Narcotic</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Narcotic</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Narcotic']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/narcotics-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-ergaenzendeangabensubstitutionsmittel">Extension: ErgaenzendeAngabenSubstitutionsmittel</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'ErgaenzendeAngabenSubstitutionsmittel']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">additional-information-substitutes</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-btm-sonderkennzeichen">Extension: BtM-Sonderkennzeichen</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'BtM-Sonderkennzeichen']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">narcotics-markings</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_patient_id">Extension: KBV_EX_ERP_Patient_ID</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Patient_ID</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Patient_ID']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/patient-id-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_prescriber_id">Extension: KBV_EX_ERP_Prescriber_ID</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Prescriber_ID</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Prescriber_ID']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/prescriber-id-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-extension-medicationrequestrendereddosageinstruction">Extension: extension-MedicationRequest.renderedDosageInstruction</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-kbv_ex_erp_teratogenic">Extension: KBV_EX_ERP_Teratogenic</h4>
+<p>Bedingung: url = <code class="language-plaintext highlighter-rouge">https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic</code></p>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_Teratogenic']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">https://gematik.de/fhir/epa-medication/StructureDefinition/teratogenic-extension</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-gebaerfaehigefrau">Extension: GebaerfaehigeFrau</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'GebaerfaehigeFrau']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">childbearing-potential</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-erklaerungsachkenntnis">Extension: ErklaerungSachkenntnis</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'ErklaerungSachkenntnis']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">declaration-of-expertise</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-aushaendigunginformationsmaterialien">Extension: AushaendigungInformationsmaterialien</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'AushaendigungInformationsmaterialien']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">hand-out-information-material</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-off-label">Extension: Off-Label</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'Off-Label']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">off-label</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-einhaltungsicherheitsmassnahmen">Extension: EinhaltungSicherheitsmassnahmen</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.extension.extension</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: url = 'EinhaltungSicherheitsmassnahmen']</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.extension.extension.url</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">security-compliance</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="extension-ohne-bedingung">Extension: (ohne Bedingung)</h4>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPPrescription.insurance.extension</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAMedicationRequest.insurance.extension</code></td>
+<td>Nicht Übertragen</td>
+<td>Feld wird nicht gemappt | Inherited from MedicationRequest.insurance | Quelle: MedicationRequest.insurance.extension</td>
+</tr>
+</tbody>
+</table>
+<h2 id="transformationsregeln">Transformationsregeln</h2>
+<p>Folgende zusätzliche Anmerkungen und Regeln sind für das Mapping zu umzusetzen:</p>
+<p><a id="f-010"></a></p>
+<h4>Eintrag für MedicationRequest.subject</h4>
+<figure style="width: auto;">
+<table style="width: auto; border: 1px solid #dcdcdc;">
+<tr>
+<th style="padding: 5px; width: 23rem;">ID</th>
+<td style="padding: 5px;"><code>F_010</code></td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Beschreibung</th>
+<td style="padding: 5px; overflow-x: auto;"><p>Das Befüllen des MedicationRequest.subject muss erfolgen, indem die Werte von</p>
+<ul>
+<li>Patient.identifier.system</li>
+<li>Patient.identifier.value</li>
+</ul>
+<p>aus dem KbvBundle.patient.identifier übernommen werden und in der folgenden Form im ePA MedicationRequest angegeben werden:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;subject&gt;</span>
+    <span class="nt">&lt;identifier&gt;</span>
+      <span class="nt">&lt;system</span> <span class="na">value=</span><span class="s">"http://fhir.de/sid/gkv/kvid-10"</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;value</span> <span class="na">value=</span><span class="s">"X110411319"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/identifier&gt;</span>
+  <span class="nt">&lt;/subject&gt;</span>
+</code></pre></div></div>
+</td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Profile</th>
+<td style="padding: 5px;">
+<ul>
+<li>
+<p><a href="https://simplifier.net/for/kbv_pr_for_patient">KBV_PR_FOR_Patient</a></p>
+</li>
+<li>
+<p><a href="https://gemspec.gematik.de/ig/fhir/epa-medication/{{ site.data.constants.epa_med_service_version }}/StructureDefinition-epa-medication-request.html">EPA MedicationRequest</a></p>
+</li>
+</ul>
+</td>
+</tr>
+
+</table>
+</figure>
+</div>
+</div> <!-- /inner-wrapper -->
+</div> <!-- /row -->
+</div> <!-- /container -->
+</div> <!-- /segment-content -->
+<script src="assets/js/jquery.js" type="text/javascript"> </script> <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"> </script>
+<script src="assets/js/window-hash.js" type="text/javascript"> </script>
+<a name="bottom"> </a>
+<div class="segment" id="segment-footer"><div class="container"><div class="inner-wrapper"><p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p></div></div></div> <!-- /segment-footer -->
+<div class="segment hidden" id="segment-post-footer"> <!-- segment-post-footer -->
+<div class="container"> <!-- container -->
+</div> <!-- /container -->
+</div> <!-- /segment-post-footer -->
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"> </script>
+<script src="assets/js/respond.min.js" type="text/javascript"> </script>
+<script src="assets/js/anchor.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard-btn.js" type="text/javascript"> </script>
+<script src="assets/js/anchor-hover.js" type="text/javascript"> </script>
+<!-- Analytics Below
+  ================================================== -->
+</body>
+</html>

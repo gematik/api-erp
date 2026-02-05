@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
+
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+<title>Mapping des Bundles zu Parameters für Verordnungsdaten</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="http://hl7.org/fhir" name="author"/>
+<link href="fhir.css" rel="stylesheet"/>
+<!-- Bootstrap core CSS -->
+<link href="assets/css/bootstrap-fhir.css" rel="stylesheet"/>
+<!-- Project extras -->
+<link href="assets/css/project.css" rel="stylesheet"/>
+<link href="assets/css/pygments-manni.css" rel="stylesheet"/>
+<link href="assets/css/jquery-ui.css" rel="stylesheet"/>
+<link href="assets/css/prism.css" rel="stylesheet"/>
+<link href="assets/css/cqf.css" rel="stylesheet"/>
+<!-- Placeholder for child template CSS declarations -->
+<link href="assets/css/ig.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/edge-dark.min.css" rel="stylesheet"/>
+<script src="assets/js/ig.api.doc.gematik.min.js" type="text/javascript"> </script>
+<link href="assets/css/ig.req.gematik.css" rel="stylesheet"/>
+<script src="assets/js/ig.req.gematik.min.js" type="text/javascript"> </script>
+<script src="assets/js/ig.bibliography.gematik.js" type="text/javascript"> </script>
+<style>
+    .gem-ig-headline-container {
+        -webkit-background-size: 100% auto;
+        -moz-background-size: 100% auto;
+        -o-background-size: 100% auto;
+        background-size: 100% auto;
+        height: 280px;
+        background-color: #2a6496;
+        background: url('./e-rezept-img.png') no-repeat;
+        background-position: 650px -150px;
+        background-size: 45% auto;
+    }
+    .bubble-link {
+        display: none;
+        transition: opacity 0.2s;
+        }
+
+        h1:hover .bubble-link,
+        h2:hover .bubble-link,
+        h3:hover .bubble-link,
+        h4:hover .bubble-link,
+        h5:hover .bubble-link,
+        h6:hover .bubble-link {
+        display: inline;
+        }
+</style>
+<script src="assets/js/heading-links.js" type="text/javascript"> </script>
+<script src="fhir-table-scripts.js" type="text/javascript"> </script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+<!-- Favicons -->
+<link href="assets/ico/icon-fhir-144.png" rel="fhir-logo" sizes="144x144"/>
+<link href="assets/ico/icon-fhir-114.png" rel="fhir-logo" sizes="114x114"/>
+<link href="assets/ico/icon-fhir-72.png" rel="fhir-logo" sizes="72x72"/>
+<link href="assets/ico/icon-fhir-57.png" rel="fhir-logo"/>
+<link href="assets/ico/favicon.png" rel="shortcut icon"/>
+</head>
+<body onload="document.body.style.opacity='1'">
+<script src="assets/js/prism.js"></script>
+<script src="assets/js/mermaid.js" type="text/javascript"></script>
+<script src="assets/js/mermaid-init.js" type="text/javascript"></script>
+<style type="text/css">h2{--heading-prefix:"4.1.1"}
+    h3,h4,h5,h6{--heading-prefix:"4.1.1"}</style>
+<!-- /segment-header -->
+<!-- /segment-navbar -->
+<div class="segment">
+<div class="container">
+</div>
+</div>
+<!--status-bar-->
+<!-- /segment-breadcrumb -->
+<a name="top"> </a>
+<div class="segment" id="segment-content"> <!-- segment-content -->
+<div class="container"> <!-- container -->
+<div class="row">
+<div class="inner-wrapper">
+<style type="text/css">
+h2:before{color:silver;counter-increment:section;content:var(--heading-prefix) " ";}
+h3:before{color:silver;counter-increment:sub-section;content:var(--heading-prefix) "." counter(sub-section) " ";}
+h4:before{color:silver;counter-increment:composite;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) " ";}
+h5:before{color:silver;counter-increment:detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";}
+h6:before{color:silver;counter-increment:more-detail;content:var(--heading-prefix) "." counter(sub-section) "." counter(composite) "." counter(detail) "." counter(more-detail)" ";}
+</style>
+<div class="col-12">
+<h2>Mapping des Bundles zu Parameters für Verordnungsdaten</h2>
+<p><!-- white space is critical inside of capture --></p>
+<div class="markdown-toc">
+<p>Seiteninhalt:</p>
+<ul id="markdown-toc">
+<li><a href="#wichtige-punkte-beim-mapping" id="markdown-toc-wichtige-punkte-beim-mapping">Wichtige Punkte beim Mapping</a></li>
+<li><a href="#generelles-mapping-des-profils" id="markdown-toc-generelles-mapping-des-profils">Generelles Mapping des Profils</a> <ul>
+<li><a href="#feld-mappings" id="markdown-toc-feld-mappings">Feld-Mappings</a></li>
+</ul>
+</li>
+<li><a href="#transformationsregeln" id="markdown-toc-transformationsregeln">Transformationsregeln</a></li>
+</ul>
+</div>
+<p>Diese Seite beschreibt Anforderungen und Umsetzungsunterstützung für das Mapping vom</p>
+<ul>
+<li><a href="https://simplifier.net/packages/kbv.ita.erp/1.4.0/files/3113155">KBV_ERP_PR_Bundle</a></li>
+<li>zum <a href="https://gemspec.gematik.de/ig/fhir/epa-medication/1.3.0/StructureDefinition-epa-op-provide-prescription-erp-input-parameters.html">EPAOpProvidePrescriptionERPInputParameters</a>.</li>
+</ul>
+<h2 id="wichtige-punkte-beim-mapping">Wichtige Punkte beim Mapping</h2>
+<p>Die folgenden Punkte sind relevant für das Mapping der Bundle Ressource:</p>
+<ul>
+<li>Parameters.prescriptionId wird aus der Bundle.identifier.value übernommen</li>
+<li>Parameters.authoredOn wird aus MedicationRequest.authoredOn übernommen</li>
+<li>Die Ressourcen werden entsprechend der Mappings der jeweiligen Ressource gemappt</li>
+</ul>
+<h2 id="generelles-mapping-des-profils">Generelles Mapping des Profils</h2>
+<p>Die folgende Tabelle stellt generell das Mapping der beiden Profile gegenüber:</p>
+<h3 id="feld-mappings">Feld-Mappings</h3>
+<table>
+<thead>
+<tr>
+<th>Quelle (Eingangsdaten)</th>
+<th>Ziel (Ausgabedaten)</th>
+<th>Aktion</th>
+<th>Transformation &amp; Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">rxPrescription</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">authoredOn</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource.authoredOn</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource.meta.profile.where($this.contains('https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription')).exists()]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.value</code></td>
+<td>Kopiert</td>
+<td>übernimmt Wert aus Quellvariable</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">medication</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:RezeptierdatenPZNVerordnung.resource -&gt; .parameter:rxPrescription.part:medication.resource using KBV_PR_ERP_Medication_PZN|1.4.0 -&gt; EPAMedication|1.3.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrErpMedicationPznMap.html">KBVPrErpMedicationPznMap</a><br/>Ressource: Medication<br/>erstellt neues https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:RezeptierdatenWirkstoffverordnung.resource -&gt; .parameter:rxPrescription.part:medication.resource using KBV_PR_ERP_Medication_Ingredient|1.4.0 -&gt; EPAMedication|1.3.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrErpMedicationIngredientMap.html">KBVPrErpMedicationIngredientMap</a><br/>Ressource: Medication<br/>erstellt neues https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:RezeptierdatenRezepturverordnung.resource -&gt; .parameter:rxPrescription.part:medication.resource using KBV_PR_ERP_Medication_Compounding|1.4.0 -&gt; EPAMedication|1.3.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrErpMedicationCompoundingMap.html">KBVPrErpMedicationCompoundingMap</a><br/>Ressource: Medication<br/>erstellt neues https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:RezeptierdatenFreitextverordnung.resource -&gt; .parameter:rxPrescription.part:medication.resource using KBV_PR_ERP_Medication_FreeText|1.4.0 -&gt; EPAMedication|1.3.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Medication]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrErpMedicationFreetextMap.html">KBVPrErpMedicationFreetextMap</a><br/>Ressource: Medication<br/>erstellt neues https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">medicationRequest</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is MedicationRequest]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:VerordnungArzneimittel.resource -&gt; .parameter:rxPrescription.part:medicationRequest.resource using KBV_PR_ERP_Prescription|1.4.0 -&gt; EPAMedicationRequest|1.3.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is MedicationRequest]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrErpPrescriptionMap.html">KBVPrErpPrescriptionMap</a><br/>Ressource: MedicationRequest<br/>erstellt neues https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">organization</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Organization]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:Einrichtung.resource -&gt; .parameter:rxPrescription.part:organization.resource using KBV_PR_FOR_Organization|1.3.0 -&gt; OrganizationDirectory|1.0.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Organization]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrForOrganizationMap.html">KBVPrForOrganizationMap</a><br/>Ressource: Organization<br/>erstellt neues https://gematik.de/fhir/directory/StructureDefinition/OrganizationDirectory</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">practitioner</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Practitioner]</code></td>
+<td>—</td>
+<td>Dokumentiert</td>
+<td>Bundle.entry:AusstellendeVerschreibendeVerantwortlichePerson.resource -&gt; .parameter:rxPrescription.part:practitioner.resource using KBV_PR_FOR_Practitioner|1.3.0 -&gt; PractitionerDirectory|1.0.0</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.entry.resource</code><br/><code class="language-plaintext highlighter-rouge">[Bedingung: resource is Practitioner]</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.resource</code></td>
+<td>Erstellt · Delegiert</td>
+<td>Verwendet StructureMap: <a href="./StructureMap-KBVPrForPractitionerMap.html">KBVPrForPractitionerMap</a><br/>Ressource: Practitioner<br/>erstellt neues https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory</td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.name</code></td>
+<td>Fester Wert</td>
+<td>setzt festen Wert: <code class="language-plaintext highlighter-rouge">prescriptionId</code></td>
+</tr>
+<tr>
+<td><code class="language-plaintext highlighter-rouge">KBVPRERPBundle.identifier.value</code></td>
+<td><code class="language-plaintext highlighter-rouge">EPAOpProvidePrescriptionERPInputParameters.parameter.part.value</code></td>
+<td>Kopiert</td>
+<td>übernimmt Wert aus Quellvariable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="transformationsregeln">Transformationsregeln</h2>
+<p>Folgende zusätzliche Anmerkungen und Regeln sind für das Mapping zu umzusetzen:</p>
+<p><a id="f-016"></a></p>
+<h3>Mapping des korrekten Practitioners</h3>
+<figure style="width: auto;">
+<table style="width: auto; border: 1px solid #dcdcdc;">
+<tr>
+<th style="padding: 5px; width: 23rem;">ID</th>
+<td style="padding: 5px;"><code>F_016</code></td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Beschreibung</th>
+<td style="padding: 5px; overflow-x: auto;"><p>Im https://simplifier.net/erezept/kbv_pr_erp_bundle sind zwei Practitioner erlaubt (AusstellendeVerschreibendeVerantwortlichePerson).
+Beim Mapping für provide-prescription muss der Practitioner übernommen werden, welcher in der Composition (https://simplifier.net/erezept/kbvprerpcomposition) unter “author” referenziert wird:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;author&gt;</span> 
+    <span class="nt">&lt;reference</span> <span class="na">value=</span><span class="s">"Practitioner/667ffd79-42a3-4002-b7ca-6b9098f20ccb"</span><span class="nt">/&gt;</span> 
+    <span class="nt">&lt;type</span> <span class="na">value=</span><span class="s">"Practitioner"</span><span class="nt">/&gt;</span> 
+  <span class="nt">&lt;/author&gt;</span> 
+  <span class="nt">&lt;attester&gt;</span> 
+    <span class="nt">&lt;mode</span> <span class="na">value=</span><span class="s">"legal"</span><span class="nt">/&gt;</span> 
+    <span class="nt">&lt;party&gt;</span> 
+      <span class="nt">&lt;reference</span> <span class="na">value=</span><span class="s">"Practitioner/d6f3b55d-3095-4655-96dc-da3bec21271c"</span><span class="nt">/&gt;</span> 
+    <span class="nt">&lt;/party&gt;</span> 
+  <span class="nt">&lt;/attester&gt;</span>
+</code></pre></div></div>
+</td>
+</tr>
+<tr>
+<th style="padding: 5px; width: 23rem;">Profile</th>
+<td style="padding: 5px;">
+<ul>
+<li>
+<p><a href="https://simplifier.net/erezept/kbv_pr_erp_bundle">KBV_PR_ERP_Bundle</a></p>
+</li>
+<li>
+<p><a href="https://gemspec.gematik.de/ig/fhir/epa-medication/{{ site.data.constants.epa_med_service_version }}/StructureDefinition-epa-op-provide-prescription-erp-input-parameters.html">EPAOpProvidePrescriptionERPInputParameters</a></p>
+</li>
+<li>
+<p><a href="https://simplifier.net/for/kbv_pr_for_practitioner">KBV_PR_FOR_Practitioner</a></p>
+</li>
+<li>
+<p><a href="https://simplifier.net/vzd-fhir-directory/practitionerdirectorystrict">PractitionerDirectory</a></p>
+</li>
+</ul>
+</td>
+</tr>
+
+</table>
+</figure>
+</div>
+</div> <!-- /inner-wrapper -->
+</div> <!-- /row -->
+</div> <!-- /container -->
+</div> <!-- /segment-content -->
+<script src="assets/js/jquery.js" type="text/javascript"> </script> <!-- note keep space here, otherwise it will be transformed to empty tag -> fails -->
+<script src="assets/js/jquery-ui.min.js" type="text/javascript"> </script>
+<script src="assets/js/window-hash.js" type="text/javascript"> </script>
+<a name="bottom"> </a>
+<div class="segment" id="segment-footer"><div class="container"><div class="inner-wrapper"><p>Mapping-Dokumentation extrahiert aus dem E-Rezept Implementation Guide</p></div></div></div> <!-- /segment-footer -->
+<div class="segment hidden" id="segment-post-footer"> <!-- segment-post-footer -->
+<div class="container"> <!-- container -->
+</div> <!-- /container -->
+</div> <!-- /segment-post-footer -->
+<!-- JS and analytics only. -->
+<!-- Bootstrap core JavaScript
+  ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="assets/js/bootstrap.min.js" type="text/javascript"> </script>
+<script src="assets/js/respond.min.js" type="text/javascript"> </script>
+<script src="assets/js/anchor.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard.min.js" type="text/javascript"> </script>
+<script src="assets/js/clipboard-btn.js" type="text/javascript"> </script>
+<script src="assets/js/anchor-hover.js" type="text/javascript"> </script>
+<!-- Analytics Below
+  ================================================== -->
+</body>
+</html>
