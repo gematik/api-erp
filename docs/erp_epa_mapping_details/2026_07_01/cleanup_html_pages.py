@@ -13,7 +13,7 @@ from pathlib import Path
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-VERSION = "0.9.0"
+VERSION = "1.0.0"
 
 
 def cleanup_html(html_content, file_path):
