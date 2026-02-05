@@ -57,6 +57,8 @@ Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Au
 Gültige Werte für den Flowytype sind "160" für "Muster 16 (Apothekenpflichtige Arzneimittel)" und "200" für "PKV (Apothekenpflichtige Arzneimittel)". Das Rezept für private Versicherte wird mit dem Flowtype "200" ("PKV (Apothekenpflichtige Arzneimittel)") gestartet. Zulässige Flowtype-Werte können dem Flowtype-CodeSystem (https://simplifier.net/erezept-workflow/flowtype) entnommen werden. Der angegebene Flowtype wird in die Task Ressource unter Task.extension.flowType übernommen und bestimmt den Rezept-Typ. +
 Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im Response-Header `Location` zurückgemeldet wird und zusätzlich ist im http-ResponseBody des Task der serverseitig generierte AccessCode als Identifier enthalten.
 
+WARNING: Es ist nicht vorgesehen oder gewollt, dass der Leistungserbringer mehrere Tasks erstellt, um mehrere Rezept-IDs zu generieren und diese zwischenzeitlich lokal zu speichern, um sie später mit einem E-Rezept-Bundle zu befüllen und zu aktivieren. Vielmehr soll der Task erst dann erstellt werden, wenn das E-Rezept-Bundle vollständig vorliegt und die QES erstellt werden kann. Das Erstellen eines Tasks ohne zeitnahe Aktivierung führt zu „verwaisten“ Tasks auf dem E-Rezept-Fachdienst, die nicht mehr verwendet werden können. Dies führt zu einem unnötigen Verbrauch von Rezept-IDs, die nicht unbegrenzt verfügbar sind. Aktuell ist vorgesehen, dass Rezept-IDs frühestens nach 10 Jahren wiederverwendet werden sollen.
+
 *Request*
 [cols="h,a"]
 [%autowidth]
