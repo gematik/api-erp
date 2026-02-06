@@ -62,7 +62,7 @@ WARNING: Auch für die Workflows 169/209 gilt: `POST /Task/$create` ist kein Mec
 Jeder `create`-Aufruf erzeugt eine neue fortlaufende und langfristig eindeutig zu haltende Rezept-/Task-ID.
 Werden Tasks ohne anschließendes Befüllen und `activate` erzeugt (z. B. Prefetch beim Öffnen einer Maske), führt dies zu dauerhaftem Verbrauch von IDs.
 
-NOTE: Das Primärsystem SOLL `create` nur im Rahmen einer konkreten Verordnung ausführen und die Erzeugung zusätzlicher Tasks ohne unmittelbare Nutzung unterlassen.
+NOTE: Das Primärsystem sollte `create` nur im Rahmen einer konkreten Verordnung ausführen und die Erzeugung zusätzlicher Tasks ohne unmittelbare Nutzung unterlassen.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MUSS der Konfigurationsparameter des Workflows `flowType` übergeben werden.
 Der E-Rezept-Fachdienst speichert den Task unter einer generierten ID, welche im Response-Header `Location` zurückgemeldet wird und zusätzlich ist im http-ResponseBody des Task der serverseitig generierte AccessCode als Identifier enthalten.

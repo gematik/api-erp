@@ -76,7 +76,7 @@ WARNING: Die Operation `POST /Task/$create` DARF NICHT zum Aufbau von Vorräten 
 Jeder `create`-Aufruf führt serverseitig zur Vergabe einer neuen, fortlaufenden und über lange Zeit eindeutig zu haltenden Rezept-/Task-ID.
 Nicht aktivierte bzw. verworfene Tasks „verbrauchen“ diese IDs dauerhaft und reduzieren den verfügbaren Nummernraum.
 
-NOTE: Ein `create` SOLL daher erst dann erfolgen, wenn das Primärsystem tatsächlich ein E-Rezept erzeugen und im Anschluss zeitnah mit `activate` starten will.
+NOTE: Ein `create` sollte daher erst dann erfolgen, wenn das Primärsystem tatsächlich ein E-Rezept erzeugen und im Anschluss zeitnah mit `activate` starten will.
 Insbesondere ist das Generieren des maximal möglichen Kontingents pro Formular-/Maskenöffnung oder „auf Verdacht“ zu unterlassen.
 
 Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
