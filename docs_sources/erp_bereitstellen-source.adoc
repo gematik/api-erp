@@ -51,6 +51,13 @@ Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hier
 
 NOTE: Voraussetzung für die Verwendung des E-Rezeptes für Privatversicherte ist die sichere digitale Übermittlung von Versichertenstammdaten an verordnende Leistungserbringer. Der "Online Check-in" ist das definierte digitale Verfahren, um verordnenden Leistungserbringern die Krankenversichertennummer und weitere Versichertenstammdaten einmalig (und nach Änderungen) zur Nutzung von TI-Anwendungen bereitzustellen. Die Implementierung des Verfahren ist daher erforderlich, um auch Funktionen für Privatversicherte und Workflows 200 und 209 bereitzustellen. Für die Beschreibung des Verfahrens siehe link:https://simplifier.net/guide/implementierungsleitfaden-vsdm-ersatzbescheinigung?version=current[Implementierungsleitfaden - Online Check-In]
 
+WARNING: Die Operation `POST /Task/$create` ist nicht zum Aufbau von Vorräten (Prefetch) oder zum „Vorbereiten" von Rezept-Hüllen ohne konkrete Verordnungsabsicht vorgesehen.
+Jeder `create`-Aufruf führt serverseitig zur Vergabe einer neuen, fortlaufenden und über lange Zeit eindeutig zu haltenden Rezept-/Task-ID.
+Nicht aktivierte bzw. verworfene Tasks „verbrauchen“ diese IDs dauerhaft und reduzieren den verfügbaren Nummernraum.
+
+NOTE: Ein `create` sollte daher erst dann erfolgen, wenn das Primärsystem tatsächlich ein E-Rezept erzeugen und im Anschluss zeitnah mit `activate` starten will.
+Insbesondere ist das Generieren des maximal möglichen Kontingents pro Formular-/Maskenöffnung oder „auf Verdacht“ zu unterlassen.
+
 Nach der qualifizierten elektronischen Signatur des Bundles wird dieses im Task ergänzt und der Workflow des E-Rezepts mit der Aktivierung des Tasks gestartet. Im Aufruf an den E-Rezept-Fachdienst muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Der E-Rezept-Fachdienst generiert beim Einstellen einen AccessCode, der fortan bei allen Zugriffen im http-Request-Header `X-AccessCode` übermittelt werden muss.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody MÜSSEN die Konfigurationsparameter des Workflows `flowType` und der Typ der intendierten Leistungserbringerinstitution `healthCareProviderType` enthalten sein. +
