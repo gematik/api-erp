@@ -72,7 +72,7 @@ Ein Leistungserbringer will mit seinem Primärsystem ein E-Rezept erzeugen. Hier
 
 NOTE: Voraussetzung für die Verwendung des E-Rezeptes für Privatversicherte ist die sichere digitale Übermittlung von Versichertenstammdaten an verordnende Leistungserbringer. Der "Online Check-in" ist das definierte digitale Verfahren, um verordnenden Leistungserbringern die Krankenversichertennummer und weitere Versichertenstammdaten einmalig (und nach Änderungen) zur Nutzung von TI-Anwendungen bereitzustellen. Die Implementierung des Verfahren ist daher erforderlich, um auch Funktionen für Privatversicherte und Workflows 200 und 209 bereitzustellen. Für die Beschreibung des Verfahrens siehe link:https://simplifier.net/guide/implementierungsleitfaden-vsdm-ersatzbescheinigung?version=current[Implementierungsleitfaden - Online Check-In]
 
-WARNING: Die Operation `POST /Task/$create` DARF NICHT zum Aufbau von Vorräten (Prefetch) oder zum „Vorbereiten“ von Rezept-Hüllen ohne konkrete Verordnungsabsicht verwendet werden.
+WARNING: Die Operation `POST /Task/$create` ist nicht zum Aufbau von Vorräten (Prefetch) oder zum „Vorbereiten" von Rezept-Hüllen ohne konkrete Verordnungsabsicht vorgesehen.
 Jeder `create`-Aufruf führt serverseitig zur Vergabe einer neuen, fortlaufenden und über lange Zeit eindeutig zu haltenden Rezept-/Task-ID.
 Nicht aktivierte bzw. verworfene Tasks „verbrauchen“ diese IDs dauerhaft und reduzieren den verfügbaren Nummernraum.
 
