@@ -760,7 +760,12 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
 Die Anfrage wurde erfolgreich bearbeitet. Der digitale Durchschlag wurde im T-Register eingestellt.
 
 ¦400 ¦ Client Error +
-Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+Die Anfrage-Nachricht war fehlerhaft aufgebaut. Folgende Fehlerszenarien sind abgebildet:
+
+- Request ID fehlt oder ist fehlerhaft (bspw. > 64 Zeichen)
+- Es handelt sich nicht um eine JSON Payload
+- Die Angabe in der Instanz unter meta.profile entspricht nicht der Profilierung
+
 
 ¦401 ¦ Client Error +
 Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.

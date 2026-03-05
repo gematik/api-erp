@@ -68,7 +68,12 @@ paths:
                 example:
                   $ref: 'https://raw.githubusercontent.com/gematik/spec-erp-t-prescription/refs/heads/develop/fsh-generated/resources/Parameters-TRP-Carbon-Copy.json'
           '400':
-            description: Die Anfrage-Nachricht war fehlerhaft aufgebaut.
+            description: |
+              Die Anfrage-Nachricht war fehlerhaft aufgebaut. Folgende Fehlerszenarien sind abgebildet:
+              
+              - Request ID fehlt oder ist fehlerhaft (bspw. > 64 Zeichen)
+              - Es handelt sich nicht um eine JSON Payload
+              - Die Angabe in der Instanz unter meta.profile entspricht nicht der Profilierung
           '401':
             description: Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.
           '403':
