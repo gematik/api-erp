@@ -279,15 +279,53 @@ components:
   responses:
     ErrorResponse400:
       description: Ungültiger http-Request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
     ErrorResponse403:
       description: Unzulässige fachliche Rolle.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
     ErrorResponse406:
       description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
     ErrorResponse408:
       description: Timeout.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
     ErrorResponse429:
       description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorType'
 security:
   - bearerAuth: []
+
+schemas:
+  ErrorType:
+      description: Error object with additional information about the occurred error
+      type: object
+      properties:
+        errorCode:
+          description: Error condition specifier
+          type: string
+        errorDetail:
+          description: Additional details regarding the error condition (if applicable)
+          type: string
+      required:
+        - errorCode
