@@ -4,6 +4,7 @@ Response file generation for OpenAPI to AsciiDoc conversion.
 
 import os
 import json
+from xml.dom import minidom
 
 # Handle both direct execution and package import
 try:
@@ -129,6 +130,31 @@ def _process_response_fhir_profiles(responses):
     return response_fhir_profiles
 
 
+def _format_inline_example(example_ref, is_inline_json, is_inline_xml):
+    """
+    Format inline payload examples for readable AsciiDoc rendering.
+    """
+    example_str = str(example_ref)
+
+    if is_inline_json:
+        try:
+            return json.dumps(json.loads(example_str), indent=2, ensure_ascii=False)
+        except Exception:
+            return example_str
+
+    if is_inline_xml:
+        try:
+            pretty = minidom.parseString(example_str.encode('utf-8')).toprettyxml(indent='  ')
+            lines = [line for line in pretty.splitlines() if line.strip()]
+            if lines and lines[0].startswith('<?xml'):
+                lines = lines[1:]
+            return '\n'.join(lines)
+        except Exception:
+            return example_str
+
+    return example_str
+
+
 def generate_response_file(output_file_path, endpoint_data, data):
     """
     Generate a response AsciiDoc file for an OpenAPI endpoint.
@@ -167,18 +193,27 @@ def generate_response_file(output_file_path, endpoint_data, data):
             for example_name, example_ref in examples_list:
                 any_response_examples = True
                 
-                # Check if this is inline JSON content (starts with {, [, or is a quoted JSON string)
-                is_inline_json = (example_ref and 
-                                 (str(example_ref).strip().startswith('{') or 
-                                  str(example_ref).strip().startswith('[') or
-                                  (str(example_ref).strip().startswith('"') and str(example_ref).strip().endswith('"'))))
-                
-                if is_inline_json:
-                    adoc_lines.append(f'.Beispiel Response Body ({code})')
-                    adoc_lines.append('[source,json]')
+                example_str = str(example_ref).strip() if example_ref is not None else ''
+                is_inline_json = (
+                    example_str.startswith('{')
+                    or example_str.startswith('[')
+                    or (example_str.startswith('"') and example_str.endswith('"'))
+                )
+                is_inline_xml = example_str.startswith('<')
+
+                if is_inline_json or is_inline_xml:
+                    label = f'Response Body ({code})'
+                    if example_name:
+                        label += f" für {example_name}"
+                    adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+                    adoc_lines.append('[%collapsible]')
+                    adoc_lines.append('====')
+                    source_lang = 'json' if is_inline_json else 'xml'
+                    adoc_lines.append(f'[source,{source_lang}]')
                     adoc_lines.append('----')
-                    adoc_lines.append(example_ref)
+                    adoc_lines.append(_format_inline_example(example_ref, is_inline_json, is_inline_xml))
                     adoc_lines.append('----')
+                    adoc_lines.append('====')
                 else:
                     label = f"Response Body ({code})"
                     if example_name:
@@ -187,18 +222,24 @@ def generate_response_file(output_file_path, endpoint_data, data):
                     adoc_lines.append('[%collapsible]')
                     adoc_lines.append('====')
                     
-                    extension = os.path.splitext(example_ref)[1].lower() if example_ref else ''
+                    extension = os.path.splitext(str(example_ref))[1].lower() if example_ref else ''
                     if extension == '.xml':
                         source_lang = 'xml'
                     elif extension == '.json':
                         source_lang = 'json'
                     else:
-                        source_lang = ''
-                    
-                    adoc_lines.append(f'[source,{source_lang}]')
-                    adoc_lines.append('----')
-                    adoc_lines.append(f'include::{example_ref}[]')
-                    adoc_lines.append('----')
+                        source_lang = None
+
+                    if source_lang:
+                        adoc_lines.append(f'[source,{source_lang}]')
+                        adoc_lines.append('----')
+                        adoc_lines.append(f'include::{example_ref}[]')
+                        adoc_lines.append('----')
+                    else:
+                        adoc_lines.append('[source]')
+                        adoc_lines.append('----')
+                        adoc_lines.append(str(example_ref))
+                        adoc_lines.append('----')
                     adoc_lines.append('====')
                 
                 # Add FHIR profiles if present
