@@ -94,7 +94,34 @@ for job in "${adoc_jobs[@]}"; do
 done
 
 # STAGE_3 create html mapping pages
-python3 ./../../docs/erp_epa_mapping_details/2026_07_01/cleanup_html_pages.py ./../../docs/erp_epa_mapping_details/2026_07_01
+# Parse command line arguments
+show_help=false
+build_epa_mapping=false
+
+for arg in "$@"; do
+    case $arg in
+        --epa-mapping)
+            build_epa_mapping=true
+            ;;
+        --help)
+            show_help=true
+            ;;
+    esac
+done
+
+if [ "$show_help" = true ]; then
+    echo "Usage: $0 [OPTIONS]"
+    echo ""
+    echo "Options:"
+    echo "  --epa-mapping    Build EPA mapping HTML pages"
+    echo "  --help           Show this help message"
+    exit 0
+fi
+
+# STAGE_3 create html mapping pages
+if [ "$build_epa_mapping" = true ]; then
+    python3 ./../../docs/erp_epa_mapping_details/2026_07_01/cleanup_html_pages.py ./../../docs/erp_epa_mapping_details/2026_07_01
+fi
 
 # STAGE_4 cleanup
 rm -r ../openapi-adoc
