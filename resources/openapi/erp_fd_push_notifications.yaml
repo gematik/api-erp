@@ -276,6 +276,19 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    ErrorType:
+      description: Error object with additional information about the occurred error
+      type: object
+      properties:
+        errorCode:
+          description: Error condition specifier
+          type: string
+        errorDetail:
+          description: Additional details regarding the error condition (if applicable)
+          type: string
+      required:
+        - errorCode
   responses:
     ErrorResponse400:
       description: Ungültiger http-Request.
@@ -315,17 +328,3 @@ components:
             $ref: '#/components/schemas/ErrorType'
 security:
   - bearerAuth: []
-
-schemas:
-  ErrorType:
-      description: Error object with additional information about the occurred error
-      type: object
-      properties:
-        errorCode:
-          description: Error condition specifier
-          type: string
-        errorDetail:
-          description: Additional details regarding the error condition (if applicable)
-          type: string
-      required:
-        - errorCode

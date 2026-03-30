@@ -29,14 +29,35 @@ def _process_examples(content_details, data=None):
     
     if 'examples' in content_details:
         for example_name, example_details in content_details['examples'].items():
-            example_ref = example_details.get('$ref', '')
-            examples.append((example_name, example_ref))
+            if isinstance(example_details, dict) and '$ref' in example_details:
+                resolved = resolve_ref(example_details['$ref'], data)
+                resolved = _extract_example_payload(resolved)
+                if resolved is not None:
+                    examples.append((example_name, _to_example_string(resolved)))
+                else:
+                    examples.append((example_name, example_details['$ref']))
+            elif isinstance(example_details, dict) and 'value' in example_details:
+                examples.append((example_name, _to_example_string(example_details['value'])))
+            else:
+                examples.append((example_name, _to_example_string(example_details)))
     elif 'example' in content_details:
         example = content_details['example']
         if isinstance(example, dict) and '$ref' in example:
-            examples.append((None, example['$ref']))
+            resolved = resolve_ref(example['$ref'], data)
+            resolved = _extract_example_payload(resolved)
+            if resolved is not None:
+                examples.append((None, _to_example_string(resolved)))
+            else:
+                examples.append((None, example['$ref']))
+        else:
+            examples.append((None, _to_example_string(example)))
     elif '$ref' in content_details:
-        examples.append((None, content_details['$ref']))
+        resolved = resolve_ref(content_details['$ref'], data)
+        resolved = _extract_example_payload(resolved)
+        if resolved is not None:
+            examples.append((None, _to_example_string(resolved)))
+        else:
+            examples.append((None, content_details['$ref']))
     elif 'schema' in content_details:
         schema = content_details['schema']
         # Resolve $ref in schema if necessary
@@ -44,9 +65,27 @@ def _process_examples(content_details, data=None):
             schema = resolve_ref(schema['$ref'], data)
         example = example_from_schema(schema, data)
         if example:
-            examples.append((None, json.dumps(example, indent=2)))
+            examples.append((None, json.dumps(example, indent=2, ensure_ascii=False)))
     
     return examples
+
+
+def _extract_example_payload(resolved):
+    """
+    Extract the actual payload from resolved OpenAPI example nodes.
+    """
+    if isinstance(resolved, dict) and 'value' in resolved:
+        return resolved['value']
+    return resolved
+
+
+def _to_example_string(value):
+    """
+    Convert an example value to a displayable string.
+    """
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, indent=2, ensure_ascii=False)
+    return str(value)
 
 
 def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Request Body"):
@@ -67,11 +106,17 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
     
     if is_inline_json:
         # Inline JSON example
-        adoc_lines.append(f'.Beispiel {label_prefix}')
+        label = label_prefix
+        if example_name:
+            label += f" für {example_name}"
+        adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+        adoc_lines.append('[%collapsible]')
+        adoc_lines.append('====')
         adoc_lines.append('[source,json]')
         adoc_lines.append('----')
         adoc_lines.append(example_ref)
         adoc_lines.append('----')
+        adoc_lines.append('====')
     else:
         # File reference example
         label = label_prefix
