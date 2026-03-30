@@ -55,13 +55,16 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (400)
+.Response Body (400) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
   "detail": "Test-FdV is currently not running"
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -95,13 +98,16 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (400)
+.Response Body (400) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
   "detail": "Test-FdV is currently not running"
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -135,13 +141,16 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (400)
+.Response Body (400) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
   "detail": "Test-FdV is currently not running"
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -169,11 +178,14 @@ Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
 ¦URI ¦https://localhost:443/erp/testdriver/api/v1/login
 ¦Method ¦PUT
 ¦Payload ¦
-.Beispiel Request Body
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 "A000500015"
 ----
+====
 |===
 ==== Response
 
@@ -181,13 +193,16 @@ Mit dieser Operation kann man sich mit einer KVNR am Test-FdV anmelden.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
   "accessToken": "string"
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -226,7 +241,9 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 [
@@ -258,6 +275,7 @@ No request body.
   }
 ]
 ----
+====
 
 2+¦Response Codes
 
@@ -294,7 +312,9 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -324,6 +344,7 @@ No request body.
   }
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -403,7 +424,9 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 [
@@ -419,6 +442,7 @@ No request body.
   }
 ]
 ----
+====
 
 2+¦Response Codes
 
@@ -457,13 +481,16 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 [
   null
 ]
 ----
+====
 
 2+¦Response Codes
 
@@ -508,7 +535,9 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 [
@@ -528,6 +557,7 @@ No request body.
   }
 ]
 ----
+====
 
 2+¦Response Codes
 
@@ -553,7 +583,9 @@ Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
 ¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/assignment
 ¦Method ¦POST
 ¦Payload ¦
-.Beispiel Request Body
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -562,6 +594,7 @@ Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
   "supplyOptionsType": "delivery"
 }
 ----
+====
 |===
 ==== Response
 
@@ -569,7 +602,9 @@ Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 {
@@ -582,6 +617,7 @@ Mit dieser Operation kann einem E-Rezept eine Apotheke zugewiesen werden.
   "supplyOptionsType": "delivery"
 }
 ----
+====
 
 2+¦Response Codes
 
@@ -607,11 +643,14 @@ Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für di
 ¦URI ¦https://localhost:443/erp/testdriver/api/v1/pharmacy/2dCode
 ¦Method ¦POST
 ¦Payload ¦
-.Beispiel Request Body
+.Request Body (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 "160.000.000.000.123.76"
 ----
+====
 |===
 ==== Response
 
@@ -619,11 +658,14 @@ Mit dieser Operation wird ein E-Rezept-Token als 2D-Code generiert (z.B. für di
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 "string"
 ----
+====
 
 2+¦Response Codes
 
@@ -662,7 +704,9 @@ No request body.
 [%autowidth]
 |===
 ¦Payload ¦
-.Beispiel Response Body (200)
+.Response Body (200) (Klicken zum Ausklappen)
+[%collapsible]
+====
 [source,json]
 ----
 [
@@ -677,6 +721,7 @@ No request body.
   }
 ]
 ----
+====
 
 2+¦Response Codes
 

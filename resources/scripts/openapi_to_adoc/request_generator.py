@@ -4,6 +4,7 @@ Request file generation for OpenAPI to AsciiDoc conversion.
 
 import os
 import json
+from xml.dom import minidom
 
 # Handle both direct execution and package import
 try:
@@ -12,6 +13,18 @@ try:
 except ImportError:
     from utils import get_list, resolve_ref, example_from_schema
     from config import SUPPORTED_EXTENSIONS
+
+
+def _pretty_xml(xml_str):
+    """Pretty-print an XML string, returning the original on parse failure."""
+    try:
+        pretty = minidom.parseString(xml_str.encode('utf-8')).toprettyxml(indent='  ')
+        lines = [line for line in pretty.splitlines() if line.strip()]
+        if lines and lines[0].startswith('<?xml'):
+            lines = lines[1:]
+        return '\n'.join(lines)
+    except Exception:
+        return xml_str
 
 
 def _process_examples(content_details, data=None):
@@ -29,14 +42,35 @@ def _process_examples(content_details, data=None):
     
     if 'examples' in content_details:
         for example_name, example_details in content_details['examples'].items():
-            example_ref = example_details.get('$ref', '')
-            examples.append((example_name, example_ref))
+            if isinstance(example_details, dict) and '$ref' in example_details:
+                resolved = resolve_ref(example_details['$ref'], data)
+                resolved = _extract_example_payload(resolved)
+                if resolved is not None:
+                    examples.append((example_name, _to_example_string(resolved)))
+                else:
+                    examples.append((example_name, example_details['$ref']))
+            elif isinstance(example_details, dict) and 'value' in example_details:
+                examples.append((example_name, _to_example_string(example_details['value'])))
+            else:
+                examples.append((example_name, _to_example_string(example_details)))
     elif 'example' in content_details:
         example = content_details['example']
         if isinstance(example, dict) and '$ref' in example:
-            examples.append((None, example['$ref']))
+            resolved = resolve_ref(example['$ref'], data)
+            resolved = _extract_example_payload(resolved)
+            if resolved is not None:
+                examples.append((None, _to_example_string(resolved)))
+            else:
+                examples.append((None, example['$ref']))
+        else:
+            examples.append((None, _to_example_string(example)))
     elif '$ref' in content_details:
-        examples.append((None, content_details['$ref']))
+        resolved = resolve_ref(content_details['$ref'], data)
+        resolved = _extract_example_payload(resolved)
+        if resolved is not None:
+            examples.append((None, _to_example_string(resolved)))
+        else:
+            examples.append((None, content_details['$ref']))
     elif 'schema' in content_details:
         schema = content_details['schema']
         # Resolve $ref in schema if necessary
@@ -44,9 +78,27 @@ def _process_examples(content_details, data=None):
             schema = resolve_ref(schema['$ref'], data)
         example = example_from_schema(schema, data)
         if example:
-            examples.append((None, json.dumps(example, indent=2)))
+            examples.append((None, json.dumps(example, indent=2, ensure_ascii=False)))
     
     return examples
+
+
+def _extract_example_payload(resolved):
+    """
+    Extract the actual payload from resolved OpenAPI example nodes.
+    """
+    if isinstance(resolved, dict) and 'value' in resolved:
+        return resolved['value']
+    return resolved
+
+
+def _to_example_string(value):
+    """
+    Convert an example value to a displayable string.
+    """
+    if isinstance(value, (dict, list)):
+        return json.dumps(value, indent=2, ensure_ascii=False)
+    return str(value)
 
 
 def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Request Body"):
@@ -59,30 +111,36 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
         example_ref (str): Reference or content of the example
         label_prefix (str): Prefix for the label
     """
-    # Check if this is inline JSON content (starts with {, [, or is a quoted JSON string)
-    is_inline_json = (example_ref and 
-                     (str(example_ref).strip().startswith('{') or 
-                      str(example_ref).strip().startswith('[') or
-                      (str(example_ref).strip().startswith('"') and str(example_ref).strip().endswith('"'))))
-    
+    example_str = str(example_ref).strip() if example_ref else ''
+
+    is_inline_json = (
+        example_str.startswith('{')
+        or example_str.startswith('[')
+        or (example_str.startswith('"') and example_str.endswith('"'))
+    )
+    is_inline_xml = example_str.startswith('<')
+
+    label = label_prefix
+    if example_name:
+        label += f" für {example_name}"
+    adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+    adoc_lines.append('[%collapsible]')
+    adoc_lines.append('====')
+
     if is_inline_json:
-        # Inline JSON example
-        adoc_lines.append(f'.Beispiel {label_prefix}')
         adoc_lines.append('[source,json]')
         adoc_lines.append('----')
         adoc_lines.append(example_ref)
         adoc_lines.append('----')
+    elif is_inline_xml:
+        adoc_lines.append('[source,xml]')
+        adoc_lines.append('----')
+        adoc_lines.append(_pretty_xml(example_str))
+        adoc_lines.append('----')
     else:
         # File reference example
-        label = label_prefix
-        if example_name:
-            label += f" für {example_name}"
-        adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
-        adoc_lines.append('[%collapsible]')
-        adoc_lines.append('====')
-        
-        extension = os.path.splitext(str(example_ref))[1].lower() if example_ref else ''
-        
+        extension = os.path.splitext(example_str)[1].lower() if example_str else ''
+
         if extension in SUPPORTED_EXTENSIONS:
             source_lang = extension.lstrip('.')
             adoc_lines.append(f'[source,{source_lang}]')
@@ -94,8 +152,8 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
             adoc_lines.append('----')
             adoc_lines.append(str(example_ref))
             adoc_lines.append('----')
-        
-        adoc_lines.append('====')
+
+    adoc_lines.append('====')
 
 
 def _process_parameters(parameters):
