@@ -4,6 +4,7 @@ Request file generation for OpenAPI to AsciiDoc conversion.
 
 import os
 import json
+from xml.dom import minidom
 
 # Handle both direct execution and package import
 try:
@@ -12,6 +13,18 @@ try:
 except ImportError:
     from utils import get_list, resolve_ref, example_from_schema
     from config import SUPPORTED_EXTENSIONS
+
+
+def _pretty_xml(xml_str):
+    """Pretty-print an XML string, returning the original on parse failure."""
+    try:
+        pretty = minidom.parseString(xml_str.encode('utf-8')).toprettyxml(indent='  ')
+        lines = [line for line in pretty.splitlines() if line.strip()]
+        if lines and lines[0].startswith('<?xml'):
+            lines = lines[1:]
+        return '\n'.join(lines)
+    except Exception:
+        return xml_str
 
 
 def _process_examples(content_details, data=None):
@@ -98,36 +111,36 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
         example_ref (str): Reference or content of the example
         label_prefix (str): Prefix for the label
     """
-    # Check if this is inline JSON content (starts with {, [, or is a quoted JSON string)
-    is_inline_json = (example_ref and 
-                     (str(example_ref).strip().startswith('{') or 
-                      str(example_ref).strip().startswith('[') or
-                      (str(example_ref).strip().startswith('"') and str(example_ref).strip().endswith('"'))))
-    
+    example_str = str(example_ref).strip() if example_ref else ''
+
+    is_inline_json = (
+        example_str.startswith('{')
+        or example_str.startswith('[')
+        or (example_str.startswith('"') and example_str.endswith('"'))
+    )
+    is_inline_xml = example_str.startswith('<')
+
+    label = label_prefix
+    if example_name:
+        label += f" für {example_name}"
+    adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
+    adoc_lines.append('[%collapsible]')
+    adoc_lines.append('====')
+
     if is_inline_json:
-        # Inline JSON example
-        label = label_prefix
-        if example_name:
-            label += f" für {example_name}"
-        adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
-        adoc_lines.append('[%collapsible]')
-        adoc_lines.append('====')
         adoc_lines.append('[source,json]')
         adoc_lines.append('----')
         adoc_lines.append(example_ref)
         adoc_lines.append('----')
-        adoc_lines.append('====')
+    elif is_inline_xml:
+        adoc_lines.append('[source,xml]')
+        adoc_lines.append('----')
+        adoc_lines.append(_pretty_xml(example_str))
+        adoc_lines.append('----')
     else:
         # File reference example
-        label = label_prefix
-        if example_name:
-            label += f" für {example_name}"
-        adoc_lines.append(f'.{label} (Klicken zum Ausklappen)')
-        adoc_lines.append('[%collapsible]')
-        adoc_lines.append('====')
-        
-        extension = os.path.splitext(str(example_ref))[1].lower() if example_ref else ''
-        
+        extension = os.path.splitext(example_str)[1].lower() if example_str else ''
+
         if extension in SUPPORTED_EXTENSIONS:
             source_lang = extension.lstrip('.')
             adoc_lines.append(f'[source,{source_lang}]')
@@ -139,8 +152,8 @@ def _add_example_to_adoc(adoc_lines, example_name, example_ref, label_prefix="Re
             adoc_lines.append('----')
             adoc_lines.append(str(example_ref))
             adoc_lines.append('----')
-        
-        adoc_lines.append('====')
+
+    adoc_lines.append('====')
 
 
 def _process_parameters(parameters):
