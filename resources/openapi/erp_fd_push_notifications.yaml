@@ -295,36 +295,36 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
     ErrorResponse403:
       description: Unzulässige fachliche Rolle.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
     ErrorResponse406:
       description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
     ErrorResponse408:
       description: Timeout.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
     ErrorResponse429:
       description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/error.yaml"
 security:
   - bearerAuth: []
