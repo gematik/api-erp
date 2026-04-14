@@ -16,7 +16,7 @@
 openapi: 3.0.3
 info:
   title: E-Rezept-Fachdienst API for Push Notifications
-  version: 1.1.1
+  version: 1.1.2
   description: API Endpoints for managing pushers, the channel configuration and retrieving previously sent notifications.
   license:
     name: Apache 2.0
@@ -42,10 +42,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_get.yaml#/schema"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_get.yaml#/schema"
               examples:
                 response:
-                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
         "400":          
           $ref: "#/components/responses/ErrorResponse400"
         "401":
@@ -86,12 +86,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/schema"
+              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/schema"
             examples:
               registration:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration"
               deletion:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion"
         description: The pusher information.
         required: true
       responses:
@@ -148,10 +148,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/schema"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/schema"
               examples:
                 response:
-                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/examples/response"
         "400":
           $ref: "#/components/responses/ErrorResponse400"
         "401":
@@ -195,10 +195,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/schema"
+              $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_post.yaml#/schema"
             examples:
               update:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_post.yaml#/examples/update"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_post.yaml#/examples/update"
         description: The channel information.
         required: true
       responses:
@@ -246,10 +246,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/schema"
+                $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/schema"
               examples:
                 response:
-                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.0.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+                  $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/examples/response"
         "400":
           $ref: "#/components/responses/ErrorResponse400"
         "401":
@@ -275,56 +275,43 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
-  schemas:
-    ErrorType:
-      description: Error object with additional information about the occurred error
-      type: object
-      properties:
-        errorCode:
-          description: Error condition specifier
-          type: string
-        errorDetail:
-          description: Additional details regarding the error condition (if applicable)
-          type: string
-      required:
-        - errorCode
+      bearerFormat: JWT  
   responses:
     ErrorResponse400:
       description: Ungültiger http-Request.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse403:
       description: Unzulässige fachliche Rolle.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse406:
       description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse408:
       description: Timeout.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse429:
       description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorType'
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
 security:
   - bearerAuth: []
