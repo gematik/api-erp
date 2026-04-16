@@ -1,4 +1,22 @@
 #!/bin/zsh
+set -euo pipefail
+
+cleanup() {
+    # Avoid cleanup in background subshells started via (...)
+    # so intermediate artifacts remain available for parallel jobs.
+    if [[ "${ZSH_SUBSHELL:-0}" -ne 0 ]]; then
+        return
+    fi
+    rm -rf "$SCRIPT_DIR/../openapi-adoc" "$SCRIPT_DIR/output_adoc"
+}
+
+on_error() {
+    printf "\033[31mAborted due to error\033[0m\n"
+}
+
+trap cleanup EXIT
+trap on_error ZERR
+
 echo "Start building source files"
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 
@@ -122,10 +140,6 @@ fi
 if [ "$build_epa_mapping" = true ]; then
     python3 ./../../docs/erp_epa_mapping_details/2026_07_01/cleanup_html_pages.py ./../../docs/erp_epa_mapping_details/2026_07_01
 fi
-
-# STAGE_4 cleanup
-rm -r ../openapi-adoc
-rm -r ./output_adoc
 
 # Echo that the process is finished
 echo "Finished building source files"
