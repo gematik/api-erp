@@ -65,7 +65,7 @@ Authorization: Bearer <JWT> (string, required)
   "app_id": "com.example.app.ios",
   "pushkey": "<APNS/GCM TOKEN>",
   "data": {
-    "url": "https://push-gateway.location.here/_matrix/push/v1/"
+    "url": "https://push-gateway.location.here/push/v1/"
   },
   "encryption": {
     "method": "aes-hmac-sha256",
@@ -110,8 +110,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -121,8 +121,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -132,8 +132,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -143,8 +143,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -154,8 +154,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -165,8 +165,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -235,7 +235,7 @@ No request body.
       "profile_tag": "xyz",
       "lang": "en-US",
       "data": {
-        "url": "https://example.com/_matrix/push/v1/"
+        "url": "https://example.com/push/v1/"
       }
     }
   ]
@@ -248,8 +248,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -259,8 +259,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -270,8 +270,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -281,8 +281,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -292,8 +292,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -303,8 +303,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -385,8 +385,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -396,8 +396,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -407,8 +407,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -418,8 +418,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -429,8 +429,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -440,8 +440,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -519,8 +519,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -530,8 +530,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -541,8 +541,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -552,8 +552,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -563,8 +563,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -574,8 +574,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -628,12 +628,12 @@ Authorization: Bearer <JWT> (string, required)
 {
   "channels": [
     {
-      "name": "channel1",
-      "value": "enabled"
+      "id": "channel1",
+      "status": "enabled"
     },
     {
-      "name": "channel2",
-      "value": "disabled"
+      "id": "channel2",
+      "status": "disabled"
     }
   ]
 }
@@ -660,8 +660,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -671,8 +671,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -682,8 +682,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -693,8 +693,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -704,8 +704,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
@@ -715,8 +715,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "string",
-  "errorDetail": "string"
+  "errorCode": "UNKNOWN",
+  "errorDetail": "An unknown error occurred"
 }
 ----
 ====
