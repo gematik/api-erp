@@ -8,6 +8,34 @@ Alle Prozessbeteiligten verantworten je mindestens ein FHIR-Profilierungs-Projek
 
 toc::[]
 
+++++
+<link rel="stylesheet" href="https://www.g-service.org/frappe/frappe-gantt.css">
+<link rel="stylesheet" href="https://www.g-service.org/gantt.css">
+<script src="https://www.g-service.org/frappe/frappe-gantt.umd.js"></script>
+
+<div class="g-container">
+    <div id="gantt-titles" class="gantt-titles-column"></div>
+    <div id="gantt-wrapper">
+        <div id="gantt"></div>
+    </div>
+</div>
+
+<script>
+  // Meilensteine
+  const projectMilestones = [
+      { date: '2026-04-01', label: '01.04.' },
+      { date: '2026-07-01', label: '01.07.' },
+      { date: '2026-10-01', label: '01.10.' }
+  ];
+  //Differenz zur PU
+  const projectStage = [
+      { days: '0', label: 'RU' },
+      { days: '122', label: 'RU-Dev' }
+  ];
+</script>
+<script src="https://www.g-service.org/gantt-logic.js"></script>
+++++
+
 == Übersicht Dependencies
 image:fhir_dependencies.png[width=100%]
 
