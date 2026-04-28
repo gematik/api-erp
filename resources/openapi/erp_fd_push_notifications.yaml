@@ -229,7 +229,7 @@ paths:
   /channels/v1:
     get:
       summary: Gets the available channels
-      description: Gets all available channels for the authenticated user.
+      description: Gets all available channels for the authenticated user along with the default configuration state. This endpoint can be used to retrieve the channels for a user that has no active pushers or devices.
       operationId: getChannels
       x-allowed-requester:
           - "FdV"
