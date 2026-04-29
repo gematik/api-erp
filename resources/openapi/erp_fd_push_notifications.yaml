@@ -229,7 +229,7 @@ paths:
   /channels/v1:
     get:
       summary: Gets the available channels
-      description: Gets all available channels for the authenticated user.
+      description: Gets all available channels for the authenticated user along with the default configuration state. This endpoint can be used to retrieve the channels for a user that has no active pushers or devices. The status returned for each channel is the default status for new pushers and devices; in this case, it is always "disabled". If a user has active pushers or devices, the endpoint /channels/v1/{pushkey} should be used to retrieve the actual channel configuration for the specific device.
       operationId: getChannels
       x-allowed-requester:
           - "FdV"
@@ -242,7 +242,7 @@ paths:
           description: ACCESS_TOKEN, ausgestellt vom IDP
       responses:
         "200":
-          description: The channels for this user.
+          description: The channels available for this user.
           content:
             application/json:
               schema:
