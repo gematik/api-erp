@@ -228,7 +228,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/05_request_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/09_request_MessagePharmacy.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -241,7 +241,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/06_response_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/10_response_MessagePharmacy.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
