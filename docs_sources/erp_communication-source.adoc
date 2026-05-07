@@ -7,6 +7,111 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachric
 
 toc::[]
 
+IMPORTANT: Ab 2026-10-01 unterstützt der E-Rezept-Fachdienst die Version 3 der Payload der Communication Ressource. Da es zurzeit kein Pflicht gibt, können auch PayLoads der Version 1 weiterhin übermittelt werden. Die Version 3 der Payload enthält weitere Felder, um die Belieferung von E-Rezepten besser zu unterstützen. Es wird empfohlen, die Version 3 der Payload zu nutzen, aber beide Versionen müssen zuerst unterstützen werden, damit die Kompatibilität mit den verschiedenen Systemen gewährleistet ist. Es ist vorgesehen, dass die Version 1 der Payload zu einem späteren Zeitpunkt nicht mehr unterstützt wird, aber es gibt noch kein festes Datum dafür. +
+Der Unterscheid ist hier zu finden: +
+.CommuncationDispReqPayload
+[%collapsible]
+====
+[cols="1,1,1,2",options="header"]
+|===
+| Feld
+| v1
+| v3 (aufgelöst)
+| Hinweise
+
+// --- Kernfelder ---
+| version
+| 1
+| 3
+| 
+
+| supplyOptionsType
+| ✅ freier String
+| ✅ string (enum: delivery, shipment)
+| ⚠️ Explizite Einschränkung auf erlaubte Werte
+
+// --- Adresse / Lieferdaten ---
+| name
+| ✅ string
+| ✅ string (maxLength≈100)
+| ⚠️ Längenbeschränkung ergänzt
+
+| address
+| ✅ string
+| ✅ string (maxLength≈100)
+| ⚠️ Längenbeschränkung ergänzt
+
+| postcode
+| ✅ string
+| ✅ string (maxLength≈10)
+| ⚠️ Validierung präzisiert
+
+| city
+| ✅ string
+| ✅ string (maxLength≈100)
+| ⚠️ Längenbeschränkung ergänzt
+
+| country
+| ✅ string
+| ✅ string (Pattern: ISO-Ländercode, z.B. `[A-Z]{2}`)
+| ⚠️ ISO-konforme Validierung
+
+| hint
+| ✅ string
+| ✅ string (maxLength≈500)
+| ⚠️ Einheitliche Begrenzung
+
+| text
+| ✅ string
+| ✅ string (maxLength≈1000)
+| ⚠️ jetzt zentral definiert und begrenzt
+
+// --- Kontakt ---
+| phone
+| ✅ string
+| ✅ string (Pattern: Telefonnummer, z.B. `^[0-9+\-()/ ]+$`)
+| ⚠️ Formatvalidierung hinzugefügt
+
+| mail
+| ✅ string
+| ✅ string (Pattern: RFC-konforme E-Mail)
+| ⚠️ Strenge E-Mail-Validierung
+
+// --- Identifikatoren ---
+| transactionId
+| ✅ string
+| ✅ string (UUID / maxLength≈64)
+| ⚠️ Format vereinheitlicht
+
+| taskId
+| ✅ string
+| ✅ string (Pattern: ID-Format, maxLength≈64)
+| ⚠️ Validierung ergänzt
+
+| accessCode
+| ✅ string
+| ✅ string (maxLength≈64)
+| ⚠️ Längenbeschränkung ergänzt
+
+// --- Funktionale Unterschiede ---
+| readyForCollection
+| ✅ boolean
+| ❌
+| ➖ In v3 entfernt
+
+| Reservation-Nachrichtentyp
+| ❌
+| ✅ eigenes Objekt (strukturierte Felder)
+| ➕ Neue explizite Variante
+
+| Trennung Delivery/Shipment
+| ❌ implizit
+| ✅ strikt getrennt (`oneOf`)
+| ➕ Klare semantische Modellierung
+
+|===
+====
+
 WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
 
 *Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
@@ -81,7 +186,7 @@ NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text überge
 .v3
 [%collapsible]
 ====
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationDispReqPayload.json[DispReq JSON-Schema].
 
 NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
 
@@ -163,14 +268,13 @@ s|Code   s|Type Error
 Als Apotheke wurde ich von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
 Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
 
-Weitere Optionen für Nachrichten-Arten (mit Beispiele) von der Apotheke an den Versicherten sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
-
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
+.v1
+[%collapsible]
+====
 NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
-
-NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
 
 *Request*
 [cols="h,a", separator=¦]
@@ -215,7 +319,61 @@ include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
 NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
+====
 
+.v3
+[%collapsible]
+====
+Weitere Optionen für Nachrichten-Arten (mit Beispiele) von der Apotheke an den Versicherten sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationReplyPayload.json[Reply JSON-Schema].
+
+NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.zentral.erp.splitdns.ti-dienste.de/Communication
+¦Method     ¦POST
+¦Requester ¦image:{AVS}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+xml; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+NOTE: Mit dem ACCESS_TOKEN im `Authorization`-Header weist sich der Zugreifende als Leistungserbringer aus, im Token ist seine Rolle enthalten. Die Base64-Darstellung des Tokens ist stark gekürzt.
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: l` und `X-erp-resource: Communication` zu setzen.
+
+¦Payload    ¦
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/03_request_PostPharmacyToPatient.xml[]
+----
+NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
+
+NOTE: In der Extension .payload.extension:OfferedSupplyOptions kann das AVS die zur Verfügung gestellten Optionen zur Belieferung angeben. Im JSON unter "supplyOptionsType" wird die ausgewählte Belieferungsart angegeben.
+
+NOTE: Die Extension .payload.extension:AvailabilityStatus kann genutzt werden, um anzugeben, wann eine Belieferung möglich ist. Die möglichen Werte sind in https://simplifier.net/erezept-workflow/gem-erp-cs-availabilitystatus definiert.
+|===
+
+
+*Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+xml;charset=utf-8
+Location:
+  https://erp.zentral.erp.splitdns.ti-dienste.de/Communication/12346
+
+[source,xml]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/04_response_PostPharmacyToPatient.xml[]
+----
+NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
+
+NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
+====
 
 [cols="a,a"]
 [%autowidth]
@@ -248,12 +406,12 @@ s|Code   s|Type Error
 
 
 ==  Anwendungsfall Als Versicherter auf einer Nachricht einer Apotheke antworten
+IMPORTANT: Diese Funktionalität ist nur für v3 verfügbar.
+
 Als Versicherter möchte ich auf einer Nachricht einer Apotheke antworten, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen oder Fragen zur Belieferung angeben.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
-
-IMPORTANT: Diese Funktionalität ist nur für v3 verfügbar.
 
 NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
 
@@ -282,7 +440,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/09_request_MessagePharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/09_request_MessagePharmacy.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -295,7 +453,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/10_response_MessagePharmacy.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/10_response_MessagePharmacy.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
