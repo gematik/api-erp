@@ -281,36 +281,63 @@ components:
       description: Ungültiger http-Request.
       content:
         application/json:
+          example:
+            errorCode: malformedRequest
+            errorDetail: "Ungültiger http-Request"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
       content:
         application/json:
+          example:
+            errorCode: invalidAccessToken
+            errorDetail: "Ungültiges/Abgelaufenes AccessToken"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse403:
       description: Unzulässige fachliche Rolle.
       content:
         application/json:
+          example:
+            errorCode: invalidOid
+            errorDetail: "Unzulässige fachliche Rolle"
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+    ErrorResponse405:
+      description: Methode nicht erlaubt.
+      content:
+        application/json:
+          example:
+            errorCode: methodNotAllowed
+            errorDetail: "Die verwendete HTTP-Methode ist für diese Ressource nicht zulässig"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse406:
       description: Angefragter Mime-Type im Accept-Header kann nicht bedient werden.
       content:
         application/json:
+          example:
+            errorCode: notAcceptable
+            errorDetail: "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse408:
       description: Timeout.
       content:
         application/json:
+          example:
+            errorCode: timeout
+            errorDetail: "Timeout"  
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse429:
       description: Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
       content:
         application/json:
+          example:
+            errorCode: rateLimitExceeded
+            errorDetail: "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
 security:

@@ -110,8 +110,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "malformedRequest",
+  "errorDetail": "Ungültiger http-Request"
 }
 ----
 ====
@@ -121,8 +121,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidAccessToken",
+  "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
 }
 ----
 ====
@@ -132,8 +132,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidOid",
+  "errorDetail": "Unzulässige fachliche Rolle"
 }
 ----
 ====
@@ -143,8 +143,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "notAcceptable",
+  "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
 }
 ----
 ====
@@ -154,8 +154,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "timeout",
+  "errorDetail": "Timeout"
 }
 ----
 ====
@@ -165,8 +165,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "rateLimitExceeded",
+  "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
 }
 ----
 ====
@@ -248,8 +248,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "malformedRequest",
+  "errorDetail": "Ungültiger http-Request"
 }
 ----
 ====
@@ -259,8 +259,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidAccessToken",
+  "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
 }
 ----
 ====
@@ -270,8 +270,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidOid",
+  "errorDetail": "Unzulässige fachliche Rolle"
 }
 ----
 ====
@@ -281,8 +281,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "notAcceptable",
+  "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
 }
 ----
 ====
@@ -292,8 +292,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "timeout",
+  "errorDetail": "Timeout"
 }
 ----
 ====
@@ -303,8 +303,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "rateLimitExceeded",
+  "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
 }
 ----
 ====
@@ -385,8 +385,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "malformedRequest",
+  "errorDetail": "Ungültiger http-Request"
 }
 ----
 ====
@@ -396,8 +396,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidAccessToken",
+  "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
 }
 ----
 ====
@@ -407,8 +407,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidOid",
+  "errorDetail": "Unzulässige fachliche Rolle"
 }
 ----
 ====
@@ -418,8 +418,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "notAcceptable",
+  "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
 }
 ----
 ====
@@ -429,8 +429,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "timeout",
+  "errorDetail": "Timeout"
 }
 ----
 ====
@@ -440,8 +440,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "rateLimitExceeded",
+  "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
 }
 ----
 ====
@@ -449,7 +449,7 @@ No request body.
 2+¦Response Codes
 
 ¦200 ¦ Success +
-The channels for this user.
+The channels available for this user.
 
 ¦400 ¦ Client Error +
 Ungültiger http-Request.
@@ -519,8 +519,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "malformedRequest",
+  "errorDetail": "Ungültiger http-Request"
 }
 ----
 ====
@@ -530,8 +530,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidAccessToken",
+  "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
 }
 ----
 ====
@@ -541,8 +541,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidOid",
+  "errorDetail": "Unzulässige fachliche Rolle"
 }
 ----
 ====
@@ -552,8 +552,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "notAcceptable",
+  "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
 }
 ----
 ====
@@ -563,8 +563,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "timeout",
+  "errorDetail": "Timeout"
 }
 ----
 ====
@@ -574,8 +574,8 @@ No request body.
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "rateLimitExceeded",
+  "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
 }
 ----
 ====
@@ -660,8 +660,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "malformedRequest",
+  "errorDetail": "Ungültiger http-Request"
 }
 ----
 ====
@@ -671,8 +671,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidAccessToken",
+  "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
 }
 ----
 ====
@@ -682,8 +682,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "invalidOid",
+  "errorDetail": "Unzulässige fachliche Rolle"
 }
 ----
 ====
@@ -693,8 +693,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "notAcceptable",
+  "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
 }
 ----
 ====
@@ -704,8 +704,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "timeout",
+  "errorDetail": "Timeout"
 }
 ----
 ====
@@ -715,8 +715,8 @@ Authorization: Bearer <JWT> (string, required)
 [source,json]
 ----
 {
-  "errorCode": "UNKNOWN",
-  "errorDetail": "An unknown error occurred"
+  "errorCode": "rateLimitExceeded",
+  "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
 }
 ----
 ====
