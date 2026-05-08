@@ -51,7 +51,8 @@ Der Unterschiede zwischen v1 und v3 sind hier zu finden:
 // --- Kernfelder ---
 | version=1
 | version=3
-|
+| v1: 1 +
+v3: 3
 
 |
 | communicationType
@@ -68,20 +69,20 @@ Der Unterschiede zwischen v1 und v3 sind hier zu finden:
 
 |
 | lastname
-| maxLength ergänzt (45)
+| maxLength (45)
 
 | address
 | address
-| v1: Array von Strings (Beinhaltet der ganze Adresse) +
+| v1: Array von Strings (Beinhaltet die gesamte Adresse) +
 v3: 3-100 Stellen (Beinhaltet nur Straße und Hausnummer)
 
 |
 | postcode
-|
+| 3-10 Stellen
 
 |
 | city
-|
+| 2-100 Stellen
 
 |
 | country
@@ -93,12 +94,12 @@ v3: 3-100 Stellen (Beinhaltet nur Straße und Hausnummer)
 
 |
 | text
-|
+| bis 800 Stellen
 
 // --- Kontakt ---
 | phone
 | phone
-|
+| bis 32 Stellen
 
 |
 | email
