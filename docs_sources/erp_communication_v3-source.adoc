@@ -9,6 +9,24 @@ toc::[]
 
 IMPORTANT: Ab dem 2026-10-01 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Da es derzeit keine Pflicht gibt, können auch PayLoads der Version 1 weiterhin übermittelt werden. Version 3 des Payloads enthält zusätzliche Felder, um die Belieferung von E-Rezepten besser zu unterstützen. Es wird empfohlen, Version 3 zu nutzen; jedoch muss Version 1 zuerst unterstützt werden, um die Kompatibilität mit verschiedenen Systemen sicherzustellen. 
 
+WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
+
+*Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
+
+1. C0-Steuercodes:
+* Bereich: U+0000 bis U+001F
+* Beispiel: Null-Byte (U+0000), Start of Header (U+0001), Line Feed (U+000A), Tabulator (U+0009), usw.
+
+2. C1-Steuercodes:
+* Bereich: U+0080 bis U+009F
+* Beispiel: Start of Sentence (U+0082), End of Text (U+0003), Escape (U+001B), usw.
+
+3. Andere non-printable Zeichen:
+* Null-Byte (U+0000)
+* Byte Order Mark (BOM): U+FEFF
+* Replace Character (U+FFFD)
+
+== Unterschiede zwischen v1 und v3
 Eine Übersicht der Unterschiede zwischen v1 und v3 ist hier zu finden:
 
 .CommuncationDispReqPayload
@@ -172,23 +190,6 @@ v3: 3
 
 |===
 ====
-
-WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
-
-*Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
-
-1. C0-Steuercodes:
-* Bereich: U+0000 bis U+001F
-* Beispiel: Null-Byte (U+0000), Start of Header (U+0001), Line Feed (U+000A), Tabulator (U+0009), usw.
-
-2. C1-Steuercodes:
-* Bereich: U+0080 bis U+009F
-* Beispiel: Start of Sentence (U+0082), End of Text (U+0003), Escape (U+001B), usw.
-
-3. Andere non-printable Zeichen:
-* Null-Byte (U+0000)
-* Byte Order Mark (BOM): U+FEFF
-* Replace Character (U+FFFD)
 
 ==  Anwendungsfall Ein E-Rezept verbindlich einer Apotheke zuweisen
 Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen zur Belieferung angeben.
