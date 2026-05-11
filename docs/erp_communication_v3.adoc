@@ -1,4 +1,4 @@
-= E-Rezept API-Dokumentation für Nachrichtenaustausch image:gematik_logo.png[width=150, float="right"]
+= E-Rezept API-Dokumentation für Nachrichtenaustausch mit Version 3 image:gematik_logo.png[width=150, float="right"]
 // asciidoc settings for DE (German)
 // ==================================
 :imagesdir: ../images
@@ -28,7 +28,171 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachric
 
 toc::[]
 
-IMPORTANT: Ab dem 2026-10-01 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Da es derzeit keine Pflicht gibt, können auch PayLoads der Version 1 weiterhin übermittelt werden. Version 3 des Payloads enthält zusätzliche Felder, um die Belieferung von E-Rezepten besser zu unterstützen. Es wird empfohlen, Version 3 zu nutzen; jedoch muss Version 1 zuerst unterstützt werden, um die Kompatibilität mit verschiedenen Systemen sicherzustellen. Die Details zu v3 sind link:./erp_communication_v3.adoc[hier] zu finden.
+IMPORTANT: Ab dem 2026-10-01 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Da es derzeit keine Pflicht gibt, können auch PayLoads der Version 1 weiterhin übermittelt werden. Version 3 des Payloads enthält zusätzliche Felder, um die Belieferung von E-Rezepten besser zu unterstützen. Es wird empfohlen, Version 3 zu nutzen; jedoch muss Version 1 zuerst unterstützt werden, um die Kompatibilität mit verschiedenen Systemen sicherzustellen.
+
+Eine Übersicht der Unterschiede zwischen v1 und v3 ist hier zu finden:
+
+.CommuncationDispReqPayload
+[%collapsible]
+====
+[cols="1,1,2",options="header"]
+|===
+| v1
+| v3
+| Hinweise
+
+| link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[JSON-Schema]
+| link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationDispReqPayload.json[JSON-Schema]
+|
+
+| link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/gemSpec_DM_eRp_V1.13.0/#A_23876[Tabelle-Format]
+| link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/latest/#A_23876-01[Tabelle-Format]
+| Bitte auf Verpflichtungen und Einschränkungen achten
+
+// --- Kernfelder ---
+| version
+| version
+| v1: 1 +
+v3: 3
+
+| -
+| communicationType
+| enum(order, text)
+
+| supplyOptionsType
+| supplyOptionsType
+|
+
+// --- Adresse / Lieferdaten ---
+| name
+| firstname
+| maxLength ergänzt (45)
+
+| -
+| lastname
+| maxLength (45)
+
+| address
+| address
+| v1: Array von Strings (Beinhaltet die gesamte Adresse) +
+v3: 3-100 Stellen (Beinhaltet nur Straße und Hausnummer)
+
+| -
+| postcode
+| 3-10 Stellen
+
+| -
+| city
+| 2-100 Stellen
+
+| -
+| country
+| (ISO-Ländercode, z.B. [A-Z]{2})
+
+| hint
+| hint
+| maxLength ergänzt (100)
+
+| -
+| text
+| bis 800 Stellen
+
+// --- Kontakt ---
+| phone
+| phone
+| bis 32 Stellen
+
+| -
+| email
+| RFC-konforme E-Mail-Adresse
+
+// --- Identifikatoren ---
+| -
+| transactionId
+| UUID
+|===
+====
+
+.CommuncationReplyPayload
+[%collapsible]
+====
+[cols="1,1,2",options="header"]
+|===
+| v1
+| v3
+| Hinweise
+
+| link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[JSON-Schema]
+| link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationReplyPayload.json[JSON-Schema]
+|
+
+| link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/gemSpec_DM_eRp_V1.13.0/#A_23877[Tabelle-Format]
+| link:https://gemspec.gematik.de/docs/gemSpec/gemSpec_DM_eRp/latest/#A_23877-01[Tabelle-Format]
+| Bitte auf Verpflichtungen und Einschränkungen achten
+
+// --- Kernfelder ---
+| version
+| version
+| v1: 1 +
+v3: 3
+
+| -
+| communicationType
+| enum(text, link, reservationStatus, pickupCodeHR, pickupCodeDMC, deliveryStatus, paymentInfo)
+
+| supplyOptionsType
+| -
+| Wird durch communicationType ersetzt
+
+| info_text
+| text
+| Erweitert auf 800 Stellen
+
+| url
+| url
+| -
+
+| -
+| transactionID
+| UUID
+
+| -
+| readyForCollection
+| enum(immediately, sameDay, nextDay, nextDayAM, nextDayPM, unknown, notAvailable)
+
+| -
+| deliveryStatus
+| enum(preparedWaiting, inTransport, delivered, incident)
+
+| -
+| inTransportPosition
+| Lat, Long - Beispiel: +
+{"long": 13.387595793605172, "lat": 52.522529939635795}
+
+| -
+| inTransportETA
+| TIMESTAMP-TIMESTAMP - Beispiel: +
+{"from": 1735736400, "to": 1735741800}
+
+| -
+| totalAmount
+| Nummerische Betrag in Eurocent - Beispiel:
+12550
+
+| -
+| paymentMethods
+| Array aus Objekts (siehe JSON-Schema)
+
+| pickUpCodeHR
+| pickupCodeHR
+| -
+
+| pickUpCodeDMC
+| pickupCodeDMC
+| -
+
+|===
+====
 
 WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
 
@@ -53,7 +217,11 @@ Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+
+NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: In diesem Fall hat das communicationType Feld im JSON-payload der Wert "order".
 
 NOTE: Wenn im JSON-payload pickUpCodeHR oder pickUpCodeDMC angegeben ist, ist der supplyOptionsType "onPremise" zu setzen.
 
@@ -83,10 +251,9 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
   "id": "erp-communication-05-request-RezeptZuweisen",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.6"
     ]
   },
-  "status": "unknown",
   "extension": [
     {
       "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -97,6 +264,11 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
       }
     }
   ],
+  "basedOn": [
+    {
+      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
   "recipient": [
     {
       "identifier": {
@@ -105,14 +277,10 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
       }
     }
   ],
-  "basedOn": [
-    {
-      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-    }
-  ],
+  "status": "unknown",
   "payload": [
     {
-      "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"onPremise\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"phone\": \"004916094858168\" }"
+      "contentString": "{ \"transactionID\": \"ABCD-EFGH-IJKL-MNOP\", \"version\": 3, \"communicationType\": \"order\", \"supplyOptionsType\": \"onPremise\", \"phone\": \"004916094858168\" }"
     }
   ]
 }
@@ -133,10 +301,9 @@ Content-Type: application/fhir+json;charset=utf-8
   "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c73",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.5"
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.6"
     ]
   },
-  "status": "unknown",
   "extension": [
     {
       "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
@@ -147,6 +314,13 @@ Content-Type: application/fhir+json;charset=utf-8
       }
     }
   ],
+  "sent": "2025-10-01T15:29:00.434+00:00",
+  "basedOn": [
+    {
+      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
+  "status": "unknown",
   "recipient": [
     {
       "identifier": {
@@ -157,19 +331,13 @@ Content-Type: application/fhir+json;charset=utf-8
   ],
   "sender": {
     "identifier": {
-      "system": "http://fhir.de/sid/gkv/kvid-10",
-      "value": "X123456789"
+      "value": "X123456789",
+      "system": "http://fhir.de/sid/gkv/kvid-10"
     }
   },
-  "sent": "2025-10-01T15:29:00.434+00:00",
-  "basedOn": [
-    {
-      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
-    }
-  ],
   "payload": [
     {
-      "contentString": "{ \"version\": 1, \"supplyOptionsType\": \"onPremise\", \"name\": \"Dr. Maximilian von Muster\", \"address\": [ \"wohnhaft bei Emilia Fischer\", \"Bundesallee 312\", \"123. OG\", \"12345 Berlin\" ], \"phone\": \"004916094858168\" }"
+      "contentString": "{ \"transactionID\": \"ABCD-EFGH-IJKL-MNOP\", \"version\": 3, \"communicationType\": \"order\", \"supplyOptionsType\": \"onPremise\", \"phone\": \"004916094858168\" }"
     }
   ]
 }
@@ -214,7 +382,11 @@ Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherte
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
+Weitere Optionen für Nachrichten-Arten (mit Beispiele) von der Apotheke an den Versicherten sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationReplyPayload.json[Reply JSON-Schema].
+
+NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
 
 *Request*
 [cols="h,a", separator=¦]
@@ -237,23 +409,23 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 [source,xml]
 ----
 <Communication xmlns="http://hl7.org/fhir">
-    <id value="erp-communication-03-request-PostPharmacyToPatient"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
-    </meta>
-    <basedOn>
-        <reference value="Task/160.000.000.000.000.01"/>
-    </basedOn>
-    <status value="unknown"/>
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </recipient>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1, &quot;supplyOptionsType&quot;: &quot;onPremise&quot;, &quot;info_text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickUpCodeHR&quot;: &quot;12341234&quot;, &quot;pickUpCodeDMC&quot;: &quot;&quot;, &quot;url&quot;: &quot;&quot;}"/>
-    </payload>
+	<id value="erp-communication-03-request-PostPharmacyToPatient" />
+	<meta>
+		<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.6" />
+	</meta>
+	<basedOn>
+		<reference value="Task/160.000.000.000.000.01" />
+	</basedOn>
+	<status value="unknown" />
+	<recipient>
+		<identifier>
+			<system value="http://fhir.de/sid/gkv/kvid-10" />
+			<value value="X123456789" />
+		</identifier>
+	</recipient>
+	<payload>
+		<contentString value="{&quot;version&quot;: 3, &quot;communicationType&quot;: &quot;pickupCodeHR&quot;, &quot;text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickupCodeHR&quot;: &quot;12341234&quot;, &quot;transactionID&quot;: &quot;ABCD-EFGH-IJKL-MNOP&quot;}" />
+	</payload>
 </Communication>
 ----
 NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
@@ -273,30 +445,30 @@ Location:
 [source,xml]
 ----
 <Communication xmlns="http://hl7.org/fhir">
-    <id value="erp-communication-04-response-PostPharmacyToPatient"/>
-    <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.5"/>
-    </meta>
-    <basedOn>
-        <reference value="Task/160.000.000.000.000.01"/>
-    </basedOn>
-    <status value="unknown"/>
-    <sent value="2025-10-01T15:29:00.434+00:00"/>
-    <recipient>
-        <identifier>
-            <system value="http://fhir.de/sid/gkv/kvid-10"/>
-            <value value="X123456789"/>
-        </identifier>
-    </recipient>
-    <sender>
-        <identifier>
-            <system value="https://gematik.de/fhir/sid/telematik-id"/>
-            <value value="3-2-APO-XanthippeVeilchenblau01"/>
-        </identifier>
-    </sender>
-    <payload>
-        <contentString value="{&quot;version&quot;: 1,&quot;supplyOptionsType&quot;: &quot;onPremise&quot;,&quot;info_text&quot;: &quot;Hallo, wir haben das Medikament vorraetig. Kommen Sie gern in die Filiale oder wir schicken einen Boten.&quot;,&quot;url&quot;: &quot;https://sonnenschein-apotheke.de&quot;}"/>
-    </payload>
+	<id value="erp-communication-04-response-PostPharmacyToPatient" />
+	<meta>
+		<profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply|1.6" />
+	</meta>
+	<basedOn>
+		<reference value="Task/160.000.000.000.000.01" />
+	</basedOn>
+	<status value="unknown" />
+	<sent value="2025-10-01T15:29:00.434+00:00" />
+	<recipient>
+		<identifier>
+			<system value="http://fhir.de/sid/gkv/kvid-10" />
+			<value value="X123456789" />
+		</identifier>
+	</recipient>
+	<sender>
+		<identifier>
+			<system value="https://gematik.de/fhir/sid/telematik-id" />
+			<value value="3-2-APO-XanthippeVeilchenblau01" />
+		</identifier>
+	</sender>
+	<payload>
+		<contentString value="{&quot;version&quot;: 3, &quot;communicationType&quot;: &quot;pickupCodeHR&quot;, &quot;text&quot;: &quot;Wir möchten Sie informieren, dass Ihre bestellten Medikamente zur Abholung bereitstehen. Den Abholcode finden Sie anbei.&quot;, &quot;pickupCodeHR&quot;: &quot;12341234&quot;, &quot;transactionID&quot;: &quot;ABCD-EFGH-IJKL-MNOP&quot;}" />
+	</payload>
 </Communication>
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
@@ -318,6 +490,170 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
 [small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Als Versicherter auf einer Nachricht einer Apotheke antworten
+IMPORTANT: Diese Funktionalität ist nur für v3 verfügbar.
+
+Als Versicherter möchte ich auf einer Nachricht einer Apotheke antworten, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen oder Fragen zur Belieferung angeben.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
+Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+
+NOTE: Interaktive Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: In diesem Fall hat das communicationType Feld im JSON-payload der Wert "text".
+
+NOTE: Ein E-Rezept darf nur zugewiesen werden, wenn es sowohl den Status "ready" hat als auch gültig ist. Andernfalls wird der E-Rezept Fachdienst es ablehnen.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Communication
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
+¦Payload    ¦
+[source,json]
+----
+{
+  "resourceType": "Communication",
+  "id": "erp-communication-09-request-MessagePharmacy",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.6"
+    ]
+  },
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+      "valueCoding": {
+        "code": "160",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+      }
+    }
+  ],
+  "basedOn": [
+    {
+      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
+  "recipient": [
+    {
+      "identifier": {
+        "system": "https://gematik.de/fhir/sid/telematik-id",
+        "value": "3-2-APO-XanthippeVeilchenblau01"
+      }
+    }
+  ],
+  "status": "unknown",
+  "payload": [
+    {
+      "contentString": "{ \"transactionID\": \"ABCD-EFGH-IJKL-MNOP\", \"version\": 3, \"communicationType\": \"text\", \"text\": \"Gibt es noch Traubenzucker?\", \"phone\": \"004916094858168\" }"
+    }
+  ]
+}
+----
+NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
+
+NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
+|===
+
+*Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
+
+[source,json]
+----
+{
+  "resourceType": "Communication",
+  "id": "cd4958ad-da92-453c-aef1-f3e02a4c6c74",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq|1.6"
+    ]
+  },
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_EX_PrescriptionType",
+      "valueCoding": {
+        "code": "160",
+        "system": "https://gematik.de/fhir/erp/CodeSystem/GEM_ERP_CS_FlowType",
+        "display": "Muster 16 (Apothekenpflichtige Arzneimittel)"
+      }
+    }
+  ],
+  "sent": "2025-10-01T15:29:00.434+00:00",
+  "basedOn": [
+    {
+      "reference": "Task/160.000.000.000.000.01/$accept?ac=777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
+    }
+  ],
+  "status": "unknown",
+  "recipient": [
+    {
+      "identifier": {
+        "system": "https://gematik.de/fhir/sid/telematik-id",
+        "value": "3-2-APO-XanthippeVeilchenblau01"
+      }
+    }
+  ],
+  "sender": {
+    "identifier": {
+      "value": "X123456789",
+      "system": "http://fhir.de/sid/gkv/kvid-10"
+    }
+  },
+  "payload": [
+    {
+      "contentString": "{ \"transactionID\": \"ABCD-EFGH-IJKL-MNOP\", \"version\": 3, \"communicationType\": \"text\", \"text\": \"Gibt es noch Traubenzucker?\", \"phone\": \"004916094858168\" }"
+    }
+  ]
+}
+----
+WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
+
+NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
 [small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +
