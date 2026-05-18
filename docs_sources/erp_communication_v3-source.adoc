@@ -118,6 +118,34 @@ Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachric
 
 Weitere Optionen für Nachrichten-Arten (mit Beispiele) von der Apotheke an den Versicherten sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
 
+Hier ist eine Übersicht der Möglichkeiten:
+[cols="1,2",options="header"]
+|===
+| Nachrichtentyp (communicationType)
+| Beschreibung
+
+| text
+| Übermittlung einer Freitext-Nachricht
+
+| link
+| Übermittlung einer URL zum Vorgang
+
+| reservationStatus
+| Übermittlung des Reservierungsstatus
+
+| pickupCodeHR
+| Übermittlung eines menschenlesbaren Abholcodes
+
+| pickupCodeDMC
+| Übermittlung eines maschinenlesbaren Abholcodes
+
+| deliveryStatus
+| Übermittlung des Lieferstatus
+
+| paymentInfo
+| Übermittlung eines Hinweises zum zu zahlenden Betrag
+|===
+
 NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationReplyPayload.json[Reply JSON-Schema].
 
 NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
