@@ -32,7 +32,35 @@ image::../images/puml_2026-10-01_comm-transition_timeline.png[]
 
 == Neue Features in Version 3
 === AVS
-Version 3 des Payloads der Communication-Ressource bietet dem AVS mehr Möglichkeiten, die Belieferung von E-Rezepten besser zu unterstützen. Es kann nun den Lieferstatus, die voraussichtliche Ankunftszeit sowie die Position des Fahrzeugs in Echtzeit übermitteln. Außerdem können Informationen zu Zahlungsoptionen und zum Zahlungsstatus bereitgestellt werden. Diese sind durch das communicationType Feld gekennzeichnet.
+Version 3 des Payloads der Communication-Ressource bietet dem AVS mehr Möglichkeiten, die Belieferung von E-Rezepten besser zu unterstützen. Es kann nun den Lieferstatus, die voraussichtliche Ankunftszeit sowie die Position des Fahrzeugs in Echtzeit übermitteln. Außerdem können Informationen zu Zahlungsoptionen bereitgestellt werden. Diese sind durch das communicationType Feld gekennzeichnet.
+
+Hier ist eine Übersicht der neuen Möglichkeiten für den AVS in Version 3:
+[cols="1,2",options="header"]
+|===
+| Nachrichtentyp (communicationType)
+| Beschreibung
+
+| text
+| Übermittlung einer Freitext-Nachricht
+
+| link
+| Übermittlung einer URL zum Vorgang
+
+| reservationStatus
+| Übermittlung des Reservierungsstatus
+
+| pickupCodeHR
+| Übermittlung eines menschenlesbares Abholcodes
+
+| pickupCodeDMC
+| Übermittlung eines maschinenlesbaren Abholcodes
+
+| deliveryStatus
+| Übermittlung des Lieferstatus
+
+| paymentInfo
+| Übermittlung eines Hinweises zum zu zahlenden Betrag
+|===
 
 === FdV
 Version 3 des Payloads der Communication-Ressource ermöglicht es dem FdV, auf die Antwort des AVS mit Freitext zu reagieren. Dies wird durch den communicationType "text" gekennzeichnet. Die Nachricht ist dann im Feld "text" zu finden. Darüber hinaus ist es möglich, weitere Informationen vom AVS zu erhalten, wie z.B. die voraussichtliche Ankunftszeit oder den Lieferstatus, um die Kommunikation zwischen FdV und AVS zu verbessern.
