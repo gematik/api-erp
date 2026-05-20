@@ -1,4 +1,4 @@
-= E-Rezept API-Dokumentation für Nachrichtenaustausch image:gematik_logo.png[width=150, float="right"]
+= E-Rezept API-Dokumentation für Nachrichtenaustausch mit Version 3 image:gematik_logo.png[width=150, float="right"]
 include::./config-source.adoc[]
 
 Zielgruppe: image:{AVS}[] image:{FdV}[] image:{KTR}[]
@@ -7,7 +7,8 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachric
 
 toc::[]
 
-IMPORTANT: Ab dem 01.10.2026 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Weitere Informationen hierzu sind auf link:./erp_communication_v3.adoc[hier] und link:./erp_communication_change_20261001.adoc[hier] zu finden.
+IMPORTANT: Ab dem 01.10.2026 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Da es derzeit keine Pflicht gibt, können auch PayLoads der Version 1 weiterhin übermittelt werden. Version 3 des Payloads enthält zusätzliche Felder, um die Belieferung von E-Rezepten besser zu unterstützen. Es wird empfohlen, Version 3 zu nutzen; jedoch muss Version 1 zuerst unterstützt werden, um die Kompatibilität mit verschiedenen Systemen sicherzustellen. Es kann sein, dass einige Systeme nicht sofort auf Version 3 umstellen können. Daher ist es wichtig, beide Versionen zu unterstützen, um einen reibungslosen Übergang zu gewährleisten. +
+Weitere Details sowohl zu den Unterschieden zwischen Version 1 und Version 3 als auch zur Übergangszeit sind link:./erp_communication_change_20261001.adoc[hier] zu finden.
 
 *Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
 
@@ -30,7 +31,11 @@ Als Versicherter möchte ich einer Apotheke alle Informationen zukommen lassen, 
 Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
 Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
 
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+
+NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: In diesem Fall hat das communicationType Feld im JSON-payload der Wert "order".
 
 NOTE: Wenn im JSON-payload pickUpCodeHR oder pickUpCodeDMC angegeben ist, ist der supplyOptionsType "onPremise" zu setzen.
 
@@ -55,7 +60,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/05_request_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/05_request_RezeptZuweisen.json[]
 ----
 NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
 
@@ -68,7 +73,7 @@ Content-Type: application/fhir+json;charset=utf-8
 
 [source,json]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/06_response_RezeptZuweisen.json[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/06_response_RezeptZuweisen.json[]
 ----
 WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
 
@@ -110,7 +115,39 @@ Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherte
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
 Die Nachricht steht nun zum Abruf durch den Empfänger bereit, der seine Nachrichten über eine GET-Abfrage herunterladen kann.
 
-NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationReplyPayload.json[Reply JSON-Schema].
+Weitere Optionen für Nachrichten-Arten (mit Beispiele) von der Apotheke an den Versicherten sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+Hier ist eine Übersicht der Möglichkeiten:
+[cols="1,2",options="header"]
+|===
+| Nachrichtentyp (communicationType)
+| Beschreibung
+
+| text
+| Übermittlung einer Freitext-Nachricht
+
+| link
+| Übermittlung einer URL zum Vorgang
+
+| reservationStatus
+| Übermittlung des Reservierungsstatus
+
+| pickupCodeHR
+| Übermittlung eines menschenlesbaren Abholcodes
+
+| pickupCodeDMC
+| Übermittlung eines maschinenlesbaren Abholcodes
+
+| deliveryStatus
+| Übermittlung des Lieferstatus
+
+| paymentInfo
+| Übermittlung eines Hinweises zum zu zahlenden Betrag
+|===
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/gematik/interactive-api-erp/blob/main/erp-fd-communications/CommunicationReplyPayload.json[Reply JSON-Schema].
+
+NOTE: Weitere Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
 
 *Request*
 [cols="h,a", separator=¦]
@@ -132,7 +169,7 @@ NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die
 ¦Payload    ¦
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/03_request_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/03_request_PostPharmacyToPatient.xml[]
 ----
 NOTE: Die von der Apotheke übermittelte Antwort ist strukturiert in .payload.contentString nach gemSpec_eRp_DM abgelegt.
 
@@ -150,7 +187,7 @@ Location:
 
 [source,xml]
 ----
-include::https://raw.githubusercontent.com/gematik/eRezept-Examples/{branch}/api-examples/generated-examples/erp_communication/04_response_PostPharmacyToPatient.xml[]
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/04_response_PostPharmacyToPatient.xml[]
 ----
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
@@ -171,6 +208,89 @@ s|Code   s|Type Error
 |400  | Bad Request  +
 [small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.# +
 [small]#Die Antwort "Referenced Task does not contain a KVNR" weist darauf hin, dass der Task ggf. gelöscht wurde.#
+|401  |Unauthorized +
+[small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
+|403  |Forbidden +
+[small]#Die Anfrage wurde mangels Berechtigung des Clients nicht durchgeführt, bspw. weil der authentifizierte Benutzer nicht berechtigt ist.#
+|405 |Method Not Allowed +
+[small]#Die Anfrage darf nur mit anderen HTTP-Methoden (zum Beispiel GET statt POST) gestellt werden. Gültige Methoden für die betreffende Ressource werden im "Allow"-Header-Feld der Antwort übermittelt.#
+|408 |Request Timeout +
+[small]#Innerhalb der vom Server erlaubten Zeitspanne wurde keine vollständige Anfrage des Clients empfangen.#
+|429 |Too Many Requests +
+[small]#Der Client hat zu viele Anfragen in einem bestimmten Zeitraum gesendet.#
+|500  |Server Errors +
+[small]#Unerwarteter Serverfehler#
+|===
+
+
+==  Anwendungsfall Als Versicherter auf einer Nachricht einer Apotheke antworten
+IMPORTANT: Diese Funktionalität ist nur für v3 verfügbar.
+
+Als Versicherter möchte ich auf einer Nachricht einer Apotheke antworten, damit diese mein E-Rezept beliefern kann. Über einen JSON-Payload kann ich weitere Informationen oder Fragen zur Belieferung angeben.
+
+Der Aufruf erfolgt als http-`POST`-Operation. Der Server prüft die Nachricht auf Zulässigkeit  und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN. +
+Es obliegt der Apotheke, eine hilfreiche Bestätigung an den Versicherten zurückzusenden. Es kann ggfs. zusätzlich erforderlich sein, eventuelle Zuzahlungsmodalitäten, Lieferadresse usw. über einen separaten Kanal (Bestell-Bestätigungs-App) der Apotheke abzuwickeln.
+
+NOTE: Die Validierung der JSON-payload wird nach folgendem Schema durchgeführt link:https://github.com/eRP-FD/erp-processing-context/blob/master/resources/production/schema/shared/json/CommunicationDispReqPayload.json[DispReq JSON-Schema].
+
+NOTE: Interaktive Beispiele der JSON-payload sind link:https://gematik.github.io/interactive-api-erp/erp-fd-communications/index.html[hier] zu finden.
+
+NOTE: In diesem Fall hat das communicationType Feld im JSON-payload der Wert "text".
+
+NOTE: Ein E-Rezept darf nur zugewiesen werden, wenn es sowohl den Status "ready" hat als auch gültig ist. Andernfalls wird der E-Rezept Fachdienst es ablehnen.
+
+*Request*
+[cols="h,a", separator=¦]
+[%autowidth]
+|===
+¦URI        ¦https://erp.app.ti-dienste.de/Communication
+¦Method     ¦POST
+¦Requester ¦image:{FdV}[]
+¦Responder ¦image:{eRp}[]
+¦HTTP Header ¦
+----
+Content-Type: application/fhir+json; charset=UTF-8
+Authorization: Bearer eyJraWQ.ewogImL2pA10Qql22ddtutrvx4FsDlz.rHQjEmB1lLmpqn9J
+----
+
+NOTE: Im http-Header des äußeren http-Requests an die VAU (POST /VAU) sind die Header `X-erp-user: v` und `X-erp-resource: Communication` zu setzen.
+
+¦Payload    ¦
+[source,json]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/09_request_MessagePharmacy.json[]
+----
+NOTE: Mit der Übergabe der Referenz auf den E-Rezept-Task inkl. des `AccessCodes` in `"reference": "Task/160.000.000.000.000.01/$accept?ac=*" ` ist die Apotheke berechtigt, das E-Rezept herunterzuladen und zu beliefern.
+
+NOTE: Bei der direkten Zuweisung wird im `"contentString"` des Payloads ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`
+|===
+
+*Response*
+HTTP/1.1 201 Created
+Content-Type: application/fhir+json;charset=utf-8
+
+[source,json]
+----
+include::https://raw.githubusercontent.com/gematik/eRezept-Examples/2026-10-01/api-examples/generated-examples/erp_communication/10_response_MessagePharmacy.json[]
+----
+WARNING: Die derzeitige Spezifikation sieht vor, dass der E-Rezept Token in `.basedOn.reference` angegeben wird. Dieser Token entspricht nicht der FHIR-Spezifikation, wodurch die FHIR-Validatoren einen Fehler werfen.
+
+NOTE: Bei der direkten Zuweisung wird im Payload ein strukturierter Text übergeben. Im Beispiel übermittelt die E-Rezept-App die Details für eine Botenlieferung. Dies erfolgt für Versand mit `supplyOptionsType = shipment` und für die Filialabholung mit `supplyOptionsType = onPremise`.
+
+[cols="a,a"]
+[%autowidth]
+|===
+s|Code   s|Type Success
+|201  | Created +
+[small]#Die Anfrage wurde erfolgreich bearbeitet. Die angeforderte Ressource wurde vor dem Senden der Antwort erstellt. Das `Location`-Header-Feld enthält die Adresse der erstellten Ressource.#
+s|Code   s|Type Warning
+|253            |Die ID einer Ressource und die ID ihrer zugehörigen fullUrl stimmen nicht überein. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt die fehlerhafte Validierung einer Ressource-ID zu einem Fehler statt zu einer Warnung führt.*#
+|254            |Format der fullUrl ist ungültig. +
+                [small]#*Hinweis: Es ist vorgesehen, dass zu einem späteren Zeitpunkt das ungültige Format der fullUrl zu einem Fehler anstatt einem Warning führt.*#
+s|Code   s|Type Error
+|400  | Bad Request  +
+[small]#Die Anfrage-Nachricht war fehlerhaft aufgebaut.#
 |401  |Unauthorized +
 [small]#Die Anfrage kann nicht ohne gültige Authentifizierung durchgeführt werden. Wie die Authentifizierung durchgeführt werden soll, wird im "WWW-Authenticate"-Header-Feld der Antwort übermittelt.#
 |403  |Forbidden +

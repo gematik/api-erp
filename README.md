@@ -94,6 +94,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 |[Benachrichtigungen für Apotheken und Kostenträger](docs/erp_notification_avs.adoc)|![][AVS] ![][KTR]|
 |[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
+|[Nachrichtenaustausch v3](docs/erp_communication_v3.adoc)|![][AVS] ![][FdV] ![][KTR]|
 |[Suche nach Apotheken im FHIR VZD](docs/erp_fhirvzd_usage.adoc)|![][FdV]|
 |[Zertifikatsprüfung](docs/erp_certificate_check.adoc)|![][FdV]|
 |[Übertragung digitaler Durchschlag E-T-Rezept](docs/erp_bfarm.adoc)|![][bfarm]|

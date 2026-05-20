@@ -28,7 +28,7 @@ Hier dokumentiert die gematik die Nutzung der Schnittstellen rund um den Nachric
 
 toc::[]
 
-WARNING: In einigen Fällen kann der Fachdienst nicht eineindeutig identifizieren, ob eine Communication von einem PKV- oder GKV-Versicherten eingestellt wurde. In diesen Fällen übermittelt der Fachdienst den KVNR-Typ "GKV".
+IMPORTANT: Ab dem 01.10.2026 unterstützt der E-Rezept-Fachdienst Version 3 des Payloads der Communication-Ressource. Weitere Informationen hierzu sind auf link:./erp_communication_v3.adoc[hier] und link:./erp_communication_change_20261001.adoc[hier] zu finden.
 
 *Hinweis*: Laut Spezifikation für das E-Rezept-FdV gilt, dass keine non-printable-characters übertragen werden dürfen. Diese sind z.B. In UTF-8 entspricht das den C0- und C1-Steuercodes.
 
@@ -204,8 +204,9 @@ s|Code   s|Type Error
 [small]#Unerwarteter Serverfehler#
 |===
 
+
 ==  Anwendungsfall Nachricht als Apotheke an einen Versicherten schicken
-Uns als Apotheke wurde von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
+Als Apotheke wurde ich von einem Versicherten eine Nachricht zu einem E-Rezept geschickt. Der Versicherte fragt, ob ein Medikament vorrätig ist, dieses wurde in der Anfrage über dessen Pharmazentralnummer `http://fhir.de/CodeSystem/ifa/pzn|06313728` benannt. Eine interne Warenbestandsprüfung hat ergeben, dass das Medikament vorrätig ist, nun schicken wir dem Versicherten eine Nachricht als Antwort nach der Frage zur Verfügbarkeit des Medikaments.
 Bieten wir einen Online-Verkauf von Medikamenten an, können wir dem Versicherten einen Link zusenden, um in den Warenkorb unserer Apotheke zu wechseln und dort den Einlöseprozess fortzusetzen.
 
 Der Aufruf erfolgt als http-`POST`-Operation. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` übergeben werden. Im http-RequestBody wird die zu verschickende Nachricht als Communication-Ressource übergeben. Der Server prüft den Inhalt auf Zulässigkeit (z.B. um die Verbreitung von Viren und Schadcode zu unterbinden) und ergänzt Metainformationen wie den Sendezeitpunkt und die Angaben des Absenders aus dessen ACCESS_TOKEN.
@@ -299,7 +300,6 @@ Location:
 NOTE: Der Server übernimmt beim Absenden der Nachricht den Sendezeitpunkt in die Communication-Ressource ` <sent value="2020-03-12T18:01:10+00:00" />`
 
 NOTE:  Die Informationen zum Absender werden aus dem im Request übergebenen ACCESS_TOKEN übernommen, in diesem Fall die Telematik-ID der Apotheke in ` <sender>` als Absender der Nachricht.
-
 
 [cols="a,a"]
 [%autowidth]

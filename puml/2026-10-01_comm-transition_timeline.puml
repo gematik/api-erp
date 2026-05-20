@@ -1,0 +1,38 @@
+@startgantt
+!define gematikcolor #4a90e2
+!define gematikcolor_fdv #5a6fa5
+
+!define datelinecolor #f2b6b6
+
+<style>
+document {
+   BackGroundColor #f5f5f5
+}
+ganttDiagram {
+   task {
+      BackGroundColor GreenYellow
+      LineColor Green
+      FontColor #333333
+      FontSize 18
+      FontStyle bold
+   }
+}
+</style>
+
+title Zeitleiste der Versionsübergänge des Communication-Payloads  
+footer Zuletzt verändert am %date("dd.MM.yyyy")
+
+projectscale monthly zoom 3
+Project starts 2026-04-01
+
+2026-10-01 is colored datelinecolor
+
+-- Communication Profile - E-Rezept Workflow --
+
+[communication-v1] starts 2026-04-01 and ends 2027-03-31
+[communication-v1] is colored in gematikcolor
+
+[communication-v3] starts 2026-10-01 and ends 2027-03-31
+[communication-v3] is colored in gematikcolor_fdv
+
+@endgantt
