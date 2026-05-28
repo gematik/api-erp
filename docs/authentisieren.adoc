@@ -84,7 +84,7 @@ Die Authentifizierung übernimmt mit der Einführung des E-Rezepts ein zentraler
 === Ablauf des Authentifizierungsprotokolls
 Leistungserbringerinstitutionen (Praxen, Apotheken, Krankenhäuser) weisen sich gegenüber der Telematikinfrastruktur mit der Identität des Praxisausweises SMC-B aus. Die Authentifizierung erfolgt gegenüber dem Identity Provider (IDP) unter Nutzung der Konnektorschnittstelle.
 
-Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.zentral.idp.splitdns.ti-dienste.de` bzw. `idp.app.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoveryDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-known"-Adresse, d.h. `idp.ti-dienste.de/.well-known/openid-configuration`.
+Das Primärsystem adressiert Anfragen an den IDP über eine bekannt zu machende Adresse *z.B.* `idp.zentral.idp.splitdns.ti-dienste.de` bzw. `idp.app.ti-dienste.de`, dabei veröffentlicht der IDP sein DiscoveryDocument mit den Informationen zu verschiedenen Endpunkten zur Tokenausstellung unter einer "/.well-known"-Adresse, d.h. `https://idp.app.ti-dienste.de/.well-known/openid-configuration`.
 
 Die folgende Abbildung zeigt den detaillierten Ablauf mit allen beteiligten Komponenten. Das Primärsystem gliedert sich in die E-Rezept-Fachlogik und ein Authenticator-Modul. Letzteres übernimmt die Authentisierung mittels der kartenbasierten Identität unter Nutzung der Konnektorschnittstellen. Der IDP authentifiziert den Nutzer anhand der kartenbasierten Identität und einer Signatur durch das Schlüsselmaterial auf der Karte (SMC-B) und stellt bei Erfolg einen Zugriffstoken (ACCESS_TOKEN) für den Zugriff auf den Fachdienst aus.
 
@@ -99,14 +99,16 @@ Die folgenden Schritte sind von besonderer Bedeutung und werden kurz erläutert.
 |===
 |*Step*|*eRp (Fachlogik) / AM (Auth-Modul)*|*Beschreibung*
 |1 - 5|AM/eRP|Laden des Discovery Documents (DD) vom IDP (Diese Operation wird vorbereitend sowohl vom Auth-Modul, wie auch von der Fachlogik und dem Fachdienst durchgeführt) +
- [https://idp.zentral.idp.splitdns.ti-dienste.de/.well-known/openid-configuration] *Schritt 1 im Rbel-Flow*,
+ [https://idp.zentral.idp.splitdns.ti-dienste.de/.well-known/openid-configuration] *Schritt 1 im Rbel-Flow*, +
+Der Gültigskeitszweitraum des JWT (iat, nbf, exp) ist beim Caching zu beachten, ein abgelaufenes Discovery Dokument ist zwingend neu zu laden.
 Prüfung der Signatur des DD gegen das Signatur-Zertifikat im `x5c`-Feld des Response-Header und Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],
 |6 - 8|eRp|Erzeugung eines CODE_VERIFIER (128 zufällige Zeichen aus der Menge [A-Z] / [a-z] / [0-9] / "-" / "." / "_" / "~") und bilden der CODE_CHALLENGE als dessen sha256-Hashwert sowie,
 Erzeugung einer `nonce` und eines `state`. `Nonce` ist ein optionaler Zufallswert, `state` kann beliebig gewählt werden, also ebenso eine Zufallszahl oder eine session-id etc. +
  Um das CHALLENGE_TOKEN zu beziehen, werden CODE_CHALLENGE, `state` und ggf. `Nonce` an das Authenticator-Modul übergeben und in der Fachlogik für spätere Prüfungen zwischengespeichert.
 3.+|*AuthorizationCode über Handshake mit Kartenidentität beziehen*
 // TODO: ECC
-|9 - 12|AM|Lesen des X509-Signatur-Zertifikats zum `puk_idp_sig` des IDP und des IDP-Verschlüsselungsschlüssels `puk_idp_enc` von http://url.des.idp/idpSig/jwk.json und http://url.des.idp/idpEnc/jwk.json oder aus dem JWK-Set http://url.des.idp/jwks *Schritt 3 + 5 im Rbel-Flow*
+|9 - 12|AM|Lesen des X509-Signatur-Zertifikats zum `puk_idp_sig` des IDP und des IDP-Verschlüsselungsschlüssels `puk_idp_enc` von http://url.des.idp/idpSig/jwk.json und http://url.des.idp/idpEnc/jwk.json oder aus dem JWK-Set http://url.des.idp/jwks *Schritt 3 + 5 im Rbel-Flow* +
+Schlüssel dürfen für den Gültigkeitszeitraum des Discovery Dokuments gecached werden. Beim (neu) laden des Discovery Dokuments müssen die Schlüssel zwingend neu geladen werden.
 |13 - 17|AM| Senden der in Schritt 8 übergebenen Werte (als URL-Parameter wie z.B. 'code_challenge') an den authorization_endpoint des IDP, ,+ dieser antwortet mit dem CHALLENGE_TOKEN und dem `user_consent` *Schritt 7 im Rbel-Flow*, +
 Die Signatur des CHALLENGE_TOKEN wird mittels `puk_idp_sig` geprüft. Es erfolgt eine Verifikation des Zertifikates gegen den Vertrauensraum der TI und eine Prüfung der technischen Rolle (siehe unten xref:anchor-verify-certificate[Konnektor-Aufruf],.
 |18 - 19|AM|Anzeige des `user_consent` und Bestätigung durch den Nutzer, dass die genannten personenbezogenen Attribute vom IDP verarbeitet und dem Fachdienst übermittelt werden dürfen.
@@ -116,6 +118,7 @@ Die erfolgte Nutzereinwilligung für diesen `scope` kann gespeichert werden.
 |22|AM|JWE-Verschlüsselung der signierten Challenge als njwt und des Zertifikats C.HCI.AUT mit `puk_idp_enc` aus dem Discovery Document.
 |23 - 27|AM|Senden der verschlüsselten Challenge und des verschlüsselten Zertifikats an den authorization_endpoint des IDP +
 *Schritt 9 im Rbel-Flow* +
+Eine https://wiki.gematik.de/x/xR4oL[Übersicht der Fehlercodes ist hier] zu finden.
 |28|AM|Die Response (`AuthorizationCode` und Redirect zum Tausch des `AuthorizationCode` gegen einen ACCESS_TOKEN) wird an die Fachlogik zurückgegeben. +
 3.+|*Authentifizierung des Nutzers abgeschlossen, im Folgenden wird der ACCESS_TOKEN für den Zugriff am E-Rezept-Fachdienst mit Hilfe des AuthorizationCodes abgerufen.*
 |29 - 32|eRp|Generierung eines `Token-Key` (AES256) zur verschlüsselten Kommunikation mit dem IDP, anschließend wird dem Redirect gefolgt, um den `AuthorizationCode` gegen ein AccessToken zu tauschen.
