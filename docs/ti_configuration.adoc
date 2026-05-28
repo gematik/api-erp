@@ -161,9 +161,15 @@ Um in der Kommunikation mit dem Konnektor Zertifikate erfolgreich validieren zu 
 
 Zusätzlich müssen die entprechenden CAs der genutzten Umgebung auf dem System installiert sein/als vertrauenswürdig angesehen werden. Die entsprechenden Zertifikate sind hier erhältlich:
 
-* PU: https://download.tsl.ti-dienste.de
+RSA
+* PU: https://download.tsl.ti-dienste.de/
 * RU: https://download-ref.tsl.ti-dienste.de/
 * TU: https://download-test.tsl.ti-dienste.de/
+
+ECC
+* PU: https://download.tsl.ti-dienste.de/ECC/
+* RU: https://download-ref.tsl.ti-dienste.de/ECC/
+* TU: https://download-test.tsl.ti-dienste.de/ECC/
 
 Hier werden aktuell folgende Zertifikate benötigt:
 
@@ -176,6 +182,9 @@ ECC:
 
 * `ROOT-CA` -> `GEM.RCA4_TEST-ONLY.der`
 * `SUB-CA` -> `GEM.KOMP-CA50_TEST-ONLY.der`
+und
+* `ROOT-CA` -> `GEM.RCA8_TEST-ONLY.der`
+* `SUB-CA` -> `GEM.KOMP-CA56_TEST-ONLY.der`
 
 == Fehlerbehandlung Konnektor
 
