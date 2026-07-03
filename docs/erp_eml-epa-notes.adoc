@@ -20,7 +20,7 @@
 :bfarm: https://img.shields.io/badge/BfArM-197F71
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
+:branch: 2026-07-01
 
 Hier dokumentiert die gematik Hinweise, wie E-Rezepte zu beliefern und Medication-Ressourcen zu erzeugen sind. Weiterhin werden Tools und Hilfestellungen bereitgestellt.
 
@@ -54,7 +54,7 @@ Im folgenden ein konkretes Beispiel für die Übermittlung von Dispensierinforma
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-01-Parameters-ExampleCloseInputParameters"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_CloseOperation_Input|1.6"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -64,7 +64,7 @@ Im folgenden ein konkretes Beispiel für die Übermittlung von Dispensierinforma
                 <MedicationDispense>
                     <id value="Example-MedicationDispense"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -98,7 +98,7 @@ Im folgenden ein konkretes Beispiel für die Übermittlung von Dispensierinforma
                 <Medication>
                     <id value="SumatripanMedication"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
@@ -174,7 +174,7 @@ image:parameters-schematics-multiple.png[width=50%]
 <Parameters xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-02-Parameters-ExampleInputMultipleDispenses"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_DispenseOperation_Input|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_PAR_DispenseOperation_Input|1.6"/>
     </meta>
     <parameter>
         <name value="rxDispensation"/>
@@ -184,7 +184,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <MedicationDispense>
                     <id value="Example-MedicationDispense"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -218,7 +218,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <Medication>
                     <id value="SumatripanMedication"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"/>
                     </meta>
                     <extension url="https://gematik.de/fhir/epa-medication/StructureDefinition/drug-category-extension">
                         <valueCoding>
@@ -283,7 +283,7 @@ image:parameters-schematics-multiple.png[width=50%]
                 <MedicationDispense>
                     <id value="Example-MedicationDispense-2"/>
                     <meta>
-                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"/>
+                        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"/>
                     </meta>
                     <identifier>
                         <system value="https://gematik.de/fhir/erp/NamingSystem/GEM_ERP_NS_PrescriptionId"/>
@@ -400,7 +400,7 @@ image:puml_schema_referenzen_rezeptur.png[]
 <Medication xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-03-Medication-Medication-Rezeptur"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"/>
     </meta>
     <contained>
         <Medication>
@@ -543,7 +543,7 @@ image:puml_schema_referenzen_kombipackung.png[]
 <Medication xmlns="http://hl7.org/fhir">
     <id value="erp-eml-epa-notes-04-Medication-Medication-Kombipackung"/>
     <meta>
-        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"/>
+        <profile value="https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"/>
     </meta>
     <contained>
         <Medication>

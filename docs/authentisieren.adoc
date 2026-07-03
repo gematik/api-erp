@@ -20,7 +20,7 @@
 :bfarm: https://img.shields.io/badge/BfArM-197F71
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
+:branch: 2026-07-01
 
 Zielgruppe: image:{PVS}[] image:{AVS}[] image:{FdV}[] image:{KTR}[]
 
@@ -635,7 +635,7 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
         "id": "Example-Task",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.6"
           ]
         },
         "intent": "order",
@@ -669,12 +669,6 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "for": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
-          }
-        },
         "input": [
           {
             "type": {
@@ -691,6 +685,12 @@ Content-Location: https://erp.zentral.erp.splitdns.ti-dienste.de/Bundle/f5ba6eaf
           }
         ],
         "status": "in-progress",
+        "for": {
+          "identifier": {
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
+          }
+        },
         "authoredOn": "2025-10-01T15:29:00+00:00",
         "lastModified": "2025-10-01T15:29:00.434+00:00",
         "performerType": [
