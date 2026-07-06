@@ -20,7 +20,7 @@
 :bfarm: https://img.shields.io/badge/BfArM-197F71
 
 // Variables for the Examples that are to be used
-:branch: 2025-10-01
+:branch: 2026-07-01
 
 Zielgruppe: image:{FdV}[]
 
@@ -96,7 +96,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.6"
           ]
         },
         "intent": "order",
@@ -130,13 +130,13 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
+        "status": "ready",
         "for": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
-        "status": "ready",
         "authoredOn": "2025-10-01T15:29:00+00:00",
         "lastModified": "2025-10-01T15:29:00.434+00:00",
         "performerType": [
@@ -160,7 +160,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "160.000.000.000.000.02",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.6"
           ]
         },
         "intent": "order",
@@ -194,13 +194,13 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
+        "status": "ready",
         "for": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
-        "status": "ready",
         "authoredOn": "2025-10-01T15:29:00+00:00",
         "lastModified": "2025-10-01T15:29:00.434+00:00",
         "performerType": [
@@ -224,7 +224,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "160.000.000.000.000.03",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.6"
           ]
         },
         "intent": "order",
@@ -258,13 +258,13 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
+        "status": "ready",
         "for": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
-        "status": "ready",
         "authoredOn": "2025-10-01T15:29:00+00:00",
         "lastModified": "2025-10-01T15:29:00.434+00:00",
         "performerType": [
@@ -379,7 +379,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task|1.6"
           ]
         },
         "intent": "order",
@@ -413,12 +413,6 @@ Content-Type: application/fhir+json;charset=utf-8
             "value": "777bea0e13cc9c42ceec14aec3ddee2263325dc2c6c699db115f58fe423607ea"
           }
         ],
-        "for": {
-          "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
-          }
-        },
         "input": [
           {
             "type": {
@@ -435,6 +429,12 @@ Content-Type: application/fhir+json;charset=utf-8
           }
         ],
         "status": "ready",
+        "for": {
+          "identifier": {
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
+          }
+        },
         "authoredOn": "2025-10-01T15:29:00+00:00",
         "lastModified": "2025-10-01T15:29:00.434+00:00",
         "performerType": [
@@ -458,8 +458,9 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "414ca393-dde3-4082-9a3b-3752e629e4aa",
         "meta": {
           "profile": [
-            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.3"
+            "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Bundle|1.4"
           ],
+          "versionId": "1",
           "lastUpdated": "2025-10-01T15:29:00.434+00:00"
         },
         "type": "document",
@@ -476,8 +477,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "b0e22b86-e7e9-46c1-80fe-e6e24442d77c",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.3"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Composition|1.4"
+                ],
+                "versionId": "1"
               },
               "status": "final",
               "title": "elektronische Arzneimittelverordnung",
@@ -567,11 +569,10 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "f58f4403-7a3a-4a12-bb15-b2fa25b02561",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.3"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Prescription|1.4"
+                ],
+                "versionId": "1"
               },
-              "status": "active",
-              "intent": "order",
               "extension": [
                 {
                   "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_EmergencyServicesFee",
@@ -637,6 +638,10 @@ Content-Type: application/fhir+json;charset=utf-8
                     }
                   ],
                   "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_FOR_Accident"
+                },
+                {
+                  "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag",
+                  "valueBoolean": false
                 }
               ],
               "dispenseRequest": {
@@ -645,16 +650,8 @@ Content-Type: application/fhir+json;charset=utf-8
                   "value": 2
                 }
               },
-              "dosageInstruction": [
-                {
-                  "extension": [
-                    {
-                      "url": "https://fhir.kbv.de/StructureDefinition/KBV_EX_ERP_DosageFlag",
-                      "valueBoolean": false
-                    }
-                  ]
-                }
-              ],
+              "status": "active",
+              "intent": "order",
               "medicationReference": {
                 "reference": "Medication/e3a4efa7-84fc-465b-b14c-720195097783"
               },
@@ -684,8 +681,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "e3a4efa7-84fc-465b-b14c-720195097783",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.3"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_ERP_Medication_Ingredient|1.4"
+                ],
+                "versionId": "1"
               },
               "extension": [
                 {
@@ -757,8 +755,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "9774f67f-a238-4daf-b4e6-Pat-GKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.2"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Patient|1.3"
+                ],
+                "versionId": "1"
               },
               "name": [
                 {
@@ -825,8 +824,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "20597e0e-cb2a-45b3-95f0-dc3dbdb617c3",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.3"
+                ],
+                "versionId": "1"
               },
               "name": [
                 {
@@ -904,8 +904,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "d8463daf-258e-4cad-a86a-6fd42fac161c",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.2"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Practitioner|1.3"
+                ],
+                "versionId": "1"
               },
               "name": [
                 {
@@ -970,8 +971,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "cf042e44-086a-4d51-9c77-172f9a972e3b",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.2"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Organization|1.3"
+                ],
+                "versionId": "1"
               },
               "telecom": [
                 {
@@ -1027,8 +1029,9 @@ Content-Type: application/fhir+json;charset=utf-8
               "id": "1b1ffb6e-eb05-43d7-87eb-Cov-GKV",
               "meta": {
                 "profile": [
-                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.2"
-                ]
+                  "https://fhir.kbv.de/StructureDefinition/KBV_PR_FOR_Coverage|1.3"
+                ],
+                "versionId": "1"
               },
               "status": "active",
               "payor": [
@@ -1567,7 +1570,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -1577,10 +1580,29 @@ Content-Type: application/fhir+json;charset=utf-8
           }
         ],
         "status": "completed",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -1619,7 +1641,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "d51b39ab-dad0-4a14-8072-ed87534af585",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "extension": [
@@ -1722,7 +1744,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         "id": "160.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -1734,8 +1756,8 @@ Content-Type: application/fhir+xml;charset=utf-8
         "status": "completed",
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -1764,7 +1786,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         "id": "86ce7563-9819-4dfa-9944-d307f7cfec9b",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "code": {
@@ -1790,7 +1812,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         "id": "160.000.000.000.000.02",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -1802,8 +1824,8 @@ Content-Type: application/fhir+xml;charset=utf-8
         "status": "completed",
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -1832,7 +1854,7 @@ Content-Type: application/fhir+xml;charset=utf-8
         "id": "56c61db7-0a94-4b7b-832a-b8ac3752035d",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "code": {
@@ -1861,6 +1883,25 @@ Content-Type: application/fhir+xml;charset=utf-8
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.2"
           ]
         },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "medicationReference": {
           "reference": "#65b6d139-93a6-459f-8b3c-5ae1d1f809a2"
         },
@@ -1983,6 +2024,25 @@ Content-Type: application/fhir+xml;charset=utf-8
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.3"
           ]
         },
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "medicationReference": {
           "reference": "#7ebb8f0c-06a7-4b71-b6b2-81000eabbf8d"
         },
@@ -2177,7 +2237,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "200.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -2187,10 +2247,29 @@ Content-Type: application/fhir+json;charset=utf-8
           }
         ],
         "status": "completed",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -2229,7 +2308,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "a6635059-bb82-4cdc-90dc-907bc83be523",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "extension": [
@@ -2378,7 +2457,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "200.000.000.000.000.01",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -2388,10 +2467,29 @@ Content-Type: application/fhir+json;charset=utf-8
           }
         ],
         "status": "completed",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -2430,7 +2528,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "e25e68d2-8aa4-4fb4-8498-68d9856f8ec3",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "extension": [
@@ -2510,7 +2608,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "200.000.000.000.000.02",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense|1.6"
           ]
         },
         "identifier": [
@@ -2520,10 +2618,29 @@ Content-Type: application/fhir+json;charset=utf-8
           }
         ],
         "status": "completed",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationDispense.renderedDosageInstruction",
+            "valueMarkdown": "1-0-1-0"
+          },
+          {
+            "url": "http://ig.fhir.de/igs/medication/StructureDefinition/GeneratedDosageInstructionsMeta",
+            "extension": [
+              {
+                "url": "algorithmVersion",
+                "valueString": "1.0.1"
+              },
+              {
+                "url": "language",
+                "valueCode": "de-DE"
+              }
+            ]
+          }
+        ],
         "subject": {
           "identifier": {
-            "system": "http://fhir.de/sid/gkv/kvid-10",
-            "value": "X123456789"
+            "value": "X123456789",
+            "system": "http://fhir.de/sid/gkv/kvid-10"
           }
         },
         "performer": [
@@ -2562,7 +2679,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "32c2f072-38ba-4990-9d74-80938ccb05b6",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Medication|1.6"
           ]
         },
         "extension": [
@@ -2763,7 +2880,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "58862",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.6"
           ]
         },
         "type": {
@@ -2832,7 +2949,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "58863",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.6"
           ],
           "versionId": "1",
           "lastUpdated": "2025-10-01T15:29:00.434+00:00",
@@ -2904,7 +3021,7 @@ Content-Type: application/fhir+json;charset=utf-8
         "id": "620049",
         "meta": {
           "profile": [
-            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.5"
+            "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_AuditEvent|1.6"
           ],
           "versionId": "1",
           "lastUpdated": "2025-10-01T15:29:00.434+00:00",
