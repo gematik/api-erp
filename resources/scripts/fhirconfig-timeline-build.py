@@ -173,7 +173,7 @@ def generate_gantt(configurations, package_mappings):
     # Set project scale and start date with padding
     first_valid_from = datetime.strptime(configurations[0]["validFrom"], "%Y-%m-%d")
     project_start = (first_valid_from - timedelta(days=10)).strftime("%Y-%m-%d")
-    puml.append("projectscale monthly zoom 3")
+    puml.append("projectscale monthly zoom 4")
     puml.append(f"Project starts {project_start}")
     puml.append("")
 
