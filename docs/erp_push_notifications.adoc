@@ -106,7 +106,7 @@ Authorization: Bearer <JWT> (string, required)
 {}
 ----
 ====
-.Response Body (400) (Klicken zum Ausklappen)
+.Response Body (400) für malformedRequest (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,json]
@@ -114,6 +114,28 @@ Authorization: Bearer <JWT> (string, required)
 {
   "errorCode": "malformedRequest",
   "errorDetail": "Ungültiger http-Request"
+}
+----
+====
+.Response Body (400) für missingParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "missingParameter",
+  "errorDetail": "Fehlender Parameter im http-Request"
+}
+----
+====
+.Response Body (400) für invalidParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "invalidParameter",
+  "errorDetail": "Ungültiger Parameter im http-Request"
 }
 ----
 ====
@@ -183,6 +205,17 @@ Authorization: Bearer <JWT> (string, required)
 }
 ----
 ====
+.Response Body (500) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "internalServerError",
+  "errorDetail": "Interner Serverfehler"
+}
+----
+====
 
 2+¦Response Codes
 
@@ -209,6 +242,9 @@ Timeout.
 
 ¦429 ¦ Client Error +
 Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+
+¦500 ¦ Server Error +
+Interner Serverfehler.
 
 |===
 
@@ -335,6 +371,17 @@ No request body.
 }
 ----
 ====
+.Response Body (500) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "internalServerError",
+  "errorDetail": "Interner Serverfehler"
+}
+----
+====
 
 2+¦Response Codes
 
@@ -361,6 +408,9 @@ Timeout.
 
 ¦429 ¦ Client Error +
 Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+
+¦500 ¦ Server Error +
+Interner Serverfehler.
 
 |===
 
@@ -486,6 +536,17 @@ No request body.
 }
 ----
 ====
+.Response Body (500) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "internalServerError",
+  "errorDetail": "Interner Serverfehler"
+}
+----
+====
 
 2+¦Response Codes
 
@@ -512,6 +573,9 @@ Timeout.
 
 ¦429 ¦ Client Error +
 Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+
+¦500 ¦ Server Error +
+Interner Serverfehler.
 
 |===
 
@@ -557,7 +621,7 @@ No request body.
 }
 ----
 ====
-.Response Body (400) (Klicken zum Ausklappen)
+.Response Body (400) für malformedRequest (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,json]
@@ -565,6 +629,28 @@ No request body.
 {
   "errorCode": "malformedRequest",
   "errorDetail": "Ungültiger http-Request"
+}
+----
+====
+.Response Body (400) für missingParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "missingParameter",
+  "errorDetail": "Fehlender Parameter im http-Request"
+}
+----
+====
+.Response Body (400) für invalidParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "invalidParameter",
+  "errorDetail": "Ungültiger Parameter im http-Request"
 }
 ----
 ====
@@ -587,6 +673,17 @@ No request body.
 {
   "errorCode": "invalidOid",
   "errorDetail": "Unzulässige fachliche Rolle"
+}
+----
+====
+.Response Body (404) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "notFound",
+  "errorDetail": "Nicht gefunden"
 }
 ----
 ====
@@ -634,6 +731,17 @@ No request body.
 }
 ----
 ====
+.Response Body (500) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "internalServerError",
+  "errorDetail": "Interner Serverfehler"
+}
+----
+====
 
 2+¦Response Codes
 
@@ -649,6 +757,9 @@ Ungültiges/Abgelaufenes AccessToken.
 ¦403 ¦ Client Error +
 Unzulässige fachliche Rolle.
 
+¦404 ¦ Client Error +
+Nicht gefunden.
+
 ¦405 ¦ Client Error +
 Methode nicht erlaubt.
 
@@ -660,6 +771,9 @@ Timeout.
 
 ¦429 ¦ Client Error +
 Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+
+¦500 ¦ Server Error +
+Interner Serverfehler.
 
 |===
 
@@ -712,7 +826,7 @@ Authorization: Bearer <JWT> (string, required)
 {}
 ----
 ====
-.Response Body (400) (Klicken zum Ausklappen)
+.Response Body (400) für malformedRequest (Klicken zum Ausklappen)
 [%collapsible]
 ====
 [source,json]
@@ -720,6 +834,28 @@ Authorization: Bearer <JWT> (string, required)
 {
   "errorCode": "malformedRequest",
   "errorDetail": "Ungültiger http-Request"
+}
+----
+====
+.Response Body (400) für missingParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "missingParameter",
+  "errorDetail": "Fehlender Parameter im http-Request"
+}
+----
+====
+.Response Body (400) für invalidParameter (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "invalidParameter",
+  "errorDetail": "Ungültiger Parameter im http-Request"
 }
 ----
 ====
@@ -742,6 +878,17 @@ Authorization: Bearer <JWT> (string, required)
 {
   "errorCode": "invalidOid",
   "errorDetail": "Unzulässige fachliche Rolle"
+}
+----
+====
+.Response Body (404) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "notFound",
+  "errorDetail": "Nicht gefunden"
 }
 ----
 ====
@@ -789,6 +936,17 @@ Authorization: Bearer <JWT> (string, required)
 }
 ----
 ====
+.Response Body (500) (Klicken zum Ausklappen)
+[%collapsible]
+====
+[source,json]
+----
+{
+  "errorCode": "internalServerError",
+  "errorDetail": "Interner Serverfehler"
+}
+----
+====
 
 2+¦Response Codes
 
@@ -804,6 +962,9 @@ Ungültiges/Abgelaufenes AccessToken.
 ¦403 ¦ Client Error +
 Unzulässige fachliche Rolle.
 
+¦404 ¦ Client Error +
+Nicht gefunden.
+
 ¦405 ¦ Client Error +
 Methode nicht erlaubt.
 
@@ -815,6 +976,9 @@ Timeout.
 
 ¦429 ¦ Client Error +
 Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.
+
+¦500 ¦ Server Error +
+Interner Serverfehler.
 
 |===
 

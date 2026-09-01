@@ -25,7 +25,20 @@ paths:
   /pushers/v1:
     get:
       summary: Gets the current pushers
-      description: Gets all currently active pushers for the authenticated user.
+      description: | 
+        Gets all currently active pushers for the authenticated user.
+
+        | Conditions | Status code | Error code | Remarks |
+        |------------|-------------|------------|---------|
+        | Successful operation | 200 |||
+        | Request does not match schema | 400 | malformedRequest||
+        | Invalid access token | 401 | invalidAccessToken ||
+        | Invalid Oid | 403 | invalidOid ||
+        | Method not allowed | 405 | methodNotAllowed ||
+        | Mime-Type in Accept-Header not acceptable | 406 | notAcceptable ||
+        | Operation has timed out | 408 | timeout ||
+        | Too many requests | 429 | rateLimitExceeded ||
+        | Internal server error | 500 | internalServerError ||
       operationId: getPushers
       x-allowed-requester:
           - "FdV"
@@ -47,7 +60,7 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
         "400":          
-          $ref: "#/components/responses/ErrorResponse400"
+          $ref: "#/components/responses/ErrorResponse400-malformedRequest"
         "401":
           $ref: "#/components/responses/ErrorResponse401"
         "403":
@@ -60,6 +73,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse408"
         "429":
           $ref: "#/components/responses/ErrorResponse429"
+        "500":
+          $ref: "#/components/responses/ErrorResponse500"
       tags:
         - Setup
   /pushers/v1/set:
@@ -74,6 +89,20 @@ paths:
         for this user is updated, or it is created if it doesn't exist. If
         `kind` is `null`, the pusher with this `app_id` and `pushkey` for this
         user is deleted.
+
+        | Conditions | Status code | Error code | Remarks |
+        |------------|-------------|------------|---------|
+        | Successful operation | 200 |||
+        | Request does not match schema | 400 | malformedRequest||
+        | A parameter is invalid | 400 | invalidParameter||
+        | A parameter is missing | 400 | missingParameter||
+        | Invalid access token | 401 | invalidAccessToken ||
+        | Invalid Oid | 403 | invalidOid ||
+        | Method not allowed | 405 | methodNotAllowed ||
+        | Mime-Type in Accept-Header not acceptable | 406 | notAcceptable ||
+        | Operation has timed out | 408 | timeout ||
+        | Too many requests | 429 | rateLimitExceeded ||
+        | Internal server error | 500 | internalServerError ||
       operationId: postPusher
       x-allowed-requester:
           - "FdV"
@@ -121,6 +150,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse408"
         "429":
           $ref: "#/components/responses/ErrorResponse429"
+        "500":
+          $ref: "#/components/responses/ErrorResponse500"
       tags:
         - Setup
   /channels/v1/{pushkey}:
@@ -129,6 +160,20 @@ paths:
       description: |-
         Gets all channels and their configuration state of the authenticated user's device identified by the
         `pushkey`.
+
+        | Conditions | Status code | Error code | Remarks |
+        |------------|-------------|------------|---------|
+        | Successful operation | 200 |||
+        | Request does not match schema | 400 | malformedRequest||
+        | A parameter is missing | 400 | missingParameter||
+        | Invalid access token | 401 | invalidAccessToken ||
+        | Invalid Oid | 403 | invalidOid ||
+        | No push registration found | 404 | notFound ||
+        | Method not allowed | 405 | methodNotAllowed ||
+        | Mime-Type in Accept-Header not acceptable | 406 | notAcceptable ||
+        | Operation has timed out | 408 | timeout ||
+        | Too many requests | 429 | rateLimitExceeded ||
+        | Internal server error | 500 | internalServerError ||
       operationId: getChannelsOfDevice
       x-allowed-requester:
           - "FdV"          
@@ -162,6 +207,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse401"
         "403":
           $ref: "#/components/responses/ErrorResponse403"
+        "404":
+          $ref: "#/components/responses/ErrorResponse404"
         "405":
           $ref: "#/components/responses/ErrorResponse405"
         "406":
@@ -170,6 +217,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse408"
         "429":
           $ref: "#/components/responses/ErrorResponse429"
+        "500":
+          $ref: "#/components/responses/ErrorResponse500"
       tags:
         - Channel
     post:
@@ -180,6 +229,21 @@ paths:
         request, the state of the channel on the server is not changed.
         An unset channel is treated as disabled and thus no pushes will be triggerd that correspond
         to the channel.
+
+        | Conditions | Status code | Error code | Remarks |
+        |------------|-------------|------------|---------|
+        | Successful operation | 200 |||
+        | Request does not match schema | 400 | malformedRequest||
+        | A parameter is invalid | 400 | invalidParameter||
+        | A parameter is missing | 400 | missingParameter||
+        | Invalid access token | 401 | invalidAccessToken ||
+        | Invalid Oid | 403 | invalidOid ||
+        | No push registration found | 404 | notFound ||
+        | Method not allowed | 405 | methodNotAllowed ||
+        | Mime-Type in Accept-Header not acceptable | 406 | notAcceptable ||
+        | Operation has timed out | 408 | timeout ||
+        | Too many requests | 429 | rateLimitExceeded ||
+        | Internal server error | 500 | internalServerError ||
       operationId: postChannelsOfDevice
       x-allowed-requester:
           - "FdV"
@@ -224,6 +288,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse401"
         "403":
           $ref: "#/components/responses/ErrorResponse403"
+        "404":
+          $ref: "#/components/responses/ErrorResponse404"
         "405":
           $ref: "#/components/responses/ErrorResponse405"
         "406":
@@ -232,12 +298,27 @@ paths:
           $ref: "#/components/responses/ErrorResponse408"
         "429":
           $ref: "#/components/responses/ErrorResponse429"
+        "500":
+          $ref: "#/components/responses/ErrorResponse500"
       tags:
         - Channel
   /channels/v1:
     get:
       summary: Gets the available channels
-      description: Gets all available channels for the authenticated user along with the default configuration state. This endpoint can be used to retrieve the channels for a user that has no active pushers or devices. The status returned for each channel is the default status for new pushers and devices; in this case, it is always "disabled". If a user has active pushers or devices, the endpoint /channels/v1/{pushkey} should be used to retrieve the actual channel configuration for the specific device.
+      description: | 
+        Gets all available channels for the authenticated user along with the default configuration state. This endpoint can be used to retrieve the channels for a user that has no active pushers or devices. The status returned for each channel is the default status for new pushers and devices; in this case, it is always "disabled". If a user has active pushers or devices, the endpoint /channels/v1/{pushkey} should be used to retrieve the actual channel configuration for the specific device.
+
+        | Conditions | Status code | Error code | Remarks |
+        |------------|-------------|------------|---------|
+        | Successful operation | 200 |||
+        | Request does not match schema | 400 | malformedRequest||
+        | Invalid access token | 401 | invalidAccessToken ||
+        | Invalid Oid | 403 | invalidOid ||
+        | Method not allowed | 405 | methodNotAllowed ||
+        | Mime-Type in Accept-Header not acceptable | 406 | notAcceptable ||
+        | Operation has timed out | 408 | timeout ||
+        | Too many requests | 429 | rateLimitExceeded ||
+        | Internal server error | 500 | internalServerError ||
       operationId: getChannels
       x-allowed-requester:
           - "FdV"
@@ -259,7 +340,7 @@ paths:
                 response:
                   $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/examples/response"
         "400":
-          $ref: "#/components/responses/ErrorResponse400"
+          $ref: "#/components/responses/ErrorResponse400-malformedRequest"
         "401":
           $ref: "#/components/responses/ErrorResponse401"
         "403":
@@ -272,6 +353,8 @@ paths:
           $ref: "#/components/responses/ErrorResponse408"
         "429":
           $ref: "#/components/responses/ErrorResponse429"
+        "500":
+          $ref: "#/components/responses/ErrorResponse500"
       tags:
         - Channel
 servers:
@@ -291,11 +374,30 @@ components:
       description: Ungültiger http-Request.
       content:
         application/json:
+          examples:
+            malformedRequest:
+              value:
+                errorCode: malformedRequest
+                errorDetail: "Ungültiger http-Request"
+            missingParameter:
+              value:
+                errorCode: missingParameter
+                errorDetail: "Fehlender Parameter im http-Request"
+            invalidParameter:
+              value:
+                errorCode: invalidParameter
+                errorDetail: "Ungültiger Parameter im http-Request"
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml" 
+    ErrorResponse400-malformedRequest:
+      description: Ungültiger http-Request.
+      content:
+        application/json:
           example:
             errorCode: malformedRequest
             errorDetail: "Ungültiger http-Request"
           schema:
-            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"        
     ErrorResponse401:
       description: Ungültiges/Abgelaufenes AccessToken.
       content:
@@ -312,6 +414,15 @@ components:
           example:
             errorCode: invalidOid
             errorDetail: "Unzulässige fachliche Rolle"
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+    ErrorResponse404:
+      description: Nicht gefunden.
+      content:
+        application/json:
+          example:
+            errorCode: notFound
+            errorDetail: "Nicht gefunden"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
     ErrorResponse405:
@@ -348,6 +459,15 @@ components:
           example:
             errorCode: rateLimitExceeded
             errorDetail: "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
+          schema:
+            $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+    ErrorResponse500:
+      description: Interner Serverfehler.
+      content:
+        application/json:
+          example:
+            errorCode: internalServerError
+            errorDetail: "Interner Serverfehler"
           schema:
             $ref: "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
 security:
