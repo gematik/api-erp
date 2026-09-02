@@ -90,7 +90,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 ### Besondere Anwendungsfälle
 |Dokumentation<img width="430" height="1">| Zielgruppe<img width="70" height="1"> |
 |-----|------------|
-|[Benachrichtigungsdienst](docs/erp_notification.adoc)|![][FdV]|
+|[Benachrichtigungen für Versicherte](docs/erp_push_notification.adoc)|![][FdV]|
 |[Benachrichtigungen für Apotheken und Kostenträger](docs/erp_notification_avs.adoc)|![][AVS] ![][KTR]|
 |[Mehrfachverordnungen (MVO) für Versicherte](docs/erp_versicherte_mvo.adoc)|![][FdV]|
 |[Nachrichtenaustausch](docs/erp_communication.adoc)|![][AVS] ![][FdV] ![][KTR]|
@@ -109,7 +109,7 @@ In den nachfolgend verlinkten Abschnitten zeigen wir die Anwendungsfälle im E-R
 
 ## License
 
-Copyright 2022-2025 gematik GmbH
+Copyright 2022-2026 gematik GmbH
 
 Apache License, Version 2.0
 
