@@ -336,7 +336,7 @@ Als Versicherter und als Apotheke möchte ich wissen, ob im Fachdienst "ungelese
 
 Der Aufruf erfolgt als http-`GET`-Operation auf die Ressource `/Communication`. Im Aufruf muss das während der Authentisierung erhaltene ACCESS_TOKEN im http-Request-Header `Authorization` für Filterung der an den Nutzer adressierten Nachrichten übergeben werden.
 
-NOTE: Der Aufruf ist aus Performance Gründen nicht für die regelmäßige Abfrage von Nachrichten vorgesehen. Es soll nur nach neuen Nachrichten geprüft werden, wenn der Nutzer aktiv eine Aktion ausführt, die eine solche Prüfung erfordert oder in der App ein "refresh" der Daten durchgeführt wird.
+NOTE: Der Aufruf ist aus Performance Gründen nicht für die regelmäßige Abfrage von Nachrichten vorgesehen. Es soll nur nach neuen Nachrichten geprüft werden, wenn der Nutzer aktiv eine Aktion ausführt, die eine solche Prüfung erfordert oder in der App ein "refresh" der Daten durchgeführt wird. Falls mehrere E-Rezept-Nachrichten auf dem E-Rezept-Fachdienst bereitstehen, übermittelt der E-Rezept-Fachdienst ein Bundle (bestehend aus max. 50 Elementen) von Communication Ressourcen. In Erwartung von mehr als 50 Elementen, wird ein Paging empfohlen.
 
 *Request*
 [cols="h,a", separator=¦]

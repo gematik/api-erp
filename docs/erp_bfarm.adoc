@@ -60,7 +60,7 @@ X-Request-ID: <value> (string)
   "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.1"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.2"
     ]
   },
   "parameter": [
@@ -100,11 +100,11 @@ X-Request-ID: <value> (string)
                   },
                   {
                     "url": "security-compliance",
-                    "valueBoolean": false
+                    "valueBoolean": true
                   },
                   {
                     "url": "hand-out-information-material",
-                    "valueBoolean": false
+                    "valueBoolean": true
                   },
                   {
                     "url": "declaration-of-expertise",
@@ -115,7 +115,7 @@ X-Request-ID: <value> (string)
               },
               {
                 "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction",
-                "valueMarkdown": "1-0-1-0 Stück"
+                "valueMarkdown": "1-0-2-0 Stück"
               },
               {
                 "extension": [
@@ -293,6 +293,7 @@ X-Request-ID: <value> (string)
             },
             "identifier": [
               {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
                 "value": "Organisation 3-2arvtst-ap000053"
               }
             ],
@@ -419,7 +420,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
   "id": "TRP-Carbon-Copy",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.1"
+      "https://gematik.de/fhir/erp-t-prescription/StructureDefinition/erp-tprescription-carbon-copy|1.2"
     ]
   },
   "parameter": [
@@ -459,11 +460,11 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
                   },
                   {
                     "url": "security-compliance",
-                    "valueBoolean": false
+                    "valueBoolean": true
                   },
                   {
                     "url": "hand-out-information-material",
-                    "valueBoolean": false
+                    "valueBoolean": true
                   },
                   {
                     "url": "declaration-of-expertise",
@@ -474,7 +475,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
               },
               {
                 "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationRequest.renderedDosageInstruction",
-                "valueMarkdown": "1-0-1-0 Stück"
+                "valueMarkdown": "1-0-2-0 Stück"
               },
               {
                 "extension": [
@@ -652,6 +653,7 @@ X-Request-ID: 123e4567-e89b-12d3-a456-426614174000 (string)
             },
             "identifier": [
               {
+                "system": "https://gematik.de/fhir/sid/telematik-id",
                 "value": "Organisation 3-2arvtst-ap000053"
               }
             ],
