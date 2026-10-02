@@ -219,6 +219,11 @@ h|http Operation  h|Mögliche http Status Codes       h|Bedeutung/Fehlerdetails
 |GET /Device                  |200            |Fachdienstinformationen erfolgreich gelesen
 |GET /metadata                |200            |FHIR-CapabilityStatement erfolgreich gelesen
 |POST /Subscription           |200            |Notifications-Kanal erfolgreich aufgebaut
+|POST /pushers/v1/set         |200            |Pusher erfolgreich gesetzt
+|GET /pushers/v1              |200            |Pusher erfolgreich abgerufen
+|GET /channels/v1             |200            |Channels erfolgreich abgerufen
+|GET /channels/v1/<pushkey>   |200            |Channels erfolgreich abgerufen
+|POST /channels/v1/<pushkey>  |200            |Channel erfolgreich erstellt
 
 3+h|Warnungen
 
@@ -454,6 +459,48 @@ POST /Consent                 |253            |Die ID einer Ressource und die I
                               |408            |Timeout
                               |415            |Der Client hat einen nicht unterstützten Content-Type gesendet
                               |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+.8+|POST /pushers/v1/set      |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |405            |Diese http-Methode ist nicht erlaubt
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |500            |Interner Serverfehler
+.8+|GET /pushers/v1           |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |405            |Diese http-Methode ist nicht erlaubt
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |500            |Interner Serverfehler
+.8+|GET /channels/v1          |400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |405            |Diese http-Methode ist nicht erlaubt
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |500            |Interner Serverfehler
+.9+|GET /channels/v1/<pushkey>|400            |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |Pushkey nicht gefunden
+                              |405            |Diese http-Methode ist nicht erlaubt
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |500            |Interner Serverfehler
+.9+|POST /channels/v1/<pushkey>|400           |Ungültiger http-Request
+                              |401            |Ungültiges/Abgelaufenes AccessToken
+                              |403            |Unzulässige fachliche Rolle
+                              |404            |Pushkey nicht gefunden
+                              |405            |Diese http-Methode ist nicht erlaubt
+                              |406            |Angefragter Mime-Type im `Accept`-Header kann nicht bedient werden
+                              |408            |Timeout
+                              |429            |Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer
+                              |500            |Interner Serverfehler
 .3+|UNKNOWN                   |400            |Ungültiger http-Request
                               |401            |Ungültiges/Abgelaufenes AccessToken
                               |405            |Diese http-Methode ist nicht erlaubt
