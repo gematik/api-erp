@@ -41,8 +41,7 @@ Ein Überblick über die Handhabung von Versionen und Packages im E-Rezept-Fachd
 
 Für das E-Rezept stehen folgende Veränderungen der FHIR-Profile an:
 
-- [E-Rezept FHIR Veränderungen für 15.01.2025](docs/erp_fhirversion_change_20250115.adoc)
-- [E-Rezept FHIR Veränderungen für 01.10.2025](docs/erp_fhirversion_change_20251001.adoc)
+- [E-Rezept FHIR Veränderungen für Q1 2027](docs/erp_fhirversion_change_q1-2027.adoc)
 
 > [!WARNING]  
 > Die API und deren Beispiele zeigen aktuell den Stand ab **01.10.2025** an. Für vorherige Versionen auf die entsprechenden wf-version Branches wechseln:
