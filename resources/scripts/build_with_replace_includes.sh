@@ -54,8 +54,11 @@ for filename in $(find ../../puml -name '*.puml'); do
     filebase=$(basename -- "$filename") # test.adoc
     name="${filebase%.*}" # test
 
-    if ! git diff --quiet -- "$filename"; then
-        echo "$filebase has been modified. Creating Puml"
+    # render if the puml changed (unstaged/staged/untracked) or its image is missing
+    if ! git diff --quiet HEAD -- "$filename" \
+        || [[ -n "$(git ls-files --others --exclude-standard -- "$filename")" ]] \
+        || [[ ! -f "../../images/puml_${name}.png" ]]; then
+        echo "$filebase needs rendering. Creating Puml"
 
         pumlPath=../puml/${name}.puml
         newFileRoot=../puml/${name}
